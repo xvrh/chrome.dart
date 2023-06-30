@@ -49,10 +49,9 @@ class GenApis {
   void generate() {
     _logger.info("reading ${apisFile.path}...");
 
-    var apisInfo = JSON.decode(apisFile.readAsStringSync());
+    var apisInfo = json.decode(apisFile.readAsStringSync());
 
-    _generateApi('app', apisInfo['packaged_app'], includeAppSrc: true);
-    _generateApi('ext', apisInfo['extension'], alreadyWritten: apisInfo['packaged_app']);
+    _generateApi('ext', apisInfo['extension');
 
     // Generate orphaned libraries.
     _logger.info("writing loose libraries...");
@@ -64,7 +63,7 @@ class GenApis {
   }
 
   void _generateApi(String name, List<String> libraryNames,
-                    {List<String> alreadyWritten, bool includeAppSrc: false,
+                    {List<String>? alreadyWritten, bool includeAppSrc=false,
                      String licence}) {
     File libFile = new File(pathos.join(outDirPath, "chrome_${name}.dart"));
 

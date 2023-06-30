@@ -7,18 +7,19 @@ import '../lib/chrome_idl_convert.dart';
 import '../lib/chrome_idl_model.dart';
 import '../lib/chrome_model.dart';
 
-ChromeIDLParser chromeIDLParser;
+late ChromeIDLParser chromeIDLParser;
 
 void main() {
   setUp(() {
-    chromeIDLParser = new ChromeIDLParser();
+    chromeIDLParser = ChromeIDLParser();
   });
   group('ChromeIDLParser convert', chromeIDLConvertTests);
 }
 
 void chromeIDLConvertTests() {
   test('Convert Test', () {
-    String testData ="""// Copyright (c) 2013 The Chromium Authors. All rights reserved.
+    var testData =
+        """// Copyright (c) 2013 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -46,10 +47,9 @@ namespace power {
   };
 };""";
 
-    IDLNamespaceDeclaration namespace =
-        chromeIDLParser.namespaceDeclaration.parse(testData);
+    var namespace = chromeIDLParser.namespaceDeclaration.parse(testData);
 
-    ChromeLibrary chromeLibrary = convert(namespace);
+    var chromeLibrary = convert(namespace);
     expect(chromeLibrary, isNotNull);
     // TODO: finish testing this object.
   });

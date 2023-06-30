@@ -4,6 +4,7 @@
 .pub/
 .packages
 .idea
+.dart_tool
 *.dart.js
 *.dart.js.deps
 *.dart.js.map

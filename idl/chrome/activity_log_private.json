@@ -1,4 +1,4 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -6,6 +6,9 @@
   {
     "namespace": "activityLogPrivate",
     "description": "none",
+    "compiler_options": {
+      "modernised_enums": true
+    },
     "types": [
       {
         "id": "ExtensionActivityType",
@@ -82,18 +85,17 @@
             "name": "filter",
             "$ref": "Filter",
             "description": "Fill out the fields that you want to search for in the database."
-          },
-          {
-            "name": "callback",
-            "type": "function",
-            "parameters": [
-              {
-                "name": "result",
-                "$ref": "ActivityResultSet"
-              }
-            ]
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "ActivityResultSet"
+            }
+          ]
+        }
       },
       {
         "name": "deleteActivities",
@@ -106,7 +108,29 @@
             "items": { "type": "string" },
             "description": "Erases only the activities which IDs are listed in the array."
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [],
+          "optional": true
+        }
+      },
+      {
+        "name": "deleteActivitiesByExtension",
+        "type": "function",
+        "description": "Deletes activities in the ActivityLog database specified by the extension ID.",
+        "parameters": [
+          {
+            "name": "extensionId",
+            "type": "string",
+            "description": "The ID of the extension to delete activities for."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [],
+          "optional": true
+        }
       },
       {
         "name": "deleteDatabase",
@@ -123,8 +147,7 @@
             "name": "urls",
             "type": "array",
             "items": { "type": "string" },
-            "description": "Erases only the URLs listed; if empty, erases all URLs.",
-            "optional": true
+            "description": "Erases only the URLs listed; if empty, erases all URLs."
           }
         ]
       }

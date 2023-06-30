@@ -1,9 +1,10 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 // Use the <code>chrome.feedbackPrivate</code> API to provide Chrome [OS]
 // feedback to the Google Feedback servers.
+[modernised_enums]
 namespace feedbackPrivate {
 
   dictionary AttachedFile {
@@ -11,7 +12,7 @@ namespace feedbackPrivate {
     [instanceOf=Blob] object? data;
   };
 
-  dictionary SystemInformation {
+  dictionary LogsMapEntry {
     DOMString key;
     DOMString value;
   };
@@ -25,13 +26,12 @@ namespace feedbackPrivate {
     // page is disabled for this flow.
     login,
 
-    // Flow where a prompt to download the Chrome Cleanup Tool is displayed
-    // prior to showing the feedback form.
-    showSrtPrompt,
-
     // Flow when the feedback is requested from the sad tab ("Aw, Snap!") page
     // when the renderer crashes.
-    sadTabCrash
+    sadTabCrash,
+
+    // Flow for internal Google users.
+    googleInternal
   };
 
   dictionary FeedbackInfo {
@@ -67,10 +67,10 @@ namespace feedbackPrivate {
 
     // An array of key/value pairs providing system information for this
     // feedback report.
-    SystemInformation[]? systemInformation;
+    LogsMapEntry[]? systemInformation;
 
     // True if we have permission to add histograms to this feedback report.
-    boolean sendHistograms;
+    boolean? sendHistograms;
 
     // Optional feedback UI flow. Default is the regular user flow.
     FeedbackFlow? flow;
@@ -82,21 +82,52 @@ namespace feedbackPrivate {
 
     // Whether to use the system-provided window frame or custom frame controls.
     boolean? useSystemWindowFrame;
+
+    // Whether or not to send bluetooth logs with this report.
+    boolean? sendBluetoothLogs;
+
+    // Whether or not to send tab titles with this report.
+    boolean? sendTabTitles;
+
+    // Whether or not to send Assistant feedback to Assistant server.
+    boolean? assistantDebugInfoAllowed;
+
+    // Whether or not triggered from Assistant.
+    boolean? fromAssistant;
+
+    // Whether or not to include bluetooth logs.
+    boolean? includeBluetoothLogs;
+
+    // Whether to show questionnaire in the report description based on detected
+    // domain-related keywords (crbug/1241169).
+    boolean? showQuestionnaire;
+
+    // Whether or not triggered for Autofill.
+    boolean? fromAutofill;
+
+    // A JSON formatted string containing autofill metadata for this
+    // feedback report.
+    DOMString? autofillMetadata;
+
+    // Whether or not |autofillMetadata| should be included in the feedback
+    // report.
+    boolean? sendAutofillMetadata;
   };
 
-  // Status of the sending of a feedback report.
+  // Possible statuses that can result from sending feedback.
   enum Status {success, delayed};
 
-  // Result of presenting the user with a prompt to download SRT.
-  enum SrtPromptResult {
-    // User clicked the "Learn More" button.
-    accepted,
+  // Landing page types that can be shown after sending feedback.
+  enum LandingPageType {normal, techstop, noLandingPage};
 
-    // User declined the prompt and proceeded to the feedback page.
-    declined,
+  // Result returned from a $(ref:sendFeedback) call.
+  dictionary SendFeedbackResult {
+    // Status of the sending of a feedback report.
+    Status status;
 
-    // User closed the window altogether.
-    closed
+    // The type of landing page shown to the use when the feedback report is
+    // successfully sent, if one should be shown.
+    LandingPageType landingPageType;
   };
 
   // Allowed log sources on Chrome OS.
@@ -141,6 +172,9 @@ namespace feedbackPrivate {
     uptime
   };
 
+  // Source of the feedback.
+  enum FeedbackSource {quickoffice};
+
   // Input parameters for a readLogSource() call.
   dictionary ReadLogSourceParams {
     // The log source from which to read.
@@ -178,9 +212,8 @@ namespace feedbackPrivate {
 
   callback GetUserEmailCallback = void(DOMString email);
   callback GetSystemInformationCallback =
-      void(SystemInformation[] systemInformation);
-  callback SendFeedbackCallback = void(Status status);
-  callback GetStringsCallback = void(object result);
+      void(LogsMapEntry[] systemInformation);
+  callback SendFeedbackCallback = void(SendFeedbackResult result);
   callback ReadLogSourceCallback = void (ReadLogSourceResult result);
 
   interface Functions {
@@ -190,18 +223,20 @@ namespace feedbackPrivate {
     // Returns the system information dictionary.
     static void getSystemInformation(GetSystemInformationCallback callback);
 
+    // Opens the feedback report window.
+    static void openFeedback(FeedbackSource source);
+
     // Sends a feedback report.
-    static void sendFeedback(FeedbackInfo feedback,
-                             SendFeedbackCallback callback);
-
-    // Gets localized translated strings for feedback. It returns the
-    // strings as a dictionary mapping from string identifier to the
-    // translated string to use in the feedback app UI.
-    static void getStrings(FeedbackFlow flow, GetStringsCallback callback);
-
-    // Logs whether the user accepted a prompt to try the Software Removal
-    // Tool.
-    static void logSrtPromptResult(SrtPromptResult result);
+    // |loadSystemInfo|: Optional flag when present and is true, the backend
+    // should load system information before sending the report. This is added
+    // to reduce user's wait time when sending reports because loading system
+    // information is slow.
+    // |formOpenTime|: The epoch time when the feedback form was opened. This is
+    // used for metrics.
+    [supportsPromises] static void sendFeedback(FeedbackInfo feedback,
+                                                optional boolean loadSystemInfo,
+                                                optional double formOpenTime,
+                                                SendFeedbackCallback callback);
 
     // Reads from a log source indicated by <code>source</code>.
     // <p>If <code>incremental</code> is false:
@@ -230,6 +265,7 @@ namespace feedbackPrivate {
     // </ul>
     static void readLogSource(ReadLogSourceParams params,
                               ReadLogSourceCallback callback);
+
   };
 
   interface Events {

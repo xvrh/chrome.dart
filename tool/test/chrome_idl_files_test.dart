@@ -21,17 +21,16 @@ void main() {
       ..removeLast()
       ..add('idl'));
 
-    Iterable<FileSystemEntity> chromeIdlFileEntities =
-        new Directory(idlPath)
-            .listSync(recursive: false, followLinks: false)
-            .where(idlFileExtTest);
+    Iterable<FileSystemEntity> chromeIdlFileEntities = new Directory(idlPath)
+        .listSync(recursive: false, followLinks: false)
+        .where(idlFileExtTest);
 
     Iterable<FileSystemEntity> chromeIdlTestFileEntities =
         new Directory(path.join(testDirectory, 'idl', 'chrome'))
             .listSync(recursive: false, followLinks: false)
             .where(idlFileExtTest);
 
-    List<FileSystemEntity> testFileEntities = new List<FileSystemEntity>()
+    List<FileSystemEntity> testFileEntities = <FileSystemEntity>[]
       ..addAll(chromeIdlFileEntities)
       ..addAll(chromeIdlTestFileEntities);
 

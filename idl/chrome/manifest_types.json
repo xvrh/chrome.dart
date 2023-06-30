@@ -1,4 +1,4 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -98,64 +98,6 @@
             "items": {"type": "string"}
           }
         }
-      },
-      {
-        "id": "ChromeUIOverrides",
-        "type": "object",
-        "description": "Chrome user interface features which can be overriden by an extension.",
-        "properties": {
-          "bookmarks_ui": {
-            "type": "object",
-            "description": "Settings to permit bookmarks user interface customization by extensions.",
-            "optional": true,
-            "properties": {
-              "remove_button": {
-                "type": "boolean",
-                "description": "If <code>true</code>, the built-in bookmark button will be removed from the user interface.",
-                "optional": true
-              },
-              "remove_bookmark_shortcut": {
-                "type": "boolean",
-                "description": "If <code>true</code>, the built-in \"Bookmark this page...\" shortcut key is removed and the extension is permitted to override the shortcut by binding it in the commands section of the manifest.",
-                "optional": true
-              },
-              "remove_bookmark_open_pages_shortcut": {
-                "type": "boolean",
-                "nodoc": true,
-                "description": "[Private] If <code>true</code>, the built-in \"Bookmark open pages...\" shortcut key and corresponding menu item is removed.",
-                "optional": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "automation",
-        "description": "This API provides programmatic access to the user interface elements of Chrome. This includes everything in the web view, and optionally Chrome's full user interface.",
-        "choices": [
-          { "type": "boolean",
-            "description": "If true, enables non-interactive access to the automation tree only for the sites for which the extension has a <a href='https://developer.chrome.com/extensions/declare_permissions#host-permissions'>host permission</a> or <a href='https://developer.chrome.com/extensions/declare_permissions#activeTab'>activeTab permission</a>)." },
-          { "type": "object",
-            "properties": {
-              "desktop": {
-                "description": "Whether to request permission to the whole ChromeOS desktop. If granted, this gives the extension access to every aspect of the desktop, and every site and app. If this permission is requested, all other permissions are implicitly included and do not need to be requested separately.",
-                "optional": true,
-                "type": "boolean"
-              },
-              "matches": {
-                "description": "A list of URL patterns for which this extension may request an automation tree. If not specified, automation permission will be granted for the sites for which the extension has a <a href='https://developer.chrome.com/extensions/declare_permissions#host-permissions'>host permission</a> or <a href='https://developer.chrome.com/extensions/declare_permissions#activeTab'>activeTab permission</a>).",
-                "optional": true,
-                "type": "array",
-                "items": { "type": "string" }
-              },
-              "interact": {
-                "description": "Whether the extension is allowed interactive access (true) or read-only access (false; default) to the automation tree.",
-                "optional": true,
-                "type": "boolean"
-              }
-            }
-          }
-        ]
       },
       {
         "id": "FileSystemProviderSource",

@@ -6,17 +6,15 @@ import 'dart:io';
 import '../src/googlesource.dart';
 import '../src/omaha.dart';
 
-main() => new IdlDownloader().downloadIdls();
+void main() => IdlDownloader().downloadIdls();
 
 class IdlDownloader {
   static final _chromiumBaseUrl = 'https://chromium.googlesource.com';
   static final _chromiumVersionPrefix = '/chromium/src/+/';
-  static final _idlDirs =
-      ['chrome/common/extensions/api', 'extensions/common/api'];
-
-  OmahaVersionExtractor _omahaVersionExtractor;
-  GoogleSourceCrawler _googleSourceCrawler;
-  String _version;
+  static final _idlDirs = [
+    'chrome/common/extensions/api',
+    'extensions/common/api'
+  ];
 
   /// Finds the latest version of the Chrome IDL spec and downloads the files
   /// to the appropriate local directories.
@@ -27,27 +25,28 @@ class IdlDownloader {
   /// in the directories we expect to find IDL and JSON files. Any files we
   /// find, we download.
   Future downloadIdls() async {
-    _omahaVersionExtractor = new OmahaVersionExtractor();
-    _version = await _omahaVersionExtractor.stableVersion;
-    print('Downloading IDL and JSON for APIs at Chrome $_version');
-    _googleSourceCrawler = new GoogleSourceCrawler(_chromiumBaseUrl);
+    var omahaVersionExtractor = OmahaVersionExtractor();
+    var version = await omahaVersionExtractor.stableVersion;
+    print('Downloading IDL and JSON for APIs at Chrome $version');
+    var googleSourceCrawler = GoogleSourceCrawler(_chromiumBaseUrl);
     for (var dir in _idlDirs) {
-      var relativePath = '$_chromiumVersionPrefix$_version/$dir';
-      _googleSourceCrawler
-          .findAllMatchingFiles(relativePath).listen(_downloadFile);
+      var relativePath = '$_chromiumVersionPrefix$version/$dir';
+      googleSourceCrawler
+          .findAllMatchingFiles(relativePath)
+          .listen(_downloadFile);
     }
   }
 
   Future _downloadFile(GoogleSourceFile file) async {
     var filePath = file.url.replaceFirst('/', '');
-    var localFile = new File(_resolvePath(filePath));
+    var localFile = File(_resolvePath(filePath));
     await localFile.create(recursive: true);
     await localFile.writeAsString(file.fileContents);
   }
 
   String _resolvePath(String rawPath) {
-    var path = rawPath.replaceFirst(new RegExp('^.*[0-9]/'), '');
+    var path = rawPath.replaceFirst(RegExp('^.*[0-9]/'), '');
     var prefix = path.split('/')[0];
-    return path.replaceFirst(new RegExp('.*/api'), 'idl/$prefix');
+    return path.replaceFirst(RegExp('.*/api'), 'idl/$prefix');
   }
 }

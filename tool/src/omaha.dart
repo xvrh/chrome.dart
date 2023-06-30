@@ -14,7 +14,7 @@ class OmahaVersionExtractor {
 
   final SimpleHttpClient _client;
 
-  OmahaVersionExtractor({SimpleHttpClient client})
+  OmahaVersionExtractor({SimpleHttpClient? client})
       : this._client = client ?? new SimpleHttpClient();
 
   Future<String> get stableVersion async {
@@ -22,8 +22,9 @@ class OmahaVersionExtractor {
     var stableCommits = omahaData.split('\n')
       ..removeWhere((line) =>
           !line.contains(_stableRelease) || line.contains(_missingField));
-    var stableCommitVersions = new Map.fromIterable(stableCommits,
-        key: (line) => line.split(',')[0], value: (line) => line.split(',')[2]);
-    return stableCommitVersions[_stableOS];
+    var stableCommitVersions = {
+      for (var line in stableCommits) line.split(',')[0]: line.split(',')[2],
+    };
+    return stableCommitVersions[_stableOS]!;
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+// Copyright 2012 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -7,6 +7,7 @@
 // associated with any Chrome browser windows. See the <a
 // href="https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/window-state">
 // Window State Sample</a> for a demonstration of these options.
+[modernised_enums]
 namespace app.window {
 
   // Previously named Bounds.
@@ -136,11 +137,11 @@ namespace app.window {
   enum State { normal, fullscreen, maximized, minimized };
 
   // Specifies the type of window to create.
-  enum WindowType { 
+  enum WindowType {
     // Default window type.
     shell,
-    // OS managed window (Chrome OS only).
-    panel 
+    // OS managed window (Deprecated).
+    panel
   };
 
   [noinline_doc] dictionary CreateWindowOptions {
@@ -217,7 +218,7 @@ namespace app.window {
     [deprecated="Use innerBounds or outerBounds."] long? maxHeight;
 
     // Type of window to create.
-    WindowType? type;
+    [deprecated="All app windows use the 'shell' window type"] WindowType? type;
 
     // Creates a special ime window. This window is not focusable and can be
     // stacked above virtual keyboard window. This is restriced to component ime
@@ -297,7 +298,7 @@ namespace app.window {
     //   action.
     //   </p>
     // <p>This is <b>Chrome OS only</b>.</p>
-    [nodoc] ActionType? lockScreenAction;
+    [nodoc] app.runtime.ActionType? lockScreenAction;
   };
 
   // Called in the creating window (parent) before the load event is called in

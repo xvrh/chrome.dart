@@ -1,4 +1,4 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -56,6 +56,8 @@ namespace brailleDisplayPrivate {
     long? textRowCount;
     // Number of columns of braille cells on the currently connected display.
     long? textColumnCount;
+    // The number of dots in a braille cell on the currently connected display.
+    long? cellSize;
   };
 
   callback DisplayStateCallback = void(DisplayState result);
@@ -74,6 +76,10 @@ namespace brailleDisplayPrivate {
     // parameters give the original 2D dimensions of the buffer. To access
     // an element cells[r][c], simply access cells[r * columns + c].
     static void writeDots(ArrayBuffer cells, long columns, long rows);
+
+    // Updates the single user-preferred braille device with the given bluetooth
+    // device address and starts or restarts the Brltty daemon.
+    static void updateBluetoothBrailleDisplayAddress(DOMString address);
   };
 
   interface Events {

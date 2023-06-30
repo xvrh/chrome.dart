@@ -1,10 +1,11 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 // The <code>chrome.printerProvider</code> API exposes events used by print
 // manager to query printers controlled by extensions, to query their
 // capabilities and to submit print jobs to these printers.
+[modernised_enums]
 namespace printerProvider {
   // Error codes returned in response to $(ref:onPrintRequested) event.
   enum PrintError {
@@ -37,7 +38,7 @@ namespace printerProvider {
   };
 
   // Printing request parameters. Passed to $(ref:onPrintRequested) event.
-  dictionary PrintJob {
+  [noinline_doc] dictionary PrintJob {
     // ID of the printer which should handle the job.
     DOMString printerId;
 
@@ -86,7 +87,7 @@ namespace printerProvider {
     // undefined that indicates that the application has determined that the
     // device is not supported.
     static void onGetUsbPrinterInfoRequested(
-        UsbDevice device,
+        usb.Device device,
         PrinterInfoCallback resultCallback);
 
     // Event fired when print manager requests printer capabilities.

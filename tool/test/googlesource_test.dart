@@ -35,7 +35,7 @@ void defineTests() {
     test('unescapes files', () {
       var testEscapeString = 'this & that is <\"\'>';
       var escapedHtmlFile = '<table><tr><td></td><td><a name="1"></a><span>'
-          '${HTML_ESCAPE.convert(testEscapeString)}</span></td></tr></table>';
+          '${htmlEscape.convert(testEscapeString)}</span></td></tr></table>';
       file = new GoogleSourceFile(escapedHtmlFile, 'www.example.com');
 
       expect(file.fileContents, testEscapeString);
@@ -44,8 +44,8 @@ void defineTests() {
 
   group('GoogleSourceCrawler', () {
     var baseUri = 'http://www.example.com/';
-    FakeSimpleHttpClient client;
-    GoogleSourceCrawler crawler;
+    late FakeSimpleHttpClient client;
+    late GoogleSourceCrawler crawler;
 
     setUp(() {
       client = new FakeSimpleHttpClient();
@@ -78,8 +78,7 @@ void defineTests() {
       var files = await crawler.findAllMatchingFiles('test').toList();
 
       expect(files.length, 2);
-      expect(
-          files.map((file) => file.url),
+      expect(files.map((file) => file.url),
           allOf(contains('/test/a.idl'), contains('/test/c.json')));
     });
   });
@@ -94,8 +93,8 @@ void prepopulateHttpResponses(
 }
 
 class FakeSimpleHttpClient implements SimpleHttpClient {
-  List<String> _htmlOutputList;
-  int _callCount;
+  late List<String> _htmlOutputList;
+  late int _callCount;
 
   FakeSimpleHttpClient() {
     reset();

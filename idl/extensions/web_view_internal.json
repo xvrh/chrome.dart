@@ -1,4 +1,4 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -7,7 +7,14 @@
     "namespace": "webViewInternal",
     "description": "none",
     "compiler_options": {
+      "modernised_enums": true,
       "implemented_in": "extensions/browser/api/guest_view/web_view/web_view_internal_api.h"
+    },
+    "properties": {
+      "MAX_CAPTURE_VISIBLE_REGION_CALLS_PER_SECOND": {
+        "value": 2,
+        "description": "The maximum number of times that $(ref:captureVisibleRegion) can be called per second. $(ref:captureVisibleRegion) is expensive and should not be called too often."
+      }
     },
     "types": [
       {
@@ -762,6 +769,45 @@
               {"type": "string",
                 "name": "dataUrl",
                 "description": "A data URL which encodes an image of the visible area of the captured tab. May be assigned to the 'src' property of an HTML Image element for display."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "setSpatialNavigationEnabled",
+        "type": "function",
+        "description": "Sets spatial navigation state of the webview.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "instanceId",
+            "description": "The instance ID of the guest <webview> process."
+          },
+          {
+            "type": "boolean",
+            "name": "spatialNavEnabled",
+            "description": "Spatial navigation state value."
+          }
+        ]
+      },
+      {
+        "name": "isSpatialNavigationEnabled",
+        "type": "function",
+        "description": "Callback that returns whether whether spatial navigation is enabled for the webview.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "instanceId",
+            "description": "The instance ID of the guest <webview> process."
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "spatialNavEnabled",
+                "type": "boolean"
               }
             ]
           }

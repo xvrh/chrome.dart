@@ -1,11 +1,14 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+// Copyright 2012 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 [
   {
     "namespace": "browserAction",
-    "description": "Use browser actions to put icons in the main Google Chrome toolbar, to the right of the address bar. In addition to its <a href='browserAction#icon'>icon</a>, a browser action can also have a <a href='browserAction#tooltip'>tooltip</a>, a <a href='browserAction#badge'>badge</a>, and a <a href='browserAction#popups'>popup</a>.",
+    "description": "Use browser actions to put icons in the main Google Chrome toolbar, to the right of the address bar. In addition to its <a href='browserAction#icon'>icon</a>, a browser action can have a <a href='browserAction#tooltip'>tooltip</a>, a <a href='browserAction#badge'>badge</a>, and a <a href='browserAction#popups'>popup</a>.",
+    "compiler_options": {
+      "implemented_in": "chrome/browser/extensions/api/extension_action/extension_action_api.h"
+    },
     "types": [
       {
         "id": "ColorArray",
@@ -23,14 +26,21 @@
         "type": "object",
         "isInstanceOf": "ImageData",
         "additionalProperties": { "type": "any" },
-        "description": "Pixel data for an image. Must be an ImageData object (for example, from a <code>canvas</code> element)."
+        "description": "Pixel data for an image. Must be an ImageData object; for example, from a <code>canvas</code> element."
+      },
+      {
+        "id": "TabDetails",
+        "type": "object",
+        "properties": {
+          "tabId": { "type": "integer", "optional": true, "minimum": 0, "description": "The ID of the tab to query state for. If no tab is specified, the non-tab-specific state is returned." }
+        }
       }
     ],
     "functions": [
       {
         "name": "setTitle",
         "type": "function",
-        "description": "Sets the title of the browser action. This shows up in the tooltip.",
+        "description": "Sets the title of the browser action. This title appears in the tooltip.",
         "parameters": [
           {
             "name": "details",
@@ -47,7 +57,8 @@
               }
             }
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "getTitle",
@@ -56,31 +67,23 @@
         "parameters": [
           {
             "name": "details",
-            "type": "object",
-            "properties": {
-              "tabId": {
-                "type": "integer",
-                "optional": true,
-                "description": "Specify the tab to get the title from. If no tab is specified, the non-tab-specific title is returned."
-              }
-            }
-          },
-          {
-            "type": "function",
-            "name": "callback",
-            "parameters": [
-              {
-                "name": "result",
-                "type": "string"
-              }
-            ]
+            "$ref": "TabDetails"
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
       },
       {
         "name": "setIcon",
         "type": "function",
-        "description": "Sets the icon for the browser action. The icon can be specified either as the path to an image file or as the pixel data from a canvas element, or as dictionary of either one of those. Either the <b>path</b> or the <b>imageData</b> property must be specified.",
+        "description": "Sets the icon for the browser action. The icon can be specified as the path to an image file, as the pixel data from a canvas element, or as a dictionary of one of those. Either the <code>path</code> or the <code>imageData</code> property must be specified.",
         "parameters": [
           {
             "name": "details",
@@ -95,7 +98,7 @@
                   }
                 ],
                 "optional": true,
-                "description": "Either an ImageData object or a dictionary {size -> ImageData} representing icon to be set. If the icon is specified as a dictionary, the actual image to be used is chosen depending on screen's pixel density. If the number of image pixels that fit into one screen space unit equals <code>scale</code>, then image with size <code>scale</code> * n will be selected, where n is the size of the icon in the UI. At least one image must be specified. Note that 'details.imageData = foo' is equivalent to 'details.imageData = {'16': foo}'"
+                "description": "Either an ImageData object or a dictionary {size -> ImageData} representing an icon to be set. If the icon is specified as a dictionary, the image used is chosen depending on the screen's pixel density. If the number of image pixels that fit into one screen space unit equals <code>scale</code>, then an image with size <code>scale</code> * n is selected, where <i>n</i> is the size of the icon in the UI. At least one image must be specified. Note that 'details.imageData = foo' is equivalent to 'details.imageData = {'16': foo}'"
               },
               "path": {
                 "choices": [
@@ -106,7 +109,7 @@
                   }
                 ],
                 "optional": true,
-                "description": "Either a relative image path or a dictionary {size -> relative image path} pointing to icon to be set. If the icon is specified as a dictionary, the actual image to be used is chosen depending on screen's pixel density. If the number of image pixels that fit into one screen space unit equals <code>scale</code>, then image with size <code>scale</code> * n will be selected, where n is the size of the icon in the UI. At least one image must be specified. Note that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'"
+                "description": "Either a relative image path or a dictionary {size -> relative image path} pointing to an icon to be set. If the icon is specified as a dictionary, the image used is chosen depending on the screen's pixel density. If the number of image pixels that fit into one screen space unit equals <code>scale</code>, then an image with size <code>scale</code> * n is selected, where <i>n</i> is the size of the icon in the UI. At least one image must be specified. Note that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'"
               },
               "tabId": {
                 "type": "integer",
@@ -126,7 +129,7 @@
       {
         "name": "setPopup",
         "type": "function",
-        "description": "Sets the html document to be opened as a popup when the user clicks on the browser action's icon.",
+        "description": "Sets the HTML document to be opened as a popup when the user clicks the browser action icon.",
         "parameters": [
           {
             "name": "details",
@@ -140,39 +143,32 @@
               },
               "popup": {
                 "type": "string",
-                "description": "The html file to show in a popup.  If set to the empty string (''), no popup is shown."
+                "description": "The relative path to the HTML file to show in a popup. If set to the empty string (<code>''</code>), no popup is shown."
               }
             }
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "getPopup",
         "type": "function",
-        "description": "Gets the html document set as the popup for this browser action.",
+        "description": "Gets the HTML document that is set as the popup for this browser action.",
         "parameters": [
           {
             "name": "details",
-            "type": "object",
-            "properties": {
-              "tabId": {
-                "type": "integer",
-                "optional": true,
-                "description": "Specify the tab to get the popup from. If no tab is specified, the non-tab-specific popup is returned."
-              }
-            }
-          },
-          {
-            "type": "function",
-            "name": "callback",
-            "parameters": [
-              {
-                "name": "result",
-                "type": "string"
-              }
-            ]
+            "$ref": "TabDetails"
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
       },
       {
         "name": "setBadgeText",
@@ -185,7 +181,8 @@
             "properties": {
               "text": {
                 "type": "string",
-                "description": "Any number of characters can be passed, but only about four can fit in the space."
+                "optional": true,
+                "description": "Any number of characters can be passed, but only about four can fit into the space. If an empty string (<code>''</code>) is passed, the badge text is cleared.  If <code>tabId</code> is specified and <code>text</code> is null, the text for the specified tab is cleared and defaults to the global badge text."
               },
               "tabId": {
                 "type": "integer",
@@ -194,7 +191,8 @@
               }
             }
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "getBadgeText",
@@ -203,26 +201,18 @@
         "parameters": [
           {
             "name": "details",
-            "type": "object",
-            "properties": {
-              "tabId": {
-                "type": "integer",
-                "optional": true,
-                "description": "Specify the tab to get the badge text from. If no tab is specified, the non-tab-specific badge text is returned."
-              }
-            }
-          },
-          {
-            "type": "function",
-            "name": "callback",
-            "parameters": [
-              {
-                "name": "result",
-                "type": "string"
-              }
-            ]
+            "$ref": "TabDetails"
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
       },
       {
         "name": "setBadgeBackgroundColor",
@@ -234,7 +224,7 @@
             "type": "object",
             "properties": {
               "color": {
-                "description": "An array of four integers in the range [0,255] that make up the RGBA color of the badge. For example, opaque red is <code>[255, 0, 0, 255]</code>. Can also be a string with a CSS value, with opaque red being <code>#FF0000</code> or <code>#F00</code>.",
+                "description": "An array of four integers in the range 0-255 that make up the RGBA color of the badge. Can also be a string with a CSS hex color value; for example, <code>#FF0000</code> or <code>#F00</code> (red). Renders colors at full opacity.",
                 "choices": [
                   {"type": "string"},
                   {"$ref": "ColorArray"}
@@ -247,7 +237,8 @@
               }
             }
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "getBadgeBackgroundColor",
@@ -256,40 +247,33 @@
         "parameters": [
           {
             "name": "details",
-            "type": "object",
-            "properties": {
-              "tabId": {
-                "type": "integer",
-                "optional": true,
-                "description": "Specify the tab to get the badge background color from. If no tab is specified, the non-tab-specific badge background color is returned."
-              }
-            }
-          },
-          {
-            "type": "function",
-            "name": "callback",
-            "parameters": [
-              {
-                "name": "result",
-                "$ref": "ColorArray"
-              }
-            ]
+            "$ref": "TabDetails"
           }
-        ]
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "ColorArray"
+            }
+          ]
+        }
       },
       {
         "name": "enable",
         "type": "function",
-        "description": "Enables the browser action for a tab. By default, browser actions are enabled.",
+        "description": "Enables the browser action for a tab. Defaults to enabled.",
         "parameters": [
           {
             "type": "integer",
             "optional": true,
             "name": "tabId",
             "minimum": 0,
-            "description": "The id of the tab for which you want to modify the browser action."
+            "description": "The ID of the tab for which to modify the browser action."
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "disable",
@@ -301,9 +285,10 @@
             "optional": true,
             "name": "tabId",
             "minimum": 0,
-            "description": "The id of the tab for which you want to modify the browser action."
+            "description": "The ID of the tab for which to modify the browser action."
           }
-        ]
+        ],
+        "returns_async": {"name": "callback", "parameters": [], "optional": true}
       },
       {
         "name": "openPopup",
@@ -331,7 +316,7 @@
       {
         "name": "onClicked",
         "type": "function",
-        "description": "Fired when a browser action icon is clicked.  This event will not fire if the browser action has a popup.",
+        "description": "Fired when a browser action icon is clicked. Does not fire if the browser action has a popup.",
         "parameters": [
           {
             "name": "tab",

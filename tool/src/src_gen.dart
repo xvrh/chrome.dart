@@ -1,4 +1,3 @@
-
 /// A library to generate Dart source code.
 library src_gen;
 
@@ -22,14 +21,14 @@ class DartGenerator {
 
   bool _previousWasEol = false;
 
-  DartGenerator({this.colBoundary: DEFAULT_COLUMN_BOUNDARY});
+  DartGenerator({this.colBoundary = DEFAULT_COLUMN_BOUNDARY});
 
   /**
    * Write out the given dartdoc text, wrapping lines as necessary to flow
    * along the column boundary. If [preferSingle] is true, and the docs would
    * fit on a single line, use `///` dartdoc style.
    */
-  void writeDocs(String docs, {bool preferSingle: false}) {
+  void writeDocs(String docs, {bool preferSingle = false}) {
     if (docs == null) {
       return;
     }
@@ -82,7 +81,8 @@ class DartGenerator {
 
     // This regex matches 1 non-word, 'oldName', 1 non-word
     RegExp regex = new RegExp('(\\W)(${oldName})(\\W)');
-    str = str.replaceAllMapped(regex, (m) => m.group(1) + newName + m.group(3));
+    str =
+        str.replaceAllMapped(regex, (m) => m.group(1)! + newName + m.group(3)!);
 
     _buf.clear();
     _buf.write(str);
@@ -119,7 +119,7 @@ String wrap(String str, [int col = 80]) {
   // The given string could contain newlines.
   // TODO: this needs to do a better job of not line wrapping things like:
   // [foo bar](index.html).
-  List lines = str.split('\n');
+  var lines = str.split('\n');
   return lines.map((l) => _simpleWrap(l, col)).join('\n');
 }
 

@@ -1,5 +1,3 @@
-library simple_http_client;
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -8,7 +6,7 @@ import 'dart:io';
 class SimpleHttpClient {
   final HttpClient _client;
 
-  SimpleHttpClient({HttpClient client})
+  SimpleHttpClient({HttpClient? client})
       : this._client = client ?? new HttpClient();
 
   /// Download the HTML source of the page at the given [Uri].
@@ -16,6 +14,6 @@ class SimpleHttpClient {
     HttpClientRequest request = await _client.getUrl(uri);
     request.close();
     HttpClientResponse response = await request.done;
-    return await response.transform(UTF8.decoder).join('');
+    return await response.transform(utf8.decoder).join('');
   }
 }

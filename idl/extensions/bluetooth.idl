@@ -1,9 +1,10 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+// Copyright 2012 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 // Use the <code>chrome.bluetooth</code> API to connect to a Bluetooth
 // device. All functions report failures via chrome.runtime.lastError.
+[modernised_enums]
 namespace bluetooth {
   // Allocation authorities for Vendor IDs.
   enum VendorIdSource {bluetooth, usb};
@@ -12,6 +13,12 @@ namespace bluetooth {
   enum DeviceType {computer, phone, modem, audio, carAudio, video, peripheral,
                    joystick, gamepad, keyboard, mouse, tablet,
                    keyboardMouseCombo};
+
+  // Types for filtering bluetooth devices.
+  enum FilterType {all, known};
+
+  // Transport type of the bluetooth device.
+  enum Transport {invalid, classic, le, dual};
 
   // Information about the state of the Bluetooth adapter.
   dictionary AdapterState {
@@ -82,11 +89,26 @@ namespace bluetooth {
     // The received signal strength, in dBm. This field is avaliable and valid
     // only during discovery. Outside of discovery it's value is not specified.
     long? inquiryRssi;
-  
+
     // The transmitted power level. This field is avaliable only for LE devices
     // that include this field in AD. It is avaliable and valid only during
     // discovery.
     long? inquiryTxPower;
+
+    // The transport type of the bluetooth device.
+    Transport? transport;
+
+    // The remaining battery of the device.
+    long? batteryPercentage;
+  };
+
+  dictionary BluetoothFilter {
+    // Type of filter to apply to the device list. Default is all.
+    FilterType? filterType;
+
+    // Maximum number of bluetoth devices to return. Default is 0 (no limit)
+    // if unspecified.
+    long? limit;
   };
 
   // Callback from the <code>getDevice</code> method.
@@ -108,17 +130,24 @@ namespace bluetooth {
     // Get information about the Bluetooth adapter.
     // |callback| : Called with an AdapterState object describing the adapter
     // state.
-    static void getAdapterState(AdapterStateCallback callback);
+    [supportsPromises] static void getAdapterState(
+        AdapterStateCallback callback);
 
     // Get information about a Bluetooth device known to the system.
     // |deviceAddress| : Address of device to get.
     // |callback| : Called with the Device object describing the device.
-    static void getDevice(DOMString deviceAddress, GetDeviceCallback callback);
+    [supportsPromises] static void getDevice(DOMString deviceAddress,
+                                             GetDeviceCallback callback);
 
     // Get a list of Bluetooth devices known to the system, including paired
     // and recently discovered devices.
+    // |filter|: Some criteria to filter the list of returned bluetooth devices.
+    // If the filter is not set or set to <code>{}</code>, returned device list
+    // will contain all bluetooth devices. Right now this is only supported in
+    // ChromeOS, for other platforms, a full list is returned.
     // |callback| : Called when the search is completed.
-    static void getDevices(GetDevicesCallback callback);
+    [supportsPromises] static void getDevices(optional BluetoothFilter filter,
+                                              GetDevicesCallback callback);
 
     // Start discovery. Newly discovered devices will be returned via the
     // onDeviceAdded event. Previously discovered devices already known to
@@ -129,11 +158,13 @@ namespace bluetooth {
     // startDiscovery.  Discovery can be resource intensive: stopDiscovery
     // should be called as soon as possible.
     // |callback| : Called to indicate success or failure.
-    static void startDiscovery(optional StartDiscoveryCallback callback);
+    [supportsPromises] static void startDiscovery(
+        optional StartDiscoveryCallback callback);
 
     // Stop discovery.
     // |callback| : Called to indicate success or failure.
-    static void stopDiscovery(optional StopDiscoveryCallback callback);
+    [supportsPromises] static void stopDiscovery(
+        optional StopDiscoveryCallback callback);
   };
 
   interface Events {

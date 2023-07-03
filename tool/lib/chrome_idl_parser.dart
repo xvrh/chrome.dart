@@ -1,22 +1,92 @@
 library chrome_idl_parser;
 
-import 'package:parsers/parsers.dart';
+import 'package:petitparser/parser.dart';
+import 'package:petitparser/petitparser.dart';
 
-import 'chrome_idl_mapping.dart';
+final reservedNames = [
+  "enum",
+  "callback",
+  "optional",
+  "object",
+  "static",
+  "dictionary",
+  "interface",
+  "namespace",
+  "or"
+];
 
-final reservedNames = ["enum", "callback", "optional", "object", "static",
-                       "dictionary", "interface", "namespace", "or"];
+class ChromeIDLGrammar extends GrammarDefinition {
+  Parser<Token> token(Object input) {
+    if (input is Parser) {
+      return input.token().trim();
+    } else if (input is String) {
+      return token(input.toParser());
+    }
+    throw ArgumentError.value(input, 'Invalid token parser');
+  }
 
-class ChromeIDLParser extends LanguageParsers {
-  ChromeIDLParser() : super(reservedNames: reservedNames,
-                      /**
-                       * Dont handle comments, instead let the parser
-                       * hande them with [docString]
-                       */
-                      commentStart: "",
-                      commentEnd: "",
-                      commentLine: "");
+  @override
+  Parser start() => ref0(attributeDeclaration);
 
+  Parser attributeDeclaration() =>
+      ref1(token, '[') &
+      ref0(attribute).plusSeparated(ref1(token, ',')) &
+      ref1(token, ']');
+
+  Parser attribute() =>
+      ref0(identifier) & (ref1(token, '=') & ref0(attributeValue)).optional();
+
+  Parser attributeValue() =>
+      ref0(identifier) |
+      ref0(stringLiteral) |
+      ref0(stringLiteralInParentheses) |
+      ref0(integer) |
+      ref0(integerList);
+
+  Parser stringLiteral() => char('"') & pattern('^"').star() & char('"');
+
+  Parser stringLiteralInParentheses() =>
+      ref1(token, '(') & ref0(stringLiteral) & ref1(token, ')');
+
+  Parser integer() => ref1(token, digit().plus());
+
+  Parser integerList() =>
+      ref1(token, '(') &
+      ref0(integer).plusSeparated(ref1(token, ',')) &
+      ref1(token, ')');
+
+  Parser identifier() => ref0(identifierToken).map((t) => t.input);
+
+  Parser<Token> identifierToken() =>
+      ref1(token, ref0(identifierStart) & ref0(identifierPart).star());
+
+  Parser identifierStart() => letter() | anyOf(r'_$');
+
+  Parser identifierPart() => ref0(identifierStart) | digit();
+}
+
+class ChromeIDLParser extends ChromeIDLGrammar {}
+
+/*      // Attribute where name=value
+  (identifier + symbol('=') + identifier
+  ^ idlAttributeAssignedValueMapping)
+  // Attribute where [name="string"]
+  | (identifier + symbol('=') + stringLiteral
+  ^ idlAttributeAssignedStringLiteral)
+  // Attribute where [name=("string")]
+  | (identifier + symbol('=') + parens(stringLiteral)
+  ^ idlAttributeAssignedStringLiteral)
+  // Attribute where [maxListeners=1]
+  | (identifier + symbol('=') + natural
+  ^ (name, _, number) =>
+      idlAttributeAssignedValueMapping(name, _, number.toString()))
+  // Attribute where [name=(1,2)]
+  | (identifier + symbol('=') + parens(intLiteral.sepBy(comma))
+  ^ idlAttributeAssignedMultiValueMapping)
+  // Attribute where [name]
+  | (identifier ^ idlAttributeMapping)*/
+
+/*
   Parser get namespaceIdentifier => identifier.sepBy(dot) | identifier;
   /**
    * Parse the namespace.
@@ -318,5 +388,4 @@ class ChromeIDLParser extends LanguageParsers {
    */
   Parser get copyrightSignature =>
         everythingBetween(string('// Copyright'), string('LICENSE file.\n\n'))
-      | everythingBetween(string('// Copyright'), string('LICENSE file.\n'));
-}
+      | everythingBetween(string('// Copyright'), string('LICENSE file.\n'));*/

@@ -12,6 +12,7 @@
     "debugger",
     "declarativeContent",
     "declarativeWebRequest",
+    "declarativeNetRequest",
     "desktopCapture",
     "devtools.inspectedWindow",
     "devtools.network",

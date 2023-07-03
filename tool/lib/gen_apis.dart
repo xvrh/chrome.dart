@@ -205,13 +205,9 @@ class GenApis {
 
     File outFile = new File(pathos.join(outDirPath, 'gen', "${fileName}.dart"));
 
-    if (definitionFile.path.endsWith('.json')) {
-      GenApiFile apiGen = new GenApiFile(definitionFile, overrides: overrides);
-      apiGen.generate(outFile);
-    } else {
-      GenApiFile apiGen = new GenApiFile(definitionFile, overrides: overrides);
-      apiGen.generate(outFile);
-    }
+    GenApiFile apiGen = new GenApiFile(definitionFile, overrides: overrides);
+    apiGen.generate(outFile);
+
   }
 
   void _combine(Map<String, List<String>> combinedLibraries, String libName) {

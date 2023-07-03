@@ -257,6 +257,6 @@ class IDLEnumValue {
 class IDLType {
   final String name;
   final bool isArray;
-  IDLType(this.name, {this.isArray: false});
+  IDLType(this.name, {this.isArray= false});
   String toString() => "IDLType($name, $isArray)";
 }

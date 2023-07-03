@@ -20,7 +20,6 @@ linter:
     omit_local_variable_types: true
     only_throw_errors: true
     prefer_interpolation_to_compose_strings: true
-    prefer_single_quotes: true
     sort_child_properties_last: true
     sort_pub_dependencies: true
     test_types_in_equals: true

@@ -1,104 +1,181 @@
 library chrome_idl_test;
 
 import 'package:petitparser/core.dart';
+import 'package:petitparser/debug.dart';
 import 'package:petitparser/parser.dart';
 import 'package:petitparser/reflection.dart';
 import 'package:test/test.dart';
 
+import '../lib/chrome_idl_model.dart';
 import '../lib/chrome_idl_parser.dart';
 
 late ChromeIDLParser chromeIDLParser;
 
-bool Function(String) accept(Parser parser) =>
-    (input) => parser.parse(input).isSuccess;
-
-void main() {
-  final grammar = ChromeIDLGrammar();
-  test('grammar linter', () {
-    final parser = grammar.build();
-    expect(linter(parser), isEmpty);
-  });
-
-  test('Parse identifier', () {
-    var parser = grammar.buildFrom(grammar.identifier()).end();
-
-    var result = parser.parse('abc23 ');
-    expect(result.value, 'abc23');
-  });
-
-  test('Parse integer', () {
-    var parser = grammar.buildFrom(grammar.integer()).end();
-
-    var result = parser.parse('123');
-    expect((result.value as Token).input, '123');
-  });
-
-  test('Parse attribute identifier', () {
-    var attribute = grammar.buildFrom(grammar.attribute()).end();
-    expect('a=b', accept(attribute));
-    expect('ab=bc', accept(attribute));
-    expect('ab1=c12', accept(attribute));
-    expect('ab1=', isNot(accept(attribute)));
-  });
-
-  test('Parse attribute string literal', () {
-    var attribute = grammar.buildFrom(grammar.attribute()).end();
-    expect('a="b"', accept(attribute));
-    expect('a=""', accept(attribute));
-    expect('a= ""', accept(attribute));
-    expect('a = ""', accept(attribute));
-    expect('ab="bc"', accept(attribute));
-    expect('ab1="123"', accept(attribute));
-    expect('ab1="&123@"', accept(attribute));
-    expect('''ab1="'&123@"''', accept(attribute));
-    expect('a="', isNot(accept(attribute)));
-    expect('a="bc', isNot(accept(attribute)));
-  });
-
-  test('Parse attribute integer', () {
-    var attribute = grammar.buildFrom(grammar.attribute()).end();
-    expect('a=1', accept(attribute));
-    expect('a=123', accept(attribute));
-  });
-
-  test('Parse attribute integer list', () {
-    var attribute = grammar.buildFrom(grammar.attribute()).end();
-    expect('a=(1)', accept(attribute));
-    expect('a=(123)', accept(attribute));
-    expect('a=()', isNot(accept(attribute)));
-    expect('a=(13,245)', accept(attribute));
-    expect('a=(13,24,)', isNot(accept(attribute)));
-  });
-
-  test('Parse attribute alone', () {
-    var attribute = grammar.buildFrom(grammar.attribute()).end();
-    expect('a', accept(attribute));
-    expect('abc', accept(attribute));
-    expect('_a', accept(attribute));
-    expect('___a', accept(attribute));
-    expect(r'$a', accept(attribute));
-    expect('1abc', isNot(accept(attribute)));
-  });
-
-  test('Parse attribute declaration', () {
-    var attribute = grammar.buildFrom(grammar.attributeDeclaration()).end();
-    expect('[a]', accept(attribute));
-    expect('[ab=cd]', accept(attribute));
-    expect('[ab="cd"]', accept(attribute));
-    expect('[ab="cd",a,b=1]', accept(attribute));
-    expect('[ab="cd" ,a, b=1]', accept(attribute));
-  });
-}
-
-/*
 void main() {
   setUp(() {
-    chromeIDLParser = new ChromeIDLParser();
+    chromeIDLParser = ChromeIDLParser();
+  });
+
+  test('aaa comment with **', () {
+    var doc =
+        trace(chromeIDLParser.docString).parse("/** Some comment */").value;
+    expect(doc.length, equals(1));
+    expect(doc[0], equals(" Some comment "));
   });
 
   group('ChromeIDLParser.docString.parse', chromeIDLParserDocStringTests);
   group('ChromeIDLParser.attributeDeclaration.parse',
       chromeIDLParserAttributeDeclarationTests);
+}
+
+void chromeIDLParserDocStringTests() {
+  test('comment with **', () {
+    var doc = chromeIDLParser.docString.parse("/** Some comment */").value;
+    expect(doc.length, equals(1));
+    expect(doc[0], equals(" Some comment "));
+  });
+
+  test('comment with ** multiline', () {
+    var doc = chromeIDLParser.docString.parse("""
+/**
+ * Some comment
+ *
+ * Some comment information.
+ * Some more comment information.
+ *
+ */""").value;
+    expect(doc.length, equals(1));
+    expect(
+        doc[0],
+        equals('\n'
+            ' * Some comment\n'
+            ' *\n'
+            ' * Some comment information.\n'
+            ' * Some more comment information.\n'
+            ' *\n'
+            ' '));
+  });
+
+  test('comment with *', () {
+    var doc = chromeIDLParser.docString.parse("/* Some comment */").value;
+    expect(doc.length, equals(1));
+    expect(doc[0], equals(" Some comment "));
+  });
+
+  test('comment with * multiline', () {
+    var doc = chromeIDLParser.docString.parse("""
+/*
+ * Some comment
+ *
+ * Some comment information.
+ * Some more comment information.
+ *
+ */""").value;
+    expect(doc.runtimeType.toString(), equals("List<String>"));
+    expect(doc.length, equals(1));
+    expect(
+        doc[0],
+        equals('\n'
+            ' * Some comment\n'
+            ' *\n'
+            ' * Some comment information.\n'
+            ' * Some more comment information.\n'
+            ' *\n'
+            ' '));
+  });
+
+  test('comment with //', () {
+    var doc = chromeIDLParser.docString.parse("// Some comment\n").value;
+    expect(doc.length, equals(1));
+    expect(doc[0], equals(" Some comment"));
+  });
+
+  test('comment with // multiline', () {
+    var doc = chromeIDLParser.docString.parse("""
+//
+// Some comment
+//
+// Some comment information.
+// Some more comment information.
+//
+//""").value;
+    expect(doc.length, equals(7));
+    expect(doc[0], equals(''));
+    expect(doc[1], equals(' Some comment'));
+    expect(doc[2], equals(''));
+    expect(doc[3], equals(' Some comment information.'));
+    expect(doc[4], equals(' Some more comment information.'));
+    expect(doc[5], equals(''));
+    expect(doc[6], equals(''));
+  });
+}
+
+void chromeIDLParserAttributeDeclarationTests() {
+  test('attribute with [instanceOf=Window]', () {
+    var attributeDeclaration =
+        chromeIDLParser.attributeDeclaration.parse("[instanceOf=Window]").value;
+
+    expect(attributeDeclaration, isNotNull);
+    var attributes = attributeDeclaration.attributes;
+    expect(attributes.length, equals(1));
+    var attribute = attributes[0];
+    expect(attribute, isNotNull);
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
+    expect(attribute.attributeValue, equals("Window"));
+  });
+
+  test('attribute with [nodoc]', () {
+    var attributeDeclaration =
+        chromeIDLParser.attributeDeclaration.parse("[nodoc]").value;
+
+    expect(attributeDeclaration, isNotNull);
+    var attributes = attributeDeclaration.attributes;
+    expect(attributes.length, equals(1));
+    var attribute = attributes[0];
+    expect(attribute, isNotNull);
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
+  });
+
+  test('attribute with [legalValues=(16,32)]', () {
+    var attributeDeclaration = chromeIDLParser.attributeDeclaration
+        .parse("[legalValues=(16,32)]")
+        .value;
+
+    expect(attributeDeclaration, isNotNull);
+    var attributes = attributeDeclaration.attributes;
+    expect(attributes.length, equals(1));
+    var attribute = attributes[0];
+    expect(attribute, isNotNull);
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.LEGAL_VALUES));
+    expect(attribute.attributeValues!.length, equals(2));
+    expect(attribute.attributeValues![0], equals(16));
+    expect(attribute.attributeValues![1], equals(32));
+  });
+
+  test('attribute with [nocompile, nodoc]', () {
+    var attributeDeclaration =
+        chromeIDLParser.attributeDeclaration.parse("[nocompile, nodoc]").value;
+
+    expect(attributeDeclaration, isNotNull);
+    var attributes = attributeDeclaration.attributes;
+    expect(attributeDeclaration.attributes.length, equals(2));
+    var attribute = attributes[0];
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NOCOMPILE));
+    attribute = attributes[1];
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
+  });
+
+  test('attribute with [implemented_in]', () {
+    var attributeDeclaration = chromeIDLParser.attributeDeclaration
+        .parse('[implemented_in="a/b.c"]')
+        .value;
+
+    expect(attributeDeclaration, isNotNull);
+  });
+}
+
+/*
+void main() {
   group('ChromeIDLParser.enumBody.parse', chromeIDLParserEnumBodyTests);
   group('ChromeIDLParser.enumDeclaration.parse',
       chromeIDLParserEnumDeclarationTests);

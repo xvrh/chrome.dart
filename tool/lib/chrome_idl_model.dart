@@ -1,5 +1,6 @@
 library chrome_idl_model;
 
+/*
 /// This class provides a model for IDL-specified namespaces.
 class IDLNamespaceDeclaration {
   /// The [name] of the declared namespace.
@@ -16,9 +17,14 @@ class IDLNamespaceDeclaration {
   /// Namespace documentation.
   final List<String> documentation;
 
-  IDLNamespaceDeclaration(this.name, {this.functionDeclaration,
-      this.typeDeclarations, this.eventDeclaration, this.callbackDeclarations,
-      this.enumDeclarations, this.attribute, this.documentation,
+  IDLNamespaceDeclaration(this.name,
+      {this.functionDeclaration,
+      this.typeDeclarations,
+      this.eventDeclaration,
+      this.callbackDeclarations,
+      this.enumDeclarations,
+      this.attribute,
+      this.documentation,
       this.copyrightSignature});
 
   String toString() =>
@@ -44,11 +50,11 @@ class IDLTypeDeclaration {
   final List<IDLMethod> methods;
   final List<String> documentation;
 
-  IDLTypeDeclaration(this.name, this.members, {this.methods, this.attribute,
-    this.documentation});
+  IDLTypeDeclaration(this.name, this.members,
+      {this.methods, this.attribute, this.documentation});
 
   String toString() =>
-    "IDLTypeDeclaration($name, $members, $methods, $attribute, $documentation)";
+      "IDLTypeDeclaration($name, $members, $methods, $attribute, $documentation)";
 }
 
 /// This class provides a model for IDL-specified events.
@@ -81,13 +87,13 @@ class IDLEnumDeclaration {
   final List<IDLEnumValue> enums; // TODO: rename enumValue
   final List<String> documentation;
 
-  IDLEnumDeclaration(this.name, this.enums, {this.attribute,
-    this.documentation});
+  IDLEnumDeclaration(this.name, this.enums,
+      {this.attribute, this.documentation});
 
   String toString() =>
       "IDLEnumDeclaration($name, $enums, $attribute, $documentation)";
 }
-
+*/
 /// This class provides a model for IDL-specified attributes.
 class IDLAttributeDeclaration {
   final List<IDLAttribute> attributes;
@@ -101,10 +107,10 @@ class IDLMethod {
   final List<IDLParameter> parameters;
   final IDLType returnType;
   final List<String> documentation;
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
 
-  IDLMethod(this.name, this.returnType, this.parameters, {this.attribute,
-    this.documentation});
+  IDLMethod(this.name, this.returnType, this.parameters,
+      {this.attribute, required this.documentation});
 
   String toString() =>
       "IDLMethod($name, $returnType, $parameters, $attribute, $documentation})";
@@ -115,11 +121,11 @@ class IDLField {
   final String name;
   final IDLType type;
   final bool isOptional;
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
   final List<String> documentation;
 
   IDLField(this.name, this.type,
-      {this.attribute, this.isOptional: false, this.documentation});
+      {this.attribute, this.isOptional = false, required this.documentation});
 
   String toString() =>
       "IDLField($name, $type, $attribute, $isOptional, $documentation)";
@@ -132,7 +138,7 @@ class IDLParameter {
   final bool isOptional;
   // TODO: rename all variable names of IDLAttributeDeclaration attribute
   // to IDLAttributeDeclaration attributeDeclaration.
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
 
   // This is known by the convention used in chrome idl
   //   static void create(DOMString url, optional CreateWindowOptions options,
@@ -140,7 +146,7 @@ class IDLParameter {
   final bool isCallback;
 
   IDLParameter(this.name, this.type,
-      {this.attribute, this.isOptional: false, this.isCallback: false});
+      {this.attribute, this.isOptional = false, this.isCallback = false});
 
   String toString() =>
       "IDLParameter($name, $type, $attribute, $isOptional, $isCallback)";
@@ -149,15 +155,25 @@ class IDLParameter {
 /// This class provides an enumeration of the different types of attributes
 /// used in the chrome apps idls.
 class IDLAttributeTypeEnum {
-
   final String type;
 
   const IDLAttributeTypeEnum._(this.type);
 
-  static const values = const [DEPRECATED,
-    INSTANCE_OF, SUPPORTS_FILTER, NOINLINE_DOC, INLINE_DOC, NODOC, NOCOMPILE,
-    LEGAL_VALUES, PERMISSIONS, MAX_LISTENERS, IMPLEMENTED_IN, NODEFINE,
-    PLATFORMS];
+  static const values = const [
+    DEPRECATED,
+    INSTANCE_OF,
+    SUPPORTS_FILTER,
+    NOINLINE_DOC,
+    INLINE_DOC,
+    NODOC,
+    NOCOMPILE,
+    LEGAL_VALUES,
+    PERMISSIONS,
+    MAX_LISTENERS,
+    IMPLEMENTED_IN,
+    NODEFINE,
+    PLATFORMS
+  ];
 
   /// Example:
   ///
@@ -194,7 +210,6 @@ class IDLAttributeTypeEnum {
   ///
   /// [noinline_doc]
   static const NOINLINE_DOC = const IDLAttributeTypeEnum._("noinline_doc");
-
 
   /// Example:
   ///
@@ -234,13 +249,14 @@ class IDLAttribute {
   final IDLAttributeTypeEnum attributeType;
 
   ///The possible value used on assignment to the attribute.
-  final String attributeValue;
+  final String? attributeValue;
 
-  ///he possible [List] of values used on assignment to the attribute.
-  final List attributeValues;
+  ///The possible [List] of values used on assignment to the attribute.
+  final List? attributeValues;
 
   IDLAttribute(this.attributeType, {this.attributeValue, this.attributeValues});
 
+  @override
   String toString() =>
       "IDLAttribute($attributeType, $attributeValue, $attributeValues)";
 }
@@ -249,7 +265,7 @@ class IDLEnumValue {
   final String name;
   final List<String> documentation;
 
-  IDLEnumValue(this.name, {this.documentation});
+  IDLEnumValue(this.name, {required this.documentation});
 
   String toString() => "IDLEnumValue($name, $documentation)";
 }
@@ -257,6 +273,6 @@ class IDLEnumValue {
 class IDLType {
   final String name;
   final bool isArray;
-  IDLType(this.name, {this.isArray= false});
+  IDLType(this.name, {this.isArray = false});
   String toString() => "IDLType($name, $isArray)";
 }

@@ -1,9 +1,8 @@
 library chrome_idl_mapping;
 
-import 'package:persistent/persistent.dart';
-
 import 'chrome_idl_model.dart';
 
+/*
 /**
  * Map the namespace declaration parse to a [IDLNamespaceDeclaration]
  */
@@ -220,3 +219,14 @@ IDLAttribute idlAttributeAssignedMultiValueMapping(
  */
 IDLAttribute idlAttributeMapping(String name) =>
     new IDLAttribute(_resolveEnum(name));
+*/
+/**
+ * Method to help find IDLAttributeTypeEnum by String name.
+ */
+IDLAttributeTypeEnum resolveEnum(String name) {
+  return IDLAttributeTypeEnum.values.singleWhere(
+    (e) => e.type == name,
+    orElse: () =>
+        throw ArgumentError("$name cannot be resolved IDLAttributeTypeEnum"),
+  );
+}

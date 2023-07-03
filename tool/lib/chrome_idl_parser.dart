@@ -3,6 +3,9 @@ library chrome_idl_parser;
 import 'package:petitparser/parser.dart';
 import 'package:petitparser/petitparser.dart';
 
+import 'chrome_idl_mapping.dart';
+import 'chrome_idl_model.dart';
+
 final reservedNames = [
   "enum",
   "callback",
@@ -28,13 +31,46 @@ class ChromeIDLGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(attributeDeclaration);
 
-  Parser attributeDeclaration() =>
-      ref1(token, '[') &
-      ref0(attribute).plusSeparated(ref1(token, ',')) &
-      ref1(token, ']');
+  /// Parse the enum declarations.
+  Parser enumDeclaration() =>
+      docString +
+      attributeDeclaration.maybe +
+      reserved["enum"] +
+      identifier +
+      braces(enumBody.sepBy(comma)) +
+      semi;
 
-  Parser attribute() =>
-      ref0(identifier) & (ref1(token, '=') & ref0(attributeValue)).optional();
+  /// Parse the enum values.
+  Parser<Sequence2<List<String>, String>> enumBody() =>
+      seq2(ref0(docString), ref0(identifier));
+
+  Parser<IDLAttributeDeclaration> attributeDeclaration() => ref0(attribute)
+      .plusSeparated(ref1(token, ','))
+      .skip(before: char('['), after: char(']'))
+      .map((e) => IDLAttributeDeclaration(e.elements));
+
+  Parser<IDLAttribute> attribute() => ref0(attributeLexical).map((e) {
+        String? attributeValue;
+        List? attributeValues;
+        var parsedValue = e.$2;
+        if (parsedValue is List) {
+          attributeValues = parsedValue;
+        } else if (parsedValue is String) {
+          attributeValue = parsedValue;
+        }
+
+        return IDLAttribute(resolveEnum(e.$1),
+            attributeValue: attributeValue, attributeValues: attributeValues);
+      });
+
+  Parser<(String, Object?)> attributeLexical() =>
+      (ref0(identifier) & (ref1(token, '=') & ref0(attributeValue)).optional())
+          .map((e) {
+        var attributeName = e[0] as String;
+
+        var parsedValue = (e[1] as List?)?[1];
+        return (attributeName, parsedValue);
+      });
 
   Parser attributeValue() =>
       ref0(identifier) |
@@ -43,29 +79,66 @@ class ChromeIDLGrammar extends GrammarDefinition {
       ref0(integer) |
       ref0(integerList);
 
-  Parser stringLiteral() => char('"') & pattern('^"').star() & char('"');
+  Parser<String> stringLiteral() =>
+      seq3(char('"'), pattern('^"').star(), char('"'))
+          .map3((_, e, __) => e)
+          .flatten();
 
   Parser stringLiteralInParentheses() =>
-      ref1(token, '(') & ref0(stringLiteral) & ref1(token, ')');
+      ref0(stringLiteral).skip(before: char('('), after: char(')'));
 
-  Parser integer() => ref1(token, digit().plus());
+  Parser<int> integer() => ref1(token, digit().plus()).flatten().map(int.parse);
 
-  Parser integerList() =>
-      ref1(token, '(') &
-      ref0(integer).plusSeparated(ref1(token, ',')) &
-      ref1(token, ')');
+  Parser<List<int>> integerList() => ref0(integer)
+      .plusSeparated(ref1(token, ','))
+      .skip(before: char('('), after: char(')'))
+      .map((e) => e.elements);
 
-  Parser identifier() => ref0(identifierToken).map((t) => t.input);
-
-  Parser<Token> identifierToken() =>
-      ref1(token, ref0(identifierStart) & ref0(identifierPart).star());
+  Parser<String> identifier() =>
+      ref1(token, ref0(identifierStart) & ref0(identifierPart).star())
+          .map((t) => t.input);
 
   Parser identifierStart() => letter() | anyOf(r'_$');
 
   Parser identifierPart() => ref0(identifierStart) | digit();
+
+  /// Parser all documentation strings and spaces between.
+  Parser<List<String>> docString() => ref0(singleDocString).star();
+
+  Parser<String> singleDocString() => (ref0(singleLineComment) |
+          ref0(multiLineDocComment) |
+          ref0(multiLineComment))
+      .cast<String>();
+
+  Parser<String> singleLineComment() => ref0(newlineLexicalToken)
+      .neg()
+      .star()
+      .skip(before: string('//'), after: ref0(newlineLexicalToken).optional())
+      .map((e) => e.join());
+
+  Parser<String> multiLineDocComment() =>
+      (ref0(multiLineComment) | string('*/').neg())
+          .star()
+          .skip(before: string('/**'), after: string('*/'))
+          .map((e) => e.join());
+
+  Parser<String> multiLineComment() =>
+      (ref0(multiLineComment) | string('*/').neg())
+          .star()
+          .skip(before: string('/*'), after: string('*/'))
+          .map((e) => e.join());
+
+  Parser newlineLexicalToken() => pattern('\n\r');
 }
 
-class ChromeIDLParser extends ChromeIDLGrammar {}
+class ChromeIDLParser {
+  final _parser = ChromeIDLGrammar();
+
+  late final docString = _parser.buildFrom(_parser.docString()).end();
+
+  late final attributeDeclaration =
+      _parser.buildFrom(_parser.attributeDeclaration()).end();
+}
 
 /*      // Attribute where name=value
   (identifier + symbol('=') + identifier

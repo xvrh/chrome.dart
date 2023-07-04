@@ -16,16 +16,20 @@ void main() {
     chromeIDLParser = ChromeIDLParser();
   });
 
-  test('aaa comment with **', () {
-    var doc =
-        trace(chromeIDLParser.docString).parse("/** Some comment */").value;
-    expect(doc.length, equals(1));
-    expect(doc[0], equals(" Some comment "));
-  });
-
   group('ChromeIDLParser.docString.parse', chromeIDLParserDocStringTests);
   group('ChromeIDLParser.attributeDeclaration.parse',
       chromeIDLParserAttributeDeclarationTests);
+  group('ChromeIDLParser.enumBody.parse', chromeIDLParserEnumBodyTests);
+  group('ChromeIDLParser.enumDeclaration.parse',
+      chromeIDLParserEnumDeclarationTests);
+  group('ChromeIDLParser.callbackParameterType.parse',
+      chromeIDLParserCallbackParameterTypeTests);
+  group('ChromeIDLParser.callbackParameters.parse',
+      chromeIDLParserCallbackParameterTests);
+  group('ChromeIDLParser.callbackMethod.parse',
+      chromeIDLParserCallbackMethodTests);
+  group('ChromeIDLParser.callbackDeclaration.parse',
+      chromeIDLParserCallbackDeclarationTests);
 }
 
 void chromeIDLParserDocStringTests() {
@@ -174,191 +178,12 @@ void chromeIDLParserAttributeDeclarationTests() {
   });
 }
 
-/*
-void main() {
-  group('ChromeIDLParser.enumBody.parse', chromeIDLParserEnumBodyTests);
-  group('ChromeIDLParser.enumDeclaration.parse',
-      chromeIDLParserEnumDeclarationTests);
-  group('ChromeIDLParser.callbackParameterType.parse',
-      chromeIDLParserCallbackParameterTypeTests);
-  group('ChromeIDLParser.callbackParameters.parse',
-      chromeIDLParserCallbackParameterTests);
-  group('ChromeIDLParser.callbackMethod.parse',
-      chromeIDLParserCallbackMethodTests);
-  group('ChromeIDLParser.callbackDeclaration.parse',
-      chromeIDLParserCallbackDeclarationTests);
-  group('ChromeIDLParser.fieldType.parse', chromeIDLParserFieldTypeTests);
-  group('ChromeIDLParser.fieldOrType.parse', chromeIDLParserFieldOrTypeTests);
-  group('ChromeIDLParser.fieldMethodParameters.parse',
-      chromeIDLParserFieldMethodParametersTests);
-  group('ChromeIDLParser.typeBody.parse', chromeIDLParserTypeBodyTests);
-  group('ChromeIDLParser.typeDeclaration.parse',
-      chromeIDLParserTypeDeclarationTests);
-  group('ChromeIDLParser.methods.parser', chromeIDLParserMethodsTests);
-  group('ChromeIDLParser.functionDeclaration.parser',
-      chromeIDLParserFunctionDeclarationTests);
-  group('ChromeIDLParser.eventDeclaration.parser',
-      chromeIDLParserEventDeclarationTests);
-  group('ChromeIDLParser.namespaceDeclaration.parser',
-      chromeIDLParserNamespaceDeclarationTests);
-
-  group('ChromeIDLParser misc parsing tests', miscParsingTests);
-}
-
-void chromeIDLParserDocStringTests() {
-  test('comment with **', () {
-    var doc = chromeIDLParser.docString.parse("/** Some comment */");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(1));
-    expect(doc[0], equals(" Some comment "));
-  });
-
-  test('comment with ** multiline', () {
-    var doc = chromeIDLParser.docString.parse("""
-/**
- * Some comment
- *
- * Some comment information.
- * Some more comment information.
- *
- */""");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(1));
-    expect(
-        doc[0],
-        equals('\n'
-            ' * Some comment\n'
-            ' *\n'
-            ' * Some comment information.\n'
-            ' * Some more comment information.\n'
-            ' *\n'
-            ' '));
-  });
-
-  test('comment with *', () {
-    var doc = chromeIDLParser.docString.parse("/* Some comment */");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(1));
-    expect(doc[0], equals(" Some comment "));
-  });
-
-  test('comment with * multiline', () {
-    var doc = chromeIDLParser.docString.parse("""
-/*
- * Some comment
- *
- * Some comment information.
- * Some more comment information.
- *
- */""");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(1));
-    expect(
-        doc[0],
-        equals('\n'
-            ' * Some comment\n'
-            ' *\n'
-            ' * Some comment information.\n'
-            ' * Some more comment information.\n'
-            ' *\n'
-            ' '));
-  });
-
-  test('comment with //', () {
-    var doc = chromeIDLParser.docString.parse("// Some comment\n");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(1));
-    expect(doc[0], equals(" Some comment"));
-  });
-
-  test('comment with // multiline', () {
-    var doc = chromeIDLParser.docString.parse("""
-//
-// Some comment
-//
-// Some comment information.
-// Some more comment information.
-//
-//""");
-    expect(doc.runtimeType.toString(), equals("List"));
-    expect(doc.length, equals(6));
-    expect(doc[0], equals(''));
-    expect(doc[1], equals(' Some comment'));
-    expect(doc[2], equals(''));
-    expect(doc[3], equals(' Some comment information.'));
-    expect(doc[4], equals(' Some more comment information.'));
-    expect(doc[5], equals(''));
-  });
-}
-
-void chromeIDLParserAttributeDeclarationTests() {
-  test('attribute with [instanceOf=Window]', () {
-    IDLAttributeDeclaration attributeDeclaration =
-        chromeIDLParser.attributeDeclaration.parse("[instanceOf=Window]");
-
-    expect(attributeDeclaration, isNotNull);
-    List<IDLAttribute> attributes = attributeDeclaration.attributes;
-    expect(attributes.length, equals(1));
-    IDLAttribute attribute = attributes[0];
-    expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(attribute.attributeValue, equals("Window"));
-  });
-
-  test('attribute with [nodoc]', () {
-    IDLAttributeDeclaration attributeDeclaration =
-        chromeIDLParser.attributeDeclaration.parse("[nodoc]");
-
-    expect(attributeDeclaration, isNotNull);
-    List<IDLAttribute> attributes = attributeDeclaration.attributes;
-    expect(attributes.length, equals(1));
-    IDLAttribute attribute = attributes[0];
-    expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
-  });
-
-  test('attribute with [legalValues=(16,32)]', () {
-    IDLAttributeDeclaration attributeDeclaration =
-        chromeIDLParser.attributeDeclaration.parse("[legalValues=(16,32)]");
-
-    expect(attributeDeclaration, isNotNull);
-    List<IDLAttribute> attributes = attributeDeclaration.attributes;
-    expect(attributes.length, equals(1));
-    IDLAttribute attribute = attributes[0];
-    expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.LEGAL_VALUES));
-    expect(attribute.attributeValues.length, equals(2));
-    expect(attribute.attributeValues[0], equals(16));
-    expect(attribute.attributeValues[1], equals(32));
-  });
-
-  test('attribute with [nocompile, nodoc]', () {
-    IDLAttributeDeclaration attributeDeclaration =
-        chromeIDLParser.attributeDeclaration.parse("[nocompile, nodoc]");
-
-    expect(attributeDeclaration, isNotNull);
-    List<IDLAttribute> attributes = attributeDeclaration.attributes;
-    expect(attributeDeclaration.attributes.length, equals(2));
-    IDLAttribute attribute = attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NOCOMPILE));
-    attribute = attributes[1];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
-  });
-
-  test('attribute with [implemented_in]', () {
-    IDLAttributeDeclaration attributeDeclaration =
-        chromeIDLParser.attributeDeclaration.parse('[implemented_in="a/b.c"]');
-
-    expect(attributeDeclaration, isNotNull);
-  });
-}
-
 void chromeIDLParserEnumBodyTests() {
   test('enum value with comments', () {
-    IDLEnumValue enumValue = chromeIDLParser.enumBody.parse("""
+    var enumValue = chromeIDLParser.enumBody.parse("""
 // A comment about a value.
 value
-""");
+""").value;
     expect(enumValue, isNotNull);
     expect(enumValue.name, equals("value"));
     expect(enumValue.documentation.length, equals(1));
@@ -366,11 +191,11 @@ value
   });
 
   test('enum value with multiline comments', () {
-    IDLEnumValue enumValue = chromeIDLParser.enumBody.parse("""
+    var enumValue = chromeIDLParser.enumBody.parse("""
 // A comment about a value.
 // A second line of comments.
 value
-""");
+""").value;
     expect(enumValue, isNotNull);
     expect(enumValue.name, equals("value"));
     expect(enumValue.documentation.length, equals(2));
@@ -379,7 +204,7 @@ value
   });
 
   test('enum value without comments', () {
-    IDLEnumValue enumValue = chromeIDLParser.enumBody.parse("value");
+    var enumValue = chromeIDLParser.enumBody.parse("value").value;
     expect(enumValue, isNotNull);
     expect(enumValue.name, equals("value"));
     expect(enumValue.documentation, isEmpty);
@@ -388,8 +213,8 @@ value
 
 void chromeIDLParserEnumDeclarationTests() {
   test('enum single line declaration', () {
-    IDLEnumDeclaration enumDeclaration = chromeIDLParser.enumDeclaration
-        .parse("enum Values {value1, value_2, VALUE};");
+    var enumDeclaration = chromeIDLParser.enumDeclaration
+        .parse("enum Values {value1, value_2, VALUE};").value;
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation, isEmpty);
@@ -404,14 +229,14 @@ void chromeIDLParserEnumDeclarationTests() {
   });
 
   test('enum single line declaration with attribute', () {
-    IDLEnumDeclaration enumDeclaration = chromeIDLParser.enumDeclaration
-        .parse("[nodoc] enum Values {value1, value_2, VALUE};");
+    var enumDeclaration = chromeIDLParser.enumDeclaration
+        .parse("[nodoc] enum Values {value1, value_2, VALUE};").value;
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation, isEmpty);
     expect(enumDeclaration.attribute, isNotNull);
-    expect(enumDeclaration.attribute.attributes.length, equals(1));
-    expect(enumDeclaration.attribute.attributes[0].attributeType,
+    expect(enumDeclaration.attribute!.attributes.length, equals(1));
+    expect(enumDeclaration.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.NODOC));
     expect(enumDeclaration.enums.length, equals(3));
     expect(enumDeclaration.enums[0].name, equals("value1"));
@@ -423,8 +248,8 @@ void chromeIDLParserEnumDeclarationTests() {
   });
 
   test('enum multiline with comments', () {
-    IDLEnumDeclaration enumDeclaration =
-        chromeIDLParser.enumDeclaration.parse("""
+    var enumDeclaration =
+    chromeIDLParser.enumDeclaration.parse("""
 // Comments for Values
 enum Values {
 
@@ -436,7 +261,7 @@ value1,
 value_2,
 
 // Comments for Values
-VALUE};""");
+VALUE};""").value;
 
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
@@ -461,8 +286,8 @@ VALUE};""");
   });
 
   test('enum multiline with comments attribute', () {
-    IDLEnumDeclaration enumDeclaration =
-        chromeIDLParser.enumDeclaration.parse("""
+    var enumDeclaration =
+    chromeIDLParser.enumDeclaration.parse("""
 // Comments for Values
 [nocompile, nodoc]
 enum Values {
@@ -475,14 +300,14 @@ value1,
 value_2,
 
 // Comments for Values
-VALUE};""");
+VALUE};""").value;
 
     expect(enumDeclaration, isNotNull);
 
     expect(enumDeclaration.attribute, isNotNull);
-    List<IDLAttribute> attributes = enumDeclaration.attribute.attributes;
+    var attributes = enumDeclaration.attribute!.attributes;
     expect(attributes.length, equals(2));
-    IDLAttribute attribute = attributes[0];
+    var attribute = attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NOCOMPILE));
     attribute = attributes[1];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
@@ -512,7 +337,7 @@ VALUE};""");
 void chromeIDLParserCallbackParameterTypeTests() {
   test('callback parameter type with array', () {
     IDLType callbackParameterType =
-        chromeIDLParser.callbackParameterType.parse("Device[]");
+    chromeIDLParser.callbackParameterType.parse("Device[]").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("Device"));
     expect(callbackParameterType.isArray, isTrue);
@@ -520,7 +345,7 @@ void chromeIDLParserCallbackParameterTypeTests() {
 
   test('callback parameter type without array', () {
     IDLType callbackParameterType =
-        chromeIDLParser.callbackParameterType.parse("Device");
+    chromeIDLParser.callbackParameterType.parse("Device").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("Device"));
     expect(callbackParameterType.isArray, isFalse);
@@ -528,7 +353,7 @@ void chromeIDLParserCallbackParameterTypeTests() {
 
   test('callback parameter type with object array', () {
     IDLType callbackParameterType =
-        chromeIDLParser.callbackParameterType.parse("object[]");
+    chromeIDLParser.callbackParameterType.parse("object[]").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("object"));
     expect(callbackParameterType.isArray, isTrue);
@@ -536,7 +361,7 @@ void chromeIDLParserCallbackParameterTypeTests() {
 
   test('callback parameter type without object array', () {
     IDLType callbackParameterType =
-        chromeIDLParser.callbackParameterType.parse("object");
+    chromeIDLParser.callbackParameterType.parse("object").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("object"));
     expect(callbackParameterType.isArray, isFalse);
@@ -546,7 +371,7 @@ void chromeIDLParserCallbackParameterTypeTests() {
 void chromeIDLParserCallbackParameterTests() {
   test('callback parameter with attribute', () {
     IDLParameter callbackParameter = chromeIDLParser.callbackParameters
-        .parse("[instanceOf=Entry] object entry");
+        .parse("[instanceOf=Entry] object entry").value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("entry"));
@@ -591,7 +416,7 @@ void chromeIDLParserCallbackParameterTests() {
 
   test('callback parameter with array', () {
     IDLParameter callbackParameter =
-        chromeIDLParser.callbackParameters.parse("Device[] result");
+    chromeIDLParser.callbackParameters.parse("Device[] result");
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("result"));
@@ -604,7 +429,7 @@ void chromeIDLParserCallbackParameterTests() {
 
   test('callback parameter', () {
     IDLParameter callbackParameter =
-        chromeIDLParser.callbackParameters.parse("Device device");
+    chromeIDLParser.callbackParameters.parse("Device device");
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("device"));
@@ -619,7 +444,7 @@ void chromeIDLParserCallbackParameterTests() {
 void chromeIDLParserCallbackMethodTests() {
   test('with no parameters', () {
     List<IDLParameter> parameters =
-        chromeIDLParser.callbackMethod.parse("void()");
+    chromeIDLParser.callbackMethod.parse("void()");
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(0));
@@ -632,7 +457,7 @@ void chromeIDLParserCallbackMethodTests() {
 
   test('with one parameter', () {
     List<IDLParameter> parameters =
-        chromeIDLParser.callbackMethod.parse("void (long result)");
+    chromeIDLParser.callbackMethod.parse("void (long result)");
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
@@ -724,7 +549,7 @@ InputDeviceInfo[] inputInfo)""");
   test('with `or` parameter type', () {
     // void ((long or DOMString) x)
     List<IDLParameter> parameters =
-        chromeIDLParser.callbackMethod.parse("void ((long or DOMString) x)");
+    chromeIDLParser.callbackMethod.parse("void ((long or DOMString) x)");
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
@@ -757,7 +582,7 @@ InputDeviceInfo[] inputInfo)""");
 void chromeIDLParserCallbackDeclarationTests() {
   test('single line', () {
     IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse("""
+    chromeIDLParser.callbackDeclaration.parse("""
 callback GetAuthTokenCallback = void (optional DOMString token);
 """);
 
@@ -773,7 +598,7 @@ callback GetAuthTokenCallback = void (optional DOMString token);
 
   test('single line with attributes', () {
     IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse("""
+    chromeIDLParser.callbackDeclaration.parse("""
 [inline_doc] callback GetAuthTokenCallback = void (optional DOMString token);
 """);
 
@@ -782,7 +607,7 @@ callback GetAuthTokenCallback = void (optional DOMString token);
 
   test('single line with comments', () {
     IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse("""
+    chromeIDLParser.callbackDeclaration.parse("""
 // Some comment.
 callback EntryCallback = void ([instanceOf=Entry] object entry);
 """);
@@ -799,14 +624,14 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute.attributes.length,
         equals(1));
     IDLAttribute attribute =
-        callbackDeclaration.parameters[0].attribute.attributes[0];
+    callbackDeclaration.parameters[0].attribute.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
   test('multiline', () {
     List<IDLCallbackDeclaration> callbackDeclarations =
-        chromeIDLParser.callbackDeclaration.many.parse("""
+    chromeIDLParser.callbackDeclaration.many.parse("""
 callback GetAuthTokenCallback = void (optional DOMString token);
 callback EntryCallback = void ([instanceOf=Entry] object entry);
 """);
@@ -835,14 +660,14 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute.attributes.length,
         equals(1));
     IDLAttribute attribute =
-        callbackDeclaration.parameters[0].attribute.attributes[0];
+    callbackDeclaration.parameters[0].attribute.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
   test('multiline with comments', () {
     List<IDLCallbackDeclaration> callbackDeclarations =
-        chromeIDLParser.callbackDeclaration.many.parse("""
+    chromeIDLParser.callbackDeclaration.many.parse("""
 // Some comment.
 callback GetAuthTokenCallback = void (optional DOMString token);
 /* Another comment. */
@@ -875,11 +700,33 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute.attributes.length,
         equals(1));
     IDLAttribute attribute =
-        callbackDeclaration.parameters[0].attribute.attributes[0];
+    callbackDeclaration.parameters[0].attribute.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 }
+
+
+/*
+void main() {
+  group('ChromeIDLParser.fieldType.parse', chromeIDLParserFieldTypeTests);
+  group('ChromeIDLParser.fieldOrType.parse', chromeIDLParserFieldOrTypeTests);
+  group('ChromeIDLParser.fieldMethodParameters.parse',
+      chromeIDLParserFieldMethodParametersTests);
+  group('ChromeIDLParser.typeBody.parse', chromeIDLParserTypeBodyTests);
+  group('ChromeIDLParser.typeDeclaration.parse',
+      chromeIDLParserTypeDeclarationTests);
+  group('ChromeIDLParser.methods.parser', chromeIDLParserMethodsTests);
+  group('ChromeIDLParser.functionDeclaration.parser',
+      chromeIDLParserFunctionDeclarationTests);
+  group('ChromeIDLParser.eventDeclaration.parser',
+      chromeIDLParserEventDeclarationTests);
+  group('ChromeIDLParser.namespaceDeclaration.parser',
+      chromeIDLParserNamespaceDeclarationTests);
+
+  group('ChromeIDLParser misc parsing tests', miscParsingTests);
+}
+
 
 void chromeIDLParserFieldTypeTests() {
   test('field type with array', () {

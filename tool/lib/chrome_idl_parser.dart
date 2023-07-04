@@ -31,18 +31,25 @@ class ChromeIDLGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(attributeDeclaration);
 
+  Parser<IDLType> callbackParameterType() => throw UnimplementedError();
+
+  Parser<IDLParameter> callbackParameter() => throw UnimplementedError();
+
   /// Parse the enum declarations.
-  Parser enumDeclaration() =>
-      docString +
-      attributeDeclaration.maybe +
-      reserved["enum"] +
-      identifier +
-      braces(enumBody.sepBy(comma)) +
-      semi;
+  Parser<IDLEnumDeclaration> enumDeclaration() => seq4(
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref0(identifier).skip(before: ref1(token, 'enum')),
+        ref0(enumBody)
+            .plusSeparated(ref1(token, ','))
+            .skip(before: ref1(token, '{'), after: ref1(token, '}'))
+            .skip(after: ref1(token, ';')),
+      ).map4((doc, attr, id, body) => IDLEnumDeclaration(id, body.elements,
+          documentation: doc, attribute: attr));
 
   /// Parse the enum values.
-  Parser<Sequence2<List<String>, String>> enumBody() =>
-      seq2(ref0(docString), ref0(identifier));
+  Parser<IDLEnumValue> enumBody() => seq2(ref0(docString), ref0(identifier))
+      .map2((doc, id) => IDLEnumValue(id, documentation: doc));
 
   Parser<IDLAttributeDeclaration> attributeDeclaration() => ref0(attribute)
       .plusSeparated(ref1(token, ','))
@@ -138,6 +145,17 @@ class ChromeIDLParser {
 
   late final attributeDeclaration =
       _parser.buildFrom(_parser.attributeDeclaration()).end();
+
+  late final enumBody = _parser.buildFrom(_parser.enumBody()).end();
+
+  late final enumDeclaration =
+      _parser.buildFrom(_parser.enumDeclaration()).end();
+
+  late final callbackParameterType =
+      _parser.buildFrom(_parser.callbackParameterType()).end();
+
+  late final callbackParameters =
+  _parser.buildFrom(_parser.callbackParameters()).end();
 }
 
 /*      // Attribute where name=value

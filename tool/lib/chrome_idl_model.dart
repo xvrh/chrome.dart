@@ -67,14 +67,14 @@ class IDLEventDeclaration {
   String toString() =>
       "IDLEventDeclaration($name, $attribute, $methods, $documentation)";
 }
-
+*/
 /// This class provides a model for IDL-specified callbacks.
 class IDLCallbackDeclaration {
   final String name;
   final List<IDLParameter> parameters;
   final List<String> documentation;
 
-  IDLCallbackDeclaration(this.name, this.parameters, {this.documentation});
+  IDLCallbackDeclaration(this.name, this.parameters, {required this.documentation});
 
   String toString() =>
       "IDLCallbackDeclaration($name, $parameters, $documentation)";
@@ -83,17 +83,17 @@ class IDLCallbackDeclaration {
 /// This class provides a model for IDL-specified enums.
 class IDLEnumDeclaration {
   final String name;
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
   final List<IDLEnumValue> enums; // TODO: rename enumValue
   final List<String> documentation;
 
   IDLEnumDeclaration(this.name, this.enums,
-      {this.attribute, this.documentation});
+      {this.attribute, required this.documentation});
 
   String toString() =>
       "IDLEnumDeclaration($name, $enums, $attribute, $documentation)";
 }
-*/
+
 /// This class provides a model for IDL-specified attributes.
 class IDLAttributeDeclaration {
   final List<IDLAttribute> attributes;

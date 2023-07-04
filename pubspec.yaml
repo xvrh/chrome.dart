@@ -12,5 +12,7 @@ dev_dependencies:
   mockito:
   path:
   petitparser:
+    git:
+      url: https://github.com/petitparser/dart-petitparser.git
   test:
 

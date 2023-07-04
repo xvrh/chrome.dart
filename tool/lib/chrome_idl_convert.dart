@@ -1,5 +1,7 @@
 library chrome_idl_convert;
 
+import 'package:collection/collection.dart';
+
 import "chrome_idl_model.dart";
 import 'chrome_model.dart';
 import '../src/utils.dart';
@@ -13,42 +15,35 @@ ChromeLibrary convert(IDLNamespaceDeclaration namespace) =>
     new IDLConverter().convert(namespace);
 
 class IDLConverter {
-  IDLNamespaceDeclaration namespace;
-  ChromeLibrary library;
+  late IDLNamespaceDeclaration namespace;
+  late ChromeLibrary library;
 
   ChromeLibrary convert(IDLNamespaceDeclaration namespace) {
     this.namespace = namespace;
 
-    library = new ChromeLibrary(namespace.name);
+    library = ChromeLibrary(namespace.name);
 
     library.documentation =
         _cleanDocComments(namespace.documentation.join('\n'));
 
-    if (namespace.typeDeclarations != null) {
-      library.types.addAll(
-          namespace.typeDeclarations.map(_convertTypeDeclaration));
+    library.types
+        .addAll(namespace.typeDeclarations.map(_convertTypeDeclaration));
+
+    if (namespace.functionDeclaration case var declaration?) {
+      library.methods.addAll(declaration.methods.map(_convertMethod));
     }
 
-    if (namespace.functionDeclaration != null) {
-      library.methods.addAll(
-          namespace.functionDeclaration.methods.map(_convertMethod));
+    if (namespace.eventDeclaration case var declaration?) {
+      library.events.addAll(declaration.methods.map(_convertEvent));
     }
 
-    if (namespace.eventDeclaration != null) {
-      library.events.addAll(
-          namespace.eventDeclaration.methods.map(_convertEvent));
-    }
-
-    if (namespace.enumDeclarations != null) {
-      library.enumTypes.addAll(
-          namespace.enumDeclarations.map(_convertEnum));
-    }
+    library.enumTypes.addAll(namespace.enumDeclarations.map(_convertEnum));
 
     return library;
   }
 
-
-  ChromeDeclaredType _convertTypeDeclaration(IDLTypeDeclaration typeDeclaration) {
+  ChromeDeclaredType _convertTypeDeclaration(
+      IDLTypeDeclaration typeDeclaration) {
     ChromeDeclaredType chromeDeclaredType = new ChromeDeclaredType();
 
     chromeDeclaredType.name = typeDeclaration.name;
@@ -62,7 +57,8 @@ class IDLConverter {
     int index = chromeDeclaredType.name.lastIndexOf('.');
 
     if (index != -1) {
-      chromeDeclaredType.qualifier = chromeDeclaredType.name.substring(0, index);
+      chromeDeclaredType.qualifier =
+          chromeDeclaredType.name.substring(0, index);
       chromeDeclaredType.name = chromeDeclaredType.name.substring(index + 1);
     }
 
@@ -70,8 +66,8 @@ class IDLConverter {
   }
 
   ChromeProperty _convertProperty(IDLField member) {
-    ChromeProperty property = new ChromeProperty(member.name,
-        _convertType(member.type));
+    ChromeProperty property =
+        new ChromeProperty(member.name, _convertType(member.type));
     return property;
   }
 
@@ -83,8 +79,7 @@ class IDLConverter {
     chromeMethod.returns = _convertType(idlMethod.returnType);
     chromeMethod.params = idlMethod.parameters.map(_convertParameter).toList();
 
-    if (!idlMethod.parameters.isEmpty &&
-        idlMethod.parameters.last.isCallback) {
+    if (!idlMethod.parameters.isEmpty && idlMethod.parameters.last.isCallback) {
       ChromeType chromeType = chromeMethod.params.removeLast();
       chromeMethod.returns = _convertToFuture(chromeMethod, chromeType);
     } else {
@@ -92,7 +87,6 @@ class IDLConverter {
         chromeMethod.returns = ChromeType.VOID;
       }
     }
-
 
     return chromeMethod;
   }
@@ -103,8 +97,8 @@ class IDLConverter {
 
     List<ChromeType> params = chromeType.parameters;
 
-    IDLCallbackDeclaration callback = namespace.callbackDeclarations.firstWhere(
-        (c) => c.name == chromeType.refName, orElse: () => null);
+    IDLCallbackDeclaration? callback = namespace.callbackDeclarations
+        .firstWhereOrNull((c) => c.name == chromeType.refName);
 
     if (callback != null) {
       params = callback.parameters.map(_convertParameter).toList();
@@ -112,15 +106,16 @@ class IDLConverter {
 
     if (params.length == 1) {
       future.parameters.add(params.first);
-      future.documentation = _cleanDocComments(callback.documentation.join('\n'));
+      future.documentation =
+          _cleanDocComments(callback!.documentation.join('\n'));
     } else if (params.length == 2) {
-      ChromeType type = new ChromeType(type: 'var',
-          refName: "${titleCase(method.name)}Result");
+      ChromeType type = new ChromeType(
+          type: 'var', refName: "${titleCase(method.name)}Result");
 
       type.combinedReturnValue = true;
       type.parameters.addAll(params);
 
-      library.returnTypes.add(new ChromeReturnType(type.refName, params));
+      library.returnTypes.add(ChromeReturnType(type.refName!, params));
 
       future.parameters.add(type);
       future.documentation =
@@ -147,13 +142,14 @@ class IDLConverter {
 
     if (parameter.type.isArray) {
       var idlType = parameter.type;
-      ChromeType elementType = new ChromeType(type: idlToDartType(idlType),
-          refName: idlToDartRefName(idlType));
+      ChromeType elementType = new ChromeType(
+          type: idlToDartType(idlType), refName: idlToDartRefName(idlType));
       param = new ChromeType(type: "List");
       param.parameters.add(elementType);
       param.name = parameter.name;
     } else {
-      param = new ChromeType(type: idlToDartType(parameter.type),
+      param = new ChromeType(
+          type: idlToDartType(parameter.type),
           refName: idlToDartRefName(parameter.type));
       param.name = parameter.name;
     }
@@ -164,7 +160,7 @@ class IDLConverter {
   }
 
   ChromeEnumType _convertEnum(IDLEnumDeclaration idlEnumDeclaration) {
-    ChromeEnumType chromeEnumType = new ChromeEnumType();
+    ChromeEnumType chromeEnumType = ChromeEnumType();
     chromeEnumType.name = idlEnumDeclaration.name;
     chromeEnumType.documentation =
         _cleanDocComments(idlEnumDeclaration.documentation.join('\n'));
@@ -181,20 +177,17 @@ class IDLConverter {
   }
 
   ChromeType _convertType(IDLType idlType) {
-    if (idlType == null) {
-      return null;
-    } else if (idlType.name == "void") {
+    if (idlType.name == "void") {
       return ChromeType.VOID;
     } else if (idlType.isArray) {
       ChromeType chromeType = new ChromeType(type: "List");
-      ChromeType elementType = new ChromeType(type: idlToDartType(idlType),
-          refName: idlToDartRefName(idlType));
+      ChromeType elementType = new ChromeType(
+          type: idlToDartType(idlType), refName: idlToDartRefName(idlType));
       chromeType.parameters.add(elementType);
       library.addImport(getImportForClass(chromeType.refName));
       return chromeType;
     } else {
-      ChromeType chromeType = new ChromeType();
-      chromeType.type = idlToDartType(idlType);
+      ChromeType chromeType = ChromeType(type: idlToDartType(idlType));
       chromeType.refName = idlToDartRefName(idlType);
       library.addImport(getImportForClass(chromeType.refName));
       return chromeType;
@@ -202,23 +195,23 @@ class IDLConverter {
   }
 
   final TYPE_MAP = {
-                    'DOMString': 'String',
-                    'boolean': 'bool',
-                    'double': 'num',
-                    'long': 'int',
-                    'any': 'dynamic'
+    'DOMString': 'String',
+    'boolean': 'bool',
+    'double': 'num',
+    'long': 'int',
+    'any': 'dynamic'
   };
 
   String idlToDartType(IDLType type) {
     if (TYPE_MAP.containsKey(type.name)) {
-      return TYPE_MAP[type.name];
+      return TYPE_MAP[type.name]!;
     } else {
       // NOTE:
       return 'var';
     }
   }
 
-  String idlToDartRefName(IDLType type) {
+  String? idlToDartRefName(IDLType type) {
     if (TYPE_MAP.containsKey(type.name)) {
       return null;
     } else if (type.name == 'object') {
@@ -228,7 +221,7 @@ class IDLConverter {
     }
   }
 
-  String _cleanDocComments(String str) {
+  String? _cleanDocComments(String? str) {
     if (str == null) {
       return null;
     }
@@ -247,24 +240,20 @@ class IDLConverter {
 
     // |foo| ==> [foo]
     str = str.replaceAllMapped(
-        new RegExp(r"\|([\.\w]*)\|\s*:"),
-        (Match m) => "\n[${m.group(1)}]:");
+        new RegExp(r"\|([\.\w]*)\|\s*:"), (Match m) => "\n[${m.group(1)}]:");
     str = str.replaceAll(new RegExp('\n\s?(\n\s?)+'), '\n\n');
 
     // |width|x|height| ==> [width]x[height]
     str = str.replaceAllMapped(
-        new RegExp(r"\|(\w+)\|"),
-        (Match m) => "[${m.group(1)}]");
+        new RegExp(r"\|(\w+)\|"), (Match m) => "[${m.group(1)}]");
 
     // $(ref:sessions) ==> [sessions]
     str = str.replaceAllMapped(
-        new RegExp(r"\$\(ref:([\.\w]*)\)"),
-        (Match m) => "[${m.group(1)}]");
+        new RegExp(r"\$\(ref:([\.\w]*)\)"), (Match m) => "[${m.group(1)}]");
 
     // $ref:runtime.onConnect ==> [runtime.onConnect]
     str = str.replaceAllMapped(
-        new RegExp(r"\$ref:([\.\w]*\w)"),
-        (Match m) => "[${m.group(1)}]");
+        new RegExp(r"\$ref:([\.\w]*\w)"), (Match m) => "[${m.group(1)}]");
 
     str = str.replaceAll('<code>', '`');
     str = str.replaceAll('</code>', '`');

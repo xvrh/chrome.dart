@@ -8,12 +8,12 @@ import 'dart:convert';
 import 'dart:io';
 
 class Overrides {
-  Map renameNamespaceMap;
+  late Map<String, String> renameNamespaceMap;
 
-  List<String> suppressClassList;
-  Map renameClassMap;
+  late List<String> suppressClassList;
+  late Map<String, String> renameClassMap;
 
-  List<String> overrideClasses;
+  late List<String> overrideClasses;
 
   Overrides() {
     _init({});
@@ -24,26 +24,18 @@ class Overrides {
   }
 
   void _init(Map<String, dynamic> m) {
-    renameNamespaceMap = m['renameNamespace'];
-    if (renameNamespaceMap == null) {
-      renameNamespaceMap = {};
-    }
+    renameNamespaceMap =
+        (m['renameNamespace'] as Map?)?.cast<String, String>() ?? {};
 
-    suppressClassList = m['suppressClass'];
-    if (suppressClassList == null) {
-      suppressClassList = [];
-    }
+    suppressClassList = (m['suppressClass'] as List?)?.cast<String>() ?? [];
 
-    renameClassMap = m['renameClass'];
-    if (renameClassMap == null) {
-      renameClassMap = {};
-    }
+    renameClassMap = (m['renameClass'] as Map?)?.cast<String, String>() ?? {};
 
-    overrideClasses = m['overrideClass'] == null ? [] : m['overrideClass'];
+    overrideClasses = (m['overrideClass'] as List?)?.cast<String>() ?? [];
   }
 
-  String namespaceRename(String name) {
-    return renameNamespaceMap[name] != null ? renameNamespaceMap[name] : null;
+  String? namespaceRename(String name) {
+    return renameNamespaceMap[name];
   }
 
   bool suppressClass(String libraryName, String name) {
@@ -53,9 +45,7 @@ class Overrides {
 
   String className(String libraryName, String name) {
     String qualifiedName = '${libraryName}.${name}';
-    return renameClassMap[qualifiedName] != null
-        ? renameClassMap[qualifiedName]
-        : name;
+    return renameClassMap[qualifiedName] ?? name;
   }
 
   /**
@@ -68,7 +58,7 @@ class Overrides {
         .where((String str) => str.startsWith('${libraryName}.'));
 
     return keys.map((key) {
-      String newName = renameClassMap[key];
+      String? newName = renameClassMap[key]!;
       String oldName = key.substring(key.lastIndexOf('.') + 1);
       return [oldName, newName];
     }).toList();

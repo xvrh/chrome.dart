@@ -30,6 +30,23 @@ void main() {
       chromeIDLParserCallbackMethodTests);
   group('ChromeIDLParser.callbackDeclaration.parse',
       chromeIDLParserCallbackDeclarationTests);
+  group('ChromeIDLParser.fieldType.parse', chromeIDLParserFieldTypeTests);
+  group('ChromeIDLParser.fieldOrType.parse', chromeIDLParserFieldOrTypeTests);
+  group('ChromeIDLParser.fieldMethodParameters.parse',
+      chromeIDLParserFieldMethodParametersTests);
+  group('ChromeIDLParser.typeBody.parse', chromeIDLParserTypeBodyTests);
+  group('ChromeIDLParser.typeDeclaration.parse',
+      chromeIDLParserTypeDeclarationTests);
+  group('ChromeIDLParser.methods.parser', chromeIDLParserMethodsTests);
+  group('ChromeIDLParser.functionDeclaration.parser',
+      chromeIDLParserFunctionDeclarationTests);
+  group('ChromeIDLParser.eventDeclaration.parser',
+      chromeIDLParserEventDeclarationTests);
+  group(
+      'chromeIDLParser.namespaceBody.parse', chromeIDLParserNamespaceBodyTests);
+  group('ChromeIDLParser.namespaceDeclaration.parser',
+      chromeIDLParserNamespaceDeclarationTests);
+  group('ChromeIDLParser misc parsing tests', miscParsingTests);
 }
 
 void chromeIDLParserDocStringTests() {
@@ -214,7 +231,8 @@ value
 void chromeIDLParserEnumDeclarationTests() {
   test('enum single line declaration', () {
     var enumDeclaration = chromeIDLParser.enumDeclaration
-        .parse("enum Values {value1, value_2, VALUE};").value;
+        .parse("enum Values {value1, value_2, VALUE};")
+        .value;
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation, isEmpty);
@@ -230,7 +248,8 @@ void chromeIDLParserEnumDeclarationTests() {
 
   test('enum single line declaration with attribute', () {
     var enumDeclaration = chromeIDLParser.enumDeclaration
-        .parse("[nodoc] enum Values {value1, value_2, VALUE};").value;
+        .parse("[nodoc] enum Values {value1, value_2, VALUE};")
+        .value;
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation, isEmpty);
@@ -248,8 +267,7 @@ void chromeIDLParserEnumDeclarationTests() {
   });
 
   test('enum multiline with comments', () {
-    var enumDeclaration =
-    chromeIDLParser.enumDeclaration.parse("""
+    var enumDeclaration = chromeIDLParser.enumDeclaration.parse("""
 // Comments for Values
 enum Values {
 
@@ -286,8 +304,7 @@ VALUE};""").value;
   });
 
   test('enum multiline with comments attribute', () {
-    var enumDeclaration =
-    chromeIDLParser.enumDeclaration.parse("""
+    var enumDeclaration = chromeIDLParser.enumDeclaration.parse("""
 // Comments for Values
 [nocompile, nodoc]
 enum Values {
@@ -336,32 +353,32 @@ VALUE};""").value;
 
 void chromeIDLParserCallbackParameterTypeTests() {
   test('callback parameter type with array', () {
-    IDLType callbackParameterType =
-    chromeIDLParser.callbackParameterType.parse("Device[]").value;
+    var callbackParameterType =
+        chromeIDLParser.callbackParameterType.parse("Device[]").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("Device"));
     expect(callbackParameterType.isArray, isTrue);
   });
 
   test('callback parameter type without array', () {
-    IDLType callbackParameterType =
-    chromeIDLParser.callbackParameterType.parse("Device").value;
+    var callbackParameterType =
+        chromeIDLParser.callbackParameterType.parse("Device").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("Device"));
     expect(callbackParameterType.isArray, isFalse);
   });
 
   test('callback parameter type with object array', () {
-    IDLType callbackParameterType =
-    chromeIDLParser.callbackParameterType.parse("object[]").value;
+    var callbackParameterType =
+        chromeIDLParser.callbackParameterType.parse("object[]").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("object"));
     expect(callbackParameterType.isArray, isTrue);
   });
 
   test('callback parameter type without object array', () {
-    IDLType callbackParameterType =
-    chromeIDLParser.callbackParameterType.parse("object").value;
+    var callbackParameterType =
+        chromeIDLParser.callbackParameterType.parse("object").value;
     expect(callbackParameterType, isNotNull);
     expect(callbackParameterType.name, equals("object"));
     expect(callbackParameterType.isArray, isFalse);
@@ -370,8 +387,9 @@ void chromeIDLParserCallbackParameterTypeTests() {
 
 void chromeIDLParserCallbackParameterTests() {
   test('callback parameter with attribute', () {
-    IDLParameter callbackParameter = chromeIDLParser.callbackParameters
-        .parse("[instanceOf=Entry] object entry").value;
+    var callbackParameter = chromeIDLParser.callbackParameters
+        .parse("[instanceOf=Entry] object entry")
+        .value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("entry"));
@@ -379,15 +397,16 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.isOptional, isFalse);
     expect(callbackParameter.type.isArray, isFalse);
     expect(callbackParameter.type.name, equals("Entry"));
-    expect(callbackParameter.attribute.attributes[0].attributeType,
+    expect(callbackParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(callbackParameter.attribute.attributes[0].attributeValue,
+    expect(callbackParameter.attribute!.attributes[0].attributeValue,
         equals("Entry"));
   });
 
   test('callback parameter with attribute object array', () {
-    IDLParameter callbackParameter = chromeIDLParser.callbackParameters
-        .parse("[instanceOf=DOMFileSystem] object[] mediaFileSystems");
+    var callbackParameter = chromeIDLParser.callbackParameters
+        .parse("[instanceOf=DOMFileSystem] object[] mediaFileSystems")
+        .value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("mediaFileSystems"));
@@ -395,15 +414,16 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.isOptional, isFalse);
     expect(callbackParameter.type.isArray, isTrue);
     expect(callbackParameter.type.name, equals("DOMFileSystem"));
-    expect(callbackParameter.attribute.attributes[0].attributeType,
+    expect(callbackParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(callbackParameter.attribute.attributes[0].attributeValue,
+    expect(callbackParameter.attribute!.attributes[0].attributeValue,
         equals("DOMFileSystem"));
   });
 
   test('callback parameter with optional', () {
-    IDLParameter callbackParameter = chromeIDLParser.callbackParameters
-        .parse("optional DOMString responseUrl");
+    var callbackParameter = chromeIDLParser.callbackParameters
+        .parse("optional DOMString responseUrl")
+        .value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("responseUrl"));
@@ -415,8 +435,8 @@ void chromeIDLParserCallbackParameterTests() {
   });
 
   test('callback parameter with array', () {
-    IDLParameter callbackParameter =
-    chromeIDLParser.callbackParameters.parse("Device[] result");
+    var callbackParameter =
+        chromeIDLParser.callbackParameters.parse("Device[] result").value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("result"));
@@ -428,8 +448,8 @@ void chromeIDLParserCallbackParameterTests() {
   });
 
   test('callback parameter', () {
-    IDLParameter callbackParameter =
-    chromeIDLParser.callbackParameters.parse("Device device");
+    var callbackParameter =
+        chromeIDLParser.callbackParameters.parse("Device device").value;
 
     expect(callbackParameter, isNotNull);
     expect(callbackParameter.name, equals("device"));
@@ -443,25 +463,24 @@ void chromeIDLParserCallbackParameterTests() {
 
 void chromeIDLParserCallbackMethodTests() {
   test('with no parameters', () {
-    List<IDLParameter> parameters =
-    chromeIDLParser.callbackMethod.parse("void()");
+    var parameters = chromeIDLParser.callbackMethod.parse("void()").value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(0));
 
-    parameters = chromeIDLParser.callbackMethod.parse("void ()");
+    parameters = chromeIDLParser.callbackMethod.parse("void ()").value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(0));
   });
 
   test('with one parameter', () {
-    List<IDLParameter> parameters =
-    chromeIDLParser.callbackMethod.parse("void (long result)");
+    var parameters =
+        chromeIDLParser.callbackMethod.parse("void (long result)").value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("result"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
@@ -471,19 +490,20 @@ void chromeIDLParserCallbackMethodTests() {
   });
 
   test('with one attribute parameter', () {
-    List<IDLParameter> parameters = chromeIDLParser.callbackMethod
-        .parse("void ([instanceOf=DOMFileSystem] object[] mediaFileSystems)");
+    var parameters = chromeIDLParser.callbackMethod
+        .parse("void ([instanceOf=DOMFileSystem] object[] mediaFileSystems)")
+        .value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("mediaFileSystems"));
     expect(parameter.attribute, isNotNull);
-    expect(parameter.attribute.attributes, isNotNull);
-    expect(parameter.attribute.attributes.length, equals(1));
-    expect(parameter.attribute.attributes[0].attributeType,
+    expect(parameter.attribute!.attributes, isNotNull);
+    expect(parameter.attribute!.attributes.length, equals(1));
+    expect(parameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(parameter.attribute.attributes[0].attributeValue,
+    expect(parameter.attribute!.attributes[0].attributeValue,
         equals("DOMFileSystem"));
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
@@ -492,13 +512,13 @@ void chromeIDLParserCallbackMethodTests() {
   });
 
   test('with multiple parameters', () {
-    List<IDLParameter> parameters = chromeIDLParser.callbackMethod
+    var parameters = chromeIDLParser.callbackMethod
         .parse("""void(OutputDeviceInfo[] outputInfo,
-InputDeviceInfo[] inputInfo)""");
+InputDeviceInfo[] inputInfo)""").value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(2));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("outputInfo"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
@@ -516,12 +536,12 @@ InputDeviceInfo[] inputInfo)""");
   });
 
   test('with mixed type parameters', () {
-    List<IDLParameter> parameters = chromeIDLParser.callbackMethod.parse(
-        """void (optional ArrayBuffer result, bool success, DOMString[] codes)""");
+    var parameters = chromeIDLParser.callbackMethod.parse(
+        """void (optional ArrayBuffer result, bool success, DOMString[] codes)""").value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(3));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("result"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
@@ -548,12 +568,13 @@ InputDeviceInfo[] inputInfo)""");
 
   test('with `or` parameter type', () {
     // void ((long or DOMString) x)
-    List<IDLParameter> parameters =
-    chromeIDLParser.callbackMethod.parse("void ((long or DOMString) x)");
+    var parameters = chromeIDLParser.callbackMethod
+        .parse("void ((long or DOMString) x)")
+        .value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("x"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
@@ -564,12 +585,13 @@ InputDeviceInfo[] inputInfo)""");
 
   test('with `or` parameter optional type', () {
     // void (optional (long or DOMString) x);
-    List<IDLParameter> parameters = chromeIDLParser.callbackMethod
-        .parse("void (optional (long or DOMString) x)");
+    var parameters = chromeIDLParser.callbackMethod
+        .parse("void (optional (long or DOMString) x)")
+        .value;
 
     expect(parameters, isNotNull);
     expect(parameters.length, equals(1));
-    IDLParameter parameter = parameters[0];
+    var parameter = parameters[0];
     expect(parameter.name, equals("x"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
@@ -581,10 +603,9 @@ InputDeviceInfo[] inputInfo)""");
 
 void chromeIDLParserCallbackDeclarationTests() {
   test('single line', () {
-    IDLCallbackDeclaration callbackDeclaration =
-    chromeIDLParser.callbackDeclaration.parse("""
+    var callbackDeclaration = chromeIDLParser.callbackDeclaration.parse("""
 callback GetAuthTokenCallback = void (optional DOMString token);
-""");
+""").value;
 
     expect(callbackDeclaration.name, equals("GetAuthTokenCallback"));
     expect(callbackDeclaration.documentation, isEmpty);
@@ -597,20 +618,18 @@ callback GetAuthTokenCallback = void (optional DOMString token);
   });
 
   test('single line with attributes', () {
-    IDLCallbackDeclaration callbackDeclaration =
-    chromeIDLParser.callbackDeclaration.parse("""
+    var callbackDeclaration = chromeIDLParser.callbackDeclaration.parse("""
 [inline_doc] callback GetAuthTokenCallback = void (optional DOMString token);
-""");
+""").value;
 
     expect(callbackDeclaration.name, equals("GetAuthTokenCallback"));
   });
 
   test('single line with comments', () {
-    IDLCallbackDeclaration callbackDeclaration =
-    chromeIDLParser.callbackDeclaration.parse("""
+    var callbackDeclaration = chromeIDLParser.callbackDeclaration.parse("""
 // Some comment.
 callback EntryCallback = void ([instanceOf=Entry] object entry);
-""");
+""").value;
 
     expect(callbackDeclaration.name, equals("EntryCallback"));
     expect(callbackDeclaration.documentation.length, equals(1));
@@ -621,24 +640,23 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
-    expect(callbackDeclaration.parameters[0].attribute.attributes.length,
+    expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
-    IDLAttribute attribute =
-    callbackDeclaration.parameters[0].attribute.attributes[0];
+    var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
   test('multiline', () {
-    List<IDLCallbackDeclaration> callbackDeclarations =
-    chromeIDLParser.callbackDeclaration.many.parse("""
+    var callbackDeclarations =
+        chromeIDLParser.callbackDeclaration.star().parse("""
 callback GetAuthTokenCallback = void (optional DOMString token);
 callback EntryCallback = void ([instanceOf=Entry] object entry);
-""");
+""").value;
 
     expect(callbackDeclarations, isNotNull);
     expect(callbackDeclarations.length, equals(2));
-    IDLCallbackDeclaration callbackDeclaration = callbackDeclarations[0];
+    var callbackDeclaration = callbackDeclarations[0];
     expect(callbackDeclaration.name, equals("GetAuthTokenCallback"));
     expect(callbackDeclaration.documentation, isEmpty);
     expect(callbackDeclaration.parameters.length, equals(1));
@@ -657,26 +675,25 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
-    expect(callbackDeclaration.parameters[0].attribute.attributes.length,
+    expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
-    IDLAttribute attribute =
-    callbackDeclaration.parameters[0].attribute.attributes[0];
+    var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
   test('multiline with comments', () {
-    List<IDLCallbackDeclaration> callbackDeclarations =
-    chromeIDLParser.callbackDeclaration.many.parse("""
+    var callbackDeclarations =
+        chromeIDLParser.callbackDeclaration.star().parse("""
 // Some comment.
 callback GetAuthTokenCallback = void (optional DOMString token);
 /* Another comment. */
 callback EntryCallback = void ([instanceOf=Entry] object entry);
-""");
+""").value;
 
     expect(callbackDeclarations, isNotNull);
     expect(callbackDeclarations.length, equals(2));
-    IDLCallbackDeclaration callbackDeclaration = callbackDeclarations[0];
+    var callbackDeclaration = callbackDeclarations[0];
     expect(callbackDeclaration.name, equals("GetAuthTokenCallback"));
     expect(callbackDeclaration.documentation.length, equals(1));
     expect(callbackDeclaration.parameters.length, equals(1));
@@ -697,61 +714,38 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
-    expect(callbackDeclaration.parameters[0].attribute.attributes.length,
+    expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
-    IDLAttribute attribute =
-    callbackDeclaration.parameters[0].attribute.attributes[0];
+    var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
     expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(attribute.attributeValue, equals("Entry"));
   });
 }
 
-
-/*
-void main() {
-  group('ChromeIDLParser.fieldType.parse', chromeIDLParserFieldTypeTests);
-  group('ChromeIDLParser.fieldOrType.parse', chromeIDLParserFieldOrTypeTests);
-  group('ChromeIDLParser.fieldMethodParameters.parse',
-      chromeIDLParserFieldMethodParametersTests);
-  group('ChromeIDLParser.typeBody.parse', chromeIDLParserTypeBodyTests);
-  group('ChromeIDLParser.typeDeclaration.parse',
-      chromeIDLParserTypeDeclarationTests);
-  group('ChromeIDLParser.methods.parser', chromeIDLParserMethodsTests);
-  group('ChromeIDLParser.functionDeclaration.parser',
-      chromeIDLParserFunctionDeclarationTests);
-  group('ChromeIDLParser.eventDeclaration.parser',
-      chromeIDLParserEventDeclarationTests);
-  group('ChromeIDLParser.namespaceDeclaration.parser',
-      chromeIDLParserNamespaceDeclarationTests);
-
-  group('ChromeIDLParser misc parsing tests', miscParsingTests);
-}
-
-
 void chromeIDLParserFieldTypeTests() {
   test('field type with array', () {
-    IDLType fieldType = chromeIDLParser.fieldType.parse("Device[]");
+    var fieldType = chromeIDLParser.fieldType.parse("Device[]").value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("Device"));
     expect(fieldType.isArray, isTrue);
   });
 
   test('field type without array', () {
-    IDLType fieldType = chromeIDLParser.fieldType.parse("Device");
+    var fieldType = chromeIDLParser.fieldType.parse("Device").value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("Device"));
     expect(fieldType.isArray, isFalse);
   });
 
   test('field type object with array', () {
-    IDLType fieldType = chromeIDLParser.fieldType.parse("object[]");
+    var fieldType = chromeIDLParser.fieldType.parse("object[]").value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("object"));
     expect(fieldType.isArray, isTrue);
   });
 
   test('field type object without array', () {
-    IDLType fieldType = chromeIDLParser.fieldType.parse("object");
+    var fieldType = chromeIDLParser.fieldType.parse("object").value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("object"));
     expect(fieldType.isArray, isFalse);
@@ -760,24 +754,27 @@ void chromeIDLParserFieldTypeTests() {
 
 void chromeIDLParserFieldOrTypeTests() {
   test('field type `or` two choices', () {
-    IDLType fieldType =
-        chromeIDLParser.fieldOrType.parse("(Device or DOMString)");
+    var fieldType =
+        chromeIDLParser.fieldOrType.parse("(Device or DOMString)").value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("object"));
     expect(fieldType.isArray, isFalse);
   });
 
   test('field type `or` three choices', () {
-    IDLType fieldType =
-        chromeIDLParser.fieldOrType.parse("(Device or DOMString or DeviceTwo)");
+    var fieldType = chromeIDLParser.fieldOrType
+        .parse("(Device or DOMString or DeviceTwo)")
+        .value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("object"));
     expect(fieldType.isArray, isFalse);
   });
 
   test('field type `or` five choices', () {
-    IDLType fieldType = chromeIDLParser.fieldOrType.parse(
-        "(Device or DOMString or DeviceTwo or DOMStringTwo or DeviceThree)");
+    var fieldType = chromeIDLParser.fieldOrType
+        .parse(
+            "(Device or DOMString or DeviceTwo or DOMStringTwo or DeviceThree)")
+        .value;
     expect(fieldType, isNotNull);
     expect(fieldType.name, equals("object"));
     expect(fieldType.isArray, isFalse);
@@ -786,8 +783,9 @@ void chromeIDLParserFieldOrTypeTests() {
 
 void chromeIDLParserFieldMethodParametersTests() {
   test('with attribute', () {
-    IDLParameter fieldMethodParameter = chromeIDLParser.fieldMethodParameters
-        .parse("[instanceOf=Entry] object entry");
+    var fieldMethodParameter = chromeIDLParser.fieldMethodParameters
+        .parse("[instanceOf=Entry] object entry")
+        .value;
 
     expect(fieldMethodParameter, isNotNull);
     expect(fieldMethodParameter.name, equals("entry"));
@@ -795,15 +793,16 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.isOptional, isFalse);
     expect(fieldMethodParameter.type.isArray, isFalse);
     expect(fieldMethodParameter.type.name, equals("Entry"));
-    expect(fieldMethodParameter.attribute.attributes[0].attributeType,
+    expect(fieldMethodParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(fieldMethodParameter.attribute.attributes[0].attributeValue,
+    expect(fieldMethodParameter.attribute!.attributes[0].attributeValue,
         equals("Entry"));
   });
 
   test('without attribute', () {
-    IDLParameter fieldMethodParameter =
-        chromeIDLParser.fieldMethodParameters.parse("DOMString responseUrl");
+    var fieldMethodParameter = chromeIDLParser.fieldMethodParameters
+        .parse("DOMString responseUrl")
+        .value;
 
     expect(fieldMethodParameter, isNotNull);
     expect(fieldMethodParameter.name, equals("responseUrl"));
@@ -815,8 +814,8 @@ void chromeIDLParserFieldMethodParametersTests() {
   });
 
   test('array type without attribute', () {
-    IDLParameter fieldMethodParameter =
-        chromeIDLParser.fieldMethodParameters.parse("DOMString[] urls");
+    var fieldMethodParameter =
+        chromeIDLParser.fieldMethodParameters.parse("DOMString[] urls").value;
 
     expect(fieldMethodParameter, isNotNull);
     expect(fieldMethodParameter.name, equals("urls"));
@@ -828,8 +827,9 @@ void chromeIDLParserFieldMethodParametersTests() {
   });
 
   test('with `or` type', () {
-    IDLParameter fieldMethodParameter = chromeIDLParser.fieldMethodParameters
-        .parse("(DOMString or Device) thingy");
+    var fieldMethodParameter = chromeIDLParser.fieldMethodParameters
+        .parse("(DOMString or Device) thingy")
+        .value;
     expect(fieldMethodParameter, isNotNull);
     expect(fieldMethodParameter.name, equals("thingy"));
     expect(fieldMethodParameter.attribute, isNull);
@@ -840,8 +840,9 @@ void chromeIDLParserFieldMethodParametersTests() {
   });
 
   test('with `or` three type', () {
-    IDLParameter fieldMethodParameter = chromeIDLParser.fieldMethodParameters
-        .parse("(DOMString or Device or DOMNode) thingy");
+    var fieldMethodParameter = chromeIDLParser.fieldMethodParameters
+        .parse("(DOMString or Device or DOMNode) thingy")
+        .value;
     expect(fieldMethodParameter, isNotNull);
     expect(fieldMethodParameter.name, equals("thingy"));
     expect(fieldMethodParameter.attribute, isNull);
@@ -854,22 +855,26 @@ void chromeIDLParserFieldMethodParametersTests() {
 
 void chromeIDLParserTypeBodyTests() {
   test('field with attribute', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("[instanceOf=FileEntry] object entry;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("[instanceOf=FileEntry] object entry;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
     expect(typeField[0].type.name, equals("FileEntry"));
     expect(typeField[0].type.isArray, isFalse);
     expect(typeField[0].isOptional, isFalse);
-    expect(typeField[0].attribute.attributes[0].attributeType,
+    expect(typeField[0].attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
-    expect(typeField[0].attribute.attributes[0].attributeValue,
+    expect(typeField[0].attribute!.attributes[0].attributeValue,
         equals("FileEntry"));
   });
   test('field with optional', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("DOMString? entry;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("DOMString? entry;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
@@ -879,8 +884,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field without optional', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("DOMString entry;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("DOMString entry;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
@@ -890,8 +897,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field array with optional', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("DOMString[]? entry;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("DOMString[]? entry;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
@@ -901,8 +910,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field array without optional', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("DOMString[] entry;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("DOMString[] entry;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
@@ -912,8 +923,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field type with `or` for choice types', () {
-    List<IDLField> typeField =
-        chromeIDLParser.typeBody.parse("(DOMString or FrameOptions)? frame;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("(DOMString or FrameOptions)? frame;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("frame"));
@@ -924,8 +937,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field type outer attribute with `or` for choice types', () {
-    List<IDLField> typeField = chromeIDLParser.typeBody
-        .parse("[nodoc] (DOMString or FrameOptions)? frame;");
+    var typeField = chromeIDLParser.typeBody
+        .parse("[nodoc] (DOMString or FrameOptions)? frame;")
+        .value
+        .cast<IDLField>();
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("frame"));
@@ -933,13 +948,15 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField[0].type.name, equals("object"));
     expect(typeField[0].type.isArray, isFalse);
     expect(typeField[0].isOptional, isTrue);
-    expect(typeField[0].attribute.attributes[0].attributeType,
+    expect(typeField[0].attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.NODOC));
   });
 
   test('field void method no parameters', () {
-    List<IDLMethod> typeFieldMethod =
-        chromeIDLParser.typeBody.parse("static void size();");
+    var typeFieldMethod = chromeIDLParser.typeBody
+        .parse("static void size();")
+        .value
+        .cast<IDLMethod>();
     expect(typeFieldMethod, isNotNull);
     expect(typeFieldMethod.length, 1);
     expect(typeFieldMethod[0].name, equals("size"));
@@ -951,13 +968,15 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field void method with multiple parameters', () {
-    List<IDLMethod> typeFieldMethod = chromeIDLParser.typeBody
-        .parse("static Sizes[] resizeTo(long width, long height);");
+    var typeFieldMethod = chromeIDLParser.typeBody
+        .parse("static Sizes[] resizeTo(long width, long height);")
+        .value
+        .cast<IDLMethod>();
     expect(typeFieldMethod, isNotNull);
     expect(typeFieldMethod.length, 1);
     expect(typeFieldMethod[0].name, equals("resizeTo"));
     expect(typeFieldMethod[0].parameters.length, 2);
-    IDLParameter parameter = typeFieldMethod[0].parameters[0];
+    var parameter = typeFieldMethod[0].parameters[0];
     expect(parameter.name, equals("width"));
     expect(parameter.type.name, equals("long"));
     parameter = typeFieldMethod[0].parameters[1];
@@ -970,14 +989,16 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field void method with attribute', () {
-    List<IDLMethod> typeFieldMethod =
-        chromeIDLParser.typeBody.parse("[nodoc] static void size();");
+    var typeFieldMethod = chromeIDLParser.typeBody
+        .parse("[nodoc] static void size();")
+        .value
+        .cast<IDLMethod>();
     expect(typeFieldMethod, isNotNull);
     expect(typeFieldMethod.length, 1);
     expect(typeFieldMethod[0].name, equals("size"));
     expect(typeFieldMethod[0].parameters, isEmpty);
-    expect(typeFieldMethod[0].attribute.attributes.length, equals(1));
-    IDLAttribute attribute = typeFieldMethod[0].attribute.attributes[0];
+    expect(typeFieldMethod[0].attribute!.attributes.length, equals(1));
+    var attribute = typeFieldMethod[0].attribute!.attributes[0];
     expect(attribute.attributeType, IDLAttributeTypeEnum.NODOC);
     expect(typeFieldMethod[0].returnType.name, equals("void"));
     expect(typeFieldMethod[0].returnType.isArray, isFalse);
@@ -985,8 +1006,10 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field type returned method with no parameters', () {
-    List<IDLMethod> typeFieldMethod =
-        chromeIDLParser.typeBody.parse("static Bounds getBounds();");
+    var typeFieldMethod = chromeIDLParser.typeBody
+        .parse("static Bounds getBounds();")
+        .value
+        .cast<IDLMethod>();
     expect(typeFieldMethod, isNotNull);
     expect(typeFieldMethod.length, 1);
     expect(typeFieldMethod[0].name, equals("getBounds"));
@@ -998,7 +1021,7 @@ void chromeIDLParserTypeBodyTests() {
   });
 
   test('field type returned method with mixed parameters', () {
-    List types = chromeIDLParser.typeBody.parse("""
+    var types = chromeIDLParser.typeBody.parse("""
 // Some comments
 static Bounds getBounds();
 
@@ -1015,12 +1038,12 @@ DOMString[]? entry2;
 DOMString? entry3;
 
 DOMString entry4;
-""");
+""").value;
     expect(types, isNotNull);
     expect(types[0].runtimeType.toString(), equals("IDLMethod"));
-    expect(types[0].documentation.length, equals(1));
+    expect((types[0] as IDLMethod).documentation.length, equals(1));
     expect(types[1].runtimeType.toString(), equals("IDLMethod"));
-    expect(types[1].documentation.length, equals(2));
+    expect((types[1] as IDLMethod).documentation.length, equals(2));
     expect(types[2].runtimeType.toString(), equals("IDLMethod"));
     expect(types[3].runtimeType.toString(), equals("IDLField"));
     expect(types[4].runtimeType.toString(), equals("IDLField"));
@@ -1031,11 +1054,11 @@ DOMString entry4;
 
 void chromeIDLParserTypeDeclarationTests() {
   test('dictionary with no members or methods', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration
+    var typeDeclaration = chromeIDLParser.typeDeclaration
         .parse("""// Options for the getServices function.
   dictionary GetServicesOptions {
   };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("GetServicesOptions"));
@@ -1046,14 +1069,14 @@ void chromeIDLParserTypeDeclarationTests() {
   });
 
   test('dictionary with one member', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration
+    var typeDeclaration = chromeIDLParser.typeDeclaration
         .parse("""// Options for the getServices function.
 dictionary GetServicesOptions {
   // The address of the remote device that the data should be associated
   // with. |deviceAddress| should be in the format 'XX:XX:XX:XX:XX:XX'.
   DOMString deviceAddress;
 };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("GetServicesOptions"));
@@ -1067,12 +1090,12 @@ dictionary GetServicesOptions {
   });
 
   test('dictionary with one method', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration
+    var typeDeclaration = chromeIDLParser.typeDeclaration
         .parse("""// Options for the getServices function.
   dictionary GetServicesOptions {
     static Device getDevice();
   };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("GetServicesOptions"));
@@ -1085,7 +1108,7 @@ dictionary GetServicesOptions {
   });
 
   test('dictionary with multiple members', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration.parse(
+    var typeDeclaration = chromeIDLParser.typeDeclaration.parse(
         """// Options for the getDevices function. If |profile| is not provided, all
 // devices known to the system are returned.
   dictionary GetDevicesOptions {
@@ -1095,7 +1118,7 @@ dictionary GetServicesOptions {
     // Called for each matching device.  Note that a service discovery request
     DeviceCallback deviceCallback;
   };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("GetDevicesOptions"));
@@ -1112,7 +1135,7 @@ dictionary GetServicesOptions {
   });
 
   test('dictionary with multiple methods', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration
+    var typeDeclaration = chromeIDLParser.typeDeclaration
         .parse("""[noinline_doc] dictionary AppWindow {
     // Focus the window.
     static void focus();
@@ -1123,11 +1146,11 @@ dictionary GetServicesOptions {
 
     static boolean isFullscreen();
 };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("AppWindow"));
-    expect(typeDeclaration.attribute.attributes[0].attributeType,
+    expect(typeDeclaration.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.NOINLINE_DOC));
     expect(typeDeclaration.documentation, isEmpty);
     expect(typeDeclaration.members, isEmpty);
@@ -1143,8 +1166,8 @@ dictionary GetServicesOptions {
   });
 
   test('dictionary with attribute, members, methods', () {
-    IDLTypeDeclaration typeDeclaration = chromeIDLParser.typeDeclaration
-        .parse("""[noinline_doc] dictionary AppWindow {
+    var typeDeclaration = chromeIDLParser.typeDeclaration
+        .parse(r"""[noinline_doc] dictionary AppWindow {
     // Focus the window.
     static void focus();
 
@@ -1157,7 +1180,7 @@ dictionary GetServicesOptions {
     // Draw attention to the window.
     static void drawAttention();
 
-    // Get the window's bounds as a \$ref:Bounds object.
+    // Get the window's bounds as a $ref:Bounds object.
     [nocompile] static Bounds getBounds();
 
     // Set the window's bounds.
@@ -1174,11 +1197,11 @@ dictionary GetServicesOptions {
     // The connection is made to |profile|.
     Profile profile;
   };
-""");
+""").value;
 
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("AppWindow"));
-    expect(typeDeclaration.attribute.attributes[0].attributeType,
+    expect(typeDeclaration.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.NOINLINE_DOC));
     expect(typeDeclaration.documentation, isEmpty);
     expect(typeDeclaration.members.length, equals(3));
@@ -1188,14 +1211,15 @@ dictionary GetServicesOptions {
 
 void chromeIDLParserMethodsTests() {
   test('simple method defined', () {
-    List<IDLMethod> methods = chromeIDLParser.methods
-        .parse("static Sizes[] resizeTo(long width, long height);");
+    var methods = chromeIDLParser.methods
+        .parse("static Sizes[] resizeTo(long width, long height);")
+        .value;
 
     expect(methods, isNotNull);
     expect(methods.length, 1);
     expect(methods[0].name, equals("resizeTo"));
     expect(methods[0].parameters.length, 2);
-    IDLParameter parameter = methods[0].parameters[0];
+    var parameter = methods[0].parameters[0];
     expect(parameter.name, equals("width"));
     expect(parameter.type.name, equals("long"));
     parameter = methods[0].parameters[1];
@@ -1209,14 +1233,15 @@ void chromeIDLParserMethodsTests() {
 
   test('method defined with `or` type', () {
     // static void union_params((long or DOMString) x);
-    List<IDLMethod> methods = chromeIDLParser.methods
-        .parse("static void union_params((long or DOMString) x);");
+    var methods = chromeIDLParser.methods
+        .parse("static void union_params((long or DOMString) x);")
+        .value;
 
     expect(methods, isNotNull);
     expect(methods.length, 1);
     expect(methods[0].name, equals("union_params"));
     expect(methods[0].parameters.length, 1);
-    IDLParameter parameter = methods[0].parameters[0];
+    var parameter = methods[0].parameters[0];
     expect(parameter.name, equals("x"));
     expect(parameter.type.name, equals("object"));
     expect(methods[0].attribute, isNull);
@@ -1228,13 +1253,13 @@ void chromeIDLParserMethodsTests() {
 
 void chromeIDLParserFunctionDeclarationTests() {
   test('test Functions declaration single function', () {
-    IDLFunctionDeclaration functionDeclaration =
+    var functionDeclaration =
         chromeIDLParser.functionDeclaration.parse("""interface Functions {
     // Gets resources required to render the API.
     //
     static void getResources(GetResourcesCallback callback);
   };
-""");
+""").value;
 
     expect(functionDeclaration, isNotNull);
     expect(functionDeclaration.name, equals("Functions"));
@@ -1243,13 +1268,13 @@ void chromeIDLParserFunctionDeclarationTests() {
   });
 
   test('test Functions declaration single function not marked status', () {
-    IDLFunctionDeclaration functionDeclaration =
+    var functionDeclaration =
         chromeIDLParser.functionDeclaration.parse("""interface Functions {
     // Gets resources required to render the API.
     //
     void getResources(GetResourcesCallback callback);
   };
-""");
+""").value;
 
     expect(functionDeclaration, isNotNull);
     expect(functionDeclaration.name, equals("Functions"));
@@ -1258,7 +1283,7 @@ void chromeIDLParserFunctionDeclarationTests() {
   });
 
   test('test Functions parameters are callbacks', () {
-    IDLFunctionDeclaration functionDeclaration =
+    var functionDeclaration =
         chromeIDLParser.functionDeclaration.parse("""interface Functions {
     // Get the media galleries configured in this user agent. If none are
     // configured or available, the callback will receive an empty array.
@@ -1269,7 +1294,7 @@ void chromeIDLParserFunctionDeclarationTests() {
     [nocompile] static MediaFileSystemMetadata getMediaFileSystemMetadata(
         [instanceOf=DOMFileSystem] object mediaFileSystem);
   };
-""");
+""").value;
 
     expect(functionDeclaration, isNotNull);
     expect(functionDeclaration.name, equals("Functions"));
@@ -1294,12 +1319,12 @@ void chromeIDLParserFunctionDeclarationTests() {
 
 void chromeIDLParserEventDeclarationTests() {
   test('test Events declaration single event', () {
-    IDLEventDeclaration eventDeclaration =
+    var eventDeclaration =
         chromeIDLParser.eventDeclaration.parse("""interface Events {
     // Fired when a web flow dialog should be displayed.
     static void onWebFlowRequest(DOMString key, DOMString url, DOMString mode);
   };
-""");
+""").value;
 
     expect(eventDeclaration, isNotNull);
     expect(eventDeclaration.name, equals("Events"));
@@ -1328,12 +1353,13 @@ void chromeIDLParserNamespaceBodyTests() {
     // Indicates whether or not the adapter is currently discovering.
     boolean discovering;
   };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(1));
     expect(namespaceBody[0] is IDLTypeDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("AdapterState"));
+    expect(
+        (namespaceBody[0] as IDLTypeDeclaration).name, equals("AdapterState"));
     expect((namespaceBody[0] as IDLTypeDeclaration).members.length, equals(5));
   });
 
@@ -1369,16 +1395,17 @@ void chromeIDLParserNamespaceBodyTests() {
     // Indicates whether the device is currently connected to the system.
     boolean? connected;
   };
-};
-""");
+
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(2));
     expect(namespaceBody[0] is IDLTypeDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("AdapterState"));
+    expect(
+        (namespaceBody[0] as IDLTypeDeclaration).name, equals("AdapterState"));
     expect((namespaceBody[0] as IDLTypeDeclaration).members.length, equals(5));
     expect(namespaceBody[1] is IDLTypeDeclaration, isTrue);
-    expect(namespaceBody[1].name, equals("AdapterState"));
+    expect((namespaceBody[1] as IDLTypeDeclaration).name, equals("Device"));
     expect((namespaceBody[1] as IDLTypeDeclaration).members.length, equals(4));
   });
 
@@ -1391,12 +1418,13 @@ void chromeIDLParserNamespaceBodyTests() {
     // in the host's SDP and GATT tables and advertised to other devices.
     static void addProfile(Profile profile, ResultCallback callback);
 };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(1));
     expect(namespaceBody[0] is IDLFunctionDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("Functions"));
+    expect(
+        (namespaceBody[0] as IDLFunctionDeclaration).name, equals("Functions"));
     expect(
         (namespaceBody[0] as IDLFunctionDeclaration).methods.length, equals(1));
   });
@@ -1421,16 +1449,17 @@ void chromeIDLParserNamespaceBodyTests() {
     // |socket| : The socket for the connection.
     static void onConnection(Socket socket);
   };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(2));
     expect(namespaceBody[0] is IDLFunctionDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("Functions"));
+    expect(
+        (namespaceBody[0] as IDLFunctionDeclaration).name, equals("Functions"));
     expect(
         (namespaceBody[0] as IDLFunctionDeclaration).methods.length, equals(1));
     expect(namespaceBody[1] is IDLEventDeclaration, isTrue);
-    expect(namespaceBody[1].name, equals("Events"));
+    expect((namespaceBody[1] as IDLEventDeclaration).name, equals("Events"));
     expect((namespaceBody[1] as IDLEventDeclaration).methods.length, equals(2));
   });
 
@@ -1440,12 +1469,12 @@ void chromeIDLParserNamespaceBodyTests() {
     tcp,
     udp
   };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(1));
     expect(namespaceBody[0] is IDLEnumDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("SocketType"));
+    expect((namespaceBody[0] as IDLEnumDeclaration).name, equals("SocketType"));
     expect((namespaceBody[0] as IDLEnumDeclaration).enums.length, equals(2));
   });
 
@@ -1454,34 +1483,35 @@ void chromeIDLParserNamespaceBodyTests() {
   enum DataBit { sevenbit, eightbit };
   enum ParityBit { noparity, oddparity, evenparity };
   enum StopBit { onestopbit, twostopbit };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(3));
     expect(namespaceBody[0] is IDLEnumDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("DataBit"));
+    expect((namespaceBody[0] as IDLEnumDeclaration).name, equals("DataBit"));
     expect((namespaceBody[0] as IDLEnumDeclaration).enums.length, equals(2));
 
     expect(namespaceBody[1] is IDLEnumDeclaration, isTrue);
-    expect(namespaceBody[1].name, equals("ParityBit"));
+    expect((namespaceBody[1] as IDLEnumDeclaration).name, equals("ParityBit"));
     expect((namespaceBody[1] as IDLEnumDeclaration).enums.length, equals(3));
 
     expect(namespaceBody[2] is IDLEnumDeclaration, isTrue);
-    expect(namespaceBody[2].name, equals("StopBit"));
+    expect((namespaceBody[2] as IDLEnumDeclaration).name, equals("StopBit"));
     expect((namespaceBody[2] as IDLEnumDeclaration).enums.length, equals(2));
   });
 
   test('single callback in body', () {
     List namespaceBody = chromeIDLParser.namespaceBody.parse("""
 callback OpenCallback = void (OpenInfo openInfo);
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(1));
     expect(namespaceBody[0] is IDLCallbackDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("OpenCallback"));
+    expect((namespaceBody[0] as IDLCallbackDeclaration).name,
+        equals("OpenCallback"));
     expect((namespaceBody[0] as IDLCallbackDeclaration).parameters.length,
-        equals(2));
+        equals(1));
   });
 
   test('multiple callback in body', () {
@@ -1490,17 +1520,19 @@ callback OpenCallback = void (OpenInfo openInfo);
 
   // Returns true if operation was successful.
   callback CloseCallback = void (boolean result);
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
-    expect(namespaceBody.length, equals(1));
+    expect(namespaceBody.length, equals(2));
     expect(namespaceBody[0] is IDLCallbackDeclaration, isTrue);
-    expect(namespaceBody[0].name, equals("OpenCallback"));
+    expect((namespaceBody[0] as IDLCallbackDeclaration).name,
+        equals("OpenCallback"));
     expect((namespaceBody[0] as IDLCallbackDeclaration).parameters.length,
         equals(1));
 
     expect(namespaceBody[1] is IDLCallbackDeclaration, isTrue);
-    expect(namespaceBody[1].name, equals("CloseCallback"));
+    expect((namespaceBody[1] as IDLCallbackDeclaration).name,
+        equals("CloseCallback"));
     expect((namespaceBody[1] as IDLCallbackDeclaration).parameters.length,
         equals(1));
   });
@@ -1643,7 +1675,7 @@ callback OpenCallback = void (OpenInfo openInfo);
                                   ControlSignalOptions options,
                                   SetControlSignalsCallback callback);
   };
-""");
+""").value;
 
     expect(namespaceBody, isNotNull);
     expect(namespaceBody.length, equals(17));
@@ -1652,9 +1684,8 @@ callback OpenCallback = void (OpenInfo openInfo);
 
 void chromeIDLParserNamespaceDeclarationTests() {
   test('complete namespace test', () {
-    IDLNamespaceDeclaration namespaceDeclaration =
-        chromeIDLParser.namespaceDeclaration.parse(
-            """// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+    var namespaceDeclaration = chromeIDLParser.namespaceDeclaration.parse(
+        r"""// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -1722,18 +1753,18 @@ namespace syncFileSystem {
     // but file will no longer exist.
     [instanceOf=Entry] object fileEntry;
 
-    // Resulting file status after \$ref:onFileStatusChanged event.
+    // Resulting file status after $ref:onFileStatusChanged event.
     // The status value can be <code>'synced'</code>,
     // <code>'pending'</code> or <code>'conflicting'</code>.
     FileStatus status;
 
-    // Sync action taken to fire \$ref:onFileStatusChanged event.
+    // Sync action taken to fire $ref:onFileStatusChanged event.
     // The action value can be
     // <code>'added'</code>, <code>'updated'</code> or <code>'deleted'</code>.
     // Only applies if status is <code>'synced'</code>.
     SyncAction? action;
 
-    // Sync direction for the \$ref:onFileStatusChanged event.
+    // Sync direction for the $ref:onFileStatusChanged event.
     // Sync direction value can be
     // <code>'local_to_remote'</code> or <code>'remote_to_local'</code>.
     // Only applies if status is <code>'synced'</code>.
@@ -1819,7 +1850,7 @@ namespace syncFileSystem {
     static void getUsageAndQuota([instanceOf=DOMFileSystem] object fileSystem,
                                  QuotaAndUsageCallback callback);
 
-    // Returns the \$ref:FileStatus for the given <code>fileEntry</code>.
+    // Returns the $ref:FileStatus for the given <code>fileEntry</code>.
     // The status value can be <code>'synced'</code>,
     // <code>'pending'</code> or <code>'conflicting'</code>.
     // Note that <code>'conflicting'</code> state only happens when
@@ -1827,7 +1858,7 @@ namespace syncFileSystem {
     static void getFileStatus([instanceOf=Entry] object fileEntry,
                               GetFileStatusCallback callback);
 
-    // Returns each \$ref:FileStatus for the given <code>fileEntry</code> array.
+    // Returns each $ref:FileStatus for the given <code>fileEntry</code> array.
     // Typically called with the result from dirReader.readEntries().
     static void getFileStatuses(object[] fileEntries,
                                 GetFileStatusesCallback callback);
@@ -1846,7 +1877,7 @@ namespace syncFileSystem {
     static void onFileStatusChanged(FileInfo detail);
   };
 
-};""");
+};""").value;
 
     expect(namespaceDeclaration, isNotNull);
     expect(namespaceDeclaration.name, equals("syncFileSystem"));
@@ -1855,7 +1886,7 @@ namespace syncFileSystem {
 
 void miscParsingTests() {
   test('object used in dictionary', () {
-    String testData = """dictionary MediaStreamConstraint {
+    var testData = """dictionary MediaStreamConstraint {
     object mandatory;
 };
 """;
@@ -1866,11 +1897,11 @@ void miscParsingTests() {
   });
 
   test('object used in callback definition', () {
-    String testData =
+    var testData =
         """callback GetAllCallback = void (object notifications); """;
 
-    IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse(testData);
+    var callbackDeclaration =
+        chromeIDLParser.callbackDeclaration.parse(testData).value;
 
     expect(callbackDeclaration, isNotNull);
     expect(callbackDeclaration.name, equals("GetAllCallback"));
@@ -1885,16 +1916,16 @@ void miscParsingTests() {
 
   test('optional object array with type attribute defined instanceOf callback',
       () {
-    String testData = """callback MediaFileSystemsCallback =
+    var testData = """callback MediaFileSystemsCallback =
       void ([instanceOf=DOMFileSystem] optional object[] mediaFileSystems);""";
 
-    IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse(testData);
+    var callbackDeclaration =
+        chromeIDLParser.callbackDeclaration.parse(testData).value;
 
     expect(callbackDeclaration, isNotNull);
     expect(callbackDeclaration.name, equals("MediaFileSystemsCallback"));
     expect(callbackDeclaration.documentation, isEmpty);
-    List<IDLParameter> parameters = callbackDeclaration.parameters;
+    var parameters = callbackDeclaration.parameters;
     expect(parameters.length, equals(1));
     expect(parameters[0].name, equals("mediaFileSystems"));
     expect(parameters[0].type.name, equals("DOMFileSystem"));
@@ -1904,7 +1935,7 @@ void miscParsingTests() {
   });
 
   test('object optional by ? with attribute defined instanceOf', () {
-    String testData = """dictionary AttachedFile {
+    var testData = """dictionary AttachedFile {
     DOMString name;
     [instanceOf=Blob] object? data;
   };
@@ -1916,18 +1947,18 @@ void miscParsingTests() {
   });
 
   test('attribute with name=1', () {
-    String testData = """[maxListeners=1] static void onDeterminingFilename(
+    var testData = """[maxListeners=1] static void onDeterminingFilename(
 DownloadItem downloadItem, SuggestFilenameCallback suggest);
 """;
 
-    var result = chromeIDLParser.methods.parse(testData);
+    var result = chromeIDLParser.methods.parse(testData).value;
 
     expect(result, isNotNull);
     expect(result, hasLength(1));
   });
 
   test('object passed as method parameter', () {
-    String testData = """interface Functions {
+    var testData = """interface Functions {
 [nocompile, nodoc] static void initializeAppWindow(object state);
   };""";
 
@@ -1937,12 +1968,11 @@ DownloadItem downloadItem, SuggestFilenameCallback suggest);
   });
 
   test('object as parameter for callback', () {
-    String testData = """callback GetStringsCallback = void (object result);""";
+    var testData = """callback GetStringsCallback = void (object result);""";
 
-    IDLCallbackDeclaration callbackDeclaration =
-        chromeIDLParser.callbackDeclaration.parse(testData);
+    var callbackDeclaration =
+        chromeIDLParser.callbackDeclaration.parse(testData).value;
 
     expect(callbackDeclaration, isNotNull);
   });
 }
-*/

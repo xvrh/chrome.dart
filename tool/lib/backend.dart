@@ -1,5 +1,7 @@
 library backend;
 
+import 'package:collection/collection.dart';
+
 import 'chrome_model.dart';
 import 'overrides.dart';
 import '../src/src_gen.dart';
@@ -16,7 +18,7 @@ abstract class Backend {
   Backend(this.library, this.overrides);
 
   factory Backend.createDefault(ChromeLibrary library, Overrides overrides,
-      [DartGenerator generator]) {
+      [DartGenerator? generator]) {
     return DefaultBackend(library, overrides, generator);
   }
 
@@ -31,7 +33,7 @@ class DefaultBackend extends Backend {
   /**
    * Used to be able to construct specific subclasses of a given type.
    */
-  static final Map ALT_FACTORIES = {
+  static final ALT_FACTORIES = {
     "DirectoryEntry": "CrDirectoryEntry",
     "DOMFileSystem": "CrFileSystem",
     "FileSystem": "CrFileSystem",
@@ -46,12 +48,10 @@ class DefaultBackend extends Backend {
 
   int _apiCheckCount = 0;
 
-  DefaultBackend(ChromeLibrary library, Overrides overrides, [this.generator])
-      : super(library, overrides) {
-    if (generator == null) {
-      generator = new DartGenerator();
-    }
-  }
+  DefaultBackend(ChromeLibrary library, Overrides overrides,
+      [DartGenerator? generator])
+      : generator = generator ?? DartGenerator(),
+        super(library, overrides);
 
   void generateAccessor() {
     String shortAccessorName = libraryName;
@@ -67,7 +67,7 @@ class DefaultBackend extends Backend {
         .writeln("final ${className} ${shortAccessorName} = ${className}._();");
   }
 
-  String generate({String license, String sourceFileName}) {
+  String generate({String? license, String? sourceFileName}) {
     if (license != null) {
       generator.writeln(license);
       generator.writeln();
@@ -220,7 +220,7 @@ class DefaultBackend extends Backend {
    * reference (e.g., `_app_window`).
    */
   void _printMethod(ChromeMethod method,
-      {String thisOverride, bool checkApi: true}) {
+      {String? thisOverride, bool checkApi = true}) {
     if (thisOverride == null) {
       thisOverride = contextReference;
     }
@@ -305,8 +305,8 @@ class DefaultBackend extends Backend {
   }
 
   void _printEventDecl(ChromeEvent event) {
-    ChromeType type = event.calculateType(library);
-    String typeName = type == null ? null : type.toReturnString();
+    ChromeType? type = event.calculateType(library);
+    String? typeName = type == null ? null : type.toReturnString();
 
     generator.writeln();
     generator.writeDocs(event.documentation);
@@ -321,13 +321,13 @@ class DefaultBackend extends Backend {
     }
   }
 
-  void _printEventAssign(ChromeEvent event, {String api: "getApi"}) {
-    ChromeType type = event.calculateType(library);
-    String typeName = type == null ? null : type.toReturnString();
+  void _printEventAssign(ChromeEvent event, {String api = "getApi"}) {
+    ChromeType? type = event.calculateType(library);
+    String? typeName = type == null ? null : type.toReturnString();
 
     if (type != null) {
       generator.write("_${event.name} = ");
-      String converter = getCallbackConverter(type);
+      String? converter = getCallbackConverter(type);
       if (converter == null) converter = 'selfConverter';
 
       String argCallArity =
@@ -370,13 +370,13 @@ class DefaultBackend extends Backend {
     generator.writeDocs(type.documentation);
     generator.writeln("class ${type.name} extends ChromeEnum {");
 
-    var constNames = new List<String>();
+    var constNames = <String>[];
 
     type.values.forEach((ChromeEnumEntry entry) {
       generator.writeDocs(entry.documentation);
 
       var constName =
-          fromCamelCase(entry.name).toUpperCase().replaceAll('-', '_');
+          fromCamelCase(entry.name!).toUpperCase().replaceAll('-', '_');
       constNames.add(constName);
 
       generator.writeln("static const ${type.name} ${constName} "
@@ -405,7 +405,7 @@ class DefaultBackend extends Backend {
     List<ChromeProperty> props =
         type.filteredProperties.toList(growable: false);
 
-    String superName =
+    String? superName =
         type.superClassDef != null ? type.superClassDef : 'ChromeObject';
 
     generator.writeln();
@@ -427,7 +427,7 @@ class DefaultBackend extends Backend {
     generator.writeln(
         "${className}.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);");
 
-    var propRefString;
+    String propRefString;
     if (library.name != 'proxy') {
       propRefString = 'jsProxy';
     } else {
@@ -456,7 +456,7 @@ class DefaultBackend extends Backend {
 
     generator.writeln();
 
-    ChromeType type = event.calculateType(library);
+    ChromeType? type = event.calculateType(library);
     if (type != null) {
       generator.writeln("ChromeStreamController<${typeName}> _${event.name};");
       generator.writeln("Stream<${typeName}> get ${event.name} {");
@@ -513,10 +513,9 @@ class DefaultBackend extends Backend {
   }
 
   void _writeFactory(String creator) {
-    String creatorTemplate = null;
+    String? creatorTemplate = null;
 
-    var type = library.eventTypes
-        .firstWhere((e) => e.name == creator, orElse: () => null);
+    var type = library.eventTypes.firstWhereOrNull((e) => e.name == creator);
 
     if (type != null) {
       Iterable<ChromeProperty> props = type.filteredProperties;
@@ -525,7 +524,7 @@ class DefaultBackend extends Backend {
           props.map((p) => '${getJSType(p.type)} ${p.name}').join(', ');
       generator.writeln("${creator} _create$creator(${createParams}) =>");
       String cvtParams = props.map((ChromeProperty p) {
-        String cvt = getCallbackConverter(p.type);
+        String? cvt = getCallbackConverter(p.type);
         if (cvt == null) {
           return p.name;
         } else {
@@ -536,8 +535,7 @@ class DefaultBackend extends Backend {
       return;
     }
 
-    var enumType = library.enumTypes
-        .firstWhere((e) => e.name == creator, orElse: () => null);
+    var enumType = library.enumTypes.firstWhereOrNull((e) => e.name == creator);
 
     if (enumType != null) {
       creatorTemplate =
@@ -551,7 +549,7 @@ class DefaultBackend extends Backend {
     }
 
     String altCreator =
-        ALT_FACTORIES.containsKey(creator) ? ALT_FACTORIES[creator] : creator;
+        ALT_FACTORIES.containsKey(creator) ? ALT_FACTORIES[creator]! : creator;
 
     generator.writeln(
         creatorTemplate.replaceAll('%s', creator).replaceAll('%t', altCreator));
@@ -568,7 +566,7 @@ class DefaultBackend extends Backend {
     }
   }
 
-  String getCallbackConverter(ChromeType param) {
+  String? getCallbackConverter(ChromeType param) {
     if (param.isString || param.isInt || param.isBool) {
       return null;
     } else if (param.isList) {
@@ -584,7 +582,7 @@ class DefaultBackend extends Backend {
     } else if (param.isMap) {
       return 'mapify';
     } else if (param.isReferencedType) {
-      _neededFactories.add(param.refName);
+      _neededFactories.add(param.refName!);
       return '_create${param.refName}';
     } else {
       return null;
@@ -607,7 +605,7 @@ class DefaultBackend extends Backend {
     } else if (param.isMap) {
       return 'mapify(%s)';
     } else if (param.isReferencedType) {
-      _neededFactories.add(param.refName);
+      _neededFactories.add(param.refName!);
       return '_create${param.refName}(%s)';
     } else {
       return '%s';

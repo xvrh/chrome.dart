@@ -1,6 +1,5 @@
 library chrome_idl_parser;
 
-import 'package:petitparser/parser.dart';
 import 'package:petitparser/petitparser.dart';
 
 import 'chrome_idl_mapping.dart';
@@ -31,30 +30,196 @@ class ChromeIDLGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(attributeDeclaration);
 
-  Parser<IDLType> callbackParameterType() => throw UnimplementedError();
-
-  Parser<IDLParameter> callbackParameter() => throw UnimplementedError();
-
-  /// Parse the enum declarations.
-  Parser<IDLEnumDeclaration> enumDeclaration() => seq4(
+  /// Parse the namespace.
+  Parser<IDLNamespaceDeclaration> namespaceDeclaration() => (
+        ref0(copyrightSignature).optional(),
         ref0(docString),
         ref0(attributeDeclaration).optional(),
-        ref0(identifier).skip(before: ref1(token, 'enum')),
-        ref0(enumBody)
-            .plusSeparated(ref1(token, ','))
-            .skip(before: ref1(token, '{'), after: ref1(token, '}'))
-            .skip(after: ref1(token, ';')),
-      ).map4((doc, attr, id, body) => IDLEnumDeclaration(id, body.elements,
+        ref1(token, 'namespace'),
+        ref0(identifier),
+        bracket('{}', ref0(namespaceBody)),
+        ref1(token, ';'),
+      ).toSequenceParser().map7((copyright, doc, attr, _, name, body, __) =>
+          IDLNamespaceDeclaration(name,
+              callbackDeclarations:
+                  body.whereType<IDLCallbackDeclaration>().toList(),
+              functionDeclaration:
+                  body.whereType<IDLFunctionDeclaration>().firstOrNull,
+              enumDeclarations: body.whereType<IDLEnumDeclaration>().toList(),
+              typeDeclarations: body.whereType<IDLTypeDeclaration>().toList(),
+              eventDeclaration:
+                  body.whereType<IDLEventDeclaration>().firstOrNull,
+              attribute: attr,
+              documentation: doc,
+              copyrightSignature: copyright));
+
+  Parser<List<Object>> namespaceBody() => ref0(namespaceBodyElement).star();
+
+  Parser<Object> namespaceBodyElement() => [
+        ref0(functionDeclaration),
+        ref0(typeDeclaration),
+        ref0(eventDeclaration),
+        ref0(callbackDeclaration),
+        ref0(enumDeclaration),
+      ].toChoiceParser();
+
+  Parser<IDLEventDeclaration> eventDeclaration() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'interface'),
+        ref1(token, 'Events'),
+        bracket('{}', ref0(methods)),
+        ref1(token, ';'),
+      ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
+          IDLEventDeclaration(methods, documentation: doc, attribute: attr));
+
+  Parser<IDLFunctionDeclaration> functionDeclaration() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'interface'),
+        ref1(token, 'Functions'),
+        bracket('{}', ref0(methods)),
+        ref1(token, ';'),
+      ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
+          IDLFunctionDeclaration(methods, documentation: doc, attribute: attr));
+
+  Parser<List<IDLMethod>> methods() => ref0(method).star();
+
+  /// Parse the dictionary definitions.
+  // Note: Also need to parse methods within a type declaration.
+  // This happens in IDL such as app_window.idl.
+  // What we should do is in the mapping method
+  // check the runtime type and put separate them
+  // between methods and members.
+  Parser<IDLTypeDeclaration> typeDeclaration() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'dictionary'),
+        ref0(identifier),
+        bracket('{}', ref0(typeBody)),
+        ref1(token, ';'),
+      ).toSequenceParser().map6((doc, attr, _, name, body, __) =>
+          IDLTypeDeclaration(name, body.whereType<IDLField>().toList(),
+              methods: body.whereType<IDLMethod>().toList(),
+              documentation: doc,
+              attribute: attr));
+
+  Parser<List<Object>> typeBody() => ref0(singleTypeBody).star();
+
+  Parser<Object> singleTypeBody() => [
+        ref0(field),
+        ref0(method),
+      ].toChoiceParser();
+
+  Parser<IDLField> field() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        [
+          ref0(fieldType),
+          ref0(fieldOrType),
+        ].toChoiceParser(),
+        ref1(token, '?').optional(),
+        ref0(identifier),
+        ref1(token, ';'),
+      ).toSequenceParser().map6((doc, attr, type, optional, name, _) =>
+          IDLField(name, typeWithAttribute(type, attr),
+              attribute: attr,
+              isOptional: optional != null,
+              documentation: doc));
+
+  Parser<IDLMethod> method() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'static').optional(),
+        ref0(fieldType),
+        ref0(identifier),
+        bracket('()', ref0(parameters).starSeparated(ref1(token, ','))),
+        ref1(token, ';')
+      ).toSequenceParser().map7((doc, attr, _, type, name, parameters, __) =>
+          IDLMethod(name, type, parameters.elements,
+              documentation: doc, attribute: attr));
+
+  /// Parse a callback definition.
+  Parser<IDLCallbackDeclaration> callbackDeclaration() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'callback'),
+        ref0(identifier),
+        ref1(token, '='),
+        ref0(callbackMethod),
+        ref1(token, ';'),
+      ).toSequenceParser().map7((doc, attr, _, name, __, parameters, ___) =>
+          IDLCallbackDeclaration(name, parameters, documentation: doc));
+
+  Parser<List<IDLParameter>> callbackMethod() => (
+        ref1(token, 'void'),
+        ref1(token, '('),
+        ref0(parameters).starSeparated(ref1(token, ',')),
+        ref1(token, ')')
+      ).toSequenceParser().map4((_, __, p2, ___) => p2.elements);
+
+  Parser<IDLParameter> parameters() => (
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'optional').optional(),
+        ref0(parameterType),
+        ref0(identifier),
+      ).toSequenceParser().map4((attr, optional, type, name) {
+        type = typeWithAttribute(type, attr);
+
+        return IDLParameter(name, type,
+            attribute: attr,
+            isOptional: optional != null,
+            isCallback: isCallback(name));
+      });
+
+  Parser<IDLType> parameterType() => [
+        (ref0(identifier), string('[]'))
+            .toSequenceParser()
+            .map2((id, _) => IDLType(id, isArray: true)),
+        ref0(identifier).map((id) => IDLType(id)),
+        ref0(fieldOrType)
+      ].toChoiceParser();
+
+  Parser<IDLType> fieldOrType() => (
+        ref1(token, '('),
+        ref0(fieldSingleOrTypeDeclaration).plusSeparated(ref1(token, 'or')),
+        ref1(token, ')')
+      ).toSequenceParser().map((_) => IDLType('object'));
+
+  // TODO: return idl type with attribute. Not propagating at the moment.
+  Parser fieldSingleOrTypeDeclaration() => (
+        ref0(attributeDeclaration).optional(),
+        ref0(fieldType)
+      ).toSequenceParser();
+
+  // TODO: refactor with callbackParameterType
+  Parser<IDLType> fieldType() => (ref0(identifier), string('[]').optional())
+      .toSequenceParser()
+      .map2((id, array) => IDLType(id, isArray: array != null));
+
+  /// Parse the enum declarations.
+  Parser<IDLEnumDeclaration> enumDeclaration() => seq6(
+          ref0(docString),
+          ref0(attributeDeclaration).optional(),
+          ref1(token, 'enum'),
+          ref0(identifier),
+          bracket('{}', ref0(enumBody).plusSeparated(ref1(token, ','))),
+          ref1(token, ';'))
+      .map6((doc, attr, _, id, body, __) => IDLEnumDeclaration(
+          id, body.elements,
           documentation: doc, attribute: attr));
 
   /// Parse the enum values.
   Parser<IDLEnumValue> enumBody() => seq2(ref0(docString), ref0(identifier))
       .map2((doc, id) => IDLEnumValue(id, documentation: doc));
 
-  Parser<IDLAttributeDeclaration> attributeDeclaration() => ref0(attribute)
-      .plusSeparated(ref1(token, ','))
-      .skip(before: char('['), after: char(']'))
-      .map((e) => IDLAttributeDeclaration(e.elements));
+  Parser<IDLAttributeDeclaration> attributeDeclaration() => (
+        ref1(token, '['),
+        ref0(attribute).plusSeparated(ref1(token, ',')),
+        ref1(token, ']')
+      )
+          .toSequenceParser()
+          .map3((_, e, __) => IDLAttributeDeclaration(e.elements));
 
   Parser<IDLAttribute> attribute() => ref0(attributeLexical).map((e) {
         String? attributeValue;
@@ -91,15 +256,14 @@ class ChromeIDLGrammar extends GrammarDefinition {
           .map3((_, e, __) => e)
           .flatten();
 
-  Parser stringLiteralInParentheses() =>
-      ref0(stringLiteral).skip(before: char('('), after: char(')'));
+  Parser<String> stringLiteralInParentheses() =>
+      bracket('()', ref0(stringLiteral));
 
   Parser<int> integer() => ref1(token, digit().plus()).flatten().map(int.parse);
 
-  Parser<List<int>> integerList() => ref0(integer)
-      .plusSeparated(ref1(token, ','))
-      .skip(before: char('('), after: char(')'))
-      .map((e) => e.elements);
+  Parser<List<int>> integerList() =>
+      bracket('()', ref0(integer).plusSeparated(ref1(token, ',')))
+          .map((e) => e.elements);
 
   Parser<String> identifier() =>
       ref1(token, ref0(identifierStart) & ref0(identifierPart).star())
@@ -109,33 +273,43 @@ class ChromeIDLGrammar extends GrammarDefinition {
 
   Parser identifierPart() => ref0(identifierStart) | digit();
 
+  /// Parse the copyright signature at the top of all idl files.
+  Parser<String> copyrightSignature() {
+    var end = 'LICENSE file.';
+    return (
+      string('// Copyright'),
+      string(end).neg().star(),
+      string(end),
+      newline()
+    ).toSequenceParser().skip(before: whitespace().star()).flatten();
+  }
+
   /// Parser all documentation strings and spaces between.
-  Parser<List<String>> docString() => ref0(singleDocString).star();
+  Parser<List<String>> docString() =>
+      ref0(singleDocString).skip(before: whitespace().star()).star();
 
-  Parser<String> singleDocString() => (ref0(singleLineComment) |
-          ref0(multiLineDocComment) |
-          ref0(multiLineComment))
-      .cast<String>();
+  Parser<String> singleDocString() =>
+      [ref0(singleLineComment), ref0(multiLineComment)].toChoiceParser();
 
-  Parser<String> singleLineComment() => ref0(newlineLexicalToken)
-      .neg()
-      .star()
-      .skip(before: string('//'), after: ref0(newlineLexicalToken).optional())
-      .map((e) => e.join());
+  Parser<String> singleLineComment() => (
+        string('//'),
+        ref0(newlineLexicalToken).neg().star(),
+        ref0(newlineLexicalToken).optional()
+      ).toSequenceParser().map3((_, e, __) => e.join());
 
-  Parser<String> multiLineDocComment() =>
-      (ref0(multiLineComment) | string('*/').neg())
-          .star()
-          .skip(before: string('/**'), after: string('*/'))
-          .map((e) => e.join());
-
-  Parser<String> multiLineComment() =>
-      (ref0(multiLineComment) | string('*/').neg())
-          .star()
-          .skip(before: string('/*'), after: string('*/'))
-          .map((e) => e.join());
+  Parser<String> multiLineComment() => (
+        [string('/**'), string('/*')].toChoiceParser(),
+        string('*/').neg().star(),
+        string('*/')
+      ).toSequenceParser().map3((_, e, __) => e.join());
 
   Parser newlineLexicalToken() => pattern('\n\r');
+
+  Parser<T> bracket<T>(String brackets, Parser<T> parser) => (
+        ref1(token, brackets[0]),
+        parser,
+        ref1(token, brackets[1])
+      ).toSequenceParser().map3((_, p1, __) => p1);
 }
 
 class ChromeIDLParser {
@@ -152,331 +326,37 @@ class ChromeIDLParser {
       _parser.buildFrom(_parser.enumDeclaration()).end();
 
   late final callbackParameterType =
-      _parser.buildFrom(_parser.callbackParameterType()).end();
+      _parser.buildFrom(_parser.parameterType()).end();
 
-  late final callbackParameters =
-  _parser.buildFrom(_parser.callbackParameters()).end();
+  late final callbackParameters = _parser.buildFrom(_parser.parameters()).end();
+
+  late final callbackMethod = _parser.buildFrom(_parser.callbackMethod()).end();
+
+  late final callbackDeclaration =
+      _parser.buildFrom(_parser.callbackDeclaration());
+
+  late final fieldType = _parser.buildFrom(_parser.fieldType()).end();
+
+  late final fieldOrType = _parser.buildFrom(_parser.fieldOrType()).end();
+
+  late final fieldMethodParameters =
+      _parser.buildFrom(_parser.parameters()).end();
+
+  late final typeBody = _parser.buildFrom(_parser.typeBody()).end();
+
+  late final typeDeclaration =
+      _parser.buildFrom(_parser.typeDeclaration()).end();
+
+  late final methods = _parser.buildFrom(_parser.methods()).end();
+
+  late final functionDeclaration =
+      _parser.buildFrom(_parser.functionDeclaration()).end();
+
+  late final eventDeclaration =
+      _parser.buildFrom(_parser.eventDeclaration()).end();
+
+  late final namespaceBody = _parser.buildFrom(_parser.namespaceBody()).end();
+
+  late final namespaceDeclaration =
+      _parser.buildFrom(_parser.namespaceDeclaration()).end();
 }
-
-/*      // Attribute where name=value
-  (identifier + symbol('=') + identifier
-  ^ idlAttributeAssignedValueMapping)
-  // Attribute where [name="string"]
-  | (identifier + symbol('=') + stringLiteral
-  ^ idlAttributeAssignedStringLiteral)
-  // Attribute where [name=("string")]
-  | (identifier + symbol('=') + parens(stringLiteral)
-  ^ idlAttributeAssignedStringLiteral)
-  // Attribute where [maxListeners=1]
-  | (identifier + symbol('=') + natural
-  ^ (name, _, number) =>
-      idlAttributeAssignedValueMapping(name, _, number.toString()))
-  // Attribute where [name=(1,2)]
-  | (identifier + symbol('=') + parens(intLiteral.sepBy(comma))
-  ^ idlAttributeAssignedMultiValueMapping)
-  // Attribute where [name]
-  | (identifier ^ idlAttributeMapping)*/
-
-/*
-  Parser get namespaceIdentifier => identifier.sepBy(dot) | identifier;
-  /**
-   * Parse the namespace.
-   */
-  Parser get namespaceDeclaration =>
-      copyrightSignature.maybe
-      + whiteSpace.maybe
-      + docString
-      + attributeDeclaration.maybe
-      + reserved["namespace"]
-      + namespaceIdentifier
-      + braces(namespaceBody)
-      + semi
-      ^ idlNamespaceDeclarationMapping;
-
-  /**
-   * The body of the namespace. This could include function, type, event,
-   * callback and enum declarations.
-   */
-  Parser get namespaceBody => _namespaceBody.many;
-
-  Parser get _namespaceBody => functionDeclaration
-                               | typeDeclaration
-                               | eventDeclaration
-                               | callbackDeclaration
-                               | enumDeclaration;
-
-  /**
-   * Parse the interface Functions.
-   */
-  Parser get functionDeclaration =>
-      (docString
-      + attributeDeclaration.maybe
-      + reserved["interface"]
-      + symbol("Functions")
-      + braces(methods)
-      + semi ^ idlFunctionDeclarationMapping);
-
-  Parser get methods => _methods.many;
-
-  // TODO: merge _methods with _typeBody implementation
-  Parser get _methods =>
-      (docString
-      + attributeDeclaration.maybe
-      + reserved["static"].maybe
-      + fieldType
-      + identifier
-      + parens(fieldMethodParameters.sepBy(comma))
-      + semi
-      ^ idlMethodParameterMapping);
-
-  /**
-   * Parse the interface Events.
-   */
-  Parser get eventDeclaration =>
-      (docString
-      + attributeDeclaration.maybe
-      + reserved["interface"]
-      + symbol("Events")
-      + braces(methods)
-      + semi ^ idlEventDeclarationMapping);
-
-  /**
-   * Parse the dictionary definitions.
-   */
-  // Note: Also need to parse methods within a type declaration.
-  // This happens in IDL such as app_window.idl.
-  // What we should do is in the mapping method
-  // check the runtime type and put seperate them
-  // between methods and members.
-  Parser get typeDeclaration =>
-      docString
-      + attributeDeclaration.maybe
-      + reserved["dictionary"]
-      + identifier
-      + braces(typeBody)
-      + semi ^ idlTypeDeclarationMapping;
-
-  Parser get typeBody => _typeBody.many;
-
-  Parser get _typeBody =>
-      // [instanceOf=FileEntry] object entry;
-      (docString + attributeDeclaration + reserved["object"] + identifier + semi
-          ^ idlFieldAttributeBasedTypeMapping)
-      |
-      // LaunchItem[]? items; or DOMString type;
-      (docString + attributeDeclaration.maybe + fieldType + symbol('?').maybe + identifier + semi
-          ^ idlFieldBasedTypeMapping)
-      |
-      // [nodoc] (DOMString or FrameOptions)? frame;
-      (docString + attributeDeclaration.maybe + fieldOrType + symbol('?').maybe + identifier + semi
-          ^ idlFieldBasedTypeMapping)
-      |
-      // static void resizeTo(long width, long height);
-      // [nocompile] static Bounds getBounds();
-      // Return type IDLMethod
-      (docString
-          + attributeDeclaration.maybe
-          + reserved["static"]
-          + fieldType
-          + identifier
-          + parens(fieldMethodParameters.sepBy(comma))
-          + semi
-          ^ idlMethodParameterMapping);
-
-  Parser get fieldMethodParameters =>
-      // [instanceOf=Entry] object entry
-      (attributeDeclaration + reserved["object"] + identifier
-        ^ (attribute, _, name) =>
-            idlParameterAttributeBasedTypeMapping(name, attribute))
-        |
-        // GetResourcesCallback callback
-        // TODO: we could use this to resolve the callback later on
-        // via symbol table if needed.
-        (fieldType + reserved["callback"] ^ (type, name) =>
-            idlParameterMapping(name, type, false, true))
-        |
-        // (long or DOMString) callback
-        (fieldOrType + reserved["callback"] ^ (type, name) =>
-            idlParameterMapping(name, type, false, true))
-        |
-        // optional ResultCallback callback
-        (reserved["optional"] + fieldType + reserved["callback"]
-            ^ (_, type, name) => idlParameterMapping(name, type, true, true))
-        |
-        // optional (long or DOMString) callback
-        (reserved["optional"] + fieldOrType + reserved["callback"]
-            ^ (_, type, name) => idlParameterMapping(name, type, true, true))
-        |
-        // optional DOMString responseUrl
-        (reserved["optional"] + fieldType + identifier
-            ^ (_, type, name) => idlParameterMapping(name, type, true, false))
-        |
-        // optional (long or DOMString) height
-        (reserved["optional"] + fieldOrType + identifier
-            ^ (_, type, name) => idlParameterMapping(name, type, true, false))
-        |
-        // DOMString responseUrl or DOMString[] urls
-        (fieldType + identifier ^ (type, name) =>
-            idlParameterMapping(name, type, false, false))
-        |
-        // (long or DOMString) height
-        (fieldOrType + identifier ^ (type, name) =>
-            idlParameterMapping(name, type, false, false));
-
-  // define or as a symbol.
-  Parser<String> get or => symbol('or') % 'or';
-
-  // TODO(adam): return idl type with attribute. Not propagating at the moment.
-  Parser get fieldSingleOrTypeDeclaration =>
-      // [instanceOf=Device] object
-      attributeDeclaration.maybe + fieldType ^ (_, __) => null;
-
-  Parser get fieldOrType =>
-      // (Device or DOMString)
-      parens(fieldSingleOrTypeDeclaration.sepBy(or)) ^ (_) => idlTypeOrMapping();
-
-  // TODO: refactor with callbackParameterType
-  Parser get fieldType =>
-      // Device[]
-      (identifier + symbol('[') + symbol(']') ^ (name, __, ___) =>
-          idlTypeMapping(name, true))
-      |
-      //static void getFileStatuses(object[] fileEntries,
-      //                            GetFileStatusesCallback callback);
-      (reserved["object"] + symbol('[') + symbol(']') ^ (name, __, ___) =>
-          idlTypeMapping(name, true))
-      |
-      // Device
-      (identifier ^ (name) => idlTypeMapping(name, false))
-      |
-      // object
-      (reserved["object"] ^ (name) => idlTypeMapping(name, false));
-
-  /**
-   * Parse a callback definition.
-   */
-  Parser get callbackDeclaration =>
-      docString
-      + attributeDeclaration.maybe
-      + reserved["callback"]
-      + identifier
-      + symbol("=")
-      + callbackMethod
-      + semi ^ idlCallbackDeclarationMapping;
-
-  Parser get callbackMethod =>
-      // TODO: rename callbackParameters to callbackParameter?
-      // NOTE: we used void as a symbol instead of a reserved keyword
-      // for shortcut on other parsers. Proper parser should reserve
-      // "void".
-      // void (StorageUnitInfo[] info)
-      symbol("void") + parens(callbackParameters.sepBy(comma))
-      ^ (_, parameters) => parameters;
-
-  Parser get callbackParameters =>
-      // [instanceOf=Entry] object entry
-      (attributeDeclaration + reserved["object"] + identifier
-          ^ (attribute, __, name) =>
-              idlParameterAttributeBasedTypeMapping(name, attribute))
-      |
-      // [instanceOf=DOMFileSystem] object[] mediaFileSystems
-      (attributeDeclaration + reserved["object"] + symbol('[') + symbol(']')
-          + identifier ^ (attribute, __, ___, ____, name) =>
-              idlParameterAttributeBasedTypeMapping(name, attribute,
-                  isArray: true))
-      |
-      (attributeDeclaration
-      + reserved["optional"]
-      + callbackParameterType
-      + identifier
-      ^ idlOptionalParameterAttributeRemapTypeMapping)
-      |
-      // optional DOMString responseUrl
-      (reserved["optional"] + callbackParameterType + identifier
-          ^ (_, type, name) => idlParameterMapping(name, type, true, false))
-      |
-      //  Device device or Device[] result
-      (callbackParameterType + identifier
-          ^ (type, name) => idlParameterMapping(name, type, false, false));
-
-  Parser get callbackParameterType =>
-      // Device[]
-      (identifier + symbol('[') + symbol(']') ^ (name, __, ___) =>
-          idlTypeMapping(name, true))
-      |
-      //static void getFileStatuses(object[] fileEntries,
-      //                            GetFileStatusesCallback callback);
-      (reserved["object"] + symbol('[') + symbol(']') ^ (name, __, ___) =>
-          idlTypeMapping(name, true))
-      |
-      // Device
-      (identifier ^ (name) => idlTypeMapping(name, false))
-      |
-      // object
-      (reserved["object"] ^ (name) => idlTypeMapping(name, false))
-      |
-      // (long or DOMString)
-      (fieldOrType ^ (_) => idlTypeOrMapping());
-
-  /**
-   * Parse the enum declarations.
-   */
-  Parser get enumDeclaration =>
-      docString
-      + attributeDeclaration.maybe
-      + reserved["enum"]
-      + identifier
-      + braces(enumBody.sepBy(comma))
-      + semi
-      ^ idlEnumDeclarationMapping;
-
-  /**
-   * Parse the enum values.
-   */
-  Parser get enumBody =>
-      docString + identifier ^ idlEnumValueMapping;
-
-  /**
-   * Parse the attribute declaration.
-   */
-  Parser get attributeDeclaration =>
-      brackets(attribute.sepBy(comma)) ^ idlAttributeDeclarationMapping;
-
-  /**
-   * Parse the attribute.
-   */
-  Parser get attribute =>
-      // Attribute where name=value
-      (identifier + symbol('=') + identifier
-      ^ idlAttributeAssignedValueMapping)
-      // Attribute where [name="string"]
-      | (identifier + symbol('=') + stringLiteral
-      ^ idlAttributeAssignedStringLiteral)
-      // Attribute where [name=("string")]
-      | (identifier + symbol('=') + parens(stringLiteral)
-      ^ idlAttributeAssignedStringLiteral)
-      // Attribute where [maxListeners=1]
-      | (identifier + symbol('=') + natural
-      ^ (name, _, number) =>
-          idlAttributeAssignedValueMapping(name, _, number.toString()))
-      // Attribute where [name=(1,2)]
-      | (identifier + symbol('=') + parens(intLiteral.sepBy(comma))
-      ^ idlAttributeAssignedMultiValueMapping)
-      // Attribute where [name]
-      | (identifier ^ idlAttributeMapping);
-
-  /**
-   * Parser all documentation strings and spaces between.
-   */
-  Parser get docString => lexeme(_docString).many;
-  Parser get _docString =>
-        everythingBetween(string('//'), string('\n'))
-      | everythingBetween(string('/**'), string('*/'))
-      | everythingBetween(string('/*'), string('*/'));
-
-  /**
-   * Parse the copyright signature at the top of all idl files.
-   */
-  Parser get copyrightSignature =>
-        everythingBetween(string('// Copyright'), string('LICENSE file.\n\n'))
-      | everythingBetween(string('// Copyright'), string('LICENSE file.\n'));*/

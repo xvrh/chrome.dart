@@ -1,4 +1,3 @@
-
 /**
  * A set of model classes used to represent Chrome libraries, classes, and
  * methods.
@@ -8,9 +7,9 @@ library chrome_model;
 import '../src/utils.dart';
 
 abstract class ChromeElement {
-  String documentation;
+  String? documentation;
 
-  String get name;
+  String? get name;
 
   void appendDocs(String str) {
     if (documentation != null) {
@@ -31,6 +30,7 @@ class ChromeLibrary extends ChromeElement {
   final List<ChromeProperty> properties = [];
   final List<ChromeMethod> methods = [];
   final List<ChromeEvent> events = [];
+
   /// Synthetic classes used to represent multi-return stream events.
   final List<ChromeType> eventTypes = [];
   final List<ChromeEnumType> enumTypes = [];
@@ -40,8 +40,11 @@ class ChromeLibrary extends ChromeElement {
 
   bool hasDeclaredType(String name) => types.any((t) => t.name == name);
 
-  void addImport(String str) {
-    if (str != null && str != name && !imports.contains(str) && !str.startsWith('devtools')) {
+  void addImport(String? str) {
+    if (str != null &&
+        str != name &&
+        !imports.contains(str) &&
+        !str.startsWith('devtools')) {
       imports.add(str);
       imports.sort();
     }
@@ -53,7 +56,8 @@ class ChromeLibrary extends ChromeElement {
     }
   }
 
-  Iterable<ChromeProperty> get filteredProperties => properties.where((p) => !p.nodoc);
+  Iterable<ChromeProperty> get filteredProperties =>
+      properties.where((p) => !p.nodoc);
 
   bool isEnumType(ChromeType refType) {
     if (!refType.isAny) return false;
@@ -66,9 +70,10 @@ class ChromeLibrary extends ChromeElement {
 
 class ChromeProperty extends ChromeElement {
   String name;
+
   /// This is generally always [name], except in the case where the idl name
   /// starts with an underscore.
-  String idlName;
+  late String idlName;
 
   ChromeType type;
 
@@ -83,14 +88,14 @@ class ChromeProperty extends ChromeElement {
 
   String getDescription() {
     if (documentation == null) {
-      return type.documentation;
+      return type.documentation ?? '';
     } else if (type.documentation == null) {
-      return documentation;
+      return documentation ?? '';
     } else {
-      if (type.documentation.startsWith(documentation)) {
-        return type.documentation;
+      if (type.documentation!.startsWith(documentation!)) {
+        return type.documentation!;
       } else {
-        return "${documentation}\n\n${type.documentation}";
+        return "$documentation\n\n${type.documentation}";
       }
     }
   }
@@ -99,8 +104,8 @@ class ChromeProperty extends ChromeElement {
 }
 
 class ChromeMethod extends ChromeElement {
-  ChromeType returns;
-  String name;
+  late ChromeType returns;
+  late String name;
   List<ChromeType> params = [];
 
   bool get usesCallback => returns.isFuture;
@@ -111,10 +116,10 @@ class ChromeMethod extends ChromeElement {
 
   String getDescription() {
     if (documentation == null) {
-      return documentation;
+      return documentation!;
     }
 
-    StringBuffer buf = new StringBuffer(documentation);
+    StringBuffer buf = new StringBuffer(documentation!);
     buf.write('\n');
 
     params.forEach((p) {
@@ -135,8 +140,7 @@ class ChromeMethod extends ChromeElement {
 }
 
 class ChromeEvent extends ChromeType {
-
-  ChromeType calculateType(ChromeLibrary library) {
+  ChromeType? calculateType(ChromeLibrary library) {
     if (parameters.length == 1) {
       return parameters[0];
     } else if (parameters.length > 1) {
@@ -170,8 +174,8 @@ class ChromeEvent extends ChromeType {
 class ChromeDeclaredType extends ChromeType {
   /// For a class like 'declarativeWebRequest.EditRequestCookie', this
   /// represents the 'declarativeWebRequest' part.
-  String qualifier;
-  String superClassDef;
+  String? qualifier;
+  String? superClassDef;
   bool noSetters = false;
   List<ChromeMethod> methods = [];
 
@@ -198,13 +202,13 @@ class ChromeEnumType extends ChromeType {
 }
 
 class ChromeEnumEntry extends ChromeElement {
-  String name;
+  String? name;
 
-  ChromeEnumEntry([this.name, String documentation]) {
+  ChromeEnumEntry([this.name, String? documentation]) {
     this.documentation = documentation;
   }
 
-  String toString() => name;
+  String toString() => '$name';
 }
 
 class ChromeType extends ChromeElement {
@@ -213,10 +217,10 @@ class ChromeType extends ChromeElement {
   static final ChromeType JS_OBJECT = new ChromeType(type: 'JsObject');
   static final ChromeType STRING = new ChromeType(type: 'String');
 
-  String name;
-  String type;
-  String refName;
-  bool optional;
+  late String name;
+  late String type;
+  String? refName;
+  bool optional = false;
   // TODO(adam): why have a getter for this value if its public?
   // merge with isCombinedReturnValue
   bool combinedReturnValue = false;
@@ -226,14 +230,19 @@ class ChromeType extends ChromeElement {
   int arity = 1;
   List<ChromeType> parameters = [];
   List<ChromeProperty> properties = [];
-  List<String> enumOptions;
+  List<String>? enumOptions;
 
-  ChromeType({this.type, this.refName});
+  ChromeType({String? type, this.refName}) {
+    if (type != null) {
+      this.type = type;
+    }
+  }
 
   bool get isAny => (type == 'var' || type == 'function');
   bool get isReferencedType => isAny && refName != null;
   bool get isVoid => type == 'void';
   bool get isFuture => type == 'Future';
+
   /// This is used to return two or more values from a function.
   bool get isCombinedReturnValue => combinedReturnValue;
   bool get isList => type == 'List';
@@ -244,13 +253,14 @@ class ChromeType extends ChromeElement {
   bool get isPrimitive => isString || isBool || isInt;
   bool get hasEnums => enumOptions != null;
 
-  Iterable<ChromeProperty> get filteredProperties => properties.where((p) => !p.nodoc);
+  Iterable<ChromeProperty> get filteredProperties =>
+      properties.where((p) => !p.nodoc);
 
   String toParamString([bool useDynamic = false]) {
     if (isAny && !isReferencedType) {
       return useDynamic ? 'dynamic' : type;
     } else if (parameters.isEmpty) {
-      return refName != null ? refName : type;
+      return refName != null ? refName! : type;
     } else {
       return "${type}<${parameters.map((t) => t.toParamString(true)).join(', ')}>";
     }
@@ -258,7 +268,7 @@ class ChromeType extends ChromeElement {
 
   String toReturnString() {
     if (isReferencedType) {
-      return refName;
+      return refName!;
     } else if (isAny) {
       return 'dynamic';
     } else {
@@ -274,7 +284,7 @@ class ChromeType extends ChromeElement {
   String toString() => toParamString();
 }
 
-String _appendDocs(String docs, String append) {
+String _appendDocs(String? docs, String append) {
   if (docs == null) {
     return append;
   }

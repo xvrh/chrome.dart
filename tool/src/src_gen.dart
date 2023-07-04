@@ -28,7 +28,7 @@ class DartGenerator {
    * along the column boundary. If [preferSingle] is true, and the docs would
    * fit on a single line, use `///` dartdoc style.
    */
-  void writeDocs(String docs, {bool preferSingle = false}) {
+  void writeDocs(String? docs, {bool preferSingle = false}) {
     if (docs == null) {
       return;
     }

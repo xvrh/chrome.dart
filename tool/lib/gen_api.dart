@@ -18,7 +18,7 @@ void main(List<String> args) {
   ArgParser parser = _createArgsParser();
   ArgResults results = parser.parse(args);
 
-  if (results['help'] || results.rest.length != 1) {
+  if (results['help'] as bool || results.rest.length != 1) {
     _printUsage(parser);
     return;
   }
@@ -32,7 +32,7 @@ void main(List<String> args) {
   Overrides overrides;
 
   if (results['overrides'] != null) {
-    var overridesFile = new File(results['overrides']);
+    var overridesFile = new File(results['overrides']! as String);
     overrides = new Overrides.fromFile(overridesFile);
   } else {
     overrides = new Overrides();
@@ -42,20 +42,20 @@ void main(List<String> args) {
     print(record.message);
   });
 
-  GenApiFile generator = new GenApiFile(new File(results.rest.first),
-      overrides: overrides);
-  generator.generate(new File(results['out']));
+  GenApiFile generator =
+      new GenApiFile(new File(results.rest.first), overrides: overrides);
+  generator.generate(new File(results['out']! as String));
 }
 
 class GenApiFile {
   final File inFile;
   final Overrides overrides;
 
-  ChromeLibrary _chromeLib;
-  Backend _backend;
+  late ChromeLibrary _chromeLib;
+  late Backend _backend;
 
-  GenApiFile(this.inFile, {Overrides overrides, DartGenerator generator}) :
-      this.overrides = (overrides == null) ? new Overrides() : overrides {
+  GenApiFile(this.inFile, {Overrides? overrides, DartGenerator? generator})
+      : this.overrides = (overrides == null) ? new Overrides() : overrides {
     if (!inFile.path.endsWith(".json") && !inFile.path.endsWith(".idl")) {
       throw new Exception('format not understood: ${inFile.path}');
     }
@@ -63,20 +63,22 @@ class GenApiFile {
     _logger.info("generating API for file ${inFile.path}");
 
     if (inFile.path.endsWith(".json")) {
-      json_model.JsonNamespace namespace = json_parser.parse(
-          inFile.readAsStringSync());
+      json_model.JsonNamespace namespace =
+          json_parser.parse(inFile.readAsStringSync());
       _chromeLib = json_model.convert(namespace);
     } else if (inFile.path.endsWith(".idl")) {
       chrome_idl_parser.ChromeIDLParser chromeIdlParser =
           new chrome_idl_parser.ChromeIDLParser();
       chrome_idl_model.IDLNamespaceDeclaration idlNamespaceDeclaration =
-          chromeIdlParser.namespaceDeclaration.parse(inFile.readAsStringSync());
+          chromeIdlParser.namespaceDeclaration
+              .parse(inFile.readAsStringSync())
+              .value;
       _chromeLib = chrome_idl_convert.convert(idlNamespaceDeclaration);
     } else {
       throw new ArgumentError('file type unsupported: ${inFile}');
     }
 
-    _backend = new Backend.createDefault(_chromeLib, overrides, generator);
+    _backend = new Backend.createDefault(_chromeLib, this.overrides, generator);
   }
 
   void generate(File outFile) {
@@ -97,7 +99,8 @@ class GenApiFile {
     return _chromeLib.imports;
   }
 
-  void generateContent(bool printClassDocs, Set createdFactories, Set createdClasses) {
+  void generateContent(
+      bool printClassDocs, Set createdFactories, Set createdClasses) {
     _backend.generateContent(printClassDocs, createdFactories, createdClasses);
   }
 }
@@ -107,17 +110,11 @@ class GenApiFile {
 ArgParser _createArgsParser() {
   ArgParser parser = new ArgParser();
   parser.addFlag('help',
-      abbr: 'h',
-      negatable: false,
-      help: 'show command help');
-  parser.addOption(
-      'out',
-      abbr: 'o',
-      help: 'Path to the destination file. Required.');
+      abbr: 'h', negatable: false, help: 'show command help');
+  parser.addOption('out',
+      abbr: 'o', help: 'Path to the destination file. Required.');
 
-  parser.addOption(
-      'overrides',
-      help: 'Path to on overrides json file.');
+  parser.addOption('overrides', help: 'Path to on overrides json file.');
   return parser;
 }
 

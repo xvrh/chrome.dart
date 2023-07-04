@@ -1,30 +1,29 @@
 library chrome_idl_model;
 
-/*
 /// This class provides a model for IDL-specified namespaces.
 class IDLNamespaceDeclaration {
   /// The [name] of the declared namespace.
   final String name;
 
-  final IDLAttributeDeclaration attribute;
-  final IDLFunctionDeclaration functionDeclaration;
+  final IDLAttributeDeclaration? attribute;
+  final IDLFunctionDeclaration? functionDeclaration;
   final List<IDLTypeDeclaration> typeDeclarations;
-  final IDLEventDeclaration eventDeclaration;
+  final IDLEventDeclaration? eventDeclaration;
   final List<IDLCallbackDeclaration> callbackDeclarations;
   final List<IDLEnumDeclaration> enumDeclarations;
-  final String copyrightSignature;
+  final String? copyrightSignature;
 
   /// Namespace documentation.
   final List<String> documentation;
 
   IDLNamespaceDeclaration(this.name,
       {this.functionDeclaration,
-      this.typeDeclarations,
+      required this.typeDeclarations,
       this.eventDeclaration,
-      this.callbackDeclarations,
-      this.enumDeclarations,
+      required this.callbackDeclarations,
+      required this.enumDeclarations,
       this.attribute,
-      this.documentation,
+      required this.documentation,
       this.copyrightSignature});
 
   String toString() =>
@@ -34,10 +33,11 @@ class IDLNamespaceDeclaration {
 /// This class provides a model for IDL-specified functions.
 class IDLFunctionDeclaration {
   final String name = "Functions";
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
   final List<IDLMethod> methods;
   final List<String> documentation;
-  IDLFunctionDeclaration(this.methods, {this.attribute, this.documentation});
+  IDLFunctionDeclaration(this.methods,
+      {this.attribute, required this.documentation});
   String toString() =>
       "IDLFunctionDeclaration($name, $attribute, $methods, $documentation)";
 }
@@ -45,13 +45,13 @@ class IDLFunctionDeclaration {
 /// This class provides a model for IDL-specified type definitions.
 class IDLTypeDeclaration {
   final String name;
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
   final List<IDLField> members;
   final List<IDLMethod> methods;
   final List<String> documentation;
 
   IDLTypeDeclaration(this.name, this.members,
-      {this.methods, this.attribute, this.documentation});
+      {required this.methods, this.attribute, required this.documentation});
 
   String toString() =>
       "IDLTypeDeclaration($name, $members, $methods, $attribute, $documentation)";
@@ -60,21 +60,23 @@ class IDLTypeDeclaration {
 /// This class provides a model for IDL-specified events.
 class IDLEventDeclaration {
   final String name = "Events";
-  final IDLAttributeDeclaration attribute;
+  final IDLAttributeDeclaration? attribute;
   final List<IDLMethod> methods;
   final List<String> documentation;
-  IDLEventDeclaration(this.methods, {this.attribute, this.documentation});
+  IDLEventDeclaration(this.methods,
+      {this.attribute, required this.documentation});
   String toString() =>
       "IDLEventDeclaration($name, $attribute, $methods, $documentation)";
 }
-*/
+
 /// This class provides a model for IDL-specified callbacks.
 class IDLCallbackDeclaration {
   final String name;
   final List<IDLParameter> parameters;
   final List<String> documentation;
 
-  IDLCallbackDeclaration(this.name, this.parameters, {required this.documentation});
+  IDLCallbackDeclaration(this.name, this.parameters,
+      {required this.documentation});
 
   String toString() =>
       "IDLCallbackDeclaration($name, $parameters, $documentation)";

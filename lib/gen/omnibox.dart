@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.omnibox` namespace.
  */
-final ChromeOmnibox omnibox = new ChromeOmnibox._();
+final ChromeOmnibox omnibox = ChromeOmnibox._();
 
 class ChromeOmnibox extends ChromeApi {
   JsObject get _omnibox => chrome['omnibox'];
@@ -22,39 +22,39 @@ class ChromeOmnibox extends ChromeApi {
    * any onInputChanged events.
    */
   Stream get onInputStarted => _onInputStarted.stream;
-  ChromeStreamController _onInputStarted;
+  late ChromeStreamController _onInputStarted;
 
   /**
    * User has changed what is typed into the omnibox.
    */
   Stream<OnInputChangedEvent> get onInputChanged => _onInputChanged.stream;
-  ChromeStreamController<OnInputChangedEvent> _onInputChanged;
+  late ChromeStreamController<OnInputChangedEvent> _onInputChanged;
 
   /**
    * User has accepted what is typed into the omnibox.
    */
   Stream<OnInputEnteredEvent> get onInputEntered => _onInputEntered.stream;
-  ChromeStreamController<OnInputEnteredEvent> _onInputEntered;
+  late ChromeStreamController<OnInputEnteredEvent> _onInputEntered;
 
   /**
    * User has ended the keyword input session without accepting the input.
    */
   Stream get onInputCancelled => _onInputCancelled.stream;
-  ChromeStreamController _onInputCancelled;
+  late ChromeStreamController _onInputCancelled;
 
   /**
    * User has deleted a suggested result.
    */
   Stream<String> get onDeleteSuggestion => _onDeleteSuggestion.stream;
-  ChromeStreamController<String> _onDeleteSuggestion;
+  late ChromeStreamController<String> _onDeleteSuggestion;
 
   ChromeOmnibox._() {
     var getApi = () => _omnibox;
     _onInputStarted = new ChromeStreamController.noArgs(getApi, 'onInputStarted');
-    _onInputChanged = new ChromeStreamController<OnInputChangedEvent>.twoArgs(getApi, 'onInputChanged', _createOnInputChangedEvent);
-    _onInputEntered = new ChromeStreamController<OnInputEnteredEvent>.twoArgs(getApi, 'onInputEntered', _createOnInputEnteredEvent);
+    _onInputChanged = ChromeStreamController<OnInputChangedEvent>.twoArgs(getApi, 'onInputChanged', _createOnInputChangedEvent);
+    _onInputEntered = ChromeStreamController<OnInputEnteredEvent>.twoArgs(getApi, 'onInputEntered', _createOnInputEnteredEvent);
     _onInputCancelled = new ChromeStreamController.noArgs(getApi, 'onInputCancelled');
-    _onDeleteSuggestion = new ChromeStreamController<String>.oneArg(getApi, 'onDeleteSuggestion', selfConverter);
+    _onDeleteSuggestion = ChromeStreamController<String>.oneArg(getApi, 'onDeleteSuggestion', selfConverter);
   }
 
   bool get available => _omnibox != null;
@@ -86,7 +86,7 @@ class ChromeOmnibox extends ChromeApi {
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.omnibox' is not available");
+    throw  UnsupportedError("'chrome.omnibox' is not available");
   }
 }
 
@@ -100,7 +100,7 @@ class OnInputChangedEvent {
    * A callback passed to the onInputChanged event used for sending suggestions
    * back to the browser.
    */
-  final dynamic suggest;
+  final Object suggest;
 
   OnInputChangedEvent(this.text, this.suggest);
 }
@@ -146,10 +146,34 @@ class OnInputEnteredDisposition extends ChromeEnum {
 }
 
 /**
+ * The style ranges for the description, as provided by the extension.
+ */
+class MatchClassification extends ChromeObject {
+  MatchClassification({int? offset, DescriptionStyleType? type, int? length}) {
+    if (offset != null) this.offset = offset;
+    if (type != null) this.type = type;
+    if (length != null) this.length = length;
+  }
+  MatchClassification.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  int get offset => jsProxy['offset'];
+  set offset(int value) => jsProxy['offset'] = value;
+
+  /**
+   * The style type
+   */
+  DescriptionStyleType get type => _createDescriptionStyleType(jsProxy['type']);
+  set type(DescriptionStyleType value) => jsProxy['type'] = jsify(value);
+
+  int get length => jsProxy['length'];
+  set length(int value) => jsProxy['length'] = value;
+}
+
+/**
  * A suggest result.
  */
 class SuggestResult extends ChromeObject {
-  SuggestResult({String content, String description, bool deletable}) {
+  SuggestResult({String? content, String? description, bool? deletable}) {
     if (content != null) this.content = content;
     if (description != null) this.description = description;
     if (deletable != null) this.deletable = deletable;
@@ -185,7 +209,7 @@ class SuggestResult extends ChromeObject {
  * A suggest result.
  */
 class DefaultSuggestResult extends ChromeObject {
-  DefaultSuggestResult({String description}) {
+  DefaultSuggestResult({String? description}) {
     if (description != null) this.description = description;
   }
   DefaultSuggestResult.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -202,7 +226,8 @@ class DefaultSuggestResult extends ChromeObject {
 }
 
 OnInputChangedEvent _createOnInputChangedEvent(String text, JsObject suggest) =>
-    new OnInputChangedEvent(text, suggest);
-OnInputEnteredEvent _createOnInputEnteredEvent(String text, String disposition) =>
-    new OnInputEnteredEvent(text, _createOnInputEnteredDisposition(disposition));
+    OnInputChangedEvent(text, suggest);
+OnInputEnteredEvent _createOnInputEnteredEvent(String text, JsObject disposition) =>
+    OnInputEnteredEvent(text, _createOnInputEnteredDisposition(disposition));
+DescriptionStyleType _createDescriptionStyleType(String value) => DescriptionStyleType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 OnInputEnteredDisposition _createOnInputEnteredDisposition(String value) => OnInputEnteredDisposition.VALUES.singleWhere((ChromeEnum e) => e.value == value);

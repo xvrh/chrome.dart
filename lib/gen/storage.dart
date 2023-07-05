@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.storage` namespace.
  */
-final ChromeStorage storage = new ChromeStorage._();
+final ChromeStorage storage = ChromeStorage._();
 
 class ChromeStorage extends ChromeApi {
   JsObject get _storage => chrome['storage'];
@@ -20,11 +20,11 @@ class ChromeStorage extends ChromeApi {
    * Fired when one or more items change.
    */
   Stream<StorageOnChangedEvent> get onChanged => _onChanged.stream;
-  ChromeStreamController<StorageOnChangedEvent> _onChanged;
+  late ChromeStreamController<StorageOnChangedEvent> _onChanged;
 
   ChromeStorage._() {
     var getApi = () => _storage;
-    _onChanged = new ChromeStreamController<StorageOnChangedEvent>.twoArgs(getApi, 'onChanged', _createOnChangedEvent);
+    _onChanged = ChromeStreamController<StorageOnChangedEvent>.twoArgs(getApi, 'onChanged', _createOnChangedEvent);
   }
 
   bool get available => _storage != null;
@@ -45,6 +45,12 @@ class ChromeStorage extends ChromeApi {
    * results in an error.
    */
   StorageArea get managed => _createStorageArea(_storage['managed']);
+
+  /**
+   * Items in the `session` storage area are stored in-memory and will not be
+   * persisted to disk.
+   */
+  SessionStorageArea get session => _createSessionStorageArea(_storage['session']);
 }
 
 /**
@@ -64,6 +70,18 @@ class StorageOnChangedEvent {
   final String areaName;
 
   StorageOnChangedEvent(this.changes, this.areaName);
+}
+
+/**
+ * The storage area's access level.
+ */
+class AccessLevel extends ChromeEnum {
+  static const AccessLevel TRUSTED_CONTEXTS = const AccessLevel._('TRUSTED_CONTEXTS');
+  static const AccessLevel TRUSTED_AND_UNTRUSTED_CONTEXTS = const AccessLevel._('TRUSTED_AND_UNTRUSTED_CONTEXTS');
+
+  static const List<AccessLevel> VALUES = const[TRUSTED_CONTEXTS, TRUSTED_AND_UNTRUSTED_CONTEXTS];
+
+  const AccessLevel._(String str): super(str);
 }
 
 class SyncStorageArea extends StorageArea {
@@ -113,9 +131,6 @@ class SyncStorageArea extends StorageArea {
    */
   int get MAX_WRITE_OPERATIONS_PER_MINUTE => jsProxy['MAX_WRITE_OPERATIONS_PER_MINUTE'];
 
-  /**
-   * 
-   */
   int get MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE => jsProxy['MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE'];
 }
 
@@ -133,8 +148,21 @@ class LocalStorageArea extends StorageArea {
   int get QUOTA_BYTES => jsProxy['QUOTA_BYTES'];
 }
 
+class SessionStorageArea extends StorageArea {
+  SessionStorageArea();
+  SessionStorageArea.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The maximum amount (in bytes) of data that can be stored in memory, as
+   * measured by estimating the dynamically allocated memory usage of every
+   * value and key. Updates that would cause this limit to be exceeded fail
+   * immediately and set [runtime.lastError].
+   */
+  int get QUOTA_BYTES => jsProxy['QUOTA_BYTES'];
+}
+
 class StorageChange extends ChromeObject {
-  StorageChange({var oldValue, var newValue}) {
+  StorageChange({Object? oldValue, Object? newValue}) {
     if (oldValue != null) this.oldValue = oldValue;
     if (newValue != null) this.newValue = newValue;
   }
@@ -143,14 +171,14 @@ class StorageChange extends ChromeObject {
   /**
    * The old value of the item, if there was an old value.
    */
-  dynamic get oldValue => jsProxy['oldValue'];
-  set oldValue(var value) => jsProxy['oldValue'] = jsify(value);
+  Object get oldValue => jsProxy['oldValue'];
+  set oldValue(Object value) => jsProxy['oldValue'] = jsify(value);
 
   /**
    * The new value of the item, if there is a new value.
    */
-  dynamic get newValue => jsProxy['newValue'];
-  set newValue(var value) => jsProxy['newValue'] = jsify(value);
+  Object get newValue => jsProxy['newValue'];
+  set newValue(Object value) => jsProxy['newValue'] = jsify(value);
 }
 
 class StorageArea extends ChromeObject {
@@ -164,14 +192,9 @@ class StorageArea extends ChromeObject {
    * default values (see description of the object).  An empty list or object
    * will return an empty result object.  Pass in `null` to get the entire
    * contents of storage.
-   * 
-   * Returns:
-   * Object with items in their key-value mappings.
    */
-  Future<Map<String, dynamic>> get([dynamic keys]) {
-    var completer = new ChromeCompleter<Map<String, dynamic>>.oneArg(mapify);
-    jsProxy.callMethod('get', [jsify(keys), completer.callback]);
-    return completer.future;
+  void get([Object? keys]) {
+    jsProxy.callMethod('get', [jsify(keys)]);
   }
 
   /**
@@ -180,14 +203,9 @@ class StorageArea extends ChromeObject {
    * [keys] A single key or list of keys to get the total usage for. An empty
    * list will return 0. Pass in `null` to get the total usage of all of
    * storage.
-   * 
-   * Returns:
-   * Amount of space being used in storage, in bytes.
    */
-  Future<int> getBytesInUse([dynamic keys]) {
-    var completer = new ChromeCompleter<int>.oneArg();
-    jsProxy.callMethod('getBytesInUse', [jsify(keys), completer.callback]);
-    return completer.future;
+  void getBytesInUse([Object? keys]) {
+    jsProxy.callMethod('getBytesInUse', [jsify(keys)]);
   }
 
   /**
@@ -201,10 +219,8 @@ class StorageArea extends ChromeObject {
    * the exception of `Array` (serializes as expected), `Date`, and `Regex`
    * (serialize using their `String` representation).
    */
-  Future set(Map<String, dynamic> items) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('set', [jsify(items), completer.callback]);
-    return completer.future;
+  void set(Map<String, Object> items) {
+    jsProxy.callMethod('set', [jsify(items)]);
   }
 
   /**
@@ -212,24 +228,43 @@ class StorageArea extends ChromeObject {
    * 
    * [keys] A single key or a list of keys for items to remove.
    */
-  Future remove(dynamic keys) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('remove', [jsify(keys), completer.callback]);
-    return completer.future;
+  void remove(Object keys) {
+    jsProxy.callMethod('remove', [jsify(keys)]);
   }
 
   /**
    * Removes all items from storage.
    */
-  Future clear() {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('clear', [completer.callback]);
-    return completer.future;
+  void clear() {
+    jsProxy.callMethod('clear');
+  }
+
+  /**
+   * Sets the desired access level for the storage area. The default will be
+   * only trusted contexts.
+   */
+  void setAccessLevel(StorageSetAccessLevelParams accessOptions) {
+    jsProxy.callMethod('setAccessLevel', [jsify(accessOptions)]);
   }
 }
 
+class StorageSetAccessLevelParams extends ChromeObject {
+  StorageSetAccessLevelParams({AccessLevel? accessLevel}) {
+    if (accessLevel != null) this.accessLevel = accessLevel;
+  }
+  StorageSetAccessLevelParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The access level of the storage area.
+   */
+  AccessLevel get accessLevel => _createAccessLevel(jsProxy['accessLevel']);
+  set accessLevel(AccessLevel value) => jsProxy['accessLevel'] = jsify(value);
+}
+
 StorageOnChangedEvent _createOnChangedEvent(JsObject changes, String areaName) =>
-    new StorageOnChangedEvent(mapify(changes), areaName);
-SyncStorageArea _createSyncStorageArea(JsObject jsProxy) => jsProxy == null ? null : new SyncStorageArea.fromProxy(jsProxy);
-LocalStorageArea _createLocalStorageArea(JsObject jsProxy) => jsProxy == null ? null : new LocalStorageArea.fromProxy(jsProxy);
-StorageArea _createStorageArea(JsObject jsProxy) => jsProxy == null ? null : new StorageArea.fromProxy(jsProxy);
+    StorageOnChangedEvent(mapify(changes), areaName);
+SyncStorageArea _createSyncStorageArea(JsObject jsProxy) => SyncStorageArea.fromProxy(jsProxy);
+LocalStorageArea _createLocalStorageArea(JsObject jsProxy) => LocalStorageArea.fromProxy(jsProxy);
+StorageArea _createStorageArea(JsObject jsProxy) => StorageArea.fromProxy(jsProxy);
+SessionStorageArea _createSessionStorageArea(JsObject jsProxy) => SessionStorageArea.fromProxy(jsProxy);
+AccessLevel _createAccessLevel(String value) => AccessLevel.VALUES.singleWhere((ChromeEnum e) => e.value == value);

@@ -2,19 +2,22 @@ library omaha_test;
 
 import 'dart:async';
 
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../src/omaha.dart';
 import '../src/simple_http_client.dart';
+import 'omaha_test.mocks.dart';
 
+@GenerateMocks([SimpleHttpClient])
 void main() => defineTests();
 
 void defineTests() {
   group('OmahaVersionExtractor', () {
-    OmahaVersionExtractor extractor;
+    late OmahaVersionExtractor extractor;
     MockSimpleHttpClient client;
-    String html;
+    late String html;
 
     setUp(() {
       client = new MockSimpleHttpClient();
@@ -29,8 +32,4 @@ void defineTests() {
       expect(await extractor.stableVersion, version);
     });
   });
-}
-
-class MockSimpleHttpClient extends Mock implements SimpleHttpClient {
-  noSuchMethod(Invocation msg) => super.noSuchMethod(msg);
 }

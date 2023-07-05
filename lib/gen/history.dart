@@ -13,7 +13,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.history` namespace.
  */
-final ChromeHistory history = new ChromeHistory._();
+final ChromeHistory history = ChromeHistory._();
 
 class ChromeHistory extends ChromeApi {
   JsObject get _history => chrome['history'];
@@ -23,19 +23,19 @@ class ChromeHistory extends ChromeApi {
    * This event fires before the page has loaded.
    */
   Stream<HistoryItem> get onVisited => _onVisited.stream;
-  ChromeStreamController<HistoryItem> _onVisited;
+  late ChromeStreamController<HistoryItem> _onVisited;
 
   /**
    * Fired when one or more URLs are removed from the history service.  When all
    * visits have been removed the URL is purged from history.
    */
   Stream<Map> get onVisitRemoved => _onVisitRemoved.stream;
-  ChromeStreamController<Map> _onVisitRemoved;
+  late ChromeStreamController<Map> _onVisitRemoved;
 
   ChromeHistory._() {
     var getApi = () => _history;
-    _onVisited = new ChromeStreamController<HistoryItem>.oneArg(getApi, 'onVisited', _createHistoryItem);
-    _onVisitRemoved = new ChromeStreamController<Map>.oneArg(getApi, 'onVisitRemoved', mapify);
+    _onVisited = ChromeStreamController<HistoryItem>.oneArg(getApi, 'onVisited', _createHistoryItem);
+    _onVisitRemoved = ChromeStreamController<Map>.oneArg(getApi, 'onVisitRemoved', mapify);
   }
 
   bool get available => _history != null;
@@ -44,46 +44,38 @@ class ChromeHistory extends ChromeApi {
    * Searches the history for the last visit time of each page matching the
    * query.
    */
-  Future<List<HistoryItem>> search(HistorySearchParams query) {
+  void search(HistorySearchParams query) {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<HistoryItem>>.oneArg((e) => listify(e, _createHistoryItem));
-    _history.callMethod('search', [jsify(query), completer.callback]);
-    return completer.future;
+    _history.callMethod('search', [jsify(query)]);
   }
 
   /**
    * Retrieves information about visits to a URL.
    */
-  Future<List<VisitItem>> getVisits(HistoryGetVisitsParams details) {
+  void getVisits(UrlDetails details) {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<VisitItem>>.oneArg((e) => listify(e, _createVisitItem));
-    _history.callMethod('getVisits', [jsify(details), completer.callback]);
-    return completer.future;
+    _history.callMethod('getVisits', [jsify(details)]);
   }
 
   /**
    * Adds a URL to the history at the current time with a [transition
    * type](#transition_types) of "link".
    */
-  Future addUrl(HistoryAddUrlParams details) {
+  void addUrl(UrlDetails details) {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _history.callMethod('addUrl', [jsify(details), completer.callback]);
-    return completer.future;
+    _history.callMethod('addUrl', [jsify(details)]);
   }
 
   /**
    * Removes all occurrences of the given URL from the history.
    */
-  Future deleteUrl(HistoryDeleteUrlParams details) {
+  void deleteUrl(UrlDetails details) {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _history.callMethod('deleteUrl', [jsify(details), completer.callback]);
-    return completer.future;
+    _history.callMethod('deleteUrl', [jsify(details)]);
   }
 
   /**
@@ -91,27 +83,23 @@ class ChromeHistory extends ChromeApi {
    * will not be removed from the history unless all visits fall within the
    * range.
    */
-  Future deleteRange(HistoryDeleteRangeParams range) {
+  void deleteRange(HistoryDeleteRangeParams range) {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _history.callMethod('deleteRange', [jsify(range), completer.callback]);
-    return completer.future;
+    _history.callMethod('deleteRange', [jsify(range)]);
   }
 
   /**
    * Deletes all items from the history.
    */
-  Future deleteAll() {
+  void deleteAll() {
     if (_history == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _history.callMethod('deleteAll', [completer.callback]);
-    return completer.future;
+    _history.callMethod('deleteAll');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.history' is not available");
+    throw  UnsupportedError("'chrome.history' is not available");
   }
 }
 
@@ -140,7 +128,7 @@ class HistoryTransitionType extends ChromeEnum {
  * An object encapsulating one result of a history query.
  */
 class HistoryItem extends ChromeObject {
-  HistoryItem({String id, String url, String title, var lastVisitTime, int visitCount, int typedCount}) {
+  HistoryItem({String? id, String? url, String? title, Object? lastVisitTime, int? visitCount, int? typedCount}) {
     if (id != null) this.id = id;
     if (url != null) this.url = url;
     if (title != null) this.title = title;
@@ -172,8 +160,8 @@ class HistoryItem extends ChromeObject {
    * When this page was last loaded, represented in milliseconds since the
    * epoch.
    */
-  dynamic get lastVisitTime => jsProxy['lastVisitTime'];
-  set lastVisitTime(var value) => jsProxy['lastVisitTime'] = jsify(value);
+  Object get lastVisitTime => jsProxy['lastVisitTime'];
+  set lastVisitTime(Object value) => jsProxy['lastVisitTime'] = jsify(value);
 
   /**
    * The number of times the user has navigated to this page.
@@ -193,7 +181,7 @@ class HistoryItem extends ChromeObject {
  * An object encapsulating one visit to a URL.
  */
 class VisitItem extends ChromeObject {
-  VisitItem({String id, String visitId, var visitTime, String referringVisitId, HistoryTransitionType transition}) {
+  VisitItem({String? id, String? visitId, Object? visitTime, String? referringVisitId, HistoryTransitionType? transition}) {
     if (id != null) this.id = id;
     if (visitId != null) this.visitId = visitId;
     if (visitTime != null) this.visitTime = visitTime;
@@ -217,8 +205,8 @@ class VisitItem extends ChromeObject {
   /**
    * When this visit occurred, represented in milliseconds since the epoch.
    */
-  dynamic get visitTime => jsProxy['visitTime'];
-  set visitTime(var value) => jsProxy['visitTime'] = jsify(value);
+  Object get visitTime => jsProxy['visitTime'];
+  set visitTime(Object value) => jsProxy['visitTime'] = jsify(value);
 
   /**
    * The visit ID of the referrer.
@@ -233,8 +221,22 @@ class VisitItem extends ChromeObject {
   set transition(HistoryTransitionType value) => jsProxy['transition'] = jsify(value);
 }
 
+class UrlDetails extends ChromeObject {
+  UrlDetails({String? url}) {
+    if (url != null) this.url = url;
+  }
+  UrlDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The URL for the operation. It must be in the format as returned from a call
+   * to history.search.
+   */
+  String get url => jsProxy['url'];
+  set url(String value) => jsProxy['url'] = value;
+}
+
 class HistorySearchParams extends ChromeObject {
-  HistorySearchParams({String text, var startTime, var endTime, int maxResults}) {
+  HistorySearchParams({String? text, Object? startTime, Object? endTime, int? maxResults}) {
     if (text != null) this.text = text;
     if (startTime != null) this.startTime = startTime;
     if (endTime != null) this.endTime = endTime;
@@ -253,15 +255,15 @@ class HistorySearchParams extends ChromeObject {
    * Limit results to those visited after this date, represented in milliseconds
    * since the epoch. If not specified, this defaults to 24 hours in the past.
    */
-  dynamic get startTime => jsProxy['startTime'];
-  set startTime(var value) => jsProxy['startTime'] = jsify(value);
+  Object get startTime => jsProxy['startTime'];
+  set startTime(Object value) => jsProxy['startTime'] = jsify(value);
 
   /**
    * Limit results to those visited before this date, represented in
    * milliseconds since the epoch.
    */
-  dynamic get endTime => jsProxy['endTime'];
-  set endTime(var value) => jsProxy['endTime'] = jsify(value);
+  Object get endTime => jsProxy['endTime'];
+  set endTime(Object value) => jsProxy['endTime'] = jsify(value);
 
   /**
    * The maximum number of results to retrieve.  Defaults to 100.
@@ -270,48 +272,8 @@ class HistorySearchParams extends ChromeObject {
   set maxResults(int value) => jsProxy['maxResults'] = value;
 }
 
-class HistoryGetVisitsParams extends ChromeObject {
-  HistoryGetVisitsParams({String url}) {
-    if (url != null) this.url = url;
-  }
-  HistoryGetVisitsParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * The URL for which to retrieve visit information.  It must be in the format
-   * as returned from a call to history.search.
-   */
-  String get url => jsProxy['url'];
-  set url(String value) => jsProxy['url'] = value;
-}
-
-class HistoryAddUrlParams extends ChromeObject {
-  HistoryAddUrlParams({String url}) {
-    if (url != null) this.url = url;
-  }
-  HistoryAddUrlParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * The URL to add.
-   */
-  String get url => jsProxy['url'];
-  set url(String value) => jsProxy['url'] = value;
-}
-
-class HistoryDeleteUrlParams extends ChromeObject {
-  HistoryDeleteUrlParams({String url}) {
-    if (url != null) this.url = url;
-  }
-  HistoryDeleteUrlParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * The URL to remove.
-   */
-  String get url => jsProxy['url'];
-  set url(String value) => jsProxy['url'] = value;
-}
-
 class HistoryDeleteRangeParams extends ChromeObject {
-  HistoryDeleteRangeParams({var startTime, var endTime}) {
+  HistoryDeleteRangeParams({Object? startTime, Object? endTime}) {
     if (startTime != null) this.startTime = startTime;
     if (endTime != null) this.endTime = endTime;
   }
@@ -321,17 +283,16 @@ class HistoryDeleteRangeParams extends ChromeObject {
    * Items added to history after this date, represented in milliseconds since
    * the epoch.
    */
-  dynamic get startTime => jsProxy['startTime'];
-  set startTime(var value) => jsProxy['startTime'] = jsify(value);
+  Object get startTime => jsProxy['startTime'];
+  set startTime(Object value) => jsProxy['startTime'] = jsify(value);
 
   /**
    * Items added to history before this date, represented in milliseconds since
    * the epoch.
    */
-  dynamic get endTime => jsProxy['endTime'];
-  set endTime(var value) => jsProxy['endTime'] = jsify(value);
+  Object get endTime => jsProxy['endTime'];
+  set endTime(Object value) => jsProxy['endTime'] = jsify(value);
 }
 
-HistoryItem _createHistoryItem(JsObject jsProxy) => jsProxy == null ? null : new HistoryItem.fromProxy(jsProxy);
-VisitItem _createVisitItem(JsObject jsProxy) => jsProxy == null ? null : new VisitItem.fromProxy(jsProxy);
+HistoryItem _createHistoryItem(JsObject jsProxy) => HistoryItem.fromProxy(jsProxy);
 HistoryTransitionType _createTransitionType(String value) => HistoryTransitionType.VALUES.singleWhere((ChromeEnum e) => e.value == value);

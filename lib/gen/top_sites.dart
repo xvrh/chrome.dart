@@ -1,8 +1,9 @@
 /* This file has been generated from top_sites.json - do not edit */
 
 /**
- * Use the `chrome.topSites` API to access the top sites that are displayed on
- * the new tab page.
+ * Use the `chrome.topSites` API to access the top sites (i.e. most visited
+ * sites) that are displayed on the new tab page. These do not include shortcuts
+ * customized by the user.
  */
 library chrome.topSites;
 
@@ -11,7 +12,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.topSites` namespace.
  */
-final ChromeTopSites topSites = new ChromeTopSites._();
+final ChromeTopSites topSites = ChromeTopSites._();
 
 class ChromeTopSites extends ChromeApi {
   JsObject get _topSites => chrome['topSites'];
@@ -23,25 +24,23 @@ class ChromeTopSites extends ChromeApi {
   /**
    * Gets a list of top sites.
    */
-  Future<List<MostVisitedURL>> get() {
+  void get() {
     if (_topSites == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<MostVisitedURL>>.oneArg((e) => listify(e, _createMostVisitedURL));
-    _topSites.callMethod('get', [completer.callback]);
-    return completer.future;
+    _topSites.callMethod('get');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.topSites' is not available");
+    throw  UnsupportedError("'chrome.topSites' is not available");
   }
 }
 
 /**
- * An object encapsulating a most visited URL, such as the URLs on the new tab
- * page.
+ * An object encapsulating a most visited URL, such as the default shortcuts on
+ * the new tab page.
  */
 class MostVisitedURL extends ChromeObject {
-  MostVisitedURL({String url, String title}) {
+  MostVisitedURL({String? url, String? title}) {
     if (url != null) this.url = url;
     if (title != null) this.title = title;
   }
@@ -59,5 +58,3 @@ class MostVisitedURL extends ChromeObject {
   String get title => jsProxy['title'];
   set title(String value) => jsProxy['title'] = value;
 }
-
-MostVisitedURL _createMostVisitedURL(JsObject jsProxy) => jsProxy == null ? null : new MostVisitedURL.fromProxy(jsProxy);

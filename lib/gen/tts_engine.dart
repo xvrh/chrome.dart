@@ -17,7 +17,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.ttsEngine` namespace.
  */
-final ChromeTtsEngine ttsEngine = new ChromeTtsEngine._();
+final ChromeTtsEngine ttsEngine = ChromeTtsEngine._();
 
 class ChromeTtsEngine extends ChromeApi {
   JsObject get _ttsEngine => chrome['ttsEngine'];
@@ -27,7 +27,16 @@ class ChromeTtsEngine extends ChromeApi {
    * this extension's manifest is the first to match the options object.
    */
   Stream<OnSpeakEvent> get onSpeak => _onSpeak.stream;
-  ChromeStreamController<OnSpeakEvent> _onSpeak;
+  late ChromeStreamController<OnSpeakEvent> _onSpeak;
+
+  /**
+   * Called when the user makes a call to tts.speak() and one of the voices from
+   * this extension's manifest is the first to match the options object. Differs
+   * from ttsEngine.onSpeak in that Chrome provides audio playback services and
+   * handles dispatching tts events.
+   */
+  Stream<OnSpeakWithAudioStreamEvent> get onSpeakWithAudioStream => _onSpeakWithAudioStream.stream;
+  late ChromeStreamController<OnSpeakWithAudioStreamEvent> _onSpeakWithAudioStream;
 
   /**
    * Fired when a call is made to tts.stop and this extension may be in the
@@ -36,7 +45,7 @@ class ChromeTtsEngine extends ChromeApi {
    * the paused state, this should cancel the paused state.
    */
   Stream get onStop => _onStop.stream;
-  ChromeStreamController _onStop;
+  late ChromeStreamController _onStop;
 
   /**
    * Optional: if an engine supports the pause event, it should pause the
@@ -44,7 +53,7 @@ class ChromeTtsEngine extends ChromeApi {
    * stop event. Note that a stop event should also clear the paused state.
    */
   Stream get onPause => _onPause.stream;
-  ChromeStreamController _onPause;
+  late ChromeStreamController _onPause;
 
   /**
    * Optional: if an engine supports the pause event, it should also support the
@@ -52,11 +61,12 @@ class ChromeTtsEngine extends ChromeApi {
    * a stop event should also clear the paused state.
    */
   Stream get onResume => _onResume.stream;
-  ChromeStreamController _onResume;
+  late ChromeStreamController _onResume;
 
   ChromeTtsEngine._() {
     var getApi = () => _ttsEngine;
-    _onSpeak = new ChromeStreamController<OnSpeakEvent>.threeArgs(getApi, 'onSpeak', _createOnSpeakEvent);
+    _onSpeak = ChromeStreamController<OnSpeakEvent>.threeArgs(getApi, 'onSpeak', _createOnSpeakEvent);
+    _onSpeakWithAudioStream = ChromeStreamController<OnSpeakWithAudioStreamEvent>.fiveArgs(getApi, 'onSpeakWithAudioStream', _createOnSpeakWithAudioStreamEvent);
     _onStop = new ChromeStreamController.noArgs(getApi, 'onStop');
     _onPause = new ChromeStreamController.noArgs(getApi, 'onPause');
     _onResume = new ChromeStreamController.noArgs(getApi, 'onResume');
@@ -89,8 +99,19 @@ class ChromeTtsEngine extends ChromeApi {
     _ttsEngine.callMethod('sendTtsEvent', [requestId, jsify(event)]);
   }
 
+  /**
+   * Routes TTS audio from a speech engine to a client.
+   * 
+   * [audio] An audio buffer from the text-to-speech engine.
+   */
+  void sendTtsAudio(int requestId, AudioBuffer audio) {
+    if (_ttsEngine == null) _throwNotAvailable();
+
+    _ttsEngine.callMethod('sendTtsAudio', [requestId, jsify(audio)]);
+  }
+
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.ttsEngine' is not available");
+    throw  UnsupportedError("'chrome.ttsEngine' is not available");
   }
 }
 
@@ -112,15 +133,56 @@ class OnSpeakEvent {
   /**
    * Options specified to the tts.speak() method.
    */
-  final Map options;
+  final SpeakOptions options;
 
   /**
    * Call this function with events that occur in the process of speaking the
    * utterance.
    */
-  final dynamic sendTtsEvent;
+  final Object sendTtsEvent;
 
   OnSpeakEvent(this.utterance, this.options, this.sendTtsEvent);
+}
+
+/**
+ * Called when the user makes a call to tts.speak() and one of the voices from
+ * this extension's manifest is the first to match the options object. Differs
+ * from ttsEngine.onSpeak in that Chrome provides audio playback services and
+ * handles dispatching tts events.
+ */
+class OnSpeakWithAudioStreamEvent {
+  /**
+   * The text to speak, specified as either plain text or an SSML document. If
+   * your engine does not support SSML, you should strip out all XML markup and
+   * synthesize only the underlying text content. The value of this parameter is
+   * guaranteed to be no more than 32,768 characters. If this engine does not
+   * support speaking that many characters at a time, the utterance should be
+   * split into smaller chunks and queued internally without returning an error.
+   */
+  final String utterance;
+
+  /**
+   * Options specified to the tts.speak() method.
+   */
+  final SpeakOptions options;
+
+  /**
+   * Contains the audio stream format expected to be produced by this engine.
+   */
+  final AudioStreamOptions audioStreamOptions;
+
+  /**
+   * Call this function with audio that occur in the process of speaking the
+   * utterance.
+   */
+  final Object sendTtsAudio;
+
+  /**
+   * Call this function to indicate an error with rendering this utterance.
+   */
+  final Object sendError;
+
+  OnSpeakWithAudioStreamEvent(this.utterance, this.options, this.audioStreamOptions, this.sendTtsAudio, this.sendError);
 }
 
 class VoiceGender extends ChromeEnum {
@@ -132,5 +194,125 @@ class VoiceGender extends ChromeEnum {
   const VoiceGender._(String str): super(str);
 }
 
+/**
+ * Options specified to the tts.speak() method.
+ */
+class SpeakOptions extends ChromeObject {
+  SpeakOptions({String? voiceName, String? lang, VoiceGender? gender, Object? rate, Object? pitch, Object? volume}) {
+    if (voiceName != null) this.voiceName = voiceName;
+    if (lang != null) this.lang = lang;
+    if (gender != null) this.gender = gender;
+    if (rate != null) this.rate = rate;
+    if (pitch != null) this.pitch = pitch;
+    if (volume != null) this.volume = volume;
+  }
+  SpeakOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The name of the voice to use for synthesis.
+   */
+  String get voiceName => jsProxy['voiceName'];
+  set voiceName(String value) => jsProxy['voiceName'] = value;
+
+  /**
+   * The language to be used for synthesis, in the form _language_-_region_.
+   * Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+   */
+  String get lang => jsProxy['lang'];
+  set lang(String value) => jsProxy['lang'] = value;
+
+  /**
+   * Gender of voice for synthesized speech.
+   */
+  VoiceGender get gender => _createVoiceGender(jsProxy['gender']);
+  set gender(VoiceGender value) => jsProxy['gender'] = jsify(value);
+
+  /**
+   * Speaking rate relative to the default rate for this voice. 1.0 is the
+   * default rate, normally around 180 to 220 words per minute. 2.0 is twice as
+   * fast, and 0.5 is half as fast. This value is guaranteed to be between 0.1
+   * and 10.0, inclusive. When a voice does not support this full range of
+   * rates, don't return an error. Instead, clip the rate to the range the voice
+   * supports.
+   */
+  Object get rate => jsProxy['rate'];
+  set rate(Object value) => jsProxy['rate'] = jsify(value);
+
+  /**
+   * Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
+   * highest. 1.0 corresponds to this voice's default pitch.
+   */
+  Object get pitch => jsProxy['pitch'];
+  set pitch(Object value) => jsProxy['pitch'] = jsify(value);
+
+  /**
+   * Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
+   * highest, with a default of 1.0.
+   */
+  Object get volume => jsProxy['volume'];
+  set volume(Object value) => jsProxy['volume'] = jsify(value);
+}
+
+/**
+ * Contains the audio stream format expected to be produced by an engine.
+ */
+class AudioStreamOptions extends ChromeObject {
+  AudioStreamOptions({int? sampleRate, int? bufferSize}) {
+    if (sampleRate != null) this.sampleRate = sampleRate;
+    if (bufferSize != null) this.bufferSize = bufferSize;
+  }
+  AudioStreamOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The sample rate expected in an audio buffer.
+   */
+  int get sampleRate => jsProxy['sampleRate'];
+  set sampleRate(int value) => jsProxy['sampleRate'] = value;
+
+  /**
+   * The number of samples within an audio buffer.
+   */
+  int get bufferSize => jsProxy['bufferSize'];
+  set bufferSize(int value) => jsProxy['bufferSize'] = value;
+}
+
+/**
+ * Parameters containing an audio buffer and associated data.
+ */
+class AudioBuffer extends ChromeObject {
+  AudioBuffer({Object? audioBuffer, int? charIndex, bool? isLastBuffer}) {
+    if (audioBuffer != null) this.audioBuffer = audioBuffer;
+    if (charIndex != null) this.charIndex = charIndex;
+    if (isLastBuffer != null) this.isLastBuffer = isLastBuffer;
+  }
+  AudioBuffer.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The audio buffer from the text-to-speech engine. It should have length
+   * exactly audioStreamOptions.bufferSize and encoded as mono, at
+   * audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
+   * the Float32Array type in javascript.
+   */
+  Object get audioBuffer => jsProxy['audioBuffer'];
+  set audioBuffer(Object value) => jsProxy['audioBuffer'] = jsify(value);
+
+  /**
+   * The character index associated with this audio buffer.
+   */
+  int get charIndex => jsProxy['charIndex'];
+  set charIndex(int value) => jsProxy['charIndex'] = value;
+
+  /**
+   * True if this audio buffer is the last for the text being spoken.
+   */
+  bool get isLastBuffer => jsProxy['isLastBuffer'];
+  set isLastBuffer(bool value) => jsProxy['isLastBuffer'] = value;
+}
+
 OnSpeakEvent _createOnSpeakEvent(String utterance, JsObject options, JsObject sendTtsEvent) =>
-    new OnSpeakEvent(utterance, mapify(options), sendTtsEvent);
+    OnSpeakEvent(utterance, _createSpeakOptions(options), sendTtsEvent);
+OnSpeakWithAudioStreamEvent _createOnSpeakWithAudioStreamEvent(String utterance, JsObject options, JsObject audioStreamOptions, JsObject sendTtsAudio, JsObject sendError) =>
+    OnSpeakWithAudioStreamEvent(utterance, _createSpeakOptions(options), _createAudioStreamOptions(audioStreamOptions), sendTtsAudio, sendError);
+VoiceGender _createVoiceGender(String value) => VoiceGender.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+SpeakOptions _createSpeakOptions(JsObject jsProxy) => SpeakOptions.fromProxy(jsProxy);
+AudioStreamOptions _createAudioStreamOptions(JsObject jsProxy) => AudioStreamOptions.fromProxy(jsProxy);

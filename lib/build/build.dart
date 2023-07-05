@@ -1,4 +1,3 @@
-
 /**
  * A library to de-sym link packages directories, and make real copies of the
  * `packages` references.
@@ -17,19 +16,20 @@ export 'dart:io' show Directory;
  * This function is useful for Chrome Apps, which can't load their content from
  * symlinks.
  */
-void copyPackages(Directory destDir, {bool removeSymlinks: true}) {
+void copyPackages(Directory destDir, {bool removeSymlinks = true}) {
   _removePackagesSymlinks(destDir, recursive: removeSymlinks);
-  _copyDirectory(new Directory('packages'), _joinDirectory(destDir, 'packages'));
+  _copyDirectory(
+      new Directory('packages'), _joinDirectory(destDir, 'packages'));
 }
 
-void _removePackagesSymlinks(Directory dir, {bool recursive: false}) {
+void _removePackagesSymlinks(Directory dir, {bool recursive = false}) {
   if (FileSystemEntity.isLinkSync(_join(dir, 'packages'))) {
     _joinDirectory(dir, 'packages').deleteSync();
   }
 
   if (recursive) {
     for (FileSystemEntity entity in dir.listSync(followLinks: false)) {
-      if (FileSystemEntity is Directory) {
+      if (entity is Directory) {
         _removePackagesSymlinks(entity, recursive: true);
       }
     }
@@ -40,7 +40,7 @@ void _copyDirectory(Directory srcDir, Directory destDir) {
   for (FileSystemEntity entity in srcDir.listSync()) {
     if (entity is File) {
       _copyFile(entity, destDir);
-    } else {
+    } else if (entity is Directory) {
       _copyDirectory(entity, _joinDirectory(destDir, _name(entity)));
     }
   }

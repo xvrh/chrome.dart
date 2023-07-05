@@ -1,4 +1,3 @@
-
 library chrome.src.common;
 
 import 'dart:convert';
@@ -17,32 +16,26 @@ final JsObject _jsJSON = context['JSON'];
 final JsObject chrome = context['chrome'];
 final JsObject _runtime = context['chrome']['runtime'];
 
-String get lastError {
-  JsObject error = _runtime['lastError'];
+String? get lastError {
+  JsObject? error = _runtime['lastError'];
   return error != null ? error['message'] : null;
 }
 
-List listify(JsObject obj, [Function transformer = null]) {
+List<T> listify<T>(JsObject obj, [Function? transformer = null]) {
   if (obj == null) {
-    return null;
+    return [];
   } else {
-    List l = new List(obj['length']);
-
-    for (int i = 0; i < l.length; i++) {
-      if (transformer != null) {
-        l[i] = transformer(obj[i]);
-      } else {
-        l[i] = obj[i];
-      }
-    }
-
-    return l;
+    var length = obj['length'] as int;
+    return [
+      for (int i = 0; i < length; i++)
+        if (transformer != null) transformer(obj[i]) else obj[i],
+    ];
   }
 }
 
-Map mapify(JsObject obj) {
-  if (obj == null) return null;
-  return JSON.decode(_jsJSON.callMethod('stringify', [obj]));
+Map<K, V> mapify<K, V>(JsObject obj) {
+  if (obj == null) return {};
+  return json.decode(_jsJSON.callMethod('stringify', [obj]));
 }
 
 dynamic jsify(dynamic obj) {
@@ -75,7 +68,7 @@ dynamic selfConverter(var obj) => obj;
  */
 class ChromeCompleter<T> {
   final Completer<T> _completer = new Completer();
-  Function _callback;
+  late Function _callback;
 
   ChromeCompleter.noArgs() {
     this._callback = ([_]) {
@@ -88,7 +81,7 @@ class ChromeCompleter<T> {
     };
   }
 
-  ChromeCompleter.oneArg([Function transformer]) {
+  ChromeCompleter.oneArg([Function? transformer]) {
     this._callback = ([arg1]) {
       var le = lastError;
       if (le != null) {
@@ -124,17 +117,19 @@ class ChromeStreamController<T> {
   final String _eventName;
   StreamController<T> _controller = new StreamController<T>.broadcast();
   bool _handlerAdded = false;
-  Function _listener;
+  late Function _listener;
 
   ChromeStreamController.noArgs(this._apiProvider, this._eventName) {
     _controller = new StreamController<T>.broadcast(
         onListen: _ensureHandlerAdded, onCancel: _removeHandler);
     _listener = () {
-      _controller.add(null);
+      _controller.add(null as T);
     };
   }
 
-  ChromeStreamController.oneArg(this._apiProvider, this._eventName, Function transformer, [returnVal])  {
+  ChromeStreamController.oneArg(
+      this._apiProvider, this._eventName, Function transformer,
+      [returnVal]) {
     _controller = new StreamController<T>.broadcast(
         onListen: _ensureHandlerAdded, onCancel: _removeHandler);
     _listener = ([arg1]) {
@@ -143,7 +138,9 @@ class ChromeStreamController<T> {
     };
   }
 
-  ChromeStreamController.twoArgs(this._apiProvider, this._eventName, Function transformer, [returnVal]) {
+  ChromeStreamController.twoArgs(
+      this._apiProvider, this._eventName, Function transformer,
+      [returnVal]) {
     _controller = new StreamController<T>.broadcast(
         onListen: _ensureHandlerAdded, onCancel: _removeHandler);
     _listener = ([arg1, arg2]) {
@@ -152,12 +149,14 @@ class ChromeStreamController<T> {
     };
   }
 
-  ChromeStreamController.threeArgs(this._apiProvider, this._eventName, Function transformer, [returnVal]) {
+  ChromeStreamController.threeArgs(
+      this._apiProvider, this._eventName, Function transformer,
+      [returnVal]) {
     _controller = new StreamController<T>.broadcast(
         onListen: _ensureHandlerAdded, onCancel: _removeHandler);
     _listener = ([arg1, arg2, arg3]) {
-        _controller.add(transformer(arg1, arg2, arg3));
-        return returnVal;
+      _controller.add(transformer(arg1, arg2, arg3));
+      return returnVal;
     };
   }
 
@@ -172,7 +171,9 @@ class ChromeStreamController<T> {
       // TODO: Workaround an issue where the event objects are not properly
       // proxied in M35 and after.
       var jsEvent = _api[_eventName];
-      JsObject event = (jsEvent is JsObject ? jsEvent : new JsObject.fromBrowserObject(jsEvent));
+      JsObject event = (jsEvent is JsObject
+          ? jsEvent
+          : new JsObject.fromBrowserObject(jsEvent));
       event.callMethod('addListener', [_listener]);
       _handlerAdded = true;
     }
@@ -183,7 +184,9 @@ class ChromeStreamController<T> {
       // TODO: Workaround an issue where the event objects are not properly
       // proxied in M35 and after.
       var jsEvent = _api[_eventName];
-      JsObject event = (jsEvent is JsObject ? jsEvent : new JsObject.fromBrowserObject(jsEvent));
+      JsObject event = (jsEvent is JsObject
+          ? jsEvent
+          : new JsObject.fromBrowserObject(jsEvent));
       event.callMethod('removeListener', [_listener]);
       _handlerAdded = false;
     }

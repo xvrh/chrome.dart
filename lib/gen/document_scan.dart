@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.documentScan` namespace.
  */
-final ChromeDocumentScan documentScan = new ChromeDocumentScan._();
+final ChromeDocumentScan documentScan = ChromeDocumentScan._();
 
 class ChromeDocumentScan extends ChromeApi {
   JsObject get _documentScan => chrome['documentScan'];
@@ -33,18 +33,18 @@ class ChromeDocumentScan extends ChromeApi {
   Future<ScanResults> scan(ScanOptions options) {
     if (_documentScan == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ScanResults>.oneArg(_createScanResults);
+    var completer =  ChromeCompleter<ScanResults>.oneArg(_createScanResults);
     _documentScan.callMethod('scan', [jsify(options), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.documentScan' is not available");
+    throw  UnsupportedError("'chrome.documentScan' is not available");
   }
 }
 
 class ScanOptions extends ChromeObject {
-  ScanOptions({List<String> mimeTypes, int maxImages}) {
+  ScanOptions({List<String>? mimeTypes, int? maxImages}) {
     if (mimeTypes != null) this.mimeTypes = mimeTypes;
     if (maxImages != null) this.maxImages = maxImages;
   }
@@ -58,7 +58,7 @@ class ScanOptions extends ChromeObject {
 }
 
 class ScanResults extends ChromeObject {
-  ScanResults({List<String> dataUrls, String mimeType}) {
+  ScanResults({List<String>? dataUrls, String? mimeType}) {
     if (dataUrls != null) this.dataUrls = dataUrls;
     if (mimeType != null) this.mimeType = mimeType;
   }
@@ -71,4 +71,4 @@ class ScanResults extends ChromeObject {
   set mimeType(String value) => jsProxy['mimeType'] = value;
 }
 
-ScanResults _createScanResults(JsObject jsProxy) => jsProxy == null ? null : new ScanResults.fromProxy(jsProxy);
+ScanResults _createScanResults(JsObject jsProxy) => ScanResults.fromProxy(jsProxy);

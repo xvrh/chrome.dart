@@ -12,7 +12,7 @@ import '../src/utils.dart';
  * Convert [IDLNamespaceDeclaration] -> [ChromeLibrary]
  */
 ChromeLibrary convert(IDLNamespaceDeclaration namespace) =>
-    new IDLConverter().convert(namespace);
+    IDLConverter().convert(namespace);
 
 class IDLConverter {
   late IDLNamespaceDeclaration namespace;
@@ -44,7 +44,7 @@ class IDLConverter {
 
   ChromeDeclaredType _convertTypeDeclaration(
       IDLTypeDeclaration typeDeclaration) {
-    ChromeDeclaredType chromeDeclaredType = new ChromeDeclaredType();
+    ChromeDeclaredType chromeDeclaredType = ChromeDeclaredType();
 
     chromeDeclaredType.name = typeDeclaration.name;
     chromeDeclaredType.documentation =
@@ -67,7 +67,7 @@ class IDLConverter {
 
   ChromeProperty _convertProperty(IDLField member) {
     ChromeProperty property =
-        new ChromeProperty(member.name, _convertType(member.type));
+        ChromeProperty(member.name, _convertType(member.type));
     return property;
   }
 
@@ -110,7 +110,7 @@ class IDLConverter {
           _cleanDocComments(callback!.documentation.join('\n'));
     } else if (params.length == 2) {
       ChromeType type = new ChromeType(
-          type: 'var', refName: "${titleCase(method.name)}Result");
+          type: 'Object', refName: "${titleCase(method.name)}Result");
 
       type.combinedReturnValue = true;
       type.parameters.addAll(params);
@@ -199,7 +199,7 @@ class IDLConverter {
     'boolean': 'bool',
     'double': 'num',
     'long': 'int',
-    'any': 'dynamic'
+    'any': 'Object'
   };
 
   String idlToDartType(IDLType type) {
@@ -207,7 +207,7 @@ class IDLConverter {
       return TYPE_MAP[type.name]!;
     } else {
       // NOTE:
-      return 'var';
+      return 'Object';
     }
   }
 

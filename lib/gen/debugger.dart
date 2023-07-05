@@ -16,7 +16,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.debugger` namespace.
  */
-final ChromeDebugger debugger = new ChromeDebugger._();
+final ChromeDebugger debugger = ChromeDebugger._();
 
 class ChromeDebugger extends ChromeApi {
   JsObject get _debugger => chrome['debugger'];
@@ -25,7 +25,7 @@ class ChromeDebugger extends ChromeApi {
    * Fired whenever debugging target issues instrumentation event.
    */
   Stream<OnEventEvent> get onEvent => _onEvent.stream;
-  ChromeStreamController<OnEventEvent> _onEvent;
+  late ChromeStreamController<OnEventEvent> _onEvent;
 
   /**
    * Fired when browser terminates debugging session for the tab. This happens
@@ -33,12 +33,12 @@ class ChromeDebugger extends ChromeApi {
    * the attached tab.
    */
   Stream<OnDetachEvent> get onDetach => _onDetach.stream;
-  ChromeStreamController<OnDetachEvent> _onDetach;
+  late ChromeStreamController<OnDetachEvent> _onDetach;
 
   ChromeDebugger._() {
     var getApi = () => _debugger;
-    _onEvent = new ChromeStreamController<OnEventEvent>.threeArgs(getApi, 'onEvent', _createOnEventEvent);
-    _onDetach = new ChromeStreamController<OnDetachEvent>.twoArgs(getApi, 'onDetach', _createOnDetachEvent);
+    _onEvent = ChromeStreamController<OnEventEvent>.threeArgs(getApi, 'onEvent', _createOnEventEvent);
+    _onDetach = ChromeStreamController<OnDetachEvent>.twoArgs(getApi, 'onDetach', _createOnDetachEvent);
   }
 
   bool get available => _debugger != null;
@@ -53,12 +53,10 @@ class ChromeDebugger extends ChromeApi {
    * minor version. List of the protocol versions can be obtained
    * [here](https://developer.chrome.com/devtools/docs/debugger-protocol).
    */
-  Future attach(Debuggee target, String requiredVersion) {
+  void attach(Debuggee target, String requiredVersion) {
     if (_debugger == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _debugger.callMethod('attach', [jsify(target), requiredVersion, completer.callback]);
-    return completer.future;
+    _debugger.callMethod('attach', [jsify(target), requiredVersion]);
   }
 
   /**
@@ -66,12 +64,10 @@ class ChromeDebugger extends ChromeApi {
    * 
    * [target] Debugging target from which you want to detach.
    */
-  Future detach(Debuggee target) {
+  void detach(Debuggee target) {
     if (_debugger == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _debugger.callMethod('detach', [jsify(target), completer.callback]);
-    return completer.future;
+    _debugger.callMethod('detach', [jsify(target)]);
   }
 
   /**
@@ -85,36 +81,24 @@ class ChromeDebugger extends ChromeApi {
    * 
    * [commandParams] JSON object with request parameters. This object must
    * conform to the remote debugging params scheme for given method.
-   * 
-   * Returns:
-   * JSON object with the response. Structure of the response varies depending
-   * on the method name and is defined by the 'returns' attribute of the command
-   * description in the remote debugging protocol.
    */
-  Future<Map<String, dynamic>> sendCommand(Debuggee target, String method, [Map<String, dynamic> commandParams]) {
+  void sendCommand(Debuggee target, String method, [Map<String, Object>? commandParams]) {
     if (_debugger == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Map<String, dynamic>>.oneArg(mapify);
-    _debugger.callMethod('sendCommand', [jsify(target), method, jsify(commandParams), completer.callback]);
-    return completer.future;
+    _debugger.callMethod('sendCommand', [jsify(target), method, jsify(commandParams)]);
   }
 
   /**
    * Returns the list of available debug targets.
-   * 
-   * Returns:
-   * Array of TargetInfo objects corresponding to the available debug targets.
    */
-  Future<List<TargetInfo>> getTargets() {
+  void getTargets() {
     if (_debugger == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<TargetInfo>>.oneArg((e) => listify(e, _createTargetInfo));
-    _debugger.callMethod('getTargets', [completer.callback]);
-    return completer.future;
+    _debugger.callMethod('getTargets');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.debugger' is not available");
+    throw  UnsupportedError("'chrome.debugger' is not available");
   }
 }
 
@@ -144,7 +128,7 @@ class OnEventEvent {
    * depending on the method name and is defined by the 'parameters' attribute
    * of the event description in the remote debugging protocol.
    */
-  final Map<String, dynamic> params;
+  final Map<String, Object> params;
 
   OnEventEvent(this.source, this.method, this.params);
 }
@@ -198,7 +182,7 @@ class DetachReason extends ChromeEnum {
  * Debuggee identifier. Either tabId or extensionId must be specified
  */
 class Debuggee extends ChromeObject {
-  Debuggee({int tabId, String extensionId, String targetId}) {
+  Debuggee({int? tabId, String? extensionId, String? targetId}) {
     if (tabId != null) this.tabId = tabId;
     if (extensionId != null) this.extensionId = extensionId;
     if (targetId != null) this.targetId = targetId;
@@ -213,8 +197,8 @@ class Debuggee extends ChromeObject {
 
   /**
    * The id of the extension which you intend to debug. Attaching to an
-   * extension background page is only possible when
-   * 'silent-debugger-extension-api' flag is enabled on the target browser.
+   * extension background page is only possible when the
+   * `--silent-debugger-extension-api` command-line switch is used.
    */
   String get extensionId => jsProxy['extensionId'];
   set extensionId(String value) => jsProxy['extensionId'] = value;
@@ -230,7 +214,7 @@ class Debuggee extends ChromeObject {
  * Debug target information
  */
 class TargetInfo extends ChromeObject {
-  TargetInfo({TargetInfoType type, String id, int tabId, String extensionId, bool attached, String title, String url, String faviconUrl}) {
+  TargetInfo({TargetInfoType? type, String? id, int? tabId, String? extensionId, bool? attached, String? title, String? url, String? faviconUrl}) {
     if (type != null) this.type = type;
     if (id != null) this.id = id;
     if (tabId != null) this.tabId = tabId;
@@ -292,10 +276,9 @@ class TargetInfo extends ChromeObject {
 }
 
 OnEventEvent _createOnEventEvent(JsObject source, String method, JsObject params) =>
-    new OnEventEvent(_createDebuggee(source), method, mapify(params));
-OnDetachEvent _createOnDetachEvent(JsObject source, String reason) =>
-    new OnDetachEvent(_createDebuggee(source), _createDetachReason(reason));
-TargetInfo _createTargetInfo(JsObject jsProxy) => jsProxy == null ? null : new TargetInfo.fromProxy(jsProxy);
+    OnEventEvent(_createDebuggee(source), method, mapify(params));
+OnDetachEvent _createOnDetachEvent(JsObject source, JsObject reason) =>
+    OnDetachEvent(_createDebuggee(source), _createDetachReason(reason));
 TargetInfoType _createTargetInfoType(String value) => TargetInfoType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-Debuggee _createDebuggee(JsObject jsProxy) => jsProxy == null ? null : new Debuggee.fromProxy(jsProxy);
+Debuggee _createDebuggee(JsObject jsProxy) => Debuggee.fromProxy(jsProxy);
 DetachReason _createDetachReason(String value) => DetachReason.VALUES.singleWhere((ChromeEnum e) => e.value == value);

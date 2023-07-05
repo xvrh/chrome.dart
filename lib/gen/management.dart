@@ -12,7 +12,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.management` namespace.
  */
-final ChromeManagement management = new ChromeManagement._();
+final ChromeManagement management = ChromeManagement._();
 
 class ChromeManagement extends ChromeApi {
   JsObject get _management => chrome['management'];
@@ -21,32 +21,32 @@ class ChromeManagement extends ChromeApi {
    * Fired when an app or extension has been installed.
    */
   Stream<ExtensionInfo> get onInstalled => _onInstalled.stream;
-  ChromeStreamController<ExtensionInfo> _onInstalled;
+  late ChromeStreamController<ExtensionInfo> _onInstalled;
 
   /**
    * Fired when an app or extension has been uninstalled.
    */
   Stream<String> get onUninstalled => _onUninstalled.stream;
-  ChromeStreamController<String> _onUninstalled;
+  late ChromeStreamController<String> _onUninstalled;
 
   /**
    * Fired when an app or extension has been enabled.
    */
   Stream<ExtensionInfo> get onEnabled => _onEnabled.stream;
-  ChromeStreamController<ExtensionInfo> _onEnabled;
+  late ChromeStreamController<ExtensionInfo> _onEnabled;
 
   /**
    * Fired when an app or extension has been disabled.
    */
   Stream<ExtensionInfo> get onDisabled => _onDisabled.stream;
-  ChromeStreamController<ExtensionInfo> _onDisabled;
+  late ChromeStreamController<ExtensionInfo> _onDisabled;
 
   ChromeManagement._() {
     var getApi = () => _management;
-    _onInstalled = new ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onInstalled', _createExtensionInfo);
-    _onUninstalled = new ChromeStreamController<String>.oneArg(getApi, 'onUninstalled', selfConverter);
-    _onEnabled = new ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onEnabled', _createExtensionInfo);
-    _onDisabled = new ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onDisabled', _createExtensionInfo);
+    _onInstalled = ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onInstalled', _createExtensionInfo);
+    _onUninstalled = ChromeStreamController<String>.oneArg(getApi, 'onUninstalled', selfConverter);
+    _onEnabled = ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onEnabled', _createExtensionInfo);
+    _onDisabled = ChromeStreamController<ExtensionInfo>.oneArg(getApi, 'onDisabled', _createExtensionInfo);
   }
 
   bool get available => _management != null;
@@ -54,12 +54,10 @@ class ChromeManagement extends ChromeApi {
   /**
    * Returns a list of information about installed extensions and apps.
    */
-  Future<List<ExtensionInfo>> getAll() {
+  void getAll() {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<ExtensionInfo>>.oneArg((e) => listify(e, _createExtensionInfo));
-    _management.callMethod('getAll', [completer.callback]);
-    return completer.future;
+    _management.callMethod('getAll');
   }
 
   /**
@@ -68,12 +66,10 @@ class ChromeManagement extends ChromeApi {
    * 
    * [id] The ID from an item of [management.ExtensionInfo].
    */
-  Future<ExtensionInfo> get(String id) {
+  void get(String id) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ExtensionInfo>.oneArg(_createExtensionInfo);
-    _management.callMethod('get', [id, completer.callback]);
-    return completer.future;
+    _management.callMethod('get', [id]);
   }
 
   /**
@@ -81,12 +77,10 @@ class ChromeManagement extends ChromeApi {
    * function can be used without requesting the 'management' permission in the
    * manifest.
    */
-  Future<ExtensionInfo> getSelf() {
+  void getSelf() {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ExtensionInfo>.oneArg(_createExtensionInfo);
-    _management.callMethod('getSelf', [completer.callback]);
-    return completer.future;
+    _management.callMethod('getSelf');
   }
 
   /**
@@ -95,12 +89,10 @@ class ChromeManagement extends ChromeApi {
    * 
    * [id] The ID of an already installed extension.
    */
-  Future<List<String>> getPermissionWarningsById(String id) {
+  void getPermissionWarningsById(String id) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<String>>.oneArg(listify);
-    _management.callMethod('getPermissionWarningsById', [id, completer.callback]);
-    return completer.future;
+    _management.callMethod('getPermissionWarningsById', [id]);
   }
 
   /**
@@ -110,12 +102,10 @@ class ChromeManagement extends ChromeApi {
    * 
    * [manifestStr] Extension manifest JSON string.
    */
-  Future<List<String>> getPermissionWarningsByManifest(String manifestStr) {
+  void getPermissionWarningsByManifest(String manifestStr) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<String>>.oneArg(listify);
-    _management.callMethod('getPermissionWarningsByManifest', [manifestStr, completer.callback]);
-    return completer.future;
+    _management.callMethod('getPermissionWarningsByManifest', [manifestStr]);
   }
 
   /**
@@ -128,37 +118,37 @@ class ChromeManagement extends ChromeApi {
    * 
    * [enabled] Whether this item should be enabled or disabled.
    */
-  Future setEnabled(String id, bool enabled) {
+  void setEnabled(String id, bool enabled) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('setEnabled', [id, enabled, completer.callback]);
-    return completer.future;
+    _management.callMethod('setEnabled', [id, enabled]);
   }
 
   /**
-   * Uninstalls a currently installed app or extension.
+   * Uninstalls a currently installed app or extension. Note: This function does
+   * not work in managed environments when the user is not allowed to uninstall
+   * the specified extension/app. If the uninstall fails (e.g. the user cancels
+   * the dialog) the promise will be rejected or the callback will be called
+   * with [runtime.lastError] set.
    * 
    * [id] This should be the id from an item of [management.ExtensionInfo].
    */
-  Future uninstall(String id, [ManagementUninstallParams options]) {
+  void uninstall(String id, [UninstallOptions? options]) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('uninstall', [id, jsify(options), completer.callback]);
-    return completer.future;
+    _management.callMethod('uninstall', [id, jsify(options)]);
   }
 
   /**
    * Uninstalls the calling extension. Note: This function can be used without
-   * requesting the 'management' permission in the manifest.
+   * requesting the 'management' permission in the manifest. This function does
+   * not work in managed environments when the user is not allowed to uninstall
+   * the specified extension/app.
    */
-  Future uninstallSelf([ManagementUninstallSelfParams options]) {
+  void uninstallSelf([UninstallOptions? options]) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('uninstallSelf', [jsify(options), completer.callback]);
-    return completer.future;
+    _management.callMethod('uninstallSelf', [jsify(options)]);
   }
 
   /**
@@ -166,12 +156,10 @@ class ChromeManagement extends ChromeApi {
    * 
    * [id] The extension id of the application.
    */
-  Future launchApp(String id) {
+  void launchApp(String id) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('launchApp', [id, completer.callback]);
-    return completer.future;
+    _management.callMethod('launchApp', [id]);
   }
 
   /**
@@ -180,12 +168,10 @@ class ChromeManagement extends ChromeApi {
    * 
    * [id] This should be the id from an app item of [management.ExtensionInfo].
    */
-  Future createAppShortcut(String id) {
+  void createAppShortcut(String id) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('createAppShortcut', [id, completer.callback]);
-    return completer.future;
+    _management.callMethod('createAppShortcut', [id]);
   }
 
   /**
@@ -197,12 +183,10 @@ class ChromeManagement extends ChromeApi {
    * type is in [ExtensionInfo.availableLaunchTypes], because the available
    * launch types vary on different platforms and configurations.
    */
-  Future setLaunchType(String id, LaunchType launchType) {
+  void setLaunchType(String id, LaunchType launchType) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _management.callMethod('setLaunchType', [id, jsify(launchType), completer.callback]);
-    return completer.future;
+    _management.callMethod('setLaunchType', [id, jsify(launchType)]);
   }
 
   /**
@@ -213,16 +197,46 @@ class ChromeManagement extends ChromeApi {
    * 
    * [title] The title of the generated app.
    */
-  Future<ExtensionInfo> generateAppForLink(String url, String title) {
+  void generateAppForLink(String url, String title) {
     if (_management == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ExtensionInfo>.oneArg(_createExtensionInfo);
-    _management.callMethod('generateAppForLink', [url, title, completer.callback]);
-    return completer.future;
+    _management.callMethod('generateAppForLink', [url, title]);
+  }
+
+  /**
+   * Checks if the replacement android app can be installed. Errors generated by
+   * this API are reported by setting [runtime.lastError] and executing the
+   * function's regular callback.
+   */
+  void canInstallReplacementAndroidApp() {
+    if (_management == null) _throwNotAvailable();
+
+    _management.callMethod('canInstallReplacementAndroidApp');
+  }
+
+  /**
+   * Prompts the user to install the replacement Android app from the manifest.
+   * Errors generated by this API are reported by setting [runtime.lastError]
+   * and executing the function's regular callback.
+   */
+  void installReplacementAndroidApp() {
+    if (_management == null) _throwNotAvailable();
+
+    _management.callMethod('installReplacementAndroidApp');
+  }
+
+  /**
+   * Launches the replacement_web_app specified in the manifest. Prompts the
+   * user to install if not already installed.
+   */
+  void installReplacementWebApp() {
+    if (_management == null) _throwNotAvailable();
+
+    _management.callMethod('installReplacementWebApp');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.management' is not available");
+    throw  UnsupportedError("'chrome.management' is not available");
   }
 }
 
@@ -261,8 +275,9 @@ class ExtensionType extends ChromeEnum {
   static const ExtensionType PACKAGED_APP = const ExtensionType._('packaged_app');
   static const ExtensionType LEGACY_PACKAGED_APP = const ExtensionType._('legacy_packaged_app');
   static const ExtensionType THEME = const ExtensionType._('theme');
+  static const ExtensionType LOGIN_SCREEN_EXTENSION = const ExtensionType._('login_screen_extension');
 
-  static const List<ExtensionType> VALUES = const[EXTENSION, HOSTED_APP, PACKAGED_APP, LEGACY_PACKAGED_APP, THEME];
+  static const List<ExtensionType> VALUES = const[EXTENSION, HOSTED_APP, PACKAGED_APP, LEGACY_PACKAGED_APP, THEME, LOGIN_SCREEN_EXTENSION];
 
   const ExtensionType._(String str): super(str);
 }
@@ -291,7 +306,7 @@ class ExtensionInstallType extends ChromeEnum {
  * Information about an icon belonging to an extension, app, or theme.
  */
 class IconInfo extends ChromeObject {
-  IconInfo({int size, String url}) {
+  IconInfo({int? size, String? url}) {
     if (size != null) this.size = size;
     if (url != null) this.url = url;
   }
@@ -317,7 +332,7 @@ class IconInfo extends ChromeObject {
  * Information about an installed extension, app, or theme.
  */
 class ExtensionInfo extends ChromeObject {
-  ExtensionInfo({String id, String name, String shortName, String description, String version, String versionName, bool mayDisable, bool mayEnable, bool enabled, ExtensionDisabledReason disabledReason, bool isApp, ExtensionType type, String appLaunchUrl, String homepageUrl, String updateUrl, bool offlineEnabled, String optionsUrl, List<IconInfo> icons, List<String> permissions, List<String> hostPermissions, ExtensionInstallType installType, LaunchType launchType, List<LaunchType> availableLaunchTypes}) {
+  ExtensionInfo({String? id, String? name, String? shortName, String? description, String? version, String? versionName, bool? mayDisable, bool? mayEnable, bool? enabled, ExtensionDisabledReason? disabledReason, bool? isApp, ExtensionType? type, String? appLaunchUrl, String? homepageUrl, String? updateUrl, bool? offlineEnabled, String? optionsUrl, List<IconInfo>? icons, List<String>? permissions, List<String>? hostPermissions, ExtensionInstallType? installType, LaunchType? launchType, List<LaunchType>? availableLaunchTypes}) {
     if (id != null) this.id = id;
     if (name != null) this.name = name;
     if (shortName != null) this.shortName = shortName;
@@ -489,11 +504,14 @@ class ExtensionInfo extends ChromeObject {
   set availableLaunchTypes(List<LaunchType> value) => jsProxy['availableLaunchTypes'] = jsify(value);
 }
 
-class ManagementUninstallParams extends ChromeObject {
-  ManagementUninstallParams({bool showConfirmDialog}) {
+/**
+ * Options for how to handle the extension's uninstallation.
+ */
+class UninstallOptions extends ChromeObject {
+  UninstallOptions({bool? showConfirmDialog}) {
     if (showConfirmDialog != null) this.showConfirmDialog = showConfirmDialog;
   }
-  ManagementUninstallParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+  UninstallOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
    * Whether or not a confirm-uninstall dialog should prompt the user. Defaults
@@ -504,23 +522,9 @@ class ManagementUninstallParams extends ChromeObject {
   set showConfirmDialog(bool value) => jsProxy['showConfirmDialog'] = value;
 }
 
-class ManagementUninstallSelfParams extends ChromeObject {
-  ManagementUninstallSelfParams({bool showConfirmDialog}) {
-    if (showConfirmDialog != null) this.showConfirmDialog = showConfirmDialog;
-  }
-  ManagementUninstallSelfParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * Whether or not a confirm-uninstall dialog should prompt the user. Defaults
-   * to false.
-   */
-  bool get showConfirmDialog => jsProxy['showConfirmDialog'];
-  set showConfirmDialog(bool value) => jsProxy['showConfirmDialog'] = value;
-}
-
-ExtensionInfo _createExtensionInfo(JsObject jsProxy) => jsProxy == null ? null : new ExtensionInfo.fromProxy(jsProxy);
+ExtensionInfo _createExtensionInfo(JsObject jsProxy) => ExtensionInfo.fromProxy(jsProxy);
 ExtensionDisabledReason _createExtensionDisabledReason(String value) => ExtensionDisabledReason.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 ExtensionType _createExtensionType(String value) => ExtensionType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-IconInfo _createIconInfo(JsObject jsProxy) => jsProxy == null ? null : new IconInfo.fromProxy(jsProxy);
+IconInfo _createIconInfo(JsObject jsProxy) => IconInfo.fromProxy(jsProxy);
 ExtensionInstallType _createExtensionInstallType(String value) => ExtensionInstallType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 LaunchType _createLaunchType(String value) => LaunchType.VALUES.singleWhere((ChromeEnum e) => e.value == value);

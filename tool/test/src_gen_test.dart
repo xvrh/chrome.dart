@@ -1,4 +1,3 @@
-
 library src_gen_test;
 
 import 'package:test/test.dart';
@@ -7,7 +6,7 @@ import '../src/src_gen.dart';
 
 main() {
   group('generate_dart', () {
-    DartGenerator generator;
+    late DartGenerator generator;
 
     setUp(() {
       generator = new DartGenerator();
@@ -31,7 +30,8 @@ main() {
       generator.writeln("class {}");
       generator.writeln("bar();");
 
-      expect(generator.toString(), "/**\n * My foo bar.\n */\nclass {}\nbar();\n");
+      expect(
+          generator.toString(), "/**\n * My foo bar.\n */\nclass {}\nbar();\n");
     });
 
     test('generate.docs.singleLine', () {
@@ -52,7 +52,8 @@ main() {
       generator = new DartGenerator(colBoundary: 40);
       generator.writeStatement("corn.muffins(param1, param2, param3, param4);");
 
-      expect(generator.toString(), "corn.muffins(\n    param1, param2, param3, param4);\n");
+      expect(generator.toString(),
+          "corn.muffins(\n    param1, param2, param3, param4);\n");
     });
   });
 }

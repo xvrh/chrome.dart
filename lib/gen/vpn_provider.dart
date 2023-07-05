@@ -10,33 +10,33 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.vpnProvider` namespace.
  */
-final ChromeVpnProvider vpnProvider = new ChromeVpnProvider._();
+final ChromeVpnProvider vpnProvider = ChromeVpnProvider._();
 
 class ChromeVpnProvider extends ChromeApi {
   JsObject get _vpnProvider => chrome['vpnProvider'];
 
   Stream<OnPlatformMessageEvent> get onPlatformMessage => _onPlatformMessage.stream;
-  ChromeStreamController<OnPlatformMessageEvent> _onPlatformMessage;
+  late ChromeStreamController<OnPlatformMessageEvent> _onPlatformMessage;
 
   Stream<ArrayBuffer> get onPacketReceived => _onPacketReceived.stream;
-  ChromeStreamController<ArrayBuffer> _onPacketReceived;
+  late ChromeStreamController<ArrayBuffer> _onPacketReceived;
 
   Stream<String> get onConfigRemoved => _onConfigRemoved.stream;
-  ChromeStreamController<String> _onConfigRemoved;
+  late ChromeStreamController<String> _onConfigRemoved;
 
   Stream<OnConfigCreatedEvent> get onConfigCreated => _onConfigCreated.stream;
-  ChromeStreamController<OnConfigCreatedEvent> _onConfigCreated;
+  late ChromeStreamController<OnConfigCreatedEvent> _onConfigCreated;
 
   Stream<OnUIEventEvent> get onUIEvent => _onUIEvent.stream;
-  ChromeStreamController<OnUIEventEvent> _onUIEvent;
+  late ChromeStreamController<OnUIEventEvent> _onUIEvent;
 
   ChromeVpnProvider._() {
     var getApi = () => _vpnProvider;
-    _onPlatformMessage = new ChromeStreamController<OnPlatformMessageEvent>.threeArgs(getApi, 'onPlatformMessage', _createOnPlatformMessageEvent);
-    _onPacketReceived = new ChromeStreamController<ArrayBuffer>.oneArg(getApi, 'onPacketReceived', _createArrayBuffer);
-    _onConfigRemoved = new ChromeStreamController<String>.oneArg(getApi, 'onConfigRemoved', selfConverter);
-    _onConfigCreated = new ChromeStreamController<OnConfigCreatedEvent>.threeArgs(getApi, 'onConfigCreated', _createOnConfigCreatedEvent);
-    _onUIEvent = new ChromeStreamController<OnUIEventEvent>.twoArgs(getApi, 'onUIEvent', _createOnUIEventEvent);
+    _onPlatformMessage = ChromeStreamController<OnPlatformMessageEvent>.threeArgs(getApi, 'onPlatformMessage', _createOnPlatformMessageEvent);
+    _onPacketReceived = ChromeStreamController<ArrayBuffer>.oneArg(getApi, 'onPacketReceived', _createArrayBuffer);
+    _onConfigRemoved = ChromeStreamController<String>.oneArg(getApi, 'onConfigRemoved', selfConverter);
+    _onConfigCreated = ChromeStreamController<OnConfigCreatedEvent>.threeArgs(getApi, 'onConfigCreated', _createOnConfigCreatedEvent);
+    _onUIEvent = ChromeStreamController<OnUIEventEvent>.twoArgs(getApi, 'onUIEvent', _createOnUIEventEvent);
   }
 
   bool get available => _vpnProvider != null;
@@ -57,7 +57,7 @@ class ChromeVpnProvider extends ChromeApi {
   Future<String> createConfig(String name) {
     if (_vpnProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _vpnProvider.callMethod('createConfig', [name, completer.callback]);
     return completer.future;
   }
@@ -71,7 +71,7 @@ class ChromeVpnProvider extends ChromeApi {
   Future destroyConfig(String id) {
     if (_vpnProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _vpnProvider.callMethod('destroyConfig', [id, completer.callback]);
     return completer.future;
   }
@@ -86,7 +86,7 @@ class ChromeVpnProvider extends ChromeApi {
   Future setParameters(Parameters parameters) {
     if (_vpnProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _vpnProvider.callMethod('setParameters', [jsify(parameters), completer.callback]);
     return completer.future;
   }
@@ -100,7 +100,7 @@ class ChromeVpnProvider extends ChromeApi {
   Future sendPacket(ArrayBuffer data) {
     if (_vpnProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _vpnProvider.callMethod('sendPacket', [jsify(data), completer.callback]);
     return completer.future;
   }
@@ -115,13 +115,13 @@ class ChromeVpnProvider extends ChromeApi {
   Future notifyConnectionStateChanged(VpnConnectionState state) {
     if (_vpnProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _vpnProvider.callMethod('notifyConnectionStateChanged', [jsify(state), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.vpnProvider' is not available");
+    throw  UnsupportedError("'chrome.vpnProvider' is not available");
   }
 }
 
@@ -140,7 +140,7 @@ class OnConfigCreatedEvent {
 
   final String name;
 
-  final dynamic data;
+  final Object data;
 
   OnConfigCreatedEvent(this.id, this.name, this.data);
 }
@@ -205,7 +205,7 @@ class UIEvent extends ChromeEnum {
  * A parameters class for the VPN interface.
  */
 class Parameters extends ChromeObject {
-  Parameters({String address, String broadcastAddress, String mtu, List<String> exclusionList, List<String> inclusionList, List<String> domainSearch, List<String> dnsServers, String reconnect}) {
+  Parameters({String? address, String? broadcastAddress, String? mtu, List<String>? exclusionList, List<String>? inclusionList, List<String>? domainSearch, List<String>? dnsServers, String? reconnect}) {
     if (address != null) this.address = address;
     if (broadcastAddress != null) this.broadcastAddress = broadcastAddress;
     if (mtu != null) this.mtu = mtu;
@@ -242,12 +242,12 @@ class Parameters extends ChromeObject {
   set reconnect(String value) => jsProxy['reconnect'] = value;
 }
 
-OnPlatformMessageEvent _createOnPlatformMessageEvent(String id, String message, String error) =>
-    new OnPlatformMessageEvent(id, _createPlatformMessage(message), error);
-ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => jsProxy == null ? null : new ArrayBuffer.fromProxy(jsProxy);
+OnPlatformMessageEvent _createOnPlatformMessageEvent(String id, JsObject message, String error) =>
+    OnPlatformMessageEvent(id, _createPlatformMessage(message), error);
+ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => ArrayBuffer.fromProxy(jsProxy);
 OnConfigCreatedEvent _createOnConfigCreatedEvent(String id, String name, JsObject data) =>
-    new OnConfigCreatedEvent(id, name, data);
-OnUIEventEvent _createOnUIEventEvent(String event, String id) =>
-    new OnUIEventEvent(_createUIEvent(event), id);
+    OnConfigCreatedEvent(id, name, data);
+OnUIEventEvent _createOnUIEventEvent(JsObject event, String id) =>
+    OnUIEventEvent(_createUIEvent(event), id);
 PlatformMessage _createPlatformMessage(String value) => PlatformMessage.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 UIEvent _createUIEvent(String value) => UIEvent.VALUES.singleWhere((ChromeEnum e) => e.value == value);

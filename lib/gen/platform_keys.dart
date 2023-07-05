@@ -14,7 +14,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.platformKeys` namespace.
  */
-final ChromePlatformKeys platformKeys = new ChromePlatformKeys._();
+final ChromePlatformKeys platformKeys = ChromePlatformKeys._();
 
 class ChromePlatformKeys extends ChromeApi {
   JsObject get _platformKeys => chrome['platformKeys'];
@@ -24,7 +24,7 @@ class ChromePlatformKeys extends ChromeApi {
   bool get available => _platformKeys != null;
 
   /**
-   * This function filters from a list of client certificates the ones that are
+   * This method filters from a list of client certificates the ones that are
    * known to the platform, match `request` and for which the extension has
    * permission to access the certificate and its private key. If `interactive`
    * is true, the user is presented a dialog where they can select from matching
@@ -40,7 +40,7 @@ class ChromePlatformKeys extends ChromeApi {
   Future<List<Match>> selectClientCertificates(SelectDetails details) {
     if (_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Match>>.oneArg((e) => listify(e, _createMatch));
+    var completer =  ChromeCompleter<List<Match>>.oneArg((e) => listify(e, _createMatch));
     _platformKeys.callMethod('selectClientCertificates', [jsify(details), completer.callback]);
     return completer.future;
   }
@@ -51,25 +51,57 @@ class ChromePlatformKeys extends ChromeApi {
    * [certificate]: The certificate of a [Match] returned by
    * [selectClientCertificates].
    * [parameters]: Determines signature/hash algorithm parameters additionally
-   * to the parameters fixed by the key itself. The same parameters are accepted
+   * to the parameters fixed by the key itself. The same parameters are accepted
    * as by WebCrypto's <a
    * href="http://www.w3.org/TR/WebCryptoAPI/#SubtleCrypto-method-importKey">importKey</a>
-   * function, e.g. `RsaHashedImportParams` for a RSASSA-PKCS1-v1_5 key. For
-   * RSASSA-PKCS1-v1_5 keys, additionally the parameters `{ "hash": { "name":
-   * "none" } }` are supported. The sign function will then apply PKCS#1 v1.5
-   * padding and but not hash the given data. <p>Currently, this function only
-   * supports the "RSASSA-PKCS1-v1_5" algorithm with one of the hashing
-   * algorithms "none", "SHA-1", "SHA-256", "SHA-384", and "SHA-512".</p>
+   * function, e.g. `RsaHashedImportParams` for a RSASSA-PKCS1-v1_5 key and
+   * `EcKeyImportParams` for EC key. Additionally for RSASSA-PKCS1-v1_5 keys,
+   * hashing algorithm name parameter can be specified with one of the following
+   * values: "none", "SHA-1", "SHA-256", "SHA-384", or "SHA-512", e.g. `{"hash":
+   * { "name": "none" } }`. The sign function will then apply PKCS#1 v1.5
+   * padding but not hash the given data. <p>Currently, this method only
+   * supports the "RSASSA-PKCS1-v1_5" and "ECDSA" algorithms.</p>
    * 
    * Returns:
    * [publicKey] null
    * [privateKey] null
    */
-  Future<GetKeyPairResult> getKeyPair(ArrayBuffer certificate, dynamic parameters) {
+  Future<GetKeyPairResult> getKeyPair(ArrayBuffer certificate, Object parameters) {
     if (_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<GetKeyPairResult>.twoArgs(GetKeyPairResult._create);
+    var completer =  ChromeCompleter<GetKeyPairResult>.twoArgs(GetKeyPairResult._create);
     _platformKeys.callMethod('getKeyPair', [jsify(certificate), jsify(parameters), completer.callback]);
+    return completer.future;
+  }
+
+  /**
+   * Passes the key pair identified by `publicKeySpkiDer` for usage with
+   * [platformKeys.subtleCrypto] to `callback`.
+   * [publicKeySpkiDer]: A DER-encoded X.509 SubjectPublicKeyInfo, obtained e.g.
+   * by calling WebCrypto's exportKey function with format="spki".
+   * [parameters]: Provides signature and hash algorithm parameters, in addition
+   * to those fixed by the key itself. The same parameters are accepted as by
+   * WebCrypto's <a
+   * href="http://www.w3.org/TR/WebCryptoAPI/#SubtleCrypto-method-importKey">importKey</a>
+   * function, e.g. `RsaHashedImportParams` for a RSASSA-PKCS1-v1_5 key. For
+   * RSASSA-PKCS1-v1_5 keys, we need to also pass a "hash" parameter `{ "hash":
+   * { "name": string } }`. The "hash" parameter represents the name of the
+   * hashing algorithm to be used in the digest operation before a sign. It is
+   * possible to pass "none" as the hash name, in which case the sign function
+   * will apply PKCS#1 v1.5 padding and but not hash the given data.
+   * <p>Currently, this method supports the "ECDSA" algorithm with named-curve
+   * P-256 and "RSASSA-PKCS1-v1_5" algorithm with one of the hashing algorithms
+   * "none", "SHA-1", "SHA-256", "SHA-384", and "SHA-512".</p>
+   * 
+   * Returns:
+   * [publicKey] null
+   * [privateKey] null
+   */
+  Future<GetKeyPairBySpkiResult> getKeyPairBySpki(ArrayBuffer publicKeySpkiDer, Object parameters) {
+    if (_platformKeys == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter<GetKeyPairBySpkiResult>.twoArgs(GetKeyPairBySpkiResult._create);
+    _platformKeys.callMethod('getKeyPairBySpki', [jsify(publicKeySpkiDer), jsify(parameters), completer.callback]);
     return completer.future;
   }
 
@@ -79,7 +111,7 @@ class ChromePlatformKeys extends ChromeApi {
    * SubtleCrypto</a> that allows crypto operations on keys of client
    * certificates that are available to this extension.
    */
-  dynamic subtleCrypto() {
+  Object subtleCrypto() {
     if (_platformKeys == null) _throwNotAvailable();
 
     return _platformKeys.callMethod('subtleCrypto');
@@ -97,13 +129,13 @@ class ChromePlatformKeys extends ChromeApi {
   Future<VerificationResult> verifyTLSServerCertificate(VerificationDetails details) {
     if (_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<VerificationResult>.oneArg(_createVerificationResult);
+    var completer =  ChromeCompleter<VerificationResult>.oneArg(_createVerificationResult);
     _platformKeys.callMethod('verifyTLSServerCertificate', [jsify(details), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.platformKeys' is not available");
+    throw  UnsupportedError("'chrome.platformKeys' is not available");
   }
 }
 
@@ -117,7 +149,7 @@ class ClientCertificateType extends ChromeEnum {
 }
 
 class Match extends ChromeObject {
-  Match({ArrayBuffer certificate, var keyAlgorithm}) {
+  Match({ArrayBuffer? certificate, Object? keyAlgorithm}) {
     if (certificate != null) this.certificate = certificate;
     if (keyAlgorithm != null) this.keyAlgorithm = keyAlgorithm;
   }
@@ -126,8 +158,8 @@ class Match extends ChromeObject {
   ArrayBuffer get certificate => _createArrayBuffer(jsProxy['certificate']);
   set certificate(ArrayBuffer value) => jsProxy['certificate'] = jsify(value);
 
-  dynamic get keyAlgorithm => jsProxy['keyAlgorithm'];
-  set keyAlgorithm(var value) => jsProxy['keyAlgorithm'] = jsify(value);
+  Object get keyAlgorithm => jsProxy['keyAlgorithm'];
+  set keyAlgorithm(Object value) => jsProxy['keyAlgorithm'] = jsify(value);
 }
 
 /**
@@ -135,7 +167,7 @@ class Match extends ChromeObject {
  * http://tools.ietf.org/html/rfc4346#section-7.4.4 .
  */
 class ClientCertificateRequest extends ChromeObject {
-  ClientCertificateRequest({List<ClientCertificateType> certificateTypes, List<ArrayBuffer> certificateAuthorities}) {
+  ClientCertificateRequest({List<ClientCertificateType>? certificateTypes, List<ArrayBuffer>? certificateAuthorities}) {
     if (certificateTypes != null) this.certificateTypes = certificateTypes;
     if (certificateAuthorities != null) this.certificateAuthorities = certificateAuthorities;
   }
@@ -149,7 +181,7 @@ class ClientCertificateRequest extends ChromeObject {
 }
 
 class SelectDetails extends ChromeObject {
-  SelectDetails({ClientCertificateRequest request, List<ArrayBuffer> clientCerts, bool interactive}) {
+  SelectDetails({ClientCertificateRequest? request, List<ArrayBuffer>? clientCerts, bool? interactive}) {
     if (request != null) this.request = request;
     if (clientCerts != null) this.clientCerts = clientCerts;
     if (interactive != null) this.interactive = interactive;
@@ -167,7 +199,7 @@ class SelectDetails extends ChromeObject {
 }
 
 class VerificationDetails extends ChromeObject {
-  VerificationDetails({List<ArrayBuffer> serverCertificateChain, String hostname}) {
+  VerificationDetails({List<ArrayBuffer>? serverCertificateChain, String? hostname}) {
     if (serverCertificateChain != null) this.serverCertificateChain = serverCertificateChain;
     if (hostname != null) this.hostname = hostname;
   }
@@ -181,7 +213,7 @@ class VerificationDetails extends ChromeObject {
 }
 
 class VerificationResult extends ChromeObject {
-  VerificationResult({bool trusted, List<String> debug_errors}) {
+  VerificationResult({bool? trusted, List<String>? debug_errors}) {
     if (trusted != null) this.trusted = trusted;
     if (debug_errors != null) this.debug_errors = debug_errors;
   }
@@ -202,14 +234,28 @@ class GetKeyPairResult {
     return new GetKeyPairResult._(publicKey, privateKey);
   }
 
-  dynamic publicKey;
-  dynamic privateKey;
+  Object publicKey;
+  Object privateKey;
 
   GetKeyPairResult._(this.publicKey, this.privateKey);
 }
 
-Match _createMatch(JsObject jsProxy) => jsProxy == null ? null : new Match.fromProxy(jsProxy);
-VerificationResult _createVerificationResult(JsObject jsProxy) => jsProxy == null ? null : new VerificationResult.fromProxy(jsProxy);
-ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => jsProxy == null ? null : new ArrayBuffer.fromProxy(jsProxy);
+/**
+ * The return type for [getKeyPairBySpki].
+ */
+class GetKeyPairBySpkiResult {
+  static GetKeyPairBySpkiResult _create(publicKey, privateKey) {
+    return new GetKeyPairBySpkiResult._(publicKey, privateKey);
+  }
+
+  Object publicKey;
+  Object privateKey;
+
+  GetKeyPairBySpkiResult._(this.publicKey, this.privateKey);
+}
+
+Match _createMatch(JsObject jsProxy) => Match.fromProxy(jsProxy);
+VerificationResult _createVerificationResult(JsObject jsProxy) => VerificationResult.fromProxy(jsProxy);
+ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => ArrayBuffer.fromProxy(jsProxy);
 ClientCertificateType _createClientCertificateType(String value) => ClientCertificateType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-ClientCertificateRequest _createClientCertificateRequest(JsObject jsProxy) => jsProxy == null ? null : new ClientCertificateRequest.fromProxy(jsProxy);
+ClientCertificateRequest _createClientCertificateRequest(JsObject jsProxy) => ClientCertificateRequest.fromProxy(jsProxy);

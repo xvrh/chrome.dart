@@ -12,7 +12,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.windows` namespace.
  */
-final ChromeWindows windows = new ChromeWindows._();
+final ChromeWindows windows = ChromeWindows._();
 
 class ChromeWindows extends ChromeApi {
   JsObject get _windows => chrome['windows'];
@@ -21,34 +21,42 @@ class ChromeWindows extends ChromeApi {
    * Fired when a window is created.
    */
   Stream<Window> get onCreated => _onCreated.stream;
-  ChromeStreamController<Window> _onCreated;
+  late ChromeStreamController<Window> _onCreated;
 
   /**
    * Fired when a window is removed (closed).
    */
   Stream<int> get onRemoved => _onRemoved.stream;
-  ChromeStreamController<int> _onRemoved;
+  late ChromeStreamController<int> _onRemoved;
 
   /**
-   * Fired when the currently focused window changes. Will be
-   * chrome.windows.WINDOW_ID_NONE if all chrome windows have lost focus. Note:
-   * On some Linux window managers, WINDOW_ID_NONE will always be sent
-   * immediately preceding a switch from one chrome window to another.
+   * Fired when the currently focused window changes. Returns
+   * `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
+   * <b>Note:</b> On some Linux window managers, `WINDOW_ID_NONE` is always sent
+   * immediately preceding a switch from one Chrome window to another.
    */
   Stream<int> get onFocusChanged => _onFocusChanged.stream;
-  ChromeStreamController<int> _onFocusChanged;
+  late ChromeStreamController<int> _onFocusChanged;
+
+  /**
+   * Fired when a window has been resized; this event is only dispatched when
+   * the new bounds are committed, and not for in-progress changes.
+   */
+  Stream<Window> get onBoundsChanged => _onBoundsChanged.stream;
+  late ChromeStreamController<Window> _onBoundsChanged;
 
   ChromeWindows._() {
     var getApi = () => _windows;
-    _onCreated = new ChromeStreamController<Window>.oneArg(getApi, 'onCreated', _createWindow);
-    _onRemoved = new ChromeStreamController<int>.oneArg(getApi, 'onRemoved', selfConverter);
-    _onFocusChanged = new ChromeStreamController<int>.oneArg(getApi, 'onFocusChanged', selfConverter);
+    _onCreated = ChromeStreamController<Window>.oneArg(getApi, 'onCreated', _createWindow);
+    _onRemoved = ChromeStreamController<int>.oneArg(getApi, 'onRemoved', selfConverter);
+    _onFocusChanged = ChromeStreamController<int>.oneArg(getApi, 'onFocusChanged', selfConverter);
+    _onBoundsChanged = ChromeStreamController<Window>.oneArg(getApi, 'onBoundsChanged', _createWindow);
   }
 
   bool get available => _windows != null;
 
   /**
-   * The windowId value that represents the absence of a chrome browser window.
+   * The windowId value that represents the absence of a Chrome browser window.
    */
   int get WINDOW_ID_NONE => _windows['WINDOW_ID_NONE'];
 
@@ -60,175 +68,102 @@ class ChromeWindows extends ChromeApi {
 
   /**
    * Gets details about a window.
-   * 
-   * [getInfo]
    */
-  Future<Window> get(int windowId, [WindowsGetParams getInfo]) {
+  void get(int windowId, [QueryOptions? queryOptions]) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _windows.callMethod('get', [windowId, jsify(getInfo), completer.callback]);
-    return completer.future;
+    _windows.callMethod('get', [windowId, jsify(queryOptions)]);
   }
 
   /**
    * Gets the [current window](#current-window).
-   * 
-   * [getInfo]
    */
-  Future<Window> getCurrent([WindowsGetCurrentParams getInfo]) {
+  void getCurrent([QueryOptions? queryOptions]) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _windows.callMethod('getCurrent', [jsify(getInfo), completer.callback]);
-    return completer.future;
+    _windows.callMethod('getCurrent', [jsify(queryOptions)]);
   }
 
   /**
    * Gets the window that was most recently focused - typically the window 'on
    * top'.
-   * 
-   * [getInfo]
    */
-  Future<Window> getLastFocused([WindowsGetLastFocusedParams getInfo]) {
+  void getLastFocused([QueryOptions? queryOptions]) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _windows.callMethod('getLastFocused', [jsify(getInfo), completer.callback]);
-    return completer.future;
+    _windows.callMethod('getLastFocused', [jsify(queryOptions)]);
   }
 
   /**
    * Gets all windows.
-   * 
-   * [getInfo]
    */
-  Future<List<Window>> getAll([WindowsGetAllParams getInfo]) {
+  void getAll([QueryOptions? queryOptions]) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Window>>.oneArg((e) => listify(e, _createWindow));
-    _windows.callMethod('getAll', [jsify(getInfo), completer.callback]);
-    return completer.future;
+    _windows.callMethod('getAll', [jsify(queryOptions)]);
   }
 
   /**
-   * Creates (opens) a new browser with any optional sizing, position or default
-   * URL provided.
-   * 
-   * Returns:
-   * Contains details about the created window.
+   * Creates (opens) a new browser window with any optional sizing, position, or
+   * default URL provided.
    */
-  Future<Window> create([WindowsCreateParams createData]) {
+  void create([WindowsCreateParams? createData]) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _windows.callMethod('create', [jsify(createData), completer.callback]);
-    return completer.future;
+    _windows.callMethod('create', [jsify(createData)]);
   }
 
   /**
-   * Updates the properties of a window. Specify only the properties that you
-   * want to change; unspecified properties will be left unchanged.
+   * Updates the properties of a window. Specify only the properties that to be
+   * changed; unspecified properties are unchanged.
    */
-  Future<Window> update(int windowId, WindowsUpdateParams updateInfo) {
+  void update(int windowId, WindowsUpdateParams updateInfo) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _windows.callMethod('update', [windowId, jsify(updateInfo), completer.callback]);
-    return completer.future;
+    _windows.callMethod('update', [windowId, jsify(updateInfo)]);
   }
 
   /**
-   * Removes (closes) a window, and all the tabs inside it.
+   * Removes (closes) a window and all the tabs inside it.
    */
-  Future remove(int windowId) {
+  void remove(int windowId) {
     if (_windows == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _windows.callMethod('remove', [windowId, completer.callback]);
-    return completer.future;
+    _windows.callMethod('remove', [windowId]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.windows' is not available");
+    throw  UnsupportedError("'chrome.windows' is not available");
   }
 }
 
 /**
- * The type of browser window this is. Under some circumstances a Window may not
- * be assigned type property, for example when querying closed windows from the
- * [sessions] API.
+ * The type of browser window this is. In some circumstances a window may not be
+ * assigned a `type` property; for example, when querying closed windows from
+ * the [sessions] API.
  */
 class WindowWindowType extends ChromeEnum {
-  /**
-   * A normal browser window.
-   */
-  static const WindowWindowType NORMAL = const WindowWindowType._('normal');
-  /**
-   * A browser popup window.
-   */
-  static const WindowWindowType POPUP = const WindowWindowType._('popup');
-  /**
-   * <i>Deprecated in this API.</i> A Chrome App panel-style window. Extensions
-   * can only see their own panel windows.
-   */
-  static const WindowWindowType PANEL = const WindowWindowType._('panel');
-  /**
-   * <i>Deprecated in this API.</i> A Chrome App window. Extensions can only see
-   * their app own windows.
-   */
-  static const WindowWindowType APP = const WindowWindowType._('app');
-  /**
-   * A devtools window.
-   */
-  static const WindowWindowType DEVTOOLS = const WindowWindowType._('devtools');
 
-  static const List<WindowWindowType> VALUES = const[NORMAL, POPUP, PANEL, APP, DEVTOOLS];
+  static const List<WindowWindowType> VALUES = const[];
 
   const WindowWindowType._(String str): super(str);
 }
 
 /**
- * The state of this browser window. Under some circumstances a Window may not
- * be assigned state property, for example when querying closed windows from the
- * [sessions] API.
+ * The state of this browser window. In some circumstances a window may not be
+ * assigned a `state` property; for example, when querying closed windows from
+ * the [sessions] API.
  */
 class WindowState extends ChromeEnum {
-  /**
-   * Normal window state (i.e. not minimized, maximized, or fullscreen).
-   */
-  static const WindowState NORMAL = const WindowState._('normal');
-  /**
-   * Minimized window state.
-   */
-  static const WindowState MINIMIZED = const WindowState._('minimized');
-  /**
-   * Maximized window state.
-   */
-  static const WindowState MAXIMIZED = const WindowState._('maximized');
-  /**
-   * Fullscreen window state.
-   */
-  static const WindowState FULLSCREEN = const WindowState._('fullscreen');
-  /**
-   * <i>Deprecated since Chrome M59.</i> Docked windows are no longer supported.
-   * This state will be converted to "normal".
-   */
-  static const WindowState DOCKED = const WindowState._('docked');
-  /**
-   * Locked fullscreen window state. This fullscreen state cannot be exited by
-   * user action. It is available only to whitelisted extensions on Chrome OS.
-   */
-  static const WindowState LOCKED_FULLSCREEN = const WindowState._('locked-fullscreen');
 
-  static const List<WindowState> VALUES = const[NORMAL, MINIMIZED, MAXIMIZED, FULLSCREEN, DOCKED, LOCKED_FULLSCREEN];
+  static const List<WindowState> VALUES = const[];
 
   const WindowState._(String str): super(str);
 }
 
 /**
- * Specifies what type of browser window to create. 'panel' is deprecated and
- * only available to existing whitelisted extensions on Chrome OS.
+ * Specifies what type of browser window to create. 'panel' is deprecated and is
+ * available only to existing allowlisted extensions on Chrome OS.
  */
 class CreateType extends ChromeEnum {
   static const CreateType NORMAL = const CreateType._('normal');
@@ -241,7 +176,7 @@ class CreateType extends ChromeEnum {
 }
 
 class Window extends ChromeObject {
-  Window({int id, bool focused, int top, int left, int width, int height, List<Tab> tabs, bool incognito, WindowWindowType type, WindowState state, bool alwaysOnTop, String sessionId}) {
+  Window({int? id, bool? focused, int? top, int? left, int? width, int? height, List<Tab>? tabs, bool? incognito, WindowWindowType? type, WindowState? state, bool? alwaysOnTop, String? sessionId}) {
     if (id != null) this.id = id;
     if (focused != null) this.focused = focused;
     if (top != null) this.top = top;
@@ -258,10 +193,10 @@ class Window extends ChromeObject {
   Window.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * The ID of the window. Window IDs are unique within a browser session. Under
-   * some circumstances a Window may not be assigned an ID, for example when
-   * querying windows using the [sessions] API, in which case a session ID may
-   * be present.
+   * The ID of the window. Window IDs are unique within a browser session. In
+   * some circumstances a window may not be assigned an `ID` property; for
+   * example, when querying windows using the [sessions] API, in which case a
+   * session ID may be present.
    */
   int get id => jsProxy['id'];
   set id(int value) => jsProxy['id'] = value;
@@ -273,33 +208,33 @@ class Window extends ChromeObject {
   set focused(bool value) => jsProxy['focused'] = value;
 
   /**
-   * The offset of the window from the top edge of the screen in pixels. Under
-   * some circumstances a Window may not be assigned top property, for example
+   * The offset of the window from the top edge of the screen in pixels. In some
+   * circumstances a window may not be assigned a `top` property; for example,
    * when querying closed windows from the [sessions] API.
    */
   int get top => jsProxy['top'];
   set top(int value) => jsProxy['top'] = value;
 
   /**
-   * The offset of the window from the left edge of the screen in pixels. Under
-   * some circumstances a Window may not be assigned left property, for example
-   * when querying closed windows from the [sessions] API.
+   * The offset of the window from the left edge of the screen in pixels. In
+   * some circumstances a window may not be assigned a `left` property; for
+   * example, when querying closed windows from the [sessions] API.
    */
   int get left => jsProxy['left'];
   set left(int value) => jsProxy['left'] = value;
 
   /**
-   * The width of the window, including the frame, in pixels. Under some
-   * circumstances a Window may not be assigned width property, for example when
-   * querying closed windows from the [sessions] API.
+   * The width of the window, including the frame, in pixels. In some
+   * circumstances a window may not be assigned a `width` property; for example,
+   * when querying closed windows from the [sessions] API.
    */
   int get width => jsProxy['width'];
   set width(int value) => jsProxy['width'] = value;
 
   /**
-   * The height of the window, including the frame, in pixels. Under some
-   * circumstances a Window may not be assigned height property, for example
-   * when querying closed windows from the [sessions] API.
+   * The height of the window, including the frame, in pixels. In some
+   * circumstances a window may not be assigned a `height` property; for
+   * example, when querying closed windows from the [sessions] API.
    */
   int get height => jsProxy['height'];
   set height(int value) => jsProxy['height'] = value;
@@ -335,111 +270,39 @@ class Window extends ChromeObject {
   set alwaysOnTop(bool value) => jsProxy['alwaysOnTop'] = value;
 
   /**
-   * The session ID used to uniquely identify a Window obtained from the
+   * The session ID used to uniquely identify a window, obtained from the
    * [sessions] API.
    */
   String get sessionId => jsProxy['sessionId'];
   set sessionId(String value) => jsProxy['sessionId'] = value;
 }
 
-class WindowsGetParams extends ChromeObject {
-  WindowsGetParams({bool populate, List<WindowWindowType> windowTypes}) {
+class QueryOptions extends ChromeObject {
+  QueryOptions({bool? populate, List<WindowWindowType>? windowTypes}) {
     if (populate != null) this.populate = populate;
     if (windowTypes != null) this.windowTypes = windowTypes;
   }
-  WindowsGetParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+  QueryOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * If true, the [windows.Window] object will have a [tabs] property that
-   * contains a list of the [tabs.Tab] objects. The `Tab` objects only contain
-   * the `url`, `title` and `favIconUrl` properties if the extension's manifest
-   * file includes the `"tabs"` permission.
+   * If true, the [windows.Window] object has a [tabs] property that contains a
+   * list of the [tabs.Tab] objects. The `Tab` objects only contain the `url`,
+   * `pendingUrl`, `title`, and `favIconUrl` properties if the extension's
+   * manifest file includes the `"tabs"` permission.
    */
   bool get populate => jsProxy['populate'];
   set populate(bool value) => jsProxy['populate'] = value;
 
   /**
-   * If set, the [windows.Window] returned will be filtered based on its type.
-   * If unset the default filter is set to `['normal', 'popup']`.
-   */
-  List<WindowWindowType> get windowTypes => listify(jsProxy['windowTypes'], _createWindowType);
-  set windowTypes(List<WindowWindowType> value) => jsProxy['windowTypes'] = jsify(value);
-}
-
-class WindowsGetCurrentParams extends ChromeObject {
-  WindowsGetCurrentParams({bool populate, List<WindowWindowType> windowTypes}) {
-    if (populate != null) this.populate = populate;
-    if (windowTypes != null) this.windowTypes = windowTypes;
-  }
-  WindowsGetCurrentParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * If true, the [windows.Window] object will have a [tabs] property that
-   * contains a list of the [tabs.Tab] objects. The `Tab` objects only contain
-   * the `url`, `title` and `favIconUrl` properties if the extension's manifest
-   * file includes the `"tabs"` permission.
-   */
-  bool get populate => jsProxy['populate'];
-  set populate(bool value) => jsProxy['populate'] = value;
-
-  /**
-   * If set, the [windows.Window] returned will be filtered based on its type.
-   * If unset the default filter is set to `['normal', 'popup']`.
-   */
-  List<WindowWindowType> get windowTypes => listify(jsProxy['windowTypes'], _createWindowType);
-  set windowTypes(List<WindowWindowType> value) => jsProxy['windowTypes'] = jsify(value);
-}
-
-class WindowsGetLastFocusedParams extends ChromeObject {
-  WindowsGetLastFocusedParams({bool populate, List<WindowWindowType> windowTypes}) {
-    if (populate != null) this.populate = populate;
-    if (windowTypes != null) this.windowTypes = windowTypes;
-  }
-  WindowsGetLastFocusedParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * If true, the [windows.Window] object will have a [tabs] property that
-   * contains a list of the [tabs.Tab] objects. The `Tab` objects only contain
-   * the `url`, `title` and `favIconUrl` properties if the extension's manifest
-   * file includes the `"tabs"` permission.
-   */
-  bool get populate => jsProxy['populate'];
-  set populate(bool value) => jsProxy['populate'] = value;
-
-  /**
-   * If set, the [windows.Window] returned will be filtered based on its type.
-   * If unset the default filter is set to `['normal', 'popup']`.
-   */
-  List<WindowWindowType> get windowTypes => listify(jsProxy['windowTypes'], _createWindowType);
-  set windowTypes(List<WindowWindowType> value) => jsProxy['windowTypes'] = jsify(value);
-}
-
-class WindowsGetAllParams extends ChromeObject {
-  WindowsGetAllParams({bool populate, List<WindowWindowType> windowTypes}) {
-    if (populate != null) this.populate = populate;
-    if (windowTypes != null) this.windowTypes = windowTypes;
-  }
-  WindowsGetAllParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * If true, each [windows.Window] object will have a [tabs] property that
-   * contains a list of the [tabs.Tab] objects for that window. The `Tab`
-   * objects only contain the `url`, `title` and `favIconUrl` properties if the
-   * extension's manifest file includes the `"tabs"` permission.
-   */
-  bool get populate => jsProxy['populate'];
-  set populate(bool value) => jsProxy['populate'] = value;
-
-  /**
-   * If set, the [windows.Window] returned will be filtered based on its type.
-   * If unset the default filter is set to `['normal', 'popup']`.
+   * If set, the [windows.Window] returned is filtered based on its type. If
+   * unset, the default filter is set to `['normal', 'popup']`.
    */
   List<WindowWindowType> get windowTypes => listify(jsProxy['windowTypes'], _createWindowType);
   set windowTypes(List<WindowWindowType> value) => jsProxy['windowTypes'] = jsify(value);
 }
 
 class WindowsCreateParams extends ChromeObject {
-  WindowsCreateParams({var url, int tabId, int left, int top, int width, int height, bool focused, bool incognito, CreateType type, WindowState state, bool setSelfAsOpener}) {
+  WindowsCreateParams({Object? url, int? tabId, int? left, int? top, int? width, int? height, bool? focused, bool? incognito, CreateType? type, WindowState? state, bool? setSelfAsOpener}) {
     if (url != null) this.url = url;
     if (tabId != null) this.tabId = tabId;
     if (left != null) this.left = left;
@@ -456,15 +319,15 @@ class WindowsCreateParams extends ChromeObject {
 
   /**
    * A URL or array of URLs to open as tabs in the window. Fully-qualified URLs
-   * must include a scheme (i.e. 'http://www.google.com', not 'www.google.com').
-   * Relative URLs will be relative to the current page within the extension.
+   * must include a scheme, e.g., 'http://www.google.com', not 'www.google.com'.
+   * Non-fully-qualified URLs are considered relative within the extension.
    * Defaults to the New Tab Page.
    */
-  dynamic get url => jsProxy['url'];
-  set url(var value) => jsProxy['url'] = jsify(value);
+  Object get url => jsProxy['url'];
+  set url(Object value) => jsProxy['url'] = jsify(value);
 
   /**
-   * The id of the tab for which you want to adopt to the new window.
+   * The ID of the tab to add to the new window.
    */
   int get tabId => jsProxy['tabId'];
   set tabId(int value) => jsProxy['tabId'] = value;
@@ -487,20 +350,20 @@ class WindowsCreateParams extends ChromeObject {
 
   /**
    * The width in pixels of the new window, including the frame. If not
-   * specified defaults to a natural width.
+   * specified, defaults to a natural width.
    */
   int get width => jsProxy['width'];
   set width(int value) => jsProxy['width'] = value;
 
   /**
    * The height in pixels of the new window, including the frame. If not
-   * specified defaults to a natural height.
+   * specified, defaults to a natural height.
    */
   int get height => jsProxy['height'];
   set height(int value) => jsProxy['height'] = value;
 
   /**
-   * If true, opens an active window. If false, opens an inactive window.
+   * If `true`, opens an active window. If `false`, opens an inactive window.
    */
   bool get focused => jsProxy['focused'];
   set focused(bool value) => jsProxy['focused'] = value;
@@ -518,17 +381,16 @@ class WindowsCreateParams extends ChromeObject {
   set type(CreateType value) => jsProxy['type'] = jsify(value);
 
   /**
-   * The initial state of the window. The 'minimized', 'maximized' and
-   * 'fullscreen' states cannot be combined with 'left', 'top', 'width' or
-   * 'height'.
+   * The initial state of the window. The `minimized`, `maximized`, and
+   * `fullscreen` states cannot be combined with `left`, `top`, `width`, or
+   * `height`.
    */
   WindowState get state => _createWindowState(jsProxy['state']);
   set state(WindowState value) => jsProxy['state'] = jsify(value);
 
   /**
-   * If 'setSelfAsOpener' is true, then the newly created window will have its
-   * 'window.opener' set to the caller and will be in the same [unit of related
-   * browsing
+   * If `true`, the newly-created window's 'window.opener' is set to the caller
+   * and is in the same [unit of related browsing
    * contexts](https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts)
    * as the caller.
    */
@@ -537,7 +399,7 @@ class WindowsCreateParams extends ChromeObject {
 }
 
 class WindowsUpdateParams extends ChromeObject {
-  WindowsUpdateParams({int left, int top, int width, int height, bool focused, bool drawAttention, WindowState state}) {
+  WindowsUpdateParams({int? left, int? top, int? width, int? height, bool? focused, bool? drawAttention, WindowState? state}) {
     if (left != null) this.left = left;
     if (top != null) this.top = top;
     if (width != null) this.width = width;
@@ -577,32 +439,33 @@ class WindowsUpdateParams extends ChromeObject {
   set height(int value) => jsProxy['height'] = value;
 
   /**
-   * If true, brings the window to the front. If false, brings the next window
-   * in the z-order to the front.
+   * If `true`, brings the window to the front; cannot be combined with the
+   * state 'minimized'. If `false`, brings the next window in the z-order to the
+   * front; cannot be combined with the state 'fullscreen' or 'maximized'.
    */
   bool get focused => jsProxy['focused'];
   set focused(bool value) => jsProxy['focused'] = value;
 
   /**
-   * If true, causes the window to be displayed in a manner that draws the
+   * If `true`, causes the window to be displayed in a manner that draws the
    * user's attention to the window, without changing the focused window. The
    * effect lasts until the user changes focus to the window. This option has no
-   * effect if the window already has focus. Set to false to cancel a previous
-   * draw attention request.
+   * effect if the window already has focus. Set to `false` to cancel a previous
+   * `drawAttention` request.
    */
   bool get drawAttention => jsProxy['drawAttention'];
   set drawAttention(bool value) => jsProxy['drawAttention'] = value;
 
   /**
-   * The new state of the window. The 'minimized', 'maximized' and 'fullscreen'
-   * states cannot be combined with 'left', 'top', 'width' or 'height'.
+   * The new state of the window. The 'minimized', 'maximized', and 'fullscreen'
+   * states cannot be combined with 'left', 'top', 'width', or 'height'.
    */
   WindowState get state => _createWindowState(jsProxy['state']);
   set state(WindowState value) => jsProxy['state'] = jsify(value);
 }
 
-Window _createWindow(JsObject jsProxy) => jsProxy == null ? null : new Window.fromProxy(jsProxy);
-Tab _createTab(JsObject jsProxy) => jsProxy == null ? null : new Tab.fromProxy(jsProxy);
+Window _createWindow(JsObject jsProxy) => Window.fromProxy(jsProxy);
+Tab _createTab(JsObject jsProxy) => Tab.fromProxy(jsProxy);
 WindowWindowType _createWindowType(String value) => WindowWindowType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 WindowState _createWindowState(String value) => WindowState.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 CreateType _createCreateType(String value) => CreateType.VALUES.singleWhere((ChromeEnum e) => e.value == value);

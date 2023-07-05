@@ -1,29 +1,30 @@
 /* This file has been generated from declarative_web_request.json - do not edit */
 
 /**
- * _*Note:* this API is currently on hold, without concrete plans to move to
- * stable._ Use the `chrome.declarativeWebRequest` API to intercept, block, or
+ * _*Note:* this API is deprecated. Check out the [declarativeNetRequest] API
+ * instead._ Use the `chrome.declarativeWebRequest` API to intercept, block, or
  * modify requests in-flight. It is significantly faster than the <a
  * href='webRequest'>`chrome.webRequest` API</a> because you can register rules
- * that are evaluated in the browser rather than the JavaScript engine with
+ * that are evaluated in the browser rather than the JavaScript engine, which
  * reduces roundtrip latencies and allows higher efficiency.
  */
 library chrome.declarativeWebRequest;
 
 import 'events.dart';
+import 'extension_types.dart';
 import 'web_request.dart';
 import '../src/common.dart';
 
 /**
  * Accessor for the `chrome.declarativeWebRequest` namespace.
  */
-final ChromeDeclarativeWebRequest declarativeWebRequest = new ChromeDeclarativeWebRequest._();
+final ChromeDeclarativeWebRequest declarativeWebRequest = ChromeDeclarativeWebRequest._();
 
 class ChromeDeclarativeWebRequest extends ChromeApi {
   JsObject get _declarativeWebRequest => chrome['declarativeWebRequest'];
 
   Stream get onRequest => _onRequest.stream;
-  ChromeStreamController _onRequest;
+  late ChromeStreamController _onRequest;
 
   /**
    * Fired when a message is sent via
@@ -31,12 +32,12 @@ class ChromeDeclarativeWebRequest extends ChromeApi {
    * declarative web request API.
    */
   Stream<Map> get onMessage => _onMessage.stream;
-  ChromeStreamController<Map> _onMessage;
+  late ChromeStreamController<Map> _onMessage;
 
   ChromeDeclarativeWebRequest._() {
     var getApi = () => _declarativeWebRequest;
     _onRequest = new ChromeStreamController.noArgs(getApi, 'onRequest');
-    _onMessage = new ChromeStreamController<Map>.oneArg(getApi, 'onMessage', mapify);
+    _onMessage = ChromeStreamController<Map>.oneArg(getApi, 'onMessage', mapify);
   }
 
   bool get available => _declarativeWebRequest != null;
@@ -202,7 +203,7 @@ class Stage extends ChromeEnum {
  * as a conjunction.
  */
 class HeaderFilter extends ChromeObject {
-  HeaderFilter({String namePrefix, String nameSuffix, var nameContains, String nameEquals, String valuePrefix, String valueSuffix, var valueContains, String valueEquals}) {
+  HeaderFilter({String? namePrefix, String? nameSuffix, Object? nameContains, String? nameEquals, String? valuePrefix, String? valueSuffix, Object? valueContains, String? valueEquals}) {
     if (namePrefix != null) this.namePrefix = namePrefix;
     if (nameSuffix != null) this.nameSuffix = nameSuffix;
     if (nameContains != null) this.nameContains = nameContains;
@@ -229,8 +230,8 @@ class HeaderFilter extends ChromeObject {
   /**
    * Matches if the header name contains all of the specified strings.
    */
-  dynamic get nameContains => jsProxy['nameContains'];
-  set nameContains(var value) => jsProxy['nameContains'] = jsify(value);
+  Object get nameContains => jsProxy['nameContains'];
+  set nameContains(Object value) => jsProxy['nameContains'] = jsify(value);
 
   /**
    * Matches if the header name is equal to the specified string.
@@ -253,8 +254,8 @@ class HeaderFilter extends ChromeObject {
   /**
    * Matches if the header value contains all of the specified strings.
    */
-  dynamic get valueContains => jsProxy['valueContains'];
-  set valueContains(var value) => jsProxy['valueContains'] = jsify(value);
+  Object get valueContains => jsProxy['valueContains'];
+  set valueContains(Object value) => jsProxy['valueContains'] = jsify(value);
 
   /**
    * Matches if the header value is equal to the specified string.
@@ -267,7 +268,7 @@ class HeaderFilter extends ChromeObject {
  * Matches network events by various criteria.
  */
 class RequestMatcher extends ChromeObject {
-  RequestMatcher({UrlFilter url, UrlFilter firstPartyForCookiesUrl, List<ResourceType> resourceType, List<String> contentType, List<String> excludeContentType, List<HeaderFilter> requestHeaders, List<HeaderFilter> excludeRequestHeaders, List<HeaderFilter> responseHeaders, List<HeaderFilter> excludeResponseHeaders, bool thirdPartyForCookies, List<Stage> stages}) {
+  RequestMatcher({UrlFilter? url, UrlFilter? firstPartyForCookiesUrl, List<ResourceType>? resourceType, List<String>? contentType, List<String>? excludeContentType, List<HeaderFilter>? requestHeaders, List<HeaderFilter>? excludeRequestHeaders, List<HeaderFilter>? responseHeaders, List<HeaderFilter>? excludeResponseHeaders, bool? thirdPartyForCookies, List<Stage>? stages}) {
     if (url != null) this.url = url;
     if (firstPartyForCookiesUrl != null) this.firstPartyForCookiesUrl = firstPartyForCookiesUrl;
     if (resourceType != null) this.resourceType = resourceType;
@@ -377,7 +378,7 @@ class CancelRequest extends ChromeObject {
  * Declarative event action that redirects a network request.
  */
 class RedirectRequest extends ChromeObject {
-  RedirectRequest({String redirectUrl}) {
+  RedirectRequest({String? redirectUrl}) {
     if (redirectUrl != null) this.redirectUrl = redirectUrl;
   }
   RedirectRequest.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -413,7 +414,7 @@ class RedirectToEmptyDocument extends ChromeObject {
  * syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
  */
 class RedirectByRegEx extends ChromeObject {
-  RedirectByRegEx({String from, String to}) {
+  RedirectByRegEx({String? from, String? to}) {
     if (from != null) this.from = from;
     if (to != null) this.to = to;
   }
@@ -441,7 +442,7 @@ class RedirectByRegEx extends ChromeObject {
  * occurs only once in each request.
  */
 class SetRequestHeader extends ChromeObject {
-  SetRequestHeader({String name, String value}) {
+  SetRequestHeader({String? name, String? value}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
   }
@@ -466,7 +467,7 @@ class SetRequestHeader extends ChromeObject {
  * request header name occurs only once in each request.
  */
 class RemoveRequestHeader extends ChromeObject {
-  RemoveRequestHeader({String name}) {
+  RemoveRequestHeader({String? name}) {
     if (name != null) this.name = name;
   }
   RemoveRequestHeader.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -484,7 +485,7 @@ class RemoveRequestHeader extends ChromeObject {
  * add a new response header in order to replace one.
  */
 class AddResponseHeader extends ChromeObject {
-  AddResponseHeader({String name, String value}) {
+  AddResponseHeader({String? name, String? value}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
   }
@@ -507,7 +508,7 @@ class AddResponseHeader extends ChromeObject {
  * Removes all response headers of the specified names and values.
  */
 class RemoveResponseHeader extends ChromeObject {
-  RemoveResponseHeader({String name, String value}) {
+  RemoveResponseHeader({String? name, String? value}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
   }
@@ -530,7 +531,7 @@ class RemoveResponseHeader extends ChromeObject {
  * Masks all rules that match the specified criteria.
  */
 class IgnoreRules extends ChromeObject {
-  IgnoreRules({int lowerPriorityThan, String hasTag}) {
+  IgnoreRules({int? lowerPriorityThan, String? hasTag}) {
     if (lowerPriorityThan != null) this.lowerPriorityThan = lowerPriorityThan;
     if (hasTag != null) this.hasTag = hasTag;
   }
@@ -559,7 +560,7 @@ class IgnoreRules extends ChromeObject {
  * Triggers the [declarativeWebRequest.onMessage] event.
  */
 class SendMessageToExtension extends ChromeObject {
-  SendMessageToExtension({String message}) {
+  SendMessageToExtension({String? message}) {
     if (message != null) this.message = message;
   }
   SendMessageToExtension.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -576,7 +577,7 @@ class SendMessageToExtension extends ChromeObject {
  * A filter or specification of a cookie in HTTP Requests.
  */
 class RequestCookie extends ChromeObject {
-  RequestCookie({String name, String value}) {
+  RequestCookie({String? name, String? value}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
   }
@@ -599,7 +600,7 @@ class RequestCookie extends ChromeObject {
  * A specification of a cookie in HTTP Responses.
  */
 class ResponseCookie extends ChromeObject {
-  ResponseCookie({String name, String value, String expires, var maxAge, String domain, String path, String secure, String httpOnly}) {
+  ResponseCookie({String? name, String? value, String? expires, Object? maxAge, String? domain, String? path, String? secure, String? httpOnly}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
     if (expires != null) this.expires = expires;
@@ -632,8 +633,8 @@ class ResponseCookie extends ChromeObject {
   /**
    * Value of the Max-Age cookie attribute
    */
-  dynamic get maxAge => jsProxy['maxAge'];
-  set maxAge(var value) => jsProxy['maxAge'] = jsify(value);
+  Object get maxAge => jsProxy['maxAge'];
+  set maxAge(Object value) => jsProxy['maxAge'] = jsify(value);
 
   /**
    * Value of the Domain cookie attribute.
@@ -664,7 +665,7 @@ class ResponseCookie extends ChromeObject {
  * A filter of a cookie in HTTP Responses.
  */
 class FilterResponseCookie extends ChromeObject {
-  FilterResponseCookie({String name, String value, String expires, var maxAge, String domain, String path, String secure, String httpOnly, int ageUpperBound, int ageLowerBound, bool sessionCookie}) {
+  FilterResponseCookie({String? name, String? value, String? expires, Object? maxAge, String? domain, String? path, String? secure, String? httpOnly, int? ageUpperBound, int? ageLowerBound, bool? sessionCookie}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
     if (expires != null) this.expires = expires;
@@ -700,8 +701,8 @@ class FilterResponseCookie extends ChromeObject {
   /**
    * Value of the Max-Age cookie attribute
    */
-  dynamic get maxAge => jsProxy['maxAge'];
-  set maxAge(var value) => jsProxy['maxAge'] = jsify(value);
+  Object get maxAge => jsProxy['maxAge'];
+  set maxAge(Object value) => jsProxy['maxAge'] = jsify(value);
 
   /**
    * Value of the Domain cookie attribute.
@@ -764,7 +765,7 @@ class FilterResponseCookie extends ChromeObject {
  * API because this is computationally less expensive.
  */
 class AddRequestCookie extends ChromeObject {
-  AddRequestCookie({RequestCookie cookie}) {
+  AddRequestCookie({RequestCookie? cookie}) {
     if (cookie != null) this.cookie = cookie;
   }
   AddRequestCookie.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -782,7 +783,7 @@ class AddRequestCookie extends ChromeObject {
  * API because this is computationally less expensive.
  */
 class AddResponseCookie extends ChromeObject {
-  AddResponseCookie({ResponseCookie cookie}) {
+  AddResponseCookie({ResponseCookie? cookie}) {
     if (cookie != null) this.cookie = cookie;
   }
   AddResponseCookie.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -800,7 +801,7 @@ class AddResponseCookie extends ChromeObject {
  * Cookies API because this is computationally less expensive.
  */
 class EditRequestCookie extends ChromeObject {
-  EditRequestCookie({RequestCookie filter, RequestCookie modification}) {
+  EditRequestCookie({RequestCookie? filter, RequestCookie? modification}) {
     if (filter != null) this.filter = filter;
     if (modification != null) this.modification = modification;
   }
@@ -825,7 +826,7 @@ class EditRequestCookie extends ChromeObject {
  * Cookies API because this is computationally less expensive.
  */
 class EditResponseCookie extends ChromeObject {
-  EditResponseCookie({FilterResponseCookie filter, ResponseCookie modification}) {
+  EditResponseCookie({FilterResponseCookie? filter, ResponseCookie? modification}) {
     if (filter != null) this.filter = filter;
     if (modification != null) this.modification = modification;
   }
@@ -850,7 +851,7 @@ class EditResponseCookie extends ChromeObject {
  * Cookies API because this is computationally less expensive.
  */
 class RemoveRequestCookie extends ChromeObject {
-  RemoveRequestCookie({RequestCookie filter}) {
+  RemoveRequestCookie({RequestCookie? filter}) {
     if (filter != null) this.filter = filter;
   }
   RemoveRequestCookie.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -867,7 +868,7 @@ class RemoveRequestCookie extends ChromeObject {
  * Cookies API because this is computationally less expensive.
  */
 class RemoveResponseCookie extends ChromeObject {
-  RemoveResponseCookie({FilterResponseCookie filter}) {
+  RemoveResponseCookie({FilterResponseCookie? filter}) {
     if (filter != null) this.filter = filter;
   }
   RemoveResponseCookie.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -879,10 +880,10 @@ class RemoveResponseCookie extends ChromeObject {
   set filter(FilterResponseCookie value) => jsProxy['filter'] = jsify(value);
 }
 
-UrlFilter _createUrlFilter(JsObject jsProxy) => jsProxy == null ? null : new UrlFilter.fromProxy(jsProxy);
-ResourceType _createResourceType(String value) => ResourceType.VALUES.singleWhere((type) => type.value == value);
-HeaderFilter _createHeaderFilter(JsObject jsProxy) => jsProxy == null ? null : new HeaderFilter.fromProxy(jsProxy);
+UrlFilter _createUrlFilter(JsObject jsProxy) => UrlFilter.fromProxy(jsProxy);
+ResourceType _createResourceType(JsObject jsProxy) => ResourceType.fromProxy(jsProxy);
+HeaderFilter _createHeaderFilter(JsObject jsProxy) => HeaderFilter.fromProxy(jsProxy);
 Stage _createStage(String value) => Stage.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-RequestCookie _createRequestCookie(JsObject jsProxy) => jsProxy == null ? null : new RequestCookie.fromProxy(jsProxy);
-ResponseCookie _createResponseCookie(JsObject jsProxy) => jsProxy == null ? null : new ResponseCookie.fromProxy(jsProxy);
-FilterResponseCookie _createFilterResponseCookie(JsObject jsProxy) => jsProxy == null ? null : new FilterResponseCookie.fromProxy(jsProxy);
+RequestCookie _createRequestCookie(JsObject jsProxy) => RequestCookie.fromProxy(jsProxy);
+ResponseCookie _createResponseCookie(JsObject jsProxy) => ResponseCookie.fromProxy(jsProxy);
+FilterResponseCookie _createFilterResponseCookie(JsObject jsProxy) => FilterResponseCookie.fromProxy(jsProxy);

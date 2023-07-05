@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.power` namespace.
  */
-final ChromePower power = new ChromePower._();
+final ChromePower power = ChromePower._();
 
 class ChromePower extends ChromeApi {
   JsObject get _power => chrome['power'];
@@ -41,8 +41,21 @@ class ChromePower extends ChromeApi {
     _power.callMethod('releaseKeepAwake');
   }
 
+  /**
+   * Reports a user activity in order to awake the screen from a dimmed or
+   * turned off state or from a screensaver. Exits the screensaver if it is
+   * currently active.
+   */
+  Future reportActivity() {
+    if (_power == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter.noArgs();
+    _power.callMethod('reportActivity', [completer.callback]);
+    return completer.future;
+  }
+
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.power' is not available");
+    throw  UnsupportedError("'chrome.power' is not available");
   }
 }
 

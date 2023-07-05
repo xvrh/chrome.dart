@@ -13,7 +13,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.permissions` namespace.
  */
-final ChromePermissions permissions = new ChromePermissions._();
+final ChromePermissions permissions = ChromePermissions._();
 
 class ChromePermissions extends ChromeApi {
   JsObject get _permissions => chrome['permissions'];
@@ -22,109 +22,91 @@ class ChromePermissions extends ChromeApi {
    * Fired when the extension acquires new permissions.
    */
   Stream<Permissions> get onAdded => _onAdded.stream;
-  ChromeStreamController<Permissions> _onAdded;
+  late ChromeStreamController<Permissions> _onAdded;
 
   /**
    * Fired when access to permissions has been removed from the extension.
    */
   Stream<Permissions> get onRemoved => _onRemoved.stream;
-  ChromeStreamController<Permissions> _onRemoved;
+  late ChromeStreamController<Permissions> _onRemoved;
 
   ChromePermissions._() {
     var getApi = () => _permissions;
-    _onAdded = new ChromeStreamController<Permissions>.oneArg(getApi, 'onAdded', _createPermissions);
-    _onRemoved = new ChromeStreamController<Permissions>.oneArg(getApi, 'onRemoved', _createPermissions);
+    _onAdded = ChromeStreamController<Permissions>.oneArg(getApi, 'onAdded', _createPermissions);
+    _onRemoved = ChromeStreamController<Permissions>.oneArg(getApi, 'onRemoved', _createPermissions);
   }
 
   bool get available => _permissions != null;
 
   /**
    * Gets the extension's current set of permissions.
-   * 
-   * Returns:
-   * The extension's active permissions.
    */
-  Future<Permissions> getAll() {
+  void getAll() {
     if (_permissions == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Permissions>.oneArg(_createPermissions);
-    _permissions.callMethod('getAll', [completer.callback]);
-    return completer.future;
+    _permissions.callMethod('getAll');
   }
 
   /**
    * Checks if the extension has the specified permissions.
-   * 
-   * Returns:
-   * True if the extension has the specified permissions.
    */
-  Future<bool> contains(Permissions permissions) {
+  void contains(Permissions permissions) {
     if (_permissions == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _permissions.callMethod('contains', [jsify(permissions), completer.callback]);
-    return completer.future;
+    _permissions.callMethod('contains', [jsify(permissions)]);
   }
 
   /**
-   * Requests access to the specified permissions. These permissions must be
-   * defined in the optional_permissions field of the manifest. If there are any
-   * problems requesting the permissions, [runtime.lastError] will be set.
-   * 
-   * Returns:
-   * True if the user granted the specified permissions.
+   * Requests access to the specified permissions, displaying a prompt to the
+   * user if necessary. These permissions must either be defined in the
+   * `optional_permissions` field of the manifest or be required permissions
+   * that were withheld by the user. Paths on origin patterns will be ignored.
+   * You can request subsets of optional origin permissions; for example, if you
+   * specify `*:///\*` in the `optional_permissions` section of the manifest,
+   * you can request `http://example.com/`. If there are any problems requesting
+   * the permissions, [runtime.lastError] will be set.
    */
-  Future<bool> request(Permissions permissions) {
+  void request(Permissions permissions) {
     if (_permissions == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _permissions.callMethod('request', [jsify(permissions), completer.callback]);
-    return completer.future;
+    _permissions.callMethod('request', [jsify(permissions)]);
   }
 
   /**
    * Removes access to the specified permissions. If there are any problems
    * removing the permissions, [runtime.lastError] will be set.
-   * 
-   * Returns:
-   * True if the permissions were removed.
    */
-  Future<bool> remove(Permissions permissions) {
+  void remove(Permissions permissions) {
     if (_permissions == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _permissions.callMethod('remove', [jsify(permissions), completer.callback]);
-    return completer.future;
+    _permissions.callMethod('remove', [jsify(permissions)]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.permissions' is not available");
+    throw  UnsupportedError("'chrome.permissions' is not available");
   }
 }
 
 class Permissions extends ChromeObject {
-  Permissions({List<String> permissions, List<String> origins}) {
+  Permissions({List<String>? permissions, List<String>? origins}) {
     if (permissions != null) this.permissions = permissions;
     if (origins != null) this.origins = origins;
   }
   Permissions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * List of named permissions (does not include hosts or origins).  Anything
-   * listed here must appear in the `optional_permissions` list in the manifest.
+   * List of named permissions (does not include hosts or origins).
    */
   List<String> get permissions => listify(jsProxy['permissions']);
   set permissions(List<String> value) => jsProxy['permissions'] = jsify(value);
 
   /**
-   * List of origin permissions. Anything listed here must be a subset of a host
-   * that appears in the `optional_permissions` list in the manifest. For
-   * example, if `http://\*.example.com/` or `http:///` appears in
-   * `optional_permissions`, you can request an origin of
-   * `http://help.example.com/`. Any path is ignored.
+   * The list of host permissions, including those specified in the
+   * `optional_permissions` or `permissions` keys in the manifest, and those
+   * associated with [Content Scripts](content_scripts).
    */
   List<String> get origins => listify(jsProxy['origins']);
   set origins(List<String> value) => jsProxy['origins'] = jsify(value);
 }
 
-Permissions _createPermissions(JsObject jsProxy) => jsProxy == null ? null : new Permissions.fromProxy(jsProxy);
+Permissions _createPermissions(JsObject jsProxy) => Permissions.fromProxy(jsProxy);

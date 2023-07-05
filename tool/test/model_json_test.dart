@@ -26,6 +26,7 @@ void main() {
         ..add('idl'));
       Iterable<File> jsonFiles = new Directory(idlPath)
           .listSync(recursive: true, followLinks: false)
+          .whereType<File>()
           .where((f) => f.path.endsWith('.json'));
 
       for (File file in jsonFiles) {
@@ -52,7 +53,7 @@ void main() {
       json_model.JsonFunction function =
           namespace.functions.singleWhere((e) => e.name == "setTitle");
       expect(function.parameters.length, 1);
-      json_model.JsonParamType parameter = function.parameters[0];
+      json_model.JsonType parameter = function.parameters[0];
       expect(parameter, isNotNull);
       expect(parameter.type, "object");
       expect(parameter.properties.length, 2);
@@ -76,7 +77,8 @@ void main() {
         "description": "A simple enum with two values",
         "enum": ["firstVal", "secondVal"]
       }]''';
-      var jsonEnum = json_model.JsonEnum.parse(JSON.decode(data)).single;
+      var jsonEnum =
+          json_model.JsonEnum.parse(json.decode(data) as List).single;
 
       expect(jsonEnum.name, 'simpleEnum');
       expect(jsonEnum.values.length, 2);
@@ -98,7 +100,7 @@ void main() {
         "description": "A very simple enum with one value",
         "enum": ["onlyVal"]
       }]''';
-      var jsonEnums = json_model.JsonEnum.parse(JSON.decode(data));
+      var jsonEnums = json_model.JsonEnum.parse(json.decode(data) as List);
 
       expect(jsonEnums.length, 2);
       expect(jsonEnums[0].name, 'simpleEnum');
@@ -124,7 +126,7 @@ void main() {
         "description": "A very simple enum with one value",
         "enum": ["onlyVal"]
       }]''';
-      var jsonEnums = json_model.JsonEnum.parse(JSON.decode(data));
+      var jsonEnums = json_model.JsonEnum.parse(json.decode(data) as List);
 
       expect(jsonEnums.length, 2);
       expect(jsonEnums[0].name, 'simpleEnum');
@@ -147,7 +149,8 @@ void main() {
           }
         ]
       }]''';
-      var jsonEnum = json_model.JsonEnum.parse(JSON.decode(data)).single;
+      var jsonEnum =
+          json_model.JsonEnum.parse(json.decode(data) as List).single;
 
       expect(jsonEnum.name, 'describedEnum');
       expect(jsonEnum.values.length, 2);
@@ -211,14 +214,15 @@ void main() {
       }]""";
 
       List<json_model.JsonFunction> functions =
-          json_model.JsonFunction.parse(JSON.decode(data));
+          json_model.JsonFunction.parse(json.decode(data) as List);
       expect(functions, isNotNull);
       expect(functions, hasLength(1));
       json_model.JsonFunction function = functions[0];
       expect(function, isNotNull);
       expect(function.name, equals("setIcon"));
       expect(function.parameters, hasLength(2));
-      json_model.JsonParamType objectType = function.parameters[0];
+      json_model.JsonParamType objectType =
+          function.parameters[0] as json_model.JsonParamType;
       expect(objectType, isNotNull);
       List<json_model.JsonProperty> properties = objectType.properties;
       expect(properties, isNotNull);

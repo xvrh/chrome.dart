@@ -12,7 +12,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.desktopCapture` namespace.
  */
-final ChromeDesktopCapture desktopCapture = new ChromeDesktopCapture._();
+final ChromeDesktopCapture desktopCapture = ChromeDesktopCapture._();
 
 class ChromeDesktopCapture extends ChromeApi {
   JsObject get _desktopCapture => chrome['desktopCapture'];
@@ -32,14 +32,20 @@ class ChromeDesktopCapture extends ChromeApi {
    * stream can only be used by frames in the given tab whose security origin
    * matches `tab.url`. The tab's origin must be a secure origin, e.g. HTTPS.
    * 
+   * [options] Mirrors members of
+   * [DisplayMediaStreamConstraints](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints)
+   * which need to be applied before the user makes their selection, and must
+   * therefore be provided to chooseDesktopMedia() rather than be deferred to
+   * getUserMedia().
+   * 
    * Returns:
    * An id that can be passed to cancelChooseDesktopMedia() in case the prompt
    * need to be canceled.
    */
-  int chooseDesktopMedia(List<DesktopCaptureSourceType> sources, dynamic callback, [Tab targetTab]) {
+  int chooseDesktopMedia(List<DesktopCaptureSourceType> sources, Object callback, [Tab? targetTab, DesktopCaptureChooseDesktopMediaParams? options]) {
     if (_desktopCapture == null) _throwNotAvailable();
 
-    return _desktopCapture.callMethod('chooseDesktopMedia', [jsify(sources), jsify(targetTab), jsify(callback)]);
+    return _desktopCapture.callMethod('chooseDesktopMedia', [jsify(sources), jsify(targetTab), jsify(options), jsify(callback)]);
   }
 
   /**
@@ -54,7 +60,7 @@ class ChromeDesktopCapture extends ChromeApi {
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.desktopCapture' is not available");
+    throw  UnsupportedError("'chrome.desktopCapture' is not available");
   }
 }
 
@@ -72,3 +78,63 @@ class DesktopCaptureSourceType extends ChromeEnum {
 
   const DesktopCaptureSourceType._(String str): super(str);
 }
+
+/**
+ * Mirrors
+ * [SystemAudioPreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum).
+ */
+class SystemAudioPreferenceEnum extends ChromeEnum {
+  static const SystemAudioPreferenceEnum INCLUDE = const SystemAudioPreferenceEnum._('include');
+  static const SystemAudioPreferenceEnum EXCLUDE = const SystemAudioPreferenceEnum._('exclude');
+
+  static const List<SystemAudioPreferenceEnum> VALUES = const[INCLUDE, EXCLUDE];
+
+  const SystemAudioPreferenceEnum._(String str): super(str);
+}
+
+/**
+ * Mirrors
+ * [SelfCapturePreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum).
+ */
+class SelfCapturePreferenceEnum extends ChromeEnum {
+  static const SelfCapturePreferenceEnum INCLUDE = const SelfCapturePreferenceEnum._('include');
+  static const SelfCapturePreferenceEnum EXCLUDE = const SelfCapturePreferenceEnum._('exclude');
+
+  static const List<SelfCapturePreferenceEnum> VALUES = const[INCLUDE, EXCLUDE];
+
+  const SelfCapturePreferenceEnum._(String str): super(str);
+}
+
+class DesktopCaptureChooseDesktopMediaParams extends ChromeObject {
+  DesktopCaptureChooseDesktopMediaParams({SystemAudioPreferenceEnum? systemAudio, SelfCapturePreferenceEnum? selfBrowserSurface, bool? suppressLocalAudioPlaybackIntended}) {
+    if (systemAudio != null) this.systemAudio = systemAudio;
+    if (selfBrowserSurface != null) this.selfBrowserSurface = selfBrowserSurface;
+    if (suppressLocalAudioPlaybackIntended != null) this.suppressLocalAudioPlaybackIntended = suppressLocalAudioPlaybackIntended;
+  }
+  DesktopCaptureChooseDesktopMediaParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * Mirrors
+   * [systemAudio](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio).
+   */
+  SystemAudioPreferenceEnum get systemAudio => _createSystemAudioPreferenceEnum(jsProxy['systemAudio']);
+  set systemAudio(SystemAudioPreferenceEnum value) => jsProxy['systemAudio'] = jsify(value);
+
+  /**
+   * Mirrors
+   * [selfBrowserSurface](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface).
+   */
+  SelfCapturePreferenceEnum get selfBrowserSurface => _createSelfCapturePreferenceEnum(jsProxy['selfBrowserSurface']);
+  set selfBrowserSurface(SelfCapturePreferenceEnum value) => jsProxy['selfBrowserSurface'] = jsify(value);
+
+  /**
+   * Indicates that the caller intends to perform local audio suppression, and
+   * that the media picker shown to the user should therefore reflect that with
+   * the appropriate warnings, as it does when getDisplayMedia() is invoked.
+   */
+  bool get suppressLocalAudioPlaybackIntended => jsProxy['suppressLocalAudioPlaybackIntended'];
+  set suppressLocalAudioPlaybackIntended(bool value) => jsProxy['suppressLocalAudioPlaybackIntended'] = value;
+}
+
+SystemAudioPreferenceEnum _createSystemAudioPreferenceEnum(String value) => SystemAudioPreferenceEnum.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+SelfCapturePreferenceEnum _createSelfCapturePreferenceEnum(String value) => SelfCapturePreferenceEnum.VALUES.singleWhere((ChromeEnum e) => e.value == value);

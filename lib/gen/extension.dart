@@ -15,7 +15,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.extension` namespace.
  */
-final ChromeExtension extension = new ChromeExtension._();
+final ChromeExtension extension = ChromeExtension._();
 
 class ChromeExtension extends ChromeApi {
   JsObject get _extension => chrome['extension'];
@@ -25,18 +25,18 @@ class ChromeExtension extends ChromeApi {
    * script.
    */
   Stream<OnRequestEvent> get onRequest => _onRequest.stream;
-  ChromeStreamController<OnRequestEvent> _onRequest;
+  late ChromeStreamController<OnRequestEvent> _onRequest;
 
   /**
    * Fired when a request is sent from another extension.
    */
   Stream<OnRequestExternalEvent> get onRequestExternal => _onRequestExternal.stream;
-  ChromeStreamController<OnRequestExternalEvent> _onRequestExternal;
+  late ChromeStreamController<OnRequestExternalEvent> _onRequestExternal;
 
   ChromeExtension._() {
     var getApi = () => _extension;
-    _onRequest = new ChromeStreamController<OnRequestEvent>.threeArgs(getApi, 'onRequest', _createOnRequestEvent);
-    _onRequestExternal = new ChromeStreamController<OnRequestExternalEvent>.threeArgs(getApi, 'onRequestExternal', _createOnRequestExternalEvent);
+    _onRequest = ChromeStreamController<OnRequestEvent>.threeArgs(getApi, 'onRequest', _createOnRequestEvent);
+    _onRequestExternal = ChromeStreamController<OnRequestExternalEvent>.threeArgs(getApi, 'onRequestExternal', _createOnRequestExternalEvent);
   }
 
   bool get available => _extension != null;
@@ -63,18 +63,11 @@ class ChromeExtension extends ChromeApi {
    * 
    * [extensionId] The extension ID of the extension you want to connect to. If
    * omitted, default is your own extension.
-   * 
-   * Returns:
-   * The JSON response object sent by the handler of the request. If an error
-   * occurs while connecting to the extension, the callback will be called with
-   * no arguments and [runtime.lastError] will be set to the error message.
    */
-  Future<dynamic> sendRequest(dynamic request, [String extensionId]) {
+  void sendRequest(Object request, [String? extensionId]) {
     if (_extension == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _extension.callMethod('sendRequest', [extensionId, jsify(request), completer.callback]);
-    return completer.future;
+    _extension.callMethod('sendRequest', [extensionId, jsify(request)]);
   }
 
   /**
@@ -100,7 +93,7 @@ class ChromeExtension extends ChromeApi {
    * Returns:
    * Array of global objects
    */
-  List<Window> getViews([ExtensionGetViewsParams fetchProperties]) {
+  List<Window> getViews([ExtensionGetViewsParams? fetchProperties]) {
     if (_extension == null) _throwNotAvailable();
 
     var ret = _extension.callMethod('getViews', [jsify(fetchProperties)]);
@@ -126,7 +119,7 @@ class ChromeExtension extends ChromeApi {
    * Returns:
    * Array of global window objects
    */
-  List<Window> getExtensionTabs([int windowId]) {
+  List<Window> getExtensionTabs([int? windowId]) {
     if (_extension == null) _throwNotAvailable();
 
     var ret = _extension.callMethod('getExtensionTabs', [windowId]);
@@ -134,33 +127,25 @@ class ChromeExtension extends ChromeApi {
   }
 
   /**
-   * Retrieves the state of the extension's access to Incognito-mode (as
-   * determined by the user-controlled 'Allowed in Incognito' checkbox.
-   * 
-   * Returns:
-   * True if the extension has access to Incognito mode, false otherwise.
+   * Retrieves the state of the extension's access to Incognito-mode. This
+   * corresponds to the user-controlled per-extension 'Allowed in Incognito'
+   * setting accessible via the chrome://extensions page.
    */
-  Future<bool> isAllowedIncognitoAccess() {
+  void isAllowedIncognitoAccess() {
     if (_extension == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _extension.callMethod('isAllowedIncognitoAccess', [completer.callback]);
-    return completer.future;
+    _extension.callMethod('isAllowedIncognitoAccess');
   }
 
   /**
-   * Retrieves the state of the extension's access to the 'file://' scheme (as
-   * determined by the user-controlled 'Allow access to File URLs' checkbox.
-   * 
-   * Returns:
-   * True if the extension can access the 'file://' scheme, false otherwise.
+   * Retrieves the state of the extension's access to the 'file://' scheme. This
+   * corresponds to the user-controlled per-extension 'Allow access to File
+   * URLs' setting accessible via the chrome://extensions page.
    */
-  Future<bool> isAllowedFileSchemeAccess() {
+  void isAllowedFileSchemeAccess() {
     if (_extension == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _extension.callMethod('isAllowedFileSchemeAccess', [completer.callback]);
-    return completer.future;
+    _extension.callMethod('isAllowedFileSchemeAccess');
   }
 
   /**
@@ -175,7 +160,7 @@ class ChromeExtension extends ChromeApi {
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.extension' is not available");
+    throw  UnsupportedError("'chrome.extension' is not available");
   }
 }
 
@@ -190,7 +175,7 @@ class OnRequestEvent {
    * 
    * The request sent by the calling script.
    */
-  final dynamic request;
+  final Object request;
 
   final MessageSender sender;
 
@@ -200,7 +185,7 @@ class OnRequestEvent {
    * you have more than one `onRequest` listener in the same document, then only
    * one may send a response.
    */
-  final dynamic sendResponse;
+  final Object sendResponse;
 
   OnRequestEvent(this.request, this.sender, this.sendResponse);
 }
@@ -215,7 +200,7 @@ class OnRequestExternalEvent {
    * 
    * The request sent by the calling script.
    */
-  final dynamic request;
+  final Object request;
 
   final MessageSender sender;
 
@@ -223,7 +208,7 @@ class OnRequestExternalEvent {
    * Function to call when you have a response. The argument should be any
    * JSON-ifiable object, or undefined if there is no response.
    */
-  final dynamic sendResponse;
+  final Object sendResponse;
 
   OnRequestExternalEvent(this.request, this.sender, this.sendResponse);
 }
@@ -251,7 +236,7 @@ class LastErrorExtension extends ChromeObject {
 }
 
 class ExtensionGetViewsParams extends ChromeObject {
-  ExtensionGetViewsParams({ViewType type, int windowId, int tabId}) {
+  ExtensionGetViewsParams({ViewType? type, int? windowId, int? tabId}) {
     if (type != null) this.type = type;
     if (windowId != null) this.windowId = windowId;
     if (tabId != null) this.tabId = tabId;
@@ -260,7 +245,7 @@ class ExtensionGetViewsParams extends ChromeObject {
 
   /**
    * The type of view to get. If omitted, returns all views (including
-   * background pages and tabs). Valid values: 'tab', 'notification', 'popup'.
+   * background pages and tabs).
    */
   ViewType get type => _createViewType(jsProxy['type']);
   set type(ViewType value) => jsProxy['type'] = jsify(value);
@@ -280,10 +265,10 @@ class ExtensionGetViewsParams extends ChromeObject {
 }
 
 OnRequestEvent _createOnRequestEvent(JsObject request, JsObject sender, JsObject sendResponse) =>
-    new OnRequestEvent(request, _createMessageSender(sender), sendResponse);
+    OnRequestEvent(request, _createMessageSender(sender), sendResponse);
 OnRequestExternalEvent _createOnRequestExternalEvent(JsObject request, JsObject sender, JsObject sendResponse) =>
-    new OnRequestExternalEvent(request, _createMessageSender(sender), sendResponse);
-LastErrorExtension _createLastErrorExtension(JsObject jsProxy) => jsProxy == null ? null : new LastErrorExtension.fromProxy(jsProxy);
-Window _createWindow(JsObject jsProxy) => jsProxy == null ? null : new Window.fromProxy(jsProxy);
+    OnRequestExternalEvent(request, _createMessageSender(sender), sendResponse);
+LastErrorExtension _createLastErrorExtension(JsObject jsProxy) => LastErrorExtension.fromProxy(jsProxy);
+Window _createWindow(JsObject jsProxy) => Window.fromProxy(jsProxy);
 ViewType _createViewType(String value) => ViewType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-MessageSender _createMessageSender(JsObject jsProxy) => jsProxy == null ? null : new MessageSender.fromProxy(jsProxy);
+MessageSender _createMessageSender(JsObject jsProxy) => MessageSender.fromProxy(jsProxy);

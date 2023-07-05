@@ -10,7 +10,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.idle` namespace.
  */
-final ChromeIdle idle = new ChromeIdle._();
+final ChromeIdle idle = ChromeIdle._();
 
 class ChromeIdle extends ChromeApi {
   JsObject get _idle => chrome['idle'];
@@ -23,11 +23,11 @@ class ChromeIdle extends ChromeApi {
    * input on an idle system.
    */
   Stream<IdleState> get onStateChanged => _onStateChanged.stream;
-  ChromeStreamController<IdleState> _onStateChanged;
+  late ChromeStreamController<IdleState> _onStateChanged;
 
   ChromeIdle._() {
     var getApi = () => _idle;
-    _onStateChanged = new ChromeStreamController<IdleState>.oneArg(getApi, 'onStateChanged', _createIdleState);
+    _onStateChanged = ChromeStreamController<IdleState>.oneArg(getApi, 'onStateChanged', _createIdleState);
   }
 
   bool get available => _idle != null;
@@ -44,7 +44,7 @@ class ChromeIdle extends ChromeApi {
   Future<IdleState> queryState(int detectionIntervalInSeconds) {
     if (_idle == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<IdleState>.oneArg(_createIdleState);
+    var completer =  ChromeCompleter<IdleState>.oneArg(_createIdleState);
     _idle.callMethod('queryState', [detectionIntervalInSeconds, completer.callback]);
     return completer.future;
   }
@@ -62,8 +62,25 @@ class ChromeIdle extends ChromeApi {
     _idle.callMethod('setDetectionInterval', [intervalInSeconds]);
   }
 
+  /**
+   * Gets the time, in seconds, it takes until the screen is locked
+   * automatically while idle. Returns a zero duration if the screen is never
+   * locked automatically. Currently supported on Chrome OS only.
+   * 
+   * Returns:
+   * Time, in seconds, until the screen is locked automatically while idle. This
+   * is zero if the screen never locks automatically.
+   */
+  Future<int> getAutoLockDelay() {
+    if (_idle == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter<int>.oneArg();
+    _idle.callMethod('getAutoLockDelay', [completer.callback]);
+    return completer.future;
+  }
+
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.idle' is not available");
+    throw  UnsupportedError("'chrome.idle' is not available");
   }
 }
 

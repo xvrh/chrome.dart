@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.extensionTypes` namespace.
  */
-final ChromeExtensionTypes extensionTypes = new ChromeExtensionTypes._();
+final ChromeExtensionTypes extensionTypes = ChromeExtensionTypes._();
 
 class ChromeExtensionTypes extends ChromeApi {
   JsObject get _extensionTypes => chrome['extensionTypes'];
@@ -60,10 +60,51 @@ class CSSOrigin extends ChromeEnum {
 }
 
 /**
+ * The type of frame.
+ */
+class FrameType extends ChromeEnum {
+  static const FrameType OUTERMOST_FRAME = const FrameType._('outermost_frame');
+  static const FrameType FENCED_FRAME = const FrameType._('fenced_frame');
+  static const FrameType SUB_FRAME = const FrameType._('sub_frame');
+
+  static const List<FrameType> VALUES = const[OUTERMOST_FRAME, FENCED_FRAME, SUB_FRAME];
+
+  const FrameType._(String str): super(str);
+}
+
+/**
+ * The document lifecycle of the frame.
+ */
+class DocumentLifecycle extends ChromeEnum {
+  static const DocumentLifecycle PRERENDER = const DocumentLifecycle._('prerender');
+  static const DocumentLifecycle ACTIVE = const DocumentLifecycle._('active');
+  static const DocumentLifecycle CACHED = const DocumentLifecycle._('cached');
+  static const DocumentLifecycle PENDING_DELETION = const DocumentLifecycle._('pending_deletion');
+
+  static const List<DocumentLifecycle> VALUES = const[PRERENDER, ACTIVE, CACHED, PENDING_DELETION];
+
+  const DocumentLifecycle._(String str): super(str);
+}
+
+/**
+ * The JavaScript world for a script to execute within. Can either be an
+ * isolated world, unique to this extension, or the main world of the DOM which
+ * is shared with the page's JavaScript.
+ */
+class ExecutionWorld extends ChromeEnum {
+  static const ExecutionWorld ISOLATED = const ExecutionWorld._('ISOLATED');
+  static const ExecutionWorld MAIN = const ExecutionWorld._('MAIN');
+
+  static const List<ExecutionWorld> VALUES = const[ISOLATED, MAIN];
+
+  const ExecutionWorld._(String str): super(str);
+}
+
+/**
  * Details about the format and quality of an image.
  */
 class ImageDetails extends ChromeObject {
-  ImageDetails({ImageFormat format, int quality}) {
+  ImageDetails({ImageFormat? format, int? quality}) {
     if (format != null) this.format = format;
     if (quality != null) this.quality = quality;
   }
@@ -90,7 +131,7 @@ class ImageDetails extends ChromeObject {
  * must be set, but both may not be set at the same time.
  */
 class InjectDetails extends ChromeObject {
-  InjectDetails({String code, String file, bool allFrames, int frameId, bool matchAboutBlank, RunAt runAt, CSSOrigin cssOrigin}) {
+  InjectDetails({String? code, String? file, bool? allFrames, int? frameId, bool? matchAboutBlank, RunAt? runAt, CSSOrigin? cssOrigin}) {
     if (code != null) this.code = code;
     if (file != null) this.file = file;
     if (allFrames != null) this.allFrames = allFrames;
@@ -152,6 +193,65 @@ class InjectDetails extends ChromeObject {
    * The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
    * CSS to inject. This may only be specified for CSS, not JavaScript. Defaults
    * to `"author"`.
+   */
+  CSSOrigin get cssOrigin => _createCSSOrigin(jsProxy['cssOrigin']);
+  set cssOrigin(CSSOrigin value) => jsProxy['cssOrigin'] = jsify(value);
+}
+
+/**
+ * Details of the CSS to remove. Either the code or the file property must be
+ * set, but both may not be set at the same time.
+ */
+class DeleteInjectionDetails extends ChromeObject {
+  DeleteInjectionDetails({String? code, String? file, bool? allFrames, int? frameId, bool? matchAboutBlank, CSSOrigin? cssOrigin}) {
+    if (code != null) this.code = code;
+    if (file != null) this.file = file;
+    if (allFrames != null) this.allFrames = allFrames;
+    if (frameId != null) this.frameId = frameId;
+    if (matchAboutBlank != null) this.matchAboutBlank = matchAboutBlank;
+    if (cssOrigin != null) this.cssOrigin = cssOrigin;
+  }
+  DeleteInjectionDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * CSS code to remove.
+   */
+  String get code => jsProxy['code'];
+  set code(String value) => jsProxy['code'] = value;
+
+  /**
+   * CSS file to remove.
+   */
+  String get file => jsProxy['file'];
+  set file(String value) => jsProxy['file'] = value;
+
+  /**
+   * If allFrames is `true`, implies that the CSS should be removed from all
+   * frames of current page. By default, it's `false` and is only removed from
+   * the top frame. If `true` and `frameId` is set, then the code is removed
+   * from the selected frame and all of its child frames.
+   */
+  bool get allFrames => jsProxy['allFrames'];
+  set allFrames(bool value) => jsProxy['allFrames'] = value;
+
+  /**
+   * The [frame](webNavigation#frame_ids) from where the CSS should be removed.
+   * Defaults to 0 (the top-level frame).
+   */
+  int get frameId => jsProxy['frameId'];
+  set frameId(int value) => jsProxy['frameId'] = value;
+
+  /**
+   * If matchAboutBlank is true, then the code is also removed from about:blank
+   * and about:srcdoc frames if your extension has access to its parent
+   * document. By default it is `false`.
+   */
+  bool get matchAboutBlank => jsProxy['matchAboutBlank'];
+  set matchAboutBlank(bool value) => jsProxy['matchAboutBlank'] = value;
+
+  /**
+   * The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
+   * CSS to remove. Defaults to `"author"`.
    */
   CSSOrigin get cssOrigin => _createCSSOrigin(jsProxy['cssOrigin']);
   set cssOrigin(CSSOrigin value) => jsProxy['cssOrigin'] = jsify(value);

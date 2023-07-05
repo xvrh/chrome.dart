@@ -50,7 +50,7 @@ class GenApis {
     var apisInfo =
         json.decode(apisFile.readAsStringSync()) as Map<String, dynamic>;
 
-    _generateApi('ext', (apisInfo['extension']! as List).cast<String>());
+    _generateApi('extension', (apisInfo['extension']! as List).cast<String>());
 
     // Generate orphaned libraries.
     _logger.info("writing loose libraries...");
@@ -65,7 +65,7 @@ class GenApis {
       {List<String>? alreadyWritten,
       bool includeAppSrc = false,
       String? licence}) {
-    File libFile = new File(pathos.join(outDirPath, "chrome_${name}.dart"));
+    File libFile = new File(pathos.join(outDirPath, "$name.dart"));
 
     DartGenerator generator = new DartGenerator();
 
@@ -77,7 +77,7 @@ class GenApis {
     generator.writeln();
 
     generator.writeDocs('A library to expose the Chrome ${name} APIs.');
-    generator.writeln("library chrome_${name};");
+    generator.writeln("library ${name};");
     generator.writeln();
 
     Map<String, List<String>> combinedLibraries = {};

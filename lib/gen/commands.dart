@@ -7,12 +7,13 @@
  */
 library chrome.commands;
 
+import 'tabs.dart';
 import '../src/common.dart';
 
 /**
  * Accessor for the `chrome.commands` namespace.
  */
-final ChromeCommands commands = new ChromeCommands._();
+final ChromeCommands commands = ChromeCommands._();
 
 class ChromeCommands extends ChromeApi {
   JsObject get _commands => chrome['commands'];
@@ -20,12 +21,12 @@ class ChromeCommands extends ChromeApi {
   /**
    * Fired when a registered command is activated using a keyboard shortcut.
    */
-  Stream<String> get onCommand => _onCommand.stream;
-  ChromeStreamController<String> _onCommand;
+  Stream<OnCommandEvent> get onCommand => _onCommand.stream;
+  late ChromeStreamController<OnCommandEvent> _onCommand;
 
   ChromeCommands._() {
     var getApi = () => _commands;
-    _onCommand = new ChromeStreamController<String>.oneArg(getApi, 'onCommand', selfConverter);
+    _onCommand = ChromeStreamController<OnCommandEvent>.twoArgs(getApi, 'onCommand', _createOnCommandEvent);
   }
 
   bool get available => _commands != null;
@@ -34,21 +35,33 @@ class ChromeCommands extends ChromeApi {
    * Returns all the registered extension commands for this extension and their
    * shortcut (if active).
    */
-  Future<List<Command>> getAll() {
+  void getAll() {
     if (_commands == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Command>>.oneArg((e) => listify(e, _createCommand));
-    _commands.callMethod('getAll', [completer.callback]);
-    return completer.future;
+    _commands.callMethod('getAll');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.commands' is not available");
+    throw  UnsupportedError("'chrome.commands' is not available");
   }
 }
 
+/**
+ * Fired when a registered command is activated using a keyboard shortcut.
+ */
+class OnCommandEvent {
+  final String command;
+
+  /**
+   * `optional`
+   */
+  final Tab tab;
+
+  OnCommandEvent(this.command, this.tab);
+}
+
 class Command extends ChromeObject {
-  Command({String name, String description, String shortcut}) {
+  Command({String? name, String? description, String? shortcut}) {
     if (name != null) this.name = name;
     if (description != null) this.description = description;
     if (shortcut != null) this.shortcut = shortcut;
@@ -74,4 +87,6 @@ class Command extends ChromeObject {
   set shortcut(String value) => jsProxy['shortcut'] = value;
 }
 
-Command _createCommand(JsObject jsProxy) => jsProxy == null ? null : new Command.fromProxy(jsProxy);
+OnCommandEvent _createOnCommandEvent(String command, JsObject tab) =>
+    OnCommandEvent(command, _createTab(tab));
+Tab _createTab(JsObject jsProxy) => Tab.fromProxy(jsProxy);

@@ -61,6 +61,7 @@ class ChromeIDLGrammar extends GrammarDefinition {
         ref0(eventDeclaration),
         ref0(callbackDeclaration),
         ref0(enumDeclaration),
+        ref0(propertiesDeclaration),
       ].toChoiceParser();
 
   Parser<IDLEventDeclaration> eventDeclaration() => (
@@ -78,6 +79,16 @@ class ChromeIDLGrammar extends GrammarDefinition {
         ref0(attributeDeclaration).optional(),
         ref1(token, 'interface'),
         ref1(token, 'Functions'),
+        bracket('{}', ref0(methods)),
+        ref1(token, ';'),
+      ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
+          IDLFunctionDeclaration(methods, documentation: doc, attribute: attr));
+
+  Parser<IDLFunctionDeclaration> propertiesDeclaration() => (
+        ref0(docString),
+        ref0(attributeDeclaration).optional(),
+        ref1(token, 'interface'),
+        ref1(token, 'Properties'),
         bracket('{}', ref0(methods)),
         ref1(token, ';'),
       ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
@@ -210,8 +221,10 @@ class ChromeIDLGrammar extends GrammarDefinition {
           documentation: doc, attribute: attr));
 
   /// Parse the enum values.
-  Parser<IDLEnumValue> enumBody() => seq2(ref0(docString), ref0(identifier))
-      .map2((doc, id) => IDLEnumValue(id, documentation: doc));
+  Parser<IDLEnumValue> enumBody() =>
+      (ref0(docString), ref0(attributeDeclaration).optional(), ref0(identifier))
+          .toSequenceParser()
+          .map3((doc, attr, id) => IDLEnumValue(id, documentation: doc));
 
   Parser<IDLAttributeDeclaration> attributeDeclaration() => (
         ref1(token, '['),
@@ -247,17 +260,17 @@ class ChromeIDLGrammar extends GrammarDefinition {
   Parser attributeValue() =>
       ref0(identifier) |
       ref0(stringLiteral) |
-      ref0(stringLiteralInParentheses) |
+      ref0(stringList) |
       ref0(integer) |
       ref0(integerList);
 
   Parser<String> stringLiteral() =>
-      seq3(char('"'), pattern('^"').star(), char('"'))
-          .map3((_, e, __) => e)
-          .flatten();
+      seq3(char('"'), char('"').neg().starString(), char('"'))
+          .map3((_, e, __) => e);
 
-  Parser<String> stringLiteralInParentheses() =>
-      bracket('()', ref0(stringLiteral));
+  Parser<List<String>> stringList() =>
+      bracket('()', ref0(stringLiteral).plusSeparated(ref1(token, ',')))
+          .map((e) => e.elements);
 
   Parser<int> integer() => ref1(token, digit().plus()).flatten().map(int.parse);
 
@@ -271,7 +284,7 @@ class ChromeIDLGrammar extends GrammarDefinition {
 
   Parser identifierStart() => letter() | anyOf(r'_$');
 
-  Parser identifierPart() => ref0(identifierStart) | digit();
+  Parser identifierPart() => ref0(identifierStart) | digit() | char('.');
 
   /// Parse the copyright signature at the top of all idl files.
   Parser<String> copyrightSignature() {

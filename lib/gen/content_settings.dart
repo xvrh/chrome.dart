@@ -13,7 +13,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.contentSettings` namespace.
  */
-final ChromeContentSettings contentSettings = new ChromeContentSettings._();
+final ChromeContentSettings contentSettings = ChromeContentSettings._();
 
 class ChromeContentSettings extends ChromeApi {
   JsObject get _contentSettings => chrome['contentSettings'];
@@ -21,6 +21,17 @@ class ChromeContentSettings extends ChromeApi {
   ChromeContentSettings._();
 
   bool get available => _contentSettings != null;
+
+  /**
+   * Whether to allow sites to use the [Private State Tokens
+   * API](https://developer.chrome.com/docs/privacy-sandbox/trust-tokens/). One
+   * of <br>[allow]: Allow sites to use the Private State Tokens API,
+   * <br>[block]: Block sites from using the Private State Tokens API.
+   * <br>Default is [allow].<br> The primary URL is the URL of the top-level
+   * frame. The secondary URL is not used. NOTE: When calling `set()`, the
+   * primary pattern must be `<all_urls>`.
+   */
+  ContentSetting get autoVerify => _createContentSetting(_contentSettings['autoVerify']);
 
   /**
    * Whether to allow cookies and other local data to be set by websites. One
@@ -56,11 +67,9 @@ class ChromeContentSettings extends ChromeApi {
   ContentSetting get location => _createContentSetting(_contentSettings['location']);
 
   /**
-   * Whether to run plugins. One of<br>[allow]: Run plugins
-   * automatically,<br>[block]: Don't run plugins
-   * automatically,<br>[detect_important_content]: Only run automatically those
-   * plugins that are detected as the website's main content.<br>The primary URL
-   * is the URL of the top-level frame. The secondary URL is not used.
+   * <i>Deprecated.</i> With Flash support removed in Chrome 88, this permission
+   * no longer has any effect. Value is always [block]. Calls to `set()` and
+   * `clear()` will be ignored.
    */
   ContentSetting get plugins => _createContentSetting(_contentSettings['plugins']);
 
@@ -115,11 +124,10 @@ class ChromeContentSettings extends ChromeApi {
   ContentSetting get camera => _createContentSetting(_contentSettings['camera']);
 
   /**
-   * Whether to allow sites to run plugins unsandboxed. One of <br>[allow]:
-   * Allow sites to run plugins unsandboxed,<br>[block]: Don't allow sites to
-   * run plugins unsandboxed,<br>[ask]: Ask when a site wants to run a plugin
-   * unsandboxed. <br>Default is [ask].<br>The primary URL is the URL of the
-   * top-level frame. The secondary URL is not used.
+   * <i>Deprecated.</i> Previously, controlled whether to allow sites to run
+   * plugins unsandboxed, however, with the Flash broker process removed in
+   * Chrome 88, this permission no longer has any effect. Value is always
+   * [block]. Calls to `set()` and `clear()` will be ignored.
    */
   ContentSetting get unsandboxedPlugins => _createContentSetting(_contentSettings['unsandboxedPlugins']);
 
@@ -148,6 +156,15 @@ class Scope extends ChromeEnum {
   static const List<Scope> VALUES = const[REGULAR, INCOGNITO_SESSION_ONLY];
 
   const Scope._(String str): super(str);
+}
+
+class AutoVerifyContentSetting extends ChromeEnum {
+  static const AutoVerifyContentSetting ALLOW = const AutoVerifyContentSetting._('allow');
+  static const AutoVerifyContentSetting BLOCK = const AutoVerifyContentSetting._('block');
+
+  static const List<AutoVerifyContentSetting> VALUES = const[ALLOW, BLOCK];
+
+  const AutoVerifyContentSetting._(String str): super(str);
 }
 
 class CookiesContentSetting extends ChromeEnum {
@@ -189,11 +206,9 @@ class LocationContentSetting extends ChromeEnum {
 }
 
 class PluginsContentSetting extends ChromeEnum {
-  static const PluginsContentSetting ALLOW = const PluginsContentSetting._('allow');
   static const PluginsContentSetting BLOCK = const PluginsContentSetting._('block');
-  static const PluginsContentSetting DETECT_IMPORTANT_CONTENT = const PluginsContentSetting._('detect_important_content');
 
-  static const List<PluginsContentSetting> VALUES = const[ALLOW, BLOCK, DETECT_IMPORTANT_CONTENT];
+  static const List<PluginsContentSetting> VALUES = const[BLOCK];
 
   const PluginsContentSetting._(String str): super(str);
 }
@@ -254,11 +269,9 @@ class CameraContentSetting extends ChromeEnum {
 }
 
 class PpapiBrokerContentSetting extends ChromeEnum {
-  static const PpapiBrokerContentSetting ALLOW = const PpapiBrokerContentSetting._('allow');
   static const PpapiBrokerContentSetting BLOCK = const PpapiBrokerContentSetting._('block');
-  static const PpapiBrokerContentSetting ASK = const PpapiBrokerContentSetting._('ask');
 
-  static const List<PpapiBrokerContentSetting> VALUES = const[ALLOW, BLOCK, ASK];
+  static const List<PpapiBrokerContentSetting> VALUES = const[BLOCK];
 
   const PpapiBrokerContentSetting._(String str): super(str);
 }
@@ -279,7 +292,7 @@ class MultipleAutomaticDownloadsContentSetting extends ChromeEnum {
  * Identifiers](contentSettings#resource-identifiers).
  */
 class ResourceIdentifier extends ChromeObject {
-  ResourceIdentifier({String id, String description}) {
+  ResourceIdentifier({String? id, String? description}) {
     if (id != null) this.id = id;
     if (description != null) this.description = description;
   }
@@ -305,44 +318,34 @@ class ContentSetting extends ChromeObject {
   /**
    * Clear all content setting rules set by this extension.
    */
-  Future clear(ContentSettingsClearParams details) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('clear', [jsify(details), completer.callback]);
-    return completer.future;
+  void clear(ContentSettingsClearParams details) {
+    jsProxy.callMethod('clear', [jsify(details)]);
   }
 
   /**
    * Gets the current content setting for a given pair of URLs.
    */
-  Future<Map> get(ContentSettingsGetParams details) {
-    var completer = new ChromeCompleter<Map>.oneArg(mapify);
-    jsProxy.callMethod('get', [jsify(details), completer.callback]);
-    return completer.future;
+  void get(ContentSettingsGetParams details) {
+    jsProxy.callMethod('get', [jsify(details)]);
   }
 
   /**
    * Applies a new content setting rule.
    */
-  Future set(ContentSettingsSetParams details) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('set', [jsify(details), completer.callback]);
-    return completer.future;
+  void set(ContentSettingsSetParams details) {
+    jsProxy.callMethod('set', [jsify(details)]);
   }
 
   /**
-   * Returns:
-   * A list of resource identifiers for this content type, or [undefined] if
-   * this content type does not use resource identifiers.
+   * 
    */
-  Future<List<ResourceIdentifier>> getResourceIdentifiers() {
-    var completer = new ChromeCompleter<List<ResourceIdentifier>>.oneArg((e) => listify(e, _createResourceIdentifier));
-    jsProxy.callMethod('getResourceIdentifiers', [completer.callback]);
-    return completer.future;
+  void getResourceIdentifiers() {
+    jsProxy.callMethod('getResourceIdentifiers');
   }
 }
 
 class ContentSettingsClearParams extends ChromeObject {
-  ContentSettingsClearParams({Scope scope}) {
+  ContentSettingsClearParams({Scope? scope}) {
     if (scope != null) this.scope = scope;
   }
   ContentSettingsClearParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -355,7 +358,7 @@ class ContentSettingsClearParams extends ChromeObject {
 }
 
 class ContentSettingsGetParams extends ChromeObject {
-  ContentSettingsGetParams({String primaryUrl, String secondaryUrl, ResourceIdentifier resourceIdentifier, bool incognito}) {
+  ContentSettingsGetParams({String? primaryUrl, String? secondaryUrl, ResourceIdentifier? resourceIdentifier, bool? incognito}) {
     if (primaryUrl != null) this.primaryUrl = primaryUrl;
     if (secondaryUrl != null) this.secondaryUrl = secondaryUrl;
     if (resourceIdentifier != null) this.resourceIdentifier = resourceIdentifier;
@@ -394,7 +397,7 @@ class ContentSettingsGetParams extends ChromeObject {
 }
 
 class ContentSettingsSetParams extends ChromeObject {
-  ContentSettingsSetParams({String primaryPattern, String secondaryPattern, ResourceIdentifier resourceIdentifier, var setting, Scope scope}) {
+  ContentSettingsSetParams({String? primaryPattern, String? secondaryPattern, ResourceIdentifier? resourceIdentifier, Object? setting, Scope? scope}) {
     if (primaryPattern != null) this.primaryPattern = primaryPattern;
     if (secondaryPattern != null) this.secondaryPattern = secondaryPattern;
     if (resourceIdentifier != null) this.resourceIdentifier = resourceIdentifier;
@@ -428,8 +431,8 @@ class ContentSettingsSetParams extends ChromeObject {
    * The setting applied by this rule. See the description of the individual
    * ContentSetting objects for the possible values.
    */
-  dynamic get setting => jsProxy['setting'];
-  set setting(var value) => jsProxy['setting'] = jsify(value);
+  Object get setting => jsProxy['setting'];
+  set setting(Object value) => jsProxy['setting'] = jsify(value);
 
   /**
    * Where to set the setting (default: regular).
@@ -438,6 +441,6 @@ class ContentSettingsSetParams extends ChromeObject {
   set scope(Scope value) => jsProxy['scope'] = jsify(value);
 }
 
-ContentSetting _createContentSetting(JsObject jsProxy) => jsProxy == null ? null : new ContentSetting.fromProxy(jsProxy);
-ResourceIdentifier _createResourceIdentifier(JsObject jsProxy) => jsProxy == null ? null : new ResourceIdentifier.fromProxy(jsProxy);
+ContentSetting _createContentSetting(JsObject jsProxy) => ContentSetting.fromProxy(jsProxy);
 Scope _createScope(String value) => Scope.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+ResourceIdentifier _createResourceIdentifier(JsObject jsProxy) => ResourceIdentifier.fromProxy(jsProxy);

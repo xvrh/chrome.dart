@@ -12,7 +12,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.tts` namespace.
  */
-final ChromeTts tts = new ChromeTts._();
+final ChromeTts tts = ChromeTts._();
 
 class ChromeTts extends ChromeApi {
   JsObject get _tts => chrome['tts'];
@@ -21,11 +21,11 @@ class ChromeTts extends ChromeApi {
    * Used to pass events back to the function calling speak().
    */
   Stream<TtsEvent> get onEvent => _onEvent.stream;
-  ChromeStreamController<TtsEvent> _onEvent;
+  late ChromeStreamController<TtsEvent> _onEvent;
 
   ChromeTts._() {
     var getApi = () => _tts;
-    _onEvent = new ChromeStreamController<TtsEvent>.oneArg(getApi, 'onEvent', _createTtsEvent);
+    _onEvent = ChromeStreamController<TtsEvent>.oneArg(getApi, 'onEvent', _createTtsEvent);
   }
 
   bool get available => _tts != null;
@@ -40,12 +40,10 @@ class ChromeTts extends ChromeApi {
    * 
    * [options] The speech options.
    */
-  Future speak(String utterance, [TtsSpeakParams options]) {
+  void speak(String utterance, [TtsOptions? options]) {
     if (_tts == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tts.callMethod('speak', [utterance, jsify(options), completer.callback]);
-    return completer.future;
+    _tts.callMethod('speak', [utterance, jsify(options)]);
   }
 
   /**
@@ -82,35 +80,24 @@ class ChromeTts extends ChromeApi {
    * Checks whether the engine is currently speaking. On Mac OS X, the result is
    * true whenever the system speech engine is speaking, even if the speech
    * wasn't initiated by Chrome.
-   * 
-   * Returns:
-   * True if speaking, false otherwise.
    */
-  Future<bool> isSpeaking() {
+  void isSpeaking() {
     if (_tts == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
-    _tts.callMethod('isSpeaking', [completer.callback]);
-    return completer.future;
+    _tts.callMethod('isSpeaking');
   }
 
   /**
    * Gets an array of all available voices.
-   * 
-   * Returns:
-   * Array of [tts.TtsVoice] objects representing the available voices for
-   * speech synthesis.
    */
-  Future<List<TtsVoice>> getVoices() {
+  void getVoices() {
     if (_tts == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<TtsVoice>>.oneArg((e) => listify(e, _createTtsVoice));
-    _tts.callMethod('getVoices', [completer.callback]);
-    return completer.future;
+    _tts.callMethod('getVoices');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.tts' is not available");
+    throw  UnsupportedError("'chrome.tts' is not available");
   }
 }
 
@@ -141,25 +128,120 @@ class VoiceGender extends ChromeEnum {
 }
 
 /**
+ * The speech options for the TTS engine.
+ */
+class TtsOptions extends ChromeObject {
+  TtsOptions({bool? enqueue, String? voiceName, String? extensionId, String? lang, VoiceGender? gender, Object? rate, Object? pitch, Object? volume, List<String>? requiredEventTypes, List<String>? desiredEventTypes}) {
+    if (enqueue != null) this.enqueue = enqueue;
+    if (voiceName != null) this.voiceName = voiceName;
+    if (extensionId != null) this.extensionId = extensionId;
+    if (lang != null) this.lang = lang;
+    if (gender != null) this.gender = gender;
+    if (rate != null) this.rate = rate;
+    if (pitch != null) this.pitch = pitch;
+    if (volume != null) this.volume = volume;
+    if (requiredEventTypes != null) this.requiredEventTypes = requiredEventTypes;
+    if (desiredEventTypes != null) this.desiredEventTypes = desiredEventTypes;
+  }
+  TtsOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * If true, enqueues this utterance if TTS is already in progress. If false
+   * (the default), interrupts any current speech and flushes the speech queue
+   * before speaking this new utterance.
+   */
+  bool get enqueue => jsProxy['enqueue'];
+  set enqueue(bool value) => jsProxy['enqueue'] = value;
+
+  /**
+   * The name of the voice to use for synthesis. If empty, uses any available
+   * voice.
+   */
+  String get voiceName => jsProxy['voiceName'];
+  set voiceName(String value) => jsProxy['voiceName'] = value;
+
+  /**
+   * The extension ID of the speech engine to use, if known.
+   */
+  String get extensionId => jsProxy['extensionId'];
+  set extensionId(String value) => jsProxy['extensionId'] = value;
+
+  /**
+   * The language to be used for synthesis, in the form _language_-_region_.
+   * Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+   */
+  String get lang => jsProxy['lang'];
+  set lang(String value) => jsProxy['lang'] = value;
+
+  /**
+   * Gender of voice for synthesized speech.
+   */
+  VoiceGender get gender => _createVoiceGender(jsProxy['gender']);
+  set gender(VoiceGender value) => jsProxy['gender'] = jsify(value);
+
+  /**
+   * Speaking rate relative to the default rate for this voice. 1.0 is the
+   * default rate, normally around 180 to 220 words per minute. 2.0 is twice as
+   * fast, and 0.5 is half as fast. Values below 0.1 or above 10.0 are strictly
+   * disallowed, but many voices will constrain the minimum and maximum rates
+   * further-for example a particular voice may not actually speak faster than 3
+   * times normal even if you specify a value larger than 3.0.
+   */
+  Object get rate => jsProxy['rate'];
+  set rate(Object value) => jsProxy['rate'] = jsify(value);
+
+  /**
+   * Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
+   * highest. 1.0 corresponds to a voice's default pitch.
+   */
+  Object get pitch => jsProxy['pitch'];
+  set pitch(Object value) => jsProxy['pitch'] = jsify(value);
+
+  /**
+   * Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
+   * highest, with a default of 1.0.
+   */
+  Object get volume => jsProxy['volume'];
+  set volume(Object value) => jsProxy['volume'] = jsify(value);
+
+  /**
+   * The TTS event types the voice must support.
+   */
+  List<String> get requiredEventTypes => listify(jsProxy['requiredEventTypes']);
+  set requiredEventTypes(List<String> value) => jsProxy['requiredEventTypes'] = jsify(value);
+
+  /**
+   * The TTS event types that you are interested in listening to. If missing,
+   * all event types may be sent.
+   */
+  List<String> get desiredEventTypes => listify(jsProxy['desiredEventTypes']);
+  set desiredEventTypes(List<String> value) => jsProxy['desiredEventTypes'] = jsify(value);
+
+  void onEvent([var arg1]) =>
+         jsProxy.callMethod('onEvent', [jsify(arg1)]);
+}
+
+/**
  * An event from the TTS engine to communicate the status of an utterance.
  */
 class TtsEvent extends ChromeObject {
-  TtsEvent({EventType type, int charIndex, String errorMessage}) {
+  TtsEvent({EventType? type, int? charIndex, String? errorMessage, int? length}) {
     if (type != null) this.type = type;
     if (charIndex != null) this.charIndex = charIndex;
     if (errorMessage != null) this.errorMessage = errorMessage;
+    if (length != null) this.length = length;
   }
   TtsEvent.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * The type can be 'start' as soon as speech has started, 'word' when a word
-   * boundary is reached, 'sentence' when a sentence boundary is reached,
-   * 'marker' when an SSML mark element is reached, 'end' when the end of the
-   * utterance is reached, 'interrupted' when the utterance is stopped or
-   * interrupted before reaching the end, 'cancelled' when it's removed from the
-   * queue before ever being synthesized, or 'error' when any other error
-   * occurs. When pausing speech, a 'pause' event is fired if a particular
-   * utterance is paused in the middle, and 'resume' if an utterance resumes
+   * The type can be `start` as soon as speech has started, `word` when a word
+   * boundary is reached, `sentence` when a sentence boundary is reached,
+   * `marker` when an SSML mark element is reached, `end` when the end of the
+   * utterance is reached, `interrupted` when the utterance is stopped or
+   * interrupted before reaching the end, `cancelled` when it's removed from the
+   * queue before ever being synthesized, or `error` when any other error
+   * occurs. When pausing speech, a `pause` event is fired if a particular
+   * utterance is paused in the middle, and `resume` if an utterance resumes
    * speech. Note that pause and resume events may not fire if speech is paused
    * in-between utterances.
    */
@@ -167,23 +249,34 @@ class TtsEvent extends ChromeObject {
   set type(EventType value) => jsProxy['type'] = jsify(value);
 
   /**
-   * The index of the current character in the utterance.
+   * The index of the current character in the utterance. For word events, the
+   * event fires at the end of one word and before the beginning of the next.
+   * The `charIndex` represents a point in the text at the beginning of the next
+   * word to be spoken.
    */
   int get charIndex => jsProxy['charIndex'];
   set charIndex(int value) => jsProxy['charIndex'] = value;
 
   /**
-   * The error description, if the event type is 'error'.
+   * The error description, if the event type is `error`.
    */
   String get errorMessage => jsProxy['errorMessage'];
   set errorMessage(String value) => jsProxy['errorMessage'] = value;
+
+  /**
+   * The length of the next part of the utterance. For example, in a `word`
+   * event, this is the length of the word which will be spoken next. It will be
+   * set to -1 if not set by the speech engine.
+   */
+  int get length => jsProxy['length'];
+  set length(int value) => jsProxy['length'] = value;
 }
 
 /**
  * A description of a voice available for speech synthesis.
  */
 class TtsVoice extends ChromeObject {
-  TtsVoice({String voiceName, String lang, VoiceGender gender, bool remote, String extensionId, List<EventType> eventTypes}) {
+  TtsVoice({String? voiceName, String? lang, VoiceGender? gender, bool? remote, String? extensionId, List<EventType>? eventTypes}) {
     if (voiceName != null) this.voiceName = voiceName;
     if (lang != null) this.lang = lang;
     if (gender != null) this.gender = gender;
@@ -232,98 +325,6 @@ class TtsVoice extends ChromeObject {
   set eventTypes(List<EventType> value) => jsProxy['eventTypes'] = jsify(value);
 }
 
-class TtsSpeakParams extends ChromeObject {
-  TtsSpeakParams({bool enqueue, String voiceName, String extensionId, String lang, VoiceGender gender, var rate, var pitch, var volume, List<String> requiredEventTypes, List<String> desiredEventTypes}) {
-    if (enqueue != null) this.enqueue = enqueue;
-    if (voiceName != null) this.voiceName = voiceName;
-    if (extensionId != null) this.extensionId = extensionId;
-    if (lang != null) this.lang = lang;
-    if (gender != null) this.gender = gender;
-    if (rate != null) this.rate = rate;
-    if (pitch != null) this.pitch = pitch;
-    if (volume != null) this.volume = volume;
-    if (requiredEventTypes != null) this.requiredEventTypes = requiredEventTypes;
-    if (desiredEventTypes != null) this.desiredEventTypes = desiredEventTypes;
-  }
-  TtsSpeakParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * If true, enqueues this utterance if TTS is already in progress. If false
-   * (the default), interrupts any current speech and flushes the speech queue
-   * before speaking this new utterance.
-   */
-  bool get enqueue => jsProxy['enqueue'];
-  set enqueue(bool value) => jsProxy['enqueue'] = value;
-
-  /**
-   * The name of the voice to use for synthesis. If empty, uses any available
-   * voice.
-   */
-  String get voiceName => jsProxy['voiceName'];
-  set voiceName(String value) => jsProxy['voiceName'] = value;
-
-  /**
-   * The extension ID of the speech engine to use, if known.
-   */
-  String get extensionId => jsProxy['extensionId'];
-  set extensionId(String value) => jsProxy['extensionId'] = value;
-
-  /**
-   * The language to be used for synthesis, in the form _language_-_region_.
-   * Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
-   */
-  String get lang => jsProxy['lang'];
-  set lang(String value) => jsProxy['lang'] = value;
-
-  /**
-   * Gender of voice for synthesized speech.
-   */
-  VoiceGender get gender => _createVoiceGender(jsProxy['gender']);
-  set gender(VoiceGender value) => jsProxy['gender'] = jsify(value);
-
-  /**
-   * Speaking rate relative to the default rate for this voice. 1.0 is the
-   * default rate, normally around 180 to 220 words per minute. 2.0 is twice as
-   * fast, and 0.5 is half as fast. Values below 0.1 or above 10.0 are strictly
-   * disallowed, but many voices will constrain the minimum and maximum rates
-   * further-for example a particular voice may not actually speak faster than 3
-   * times normal even if you specify a value larger than 3.0.
-   */
-  dynamic get rate => jsProxy['rate'];
-  set rate(var value) => jsProxy['rate'] = jsify(value);
-
-  /**
-   * Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
-   * highest. 1.0 corresponds to a voice's default pitch.
-   */
-  dynamic get pitch => jsProxy['pitch'];
-  set pitch(var value) => jsProxy['pitch'] = jsify(value);
-
-  /**
-   * Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
-   * highest, with a default of 1.0.
-   */
-  dynamic get volume => jsProxy['volume'];
-  set volume(var value) => jsProxy['volume'] = jsify(value);
-
-  /**
-   * The TTS event types the voice must support.
-   */
-  List<String> get requiredEventTypes => listify(jsProxy['requiredEventTypes']);
-  set requiredEventTypes(List<String> value) => jsProxy['requiredEventTypes'] = jsify(value);
-
-  /**
-   * The TTS event types that you are interested in listening to. If missing,
-   * all event types may be sent.
-   */
-  List<String> get desiredEventTypes => listify(jsProxy['desiredEventTypes']);
-  set desiredEventTypes(List<String> value) => jsProxy['desiredEventTypes'] = jsify(value);
-
-  void onEvent([var arg1]) =>
-         jsProxy.callMethod('onEvent', [jsify(arg1)]);
-}
-
-TtsEvent _createTtsEvent(JsObject jsProxy) => jsProxy == null ? null : new TtsEvent.fromProxy(jsProxy);
-TtsVoice _createTtsVoice(JsObject jsProxy) => jsProxy == null ? null : new TtsVoice.fromProxy(jsProxy);
-EventType _createEventType(String value) => EventType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+TtsEvent _createTtsEvent(JsObject jsProxy) => TtsEvent.fromProxy(jsProxy);
 VoiceGender _createVoiceGender(String value) => VoiceGender.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+EventType _createEventType(String value) => EventType.VALUES.singleWhere((ChromeEnum e) => e.value == value);

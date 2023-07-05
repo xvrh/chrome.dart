@@ -13,7 +13,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.proxy` namespace.
  */
-final ChromeProxy proxy = new ChromeProxy._();
+final ChromeProxy proxy = ChromeProxy._();
 
 class ChromeProxy extends ChromeApi {
   JsObject get _proxy => chrome['proxy'];
@@ -22,11 +22,11 @@ class ChromeProxy extends ChromeApi {
    * Notifies about proxy errors.
    */
   Stream<Map> get onProxyError => _onProxyError.stream;
-  ChromeStreamController<Map> _onProxyError;
+  late ChromeStreamController<Map> _onProxyError;
 
   ChromeProxy._() {
     var getApi = () => _proxy;
-    _onProxyError = new ChromeStreamController<Map>.oneArg(getApi, 'onProxyError', mapify);
+    _onProxyError = ChromeStreamController<Map>.oneArg(getApi, 'onProxyError', mapify);
   }
 
   bool get available => _proxy != null;
@@ -66,7 +66,7 @@ class Mode extends ChromeEnum {
  * An object encapsulating a single proxy server's specification.
  */
 class ProxyServer extends ChromeObject {
-  ProxyServer({Scheme scheme, String host, int port}) {
+  ProxyServer({Scheme? scheme, String? host, int? port}) {
     if (scheme != null) this.scheme = scheme;
     if (host != null) this.host = host;
     if (port != null) this.port = port;
@@ -80,8 +80,8 @@ class ProxyServer extends ChromeObject {
   set scheme(Scheme value) => this.jsProxy['scheme'] = jsify(value);
 
   /**
-   * The URI of the proxy server. This must be an ASCII hostname (in Punycode
-   * format). IDNA is not supported, yet.
+   * The hostname or IP address of the proxy server. Hostnames must be in ASCII
+   * (in Punycode format). IDNA is not supported, yet.
    */
   String get host => this.jsProxy['host'];
   set host(String value) => this.jsProxy['host'] = value;
@@ -100,7 +100,7 @@ class ProxyServer extends ChromeObject {
  * and 'fallbackProxy'.
  */
 class ProxyRules extends ChromeObject {
-  ProxyRules({ProxyServer singleProxy, ProxyServer proxyForHttp, ProxyServer proxyForHttps, ProxyServer proxyForFtp, ProxyServer fallbackProxy, List<String> bypassList}) {
+  ProxyRules({ProxyServer? singleProxy, ProxyServer? proxyForHttp, ProxyServer? proxyForHttps, ProxyServer? proxyForFtp, ProxyServer? fallbackProxy, List<String>? bypassList}) {
     if (singleProxy != null) this.singleProxy = singleProxy;
     if (proxyForHttp != null) this.proxyForHttp = proxyForHttp;
     if (proxyForHttps != null) this.proxyForHttps = proxyForHttps;
@@ -154,7 +154,7 @@ class ProxyRules extends ChromeObject {
  * should be non-empty.
  */
 class PacScript extends ChromeObject {
-  PacScript({String url, String data, bool mandatory}) {
+  PacScript({String? url, String? data, bool? mandatory}) {
     if (url != null) this.url = url;
     if (data != null) this.data = data;
     if (mandatory != null) this.mandatory = mandatory;
@@ -185,7 +185,7 @@ class PacScript extends ChromeObject {
  * An object encapsulating a complete proxy configuration.
  */
 class ProxyConfig extends ChromeObject {
-  ProxyConfig({ProxyRules rules, PacScript pacScript, Mode mode}) {
+  ProxyConfig({ProxyRules? rules, PacScript? pacScript, Mode? mode}) {
     if (rules != null) this.rules = rules;
     if (pacScript != null) this.pacScript = pacScript;
     if (mode != null) this.mode = mode;
@@ -215,9 +215,9 @@ class ProxyConfig extends ChromeObject {
   set mode(Mode value) => this.jsProxy['mode'] = jsify(value);
 }
 
-ChromeSetting _createChromeSetting(JsObject jsProxy) => jsProxy == null ? null : new ChromeSetting.fromProxy(jsProxy);
+ChromeSetting _createChromeSetting(JsObject jsProxy) => ChromeSetting.fromProxy(jsProxy);
 Scheme _createScheme(String value) => Scheme.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-ProxyServer _createProxyServer(JsObject jsProxy) => jsProxy == null ? null : new ProxyServer.fromProxy(jsProxy);
-ProxyRules _createProxyRules(JsObject jsProxy) => jsProxy == null ? null : new ProxyRules.fromProxy(jsProxy);
-PacScript _createPacScript(JsObject jsProxy) => jsProxy == null ? null : new PacScript.fromProxy(jsProxy);
+ProxyServer _createProxyServer(JsObject jsProxy) => ProxyServer.fromProxy(jsProxy);
+ProxyRules _createProxyRules(JsObject jsProxy) => ProxyRules.fromProxy(jsProxy);
+PacScript _createPacScript(JsObject jsProxy) => PacScript.fromProxy(jsProxy);
 Mode _createMode(String value) => Mode.VALUES.singleWhere((ChromeEnum e) => e.value == value);

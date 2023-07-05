@@ -8,153 +8,157 @@ library chrome.tabs;
 
 import 'extension_types.dart';
 import 'runtime.dart';
-import 'windows.dart';
 import '../src/common.dart';
 
 /**
  * Accessor for the `chrome.tabs` namespace.
  */
-final ChromeTabs tabs = new ChromeTabs._();
+final ChromeTabs tabs = ChromeTabs._();
 
 class ChromeTabs extends ChromeApi {
   JsObject get _tabs => chrome['tabs'];
 
   /**
-   * Fired when a tab is created. Note that the tab's URL may not be set at the
-   * time this event fired, but you can listen to onUpdated events to be
-   * notified when a URL is set.
+   * Fired when a tab is created. Note that the tab's URL and tab group
+   * membership may not be set at the time this event is fired, but you can
+   * listen to onUpdated events so as to be notified when a URL is set or the
+   * tab is added to a tab group.
    */
   Stream<Tab> get onCreated => _onCreated.stream;
-  ChromeStreamController<Tab> _onCreated;
+  late ChromeStreamController<Tab> _onCreated;
 
   /**
    * Fired when a tab is updated.
    */
   Stream<OnUpdatedEvent> get onUpdated => _onUpdated.stream;
-  ChromeStreamController<OnUpdatedEvent> _onUpdated;
+  late ChromeStreamController<OnUpdatedEvent> _onUpdated;
 
   /**
    * Fired when a tab is moved within a window. Only one move event is fired,
    * representing the tab the user directly moved. Move events are not fired for
-   * the other tabs that must move in response. This event is not fired when a
-   * tab is moved between windows. For that, see [tabs.onDetached].
+   * the other tabs that must move in response to the manually-moved tab. This
+   * event is not fired when a tab is moved between windows; for details, see
+   * [tabs.onDetached].
    */
   Stream<TabsOnMovedEvent> get onMoved => _onMoved.stream;
-  ChromeStreamController<TabsOnMovedEvent> _onMoved;
+  late ChromeStreamController<TabsOnMovedEvent> _onMoved;
 
   /**
    * Fires when the selected tab in a window changes.
    */
   Stream<OnSelectionChangedEvent> get onSelectionChanged => _onSelectionChanged.stream;
-  ChromeStreamController<OnSelectionChangedEvent> _onSelectionChanged;
+  late ChromeStreamController<OnSelectionChangedEvent> _onSelectionChanged;
 
   /**
    * Fires when the selected tab in a window changes. Note that the tab's URL
    * may not be set at the time this event fired, but you can listen to
-   * [tabs.onUpdated] events to be notified when a URL is set.
+   * [tabs.onUpdated] events so as to be notified when a URL is set.
    */
   Stream<OnActiveChangedEvent> get onActiveChanged => _onActiveChanged.stream;
-  ChromeStreamController<OnActiveChangedEvent> _onActiveChanged;
+  late ChromeStreamController<OnActiveChangedEvent> _onActiveChanged;
 
   /**
    * Fires when the active tab in a window changes. Note that the tab's URL may
    * not be set at the time this event fired, but you can listen to onUpdated
-   * events to be notified when a URL is set.
+   * events so as to be notified when a URL is set.
    */
   Stream<Map> get onActivated => _onActivated.stream;
-  ChromeStreamController<Map> _onActivated;
+  late ChromeStreamController<Map> _onActivated;
 
   /**
    * Fired when the highlighted or selected tabs in a window changes.
    */
   Stream<Map> get onHighlightChanged => _onHighlightChanged.stream;
-  ChromeStreamController<Map> _onHighlightChanged;
+  late ChromeStreamController<Map> _onHighlightChanged;
 
   /**
    * Fired when the highlighted or selected tabs in a window changes.
    */
   Stream<Map> get onHighlighted => _onHighlighted.stream;
-  ChromeStreamController<Map> _onHighlighted;
+  late ChromeStreamController<Map> _onHighlighted;
 
   /**
-   * Fired when a tab is detached from a window, for example because it is being
+   * Fired when a tab is detached from a window; for example, because it was
    * moved between windows.
    */
   Stream<OnDetachedEvent> get onDetached => _onDetached.stream;
-  ChromeStreamController<OnDetachedEvent> _onDetached;
+  late ChromeStreamController<OnDetachedEvent> _onDetached;
 
   /**
-   * Fired when a tab is attached to a window, for example because it was moved
+   * Fired when a tab is attached to a window; for example, because it was moved
    * between windows.
    */
   Stream<OnAttachedEvent> get onAttached => _onAttached.stream;
-  ChromeStreamController<OnAttachedEvent> _onAttached;
+  late ChromeStreamController<OnAttachedEvent> _onAttached;
 
   /**
    * Fired when a tab is closed.
    */
   Stream<TabsOnRemovedEvent> get onRemoved => _onRemoved.stream;
-  ChromeStreamController<TabsOnRemovedEvent> _onRemoved;
+  late ChromeStreamController<TabsOnRemovedEvent> _onRemoved;
 
   /**
    * Fired when a tab is replaced with another tab due to prerendering or
    * instant.
    */
   Stream<OnReplacedEvent> get onReplaced => _onReplaced.stream;
-  ChromeStreamController<OnReplacedEvent> _onReplaced;
+  late ChromeStreamController<OnReplacedEvent> _onReplaced;
 
   /**
    * Fired when a tab is zoomed.
    */
   Stream<Map> get onZoomChange => _onZoomChange.stream;
-  ChromeStreamController<Map> _onZoomChange;
+  late ChromeStreamController<Map> _onZoomChange;
 
   ChromeTabs._() {
     var getApi = () => _tabs;
-    _onCreated = new ChromeStreamController<Tab>.oneArg(getApi, 'onCreated', _createTab);
-    _onUpdated = new ChromeStreamController<OnUpdatedEvent>.threeArgs(getApi, 'onUpdated', _createOnUpdatedEvent);
-    _onMoved = new ChromeStreamController<TabsOnMovedEvent>.twoArgs(getApi, 'onMoved', _createOnMovedEvent);
-    _onSelectionChanged = new ChromeStreamController<OnSelectionChangedEvent>.twoArgs(getApi, 'onSelectionChanged', _createOnSelectionChangedEvent);
-    _onActiveChanged = new ChromeStreamController<OnActiveChangedEvent>.twoArgs(getApi, 'onActiveChanged', _createOnActiveChangedEvent);
-    _onActivated = new ChromeStreamController<Map>.oneArg(getApi, 'onActivated', mapify);
-    _onHighlightChanged = new ChromeStreamController<Map>.oneArg(getApi, 'onHighlightChanged', mapify);
-    _onHighlighted = new ChromeStreamController<Map>.oneArg(getApi, 'onHighlighted', mapify);
-    _onDetached = new ChromeStreamController<OnDetachedEvent>.twoArgs(getApi, 'onDetached', _createOnDetachedEvent);
-    _onAttached = new ChromeStreamController<OnAttachedEvent>.twoArgs(getApi, 'onAttached', _createOnAttachedEvent);
-    _onRemoved = new ChromeStreamController<TabsOnRemovedEvent>.twoArgs(getApi, 'onRemoved', _createOnRemovedEvent);
-    _onReplaced = new ChromeStreamController<OnReplacedEvent>.twoArgs(getApi, 'onReplaced', _createOnReplacedEvent);
-    _onZoomChange = new ChromeStreamController<Map>.oneArg(getApi, 'onZoomChange', mapify);
+    _onCreated = ChromeStreamController<Tab>.oneArg(getApi, 'onCreated', _createTab);
+    _onUpdated = ChromeStreamController<OnUpdatedEvent>.threeArgs(getApi, 'onUpdated', _createOnUpdatedEvent);
+    _onMoved = ChromeStreamController<TabsOnMovedEvent>.twoArgs(getApi, 'onMoved', _createOnMovedEvent);
+    _onSelectionChanged = ChromeStreamController<OnSelectionChangedEvent>.twoArgs(getApi, 'onSelectionChanged', _createOnSelectionChangedEvent);
+    _onActiveChanged = ChromeStreamController<OnActiveChangedEvent>.twoArgs(getApi, 'onActiveChanged', _createOnActiveChangedEvent);
+    _onActivated = ChromeStreamController<Map>.oneArg(getApi, 'onActivated', mapify);
+    _onHighlightChanged = ChromeStreamController<Map>.oneArg(getApi, 'onHighlightChanged', mapify);
+    _onHighlighted = ChromeStreamController<Map>.oneArg(getApi, 'onHighlighted', mapify);
+    _onDetached = ChromeStreamController<OnDetachedEvent>.twoArgs(getApi, 'onDetached', _createOnDetachedEvent);
+    _onAttached = ChromeStreamController<OnAttachedEvent>.twoArgs(getApi, 'onAttached', _createOnAttachedEvent);
+    _onRemoved = ChromeStreamController<TabsOnRemovedEvent>.twoArgs(getApi, 'onRemoved', _createOnRemovedEvent);
+    _onReplaced = ChromeStreamController<OnReplacedEvent>.twoArgs(getApi, 'onReplaced', _createOnReplacedEvent);
+    _onZoomChange = ChromeStreamController<Map>.oneArg(getApi, 'onZoomChange', mapify);
   }
 
   bool get available => _tabs != null;
 
   /**
-   * An ID which represents the absence of a browser tab.
+   * The maximum number of times that [captureVisibleTab] can be called per
+   * second. [captureVisibleTab] is expensive and should not be called too
+   * often.
+   */
+  int get MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND => _tabs['MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND'];
+
+  /**
+   * An ID that represents the absence of a browser tab.
    */
   int get TAB_ID_NONE => _tabs['TAB_ID_NONE'];
 
   /**
    * Retrieves details about the specified tab.
    */
-  Future<Tab> get(int tabId) {
+  void get(int tabId) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('get', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('get', [tabId]);
   }
 
   /**
    * Gets the tab that this script call is being made from. May be undefined if
-   * called from a non-tab context (for example: a background page or popup
+   * called from a non-tab context (for example, a background page or popup
    * view).
    */
-  Future<Tab> getCurrent() {
+  void getCurrent() {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('getCurrent', [completer.callback]);
-    return completer.future;
+    _tabs.callMethod('getCurrent');
   }
 
   /**
@@ -168,7 +172,7 @@ class ChromeTabs extends ChromeApi {
    * the specified tab. The port's [runtime.Port] event is fired if the tab
    * closes or does not exist.
    */
-  Port connect(int tabId, [TabsConnectParams connectInfo]) {
+  Port connect(int tabId, [TabsConnectParams? connectInfo]) {
     if (_tabs == null) _throwNotAvailable();
 
     return _createPort(_tabs.callMethod('connect', [tabId, jsify(connectInfo)]));
@@ -179,18 +183,11 @@ class ChromeTabs extends ChromeApi {
    * an optional callback to run when a response is sent back.  The
    * [extension.onRequest] event is fired in each content script running in the
    * specified tab for the current extension.
-   * 
-   * Returns:
-   * The JSON response object sent by the handler of the request. If an error
-   * occurs while connecting to the specified tab, the callback will be called
-   * with no arguments and [runtime.lastError] will be set to the error message.
    */
-  Future<dynamic> sendRequest(int tabId, dynamic request) {
+  void sendRequest(int tabId, Object request) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _tabs.callMethod('sendRequest', [tabId, jsify(request), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('sendRequest', [tabId, jsify(request)]);
   }
 
   /**
@@ -201,18 +198,11 @@ class ChromeTabs extends ChromeApi {
    * 
    * [message] The message to send. This message should be a JSON-ifiable
    * object.
-   * 
-   * Returns:
-   * The JSON response object sent by the handler of the message. If an error
-   * occurs while connecting to the specified tab, the callback will be called
-   * with no arguments and [runtime.lastError] will be set to the error message.
    */
-  Future<dynamic> sendMessage(int tabId, dynamic message, [TabsSendMessageParams options]) {
+  void sendMessage(int tabId, Object message, [TabsSendMessageParams? options]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _tabs.callMethod('sendMessage', [tabId, jsify(message), jsify(options), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('sendMessage', [tabId, jsify(message), jsify(options)]);
   }
 
   /**
@@ -220,12 +210,10 @@ class ChromeTabs extends ChromeApi {
    * 
    * [windowId] Defaults to the [current window](windows#current-window).
    */
-  Future<Tab> getSelected([int windowId]) {
+  void getSelected([int? windowId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('getSelected', [windowId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('getSelected', [windowId]);
   }
 
   /**
@@ -233,70 +221,50 @@ class ChromeTabs extends ChromeApi {
    * 
    * [windowId] Defaults to the [current window](windows#current-window).
    */
-  Future<List<Tab>> getAllInWindow([int windowId]) {
+  void getAllInWindow([int? windowId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Tab>>.oneArg((e) => listify(e, _createTab));
-    _tabs.callMethod('getAllInWindow', [windowId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('getAllInWindow', [windowId]);
   }
 
   /**
    * Creates a new tab.
-   * 
-   * Returns:
-   * Details about the created tab. Will contain the ID of the new tab.
    */
-  Future<Tab> create(TabsCreateParams createProperties) {
+  void create(TabsCreateParams createProperties) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('create', [jsify(createProperties), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('create', [jsify(createProperties)]);
   }
 
   /**
    * Duplicates a tab.
    * 
-   * [tabId] The ID of the tab which is to be duplicated.
-   * 
-   * Returns:
-   * Details about the duplicated tab. The [tabs.Tab] object doesn't contain
-   * `url`, `title` and `favIconUrl` if the `"tabs"` permission has not been
-   * requested.
+   * [tabId] The ID of the tab to duplicate.
    */
-  Future<Tab> duplicate(int tabId) {
+  void duplicate(int tabId) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('duplicate', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('duplicate', [tabId]);
   }
 
   /**
    * Gets all tabs that have the specified properties, or all tabs if no
    * properties are specified.
    */
-  Future<List<Tab>> query(TabsQueryParams queryInfo) {
+  void query(TabsQueryParams queryInfo) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Tab>>.oneArg((e) => listify(e, _createTab));
-    _tabs.callMethod('query', [jsify(queryInfo), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('query', [jsify(queryInfo)]);
   }
 
   /**
-   * Highlights the given tabs.
-   * 
-   * Returns:
-   * Contains details about the window whose tabs were highlighted.
+   * Highlights the given tabs and focuses on the first of group. Will appear to
+   * do nothing if the specified tab is currently active.
    */
-  Future<Window> highlight(TabsHighlightParams highlightInfo) {
+  void highlight(TabsHighlightParams highlightInfo) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Window>.oneArg(_createWindow);
-    _tabs.callMethod('highlight', [jsify(highlightInfo), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('highlight', [jsify(highlightInfo)]);
   }
 
   /**
@@ -305,17 +273,11 @@ class ChromeTabs extends ChromeApi {
    * 
    * [tabId] Defaults to the selected tab of the [current
    * window](windows#current-window).
-   * 
-   * Returns:
-   * Details about the updated tab. The [tabs.Tab] object doesn't contain `url`,
-   * `title` and `favIconUrl` if the `"tabs"` permission has not been requested.
    */
-  Future<Tab> update(TabsUpdateParams updateProperties, [int tabId]) {
+  void update(TabsUpdateParams updateProperties, [int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('update', [tabId, jsify(updateProperties), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('update', [tabId, jsify(updateProperties)]);
   }
 
   /**
@@ -323,17 +285,12 @@ class ChromeTabs extends ChromeApi {
    * window. Note that tabs can only be moved to and from normal (window.type
    * === "normal") windows.
    * 
-   * [tabIds] The tab or list of tabs to move.
-   * 
-   * Returns:
-   * Details about the moved tabs.
+   * [tabIds] The tab ID or list of tab IDs to move.
    */
-  Future<dynamic> move(dynamic tabIds, TabsMoveParams moveProperties) {
+  void move(Object tabIds, TabsMoveParams moveProperties) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _tabs.callMethod('move', [jsify(tabIds), jsify(moveProperties), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('move', [jsify(tabIds), jsify(moveProperties)]);
   }
 
   /**
@@ -342,25 +299,44 @@ class ChromeTabs extends ChromeApi {
    * [tabId] The ID of the tab to reload; defaults to the selected tab of the
    * current window.
    */
-  Future reload([int tabId, TabsReloadParams reloadProperties]) {
+  void reload([int? tabId, TabsReloadParams? reloadProperties]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tabs.callMethod('reload', [tabId, jsify(reloadProperties), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('reload', [tabId, jsify(reloadProperties)]);
   }
 
   /**
    * Closes one or more tabs.
    * 
-   * [tabIds] The tab or list of tabs to close.
+   * [tabIds] The tab ID or list of tab IDs to close.
    */
-  Future remove(dynamic tabIds) {
+  void remove(Object tabIds) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tabs.callMethod('remove', [jsify(tabIds), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('remove', [jsify(tabIds)]);
+  }
+
+  /**
+   * Adds one or more tabs to a specified group, or if no group is specified,
+   * adds the given tabs to a newly created group.
+   */
+  void group(TabsGroupParams options) {
+    if (_tabs == null) _throwNotAvailable();
+
+    _tabs.callMethod('group', [jsify(options)]);
+  }
+
+  /**
+   * Removes one or more tabs from their respective groups. If any groups become
+   * empty, they are deleted.
+   * 
+   * [tabIds] The tab ID or list of tab IDs to remove from their respective
+   * groups.
+   */
+  void ungroup(Object tabIds) {
+    if (_tabs == null) _throwNotAvailable();
+
+    _tabs.callMethod('ungroup', [jsify(tabIds)]);
   }
 
   /**
@@ -368,41 +344,31 @@ class ChromeTabs extends ChromeApi {
    * 
    * [tabId] Defaults to the active tab of the [current
    * window](windows#current-window).
-   * 
-   * Returns:
-   * An ISO language code such as `en` or `fr`. For a complete list of languages
-   * supported by this method, see
-   * [kLanguageInfoTable](http://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-   * The 2nd to 4th columns will be checked and the first non-NULL value will be
-   * returned except for Simplified Chinese for which zh-CN will be returned.
-   * For an unknown language, `und` will be returned.
    */
-  Future<String> detectLanguage([int tabId]) {
+  void detectLanguage([int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _tabs.callMethod('detectLanguage', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('detectLanguage', [tabId]);
   }
 
   /**
    * Captures the visible area of the currently active tab in the specified
-   * window. You must have <a href='declare_permissions'><all_urls></a>
-   * permission to use this method.
+   * window. In order to call this method, the extension must have either the <a
+   * href='declare_permissions'><all_urls></a> permission or the
+   * [activeTab](activeTab) permission. In addition to sites that extensions can
+   * normally access, this method allows extensions to capture sensitive sites
+   * that are otherwise restricted, including chrome:-scheme pages, other
+   * extensions' pages, and data: URLs. These sensitive sites can only be
+   * captured with the activeTab permission. File URLs may be captured only if
+   * the extension has been granted file access.
    * 
    * [windowId] The target window. Defaults to the [current
    * window](windows#current-window).
-   * 
-   * Returns:
-   * A data URL which encodes an image of the visible area of the captured tab.
-   * May be assigned to the 'src' property of an HTML Image element for display.
    */
-  Future<String> captureVisibleTab([int windowId, ImageDetails options]) {
+  void captureVisibleTab([int? windowId, ImageDetails? options]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _tabs.callMethod('captureVisibleTab', [windowId, jsify(options), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('captureVisibleTab', [windowId, jsify(options)]);
   }
 
   /**
@@ -414,20 +380,16 @@ class ChromeTabs extends ChromeApi {
    * 
    * [details] Details of the script to run. Either the code or the file
    * property must be set, but both may not be set at the same time.
-   * 
-   * Returns:
-   * The result of the script in every injected frame.
    */
-  Future<List<dynamic>> executeScript(InjectDetails details, [int tabId]) {
+  void executeScript(InjectDetails details, [int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<dynamic>>.oneArg(listify);
-    _tabs.callMethod('executeScript', [tabId, jsify(details), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('executeScript', [tabId, jsify(details)]);
   }
 
   /**
-   * Injects CSS into a page. For details, see the [programmatic
+   * Injects CSS into a page. Styles inserted with this method can be removed
+   * with [scripting.removeCSS]. For details, see the [programmatic
    * injection](content_scripts#pi) section of the content scripts doc.
    * 
    * [tabId] The ID of the tab in which to insert the CSS; defaults to the
@@ -436,12 +398,26 @@ class ChromeTabs extends ChromeApi {
    * [details] Details of the CSS text to insert. Either the code or the file
    * property must be set, but both may not be set at the same time.
    */
-  Future insertCSS(InjectDetails details, [int tabId]) {
+  void insertCSS(InjectDetails details, [int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tabs.callMethod('insertCSS', [tabId, jsify(details), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('insertCSS', [tabId, jsify(details)]);
+  }
+
+  /**
+   * Removes from a page CSS that was previously injected by a call to
+   * [scripting.insertCSS].
+   * 
+   * [tabId] The ID of the tab from which to remove the CSS; defaults to the
+   * active tab of the current window.
+   * 
+   * [details] Details of the CSS text to remove. Either the code or the file
+   * property must be set, but both may not be set at the same time.
+   */
+  void removeCSS(DeleteInjectionDetails details, [int? tabId]) {
+    if (_tabs == null) _throwNotAvailable();
+
+    _tabs.callMethod('removeCSS', [tabId, jsify(details)]);
   }
 
   /**
@@ -450,16 +426,14 @@ class ChromeTabs extends ChromeApi {
    * [tabId] The ID of the tab to zoom; defaults to the active tab of the
    * current window.
    * 
-   * [zoomFactor] The new zoom factor. Use a value of 0 here to set the tab to
-   * its current default zoom factor. Values greater than zero specify a
-   * (possibly non-default) zoom factor for the tab.
+   * [zoomFactor] The new zoom factor. A value of `0` sets the tab to its
+   * current default zoom factor. Values greater than `0` specify a (possibly
+   * non-default) zoom factor for the tab.
    */
-  Future setZoom(dynamic zoomFactor, [int tabId]) {
+  void setZoom(Object zoomFactor, [int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tabs.callMethod('setZoom', [tabId, jsify(zoomFactor), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('setZoom', [tabId, jsify(zoomFactor)]);
   }
 
   /**
@@ -467,16 +441,11 @@ class ChromeTabs extends ChromeApi {
    * 
    * [tabId] The ID of the tab to get the current zoom factor from; defaults to
    * the active tab of the current window.
-   * 
-   * Returns:
-   * The tab's current zoom factor.
    */
-  Future<dynamic> getZoom([int tabId]) {
+  void getZoom([int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _tabs.callMethod('getZoom', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('getZoom', [tabId]);
   }
 
   /**
@@ -488,12 +457,10 @@ class ChromeTabs extends ChromeApi {
    * 
    * [zoomSettings] Defines how zoom changes are handled and at what scope.
    */
-  Future setZoomSettings(ZoomSettings zoomSettings, [int tabId]) {
+  void setZoomSettings(ZoomSettings zoomSettings, [int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _tabs.callMethod('setZoomSettings', [tabId, jsify(zoomSettings), completer.callback]);
-    return completer.future;
+    _tabs.callMethod('setZoomSettings', [tabId, jsify(zoomSettings)]);
   }
 
   /**
@@ -501,40 +468,54 @@ class ChromeTabs extends ChromeApi {
    * 
    * [tabId] The ID of the tab to get the current zoom settings from; defaults
    * to the active tab of the current window.
-   * 
-   * Returns:
-   * The tab's current zoom settings.
    */
-  Future<ZoomSettings> getZoomSettings([int tabId]) {
+  void getZoomSettings([int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ZoomSettings>.oneArg(_createZoomSettings);
-    _tabs.callMethod('getZoomSettings', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('getZoomSettings', [tabId]);
   }
 
   /**
    * Discards a tab from memory. Discarded tabs are still visible on the tab
    * strip and are reloaded when activated.
    * 
-   * [tabId] The ID of the tab to be discarded. If specified, the tab will be
-   * discarded unless it's active or already discarded. If omitted, the browser
-   * will discard the least important tab. This can fail if no discardable tabs
+   * [tabId] The ID of the tab to be discarded. If specified, the tab is
+   * discarded unless it is active or already discarded. If omitted, the browser
+   * discards the least important tab. This can fail if no discardable tabs
    * exist.
-   * 
-   * Returns:
-   * Discarded tab if it was successfully discarded. Undefined otherwise.
    */
-  Future<Tab> discard([int tabId]) {
+  void discard([int? tabId]) {
     if (_tabs == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Tab>.oneArg(_createTab);
-    _tabs.callMethod('discard', [tabId, completer.callback]);
-    return completer.future;
+    _tabs.callMethod('discard', [tabId]);
+  }
+
+  /**
+   * Go foward to the next page, if one is available.
+   * 
+   * [tabId] The ID of the tab to navigate forward; defaults to the selected tab
+   * of the current window.
+   */
+  void goForward([int? tabId]) {
+    if (_tabs == null) _throwNotAvailable();
+
+    _tabs.callMethod('goForward', [tabId]);
+  }
+
+  /**
+   * Go back to the previous page, if one is available.
+   * 
+   * [tabId] The ID of the tab to navigate back; defaults to the selected tab of
+   * the current window.
+   */
+  void goBack([int? tabId]) {
+    if (_tabs == null) _throwNotAvailable();
+
+    _tabs.callMethod('goBack', [tabId]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.tabs' is not available");
+    throw  UnsupportedError("'chrome.tabs' is not available");
   }
 }
 
@@ -560,8 +541,9 @@ class OnUpdatedEvent {
 /**
  * Fired when a tab is moved within a window. Only one move event is fired,
  * representing the tab the user directly moved. Move events are not fired for
- * the other tabs that must move in response. This event is not fired when a tab
- * is moved between windows. For that, see [tabs.onDetached].
+ * the other tabs that must move in response to the manually-moved tab. This
+ * event is not fired when a tab is moved between windows; for details, see
+ * [tabs.onDetached].
  */
 class TabsOnMovedEvent {
   final int tabId;
@@ -588,7 +570,7 @@ class OnSelectionChangedEvent {
 /**
  * Fires when the selected tab in a window changes. Note that the tab's URL may
  * not be set at the time this event fired, but you can listen to
- * [tabs.onUpdated] events to be notified when a URL is set.
+ * [tabs.onUpdated] events so as to be notified when a URL is set.
  */
 class OnActiveChangedEvent {
   /**
@@ -602,8 +584,8 @@ class OnActiveChangedEvent {
 }
 
 /**
- * Fired when a tab is detached from a window, for example because it is being
- * moved between windows.
+ * Fired when a tab is detached from a window; for example, because it was moved
+ * between windows.
  */
 class OnDetachedEvent {
   final int tabId;
@@ -614,7 +596,7 @@ class OnDetachedEvent {
 }
 
 /**
- * Fired when a tab is attached to a window, for example because it was moved
+ * Fired when a tab is attached to a window; for example, because it was moved
  * between windows.
  */
 class OnAttachedEvent {
@@ -648,94 +630,49 @@ class OnReplacedEvent {
 }
 
 /**
+ * The tab's loading status.
+ */
+class TabStatus extends ChromeEnum {
+  static const TabStatus UNLOADED = const TabStatus._('unloaded');
+  static const TabStatus LOADING = const TabStatus._('loading');
+  static const TabStatus COMPLETE = const TabStatus._('complete');
+
+  static const List<TabStatus> VALUES = const[UNLOADED, LOADING, COMPLETE];
+
+  const TabStatus._(String str): super(str);
+}
+
+/**
  * An event that caused a muted state change.
  */
 class MutedInfoReason extends ChromeEnum {
-  /**
-   * A user input action has set/overridden the muted state.
-   */
-  static const MutedInfoReason USER = const MutedInfoReason._('user');
-  /**
-   * Tab capture started, forcing a muted state change.
-   */
-  static const MutedInfoReason CAPTURE = const MutedInfoReason._('capture');
-  /**
-   * An extension, identified by the extensionId field, set the muted state.
-   */
-  static const MutedInfoReason EXTENSION = const MutedInfoReason._('extension');
 
-  static const List<MutedInfoReason> VALUES = const[USER, CAPTURE, EXTENSION];
+  static const List<MutedInfoReason> VALUES = const[];
 
   const MutedInfoReason._(String str): super(str);
 }
 
 /**
- * Defines how zoom changes are handled, i.e. which entity is responsible for
+ * Defines how zoom changes are handled, i.e., which entity is responsible for
  * the actual scaling of the page; defaults to `automatic`.
  */
 class ZoomSettingsMode extends ChromeEnum {
-  /**
-   * Zoom changes are handled automatically by the browser.
-   */
-  static const ZoomSettingsMode AUTOMATIC = const ZoomSettingsMode._('automatic');
-  /**
-   * Overrides the automatic handling of zoom changes. The
-   * <code>onZoomChange</code> event will still be dispatched, and it is the
-   * responsibility of the extension to listen for this event and manually scale
-   * the page. This mode does not support <code>per-origin</code> zooming, and
-   * will thus ignore the <code>scope</code> zoom setting and assume
-   * <code>per-tab</code>.
-   */
-  static const ZoomSettingsMode MANUAL = const ZoomSettingsMode._('manual');
-  /**
-   * Disables all zooming in the tab. The tab will revert to the default zoom
-   * level, and all attempted zoom changes will be ignored.
-   */
-  static const ZoomSettingsMode DISABLED = const ZoomSettingsMode._('disabled');
 
-  static const List<ZoomSettingsMode> VALUES = const[AUTOMATIC, MANUAL, DISABLED];
+  static const List<ZoomSettingsMode> VALUES = const[];
 
   const ZoomSettingsMode._(String str): super(str);
 }
 
 /**
- * Defines whether zoom changes will persist for the page's origin, or only take
+ * Defines whether zoom changes persist for the page's origin, or only take
  * effect in this tab; defaults to `per-origin` when in `automatic` mode, and
  * `per-tab` otherwise.
  */
 class ZoomSettingsScope extends ChromeEnum {
-  /**
-   * Zoom changes will persist in the zoomed page's origin, i.e. all other tabs
-   * navigated to that same origin will be zoomed as well. Moreover,
-   * <code>per-origin</code> zoom changes are saved with the origin, meaning
-   * that when navigating to other pages in the same origin, they will all be
-   * zoomed to the same zoom factor. The <code>per-origin</code> scope is only
-   * available in the <code>automatic</code> mode.
-   */
-  static const ZoomSettingsScope PER_ORIGIN = const ZoomSettingsScope._('per-origin');
-  /**
-   * Zoom changes only take effect in this tab, and zoom changes in other tabs
-   * will not affect the zooming of this tab. Also, <code>per-tab</code> zoom
-   * changes are reset on navigation; navigating a tab will always load pages
-   * with their <code>per-origin</code> zoom factors.
-   */
-  static const ZoomSettingsScope PER_TAB = const ZoomSettingsScope._('per-tab');
 
-  static const List<ZoomSettingsScope> VALUES = const[PER_ORIGIN, PER_TAB];
+  static const List<ZoomSettingsScope> VALUES = const[];
 
   const ZoomSettingsScope._(String str): super(str);
-}
-
-/**
- * Whether the tabs have completed loading.
- */
-class TabStatus extends ChromeEnum {
-  static const TabStatus LOADING = const TabStatus._('loading');
-  static const TabStatus COMPLETE = const TabStatus._('complete');
-
-  static const List<TabStatus> VALUES = const[LOADING, COMPLETE];
-
-  const TabStatus._(String str): super(str);
 }
 
 /**
@@ -753,11 +690,24 @@ class TabsWindowType extends ChromeEnum {
   const TabsWindowType._(String str): super(str);
 }
 
+class CreatePropertiesTabs extends ChromeObject {
+  CreatePropertiesTabs({int? windowId}) {
+    if (windowId != null) this.windowId = windowId;
+  }
+  CreatePropertiesTabs.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The window of the new group. Defaults to the current window.
+   */
+  int get windowId => jsProxy['windowId'];
+  set windowId(int value) => jsProxy['windowId'] = value;
+}
+
 /**
- * Tab muted state and the reason for the last state change.
+ * The tab's muted state and the reason for the last state change.
  */
 class MutedInfo extends ChromeObject {
-  MutedInfo({bool muted, MutedInfoReason reason, String extensionId}) {
+  MutedInfo({bool? muted, MutedInfoReason? reason, String? extensionId}) {
     if (muted != null) this.muted = muted;
     if (reason != null) this.reason = reason;
     if (extensionId != null) this.extensionId = extensionId;
@@ -765,9 +715,9 @@ class MutedInfo extends ChromeObject {
   MutedInfo.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * Whether the tab is prevented from playing sound (but hasn't necessarily
-   * recently produced sound). Equivalent to whether the muted audio indicator
-   * is showing.
+   * Whether the tab is muted (prevented from playing sound). The tab may be
+   * muted even if it has not played or is not currently playing sound.
+   * Equivalent to whether the 'muted' audio indicator is showing.
    */
   bool get muted => jsProxy['muted'];
   set muted(bool value) => jsProxy['muted'] = value;
@@ -788,9 +738,10 @@ class MutedInfo extends ChromeObject {
 }
 
 class Tab extends ChromeObject {
-  Tab({int id, int index, int windowId, int openerTabId, bool selected, bool highlighted, bool active, bool pinned, bool audible, bool discarded, bool autoDiscardable, MutedInfo mutedInfo, String url, String title, String favIconUrl, String status, bool incognito, int width, int height, String sessionId}) {
+  Tab({int? id, int? index, int? groupId, int? windowId, int? openerTabId, bool? selected, bool? highlighted, bool? active, bool? pinned, bool? audible, bool? discarded, bool? autoDiscardable, MutedInfo? mutedInfo, String? url, String? pendingUrl, String? title, String? favIconUrl, TabStatus? status, bool? incognito, int? width, int? height, String? sessionId}) {
     if (id != null) this.id = id;
     if (index != null) this.index = index;
+    if (groupId != null) this.groupId = groupId;
     if (windowId != null) this.windowId = windowId;
     if (openerTabId != null) this.openerTabId = openerTabId;
     if (selected != null) this.selected = selected;
@@ -802,6 +753,7 @@ class Tab extends ChromeObject {
     if (autoDiscardable != null) this.autoDiscardable = autoDiscardable;
     if (mutedInfo != null) this.mutedInfo = mutedInfo;
     if (url != null) this.url = url;
+    if (pendingUrl != null) this.pendingUrl = pendingUrl;
     if (title != null) this.title = title;
     if (favIconUrl != null) this.favIconUrl = favIconUrl;
     if (status != null) this.status = status;
@@ -814,9 +766,9 @@ class Tab extends ChromeObject {
 
   /**
    * The ID of the tab. Tab IDs are unique within a browser session. Under some
-   * circumstances a Tab may not be assigned an ID, for example when querying
+   * circumstances a tab may not be assigned an ID; for example, when querying
    * foreign tabs using the [sessions] API, in which case a session ID may be
-   * present. Tab ID can also be set to chrome.tabs.TAB_ID_NONE for apps and
+   * present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps and
    * devtools windows.
    */
   int get id => jsProxy['id'];
@@ -829,7 +781,13 @@ class Tab extends ChromeObject {
   set index(int value) => jsProxy['index'] = value;
 
   /**
-   * The ID of the window the tab is contained within.
+   * The ID of the group that the tab belongs to.
+   */
+  int get groupId => jsProxy['groupId'];
+  set groupId(int value) => jsProxy['groupId'] = value;
+
+  /**
+   * The ID of the window that contains the tab.
    */
   int get windowId => jsProxy['windowId'];
   set windowId(int value) => jsProxy['windowId'] = value;
@@ -854,8 +812,8 @@ class Tab extends ChromeObject {
   set highlighted(bool value) => jsProxy['highlighted'] = value;
 
   /**
-   * Whether the tab is active in its window. (Does not necessarily mean the
-   * window is focused.)
+   * Whether the tab is active in its window. Does not necessarily mean the
+   * window is focused.
    */
   bool get active => jsProxy['active'];
   set active(bool value) => jsProxy['active'] = value;
@@ -868,16 +826,16 @@ class Tab extends ChromeObject {
 
   /**
    * Whether the tab has produced sound over the past couple of seconds (but it
-   * might not be heard if also muted). Equivalent to whether the speaker audio
-   * indicator is showing.
+   * might not be heard if also muted). Equivalent to whether the 'speaker
+   * audio' indicator is showing.
    */
   bool get audible => jsProxy['audible'];
   set audible(bool value) => jsProxy['audible'] = value;
 
   /**
    * Whether the tab is discarded. A discarded tab is one whose content has been
-   * unloaded from memory, but is still visible in the tab strip. Its content
-   * gets reloaded the next time it's activated.
+   * unloaded from memory, but is still visible in the tab strip. Its content is
+   * reloaded the next time it is activated.
    */
   bool get discarded => jsProxy['discarded'];
   set discarded(bool value) => jsProxy['discarded'] = value;
@@ -890,17 +848,27 @@ class Tab extends ChromeObject {
   set autoDiscardable(bool value) => jsProxy['autoDiscardable'] = value;
 
   /**
-   * Current tab muted state and the reason for the last state change.
+   * The tab's muted state and the reason for the last state change.
    */
   MutedInfo get mutedInfo => _createMutedInfo(jsProxy['mutedInfo']);
   set mutedInfo(MutedInfo value) => jsProxy['mutedInfo'] = jsify(value);
 
   /**
-   * The URL the tab is displaying. This property is only present if the
-   * extension's manifest includes the `"tabs"` permission.
+   * The last committed URL of the main frame of the tab. This property is only
+   * present if the extension's manifest includes the `"tabs"` permission and
+   * may be an empty string if the tab has not yet committed. See also
+   * [Tab.pendingUrl].
    */
   String get url => jsProxy['url'];
   set url(String value) => jsProxy['url'] = value;
+
+  /**
+   * The URL the tab is navigating to, before it has committed. This property is
+   * only present if the extension's manifest includes the `"tabs"` permission
+   * and there is a pending navigation.
+   */
+  String get pendingUrl => jsProxy['pendingUrl'];
+  set pendingUrl(String value) => jsProxy['pendingUrl'] = value;
 
   /**
    * The title of the tab. This property is only present if the extension's
@@ -918,10 +886,10 @@ class Tab extends ChromeObject {
   set favIconUrl(String value) => jsProxy['favIconUrl'] = value;
 
   /**
-   * Either _loading_ or _complete_.
+   * The tab's loading status.
    */
-  String get status => jsProxy['status'];
-  set status(String value) => jsProxy['status'] = value;
+  TabStatus get status => _createTabStatus(jsProxy['status']);
+  set status(TabStatus value) => jsProxy['status'] = jsify(value);
 
   /**
    * Whether the tab is in an incognito window.
@@ -942,7 +910,7 @@ class Tab extends ChromeObject {
   set height(int value) => jsProxy['height'] = value;
 
   /**
-   * The session ID used to uniquely identify a Tab obtained from the [sessions]
+   * The session ID used to uniquely identify a tab obtained from the [sessions]
    * API.
    */
   String get sessionId => jsProxy['sessionId'];
@@ -953,7 +921,7 @@ class Tab extends ChromeObject {
  * Defines how zoom changes in a tab are handled and at what scope.
  */
 class ZoomSettings extends ChromeObject {
-  ZoomSettings({ZoomSettingsMode mode, ZoomSettingsScope scope, var defaultZoomFactor}) {
+  ZoomSettings({ZoomSettingsMode? mode, ZoomSettingsScope? scope, Object? defaultZoomFactor}) {
     if (mode != null) this.mode = mode;
     if (scope != null) this.scope = scope;
     if (defaultZoomFactor != null) this.defaultZoomFactor = defaultZoomFactor;
@@ -961,16 +929,16 @@ class ZoomSettings extends ChromeObject {
   ZoomSettings.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * Defines how zoom changes are handled, i.e. which entity is responsible for
+   * Defines how zoom changes are handled, i.e., which entity is responsible for
    * the actual scaling of the page; defaults to `automatic`.
    */
   ZoomSettingsMode get mode => _createZoomSettingsMode(jsProxy['mode']);
   set mode(ZoomSettingsMode value) => jsProxy['mode'] = jsify(value);
 
   /**
-   * Defines whether zoom changes will persist for the page's origin, or only
-   * take effect in this tab; defaults to `per-origin` when in `automatic` mode,
-   * and `per-tab` otherwise.
+   * Defines whether zoom changes persist for the page's origin, or only take
+   * effect in this tab; defaults to `per-origin` when in `automatic` mode, and
+   * `per-tab` otherwise.
    */
   ZoomSettingsScope get scope => _createZoomSettingsScope(jsProxy['scope']);
   set scope(ZoomSettingsScope value) => jsProxy['scope'] = jsify(value);
@@ -979,20 +947,21 @@ class ZoomSettings extends ChromeObject {
    * Used to return the default zoom level for the current tab in calls to
    * tabs.getZoomSettings.
    */
-  dynamic get defaultZoomFactor => jsProxy['defaultZoomFactor'];
-  set defaultZoomFactor(var value) => jsProxy['defaultZoomFactor'] = jsify(value);
+  Object get defaultZoomFactor => jsProxy['defaultZoomFactor'];
+  set defaultZoomFactor(Object value) => jsProxy['defaultZoomFactor'] = jsify(value);
 }
 
 class TabsConnectParams extends ChromeObject {
-  TabsConnectParams({String name, int frameId}) {
+  TabsConnectParams({String? name, int? frameId, String? documentId}) {
     if (name != null) this.name = name;
     if (frameId != null) this.frameId = frameId;
+    if (documentId != null) this.documentId = documentId;
   }
   TabsConnectParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * Will be passed into onConnect for content scripts that are listening for
-   * the connection event.
+   * Is passed into onConnect for content scripts that are listening for the
+   * connection event.
    */
   String get name => jsProxy['name'];
   set name(String value) => jsProxy['name'] = value;
@@ -1003,11 +972,19 @@ class TabsConnectParams extends ChromeObject {
    */
   int get frameId => jsProxy['frameId'];
   set frameId(int value) => jsProxy['frameId'] = value;
+
+  /**
+   * Open a port to a specific [document](webNavigation#document_ids) identified
+   * by `documentId` instead of all frames in the tab.
+   */
+  String get documentId => jsProxy['documentId'];
+  set documentId(String value) => jsProxy['documentId'] = value;
 }
 
 class TabsSendMessageParams extends ChromeObject {
-  TabsSendMessageParams({int frameId}) {
+  TabsSendMessageParams({int? frameId, String? documentId}) {
     if (frameId != null) this.frameId = frameId;
+    if (documentId != null) this.documentId = documentId;
   }
   TabsSendMessageParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -1017,10 +994,17 @@ class TabsSendMessageParams extends ChromeObject {
    */
   int get frameId => jsProxy['frameId'];
   set frameId(int value) => jsProxy['frameId'] = value;
+
+  /**
+   * Send a message to a specific [document](webNavigation#document_ids)
+   * identified by `documentId` instead of all frames in the tab.
+   */
+  String get documentId => jsProxy['documentId'];
+  set documentId(String value) => jsProxy['documentId'] = value;
 }
 
 class TabsCreateParams extends ChromeObject {
-  TabsCreateParams({int windowId, int index, String url, bool active, bool selected, bool pinned, int openerTabId}) {
+  TabsCreateParams({int? windowId, int? index, String? url, bool? active, bool? selected, bool? pinned, int? openerTabId}) {
     if (windowId != null) this.windowId = windowId;
     if (index != null) this.index = index;
     if (url != null) this.url = url;
@@ -1032,24 +1016,24 @@ class TabsCreateParams extends ChromeObject {
   TabsCreateParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * The window to create the new tab in. Defaults to the [current
+   * The window in which to create the new tab. Defaults to the [current
    * window](windows#current-window).
    */
   int get windowId => jsProxy['windowId'];
   set windowId(int value) => jsProxy['windowId'] = value;
 
   /**
-   * The position the tab should take in the window. The provided value will be
+   * The position the tab should take in the window. The provided value is
    * clamped to between zero and the number of tabs in the window.
    */
   int get index => jsProxy['index'];
   set index(int value) => jsProxy['index'] = value;
 
   /**
-   * The URL to navigate the tab to initially. Fully-qualified URLs must include
-   * a scheme (i.e. 'http://www.google.com', not 'www.google.com'). Relative
-   * URLs will be relative to the current page within the extension. Defaults to
-   * the New Tab Page.
+   * The URL to initially navigate the tab to. Fully-qualified URLs must include
+   * a scheme (i.e., 'http://www.google.com', not 'www.google.com'). Relative
+   * URLs are relative to the current page within the extension. Defaults to the
+   * New Tab Page.
    */
   String get url => jsProxy['url'];
   set url(String value) => jsProxy['url'] = value;
@@ -1083,7 +1067,7 @@ class TabsCreateParams extends ChromeObject {
 }
 
 class TabsQueryParams extends ChromeObject {
-  TabsQueryParams({bool active, bool pinned, bool audible, bool muted, bool highlighted, bool discarded, bool autoDiscardable, bool currentWindow, bool lastFocusedWindow, TabStatus status, String title, var url, int windowId, TabsWindowType windowType, int index}) {
+  TabsQueryParams({bool? active, bool? pinned, bool? audible, bool? muted, bool? highlighted, bool? discarded, bool? autoDiscardable, bool? currentWindow, bool? lastFocusedWindow, TabStatus? status, String? title, Object? url, int? groupId, int? windowId, TabsWindowType? windowType, int? index}) {
     if (active != null) this.active = active;
     if (pinned != null) this.pinned = pinned;
     if (audible != null) this.audible = audible;
@@ -1096,6 +1080,7 @@ class TabsQueryParams extends ChromeObject {
     if (status != null) this.status = status;
     if (title != null) this.title = title;
     if (url != null) this.url = url;
+    if (groupId != null) this.groupId = groupId;
     if (windowId != null) this.windowId = windowId;
     if (windowType != null) this.windowType = windowType;
     if (index != null) this.index = index;
@@ -1135,7 +1120,7 @@ class TabsQueryParams extends ChromeObject {
   /**
    * Whether the tabs are discarded. A discarded tab is one whose content has
    * been unloaded from memory, but is still visible in the tab strip. Its
-   * content gets reloaded the next time it's activated.
+   * content is reloaded the next time it is activated.
    */
   bool get discarded => jsProxy['discarded'];
   set discarded(bool value) => jsProxy['discarded'] = value;
@@ -1160,25 +1145,32 @@ class TabsQueryParams extends ChromeObject {
   set lastFocusedWindow(bool value) => jsProxy['lastFocusedWindow'] = value;
 
   /**
-   * Whether the tabs have completed loading.
+   * The tab loading status.
    */
   TabStatus get status => _createTabStatus(jsProxy['status']);
   set status(TabStatus value) => jsProxy['status'] = jsify(value);
 
   /**
-   * Match page titles against a pattern. Note that this property is ignored if
-   * the extension doesn't have the `"tabs"` permission.
+   * Match page titles against a pattern. This property is ignored if the
+   * extension does not have the `"tabs"` permission.
    */
   String get title => jsProxy['title'];
   set title(String value) => jsProxy['title'] = value;
 
   /**
-   * Match tabs against one or more [URL patterns](match_patterns). Note that
-   * fragment identifiers are not matched. Note that this property is ignored if
-   * the extension doesn't have the `"tabs"` permission.
+   * Match tabs against one or more [URL patterns](match_patterns). Fragment
+   * identifiers are not matched. This property is ignored if the extension does
+   * not have the `"tabs"` permission.
    */
-  dynamic get url => jsProxy['url'];
-  set url(var value) => jsProxy['url'] = jsify(value);
+  Object get url => jsProxy['url'];
+  set url(Object value) => jsProxy['url'] = jsify(value);
+
+  /**
+   * The ID of the group that the tabs are in, or [tabGroups.TAB_GROUP_ID_NONE]
+   * for ungrouped tabs.
+   */
+  int get groupId => jsProxy['groupId'];
+  set groupId(int value) => jsProxy['groupId'] = value;
 
   /**
    * The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
@@ -1201,7 +1193,7 @@ class TabsQueryParams extends ChromeObject {
 }
 
 class TabsHighlightParams extends ChromeObject {
-  TabsHighlightParams({int windowId, var tabs}) {
+  TabsHighlightParams({int? windowId, Object? tabs}) {
     if (windowId != null) this.windowId = windowId;
     if (tabs != null) this.tabs = tabs;
   }
@@ -1216,12 +1208,12 @@ class TabsHighlightParams extends ChromeObject {
   /**
    * One or more tab indices to highlight.
    */
-  dynamic get tabs => jsProxy['tabs'];
-  set tabs(var value) => jsProxy['tabs'] = jsify(value);
+  Object get tabs => jsProxy['tabs'];
+  set tabs(Object value) => jsProxy['tabs'] = jsify(value);
 }
 
 class TabsUpdateParams extends ChromeObject {
-  TabsUpdateParams({String url, bool active, bool highlighted, bool selected, bool pinned, bool muted, int openerTabId, bool autoDiscardable}) {
+  TabsUpdateParams({String? url, bool? active, bool? highlighted, bool? selected, bool? pinned, bool? muted, int? openerTabId, bool? autoDiscardable}) {
     if (url != null) this.url = url;
     if (active != null) this.active = active;
     if (highlighted != null) this.highlighted = highlighted;
@@ -1234,7 +1226,8 @@ class TabsUpdateParams extends ChromeObject {
   TabsUpdateParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * A URL to navigate the tab to.
+   * A URL to navigate the tab to. JavaScript URLs are not supported; use
+   * [scripting.executeScript] instead.
    */
   String get url => jsProxy['url'];
   set url(String value) => jsProxy['url'] = value;
@@ -1286,7 +1279,7 @@ class TabsUpdateParams extends ChromeObject {
 }
 
 class TabsMoveParams extends ChromeObject {
-  TabsMoveParams({int windowId, int index}) {
+  TabsMoveParams({int? windowId, int? index}) {
     if (windowId != null) this.windowId = windowId;
     if (index != null) this.index = index;
   }
@@ -1299,49 +1292,77 @@ class TabsMoveParams extends ChromeObject {
   set windowId(int value) => jsProxy['windowId'] = value;
 
   /**
-   * The position to move the window to. -1 will place the tab at the end of the
-   * window.
+   * The position to move the window to. Use `-1` to place the tab at the end of
+   * the window.
    */
   int get index => jsProxy['index'];
   set index(int value) => jsProxy['index'] = value;
 }
 
 class TabsReloadParams extends ChromeObject {
-  TabsReloadParams({bool bypassCache}) {
+  TabsReloadParams({bool? bypassCache}) {
     if (bypassCache != null) this.bypassCache = bypassCache;
   }
   TabsReloadParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * Whether using any local cache. Default is false.
+   * Whether to bypass local caching. Defaults to `false`.
    */
   bool get bypassCache => jsProxy['bypassCache'];
   set bypassCache(bool value) => jsProxy['bypassCache'] = value;
 }
 
-Tab _createTab(JsObject jsProxy) => jsProxy == null ? null : new Tab.fromProxy(jsProxy);
+class TabsGroupParams extends ChromeObject {
+  TabsGroupParams({Object? tabIds, int? groupId, CreatePropertiesTabs? createProperties}) {
+    if (tabIds != null) this.tabIds = tabIds;
+    if (groupId != null) this.groupId = groupId;
+    if (createProperties != null) this.createProperties = createProperties;
+  }
+  TabsGroupParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The tab ID or list of tab IDs to add to the specified group.
+   */
+  Object get tabIds => jsProxy['tabIds'];
+  set tabIds(Object value) => jsProxy['tabIds'] = jsify(value);
+
+  /**
+   * The ID of the group to add the tabs to. If not specified, a new group will
+   * be created.
+   */
+  int get groupId => jsProxy['groupId'];
+  set groupId(int value) => jsProxy['groupId'] = value;
+
+  /**
+   * Configurations for creating a group. Cannot be used if groupId is already
+   * specified.
+   */
+  CreatePropertiesTabs get createProperties => _createCreatePropertiesTabs(jsProxy['createProperties']);
+  set createProperties(CreatePropertiesTabs value) => jsProxy['createProperties'] = jsify(value);
+}
+
+Tab _createTab(JsObject jsProxy) => Tab.fromProxy(jsProxy);
 OnUpdatedEvent _createOnUpdatedEvent(int tabId, JsObject changeInfo, JsObject tab) =>
-    new OnUpdatedEvent(tabId, mapify(changeInfo), _createTab(tab));
+    OnUpdatedEvent(tabId, mapify(changeInfo), _createTab(tab));
 TabsOnMovedEvent _createOnMovedEvent(int tabId, JsObject moveInfo) =>
-    new TabsOnMovedEvent(tabId, mapify(moveInfo));
+    TabsOnMovedEvent(tabId, mapify(moveInfo));
 OnSelectionChangedEvent _createOnSelectionChangedEvent(int tabId, JsObject selectInfo) =>
-    new OnSelectionChangedEvent(tabId, mapify(selectInfo));
+    OnSelectionChangedEvent(tabId, mapify(selectInfo));
 OnActiveChangedEvent _createOnActiveChangedEvent(int tabId, JsObject selectInfo) =>
-    new OnActiveChangedEvent(tabId, mapify(selectInfo));
+    OnActiveChangedEvent(tabId, mapify(selectInfo));
 OnDetachedEvent _createOnDetachedEvent(int tabId, JsObject detachInfo) =>
-    new OnDetachedEvent(tabId, mapify(detachInfo));
+    OnDetachedEvent(tabId, mapify(detachInfo));
 OnAttachedEvent _createOnAttachedEvent(int tabId, JsObject attachInfo) =>
-    new OnAttachedEvent(tabId, mapify(attachInfo));
+    OnAttachedEvent(tabId, mapify(attachInfo));
 TabsOnRemovedEvent _createOnRemovedEvent(int tabId, JsObject removeInfo) =>
-    new TabsOnRemovedEvent(tabId, mapify(removeInfo));
+    TabsOnRemovedEvent(tabId, mapify(removeInfo));
 OnReplacedEvent _createOnReplacedEvent(int addedTabId, int removedTabId) =>
-    new OnReplacedEvent(addedTabId, removedTabId);
-Port _createPort(JsObject jsProxy) => jsProxy == null ? null : new Port.fromProxy(jsProxy);
-Window _createWindow(JsObject jsProxy) => jsProxy == null ? null : new Window.fromProxy(jsProxy);
-ZoomSettings _createZoomSettings(JsObject jsProxy) => jsProxy == null ? null : new ZoomSettings.fromProxy(jsProxy);
+    OnReplacedEvent(addedTabId, removedTabId);
+Port _createPort(JsObject jsProxy) => Port.fromProxy(jsProxy);
 MutedInfoReason _createMutedInfoReason(String value) => MutedInfoReason.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-MutedInfo _createMutedInfo(JsObject jsProxy) => jsProxy == null ? null : new MutedInfo.fromProxy(jsProxy);
+MutedInfo _createMutedInfo(JsObject jsProxy) => MutedInfo.fromProxy(jsProxy);
+TabStatus _createTabStatus(String value) => TabStatus.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 ZoomSettingsMode _createZoomSettingsMode(String value) => ZoomSettingsMode.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 ZoomSettingsScope _createZoomSettingsScope(String value) => ZoomSettingsScope.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-TabStatus _createTabStatus(String value) => TabStatus.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 TabsWindowType _createWindowType(String value) => TabsWindowType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+CreatePropertiesTabs _createCreatePropertiesTabs(JsObject jsProxy) => CreatePropertiesTabs.fromProxy(jsProxy);

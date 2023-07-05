@@ -8,7 +8,7 @@ abstract class JsonObject {
 
   JsonObject(this.json);
 
-  String get description => json['description']! as String;
+  String get description => json['description'] as String? ?? '';
 
   bool _bool(String key) => json[key] == true || json[key] == 'true';
 
@@ -142,7 +142,7 @@ class JsonType extends JsonObject {
 
   String get name => '';
 
-  String get type => json['type']! as String;
+  String get type => json['type'] as String? ?? '';
   String? get ref => json[r'$ref'] as String?;
   String? get isInstanceOf => json['isInstanceOf'] as String?;
   List<String>? get enumOptions => (json['enum'] as List?)?.cast<String>();
@@ -167,7 +167,7 @@ class JsonParamType extends JsonType {
 
   JsonParamType(Map<String, dynamic> json) : super(json);
 
-  String get name => json['name']! as String;
+  String get name => json['name'] as String? ?? '';
 
   // rare ones
   int? get maxLength => json['maxLength'] as int?;
@@ -285,7 +285,7 @@ class JsonConverter {
       }
 
       // replace the type w/ a ref to the new type
-      property.type = new ChromeType(type: 'var', refName: className);
+      property.type = new ChromeType(type: 'Object', refName: className);
     }
 
     return property;
@@ -352,7 +352,7 @@ class JsonConverter {
       future.documentation = params.first.documentation;
     } else if (params.length == 2) {
       ChromeType type = new ChromeType(
-          type: 'var', refName: "${titleCase(method.name)}Result");
+          type: 'Object', refName: "${titleCase(method.name)}Result");
       type.combinedReturnValue = true;
       type.parameters.addAll(params);
 
@@ -420,11 +420,11 @@ class JsonConverter {
 //        }
 //      }
     } else if (t.type == 'object' && t.isInstanceOf != null) {
-      type.type = "var";
+      type.type = "Object";
       type.refName = t.isInstanceOf;
       library.addImport(getImportForClass(type.refName));
     } else if (t.ref != null) {
-      type.type = "var";
+      type.type = "Object";
 
       var names = parseQualifiedName(t.ref!);
 
@@ -436,13 +436,13 @@ class JsonConverter {
     } else if (t.type == "function") {
       type.type = "function";
     } else {
-      type.type = "var";
+      type.type = "Object";
     }
 
     type.optional = t.optional;
 
     if (t.parameters.isNotEmpty) {
-      type.parameters = t.parameters.map((e) => _convertType(e)!).toList();
+      type.parameters = t.parameters.map((e) => _convertType(e)).toList();
     }
     type.properties = t.properties.map(_convertProperty).toList();
     type.enumOptions = t.enumOptions;

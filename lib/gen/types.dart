@@ -10,7 +10,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.types` namespace.
  */
-final ChromeTypes types = new ChromeTypes._();
+final ChromeTypes types = ChromeTypes._();
 
 class ChromeTypes extends ChromeApi {
   JsObject get _types => chrome['types'];
@@ -73,14 +73,9 @@ class ChromeSetting extends ChromeObject {
    * Gets the value of a setting.
    * 
    * [details] Which setting to consider.
-   * 
-   * Returns:
-   * Details of the currently effective value.
    */
-  Future<Map> get(TypesGetParams details) {
-    var completer = new ChromeCompleter<Map>.oneArg(mapify);
-    jsProxy.callMethod('get', [jsify(details), completer.callback]);
-    return completer.future;
+  void get(TypesGetParams details) {
+    jsProxy.callMethod('get', [jsify(details)]);
   }
 
   /**
@@ -88,10 +83,8 @@ class ChromeSetting extends ChromeObject {
    * 
    * [details] Which setting to change.
    */
-  Future set(TypesSetParams details) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('set', [jsify(details), completer.callback]);
-    return completer.future;
+  void set(TypesSetParams details) {
+    jsProxy.callMethod('set', [jsify(details)]);
   }
 
   /**
@@ -99,15 +92,13 @@ class ChromeSetting extends ChromeObject {
    * 
    * [details] Which setting to clear.
    */
-  Future clear(TypesClearParams details) {
-    var completer = new ChromeCompleter.noArgs();
-    jsProxy.callMethod('clear', [jsify(details), completer.callback]);
-    return completer.future;
+  void clear(TypesClearParams details) {
+    jsProxy.callMethod('clear', [jsify(details)]);
   }
 }
 
 class TypesGetParams extends ChromeObject {
-  TypesGetParams({bool incognito}) {
+  TypesGetParams({bool? incognito}) {
     if (incognito != null) this.incognito = incognito;
   }
   TypesGetParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -121,7 +112,7 @@ class TypesGetParams extends ChromeObject {
 }
 
 class TypesSetParams extends ChromeObject {
-  TypesSetParams({var value, ChromeSettingScope scope}) {
+  TypesSetParams({Object? value, ChromeSettingScope? scope}) {
     if (value != null) this.value = value;
     if (scope != null) this.scope = scope;
   }
@@ -132,8 +123,8 @@ class TypesSetParams extends ChromeObject {
    * type, which is described together with the setting. An extension should
    * _not_ set a value of a different type.
    */
-  dynamic get value => jsProxy['value'];
-  set value(var value) => jsProxy['value'] = jsify(value);
+  Object get value => jsProxy['value'];
+  set value(Object value) => jsProxy['value'] = jsify(value);
 
   /**
    * Where to set the setting (default: regular).
@@ -143,7 +134,7 @@ class TypesSetParams extends ChromeObject {
 }
 
 class TypesClearParams extends ChromeObject {
-  TypesClearParams({ChromeSettingScope scope}) {
+  TypesClearParams({ChromeSettingScope? scope}) {
     if (scope != null) this.scope = scope;
   }
   TypesClearParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);

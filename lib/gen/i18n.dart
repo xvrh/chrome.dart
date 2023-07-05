@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.i18n` namespace.
  */
-final ChromeI18N i18n = new ChromeI18N._();
+final ChromeI18N i18n = ChromeI18N._();
 
 class ChromeI18N extends ChromeApi {
   JsObject get _i18n => chrome['i18n'];
@@ -23,16 +23,11 @@ class ChromeI18N extends ChromeApi {
   /**
    * Gets the accept-languages of the browser. This is different from the locale
    * used by the browser; to get the locale, use [i18n.getUILanguage].
-   * 
-   * Returns:
-   * Array of LanguageCode
    */
-  Future<List<LanguageCode>> getAcceptLanguages() {
+  void getAcceptLanguages() {
     if (_i18n == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<LanguageCode>>.oneArg((e) => listify(e, _createLanguageCode));
-    _i18n.callMethod('getAcceptLanguages', [completer.callback]);
-    return completer.future;
+    _i18n.callMethod('getAcceptLanguages');
   }
 
   /**
@@ -50,10 +45,10 @@ class ChromeI18N extends ChromeApi {
    * Returns:
    * Message localized for current locale.
    */
-  String getMessage(String messageName, [dynamic substitutions]) {
+  String getMessage(String messageName, [Object? substitutions, I18nGetMessageParams? options]) {
     if (_i18n == null) _throwNotAvailable();
 
-    return _i18n.callMethod('getMessage', [messageName, jsify(substitutions)]);
+    return _i18n.callMethod('getMessage', [messageName, jsify(substitutions), jsify(options)]);
   }
 
   /**
@@ -73,21 +68,15 @@ class ChromeI18N extends ChromeApi {
    * Detects the language of the provided text using CLD.
    * 
    * [text] User input string to be translated.
-   * 
-   * Returns:
-   * LanguageDetectionResult object that holds detected langugae reliability and
-   * array of DetectedLanguage
    */
-  Future<Map> detectLanguage(String text) {
+  void detectLanguage(String text) {
     if (_i18n == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Map>.oneArg(mapify);
-    _i18n.callMethod('detectLanguage', [text, completer.callback]);
-    return completer.future;
+    _i18n.callMethod('detectLanguage', [text]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.i18n' is not available");
+    throw  UnsupportedError("'chrome.i18n' is not available");
   }
 }
 
@@ -103,4 +92,18 @@ class LanguageCode extends ChromeObject {
   LanguageCode.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 }
 
-LanguageCode _createLanguageCode(JsObject jsProxy) => jsProxy == null ? null : new LanguageCode.fromProxy(jsProxy);
+class I18nGetMessageParams extends ChromeObject {
+  I18nGetMessageParams({bool? escapeLt}) {
+    if (escapeLt != null) this.escapeLt = escapeLt;
+  }
+  I18nGetMessageParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * Escape `<` in translation to `&amp;lt;`. This applies only to the message
+   * itself, not to the placeholders. Developers might want to use this if the
+   * translation is used in an HTML context. Closure Templates used with Closure
+   * Compiler generate this automatically.
+   */
+  bool get escapeLt => jsProxy['escapeLt'];
+  set escapeLt(bool value) => jsProxy['escapeLt'] = value;
+}

@@ -11,32 +11,32 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.notifications` namespace.
  */
-final ChromeNotifications notifications = new ChromeNotifications._();
+final ChromeNotifications notifications = ChromeNotifications._();
 
 class ChromeNotifications extends ChromeApi {
   JsObject get _notifications => chrome['notifications'];
 
   Stream<OnClosedEvent> get onClosed => _onClosed.stream;
-  ChromeStreamController<OnClosedEvent> _onClosed;
+  late ChromeStreamController<OnClosedEvent> _onClosed;
 
   Stream<String> get onClicked => _onClicked.stream;
-  ChromeStreamController<String> _onClicked;
+  late ChromeStreamController<String> _onClicked;
 
   Stream<OnButtonClickedEvent> get onButtonClicked => _onButtonClicked.stream;
-  ChromeStreamController<OnButtonClickedEvent> _onButtonClicked;
+  late ChromeStreamController<OnButtonClickedEvent> _onButtonClicked;
 
   Stream<PermissionLevel> get onPermissionLevelChanged => _onPermissionLevelChanged.stream;
-  ChromeStreamController<PermissionLevel> _onPermissionLevelChanged;
+  late ChromeStreamController<PermissionLevel> _onPermissionLevelChanged;
 
   Stream get onShowSettings => _onShowSettings.stream;
-  ChromeStreamController _onShowSettings;
+  late ChromeStreamController _onShowSettings;
 
   ChromeNotifications._() {
     var getApi = () => _notifications;
-    _onClosed = new ChromeStreamController<OnClosedEvent>.twoArgs(getApi, 'onClosed', _createOnClosedEvent);
-    _onClicked = new ChromeStreamController<String>.oneArg(getApi, 'onClicked', selfConverter);
-    _onButtonClicked = new ChromeStreamController<OnButtonClickedEvent>.twoArgs(getApi, 'onButtonClicked', _createOnButtonClickedEvent);
-    _onPermissionLevelChanged = new ChromeStreamController<PermissionLevel>.oneArg(getApi, 'onPermissionLevelChanged', _createPermissionLevel);
+    _onClosed = ChromeStreamController<OnClosedEvent>.twoArgs(getApi, 'onClosed', _createOnClosedEvent);
+    _onClicked = ChromeStreamController<String>.oneArg(getApi, 'onClicked', selfConverter);
+    _onButtonClicked = ChromeStreamController<OnButtonClickedEvent>.twoArgs(getApi, 'onButtonClicked', _createOnButtonClickedEvent);
+    _onPermissionLevelChanged = ChromeStreamController<PermissionLevel>.oneArg(getApi, 'onPermissionLevelChanged', _createPermissionLevel);
     _onShowSettings = new ChromeStreamController.noArgs(getApi, 'onShowSettings');
   }
 
@@ -47,7 +47,7 @@ class ChromeNotifications extends ChromeApi {
    * [notificationId]: Identifier of the notification. If not set or empty, an
    * ID will automatically be generated. If it matches an existing notification,
    * this method first clears that notification before proceeding with the
-   * create operation.
+   * create operation. The identifier may not be longer than 500 characters.
    * 
    * The `notificationId` parameter is required before Chrome 42.
    * [options]: Contents of the notification.
@@ -56,10 +56,10 @@ class ChromeNotifications extends ChromeApi {
    * 
    * The callback is required before Chrome 42.
    */
-  Future<String> create(NotificationOptions options, [String notificationId]) {
+  Future<String> create(NotificationOptions options, [String? notificationId]) {
     if (_notifications == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _notifications.callMethod('create', [notificationId, jsify(options), completer.callback]);
     return completer.future;
   }
@@ -76,7 +76,7 @@ class ChromeNotifications extends ChromeApi {
   Future<bool> update(String notificationId, NotificationOptions options) {
     if (_notifications == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
+    var completer =  ChromeCompleter<bool>.oneArg();
     _notifications.callMethod('update', [notificationId, jsify(options), completer.callback]);
     return completer.future;
   }
@@ -92,19 +92,19 @@ class ChromeNotifications extends ChromeApi {
   Future<bool> clear(String notificationId) {
     if (_notifications == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
+    var completer =  ChromeCompleter<bool>.oneArg();
     _notifications.callMethod('clear', [notificationId, completer.callback]);
     return completer.future;
   }
 
   /**
-   * Retrieves all the notifications.
+   * Retrieves all the notifications of this app or extension.
    * [callback]: Returns the set of notification_ids currently in the system.
    */
-  Future<dynamic> getAll() {
+  Future<Object> getAll() {
     if (_notifications == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
+    var completer =  ChromeCompleter<Object>.oneArg();
     _notifications.callMethod('getAll', [completer.callback]);
     return completer.future;
   }
@@ -117,13 +117,13 @@ class ChromeNotifications extends ChromeApi {
   Future<PermissionLevel> getPermissionLevel() {
     if (_notifications == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<PermissionLevel>.oneArg(_createPermissionLevel);
+    var completer =  ChromeCompleter<PermissionLevel>.oneArg(_createPermissionLevel);
     _notifications.callMethod('getPermissionLevel', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.notifications' is not available");
+    throw  UnsupportedError("'chrome.notifications' is not available");
   }
 }
 
@@ -164,7 +164,7 @@ class PermissionLevel extends ChromeEnum {
 }
 
 class NotificationItem extends ChromeObject {
-  NotificationItem({String title, String message}) {
+  NotificationItem({String? title, String? message}) {
     if (title != null) this.title = title;
     if (message != null) this.message = message;
   }
@@ -178,7 +178,7 @@ class NotificationItem extends ChromeObject {
 }
 
 class NotificationBitmap extends ChromeObject {
-  NotificationBitmap({int width, int height, ArrayBuffer data}) {
+  NotificationBitmap({int? width, int? height, ArrayBuffer? data}) {
     if (width != null) this.width = width;
     if (height != null) this.height = height;
     if (data != null) this.data = data;
@@ -196,7 +196,7 @@ class NotificationBitmap extends ChromeObject {
 }
 
 class NotificationButton extends ChromeObject {
-  NotificationButton({String title, String iconUrl, NotificationBitmap iconBitmap}) {
+  NotificationButton({String? title, String? iconUrl, NotificationBitmap? iconBitmap}) {
     if (title != null) this.title = title;
     if (iconUrl != null) this.iconUrl = iconUrl;
     if (iconBitmap != null) this.iconBitmap = iconBitmap;
@@ -214,7 +214,7 @@ class NotificationButton extends ChromeObject {
 }
 
 class NotificationOptions extends ChromeObject {
-  NotificationOptions({TemplateType type, String iconUrl, NotificationBitmap iconBitmap, String appIconMaskUrl, NotificationBitmap appIconMaskBitmap, String title, String message, String contextMessage, int priority, num eventTime, List<NotificationButton> buttons, String expandedMessage, String imageUrl, NotificationBitmap imageBitmap, List<NotificationItem> items, int progress, bool isClickable, bool requireInteraction}) {
+  NotificationOptions({TemplateType? type, String? iconUrl, NotificationBitmap? iconBitmap, String? appIconMaskUrl, NotificationBitmap? appIconMaskBitmap, String? title, String? message, String? contextMessage, int? priority, num? eventTime, List<NotificationButton>? buttons, String? expandedMessage, String? imageUrl, NotificationBitmap? imageBitmap, List<NotificationItem>? items, int? progress, bool? isClickable, bool? requireInteraction, bool? silent}) {
     if (type != null) this.type = type;
     if (iconUrl != null) this.iconUrl = iconUrl;
     if (iconBitmap != null) this.iconBitmap = iconBitmap;
@@ -233,6 +233,7 @@ class NotificationOptions extends ChromeObject {
     if (progress != null) this.progress = progress;
     if (isClickable != null) this.isClickable = isClickable;
     if (requireInteraction != null) this.requireInteraction = requireInteraction;
+    if (silent != null) this.silent = silent;
   }
   NotificationOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -289,15 +290,18 @@ class NotificationOptions extends ChromeObject {
 
   bool get requireInteraction => jsProxy['requireInteraction'];
   set requireInteraction(bool value) => jsProxy['requireInteraction'] = value;
+
+  bool get silent => jsProxy['silent'];
+  set silent(bool value) => jsProxy['silent'] = value;
 }
 
 OnClosedEvent _createOnClosedEvent(String notificationId, bool byUser) =>
-    new OnClosedEvent(notificationId, byUser);
+    OnClosedEvent(notificationId, byUser);
 OnButtonClickedEvent _createOnButtonClickedEvent(String notificationId, int buttonIndex) =>
-    new OnButtonClickedEvent(notificationId, buttonIndex);
+    OnButtonClickedEvent(notificationId, buttonIndex);
 PermissionLevel _createPermissionLevel(String value) => PermissionLevel.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => jsProxy == null ? null : new ArrayBuffer.fromProxy(jsProxy);
-NotificationBitmap _createNotificationBitmap(JsObject jsProxy) => jsProxy == null ? null : new NotificationBitmap.fromProxy(jsProxy);
+ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => ArrayBuffer.fromProxy(jsProxy);
+NotificationBitmap _createNotificationBitmap(JsObject jsProxy) => NotificationBitmap.fromProxy(jsProxy);
 TemplateType _createTemplateType(String value) => TemplateType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-NotificationButton _createNotificationButton(JsObject jsProxy) => jsProxy == null ? null : new NotificationButton.fromProxy(jsProxy);
-NotificationItem _createNotificationItem(JsObject jsProxy) => jsProxy == null ? null : new NotificationItem.fromProxy(jsProxy);
+NotificationButton _createNotificationButton(JsObject jsProxy) => NotificationButton.fromProxy(jsProxy);
+NotificationItem _createNotificationItem(JsObject jsProxy) => NotificationItem.fromProxy(jsProxy);

@@ -14,7 +14,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.pageAction` namespace.
  */
-final ChromePageAction pageAction = new ChromePageAction._();
+final ChromePageAction pageAction = ChromePageAction._();
 
 class ChromePageAction extends ChromeApi {
   JsObject get _pageAction => chrome['pageAction'];
@@ -24,11 +24,11 @@ class ChromePageAction extends ChromeApi {
    * page action has a popup.
    */
   Stream<Tab> get onClicked => _onClicked.stream;
-  ChromeStreamController<Tab> _onClicked;
+  late ChromeStreamController<Tab> _onClicked;
 
   ChromePageAction._() {
     var getApi = () => _pageAction;
-    _onClicked = new ChromeStreamController<Tab>.oneArg(getApi, 'onClicked', _createTab);
+    _onClicked = ChromeStreamController<Tab>.oneArg(getApi, 'onClicked', _createTab);
   }
 
   bool get available => _pageAction != null;
@@ -70,12 +70,10 @@ class ChromePageAction extends ChromeApi {
   /**
    * Gets the title of the page action.
    */
-  Future<String> getTitle(PageActionGetTitleParams details) {
+  void getTitle(TabDetails details) {
     if (_pageAction == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _pageAction.callMethod('getTitle', [jsify(details), completer.callback]);
-    return completer.future;
+    _pageAction.callMethod('getTitle', [jsify(details)]);
   }
 
   /**
@@ -84,16 +82,14 @@ class ChromePageAction extends ChromeApi {
    * dictionary of either one of those. Either the <b>path</b> or the
    * <b>imageData</b> property must be specified.
    */
-  Future setIcon(PageActionSetIconParams details) {
+  void setIcon(PageActionSetIconParams details) {
     if (_pageAction == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _pageAction.callMethod('setIcon', [jsify(details), completer.callback]);
-    return completer.future;
+    _pageAction.callMethod('setIcon', [jsify(details)]);
   }
 
   /**
-   * Sets the html document to be opened as a popup when the user clicks on the
+   * Sets the HTML document to be opened as a popup when the user clicks on the
    * page action's icon.
    */
   void setPopup(PageActionSetPopupParams details) {
@@ -105,21 +101,33 @@ class ChromePageAction extends ChromeApi {
   /**
    * Gets the html document set as the popup for this page action.
    */
-  Future<String> getPopup(PageActionGetPopupParams details) {
+  void getPopup(TabDetails details) {
     if (_pageAction == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _pageAction.callMethod('getPopup', [jsify(details), completer.callback]);
-    return completer.future;
+    _pageAction.callMethod('getPopup', [jsify(details)]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.pageAction' is not available");
+    throw  UnsupportedError("'chrome.pageAction' is not available");
   }
 }
 
+class TabDetails extends ChromeObject {
+  TabDetails({int? tabId}) {
+    if (tabId != null) this.tabId = tabId;
+  }
+  TabDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  /**
+   * The ID of the tab to query state for. If no tab is specified, the
+   * non-tab-specific state is returned.
+   */
+  int get tabId => jsProxy['tabId'];
+  set tabId(int value) => jsProxy['tabId'] = value;
+}
+
 class PageActionSetTitleParams extends ChromeObject {
-  PageActionSetTitleParams({int tabId, String title}) {
+  PageActionSetTitleParams({int? tabId, String? title}) {
     if (tabId != null) this.tabId = tabId;
     if (title != null) this.title = title;
   }
@@ -138,21 +146,8 @@ class PageActionSetTitleParams extends ChromeObject {
   set title(String value) => jsProxy['title'] = value;
 }
 
-class PageActionGetTitleParams extends ChromeObject {
-  PageActionGetTitleParams({int tabId}) {
-    if (tabId != null) this.tabId = tabId;
-  }
-  PageActionGetTitleParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * Specify the tab to get the title from.
-   */
-  int get tabId => jsProxy['tabId'];
-  set tabId(int value) => jsProxy['tabId'] = value;
-}
-
 class PageActionSetIconParams extends ChromeObject {
-  PageActionSetIconParams({int tabId, var imageData, var path, int iconIndex}) {
+  PageActionSetIconParams({int? tabId, Object? imageData, Object? path, int? iconIndex}) {
     if (tabId != null) this.tabId = tabId;
     if (imageData != null) this.imageData = imageData;
     if (path != null) this.path = path;
@@ -175,8 +170,8 @@ class PageActionSetIconParams extends ChromeObject {
    * the UI. At least one image must be specified. Note that 'details.imageData
    * = foo' is equivalent to 'details.imageData = {'16': foo}'
    */
-  dynamic get imageData => jsProxy['imageData'];
-  set imageData(var value) => jsProxy['imageData'] = jsify(value);
+  Object get imageData => jsProxy['imageData'];
+  set imageData(Object value) => jsProxy['imageData'] = jsify(value);
 
   /**
    * Either a relative image path or a dictionary {size -> relative image path}
@@ -187,8 +182,8 @@ class PageActionSetIconParams extends ChromeObject {
    * size of the icon in the UI. At least one image must be specified. Note that
    * 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
    */
-  dynamic get path => jsProxy['path'];
-  set path(var value) => jsProxy['path'] = jsify(value);
+  Object get path => jsProxy['path'];
+  set path(Object value) => jsProxy['path'] = jsify(value);
 
   /**
    * <b>Deprecated.</b> This argument is ignored.
@@ -198,7 +193,7 @@ class PageActionSetIconParams extends ChromeObject {
 }
 
 class PageActionSetPopupParams extends ChromeObject {
-  PageActionSetPopupParams({int tabId, String popup}) {
+  PageActionSetPopupParams({int? tabId, String? popup}) {
     if (tabId != null) this.tabId = tabId;
     if (popup != null) this.popup = popup;
   }
@@ -211,24 +206,11 @@ class PageActionSetPopupParams extends ChromeObject {
   set tabId(int value) => jsProxy['tabId'] = value;
 
   /**
-   * The html file to show in a popup.  If set to the empty string (''), no
-   * popup is shown.
+   * The relative path to the HTML file to show in a popup. If set to the empty
+   * string (`''`), no popup is shown.
    */
   String get popup => jsProxy['popup'];
   set popup(String value) => jsProxy['popup'] = value;
 }
 
-class PageActionGetPopupParams extends ChromeObject {
-  PageActionGetPopupParams({int tabId}) {
-    if (tabId != null) this.tabId = tabId;
-  }
-  PageActionGetPopupParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * Specify the tab to get the popup from.
-   */
-  int get tabId => jsProxy['tabId'];
-  set tabId(int value) => jsProxy['tabId'] = value;
-}
-
-Tab _createTab(JsObject jsProxy) => jsProxy == null ? null : new Tab.fromProxy(jsProxy);
+Tab _createTab(JsObject jsProxy) => Tab.fromProxy(jsProxy);

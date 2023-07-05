@@ -10,7 +10,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.instanceID` namespace.
  */
-final ChromeInstanceID instanceID = new ChromeInstanceID._();
+final ChromeInstanceID instanceID = ChromeInstanceID._();
 
 class ChromeInstanceID extends ChromeApi {
   JsObject get _instanceID => chrome['instanceID'];
@@ -19,7 +19,7 @@ class ChromeInstanceID extends ChromeApi {
    * Fired when all the granted tokens need to be refreshed.
    */
   Stream get onTokenRefresh => _onTokenRefresh.stream;
-  ChromeStreamController _onTokenRefresh;
+  late ChromeStreamController _onTokenRefresh;
 
   ChromeInstanceID._() {
     var getApi = () => _instanceID;
@@ -32,32 +32,21 @@ class ChromeInstanceID extends ChromeApi {
    * Retrieves an identifier for the app instance. The instance ID will be
    * returned by the `callback`. The same ID will be returned as long as the
    * application identity has not been revoked or expired.
-   * 
-   * Returns:
-   * An Instance ID assigned to the app instance.
    */
-  Future<String> getID() {
+  void getID() {
     if (_instanceID == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _instanceID.callMethod('getID', [completer.callback]);
-    return completer.future;
+    _instanceID.callMethod('getID');
   }
 
   /**
    * Retrieves the time when the InstanceID has been generated. The creation
    * time will be returned by the `callback`.
-   * 
-   * Returns:
-   * The time when the Instance ID has been generated, represented in
-   * milliseconds since the epoch.
    */
-  Future<dynamic> getCreationTime() {
+  void getCreationTime() {
     if (_instanceID == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
-    _instanceID.callMethod('getCreationTime', [completer.callback]);
-    return completer.future;
+    _instanceID.callMethod('getCreationTime');
   }
 
   /**
@@ -65,16 +54,11 @@ class ChromeInstanceID extends ChromeApi {
    * defined by scope.
    * 
    * [getTokenParams] Parameters for getToken.
-   * 
-   * Returns:
-   * A token assigned by the requested service.
    */
-  Future<String> getToken(InstanceIDGetTokenParams getTokenParams) {
+  void getToken(InstanceIDGetTokenParams getTokenParams) {
     if (_instanceID == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
-    _instanceID.callMethod('getToken', [jsify(getTokenParams), completer.callback]);
-    return completer.future;
+    _instanceID.callMethod('getToken', [jsify(getTokenParams)]);
   }
 
   /**
@@ -82,33 +66,29 @@ class ChromeInstanceID extends ChromeApi {
    * 
    * [deleteTokenParams] Parameters for deleteToken.
    */
-  Future deleteToken(InstanceIDDeleteTokenParams deleteTokenParams) {
+  void deleteToken(InstanceIDDeleteTokenParams deleteTokenParams) {
     if (_instanceID == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _instanceID.callMethod('deleteToken', [jsify(deleteTokenParams), completer.callback]);
-    return completer.future;
+    _instanceID.callMethod('deleteToken', [jsify(deleteTokenParams)]);
   }
 
   /**
    * Resets the app instance identifier and revokes all tokens associated with
    * it.
    */
-  Future deleteID() {
+  void deleteID() {
     if (_instanceID == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _instanceID.callMethod('deleteID', [completer.callback]);
-    return completer.future;
+    _instanceID.callMethod('deleteID');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.instanceID' is not available");
+    throw  UnsupportedError("'chrome.instanceID' is not available");
   }
 }
 
 class InstanceIDGetTokenParams extends ChromeObject {
-  InstanceIDGetTokenParams({String authorizedEntity, String scope, Map options}) {
+  InstanceIDGetTokenParams({String? authorizedEntity, String? scope, Map? options}) {
     if (authorizedEntity != null) this.authorizedEntity = authorizedEntity;
     if (scope != null) this.scope = scope;
     if (options != null) this.options = options;
@@ -139,7 +119,7 @@ class InstanceIDGetTokenParams extends ChromeObject {
 }
 
 class InstanceIDDeleteTokenParams extends ChromeObject {
-  InstanceIDDeleteTokenParams({String authorizedEntity, String scope}) {
+  InstanceIDDeleteTokenParams({String? authorizedEntity, String? scope}) {
     if (authorizedEntity != null) this.authorizedEntity = authorizedEntity;
     if (scope != null) this.scope = scope;
   }

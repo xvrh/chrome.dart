@@ -44,7 +44,7 @@ class DefaultBackend extends Backend {
 
   DartGenerator generator;
 
-  final Set<String> _neededFactories = new Set<String>();
+  final _neededFactories = <String>{};
 
   int _apiCheckCount = 0;
 
@@ -189,7 +189,7 @@ class DefaultBackend extends Backend {
       generator.writeln();
       generator.writeln('void _throwNotAvailable() {');
       generator.writeln(
-          'throw new UnsupportedError("\'chrome.${library.name}\' is not available");');
+          'throw  UnsupportedError("\'chrome.${library.name}\' is not available");');
       generator.writeln("}");
     }
 
@@ -237,7 +237,7 @@ class DefaultBackend extends Backend {
       }
       generator.write('[');
       generator.write(method.optionalParams
-          .map((p) => "${p.toParamString(true)} ${p.name}")
+          .map((p) => "${p.toParamString(true)}? ${p.name}")
           .join(', '));
       generator.write(']');
     }
@@ -251,7 +251,7 @@ class DefaultBackend extends Backend {
     if (method.usesCallback) {
       ChromeType future = method.returns;
       var returnType = future.getReturnStringTypeParams();
-      generator.write("var completer = new ChromeCompleter${returnType}.");
+      generator.write("var completer =  ChromeCompleter${returnType}.");
       if (future.parameters.length == 0) {
         generator.writeln("noArgs();");
       } else if (future.parameters.length == 1 &&
@@ -314,10 +314,11 @@ class DefaultBackend extends Backend {
     if (type != null) {
       generator.writeln(
           "Stream<${typeName}> get ${event.name} => _${event.name}.stream;");
-      generator.writeln("ChromeStreamController<${typeName}> _${event.name};");
+      generator
+          .writeln("late ChromeStreamController<${typeName}> _${event.name};");
     } else {
       generator.writeln("Stream get ${event.name} => _${event.name}.stream;");
-      generator.writeln("ChromeStreamController _${event.name};");
+      generator.writeln("late ChromeStreamController _${event.name};");
     }
   }
 
@@ -330,11 +331,16 @@ class DefaultBackend extends Backend {
       String? converter = getCallbackConverter(type);
       if (converter == null) converter = 'selfConverter';
 
-      String argCallArity =
-          ['noArgs', 'oneArg', 'twoArgs', 'threeArgs'][type.arity];
-      generator
-          .writeln("new ChromeStreamController<${typeName}>.${argCallArity}("
-              "${api}, '${event.name}', ${converter});");
+      String argCallArity = [
+        'noArgs',
+        'oneArg',
+        'twoArgs',
+        'threeArgs',
+        'fourArgs',
+        'fiveArgs'
+      ][type.arity];
+      generator.writeln("ChromeStreamController<${typeName}>.${argCallArity}("
+          "${api}, '${event.name}', ${converter});");
     } else {
       generator.writeln("_${event.name} = new ChromeStreamController.noArgs("
           "${api}, '${event.name}');");
@@ -415,7 +421,8 @@ class DefaultBackend extends Backend {
       var actualProps = props
           .where((p) => p.type.type != 'function' && p.type.refName != 'Event');
       generator.write("${className}({");
-      generator.write(actualProps.map((p) => "${p.type} ${p.name}").join(', '));
+      generator
+          .write(actualProps.map((p) => "${p.type}? ${p.name}").join(', '));
       generator.writeln('}) {');
       actualProps.forEach((ChromeProperty p) {
         generator.writeln("if (${p.name} != null) this.${p.name} = ${p.name};");
@@ -458,10 +465,11 @@ class DefaultBackend extends Backend {
 
     ChromeType? type = event.calculateType(library);
     if (type != null) {
-      generator.writeln("ChromeStreamController<${typeName}> _${event.name};");
+      generator
+          .writeln("late ChromeStreamController<${typeName}> _${event.name};");
       generator.writeln("Stream<${typeName}> get ${event.name} {");
     } else {
-      generator.writeln("ChromeStreamController _${event.name};");
+      generator.writeln("late ChromeStreamController _${event.name};");
       generator.writeln("Stream get ${event.name} {");
     }
 
@@ -531,7 +539,7 @@ class DefaultBackend extends Backend {
           return "${cvt}(${p.name})";
         }
       }).join(', ');
-      generator.writeln("    new ${creator}(${cvtParams});");
+      generator.writeln("    ${creator}(${cvtParams});");
       return;
     }
 
@@ -542,14 +550,13 @@ class DefaultBackend extends Backend {
           "%s _create%s(String value) => %s.VALUES.singleWhere((ChromeEnum e) => e.value == value);";
     } else if (creator == 'ArrayBuffer') {
       creatorTemplate =
-          "%s _create%s(/*JsObject*/ jsProxy) => jsProxy == null ? null : new %t.fromProxy(jsProxy);";
+          "%s _create%s(/*JsObject*/ jsProxy) => %t.fromProxy(jsProxy);";
     } else {
       creatorTemplate =
-          "%s _create%s(JsObject jsProxy) => jsProxy == null ? null : new %t.fromProxy(jsProxy);";
+          "%s _create%s(JsObject jsProxy) => %t.fromProxy(jsProxy);";
     }
 
-    String altCreator =
-        ALT_FACTORIES.containsKey(creator) ? ALT_FACTORIES[creator]! : creator;
+    String altCreator = ALT_FACTORIES[creator] ?? creator;
 
     generator.writeln(
         creatorTemplate.replaceAll('%s', creator).replaceAll('%t', altCreator));

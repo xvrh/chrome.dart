@@ -9,41 +9,40 @@ library chrome.printerProvider;
 
 import '../src/files.dart';
 import '../src/common.dart';
-import '../gen/usb.dart';
 
 /**
  * Accessor for the `chrome.printerProvider` namespace.
  */
-final ChromePrinterProvider printerProvider = new ChromePrinterProvider._();
+final ChromePrinterProvider printerProvider = ChromePrinterProvider._();
 
 class ChromePrinterProvider extends ChromeApi {
   JsObject get _printerProvider => chrome['printerProvider'];
 
   Stream<PrintersCallback> get onGetPrintersRequested => _onGetPrintersRequested.stream;
-  ChromeStreamController<PrintersCallback> _onGetPrintersRequested;
+  late ChromeStreamController<PrintersCallback> _onGetPrintersRequested;
 
   Stream<OnGetUsbPrinterInfoRequestedEvent> get onGetUsbPrinterInfoRequested => _onGetUsbPrinterInfoRequested.stream;
-  ChromeStreamController<OnGetUsbPrinterInfoRequestedEvent> _onGetUsbPrinterInfoRequested;
+  late ChromeStreamController<OnGetUsbPrinterInfoRequestedEvent> _onGetUsbPrinterInfoRequested;
 
   Stream<OnGetCapabilityRequestedEvent> get onGetCapabilityRequested => _onGetCapabilityRequested.stream;
-  ChromeStreamController<OnGetCapabilityRequestedEvent> _onGetCapabilityRequested;
+  late ChromeStreamController<OnGetCapabilityRequestedEvent> _onGetCapabilityRequested;
 
   Stream<OnPrintRequestedEvent> get onPrintRequested => _onPrintRequested.stream;
-  ChromeStreamController<OnPrintRequestedEvent> _onPrintRequested;
+  late ChromeStreamController<OnPrintRequestedEvent> _onPrintRequested;
 
   ChromePrinterProvider._() {
     var getApi = () => _printerProvider;
-    _onGetPrintersRequested = new ChromeStreamController<PrintersCallback>.oneArg(getApi, 'onGetPrintersRequested', _createPrintersCallback);
-    _onGetUsbPrinterInfoRequested = new ChromeStreamController<OnGetUsbPrinterInfoRequestedEvent>.twoArgs(getApi, 'onGetUsbPrinterInfoRequested', _createOnGetUsbPrinterInfoRequestedEvent);
-    _onGetCapabilityRequested = new ChromeStreamController<OnGetCapabilityRequestedEvent>.twoArgs(getApi, 'onGetCapabilityRequested', _createOnGetCapabilityRequestedEvent);
-    _onPrintRequested = new ChromeStreamController<OnPrintRequestedEvent>.twoArgs(getApi, 'onPrintRequested', _createOnPrintRequestedEvent);
+    _onGetPrintersRequested = ChromeStreamController<PrintersCallback>.oneArg(getApi, 'onGetPrintersRequested', _createPrintersCallback);
+    _onGetUsbPrinterInfoRequested = ChromeStreamController<OnGetUsbPrinterInfoRequestedEvent>.twoArgs(getApi, 'onGetUsbPrinterInfoRequested', _createOnGetUsbPrinterInfoRequestedEvent);
+    _onGetCapabilityRequested = ChromeStreamController<OnGetCapabilityRequestedEvent>.twoArgs(getApi, 'onGetCapabilityRequested', _createOnGetCapabilityRequestedEvent);
+    _onPrintRequested = ChromeStreamController<OnPrintRequestedEvent>.twoArgs(getApi, 'onPrintRequested', _createOnPrintRequestedEvent);
   }
 
   bool get available => _printerProvider != null;
 }
 
 class OnGetUsbPrinterInfoRequestedEvent {
-  final UsbDevice device;
+  final usb.Device device;
 
   final PrinterInfoCallback resultCallback;
 
@@ -84,7 +83,7 @@ class PrintError extends ChromeEnum {
  * Printer description for [onGetPrintersRequested] event.
  */
 class PrinterInfo extends ChromeObject {
-  PrinterInfo({String id, String name, String description}) {
+  PrinterInfo({String? id, String? name, String? description}) {
     if (id != null) this.id = id;
     if (name != null) this.name = name;
     if (description != null) this.description = description;
@@ -105,7 +104,7 @@ class PrinterInfo extends ChromeObject {
  * Printing request parameters. Passed to [onPrintRequested] event.
  */
 class PrintJob extends ChromeObject {
-  PrintJob({String printerId, String title, var ticket, String contentType, Blob document}) {
+  PrintJob({String? printerId, String? title, Object? ticket, String? contentType, Blob? document}) {
     if (printerId != null) this.printerId = printerId;
     if (title != null) this.title = title;
     if (ticket != null) this.ticket = ticket;
@@ -120,8 +119,8 @@ class PrintJob extends ChromeObject {
   String get title => jsProxy['title'];
   set title(String value) => jsProxy['title'] = value;
 
-  dynamic get ticket => jsProxy['ticket'];
-  set ticket(var value) => jsProxy['ticket'] = jsify(value);
+  Object get ticket => jsProxy['ticket'];
+  set ticket(Object value) => jsProxy['ticket'] = jsify(value);
 
   String get contentType => jsProxy['contentType'];
   set contentType(String value) => jsProxy['contentType'] = value;
@@ -130,16 +129,16 @@ class PrintJob extends ChromeObject {
   set document(Blob value) => jsProxy['document'] = jsify(value);
 }
 
-PrintersCallback _createPrintersCallback(JsObject jsProxy) => jsProxy == null ? null : new PrintersCallback.fromProxy(jsProxy);
+PrintersCallback _createPrintersCallback(JsObject jsProxy) => PrintersCallback.fromProxy(jsProxy);
 OnGetUsbPrinterInfoRequestedEvent _createOnGetUsbPrinterInfoRequestedEvent(JsObject device, JsObject resultCallback) =>
-    new OnGetUsbPrinterInfoRequestedEvent(_createUsbDevice(device), _createPrinterInfoCallback(resultCallback));
+    OnGetUsbPrinterInfoRequestedEvent(_createusb.Device(device), _createPrinterInfoCallback(resultCallback));
 OnGetCapabilityRequestedEvent _createOnGetCapabilityRequestedEvent(String printerId, JsObject resultCallback) =>
-    new OnGetCapabilityRequestedEvent(printerId, _createCapabilitiesCallback(resultCallback));
+    OnGetCapabilityRequestedEvent(printerId, _createCapabilitiesCallback(resultCallback));
 OnPrintRequestedEvent _createOnPrintRequestedEvent(JsObject printJob, JsObject resultCallback) =>
-    new OnPrintRequestedEvent(_createPrintJob(printJob), _createPrintCallback(resultCallback));
-Blob _createBlob(JsObject jsProxy) => jsProxy == null ? null : new CrBlob.fromProxy(jsProxy);
-UsbDevice _createUsbDevice(JsObject jsProxy) => jsProxy == null ? null : new UsbDevice.fromProxy(jsProxy);
-PrinterInfoCallback _createPrinterInfoCallback(JsObject jsProxy) => jsProxy == null ? null : new PrinterInfoCallback.fromProxy(jsProxy);
-CapabilitiesCallback _createCapabilitiesCallback(JsObject jsProxy) => jsProxy == null ? null : new CapabilitiesCallback.fromProxy(jsProxy);
-PrintJob _createPrintJob(JsObject jsProxy) => jsProxy == null ? null : new PrintJob.fromProxy(jsProxy);
-PrintCallback _createPrintCallback(JsObject jsProxy) => jsProxy == null ? null : new PrintCallback.fromProxy(jsProxy);
+    OnPrintRequestedEvent(_createPrintJob(printJob), _createPrintCallback(resultCallback));
+Blob _createBlob(JsObject jsProxy) => CrBlob.fromProxy(jsProxy);
+usb.Device _createusb.Device(JsObject jsProxy) => usb.Device.fromProxy(jsProxy);
+PrinterInfoCallback _createPrinterInfoCallback(JsObject jsProxy) => PrinterInfoCallback.fromProxy(jsProxy);
+CapabilitiesCallback _createCapabilitiesCallback(JsObject jsProxy) => CapabilitiesCallback.fromProxy(jsProxy);
+PrintJob _createPrintJob(JsObject jsProxy) => PrintJob.fromProxy(jsProxy);
+PrintCallback _createPrintCallback(JsObject jsProxy) => PrintCallback.fromProxy(jsProxy);

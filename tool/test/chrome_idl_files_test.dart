@@ -41,7 +41,7 @@ void main() {
         String webIdl = file.readAsStringSync();
         ChromeIDLParser chromeIDLParser = new ChromeIDLParser();
         IDLNamespaceDeclaration namespace =
-            chromeIDLParser.namespaceDeclaration.parse(webIdl);
+            chromeIDLParser.namespaceDeclaration.parse(webIdl).value;
         /*ChromeLibrary chromeLibrary =*/ convert(namespace);
       });
     });

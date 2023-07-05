@@ -12,7 +12,7 @@ abstract class ChromeElement {
   String? get name;
 
   void appendDocs(String str) {
-    if (documentation != null) {
+    if (documentation != null && documentation!.isNotEmpty) {
       documentation = "${documentation}\n${str}";
     } else {
       documentation = str;
@@ -123,13 +123,13 @@ class ChromeMethod extends ChromeElement {
     buf.write('\n');
 
     params.forEach((p) {
-      if (p.documentation != null) {
+      if (p.documentation != null && p.documentation!.isNotEmpty) {
         buf.write('\n');
         buf.write("[${p.name}] ${p.documentation}\n");
       }
     });
 
-    if (returns.documentation != null) {
+    if (returns.documentation != null && returns.documentation!.isNotEmpty) {
       buf.write("\nReturns:\n${returns.documentation}");
     }
 
@@ -144,7 +144,8 @@ class ChromeEvent extends ChromeType {
     if (parameters.length == 1) {
       return parameters[0];
     } else if (parameters.length > 1) {
-      String typeName = /*titleCase(library.name) +*/ titleCase(name) + 'Event';
+      String typeName = /*titleCase(library.name) +*/
+          titleCase(name) + 'Event';
 
       ChromeType newType = new ChromeType(type: ChromeType.VAR.type);
       newType.name = typeName;
@@ -168,7 +169,7 @@ class ChromeEvent extends ChromeType {
     }
   }
 
-  String toString() => name;
+  String toString() => '$name';
 }
 
 class ChromeDeclaredType extends ChromeType {
@@ -179,7 +180,7 @@ class ChromeDeclaredType extends ChromeType {
   bool noSetters = false;
   List<ChromeMethod> methods = [];
 
-  String toString() => name;
+  String toString() => '$name';
 }
 
 /**
@@ -198,7 +199,7 @@ class ChromeEnumType extends ChromeType {
   /// The list of values entries for enum types.
   List<ChromeEnumEntry> values = <ChromeEnumEntry>[];
 
-  String toString() => name;
+  String toString() => '$name';
 }
 
 class ChromeEnumEntry extends ChromeElement {
@@ -212,7 +213,7 @@ class ChromeEnumEntry extends ChromeElement {
 }
 
 class ChromeType extends ChromeElement {
-  static final ChromeType VAR = new ChromeType(type: 'var');
+  static final ChromeType VAR = new ChromeType(type: 'Object');
   static final ChromeType VOID = new ChromeType(type: 'void');
   static final ChromeType JS_OBJECT = new ChromeType(type: 'JsObject');
   static final ChromeType STRING = new ChromeType(type: 'String');
@@ -238,7 +239,7 @@ class ChromeType extends ChromeElement {
     }
   }
 
-  bool get isAny => (type == 'var' || type == 'function');
+  bool get isAny => (type == 'Object' || type == 'function');
   bool get isReferencedType => isAny && refName != null;
   bool get isVoid => type == 'void';
   bool get isFuture => type == 'Future';
@@ -258,7 +259,7 @@ class ChromeType extends ChromeElement {
 
   String toParamString([bool useDynamic = false]) {
     if (isAny && !isReferencedType) {
-      return useDynamic ? 'dynamic' : type;
+      return useDynamic ? 'Object' : type;
     } else if (parameters.isEmpty) {
       return refName != null ? refName! : type;
     } else {
@@ -270,7 +271,7 @@ class ChromeType extends ChromeElement {
     if (isReferencedType) {
       return refName!;
     } else if (isAny) {
-      return 'dynamic';
+      return 'Object';
     } else {
       return type + getReturnStringTypeParams();
     }

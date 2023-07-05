@@ -6,12 +6,13 @@
  */
 library chrome.webRequest;
 
+import 'extension_types.dart';
 import '../src/common.dart';
 
 /**
  * Accessor for the `chrome.webRequest` namespace.
  */
-final ChromeWebRequest webRequest = new ChromeWebRequest._();
+final ChromeWebRequest webRequest = ChromeWebRequest._();
 
 class ChromeWebRequest extends ChromeApi {
   JsObject get _webRequest => chrome['webRequest'];
@@ -20,7 +21,7 @@ class ChromeWebRequest extends ChromeApi {
    * Fired when a request is about to occur.
    */
   Stream<Map> get onBeforeRequest => _onBeforeRequest.stream;
-  ChromeStreamController<Map> _onBeforeRequest;
+  late ChromeStreamController<Map> _onBeforeRequest;
 
   /**
    * Fired before sending an HTTP request, once the request headers are
@@ -28,7 +29,7 @@ class ChromeWebRequest extends ChromeApi {
    * before any HTTP data is sent.
    */
   Stream<Map> get onBeforeSendHeaders => _onBeforeSendHeaders.stream;
-  ChromeStreamController<Map> _onBeforeSendHeaders;
+  late ChromeStreamController<Map> _onBeforeSendHeaders;
 
   /**
    * Fired just before a request is going to be sent to the server
@@ -36,13 +37,13 @@ class ChromeWebRequest extends ChromeApi {
    * time onSendHeaders is fired).
    */
   Stream<Map> get onSendHeaders => _onSendHeaders.stream;
-  ChromeStreamController<Map> _onSendHeaders;
+  late ChromeStreamController<Map> _onSendHeaders;
 
   /**
    * Fired when HTTP response headers of a request have been received.
    */
   Stream<Map> get onHeadersReceived => _onHeadersReceived.stream;
-  ChromeStreamController<Map> _onHeadersReceived;
+  late ChromeStreamController<Map> _onHeadersReceived;
 
   /**
    * Fired when an authentication failure is received. The listener has three
@@ -53,7 +54,7 @@ class ChromeWebRequest extends ChromeApi {
    * `'asyncBlocking'` modes must be specified in the `extraInfoSpec` parameter.
    */
   Stream<OnAuthRequiredEvent> get onAuthRequired => _onAuthRequired.stream;
-  ChromeStreamController<OnAuthRequiredEvent> _onAuthRequired;
+  late ChromeStreamController<OnAuthRequiredEvent> _onAuthRequired;
 
   /**
    * Fired when the first byte of the response body is received. For HTTP
@@ -61,37 +62,45 @@ class ChromeWebRequest extends ChromeApi {
    * available.
    */
   Stream<Map> get onResponseStarted => _onResponseStarted.stream;
-  ChromeStreamController<Map> _onResponseStarted;
+  late ChromeStreamController<Map> _onResponseStarted;
 
   /**
    * Fired when a server-initiated redirect is about to occur.
    */
   Stream<Map> get onBeforeRedirect => _onBeforeRedirect.stream;
-  ChromeStreamController<Map> _onBeforeRedirect;
+  late ChromeStreamController<Map> _onBeforeRedirect;
 
   /**
    * Fired when a request is completed.
    */
   Stream<Map> get onCompleted => _onCompleted.stream;
-  ChromeStreamController<Map> _onCompleted;
+  late ChromeStreamController<Map> _onCompleted;
 
   /**
    * Fired when an error occurs.
    */
   Stream<Map> get onErrorOccurred => _onErrorOccurred.stream;
-  ChromeStreamController<Map> _onErrorOccurred;
+  late ChromeStreamController<Map> _onErrorOccurred;
+
+  /**
+   * Fired when an extension's proposed modification to a network request is
+   * ignored. This happens in case of conflicts with other extensions.
+   */
+  Stream<Map> get onActionIgnored => _onActionIgnored.stream;
+  late ChromeStreamController<Map> _onActionIgnored;
 
   ChromeWebRequest._() {
     var getApi = () => _webRequest;
-    _onBeforeRequest = new ChromeStreamController<Map>.oneArg(getApi, 'onBeforeRequest', mapify);
-    _onBeforeSendHeaders = new ChromeStreamController<Map>.oneArg(getApi, 'onBeforeSendHeaders', mapify);
-    _onSendHeaders = new ChromeStreamController<Map>.oneArg(getApi, 'onSendHeaders', mapify);
-    _onHeadersReceived = new ChromeStreamController<Map>.oneArg(getApi, 'onHeadersReceived', mapify);
-    _onAuthRequired = new ChromeStreamController<OnAuthRequiredEvent>.twoArgs(getApi, 'onAuthRequired', _createOnAuthRequiredEvent);
-    _onResponseStarted = new ChromeStreamController<Map>.oneArg(getApi, 'onResponseStarted', mapify);
-    _onBeforeRedirect = new ChromeStreamController<Map>.oneArg(getApi, 'onBeforeRedirect', mapify);
-    _onCompleted = new ChromeStreamController<Map>.oneArg(getApi, 'onCompleted', mapify);
-    _onErrorOccurred = new ChromeStreamController<Map>.oneArg(getApi, 'onErrorOccurred', mapify);
+    _onBeforeRequest = ChromeStreamController<Map>.oneArg(getApi, 'onBeforeRequest', mapify);
+    _onBeforeSendHeaders = ChromeStreamController<Map>.oneArg(getApi, 'onBeforeSendHeaders', mapify);
+    _onSendHeaders = ChromeStreamController<Map>.oneArg(getApi, 'onSendHeaders', mapify);
+    _onHeadersReceived = ChromeStreamController<Map>.oneArg(getApi, 'onHeadersReceived', mapify);
+    _onAuthRequired = ChromeStreamController<OnAuthRequiredEvent>.twoArgs(getApi, 'onAuthRequired', _createOnAuthRequiredEvent);
+    _onResponseStarted = ChromeStreamController<Map>.oneArg(getApi, 'onResponseStarted', mapify);
+    _onBeforeRedirect = ChromeStreamController<Map>.oneArg(getApi, 'onBeforeRedirect', mapify);
+    _onCompleted = ChromeStreamController<Map>.oneArg(getApi, 'onCompleted', mapify);
+    _onErrorOccurred = ChromeStreamController<Map>.oneArg(getApi, 'onErrorOccurred', mapify);
+    _onActionIgnored = ChromeStreamController<Map>.oneArg(getApi, 'onActionIgnored', mapify);
   }
 
   bool get available => _webRequest != null;
@@ -111,13 +120,13 @@ class ChromeWebRequest extends ChromeApi {
   Future handlerBehaviorChanged() {
     if (_webRequest == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _webRequest.callMethod('handlerBehaviorChanged', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.webRequest' is not available");
+    throw  UnsupportedError("'chrome.webRequest' is not available");
   }
 }
 
@@ -140,7 +149,7 @@ class OnAuthRequiredEvent {
    * Only valid if `'asyncBlocking'` is specified as one of the
    * `OnAuthRequiredOptions`.
    */
-  final dynamic asyncCallback;
+  final Object asyncCallback;
 
   OnAuthRequiredEvent(this.details, this.asyncCallback);
 }
@@ -158,9 +167,10 @@ class ResourceType extends ChromeEnum {
   static const ResourceType CSP_REPORT = const ResourceType._('csp_report');
   static const ResourceType MEDIA = const ResourceType._('media');
   static const ResourceType WEBSOCKET = const ResourceType._('websocket');
+  static const ResourceType WEBBUNDLE = const ResourceType._('webbundle');
   static const ResourceType OTHER = const ResourceType._('other');
 
-  static const List<ResourceType> VALUES = const[MAIN_FRAME, SUB_FRAME, STYLESHEET, SCRIPT, IMAGE, FONT, OBJECT, XMLHTTPREQUEST, PING, CSP_REPORT, MEDIA, WEBSOCKET, OTHER];
+  static const List<ResourceType> VALUES = const[MAIN_FRAME, SUB_FRAME, STYLESHEET, SCRIPT, IMAGE, FONT, OBJECT, XMLHTTPREQUEST, PING, CSP_REPORT, MEDIA, WEBSOCKET, WEBBUNDLE, OTHER];
 
   const ResourceType._(String str): super(str);
 }
@@ -168,8 +178,9 @@ class ResourceType extends ChromeEnum {
 class OnBeforeRequestOptions extends ChromeEnum {
   static const OnBeforeRequestOptions BLOCKING = const OnBeforeRequestOptions._('blocking');
   static const OnBeforeRequestOptions REQUEST_BODY = const OnBeforeRequestOptions._('requestBody');
+  static const OnBeforeRequestOptions EXTRA_HEADERS = const OnBeforeRequestOptions._('extraHeaders');
 
-  static const List<OnBeforeRequestOptions> VALUES = const[BLOCKING, REQUEST_BODY];
+  static const List<OnBeforeRequestOptions> VALUES = const[BLOCKING, REQUEST_BODY, EXTRA_HEADERS];
 
   const OnBeforeRequestOptions._(String str): super(str);
 }
@@ -177,16 +188,18 @@ class OnBeforeRequestOptions extends ChromeEnum {
 class OnBeforeSendHeadersOptions extends ChromeEnum {
   static const OnBeforeSendHeadersOptions REQUEST_HEADERS = const OnBeforeSendHeadersOptions._('requestHeaders');
   static const OnBeforeSendHeadersOptions BLOCKING = const OnBeforeSendHeadersOptions._('blocking');
+  static const OnBeforeSendHeadersOptions EXTRA_HEADERS = const OnBeforeSendHeadersOptions._('extraHeaders');
 
-  static const List<OnBeforeSendHeadersOptions> VALUES = const[REQUEST_HEADERS, BLOCKING];
+  static const List<OnBeforeSendHeadersOptions> VALUES = const[REQUEST_HEADERS, BLOCKING, EXTRA_HEADERS];
 
   const OnBeforeSendHeadersOptions._(String str): super(str);
 }
 
 class OnSendHeadersOptions extends ChromeEnum {
   static const OnSendHeadersOptions REQUEST_HEADERS = const OnSendHeadersOptions._('requestHeaders');
+  static const OnSendHeadersOptions EXTRA_HEADERS = const OnSendHeadersOptions._('extraHeaders');
 
-  static const List<OnSendHeadersOptions> VALUES = const[REQUEST_HEADERS];
+  static const List<OnSendHeadersOptions> VALUES = const[REQUEST_HEADERS, EXTRA_HEADERS];
 
   const OnSendHeadersOptions._(String str): super(str);
 }
@@ -194,8 +207,9 @@ class OnSendHeadersOptions extends ChromeEnum {
 class OnHeadersReceivedOptions extends ChromeEnum {
   static const OnHeadersReceivedOptions BLOCKING = const OnHeadersReceivedOptions._('blocking');
   static const OnHeadersReceivedOptions RESPONSE_HEADERS = const OnHeadersReceivedOptions._('responseHeaders');
+  static const OnHeadersReceivedOptions EXTRA_HEADERS = const OnHeadersReceivedOptions._('extraHeaders');
 
-  static const List<OnHeadersReceivedOptions> VALUES = const[BLOCKING, RESPONSE_HEADERS];
+  static const List<OnHeadersReceivedOptions> VALUES = const[BLOCKING, RESPONSE_HEADERS, EXTRA_HEADERS];
 
   const OnHeadersReceivedOptions._(String str): super(str);
 }
@@ -204,38 +218,61 @@ class OnAuthRequiredOptions extends ChromeEnum {
   static const OnAuthRequiredOptions RESPONSE_HEADERS = const OnAuthRequiredOptions._('responseHeaders');
   static const OnAuthRequiredOptions BLOCKING = const OnAuthRequiredOptions._('blocking');
   static const OnAuthRequiredOptions ASYNC_BLOCKING = const OnAuthRequiredOptions._('asyncBlocking');
+  static const OnAuthRequiredOptions EXTRA_HEADERS = const OnAuthRequiredOptions._('extraHeaders');
 
-  static const List<OnAuthRequiredOptions> VALUES = const[RESPONSE_HEADERS, BLOCKING, ASYNC_BLOCKING];
+  static const List<OnAuthRequiredOptions> VALUES = const[RESPONSE_HEADERS, BLOCKING, ASYNC_BLOCKING, EXTRA_HEADERS];
 
   const OnAuthRequiredOptions._(String str): super(str);
 }
 
 class OnResponseStartedOptions extends ChromeEnum {
   static const OnResponseStartedOptions RESPONSE_HEADERS = const OnResponseStartedOptions._('responseHeaders');
+  static const OnResponseStartedOptions EXTRA_HEADERS = const OnResponseStartedOptions._('extraHeaders');
 
-  static const List<OnResponseStartedOptions> VALUES = const[RESPONSE_HEADERS];
+  static const List<OnResponseStartedOptions> VALUES = const[RESPONSE_HEADERS, EXTRA_HEADERS];
 
   const OnResponseStartedOptions._(String str): super(str);
 }
 
 class OnBeforeRedirectOptions extends ChromeEnum {
   static const OnBeforeRedirectOptions RESPONSE_HEADERS = const OnBeforeRedirectOptions._('responseHeaders');
+  static const OnBeforeRedirectOptions EXTRA_HEADERS = const OnBeforeRedirectOptions._('extraHeaders');
 
-  static const List<OnBeforeRedirectOptions> VALUES = const[RESPONSE_HEADERS];
+  static const List<OnBeforeRedirectOptions> VALUES = const[RESPONSE_HEADERS, EXTRA_HEADERS];
 
   const OnBeforeRedirectOptions._(String str): super(str);
 }
 
 class OnCompletedOptions extends ChromeEnum {
   static const OnCompletedOptions RESPONSE_HEADERS = const OnCompletedOptions._('responseHeaders');
+  static const OnCompletedOptions EXTRA_HEADERS = const OnCompletedOptions._('extraHeaders');
 
-  static const List<OnCompletedOptions> VALUES = const[RESPONSE_HEADERS];
+  static const List<OnCompletedOptions> VALUES = const[RESPONSE_HEADERS, EXTRA_HEADERS];
 
   const OnCompletedOptions._(String str): super(str);
 }
 
+class OnErrorOccurredOptions extends ChromeEnum {
+  static const OnErrorOccurredOptions EXTRA_HEADERS = const OnErrorOccurredOptions._('extraHeaders');
+
+  static const List<OnErrorOccurredOptions> VALUES = const[EXTRA_HEADERS];
+
+  const OnErrorOccurredOptions._(String str): super(str);
+}
+
+class IgnoredActionType extends ChromeEnum {
+  static const IgnoredActionType REDIRECT = const IgnoredActionType._('redirect');
+  static const IgnoredActionType REQUEST_HEADERS = const IgnoredActionType._('request_headers');
+  static const IgnoredActionType RESPONSE_HEADERS = const IgnoredActionType._('response_headers');
+  static const IgnoredActionType AUTH_CREDENTIALS = const IgnoredActionType._('auth_credentials');
+
+  static const List<IgnoredActionType> VALUES = const[REDIRECT, REQUEST_HEADERS, RESPONSE_HEADERS, AUTH_CREDENTIALS];
+
+  const IgnoredActionType._(String str): super(str);
+}
+
 class AuthCredentialsWebRequest extends ChromeObject {
-  AuthCredentialsWebRequest({String username, String password}) {
+  AuthCredentialsWebRequest({String? username, String? password}) {
     if (username != null) this.username = username;
     if (password != null) this.password = password;
   }
@@ -252,7 +289,7 @@ class AuthCredentialsWebRequest extends ChromeObject {
  * An object describing filters to apply to webRequest events.
  */
 class RequestFilter extends ChromeObject {
-  RequestFilter({List<String> urls, List<ResourceType> types, int tabId, int windowId}) {
+  RequestFilter({List<String>? urls, List<ResourceType>? types, int? tabId, int? windowId}) {
     if (urls != null) this.urls = urls;
     if (types != null) this.types = types;
     if (tabId != null) this.tabId = tabId;
@@ -295,7 +332,7 @@ class HttpHeaders extends ChromeObject {
  * applied. Allows the event handler to modify network requests.
  */
 class BlockingResponse extends ChromeObject {
-  BlockingResponse({bool cancel, String redirectUrl, HttpHeaders requestHeaders, HttpHeaders responseHeaders, AuthCredentialsWebRequest authCredentials}) {
+  BlockingResponse({bool? cancel, String? redirectUrl, HttpHeaders? requestHeaders, HttpHeaders? responseHeaders, AuthCredentialsWebRequest? authCredentials}) {
     if (cancel != null) this.cancel = cancel;
     if (redirectUrl != null) this.redirectUrl = redirectUrl;
     if (requestHeaders != null) this.requestHeaders = requestHeaders;
@@ -354,7 +391,7 @@ class BlockingResponse extends ChromeObject {
  * Contains data uploaded in a URL request.
  */
 class UploadData extends ChromeObject {
-  UploadData({var bytes, String file}) {
+  UploadData({Object? bytes, String? file}) {
     if (bytes != null) this.bytes = bytes;
     if (file != null) this.file = file;
   }
@@ -363,8 +400,8 @@ class UploadData extends ChromeObject {
   /**
    * An ArrayBuffer with a copy of the data.
    */
-  dynamic get bytes => jsProxy['bytes'];
-  set bytes(var value) => jsProxy['bytes'] = jsify(value);
+  Object get bytes => jsProxy['bytes'];
+  set bytes(Object value) => jsProxy['bytes'] = jsify(value);
 
   /**
    * A string with the file's path and name.
@@ -385,7 +422,7 @@ class FormDataItem extends ChromeObject {
 }
 
 class RequestBodyWebRequest extends ChromeObject {
-  RequestBodyWebRequest({String error, Map formData, List<UploadData> raw}) {
+  RequestBodyWebRequest({String? error, Map? formData, List<UploadData>? raw}) {
     if (error != null) this.error = error;
     if (formData != null) this.formData = formData;
     if (raw != null) this.raw = raw;
@@ -419,7 +456,7 @@ class RequestBodyWebRequest extends ChromeObject {
 }
 
 class ChallengerWebRequest extends ChromeObject {
-  ChallengerWebRequest({String host, int port}) {
+  ChallengerWebRequest({String? host, int? port}) {
     if (host != null) this.host = host;
     if (port != null) this.port = port;
   }
@@ -433,8 +470,8 @@ class ChallengerWebRequest extends ChromeObject {
 }
 
 OnAuthRequiredEvent _createOnAuthRequiredEvent(JsObject details, JsObject asyncCallback) =>
-    new OnAuthRequiredEvent(mapify(details), asyncCallback);
+    OnAuthRequiredEvent(mapify(details), asyncCallback);
 ResourceType _createResourceType(String value) => ResourceType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-HttpHeaders _createHttpHeaders(JsObject jsProxy) => jsProxy == null ? null : new HttpHeaders.fromProxy(jsProxy);
-AuthCredentialsWebRequest _createAuthCredentialsWebRequest(JsObject jsProxy) => jsProxy == null ? null : new AuthCredentialsWebRequest.fromProxy(jsProxy);
-UploadData _createUploadData(JsObject jsProxy) => jsProxy == null ? null : new UploadData.fromProxy(jsProxy);
+HttpHeaders _createHttpHeaders(JsObject jsProxy) => HttpHeaders.fromProxy(jsProxy);
+AuthCredentialsWebRequest _createAuthCredentialsWebRequest(JsObject jsProxy) => AuthCredentialsWebRequest.fromProxy(jsProxy);
+UploadData _createUploadData(JsObject jsProxy) => UploadData.fromProxy(jsProxy);

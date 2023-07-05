@@ -10,17 +10,17 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.identity` namespace.
  */
-final ChromeIdentity identity = new ChromeIdentity._();
+final ChromeIdentity identity = ChromeIdentity._();
 
 class ChromeIdentity extends ChromeApi {
   JsObject get _identity => chrome['identity'];
 
   Stream<OnSignInChangedEvent> get onSignInChanged => _onSignInChanged.stream;
-  ChromeStreamController<OnSignInChangedEvent> _onSignInChanged;
+  late ChromeStreamController<OnSignInChangedEvent> _onSignInChanged;
 
   ChromeIdentity._() {
     var getApi = () => _identity;
-    _onSignInChanged = new ChromeStreamController<OnSignInChangedEvent>.twoArgs(getApi, 'onSignInChanged', _createOnSignInChangedEvent);
+    _onSignInChanged = ChromeStreamController<OnSignInChangedEvent>.twoArgs(getApi, 'onSignInChanged', _createOnSignInChangedEvent);
   }
 
   bool get available => _identity != null;
@@ -34,7 +34,7 @@ class ChromeIdentity extends ChromeApi {
   Future<List<AccountInfo>> getAccounts() {
     if (_identity == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<AccountInfo>>.oneArg((e) => listify(e, _createAccountInfo));
+    var completer =  ChromeCompleter<List<AccountInfo>>.oneArg((e) => listify(e, _createAccountInfo));
     _identity.callMethod('getAccounts', [completer.callback]);
     return completer.future;
   }
@@ -55,14 +55,20 @@ class ChromeIdentity extends ChromeApi {
    * particular, do not use `getAuthToken` interactively when your app is first
    * launched.
    * 
+   * Note: When called with a callback, instead of returning an object this
+   * function will return the two properties as separate arguments passed to the
+   * callback.
+   * 
    * [details]: Token options.
    * [callback]: Called with an OAuth2 access token as specified by the
-   * manifest, or undefined if there was an error.
+   * manifest, or undefined if there was an error. The `grantedScopes` parameter
+   * is populated since Chrome 87. When available, this parameter contains the
+   * list of granted scopes corresponding with the returned token.
    */
-  Future<String> getAuthToken([TokenDetails details]) {
+  Future<GetAuthTokenResult> getAuthToken([TokenDetails? details]) {
     if (_identity == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<GetAuthTokenResult>.oneArg(_createGetAuthTokenResult);
     _identity.callMethod('getAuthToken', [jsify(details), completer.callback]);
     return completer.future;
   }
@@ -71,15 +77,23 @@ class ChromeIdentity extends ChromeApi {
    * Retrieves email address and obfuscated gaia id of the user signed into a
    * profile.
    * 
+   * Requires the `identity.email` manifest permission. Otherwise, returns an
+   * empty result.
+   * 
    * This API is different from identity.getAccounts in two ways. The
    * information returned is available offline, and it only applies to the
    * primary account for the profile.
+   * 
+   * [details]: Profile options.
+   * [callback]: Called with the `ProfileUserInfo` of the primary Chrome
+   * account, of an empty `ProfileUserInfo` if the account with given `details`
+   * doesn't exist.
    */
-  Future<ProfileUserInfo> getProfileUserInfo() {
+  Future<ProfileUserInfo> getProfileUserInfo([ProfileDetails? details]) {
     if (_identity == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ProfileUserInfo>.oneArg(_createProfileUserInfo);
-    _identity.callMethod('getProfileUserInfo', [completer.callback]);
+    var completer =  ChromeCompleter<ProfileUserInfo>.oneArg(_createProfileUserInfo);
+    _identity.callMethod('getProfileUserInfo', [jsify(details), completer.callback]);
     return completer.future;
   }
 
@@ -96,8 +110,23 @@ class ChromeIdentity extends ChromeApi {
   Future removeCachedAuthToken(InvalidTokenDetails details) {
     if (_identity == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _identity.callMethod('removeCachedAuthToken', [jsify(details), completer.callback]);
+    return completer.future;
+  }
+
+  /**
+   * Resets the state of the Identity API: <ul> <li>Removes all OAuth2 access
+   * tokens from the token cache</li> <li>Removes user's account
+   * preferences</li> <li>De-authorizes the user from all auth flows</li> </ul>
+   * 
+   * [callback]: Called when the state has been cleared.
+   */
+  Future clearAllCachedAuthTokens() {
+    if (_identity == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter.noArgs();
+    _identity.callMethod('clearAllCachedAuthTokens', [completer.callback]);
     return completer.future;
   }
 
@@ -122,7 +151,7 @@ class ChromeIdentity extends ChromeApi {
   Future<String> launchWebAuthFlow(WebAuthFlowDetails details) {
     if (_identity == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _identity.callMethod('launchWebAuthFlow', [jsify(details), completer.callback]);
     return completer.future;
   }
@@ -134,14 +163,14 @@ class ChromeIdentity extends ChromeApi {
    * 
    * [path]: The path appended to the end of the generated URL.
    */
-  String getRedirectURL([String path]) {
+  String getRedirectURL([String? path]) {
     if (_identity == null) _throwNotAvailable();
 
     return _identity.callMethod('getRedirectURL', [path]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.identity' is not available");
+    throw  UnsupportedError("'chrome.identity' is not available");
   }
 }
 
@@ -153,8 +182,17 @@ class OnSignInChangedEvent {
   OnSignInChangedEvent(this.account, this.signedIn);
 }
 
+class AccountStatus extends ChromeEnum {
+  static const AccountStatus SYNC = const AccountStatus._('SYNC');
+  static const AccountStatus ANY = const AccountStatus._('ANY');
+
+  static const List<AccountStatus> VALUES = const[SYNC, ANY];
+
+  const AccountStatus._(String str): super(str);
+}
+
 class AccountInfo extends ChromeObject {
-  AccountInfo({String id}) {
+  AccountInfo({String? id}) {
     if (id != null) this.id = id;
   }
   AccountInfo.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -163,8 +201,18 @@ class AccountInfo extends ChromeObject {
   set id(String value) => jsProxy['id'] = value;
 }
 
+class ProfileDetails extends ChromeObject {
+  ProfileDetails({AccountStatus? accountStatus}) {
+    if (accountStatus != null) this.accountStatus = accountStatus;
+  }
+  ProfileDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  AccountStatus get accountStatus => _createAccountStatus(jsProxy['accountStatus']);
+  set accountStatus(AccountStatus value) => jsProxy['accountStatus'] = jsify(value);
+}
+
 class ProfileUserInfo extends ChromeObject {
-  ProfileUserInfo({String email, String id}) {
+  ProfileUserInfo({String? email, String? id}) {
     if (email != null) this.email = email;
     if (id != null) this.id = id;
   }
@@ -178,10 +226,11 @@ class ProfileUserInfo extends ChromeObject {
 }
 
 class TokenDetails extends ChromeObject {
-  TokenDetails({bool interactive, AccountInfo account, List<String> scopes}) {
+  TokenDetails({bool? interactive, AccountInfo? account, List<String>? scopes, bool? enableGranularPermissions}) {
     if (interactive != null) this.interactive = interactive;
     if (account != null) this.account = account;
     if (scopes != null) this.scopes = scopes;
+    if (enableGranularPermissions != null) this.enableGranularPermissions = enableGranularPermissions;
   }
   TokenDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -193,10 +242,13 @@ class TokenDetails extends ChromeObject {
 
   List<String> get scopes => listify(jsProxy['scopes']);
   set scopes(List<String> value) => jsProxy['scopes'] = jsify(value);
+
+  bool get enableGranularPermissions => jsProxy['enableGranularPermissions'];
+  set enableGranularPermissions(bool value) => jsProxy['enableGranularPermissions'] = value;
 }
 
 class InvalidTokenDetails extends ChromeObject {
-  InvalidTokenDetails({String token}) {
+  InvalidTokenDetails({String? token}) {
     if (token != null) this.token = token;
   }
   InvalidTokenDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -206,9 +258,11 @@ class InvalidTokenDetails extends ChromeObject {
 }
 
 class WebAuthFlowDetails extends ChromeObject {
-  WebAuthFlowDetails({String url, bool interactive}) {
+  WebAuthFlowDetails({String? url, bool? interactive, bool? abortOnLoadForNonInteractive, int? timeoutMsForNonInteractive}) {
     if (url != null) this.url = url;
     if (interactive != null) this.interactive = interactive;
+    if (abortOnLoadForNonInteractive != null) this.abortOnLoadForNonInteractive = abortOnLoadForNonInteractive;
+    if (timeoutMsForNonInteractive != null) this.timeoutMsForNonInteractive = timeoutMsForNonInteractive;
   }
   WebAuthFlowDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -217,9 +271,31 @@ class WebAuthFlowDetails extends ChromeObject {
 
   bool get interactive => jsProxy['interactive'];
   set interactive(bool value) => jsProxy['interactive'] = value;
+
+  bool get abortOnLoadForNonInteractive => jsProxy['abortOnLoadForNonInteractive'];
+  set abortOnLoadForNonInteractive(bool value) => jsProxy['abortOnLoadForNonInteractive'] = value;
+
+  int get timeoutMsForNonInteractive => jsProxy['timeoutMsForNonInteractive'];
+  set timeoutMsForNonInteractive(int value) => jsProxy['timeoutMsForNonInteractive'] = value;
+}
+
+class GetAuthTokenResult extends ChromeObject {
+  GetAuthTokenResult({String? token, List<String>? grantedScopes}) {
+    if (token != null) this.token = token;
+    if (grantedScopes != null) this.grantedScopes = grantedScopes;
+  }
+  GetAuthTokenResult.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  String get token => jsProxy['token'];
+  set token(String value) => jsProxy['token'] = value;
+
+  List<String> get grantedScopes => listify(jsProxy['grantedScopes']);
+  set grantedScopes(List<String> value) => jsProxy['grantedScopes'] = jsify(value);
 }
 
 OnSignInChangedEvent _createOnSignInChangedEvent(JsObject account, bool signedIn) =>
-    new OnSignInChangedEvent(_createAccountInfo(account), signedIn);
-AccountInfo _createAccountInfo(JsObject jsProxy) => jsProxy == null ? null : new AccountInfo.fromProxy(jsProxy);
-ProfileUserInfo _createProfileUserInfo(JsObject jsProxy) => jsProxy == null ? null : new ProfileUserInfo.fromProxy(jsProxy);
+    OnSignInChangedEvent(_createAccountInfo(account), signedIn);
+AccountInfo _createAccountInfo(JsObject jsProxy) => AccountInfo.fromProxy(jsProxy);
+GetAuthTokenResult _createGetAuthTokenResult(JsObject jsProxy) => GetAuthTokenResult.fromProxy(jsProxy);
+ProfileUserInfo _createProfileUserInfo(JsObject jsProxy) => ProfileUserInfo.fromProxy(jsProxy);
+AccountStatus _createAccountStatus(String value) => AccountStatus.VALUES.singleWhere((ChromeEnum e) => e.value == value);

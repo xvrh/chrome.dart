@@ -10,17 +10,17 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.tabCapture` namespace.
  */
-final ChromeTabCapture tabCapture = new ChromeTabCapture._();
+final ChromeTabCapture tabCapture = ChromeTabCapture._();
 
 class ChromeTabCapture extends ChromeApi {
   JsObject get _tabCapture => chrome['tabCapture'];
 
   Stream<CaptureInfo> get onStatusChanged => _onStatusChanged.stream;
-  ChromeStreamController<CaptureInfo> _onStatusChanged;
+  late ChromeStreamController<CaptureInfo> _onStatusChanged;
 
   ChromeTabCapture._() {
     var getApi = () => _tabCapture;
-    _onStatusChanged = new ChromeStreamController<CaptureInfo>.oneArg(getApi, 'onStatusChanged', _createCaptureInfo);
+    _onStatusChanged = ChromeStreamController<CaptureInfo>.oneArg(getApi, 'onStatusChanged', _createCaptureInfo);
   }
 
   bool get available => _tabCapture != null;
@@ -36,12 +36,12 @@ class ChromeTabCapture extends ChromeApi {
    * [options]: Configures the returned media stream.
    * [callback]: Callback with either the tab capture MediaStream or `null`.
    * `null` indicates an error has occurred and the client may query
-   * chrome.runtime.lastError to access the error details.
+   * [runtime.lastError] to access the error details.
    */
   Future<LocalMediaStream> capture(CaptureOptions options) {
     if (_tabCapture == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<LocalMediaStream>.oneArg(_createLocalMediaStream);
+    var completer =  ChromeCompleter<LocalMediaStream>.oneArg(_createLocalMediaStream);
     _tabCapture.callMethod('capture', [jsify(options), completer.callback]);
     return completer.future;
   }
@@ -57,48 +57,40 @@ class ChromeTabCapture extends ChromeApi {
   Future<List<CaptureInfo>> getCapturedTabs() {
     if (_tabCapture == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<CaptureInfo>>.oneArg((e) => listify(e, _createCaptureInfo));
+    var completer =  ChromeCompleter<List<CaptureInfo>>.oneArg((e) => listify(e, _createCaptureInfo));
     _tabCapture.callMethod('getCapturedTabs', [completer.callback]);
     return completer.future;
   }
 
   /**
-   * Creates an off-screen tab and navigates it to the given [startUrl]. Then,
-   * capture is started and a MediaStream is returned via [callback].
+   * Creates a stream ID to capture the target tab. Similar to
+   * chrome.tabCapture.capture() method, but returns a media stream ID, instead
+   * of a media stream, to the consumer tab.
    * 
-   * Off-screen tabs are isolated from the user's normal browser experience.
-   * They do not show up in the browser window or tab strip, nor are they
-   * visible to extensions (e.g., via the chrome.tabs.* APIs).
+   * [GetMediaStreamOptions]: Options for the media stream id to retrieve.
+   * [callback]: Callback to invoke with the result. If successful, the result
+   * is an opaque string that can be passed to the `getUserMedia()` API to
+   * generate a media stream that corresponds to the target tab. The created
+   * `streamId` can only be used once and expires after a few seconds if it is
+   * not used.
    * 
-   * An off-screen tab remains alive until one of three events occurs: 1. All
-   * MediaStreams providing its captured content are closed; 2. the page
-   * self-closes (e.g., via window.close()); 3. the extension that called
-   * captureOffscreenTab() is unloaded.
-   * 
-   * Sandboxing: The off-screen tab does not have any access whatsoever to the
-   * local user profile (including cookies, HTTP auth, etc.). Instead, it is
-   * provided its own sandboxed profile. Also, it cannot access any interactive
-   * resources such as keyboard/mouse input, media recording devices (e.g., web
-   * cams), copy/paste to/from the system clipboard, etc.
-   * 
-   * Note: This is a new API, currently only available in Canary/Dev channel,
-   * and may change without notice.
-   * 
-   * [options]: Constraints for the capture and returned MediaStream.
-   * [callback]: Callback with either the tab capture MediaStream or `null`.
-   * `null` indicates an error has occurred and the client may query
-   * chrome.runtime.lastError to access the error details.
+   * Returns:
+   * To assemble MediaConstraints with this [streamId], source type must be
+   * assigned as 'tab'. For example: ` const constraints = { mandatory: {
+   * chromeMediaSource: 'tab', chromeMediaSourceId: streamId } };
+   * navigator.getUserMedia({audio: constraints, video: constraints},
+   * successCallback, failCallback); `
    */
-  Future<LocalMediaStream> captureOffscreenTab(String startUrl, CaptureOptions options) {
+  Future<String> getMediaStreamId([GetMediaStreamOptions? options]) {
     if (_tabCapture == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<LocalMediaStream>.oneArg(_createLocalMediaStream);
-    _tabCapture.callMethod('captureOffscreenTab', [startUrl, jsify(options), completer.callback]);
+    var completer =  ChromeCompleter<String>.oneArg();
+    _tabCapture.callMethod('getMediaStreamId', [jsify(options), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.tabCapture' is not available");
+    throw  UnsupportedError("'chrome.tabCapture' is not available");
   }
 }
 
@@ -114,7 +106,7 @@ class TabCaptureState extends ChromeEnum {
 }
 
 class CaptureInfo extends ChromeObject {
-  CaptureInfo({int tabId, TabCaptureState status, bool fullscreen}) {
+  CaptureInfo({int? tabId, TabCaptureState? status, bool? fullscreen}) {
     if (tabId != null) this.tabId = tabId;
     if (status != null) this.status = status;
     if (fullscreen != null) this.fullscreen = fullscreen;
@@ -137,17 +129,17 @@ class CaptureInfo extends ChromeObject {
  * http://dev.w3.org/2011/webrtc/editor/getusermedia.html
  */
 class MediaStreamConstraint extends ChromeObject {
-  MediaStreamConstraint({var mandatory, var optional}) {
+  MediaStreamConstraint({Object? mandatory, Object? optional}) {
     if (mandatory != null) this.mandatory = mandatory;
     if (optional != null) this.optional = optional;
   }
   MediaStreamConstraint.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
-  dynamic get mandatory => jsProxy['mandatory'];
-  set mandatory(var value) => jsProxy['mandatory'] = jsify(value);
+  Object get mandatory => jsProxy['mandatory'];
+  set mandatory(Object value) => jsProxy['mandatory'] = jsify(value);
 
-  dynamic get optional => jsProxy['_optional'];
-  set optional(var value) => jsProxy['_optional'] = jsify(value);
+  Object get optional => jsProxy['_optional'];
+  set optional(Object value) => jsProxy['_optional'] = jsify(value);
 }
 
 /**
@@ -155,7 +147,7 @@ class MediaStreamConstraint extends ChromeObject {
  * MediaTrackConstraints that should be set for these streams.
  */
 class CaptureOptions extends ChromeObject {
-  CaptureOptions({bool audio, bool video, MediaStreamConstraint audioConstraints, MediaStreamConstraint videoConstraints, String presentationId}) {
+  CaptureOptions({bool? audio, bool? video, MediaStreamConstraint? audioConstraints, MediaStreamConstraint? videoConstraints, String? presentationId}) {
     if (audio != null) this.audio = audio;
     if (video != null) this.video = video;
     if (audioConstraints != null) this.audioConstraints = audioConstraints;
@@ -180,7 +172,21 @@ class CaptureOptions extends ChromeObject {
   set presentationId(String value) => jsProxy['presentationId'] = value;
 }
 
-CaptureInfo _createCaptureInfo(JsObject jsProxy) => jsProxy == null ? null : new CaptureInfo.fromProxy(jsProxy);
-LocalMediaStream _createLocalMediaStream(JsObject jsProxy) => jsProxy == null ? null : new LocalMediaStream.fromProxy(jsProxy);
+class GetMediaStreamOptions extends ChromeObject {
+  GetMediaStreamOptions({int? consumerTabId, int? targetTabId}) {
+    if (consumerTabId != null) this.consumerTabId = consumerTabId;
+    if (targetTabId != null) this.targetTabId = targetTabId;
+  }
+  GetMediaStreamOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  int get consumerTabId => jsProxy['consumerTabId'];
+  set consumerTabId(int value) => jsProxy['consumerTabId'] = value;
+
+  int get targetTabId => jsProxy['targetTabId'];
+  set targetTabId(int value) => jsProxy['targetTabId'] = value;
+}
+
+CaptureInfo _createCaptureInfo(JsObject jsProxy) => CaptureInfo.fromProxy(jsProxy);
+LocalMediaStream _createLocalMediaStream(JsObject jsProxy) => LocalMediaStream.fromProxy(jsProxy);
 TabCaptureState _createTabCaptureState(String value) => TabCaptureState.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-MediaStreamConstraint _createMediaStreamConstraint(JsObject jsProxy) => jsProxy == null ? null : new MediaStreamConstraint.fromProxy(jsProxy);
+MediaStreamConstraint _createMediaStreamConstraint(JsObject jsProxy) => MediaStreamConstraint.fromProxy(jsProxy);

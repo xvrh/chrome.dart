@@ -14,7 +14,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.privacy` namespace.
  */
-final ChromePrivacy privacy = new ChromePrivacy._();
+final ChromePrivacy privacy = ChromePrivacy._();
 
 class ChromePrivacy extends ChromeApi {
   JsObject get _privacy => chrome['privacy'];
@@ -70,25 +70,6 @@ class NetworkPrivacy extends ChromeObject {
   ChromeSetting get networkPredictionEnabled => _createChromeSetting(jsProxy['networkPredictionEnabled']);
 
   /**
-   * If enabled, Chrome will explore all possible routing options when using
-   * WebRTC to find the most performant path, possibly exposing user's private
-   * IP address. Otherwise, WebRTC traffic will be routed the same way as
-   * regular HTTP. This preference's value is a boolean, defaulting to `true`.
-   */
-  ChromeSetting get webRTCMultipleRoutesEnabled => _createChromeSetting(jsProxy['webRTCMultipleRoutesEnabled']);
-
-  /**
-   * If enabled, Chrome is allowed to use non-proxied UDP to connect to peers or
-   * TURN servers when using WebRTC. Since most proxy servers don't handle UDP,
-   * using UDP possibly exposes user's IP address. Turning this off effectively
-   * forces WebRTC to only use TCP for now, until UDP proxy support is available
-   * in Chrome and such proxies are widely deployed. As a result, it also might
-   * hurt media performance and increase the load for proxy servers. This
-   * preference's value is a boolean, defaulting to `true`.
-   */
-  ChromeSetting get webRTCNonProxiedUdpEnabled => _createChromeSetting(jsProxy['webRTCNonProxiedUdpEnabled']);
-
-  /**
    * Allow users to specify the media performance/privacy tradeoffs which
    * impacts how WebRTC traffic will be routed and how much local address
    * information is exposed. This preference's value is of type
@@ -112,6 +93,18 @@ class ServicesPrivacy extends ChromeObject {
    * value is a boolean, defaulting to `true`.
    */
   ChromeSetting get autofillEnabled => _createChromeSetting(jsProxy['autofillEnabled']);
+
+  /**
+   * If enabled, Chrome offers to automatically fill in addresses and other form
+   * data. This preference's value is a boolean, defaulting to `true`.
+   */
+  ChromeSetting get autofillAddressEnabled => _createChromeSetting(jsProxy['autofillAddressEnabled']);
+
+  /**
+   * If enabled, Chrome offers to automatically fill in credit card forms. This
+   * preference's value is a boolean, defaulting to `true`.
+   */
+  ChromeSetting get autofillCreditCardEnabled => _createChromeSetting(jsProxy['autofillCreditCardEnabled']);
 
   /**
    * If enabled, the password manager will ask if you want to save passwords.
@@ -165,6 +158,46 @@ class WebsitesPrivacy extends ChromeObject {
   ChromeSetting get thirdPartyCookiesAllowed => _createChromeSetting(jsProxy['thirdPartyCookiesAllowed']);
 
   /**
+   * If enabled, the experimental [Privacy
+   * Sandbox](https://www.chromium.org/Home/chromium-privacy/privacy-sandbox)
+   * features are active. The value of this preference is of type boolean, and
+   * the default value is `true`.
+   */
+  ChromeSetting get privacySandboxEnabled => _createChromeSetting(jsProxy['privacySandboxEnabled']);
+
+  /**
+   * If disabled, the [Topics
+   * API](https://developer.chrome.com/en/docs/privacy-sandbox/topics/) is
+   * deactivated. The value of this preference is of type boolean, and the
+   * default value is `true`. Extensions may only disable this API by setting
+   * the value to `false`. If you try setting this API to `true`, it will throw
+   * an error.
+   */
+  ChromeSetting get topicsEnabled => _createChromeSetting(jsProxy['topicsEnabled']);
+
+  /**
+   * If disabled, the [Fledge
+   * API](https://developer.chrome.com/docs/privacy-sandbox/fledge/) is
+   * deactivated. The value of this preference is of type boolean, and the
+   * default value is `true`. Extensions may only disable this API by setting
+   * the value to `false`. If you try setting this API to `true`, it will throw
+   * an error.
+   */
+  ChromeSetting get fledgeEnabled => _createChromeSetting(jsProxy['fledgeEnabled']);
+
+  /**
+   * If disabled, the [Attribution Reporting
+   * API](https://developer.chrome.com/en/docs/privacy-sandbox/attribution-reporting/)
+   * and [Private Aggregation
+   * API](https://developer.chrome.com/docs/privacy-sandbox/private-aggregation/)
+   * are deactivated. The value of this preference is of type boolean, and the
+   * default value is `true`. Extensions may only disable these APIs by setting
+   * the value to `false`. If you try setting these APIs to `true`, it will
+   * throw an error.
+   */
+  ChromeSetting get adMeasurementEnabled => _createChromeSetting(jsProxy['adMeasurementEnabled']);
+
+  /**
    * If enabled, Chrome sends auditing pings when requested by a website (`<a
    * ping>`). The value of this preference is of type boolean, and the default
    * value is `true`.
@@ -194,7 +227,7 @@ class WebsitesPrivacy extends ChromeObject {
   ChromeSetting get protectedContentEnabled => _createChromeSetting(jsProxy['protectedContentEnabled']);
 }
 
-NetworkPrivacy _createNetworkPrivacy(JsObject jsProxy) => jsProxy == null ? null : new NetworkPrivacy.fromProxy(jsProxy);
-ServicesPrivacy _createServicesPrivacy(JsObject jsProxy) => jsProxy == null ? null : new ServicesPrivacy.fromProxy(jsProxy);
-WebsitesPrivacy _createWebsitesPrivacy(JsObject jsProxy) => jsProxy == null ? null : new WebsitesPrivacy.fromProxy(jsProxy);
-ChromeSetting _createChromeSetting(JsObject jsProxy) => jsProxy == null ? null : new ChromeSetting.fromProxy(jsProxy);
+NetworkPrivacy _createNetworkPrivacy(JsObject jsProxy) => NetworkPrivacy.fromProxy(jsProxy);
+ServicesPrivacy _createServicesPrivacy(JsObject jsProxy) => ServicesPrivacy.fromProxy(jsProxy);
+WebsitesPrivacy _createWebsitesPrivacy(JsObject jsProxy) => WebsitesPrivacy.fromProxy(jsProxy);
+ChromeSetting _createChromeSetting(JsObject jsProxy) => ChromeSetting.fromProxy(jsProxy);

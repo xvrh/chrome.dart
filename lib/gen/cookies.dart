@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.cookies` namespace.
  */
-final ChromeCookies cookies = new ChromeCookies._();
+final ChromeCookies cookies = ChromeCookies._();
 
 class ChromeCookies extends ChromeApi {
   JsObject get _cookies => chrome['cookies'];
@@ -24,11 +24,11 @@ class ChromeCookies extends ChromeApi {
    * updated values, generating a second notification with "cause" "explicit".
    */
   Stream<Map> get onChanged => _onChanged.stream;
-  ChromeStreamController<Map> _onChanged;
+  late ChromeStreamController<Map> _onChanged;
 
   ChromeCookies._() {
     var getApi = () => _cookies;
-    _onChanged = new ChromeStreamController<Map>.oneArg(getApi, 'onChanged', mapify);
+    _onChanged = ChromeStreamController<Map>.oneArg(getApi, 'onChanged', mapify);
   }
 
   bool get available => _cookies != null;
@@ -38,19 +38,11 @@ class ChromeCookies extends ChromeApi {
    * same name exists for the given URL, the one with the longest path will be
    * returned. For cookies with the same path length, the cookie with the
    * earliest creation time will be returned.
-   * 
-   * [details] Details to identify the cookie being retrieved.
-   * 
-   * Returns:
-   * Contains details about the cookie. This parameter is null if no such cookie
-   * was found.
    */
-  Future<Cookie> get(CookiesGetParams details) {
+  void get(CookieDetails details) {
     if (_cookies == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Cookie>.oneArg(_createCookie);
-    _cookies.callMethod('get', [jsify(details), completer.callback]);
-    return completer.future;
+    _cookies.callMethod('get', [jsify(details)]);
   }
 
   /**
@@ -60,16 +52,11 @@ class ChromeCookies extends ChromeApi {
    * with the earliest creation time will be first.
    * 
    * [details] Information to filter the cookies being retrieved.
-   * 
-   * Returns:
-   * All the existing, unexpired cookies that match the given cookie info.
    */
-  Future<List<Cookie>> getAll(CookiesGetAllParams details) {
+  void getAll(CookiesGetAllParams details) {
     if (_cookies == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Cookie>>.oneArg((e) => listify(e, _createCookie));
-    _cookies.callMethod('getAll', [jsify(details), completer.callback]);
-    return completer.future;
+    _cookies.callMethod('getAll', [jsify(details)]);
   }
 
   /**
@@ -77,69 +64,50 @@ class ChromeCookies extends ChromeApi {
    * if they exist.
    * 
    * [details] Details about the cookie being set.
-   * 
-   * Returns:
-   * Contains details about the cookie that's been set.  If setting failed for
-   * any reason, this will be "null", and "chrome.runtime.lastError" will be
-   * set.
    */
-  Future<Cookie> set(CookiesSetParams details) {
+  void set(CookiesSetParams details) {
     if (_cookies == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Cookie>.oneArg(_createCookie);
-    _cookies.callMethod('set', [jsify(details), completer.callback]);
-    return completer.future;
+    _cookies.callMethod('set', [jsify(details)]);
   }
 
   /**
    * Deletes a cookie by name.
-   * 
-   * [details] Information to identify the cookie to remove.
-   * 
-   * Returns:
-   * Contains details about the cookie that's been removed.  If removal failed
-   * for any reason, this will be "null", and "chrome.runtime.lastError" will be
-   * set.
    */
-  Future<Map> remove(CookiesRemoveParams details) {
+  void remove(CookieDetails details) {
     if (_cookies == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Map>.oneArg(mapify);
-    _cookies.callMethod('remove', [jsify(details), completer.callback]);
-    return completer.future;
+    _cookies.callMethod('remove', [jsify(details)]);
   }
 
   /**
    * Lists all existing cookie stores.
-   * 
-   * Returns:
-   * All the existing cookie stores.
    */
-  Future<List<CookieStore>> getAllCookieStores() {
+  void getAllCookieStores() {
     if (_cookies == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<CookieStore>>.oneArg((e) => listify(e, _createCookieStore));
-    _cookies.callMethod('getAllCookieStores', [completer.callback]);
-    return completer.future;
+    _cookies.callMethod('getAllCookieStores');
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.cookies' is not available");
+    throw  UnsupportedError("'chrome.cookies' is not available");
   }
 }
 
 /**
  * A cookie's 'SameSite' state
  * (https://tools.ietf.org/html/draft-west-first-party-cookies).
- * 'no_restriction' corresponds to a cookie set without a 'SameSite' attribute,
- * 'lax' to 'SameSite=Lax', and 'strict' to 'SameSite=Strict'.
+ * 'no_restriction' corresponds to a cookie set with 'SameSite=None', 'lax' to
+ * 'SameSite=Lax', and 'strict' to 'SameSite=Strict'. 'unspecified' corresponds
+ * to a cookie set without the SameSite attribute.
  */
 class SameSiteStatus extends ChromeEnum {
   static const SameSiteStatus NO_RESTRICTION = const SameSiteStatus._('no_restriction');
   static const SameSiteStatus LAX = const SameSiteStatus._('lax');
   static const SameSiteStatus STRICT = const SameSiteStatus._('strict');
+  static const SameSiteStatus UNSPECIFIED = const SameSiteStatus._('unspecified');
 
-  static const List<SameSiteStatus> VALUES = const[NO_RESTRICTION, LAX, STRICT];
+  static const List<SameSiteStatus> VALUES = const[NO_RESTRICTION, LAX, STRICT, UNSPECIFIED];
 
   const SameSiteStatus._(String str): super(str);
 }
@@ -170,7 +138,7 @@ class OnChangedCause extends ChromeEnum {
  * Represents information about an HTTP cookie.
  */
 class Cookie extends ChromeObject {
-  Cookie({String name, String value, String domain, bool hostOnly, String path, bool secure, bool httpOnly, SameSiteStatus sameSite, bool session, var expirationDate, String storeId}) {
+  Cookie({String? name, String? value, String? domain, bool? hostOnly, String? path, bool? secure, bool? httpOnly, SameSiteStatus? sameSite, bool? session, Object? expirationDate, String? storeId}) {
     if (name != null) this.name = name;
     if (value != null) this.value = value;
     if (domain != null) this.domain = domain;
@@ -248,8 +216,8 @@ class Cookie extends ChromeObject {
    * The expiration date of the cookie as the number of seconds since the UNIX
    * epoch. Not provided for session cookies.
    */
-  dynamic get expirationDate => jsProxy['expirationDate'];
-  set expirationDate(var value) => jsProxy['expirationDate'] = jsify(value);
+  Object get expirationDate => jsProxy['expirationDate'];
+  set expirationDate(Object value) => jsProxy['expirationDate'] = jsify(value);
 
   /**
    * The ID of the cookie store containing this cookie, as provided in
@@ -264,7 +232,7 @@ class Cookie extends ChromeObject {
  * instance, uses a separate cookie store from a non-incognito window.
  */
 class CookieStore extends ChromeObject {
-  CookieStore({String id, List<int> tabIds}) {
+  CookieStore({String? id, List<int>? tabIds}) {
     if (id != null) this.id = id;
     if (tabIds != null) this.tabIds = tabIds;
   }
@@ -283,25 +251,28 @@ class CookieStore extends ChromeObject {
   set tabIds(List<int> value) => jsProxy['tabIds'] = jsify(value);
 }
 
-class CookiesGetParams extends ChromeObject {
-  CookiesGetParams({String url, String name, String storeId}) {
+/**
+ * Details to identify the cookie.
+ */
+class CookieDetails extends ChromeObject {
+  CookieDetails({String? url, String? name, String? storeId}) {
     if (url != null) this.url = url;
     if (name != null) this.name = name;
     if (storeId != null) this.storeId = storeId;
   }
-  CookiesGetParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+  CookieDetails.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
   /**
-   * The URL with which the cookie to retrieve is associated. This argument may
-   * be a full URL, in which case any data following the URL path (e.g. the
-   * query string) is simply ignored. If host permissions for this URL are not
+   * The URL with which the cookie to access is associated. This argument may be
+   * a full URL, in which case any data following the URL path (e.g. the query
+   * string) is simply ignored. If host permissions for this URL are not
    * specified in the manifest file, the API call will fail.
    */
   String get url => jsProxy['url'];
   set url(String value) => jsProxy['url'] = value;
 
   /**
-   * The name of the cookie to retrieve.
+   * The name of the cookie to access.
    */
   String get name => jsProxy['name'];
   set name(String value) => jsProxy['name'] = value;
@@ -315,7 +286,7 @@ class CookiesGetParams extends ChromeObject {
 }
 
 class CookiesGetAllParams extends ChromeObject {
-  CookiesGetAllParams({String url, String name, String domain, String path, bool secure, bool session, String storeId}) {
+  CookiesGetAllParams({String? url, String? name, String? domain, String? path, bool? secure, bool? session, String? storeId}) {
     if (url != null) this.url = url;
     if (name != null) this.name = name;
     if (domain != null) this.domain = domain;
@@ -373,7 +344,7 @@ class CookiesGetAllParams extends ChromeObject {
 }
 
 class CookiesSetParams extends ChromeObject {
-  CookiesSetParams({String url, String name, String value, String domain, String path, bool secure, bool httpOnly, SameSiteStatus sameSite, var expirationDate, String storeId}) {
+  CookiesSetParams({String? url, String? name, String? value, String? domain, String? path, bool? secure, bool? httpOnly, SameSiteStatus? sameSite, Object? expirationDate, String? storeId}) {
     if (url != null) this.url = url;
     if (name != null) this.name = name;
     if (value != null) this.value = value;
@@ -434,7 +405,8 @@ class CookiesSetParams extends ChromeObject {
   set httpOnly(bool value) => jsProxy['httpOnly'] = value;
 
   /**
-   * The cookie's same-site status: defaults to 'no_restriction'.
+   * The cookie's same-site status. Defaults to "unspecified", i.e., if omitted,
+   * the cookie is set without specifying a SameSite attribute.
    */
   SameSiteStatus get sameSite => _createSameSiteStatus(jsProxy['sameSite']);
   set sameSite(SameSiteStatus value) => jsProxy['sameSite'] = jsify(value);
@@ -443,8 +415,8 @@ class CookiesSetParams extends ChromeObject {
    * The expiration date of the cookie as the number of seconds since the UNIX
    * epoch. If omitted, the cookie becomes a session cookie.
    */
-  dynamic get expirationDate => jsProxy['expirationDate'];
-  set expirationDate(var value) => jsProxy['expirationDate'] = jsify(value);
+  Object get expirationDate => jsProxy['expirationDate'];
+  set expirationDate(Object value) => jsProxy['expirationDate'] = jsify(value);
 
   /**
    * The ID of the cookie store in which to set the cookie. By default, the
@@ -454,36 +426,4 @@ class CookiesSetParams extends ChromeObject {
   set storeId(String value) => jsProxy['storeId'] = value;
 }
 
-class CookiesRemoveParams extends ChromeObject {
-  CookiesRemoveParams({String url, String name, String storeId}) {
-    if (url != null) this.url = url;
-    if (name != null) this.name = name;
-    if (storeId != null) this.storeId = storeId;
-  }
-  CookiesRemoveParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
-
-  /**
-   * The URL associated with the cookie. If host permissions for this URL are
-   * not specified in the manifest file, the API call will fail.
-   */
-  String get url => jsProxy['url'];
-  set url(String value) => jsProxy['url'] = value;
-
-  /**
-   * The name of the cookie to remove.
-   */
-  String get name => jsProxy['name'];
-  set name(String value) => jsProxy['name'] = value;
-
-  /**
-   * The ID of the cookie store to look in for the cookie. If unspecified, the
-   * cookie is looked for by default in the current execution context's cookie
-   * store.
-   */
-  String get storeId => jsProxy['storeId'];
-  set storeId(String value) => jsProxy['storeId'] = value;
-}
-
-Cookie _createCookie(JsObject jsProxy) => jsProxy == null ? null : new Cookie.fromProxy(jsProxy);
-CookieStore _createCookieStore(JsObject jsProxy) => jsProxy == null ? null : new CookieStore.fromProxy(jsProxy);
 SameSiteStatus _createSameSiteStatus(String value) => SameSiteStatus.VALUES.singleWhere((ChromeEnum e) => e.value == value);

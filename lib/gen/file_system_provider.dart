@@ -11,93 +11,93 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.fileSystemProvider` namespace.
  */
-final ChromeFileSystemProvider fileSystemProvider = new ChromeFileSystemProvider._();
+final ChromeFileSystemProvider fileSystemProvider = ChromeFileSystemProvider._();
 
 class ChromeFileSystemProvider extends ChromeApi {
   JsObject get _fileSystemProvider => chrome['fileSystemProvider'];
 
   Stream<OnUnmountRequestedEvent> get onUnmountRequested => _onUnmountRequested.stream;
-  ChromeStreamController<OnUnmountRequestedEvent> _onUnmountRequested;
+  late ChromeStreamController<OnUnmountRequestedEvent> _onUnmountRequested;
 
   Stream<OnGetMetadataRequestedEvent> get onGetMetadataRequested => _onGetMetadataRequested.stream;
-  ChromeStreamController<OnGetMetadataRequestedEvent> _onGetMetadataRequested;
+  late ChromeStreamController<OnGetMetadataRequestedEvent> _onGetMetadataRequested;
 
   Stream<OnGetActionsRequestedEvent> get onGetActionsRequested => _onGetActionsRequested.stream;
-  ChromeStreamController<OnGetActionsRequestedEvent> _onGetActionsRequested;
+  late ChromeStreamController<OnGetActionsRequestedEvent> _onGetActionsRequested;
 
   Stream<OnReadDirectoryRequestedEvent> get onReadDirectoryRequested => _onReadDirectoryRequested.stream;
-  ChromeStreamController<OnReadDirectoryRequestedEvent> _onReadDirectoryRequested;
+  late ChromeStreamController<OnReadDirectoryRequestedEvent> _onReadDirectoryRequested;
 
   Stream<OnOpenFileRequestedEvent> get onOpenFileRequested => _onOpenFileRequested.stream;
-  ChromeStreamController<OnOpenFileRequestedEvent> _onOpenFileRequested;
+  late ChromeStreamController<OnOpenFileRequestedEvent> _onOpenFileRequested;
 
   Stream<OnCloseFileRequestedEvent> get onCloseFileRequested => _onCloseFileRequested.stream;
-  ChromeStreamController<OnCloseFileRequestedEvent> _onCloseFileRequested;
+  late ChromeStreamController<OnCloseFileRequestedEvent> _onCloseFileRequested;
 
   Stream<OnReadFileRequestedEvent> get onReadFileRequested => _onReadFileRequested.stream;
-  ChromeStreamController<OnReadFileRequestedEvent> _onReadFileRequested;
+  late ChromeStreamController<OnReadFileRequestedEvent> _onReadFileRequested;
 
   Stream<OnCreateDirectoryRequestedEvent> get onCreateDirectoryRequested => _onCreateDirectoryRequested.stream;
-  ChromeStreamController<OnCreateDirectoryRequestedEvent> _onCreateDirectoryRequested;
+  late ChromeStreamController<OnCreateDirectoryRequestedEvent> _onCreateDirectoryRequested;
 
   Stream<OnDeleteEntryRequestedEvent> get onDeleteEntryRequested => _onDeleteEntryRequested.stream;
-  ChromeStreamController<OnDeleteEntryRequestedEvent> _onDeleteEntryRequested;
+  late ChromeStreamController<OnDeleteEntryRequestedEvent> _onDeleteEntryRequested;
 
   Stream<OnCreateFileRequestedEvent> get onCreateFileRequested => _onCreateFileRequested.stream;
-  ChromeStreamController<OnCreateFileRequestedEvent> _onCreateFileRequested;
+  late ChromeStreamController<OnCreateFileRequestedEvent> _onCreateFileRequested;
 
   Stream<OnCopyEntryRequestedEvent> get onCopyEntryRequested => _onCopyEntryRequested.stream;
-  ChromeStreamController<OnCopyEntryRequestedEvent> _onCopyEntryRequested;
+  late ChromeStreamController<OnCopyEntryRequestedEvent> _onCopyEntryRequested;
 
   Stream<OnMoveEntryRequestedEvent> get onMoveEntryRequested => _onMoveEntryRequested.stream;
-  ChromeStreamController<OnMoveEntryRequestedEvent> _onMoveEntryRequested;
+  late ChromeStreamController<OnMoveEntryRequestedEvent> _onMoveEntryRequested;
 
   Stream<OnTruncateRequestedEvent> get onTruncateRequested => _onTruncateRequested.stream;
-  ChromeStreamController<OnTruncateRequestedEvent> _onTruncateRequested;
+  late ChromeStreamController<OnTruncateRequestedEvent> _onTruncateRequested;
 
   Stream<OnWriteFileRequestedEvent> get onWriteFileRequested => _onWriteFileRequested.stream;
-  ChromeStreamController<OnWriteFileRequestedEvent> _onWriteFileRequested;
+  late ChromeStreamController<OnWriteFileRequestedEvent> _onWriteFileRequested;
 
   Stream<OnAbortRequestedEvent> get onAbortRequested => _onAbortRequested.stream;
-  ChromeStreamController<OnAbortRequestedEvent> _onAbortRequested;
+  late ChromeStreamController<OnAbortRequestedEvent> _onAbortRequested;
 
   Stream<OnConfigureRequestedEvent> get onConfigureRequested => _onConfigureRequested.stream;
-  ChromeStreamController<OnConfigureRequestedEvent> _onConfigureRequested;
+  late ChromeStreamController<OnConfigureRequestedEvent> _onConfigureRequested;
 
   Stream<OnMountRequestedEvent> get onMountRequested => _onMountRequested.stream;
-  ChromeStreamController<OnMountRequestedEvent> _onMountRequested;
+  late ChromeStreamController<OnMountRequestedEvent> _onMountRequested;
 
   Stream<OnAddWatcherRequestedEvent> get onAddWatcherRequested => _onAddWatcherRequested.stream;
-  ChromeStreamController<OnAddWatcherRequestedEvent> _onAddWatcherRequested;
+  late ChromeStreamController<OnAddWatcherRequestedEvent> _onAddWatcherRequested;
 
   Stream<OnRemoveWatcherRequestedEvent> get onRemoveWatcherRequested => _onRemoveWatcherRequested.stream;
-  ChromeStreamController<OnRemoveWatcherRequestedEvent> _onRemoveWatcherRequested;
+  late ChromeStreamController<OnRemoveWatcherRequestedEvent> _onRemoveWatcherRequested;
 
   Stream<OnExecuteActionRequestedEvent> get onExecuteActionRequested => _onExecuteActionRequested.stream;
-  ChromeStreamController<OnExecuteActionRequestedEvent> _onExecuteActionRequested;
+  late ChromeStreamController<OnExecuteActionRequestedEvent> _onExecuteActionRequested;
 
   ChromeFileSystemProvider._() {
     var getApi = () => _fileSystemProvider;
-    _onUnmountRequested = new ChromeStreamController<OnUnmountRequestedEvent>.threeArgs(getApi, 'onUnmountRequested', _createOnUnmountRequestedEvent);
-    _onGetMetadataRequested = new ChromeStreamController<OnGetMetadataRequestedEvent>.threeArgs(getApi, 'onGetMetadataRequested', _createOnGetMetadataRequestedEvent);
-    _onGetActionsRequested = new ChromeStreamController<OnGetActionsRequestedEvent>.threeArgs(getApi, 'onGetActionsRequested', _createOnGetActionsRequestedEvent);
-    _onReadDirectoryRequested = new ChromeStreamController<OnReadDirectoryRequestedEvent>.threeArgs(getApi, 'onReadDirectoryRequested', _createOnReadDirectoryRequestedEvent);
-    _onOpenFileRequested = new ChromeStreamController<OnOpenFileRequestedEvent>.threeArgs(getApi, 'onOpenFileRequested', _createOnOpenFileRequestedEvent);
-    _onCloseFileRequested = new ChromeStreamController<OnCloseFileRequestedEvent>.threeArgs(getApi, 'onCloseFileRequested', _createOnCloseFileRequestedEvent);
-    _onReadFileRequested = new ChromeStreamController<OnReadFileRequestedEvent>.threeArgs(getApi, 'onReadFileRequested', _createOnReadFileRequestedEvent);
-    _onCreateDirectoryRequested = new ChromeStreamController<OnCreateDirectoryRequestedEvent>.threeArgs(getApi, 'onCreateDirectoryRequested', _createOnCreateDirectoryRequestedEvent);
-    _onDeleteEntryRequested = new ChromeStreamController<OnDeleteEntryRequestedEvent>.threeArgs(getApi, 'onDeleteEntryRequested', _createOnDeleteEntryRequestedEvent);
-    _onCreateFileRequested = new ChromeStreamController<OnCreateFileRequestedEvent>.threeArgs(getApi, 'onCreateFileRequested', _createOnCreateFileRequestedEvent);
-    _onCopyEntryRequested = new ChromeStreamController<OnCopyEntryRequestedEvent>.threeArgs(getApi, 'onCopyEntryRequested', _createOnCopyEntryRequestedEvent);
-    _onMoveEntryRequested = new ChromeStreamController<OnMoveEntryRequestedEvent>.threeArgs(getApi, 'onMoveEntryRequested', _createOnMoveEntryRequestedEvent);
-    _onTruncateRequested = new ChromeStreamController<OnTruncateRequestedEvent>.threeArgs(getApi, 'onTruncateRequested', _createOnTruncateRequestedEvent);
-    _onWriteFileRequested = new ChromeStreamController<OnWriteFileRequestedEvent>.threeArgs(getApi, 'onWriteFileRequested', _createOnWriteFileRequestedEvent);
-    _onAbortRequested = new ChromeStreamController<OnAbortRequestedEvent>.threeArgs(getApi, 'onAbortRequested', _createOnAbortRequestedEvent);
-    _onConfigureRequested = new ChromeStreamController<OnConfigureRequestedEvent>.threeArgs(getApi, 'onConfigureRequested', _createOnConfigureRequestedEvent);
-    _onMountRequested = new ChromeStreamController<OnMountRequestedEvent>.twoArgs(getApi, 'onMountRequested', _createOnMountRequestedEvent);
-    _onAddWatcherRequested = new ChromeStreamController<OnAddWatcherRequestedEvent>.threeArgs(getApi, 'onAddWatcherRequested', _createOnAddWatcherRequestedEvent);
-    _onRemoveWatcherRequested = new ChromeStreamController<OnRemoveWatcherRequestedEvent>.threeArgs(getApi, 'onRemoveWatcherRequested', _createOnRemoveWatcherRequestedEvent);
-    _onExecuteActionRequested = new ChromeStreamController<OnExecuteActionRequestedEvent>.threeArgs(getApi, 'onExecuteActionRequested', _createOnExecuteActionRequestedEvent);
+    _onUnmountRequested = ChromeStreamController<OnUnmountRequestedEvent>.threeArgs(getApi, 'onUnmountRequested', _createOnUnmountRequestedEvent);
+    _onGetMetadataRequested = ChromeStreamController<OnGetMetadataRequestedEvent>.threeArgs(getApi, 'onGetMetadataRequested', _createOnGetMetadataRequestedEvent);
+    _onGetActionsRequested = ChromeStreamController<OnGetActionsRequestedEvent>.threeArgs(getApi, 'onGetActionsRequested', _createOnGetActionsRequestedEvent);
+    _onReadDirectoryRequested = ChromeStreamController<OnReadDirectoryRequestedEvent>.threeArgs(getApi, 'onReadDirectoryRequested', _createOnReadDirectoryRequestedEvent);
+    _onOpenFileRequested = ChromeStreamController<OnOpenFileRequestedEvent>.threeArgs(getApi, 'onOpenFileRequested', _createOnOpenFileRequestedEvent);
+    _onCloseFileRequested = ChromeStreamController<OnCloseFileRequestedEvent>.threeArgs(getApi, 'onCloseFileRequested', _createOnCloseFileRequestedEvent);
+    _onReadFileRequested = ChromeStreamController<OnReadFileRequestedEvent>.threeArgs(getApi, 'onReadFileRequested', _createOnReadFileRequestedEvent);
+    _onCreateDirectoryRequested = ChromeStreamController<OnCreateDirectoryRequestedEvent>.threeArgs(getApi, 'onCreateDirectoryRequested', _createOnCreateDirectoryRequestedEvent);
+    _onDeleteEntryRequested = ChromeStreamController<OnDeleteEntryRequestedEvent>.threeArgs(getApi, 'onDeleteEntryRequested', _createOnDeleteEntryRequestedEvent);
+    _onCreateFileRequested = ChromeStreamController<OnCreateFileRequestedEvent>.threeArgs(getApi, 'onCreateFileRequested', _createOnCreateFileRequestedEvent);
+    _onCopyEntryRequested = ChromeStreamController<OnCopyEntryRequestedEvent>.threeArgs(getApi, 'onCopyEntryRequested', _createOnCopyEntryRequestedEvent);
+    _onMoveEntryRequested = ChromeStreamController<OnMoveEntryRequestedEvent>.threeArgs(getApi, 'onMoveEntryRequested', _createOnMoveEntryRequestedEvent);
+    _onTruncateRequested = ChromeStreamController<OnTruncateRequestedEvent>.threeArgs(getApi, 'onTruncateRequested', _createOnTruncateRequestedEvent);
+    _onWriteFileRequested = ChromeStreamController<OnWriteFileRequestedEvent>.threeArgs(getApi, 'onWriteFileRequested', _createOnWriteFileRequestedEvent);
+    _onAbortRequested = ChromeStreamController<OnAbortRequestedEvent>.threeArgs(getApi, 'onAbortRequested', _createOnAbortRequestedEvent);
+    _onConfigureRequested = ChromeStreamController<OnConfigureRequestedEvent>.threeArgs(getApi, 'onConfigureRequested', _createOnConfigureRequestedEvent);
+    _onMountRequested = ChromeStreamController<OnMountRequestedEvent>.twoArgs(getApi, 'onMountRequested', _createOnMountRequestedEvent);
+    _onAddWatcherRequested = ChromeStreamController<OnAddWatcherRequestedEvent>.threeArgs(getApi, 'onAddWatcherRequested', _createOnAddWatcherRequestedEvent);
+    _onRemoveWatcherRequested = ChromeStreamController<OnRemoveWatcherRequestedEvent>.threeArgs(getApi, 'onRemoveWatcherRequested', _createOnRemoveWatcherRequestedEvent);
+    _onExecuteActionRequested = ChromeStreamController<OnExecuteActionRequestedEvent>.threeArgs(getApi, 'onExecuteActionRequested', _createOnExecuteActionRequestedEvent);
   }
 
   bool get available => _fileSystemProvider != null;
@@ -118,7 +118,7 @@ class ChromeFileSystemProvider extends ChromeApi {
   Future mount(MountOptions options) {
     if (_fileSystemProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _fileSystemProvider.callMethod('mount', [jsify(options), completer.callback]);
     return completer.future;
   }
@@ -135,7 +135,7 @@ class ChromeFileSystemProvider extends ChromeApi {
   Future unmount(UnmountOptions options) {
     if (_fileSystemProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _fileSystemProvider.callMethod('unmount', [jsify(options), completer.callback]);
     return completer.future;
   }
@@ -149,7 +149,7 @@ class ChromeFileSystemProvider extends ChromeApi {
   Future<List<FileSystemInfo>> getAll() {
     if (_fileSystemProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<FileSystemInfo>>.oneArg((e) => listify(e, _createFileSystemInfo));
+    var completer =  ChromeCompleter<List<FileSystemInfo>>.oneArg((e) => listify(e, _createFileSystemInfo));
     _fileSystemProvider.callMethod('getAll', [completer.callback]);
     return completer.future;
   }
@@ -163,7 +163,7 @@ class ChromeFileSystemProvider extends ChromeApi {
   Future<FileSystemInfo> get(String fileSystemId) {
     if (_fileSystemProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<FileSystemInfo>.oneArg(_createFileSystemInfo);
+    var completer =  ChromeCompleter<FileSystemInfo>.oneArg(_createFileSystemInfo);
     _fileSystemProvider.callMethod('get', [fileSystemId, completer.callback]);
     return completer.future;
   }
@@ -198,13 +198,13 @@ class ChromeFileSystemProvider extends ChromeApi {
   Future notify(NotifyOptions options) {
     if (_fileSystemProvider == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _fileSystemProvider.callMethod('notify', [jsify(options), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.fileSystemProvider' is not available");
+    throw  UnsupportedError("'chrome.fileSystemProvider' is not available");
   }
 }
 
@@ -480,7 +480,7 @@ class CommonActionId extends ChromeEnum {
  * Represents metadata of a file or a directory.
  */
 class EntryMetadata extends ChromeObject {
-  EntryMetadata({bool isDirectory, String name, num size, var modificationTime, String mimeType, String thumbnail}) {
+  EntryMetadata({bool? isDirectory, String? name, num? size, Date? modificationTime, String? mimeType, String? thumbnail}) {
     if (isDirectory != null) this.isDirectory = isDirectory;
     if (name != null) this.name = name;
     if (size != null) this.size = size;
@@ -499,8 +499,8 @@ class EntryMetadata extends ChromeObject {
   num get size => jsProxy['size'];
   set size(num value) => jsProxy['size'] = jsify(value);
 
-  dynamic get modificationTime => jsProxy['modificationTime'];
-  set modificationTime(var value) => jsProxy['modificationTime'] = jsify(value);
+  Date get modificationTime => _createDate(jsProxy['modificationTime']);
+  set modificationTime(Date value) => jsProxy['modificationTime'] = jsify(value);
 
   String get mimeType => jsProxy['mimeType'];
   set mimeType(String value) => jsProxy['mimeType'] = value;
@@ -513,7 +513,7 @@ class EntryMetadata extends ChromeObject {
  * Represents a watcher.
  */
 class Watcher extends ChromeObject {
-  Watcher({String entryPath, bool recursive, String lastTag}) {
+  Watcher({String? entryPath, bool? recursive, String? lastTag}) {
     if (entryPath != null) this.entryPath = entryPath;
     if (recursive != null) this.recursive = recursive;
     if (lastTag != null) this.lastTag = lastTag;
@@ -534,7 +534,7 @@ class Watcher extends ChromeObject {
  * Represents an opened file.
  */
 class OpenedFile extends ChromeObject {
-  OpenedFile({int openRequestId, String filePath, OpenFileMode mode}) {
+  OpenedFile({int? openRequestId, String? filePath, OpenFileMode? mode}) {
     if (openRequestId != null) this.openRequestId = openRequestId;
     if (filePath != null) this.filePath = filePath;
     if (mode != null) this.mode = mode;
@@ -555,7 +555,7 @@ class OpenedFile extends ChromeObject {
  * Represents a mounted file system.
  */
 class FileSystemInfo extends ChromeObject {
-  FileSystemInfo({String fileSystemId, String displayName, bool writable, int openedFilesLimit, List<OpenedFile> openedFiles, bool supportsNotifyTag, List<Watcher> watchers}) {
+  FileSystemInfo({String? fileSystemId, String? displayName, bool? writable, int? openedFilesLimit, List<OpenedFile>? openedFiles, bool? supportsNotifyTag, List<Watcher>? watchers}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (displayName != null) this.displayName = displayName;
     if (writable != null) this.writable = writable;
@@ -592,7 +592,7 @@ class FileSystemInfo extends ChromeObject {
  * Options for the [mount] method.
  */
 class MountOptions extends ChromeObject {
-  MountOptions({String fileSystemId, String displayName, bool writable, int openedFilesLimit, bool supportsNotifyTag, bool persistent}) {
+  MountOptions({String? fileSystemId, String? displayName, bool? writable, int? openedFilesLimit, bool? supportsNotifyTag, bool? persistent}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (displayName != null) this.displayName = displayName;
     if (writable != null) this.writable = writable;
@@ -625,7 +625,7 @@ class MountOptions extends ChromeObject {
  * Options for the [unmount] method.
  */
 class UnmountOptions extends ChromeObject {
-  UnmountOptions({String fileSystemId}) {
+  UnmountOptions({String? fileSystemId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
   }
   UnmountOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -638,7 +638,7 @@ class UnmountOptions extends ChromeObject {
  * Options for the [onUnmountRequested] event.
  */
 class UnmountRequestedOptions extends ChromeObject {
-  UnmountRequestedOptions({String fileSystemId, int requestId}) {
+  UnmountRequestedOptions({String? fileSystemId, int? requestId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
   }
@@ -655,7 +655,7 @@ class UnmountRequestedOptions extends ChromeObject {
  * Options for the [onGetMetadataRequested] event.
  */
 class GetMetadataRequestedOptions extends ChromeObject {
-  GetMetadataRequestedOptions({String fileSystemId, int requestId, String entryPath, bool isDirectory, bool name, bool size, bool modificationTime, bool mimeType, bool thumbnail}) {
+  GetMetadataRequestedOptions({String? fileSystemId, int? requestId, String? entryPath, bool? isDirectory, bool? name, bool? size, bool? modificationTime, bool? mimeType, bool? thumbnail}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPath != null) this.entryPath = entryPath;
@@ -700,7 +700,7 @@ class GetMetadataRequestedOptions extends ChromeObject {
  * Options for the [onGetActionsRequested] event.
  */
 class GetActionsRequestedOptions extends ChromeObject {
-  GetActionsRequestedOptions({String fileSystemId, int requestId, List<String> entryPaths}) {
+  GetActionsRequestedOptions({String? fileSystemId, int? requestId, List<String>? entryPaths}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPaths != null) this.entryPaths = entryPaths;
@@ -721,7 +721,7 @@ class GetActionsRequestedOptions extends ChromeObject {
  * Options for the [onReadDirectoryRequested] event.
  */
 class ReadDirectoryRequestedOptions extends ChromeObject {
-  ReadDirectoryRequestedOptions({String fileSystemId, int requestId, String directoryPath, bool isDirectory, bool name, bool size, bool modificationTime, bool mimeType, bool thumbnail}) {
+  ReadDirectoryRequestedOptions({String? fileSystemId, int? requestId, String? directoryPath, bool? isDirectory, bool? name, bool? size, bool? modificationTime, bool? mimeType, bool? thumbnail}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (directoryPath != null) this.directoryPath = directoryPath;
@@ -766,7 +766,7 @@ class ReadDirectoryRequestedOptions extends ChromeObject {
  * Options for the [onOpenFileRequested] event.
  */
 class OpenFileRequestedOptions extends ChromeObject {
-  OpenFileRequestedOptions({String fileSystemId, int requestId, String filePath, OpenFileMode mode}) {
+  OpenFileRequestedOptions({String? fileSystemId, int? requestId, String? filePath, OpenFileMode? mode}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (filePath != null) this.filePath = filePath;
@@ -791,7 +791,7 @@ class OpenFileRequestedOptions extends ChromeObject {
  * Options for the [onCloseFileRequested] event.
  */
 class CloseFileRequestedOptions extends ChromeObject {
-  CloseFileRequestedOptions({String fileSystemId, int requestId, int openRequestId}) {
+  CloseFileRequestedOptions({String? fileSystemId, int? requestId, int? openRequestId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (openRequestId != null) this.openRequestId = openRequestId;
@@ -812,7 +812,7 @@ class CloseFileRequestedOptions extends ChromeObject {
  * Options for the [onReadFileRequested] event.
  */
 class ReadFileRequestedOptions extends ChromeObject {
-  ReadFileRequestedOptions({String fileSystemId, int requestId, int openRequestId, num offset, num length}) {
+  ReadFileRequestedOptions({String? fileSystemId, int? requestId, int? openRequestId, num? offset, num? length}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (openRequestId != null) this.openRequestId = openRequestId;
@@ -841,7 +841,7 @@ class ReadFileRequestedOptions extends ChromeObject {
  * Options for the [onCreateDirectoryRequested] event.
  */
 class CreateDirectoryRequestedOptions extends ChromeObject {
-  CreateDirectoryRequestedOptions({String fileSystemId, int requestId, String directoryPath, bool recursive}) {
+  CreateDirectoryRequestedOptions({String? fileSystemId, int? requestId, String? directoryPath, bool? recursive}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (directoryPath != null) this.directoryPath = directoryPath;
@@ -866,7 +866,7 @@ class CreateDirectoryRequestedOptions extends ChromeObject {
  * Options for the [onDeleteEntryRequested] event.
  */
 class DeleteEntryRequestedOptions extends ChromeObject {
-  DeleteEntryRequestedOptions({String fileSystemId, int requestId, String entryPath, bool recursive}) {
+  DeleteEntryRequestedOptions({String? fileSystemId, int? requestId, String? entryPath, bool? recursive}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPath != null) this.entryPath = entryPath;
@@ -891,7 +891,7 @@ class DeleteEntryRequestedOptions extends ChromeObject {
  * Options for the [onCreateFileRequested] event.
  */
 class CreateFileRequestedOptions extends ChromeObject {
-  CreateFileRequestedOptions({String fileSystemId, int requestId, String filePath}) {
+  CreateFileRequestedOptions({String? fileSystemId, int? requestId, String? filePath}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (filePath != null) this.filePath = filePath;
@@ -912,7 +912,7 @@ class CreateFileRequestedOptions extends ChromeObject {
  * Options for the [onCopyEntryRequested] event.
  */
 class CopyEntryRequestedOptions extends ChromeObject {
-  CopyEntryRequestedOptions({String fileSystemId, int requestId, String sourcePath, String targetPath}) {
+  CopyEntryRequestedOptions({String? fileSystemId, int? requestId, String? sourcePath, String? targetPath}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (sourcePath != null) this.sourcePath = sourcePath;
@@ -937,7 +937,7 @@ class CopyEntryRequestedOptions extends ChromeObject {
  * Options for the [onMoveEntryRequested] event.
  */
 class MoveEntryRequestedOptions extends ChromeObject {
-  MoveEntryRequestedOptions({String fileSystemId, int requestId, String sourcePath, String targetPath}) {
+  MoveEntryRequestedOptions({String? fileSystemId, int? requestId, String? sourcePath, String? targetPath}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (sourcePath != null) this.sourcePath = sourcePath;
@@ -962,7 +962,7 @@ class MoveEntryRequestedOptions extends ChromeObject {
  * Options for the [onTruncateRequested] event.
  */
 class TruncateRequestedOptions extends ChromeObject {
-  TruncateRequestedOptions({String fileSystemId, int requestId, String filePath, num length}) {
+  TruncateRequestedOptions({String? fileSystemId, int? requestId, String? filePath, num? length}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (filePath != null) this.filePath = filePath;
@@ -987,7 +987,7 @@ class TruncateRequestedOptions extends ChromeObject {
  * Options for the [onWriteFileRequested] event.
  */
 class WriteFileRequestedOptions extends ChromeObject {
-  WriteFileRequestedOptions({String fileSystemId, int requestId, int openRequestId, num offset, ArrayBuffer data}) {
+  WriteFileRequestedOptions({String? fileSystemId, int? requestId, int? openRequestId, num? offset, ArrayBuffer? data}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (openRequestId != null) this.openRequestId = openRequestId;
@@ -1016,7 +1016,7 @@ class WriteFileRequestedOptions extends ChromeObject {
  * Options for the [onAbortRequested] event.
  */
 class AbortRequestedOptions extends ChromeObject {
-  AbortRequestedOptions({String fileSystemId, int requestId, int operationRequestId}) {
+  AbortRequestedOptions({String? fileSystemId, int? requestId, int? operationRequestId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (operationRequestId != null) this.operationRequestId = operationRequestId;
@@ -1037,7 +1037,7 @@ class AbortRequestedOptions extends ChromeObject {
  * Options for the [onAddWatcherRequested] event.
  */
 class AddWatcherRequestedOptions extends ChromeObject {
-  AddWatcherRequestedOptions({String fileSystemId, int requestId, String entryPath, bool recursive}) {
+  AddWatcherRequestedOptions({String? fileSystemId, int? requestId, String? entryPath, bool? recursive}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPath != null) this.entryPath = entryPath;
@@ -1062,7 +1062,7 @@ class AddWatcherRequestedOptions extends ChromeObject {
  * Options for the [onRemoveWatcherRequested] event.
  */
 class RemoveWatcherRequestedOptions extends ChromeObject {
-  RemoveWatcherRequestedOptions({String fileSystemId, int requestId, String entryPath, bool recursive}) {
+  RemoveWatcherRequestedOptions({String? fileSystemId, int? requestId, String? entryPath, bool? recursive}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPath != null) this.entryPath = entryPath;
@@ -1087,7 +1087,7 @@ class RemoveWatcherRequestedOptions extends ChromeObject {
  * Information about an action for an entry.
  */
 class Action extends ChromeObject {
-  Action({String id, String title}) {
+  Action({String? id, String? title}) {
     if (id != null) this.id = id;
     if (title != null) this.title = title;
   }
@@ -1104,7 +1104,7 @@ class Action extends ChromeObject {
  * Options for the [onExecuteActionRequested] event.
  */
 class ExecuteActionRequestedOptions extends ChromeObject {
-  ExecuteActionRequestedOptions({String fileSystemId, int requestId, List<String> entryPaths, String actionId}) {
+  ExecuteActionRequestedOptions({String? fileSystemId, int? requestId, List<String>? entryPaths, String? actionId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
     if (entryPaths != null) this.entryPaths = entryPaths;
@@ -1130,7 +1130,7 @@ class ExecuteActionRequestedOptions extends ChromeObject {
  * (including the entry itself).
  */
 class Change extends ChromeObject {
-  Change({String entryPath, ChangeType changeType}) {
+  Change({String? entryPath, ChangeType? changeType}) {
     if (entryPath != null) this.entryPath = entryPath;
     if (changeType != null) this.changeType = changeType;
   }
@@ -1147,7 +1147,7 @@ class Change extends ChromeObject {
  * Options for the [notify] method.
  */
 class NotifyOptions extends ChromeObject {
-  NotifyOptions({String fileSystemId, String observedPath, bool recursive, ChangeType changeType, List<Change> changes, String tag}) {
+  NotifyOptions({String? fileSystemId, String? observedPath, bool? recursive, ChangeType? changeType, List<Change>? changes, String? tag}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (observedPath != null) this.observedPath = observedPath;
     if (recursive != null) this.recursive = recursive;
@@ -1180,7 +1180,7 @@ class NotifyOptions extends ChromeObject {
  * Options for the [onConfigureRequested] event.
  */
 class ConfigureRequestedOptions extends ChromeObject {
-  ConfigureRequestedOptions({String fileSystemId, int requestId}) {
+  ConfigureRequestedOptions({String? fileSystemId, int? requestId}) {
     if (fileSystemId != null) this.fileSystemId = fileSystemId;
     if (requestId != null) this.requestId = requestId;
   }
@@ -1194,74 +1194,75 @@ class ConfigureRequestedOptions extends ChromeObject {
 }
 
 OnUnmountRequestedEvent _createOnUnmountRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnUnmountRequestedEvent(_createUnmountRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnUnmountRequestedEvent(_createUnmountRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnGetMetadataRequestedEvent _createOnGetMetadataRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnGetMetadataRequestedEvent(_createGetMetadataRequestedOptions(options), _createMetadataCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnGetMetadataRequestedEvent(_createGetMetadataRequestedOptions(options), _createMetadataCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnGetActionsRequestedEvent _createOnGetActionsRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnGetActionsRequestedEvent(_createGetActionsRequestedOptions(options), _createActionsCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnGetActionsRequestedEvent(_createGetActionsRequestedOptions(options), _createActionsCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnReadDirectoryRequestedEvent _createOnReadDirectoryRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnReadDirectoryRequestedEvent(_createReadDirectoryRequestedOptions(options), _createEntriesCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnReadDirectoryRequestedEvent(_createReadDirectoryRequestedOptions(options), _createEntriesCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnOpenFileRequestedEvent _createOnOpenFileRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnOpenFileRequestedEvent(_createOpenFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnOpenFileRequestedEvent(_createOpenFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnCloseFileRequestedEvent _createOnCloseFileRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnCloseFileRequestedEvent(_createCloseFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnCloseFileRequestedEvent(_createCloseFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnReadFileRequestedEvent _createOnReadFileRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnReadFileRequestedEvent(_createReadFileRequestedOptions(options), _createFileDataCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnReadFileRequestedEvent(_createReadFileRequestedOptions(options), _createFileDataCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnCreateDirectoryRequestedEvent _createOnCreateDirectoryRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnCreateDirectoryRequestedEvent(_createCreateDirectoryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnCreateDirectoryRequestedEvent(_createCreateDirectoryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnDeleteEntryRequestedEvent _createOnDeleteEntryRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnDeleteEntryRequestedEvent(_createDeleteEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnDeleteEntryRequestedEvent(_createDeleteEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnCreateFileRequestedEvent _createOnCreateFileRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnCreateFileRequestedEvent(_createCreateFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnCreateFileRequestedEvent(_createCreateFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnCopyEntryRequestedEvent _createOnCopyEntryRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnCopyEntryRequestedEvent(_createCopyEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnCopyEntryRequestedEvent(_createCopyEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnMoveEntryRequestedEvent _createOnMoveEntryRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnMoveEntryRequestedEvent(_createMoveEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnMoveEntryRequestedEvent(_createMoveEntryRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnTruncateRequestedEvent _createOnTruncateRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnTruncateRequestedEvent(_createTruncateRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnTruncateRequestedEvent(_createTruncateRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnWriteFileRequestedEvent _createOnWriteFileRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnWriteFileRequestedEvent(_createWriteFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnWriteFileRequestedEvent(_createWriteFileRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnAbortRequestedEvent _createOnAbortRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnAbortRequestedEvent(_createAbortRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnAbortRequestedEvent(_createAbortRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnConfigureRequestedEvent _createOnConfigureRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnConfigureRequestedEvent(_createConfigureRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnConfigureRequestedEvent(_createConfigureRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnMountRequestedEvent _createOnMountRequestedEvent(JsObject successCallback, JsObject errorCallback) =>
-    new OnMountRequestedEvent(_createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnMountRequestedEvent(_createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnAddWatcherRequestedEvent _createOnAddWatcherRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnAddWatcherRequestedEvent(_createAddWatcherRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnAddWatcherRequestedEvent(_createAddWatcherRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnRemoveWatcherRequestedEvent _createOnRemoveWatcherRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnRemoveWatcherRequestedEvent(_createRemoveWatcherRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+    OnRemoveWatcherRequestedEvent(_createRemoveWatcherRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
 OnExecuteActionRequestedEvent _createOnExecuteActionRequestedEvent(JsObject options, JsObject successCallback, JsObject errorCallback) =>
-    new OnExecuteActionRequestedEvent(_createExecuteActionRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
-FileSystemInfo _createFileSystemInfo(JsObject jsProxy) => jsProxy == null ? null : new FileSystemInfo.fromProxy(jsProxy);
+    OnExecuteActionRequestedEvent(_createExecuteActionRequestedOptions(options), _createProviderSuccessCallback(successCallback), _createProviderErrorCallback(errorCallback));
+FileSystemInfo _createFileSystemInfo(JsObject jsProxy) => FileSystemInfo.fromProxy(jsProxy);
+Date _createDate(JsObject jsProxy) => Date.fromProxy(jsProxy);
 OpenFileMode _createOpenFileMode(String value) => OpenFileMode.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-OpenedFile _createOpenedFile(JsObject jsProxy) => jsProxy == null ? null : new OpenedFile.fromProxy(jsProxy);
-Watcher _createWatcher(JsObject jsProxy) => jsProxy == null ? null : new Watcher.fromProxy(jsProxy);
-ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => jsProxy == null ? null : new ArrayBuffer.fromProxy(jsProxy);
+OpenedFile _createOpenedFile(JsObject jsProxy) => OpenedFile.fromProxy(jsProxy);
+Watcher _createWatcher(JsObject jsProxy) => Watcher.fromProxy(jsProxy);
+ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => ArrayBuffer.fromProxy(jsProxy);
 ChangeType _createChangeType(String value) => ChangeType.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-Change _createChange(JsObject jsProxy) => jsProxy == null ? null : new Change.fromProxy(jsProxy);
-UnmountRequestedOptions _createUnmountRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new UnmountRequestedOptions.fromProxy(jsProxy);
-ProviderSuccessCallback _createProviderSuccessCallback(JsObject jsProxy) => jsProxy == null ? null : new ProviderSuccessCallback.fromProxy(jsProxy);
-ProviderErrorCallback _createProviderErrorCallback(JsObject jsProxy) => jsProxy == null ? null : new ProviderErrorCallback.fromProxy(jsProxy);
-GetMetadataRequestedOptions _createGetMetadataRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new GetMetadataRequestedOptions.fromProxy(jsProxy);
-MetadataCallback _createMetadataCallback(JsObject jsProxy) => jsProxy == null ? null : new MetadataCallback.fromProxy(jsProxy);
-GetActionsRequestedOptions _createGetActionsRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new GetActionsRequestedOptions.fromProxy(jsProxy);
-ActionsCallback _createActionsCallback(JsObject jsProxy) => jsProxy == null ? null : new ActionsCallback.fromProxy(jsProxy);
-ReadDirectoryRequestedOptions _createReadDirectoryRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new ReadDirectoryRequestedOptions.fromProxy(jsProxy);
-EntriesCallback _createEntriesCallback(JsObject jsProxy) => jsProxy == null ? null : new EntriesCallback.fromProxy(jsProxy);
-OpenFileRequestedOptions _createOpenFileRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new OpenFileRequestedOptions.fromProxy(jsProxy);
-CloseFileRequestedOptions _createCloseFileRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new CloseFileRequestedOptions.fromProxy(jsProxy);
-ReadFileRequestedOptions _createReadFileRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new ReadFileRequestedOptions.fromProxy(jsProxy);
-FileDataCallback _createFileDataCallback(JsObject jsProxy) => jsProxy == null ? null : new FileDataCallback.fromProxy(jsProxy);
-CreateDirectoryRequestedOptions _createCreateDirectoryRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new CreateDirectoryRequestedOptions.fromProxy(jsProxy);
-DeleteEntryRequestedOptions _createDeleteEntryRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new DeleteEntryRequestedOptions.fromProxy(jsProxy);
-CreateFileRequestedOptions _createCreateFileRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new CreateFileRequestedOptions.fromProxy(jsProxy);
-CopyEntryRequestedOptions _createCopyEntryRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new CopyEntryRequestedOptions.fromProxy(jsProxy);
-MoveEntryRequestedOptions _createMoveEntryRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new MoveEntryRequestedOptions.fromProxy(jsProxy);
-TruncateRequestedOptions _createTruncateRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new TruncateRequestedOptions.fromProxy(jsProxy);
-WriteFileRequestedOptions _createWriteFileRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new WriteFileRequestedOptions.fromProxy(jsProxy);
-AbortRequestedOptions _createAbortRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new AbortRequestedOptions.fromProxy(jsProxy);
-ConfigureRequestedOptions _createConfigureRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new ConfigureRequestedOptions.fromProxy(jsProxy);
-AddWatcherRequestedOptions _createAddWatcherRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new AddWatcherRequestedOptions.fromProxy(jsProxy);
-RemoveWatcherRequestedOptions _createRemoveWatcherRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new RemoveWatcherRequestedOptions.fromProxy(jsProxy);
-ExecuteActionRequestedOptions _createExecuteActionRequestedOptions(JsObject jsProxy) => jsProxy == null ? null : new ExecuteActionRequestedOptions.fromProxy(jsProxy);
+Change _createChange(JsObject jsProxy) => Change.fromProxy(jsProxy);
+UnmountRequestedOptions _createUnmountRequestedOptions(JsObject jsProxy) => UnmountRequestedOptions.fromProxy(jsProxy);
+ProviderSuccessCallback _createProviderSuccessCallback(JsObject jsProxy) => ProviderSuccessCallback.fromProxy(jsProxy);
+ProviderErrorCallback _createProviderErrorCallback(JsObject jsProxy) => ProviderErrorCallback.fromProxy(jsProxy);
+GetMetadataRequestedOptions _createGetMetadataRequestedOptions(JsObject jsProxy) => GetMetadataRequestedOptions.fromProxy(jsProxy);
+MetadataCallback _createMetadataCallback(JsObject jsProxy) => MetadataCallback.fromProxy(jsProxy);
+GetActionsRequestedOptions _createGetActionsRequestedOptions(JsObject jsProxy) => GetActionsRequestedOptions.fromProxy(jsProxy);
+ActionsCallback _createActionsCallback(JsObject jsProxy) => ActionsCallback.fromProxy(jsProxy);
+ReadDirectoryRequestedOptions _createReadDirectoryRequestedOptions(JsObject jsProxy) => ReadDirectoryRequestedOptions.fromProxy(jsProxy);
+EntriesCallback _createEntriesCallback(JsObject jsProxy) => EntriesCallback.fromProxy(jsProxy);
+OpenFileRequestedOptions _createOpenFileRequestedOptions(JsObject jsProxy) => OpenFileRequestedOptions.fromProxy(jsProxy);
+CloseFileRequestedOptions _createCloseFileRequestedOptions(JsObject jsProxy) => CloseFileRequestedOptions.fromProxy(jsProxy);
+ReadFileRequestedOptions _createReadFileRequestedOptions(JsObject jsProxy) => ReadFileRequestedOptions.fromProxy(jsProxy);
+FileDataCallback _createFileDataCallback(JsObject jsProxy) => FileDataCallback.fromProxy(jsProxy);
+CreateDirectoryRequestedOptions _createCreateDirectoryRequestedOptions(JsObject jsProxy) => CreateDirectoryRequestedOptions.fromProxy(jsProxy);
+DeleteEntryRequestedOptions _createDeleteEntryRequestedOptions(JsObject jsProxy) => DeleteEntryRequestedOptions.fromProxy(jsProxy);
+CreateFileRequestedOptions _createCreateFileRequestedOptions(JsObject jsProxy) => CreateFileRequestedOptions.fromProxy(jsProxy);
+CopyEntryRequestedOptions _createCopyEntryRequestedOptions(JsObject jsProxy) => CopyEntryRequestedOptions.fromProxy(jsProxy);
+MoveEntryRequestedOptions _createMoveEntryRequestedOptions(JsObject jsProxy) => MoveEntryRequestedOptions.fromProxy(jsProxy);
+TruncateRequestedOptions _createTruncateRequestedOptions(JsObject jsProxy) => TruncateRequestedOptions.fromProxy(jsProxy);
+WriteFileRequestedOptions _createWriteFileRequestedOptions(JsObject jsProxy) => WriteFileRequestedOptions.fromProxy(jsProxy);
+AbortRequestedOptions _createAbortRequestedOptions(JsObject jsProxy) => AbortRequestedOptions.fromProxy(jsProxy);
+ConfigureRequestedOptions _createConfigureRequestedOptions(JsObject jsProxy) => ConfigureRequestedOptions.fromProxy(jsProxy);
+AddWatcherRequestedOptions _createAddWatcherRequestedOptions(JsObject jsProxy) => AddWatcherRequestedOptions.fromProxy(jsProxy);
+RemoveWatcherRequestedOptions _createRemoveWatcherRequestedOptions(JsObject jsProxy) => RemoveWatcherRequestedOptions.fromProxy(jsProxy);
+ExecuteActionRequestedOptions _createExecuteActionRequestedOptions(JsObject jsProxy) => ExecuteActionRequestedOptions.fromProxy(jsProxy);

@@ -1,4 +1,3 @@
-
 library chrome.src.common_exp;
 
 import 'dart:js';
@@ -54,10 +53,11 @@ abstract class ChromeEnum {
 
 // This is shared in common by app.window and system.display.
 class Bounds extends ChromeObject {
-  static Bounds create(JsObject jsProxy) => jsProxy == null ? null : new Bounds.fromProxy(jsProxy);
+  static Bounds? create(JsObject? jsProxy) =>
+      jsProxy == null ? null : new Bounds.fromProxy(jsProxy);
 
   Bounds();
-  Bounds.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+  Bounds.fromProxy(JsObject jsProxy) : super.fromProxy(jsProxy);
 
   int get left => jsProxy['left'];
   set left(int value) => jsProxy['left'] = value;
@@ -73,7 +73,8 @@ class Bounds extends ChromeObject {
 }
 
 class ArrayBuffer extends ChromeObject {
-  static ArrayBuffer create(/*JsObject*/ jsProxy) => new ArrayBuffer.fromProxy(jsProxy);
+  static ArrayBuffer create(/*JsObject*/ jsProxy) =>
+      new ArrayBuffer.fromProxy(jsProxy);
 
   ArrayBuffer();
   ArrayBuffer._proxy(jsProxy) : super.fromProxy(jsProxy);
@@ -83,18 +84,20 @@ class ArrayBuffer extends ChromeObject {
 //    if (jsProxy is typed_data.Uint8List) {
 //      return new _Uint8ListArrayBuffer(jsProxy);
 //    } else {
-      return new ArrayBuffer._proxy(jsProxy);
+    return new ArrayBuffer._proxy(jsProxy);
 //    }
   }
 
   factory ArrayBuffer.fromBytes(List<int> data) {
-    var uint8Array = new JsObject(context['Uint8Array'], [new JsArray.from(data)]);
+    var uint8Array =
+        new JsObject(context['Uint8Array'], [new JsArray.from(data)]);
 
     return new ArrayBuffer.fromProxy(uint8Array['buffer']);
   }
 
   factory ArrayBuffer.fromString(String str) {
-    var uint8Array = new JsObject(context['Uint8Array'], [new JsArray.from(str.codeUnits)]);
+    var uint8Array =
+        new JsObject(context['Uint8Array'], [new JsArray.from(str.codeUnits)]);
 
     return new ArrayBuffer.fromProxy(uint8Array['buffer']);
   }
@@ -105,15 +108,12 @@ class ArrayBuffer extends ChromeObject {
     } else {
       var int8View = new JsObject(context['Uint8Array'], [jsProxy]);
 
-      List<int> result = new List<int>(int8View['length']);
-
-      // TODO: this is _very_ slow
-      // can we instead do: jsArray = Array.apply([], int8View);
-      for (int i = 0; i < result.length; i++) {
-        result[i] = int8View[i];
-      }
-
-      return result;
+      var length = int8View['length'] as int;
+      return [
+        // TODO: this is _very_ slow
+        // can we instead do: jsArray = Array.apply([], int8View);
+        for (int i = 0; i < length; i++) int8View[i]
+      ];
     }
   }
 }
@@ -216,8 +216,9 @@ class StopPinRequestCallback {
 
 // TODO:
 class LocalMediaStream extends ChromeObject {
-  static LocalMediaStream create(JsObject jsProxy) => new LocalMediaStream.fromProxy(jsProxy);
+  static LocalMediaStream create(JsObject jsProxy) =>
+      new LocalMediaStream.fromProxy(jsProxy);
 
   LocalMediaStream();
-  LocalMediaStream.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+  LocalMediaStream.fromProxy(JsObject jsProxy) : super.fromProxy(jsProxy);
 }

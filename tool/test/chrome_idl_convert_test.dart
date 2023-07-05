@@ -47,7 +47,7 @@ namespace power {
   };
 };""";
 
-    var namespace = chromeIDLParser.namespaceDeclaration.parse(testData);
+    var namespace = chromeIDLParser.namespaceDeclaration.parse(testData).value;
 
     var chromeLibrary = convert(namespace);
     expect(chromeLibrary, isNotNull);

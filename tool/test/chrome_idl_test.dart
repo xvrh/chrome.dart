@@ -173,6 +173,22 @@ void chromeIDLParserAttributeDeclarationTests() {
     expect(attribute.attributeValues![1], equals(32));
   });
 
+  test('attribute with [platforms = ("chromeos", "lacros")]', () {
+    var attributeDeclaration = chromeIDLParser.attributeDeclaration
+        .parse('[platforms = ("chromeos", "lacros")]')
+        .value;
+
+    expect(attributeDeclaration, isNotNull);
+    var attributes = attributeDeclaration.attributes;
+    expect(attributes.length, equals(1));
+    var attribute = attributes[0];
+    expect(attribute, isNotNull);
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.PLATFORMS));
+    expect(attribute.attributeValues!.length, equals(2));
+    expect(attribute.attributeValues![0], equals('chromeos'));
+    expect(attribute.attributeValues![1], equals('lacros'));
+  });
+
   test('attribute with [nocompile, nodoc]', () {
     var attributeDeclaration =
         chromeIDLParser.attributeDeclaration.parse("[nocompile, nodoc]").value;
@@ -1974,5 +1990,31 @@ DownloadItem downloadItem, SuggestFilenameCallback suggest);
         chromeIDLParser.callbackDeclaration.parse(testData).value;
 
     expect(callbackDeclaration, isNotNull);
+  });
+
+  test('namespace with dot in identifier', () {
+    var testData = """namespace enterprise.deviceAttributes { };""";
+
+    var namespace = chromeIDLParser.namespaceDeclaration.parse(testData).value;
+
+    expect(namespace, isNotNull);
+  });
+
+  test('enum value with attribute', () {
+    var testData = """
+namespace notifications {
+  enum TemplateType {
+    // icon, title, message, expandedMessage, up to two buttons
+    basic,
+
+    // icon, title, message, expandedMessage, image, up to two buttons
+    [deprecated="The image is not visible for Mac OS X users."]
+    image
+  };
+};
+""";
+
+    var namespace = chromeIDLParser.namespaceDeclaration.parse(testData).value;
+    expect(namespace, isNotNull);
   });
 }

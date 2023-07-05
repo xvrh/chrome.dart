@@ -156,94 +156,98 @@ class IDLParameter {
 
 /// This class provides an enumeration of the different types of attributes
 /// used in the chrome apps idls.
-class IDLAttributeTypeEnum {
-  final String type;
-
-  const IDLAttributeTypeEnum._(this.type);
-
-  static const values = const [
-    DEPRECATED,
-    INSTANCE_OF,
-    SUPPORTS_FILTER,
-    NOINLINE_DOC,
-    INLINE_DOC,
-    NODOC,
-    NOCOMPILE,
-    LEGAL_VALUES,
-    PERMISSIONS,
-    MAX_LISTENERS,
-    IMPLEMENTED_IN,
-    NODEFINE,
-    PLATFORMS
-  ];
-
+enum IDLAttributeTypeEnum {
   /// Example:
   ///
   ///    [deprecated="Use innerBounds or outerBounds."]
-  static const DEPRECATED = const IDLAttributeTypeEnum._("deprecated");
+  DEPRECATED("deprecated"),
 
   /// Example:
   ///
   ///  [instanceOf=Window]
-  static const INSTANCE_OF = const IDLAttributeTypeEnum._("instanceOf");
+  INSTANCE_OF("instanceOf"),
 
   /// Example:
   ///
   ///  [nodefine]
-  static const NODEFINE = const IDLAttributeTypeEnum._("nodefine");
+  NODEFINE("nodefine"),
 
   /// Example:
   ///
   ///  [implemented_in="path/to/implementation.h"]
-  static const IMPLEMENTED_IN = const IDLAttributeTypeEnum._("implemented_in");
+  IMPLEMENTED_IN("implemented_in"),
 
   /// Example:
   ///
   /// [supportsFilters=true]
-  static const SUPPORTS_FILTER =
-      const IDLAttributeTypeEnum._("supportsFilters");
+  SUPPORTS_FILTER("supportsFilters"),
 
   /// Example:
   ///
   /// [inline_doc]
-  static const INLINE_DOC = const IDLAttributeTypeEnum._("inline_doc");
+  INLINE_DOC("inline_doc"),
 
   /// Example:
   ///
   /// [noinline_doc]
-  static const NOINLINE_DOC = const IDLAttributeTypeEnum._("noinline_doc");
+  NOINLINE_DOC("noinline_doc"),
 
   /// Example:
   ///
   /// [nodoc]
-  static const NODOC = const IDLAttributeTypeEnum._("nodoc");
+  NODOC("nodoc"),
 
   /// Example:
   ///
   /// [nocompile]
   ///
   /// also sometimes paired with [nocompile, nodoc]
-  static const NOCOMPILE = const IDLAttributeTypeEnum._("nocompile");
+  NOCOMPILE("nocompile"),
 
   /// Example:
   ///
   /// [legalValues=(16,32)]
-  static const LEGAL_VALUES = const IDLAttributeTypeEnum._("legalValues");
+  LEGAL_VALUES("legalValues"),
 
   /// Example:
   ///
   /// [permissions=downloads]
-  static const PERMISSIONS = const IDLAttributeTypeEnum._("permissions");
+  PERMISSIONS("permissions"),
 
   /// Example:
   ///
   /// [maxListeners=1]
-  static const MAX_LISTENERS = const IDLAttributeTypeEnum._("maxListeners");
+  MAX_LISTENERS("maxListeners"),
 
   /// Example:
   ///
   /// [platforms = ("chromeos")]
-  static const PLATFORMS = const IDLAttributeTypeEnum._("platforms");
+  PLATFORMS("platforms"),
+
+  /// Example:
+  ///
+  /// [supportsPromises]
+  SUPPORTS_PROMISES("supportsPromises"),
+
+  /// Example:
+  ///
+  /// [modernised_enums]
+  MODERNISED_ENUMS("modernised_enums"),
+
+  /// Example:
+  ///
+  /// [generate_error_messages]
+  GENERATE_ERROR_MESSAGES("generate_error_messages"),
+
+  /// Example:
+  ///
+  /// [value]
+  VALUE("value"),
+  ;
+
+  final String type;
+
+  const IDLAttributeTypeEnum(this.type);
 }
 
 class IDLAttribute {

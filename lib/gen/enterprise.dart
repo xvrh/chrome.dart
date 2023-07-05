@@ -12,12 +12,12 @@ class ChromeEnterprise {
   /**
    * Accessor for the `chrome.enterprise.deviceAttributes` namespace.
    */
-  final ChromeEnterpriseDeviceAttributes deviceAttributes = new ChromeEnterpriseDeviceAttributes._();
+  final ChromeEnterpriseDeviceAttributes deviceAttributes = ChromeEnterpriseDeviceAttributes._();
 
   /**
    * Accessor for the `chrome.enterprise.platformKeys` namespace.
    */
-  final ChromeEnterprisePlatformKeys platformKeys = new ChromeEnterprisePlatformKeys._();
+  final ChromeEnterprisePlatformKeys platformKeys = ChromeEnterprisePlatformKeys._();
 }
 
 /**
@@ -45,7 +45,7 @@ class ChromeEnterpriseDeviceAttributes extends ChromeApi {
   Future<String> getDirectoryDeviceId() {
     if (_enterprise_deviceAttributes == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _enterprise_deviceAttributes.callMethod('getDirectoryDeviceId', [completer.callback]);
     return completer.future;
   }
@@ -61,7 +61,7 @@ class ChromeEnterpriseDeviceAttributes extends ChromeApi {
   Future<String> getDeviceSerialNumber() {
     if (_enterprise_deviceAttributes == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _enterprise_deviceAttributes.callMethod('getDeviceSerialNumber', [completer.callback]);
     return completer.future;
   }
@@ -75,7 +75,7 @@ class ChromeEnterpriseDeviceAttributes extends ChromeApi {
   Future<String> getDeviceAssetId() {
     if (_enterprise_deviceAttributes == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _enterprise_deviceAttributes.callMethod('getDeviceAssetId', [completer.callback]);
     return completer.future;
   }
@@ -89,21 +89,35 @@ class ChromeEnterpriseDeviceAttributes extends ChromeApi {
   Future<String> getDeviceAnnotatedLocation() {
     if (_enterprise_deviceAttributes == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<String>.oneArg();
+    var completer =  ChromeCompleter<String>.oneArg();
     _enterprise_deviceAttributes.callMethod('getDeviceAnnotatedLocation', [completer.callback]);
     return completer.future;
   }
 
+  /**
+   * Fetches the device's hostname as set by DeviceHostnameTemplate policy. If
+   * the current user is not affiliated or no hostname has been set by the
+   * enterprise policy, returns an empty string.
+   * [callback]: Called with hostname of the device.
+   */
+  Future<String> getDeviceHostname() {
+    if (_enterprise_deviceAttributes == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter<String>.oneArg();
+    _enterprise_deviceAttributes.callMethod('getDeviceHostname', [completer.callback]);
+    return completer.future;
+  }
+
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.enterprise.deviceAttributes' is not available");
+    throw  UnsupportedError("'chrome.enterprise.deviceAttributes' is not available");
   }
 }
 
 /**
- * Use the `chrome.enterprise.platformKeys` API to generate hardware-backed keys
- * and to install certificates for these keys. The certificates will be managed
- * by the platform and can be used for TLS authentication, network access or by
- * other extension through $(ref:platformKeys chrome.platformKeys).
+ * Use the `chrome.enterprise.platformKeys` API to generate keys and install
+ * certificates for these keys. The certificates will be managed by the platform
+ * and can be used for TLS authentication, network access or by other extension
+ * through $(ref:platformKeys chrome.platformKeys).
  */
 class ChromeEnterprisePlatformKeys extends ChromeApi {
   JsObject get _enterprise_platformKeys => chrome['enterprise']['platformKeys'];
@@ -126,7 +140,7 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
   Future<List<Token>> getTokens() {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Token>>.oneArg((e) => listify(e, _createToken));
+    var completer =  ChromeCompleter<List<Token>>.oneArg((e) => listify(e, _createToken));
     _enterprise_platformKeys.callMethod('getTokens', [completer.callback]);
     return completer.future;
   }
@@ -146,7 +160,7 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
   Future<List<ArrayBuffer>> getCertificates(String tokenId) {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<ArrayBuffer>>.oneArg((e) => listify(e, _createArrayBuffer));
+    var completer =  ChromeCompleter<List<ArrayBuffer>>.oneArg((e) => listify(e, _createArrayBuffer));
     _enterprise_platformKeys.callMethod('getCertificates', [tokenId, completer.callback]);
     return completer.future;
   }
@@ -163,7 +177,7 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
   Future importCertificate(String tokenId, ArrayBuffer certificate) {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _enterprise_platformKeys.callMethod('importCertificate', [tokenId, jsify(certificate), completer.callback]);
     return completer.future;
   }
@@ -180,8 +194,47 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
   Future removeCertificate(String tokenId, ArrayBuffer certificate) {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _enterprise_platformKeys.callMethod('removeCertificate', [tokenId, jsify(certificate), completer.callback]);
+    return completer.future;
+  }
+
+  /**
+   * Similar to `challengeMachineKey` and `challengeUserKey`, but allows
+   * specifying the algorithm of a registered key. Challenges a hardware-backed
+   * Enterprise Machine Key and emits the response as part of a remote
+   * attestation protocol. Only useful on Chrome OS and in conjunction with the
+   * Verified Access Web API which both issues challenges and verifies
+   * responses.
+   * 
+   * A successful verification by the Verified Access Web API is a strong signal
+   * that the current device is a legitimate Chrome OS device, the current
+   * device is managed by the domain specified during verification, the current
+   * signed-in user is managed by the domain specified during verification, and
+   * the current device state complies with enterprise device policy. For
+   * example, a policy may specify that the device must not be in developer
+   * mode. Any device identity emitted by the verification is tightly bound to
+   * the hardware of the current device. If `"user"` Scope is specified, the
+   * identity is also tighly bound to the current signed-in user.
+   * 
+   * This function is highly restricted and will fail if the current device is
+   * not managed, the current user is not managed, or if this operation has not
+   * explicitly been enabled for the caller by enterprise device policy. The
+   * challenged key does not reside in the `"system"` or `"user"` token and is
+   * not accessible by any other API.
+   * [options]: Object containing the fields defined in [ChallengeKeyOptions].
+   * [callback]: Called back with the challenge response.
+   * 
+   * Returns:
+   * Invoked by `challengeMachineKey` or `challengeUserKey` with the challenge
+   * response.
+   * [response]: The challenge response.
+   */
+  Future<ArrayBuffer> challengeKey(ChallengeKeyOptions options) {
+    if (_enterprise_platformKeys == null) _throwNotAvailable();
+
+    var completer =  ChromeCompleter<ArrayBuffer>.oneArg(_createArrayBuffer);
+    _enterprise_platformKeys.callMethod('challengeKey', [jsify(options), completer.callback]);
     return completer.future;
   }
 
@@ -215,10 +268,10 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
    * response.
    * [response]: The challenge response.
    */
-  Future<ArrayBuffer> challengeMachineKey(ArrayBuffer challenge, [bool registerKey]) {
+  Future<ArrayBuffer> challengeMachineKey(ArrayBuffer challenge, [bool? registerKey]) {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ArrayBuffer>.oneArg(_createArrayBuffer);
+    var completer =  ChromeCompleter<ArrayBuffer>.oneArg(_createArrayBuffer);
     _enterprise_platformKeys.callMethod('challengeMachineKey', [jsify(challenge), registerKey, completer.callback]);
     return completer.future;
   }
@@ -256,20 +309,45 @@ class ChromeEnterprisePlatformKeys extends ChromeApi {
   Future<ArrayBuffer> challengeUserKey(ArrayBuffer challenge, bool registerKey) {
     if (_enterprise_platformKeys == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ArrayBuffer>.oneArg(_createArrayBuffer);
+    var completer =  ChromeCompleter<ArrayBuffer>.oneArg(_createArrayBuffer);
     _enterprise_platformKeys.callMethod('challengeUserKey', [jsify(challenge), registerKey, completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.enterprise.platformKeys' is not available");
+    throw  UnsupportedError("'chrome.enterprise.platformKeys' is not available");
   }
 }
 
+/**
+ * Whether to use the Enterprise User Key or the Enterprise Machine Key.
+ */
+class Scope extends ChromeEnum {
+  static const Scope USER = const Scope._('USER');
+  static const Scope MACHINE = const Scope._('MACHINE');
+
+  static const List<Scope> VALUES = const[USER, MACHINE];
+
+  const Scope._(String str): super(str);
+}
+
+/**
+ * Type of key to generate.
+ */
+class Algorithm extends ChromeEnum {
+  static const Algorithm RSA = const Algorithm._('RSA');
+  static const Algorithm ECDSA = const Algorithm._('ECDSA');
+
+  static const List<Algorithm> VALUES = const[RSA, ECDSA];
+
+  const Algorithm._(String str): super(str);
+}
+
 class Token extends ChromeObject {
-  Token({String id, SubtleCrypto subtleCrypto}) {
+  Token({String? id, SubtleCrypto? subtleCrypto, SubtleCrypto? softwareBackedSubtleCrypto}) {
     if (id != null) this.id = id;
     if (subtleCrypto != null) this.subtleCrypto = subtleCrypto;
+    if (softwareBackedSubtleCrypto != null) this.softwareBackedSubtleCrypto = softwareBackedSubtleCrypto;
   }
   Token.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -278,8 +356,42 @@ class Token extends ChromeObject {
 
   SubtleCrypto get subtleCrypto => _createSubtleCrypto(jsProxy['subtleCrypto']);
   set subtleCrypto(SubtleCrypto value) => jsProxy['subtleCrypto'] = jsify(value);
+
+  SubtleCrypto get softwareBackedSubtleCrypto => _createSubtleCrypto(jsProxy['softwareBackedSubtleCrypto']);
+  set softwareBackedSubtleCrypto(SubtleCrypto value) => jsProxy['softwareBackedSubtleCrypto'] = jsify(value);
 }
 
-Token _createToken(JsObject jsProxy) => jsProxy == null ? null : new Token.fromProxy(jsProxy);
-ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => jsProxy == null ? null : new ArrayBuffer.fromProxy(jsProxy);
-SubtleCrypto _createSubtleCrypto(JsObject jsProxy) => jsProxy == null ? null : new SubtleCrypto.fromProxy(jsProxy);
+class RegisterKeyOptions extends ChromeObject {
+  RegisterKeyOptions({Algorithm? algorithm}) {
+    if (algorithm != null) this.algorithm = algorithm;
+  }
+  RegisterKeyOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  Algorithm get algorithm => _createAlgorithm(jsProxy['algorithm']);
+  set algorithm(Algorithm value) => jsProxy['algorithm'] = jsify(value);
+}
+
+class ChallengeKeyOptions extends ChromeObject {
+  ChallengeKeyOptions({ArrayBuffer? challenge, RegisterKeyOptions? registerKey, Scope? scope}) {
+    if (challenge != null) this.challenge = challenge;
+    if (registerKey != null) this.registerKey = registerKey;
+    if (scope != null) this.scope = scope;
+  }
+  ChallengeKeyOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  ArrayBuffer get challenge => _createArrayBuffer(jsProxy['challenge']);
+  set challenge(ArrayBuffer value) => jsProxy['challenge'] = jsify(value);
+
+  RegisterKeyOptions get registerKey => _createRegisterKeyOptions(jsProxy['registerKey']);
+  set registerKey(RegisterKeyOptions value) => jsProxy['registerKey'] = jsify(value);
+
+  Scope get scope => _createScope(jsProxy['scope']);
+  set scope(Scope value) => jsProxy['scope'] = jsify(value);
+}
+
+Token _createToken(JsObject jsProxy) => Token.fromProxy(jsProxy);
+ArrayBuffer _createArrayBuffer(/*JsObject*/ jsProxy) => ArrayBuffer.fromProxy(jsProxy);
+SubtleCrypto _createSubtleCrypto(JsObject jsProxy) => SubtleCrypto.fromProxy(jsProxy);
+Algorithm _createAlgorithm(String value) => Algorithm.VALUES.singleWhere((ChromeEnum e) => e.value == value);
+RegisterKeyOptions _createRegisterKeyOptions(JsObject jsProxy) => RegisterKeyOptions.fromProxy(jsProxy);
+Scope _createScope(String value) => Scope.VALUES.singleWhere((ChromeEnum e) => e.value == value);

@@ -12,17 +12,17 @@ class ChromeDevtools {
   /**
    * Accessor for the `chrome.devtools.inspectedWindow` namespace.
    */
-  final ChromeDevtoolsInspectedWindow inspectedWindow = new ChromeDevtoolsInspectedWindow._();
+  final ChromeDevtoolsInspectedWindow inspectedWindow = ChromeDevtoolsInspectedWindow._();
 
   /**
    * Accessor for the `chrome.devtools.network` namespace.
    */
-  final ChromeDevtoolsNetwork network = new ChromeDevtoolsNetwork._();
+  final ChromeDevtoolsNetwork network = ChromeDevtoolsNetwork._();
 
   /**
    * Accessor for the `chrome.devtools.panels` namespace.
    */
-  final ChromeDevtoolsPanels panels = new ChromeDevtoolsPanels._();
+  final ChromeDevtoolsPanels panels = ChromeDevtoolsPanels._();
 }
 
 /**
@@ -38,19 +38,19 @@ class ChromeDevtoolsInspectedWindow extends ChromeApi {
    * Fired when a new resource is added to the inspected page.
    */
   Stream<Resource> get onResourceAdded => _onResourceAdded.stream;
-  ChromeStreamController<Resource> _onResourceAdded;
+  late ChromeStreamController<Resource> _onResourceAdded;
 
   /**
    * Fired when a new revision of the resource is committed (e.g. user saves an
    * edited version of the resource in the Developer Tools).
    */
   Stream<OnResourceContentCommittedEvent> get onResourceContentCommitted => _onResourceContentCommitted.stream;
-  ChromeStreamController<OnResourceContentCommittedEvent> _onResourceContentCommitted;
+  late ChromeStreamController<OnResourceContentCommittedEvent> _onResourceContentCommitted;
 
   ChromeDevtoolsInspectedWindow._() {
     var getApi = () => _devtools_inspectedWindow;
-    _onResourceAdded = new ChromeStreamController<Resource>.oneArg(getApi, 'onResourceAdded', _createResource);
-    _onResourceContentCommitted = new ChromeStreamController<OnResourceContentCommittedEvent>.twoArgs(getApi, 'onResourceContentCommitted', _createOnResourceContentCommittedEvent);
+    _onResourceAdded = ChromeStreamController<Resource>.oneArg(getApi, 'onResourceAdded', _createResource);
+    _onResourceContentCommitted = ChromeStreamController<OnResourceContentCommittedEvent>.twoArgs(getApi, 'onResourceContentCommitted', _createOnResourceContentCommittedEvent);
   }
 
   bool get available => _devtools_inspectedWindow != null;
@@ -81,10 +81,10 @@ class ChromeDevtoolsInspectedWindow extends ChromeApi {
    * [exceptionInfo] An object providing details if an exception occurred while
    * evaluating the expression.
    */
-  Future<EvalResult> eval(String expression, [DevtoolsInspectedWindowEvalParams options]) {
+  Future<EvalResult> eval(String expression, [DevtoolsInspectedWindowEvalParams? options]) {
     if (_devtools_inspectedWindow == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<EvalResult>.twoArgs(EvalResult._create);
+    var completer =  ChromeCompleter<EvalResult>.twoArgs(EvalResult._create);
     _devtools_inspectedWindow.callMethod('eval', [expression, jsify(options), completer.callback]);
     return completer.future;
   }
@@ -92,7 +92,7 @@ class ChromeDevtoolsInspectedWindow extends ChromeApi {
   /**
    * Reloads the inspected page.
    */
-  void reload([DevtoolsInspectedWindowReloadParams reloadOptions]) {
+  void reload([DevtoolsInspectedWindowReloadParams? reloadOptions]) {
     if (_devtools_inspectedWindow == null) _throwNotAvailable();
 
     _devtools_inspectedWindow.callMethod('reload', [jsify(reloadOptions)]);
@@ -107,13 +107,13 @@ class ChromeDevtoolsInspectedWindow extends ChromeApi {
   Future<List<Resource>> getResources() {
     if (_devtools_inspectedWindow == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Resource>>.oneArg((e) => listify(e, _createResource));
+    var completer =  ChromeCompleter<List<Resource>>.oneArg((e) => listify(e, _createResource));
     _devtools_inspectedWindow.callMethod('getResources', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.devtools.inspectedWindow' is not available");
+    throw  UnsupportedError("'chrome.devtools.inspectedWindow' is not available");
   }
 }
 
@@ -137,7 +137,7 @@ class OnResourceContentCommittedEvent {
  * image.
  */
 class Resource extends ChromeObject {
-  Resource({String url}) {
+  Resource({String? url}) {
     if (url != null) this.url = url;
   }
   Resource.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -153,11 +153,11 @@ class Resource extends ChromeObject {
    * 
    * Returns:
    * [content] Content of the resource (potentially encoded).
-   * [encoding] Empty if content is not encoded, encoding name otherwise.
+   * [encoding] Empty if the content is not encoded, encoding name otherwise.
    * Currently, only base64 is supported.
    */
   Future<GetResourceContentResult> getContent() {
-    var completer = new ChromeCompleter<GetResourceContentResult>.twoArgs(GetResourceContentResult._create);
+    var completer =  ChromeCompleter<GetResourceContentResult>.twoArgs(GetResourceContentResult._create);
     jsProxy.callMethod('getContent', [completer.callback]);
     return completer.future;
   }
@@ -176,18 +176,18 @@ class Resource extends ChromeObject {
    * Set to undefined if the resource content was set successfully; describes
    * error otherwise.
    */
-  Future<Map<String, dynamic>> setContent(String content, bool commit) {
-    var completer = new ChromeCompleter<Map<String, dynamic>>.oneArg(mapify);
+  Future<Map<String, Object>> setContent(String content, bool commit) {
+    var completer =  ChromeCompleter<Map<String, Object>>.oneArg(mapify);
     jsProxy.callMethod('setContent', [content, commit, completer.callback]);
     return completer.future;
   }
 }
 
 class DevtoolsInspectedWindowEvalParams extends ChromeObject {
-  DevtoolsInspectedWindowEvalParams({String frameURL, bool useContentScriptContext, String contextSecurityOrigin}) {
+  DevtoolsInspectedWindowEvalParams({String? frameURL, bool? useContentScriptContext, String? scriptExecutionContext}) {
     if (frameURL != null) this.frameURL = frameURL;
     if (useContentScriptContext != null) this.useContentScriptContext = useContentScriptContext;
-    if (contextSecurityOrigin != null) this.contextSecurityOrigin = contextSecurityOrigin;
+    if (scriptExecutionContext != null) this.scriptExecutionContext = scriptExecutionContext;
   }
   DevtoolsInspectedWindowEvalParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -211,15 +211,15 @@ class DevtoolsInspectedWindowEvalParams extends ChromeObject {
 
   /**
    * Evaluate the expression in the context of a content script of an extension
-   * that matches the specified origin. If given, contextSecurityOrigin
-   * overrides the 'true' setting on userContentScriptContext.
+   * that matches the specified origin. If given, scriptExecutionContext
+   * overrides the 'true' setting on useContentScriptContext.
    */
-  String get contextSecurityOrigin => jsProxy['contextSecurityOrigin'];
-  set contextSecurityOrigin(String value) => jsProxy['contextSecurityOrigin'] = value;
+  String get scriptExecutionContext => jsProxy['scriptExecutionContext'];
+  set scriptExecutionContext(String value) => jsProxy['scriptExecutionContext'] = value;
 }
 
 class DevtoolsInspectedWindowReloadParams extends ChromeObject {
-  DevtoolsInspectedWindowReloadParams({bool ignoreCache, String userAgent, String injectedScript}) {
+  DevtoolsInspectedWindowReloadParams({bool? ignoreCache, String? userAgent, String? injectedScript}) {
     if (ignoreCache != null) this.ignoreCache = ignoreCache;
     if (userAgent != null) this.userAgent = userAgent;
     if (injectedScript != null) this.injectedScript = injectedScript;
@@ -262,7 +262,7 @@ class EvalResult {
     return new EvalResult._(mapify(result), mapify(exceptionInfo));
   }
 
-  Map<String, dynamic> result;
+  Map<String, Object> result;
   Map exceptionInfo;
 
   EvalResult._(this.result, this.exceptionInfo);
@@ -282,9 +282,9 @@ class GetResourceContentResult {
   GetResourceContentResult._(this.content, this.encoding);
 }
 
-Resource _createResource(JsObject jsProxy) => jsProxy == null ? null : new Resource.fromProxy(jsProxy);
+Resource _createResource(JsObject jsProxy) => Resource.fromProxy(jsProxy);
 OnResourceContentCommittedEvent _createOnResourceContentCommittedEvent(JsObject resource, String content) =>
-    new OnResourceContentCommittedEvent(_createResource(resource), content);
+    OnResourceContentCommittedEvent(_createResource(resource), content);
 
 /**
  * Use the `chrome.devtools.network` API to retrieve the information about
@@ -298,18 +298,18 @@ class ChromeDevtoolsNetwork extends ChromeApi {
    * available.
    */
   Stream<Request> get onRequestFinished => _onRequestFinished.stream;
-  ChromeStreamController<Request> _onRequestFinished;
+  late ChromeStreamController<Request> _onRequestFinished;
 
   /**
    * Fired when the inspected window navigates to a new page.
    */
   Stream<String> get onNavigated => _onNavigated.stream;
-  ChromeStreamController<String> _onNavigated;
+  late ChromeStreamController<String> _onNavigated;
 
   ChromeDevtoolsNetwork._() {
     var getApi = () => _devtools_network;
-    _onRequestFinished = new ChromeStreamController<Request>.oneArg(getApi, 'onRequestFinished', _createRequest);
-    _onNavigated = new ChromeStreamController<String>.oneArg(getApi, 'onNavigated', selfConverter);
+    _onRequestFinished = ChromeStreamController<Request>.oneArg(getApi, 'onRequestFinished', _createRequest);
+    _onNavigated = ChromeStreamController<String>.oneArg(getApi, 'onNavigated', selfConverter);
   }
 
   bool get available => _devtools_network != null;
@@ -320,16 +320,16 @@ class ChromeDevtoolsNetwork extends ChromeApi {
    * Returns:
    * A HAR log. See HAR specification for details.
    */
-  Future<Map<String, dynamic>> getHAR() {
+  Future<Map<String, Object>> getHAR() {
     if (_devtools_network == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Map<String, dynamic>>.oneArg(mapify);
+    var completer =  ChromeCompleter<Map<String, Object>>.oneArg(mapify);
     _devtools_network.callMethod('getHAR', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.devtools.network' is not available");
+    throw  UnsupportedError("'chrome.devtools.network' is not available");
   }
 }
 
@@ -350,7 +350,7 @@ class Request extends ChromeObject {
    * Currently, only base64 is supported.
    */
   Future<GetRequestContentResult> getContent() {
-    var completer = new ChromeCompleter<GetRequestContentResult>.twoArgs(GetRequestContentResult._create);
+    var completer =  ChromeCompleter<GetRequestContentResult>.twoArgs(GetRequestContentResult._create);
     jsProxy.callMethod('getContent', [completer.callback]);
     return completer.future;
   }
@@ -370,7 +370,7 @@ class GetRequestContentResult {
   GetRequestContentResult._(this.content, this.encoding);
 }
 
-Request _createRequest(JsObject jsProxy) => jsProxy == null ? null : new Request.fromProxy(jsProxy);
+Request _createRequest(JsObject jsProxy) => Request.fromProxy(jsProxy);
 
 /**
  * Use the `chrome.devtools.panels` API to integrate your extension into
@@ -417,7 +417,7 @@ class ChromeDevtoolsPanels extends ChromeApi {
   Future<ExtensionPanel> create(String title, String iconPath, String pagePath) {
     if (_devtools_panels == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<ExtensionPanel>.oneArg(_createExtensionPanel);
+    var completer =  ChromeCompleter<ExtensionPanel>.oneArg(_createExtensionPanel);
     _devtools_panels.callMethod('create', [title, iconPath, pagePath, completer.callback]);
     return completer.future;
   }
@@ -434,7 +434,7 @@ class ChromeDevtoolsPanels extends ChromeApi {
   Future<Resource> setOpenResourceHandler() {
     if (_devtools_panels == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Resource>.oneArg(_createResource);
+    var completer =  ChromeCompleter<Resource>.oneArg(_createResource);
     _devtools_panels.callMethod('setOpenResourceHandler', [completer.callback]);
     return completer.future;
   }
@@ -446,17 +446,20 @@ class ChromeDevtoolsPanels extends ChromeApi {
    * 
    * [lineNumber] Specifies the line number to scroll to when the resource is
    * loaded.
+   * 
+   * [columnNumber] Specifies the column number to scroll to when the resource
+   * is loaded.
    */
-  Future openResource(String url, int lineNumber) {
+  Future openResource(String url, int lineNumber, [int? columnNumber]) {
     if (_devtools_panels == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _devtools_panels.callMethod('openResource', [url, lineNumber, completer.callback]);
+    var completer =  ChromeCompleter.noArgs();
+    _devtools_panels.callMethod('openResource', [url, lineNumber, columnNumber, completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.devtools.panels' is not available");
+    throw  UnsupportedError("'chrome.devtools.panels' is not available");
   }
 }
 
@@ -476,7 +479,7 @@ class ElementsPanel extends ChromeObject {
    * An ExtensionSidebarPane object for created sidebar pane.
    */
   Future<ExtensionSidebarPane> createSidebarPane(String title) {
-    var completer = new ChromeCompleter<ExtensionSidebarPane>.oneArg(_createExtensionSidebarPane);
+    var completer =  ChromeCompleter<ExtensionSidebarPane>.oneArg(_createExtensionSidebarPane);
     jsProxy.callMethod('createSidebarPane', [title, completer.callback]);
     return completer.future;
   }
@@ -498,7 +501,7 @@ class SourcesPanel extends ChromeObject {
    * An ExtensionSidebarPane object for created sidebar pane.
    */
   Future<ExtensionSidebarPane> createSidebarPane(String title) {
-    var completer = new ChromeCompleter<ExtensionSidebarPane>.oneArg(_createExtensionSidebarPane);
+    var completer =  ChromeCompleter<ExtensionSidebarPane>.oneArg(_createExtensionSidebarPane);
     jsProxy.callMethod('createSidebarPane', [title, completer.callback]);
     return completer.future;
   }
@@ -555,8 +558,8 @@ class ExtensionSidebarPane extends ChromeObject {
    * 
    * [rootTitle] An optional title for the root of the expression tree.
    */
-  Future setExpression(String expression, [String rootTitle]) {
-    var completer = new ChromeCompleter.noArgs();
+  Future setExpression(String expression, [String? rootTitle]) {
+    var completer =  ChromeCompleter.noArgs();
     jsProxy.callMethod('setExpression', [expression, rootTitle, completer.callback]);
     return completer.future;
   }
@@ -569,8 +572,8 @@ class ExtensionSidebarPane extends ChromeObject {
    * 
    * [rootTitle] An optional title for the root of the expression tree.
    */
-  Future setObject(String jsonObject, [String rootTitle]) {
-    var completer = new ChromeCompleter.noArgs();
+  Future setObject(String jsonObject, [String? rootTitle]) {
+    var completer =  ChromeCompleter.noArgs();
     jsProxy.callMethod('setObject', [jsonObject, rootTitle, completer.callback]);
     return completer.future;
   }
@@ -603,13 +606,13 @@ class Button extends ChromeObject {
    * 
    * [disabled] Whether the button is disabled.
    */
-  void update([String iconPath, String tooltipText, bool disabled]) {
+  void update([String? iconPath, String? tooltipText, bool? disabled]) {
     jsProxy.callMethod('update', [iconPath, tooltipText, disabled]);
   }
 }
 
-ElementsPanel _createElementsPanel(JsObject jsProxy) => jsProxy == null ? null : new ElementsPanel.fromProxy(jsProxy);
-SourcesPanel _createSourcesPanel(JsObject jsProxy) => jsProxy == null ? null : new SourcesPanel.fromProxy(jsProxy);
-ExtensionPanel _createExtensionPanel(JsObject jsProxy) => jsProxy == null ? null : new ExtensionPanel.fromProxy(jsProxy);
-ExtensionSidebarPane _createExtensionSidebarPane(JsObject jsProxy) => jsProxy == null ? null : new ExtensionSidebarPane.fromProxy(jsProxy);
-Button _createButton(JsObject jsProxy) => jsProxy == null ? null : new Button.fromProxy(jsProxy);
+ElementsPanel _createElementsPanel(JsObject jsProxy) => ElementsPanel.fromProxy(jsProxy);
+SourcesPanel _createSourcesPanel(JsObject jsProxy) => SourcesPanel.fromProxy(jsProxy);
+ExtensionPanel _createExtensionPanel(JsObject jsProxy) => ExtensionPanel.fromProxy(jsProxy);
+ExtensionSidebarPane _createExtensionSidebarPane(JsObject jsProxy) => ExtensionSidebarPane.fromProxy(jsProxy);
+Button _createButton(JsObject jsProxy) => Button.fromProxy(jsProxy);

@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.events` namespace.
  */
-final ChromeEvents events = new ChromeEvents._();
+final ChromeEvents events = ChromeEvents._();
 
 class ChromeEvents extends ChromeApi {
   JsObject get _events => chrome['events'];
@@ -25,7 +25,7 @@ class ChromeEvents extends ChromeApi {
  * Description of a declarative rule for handling events.
  */
 class Rule extends ChromeObject {
-  Rule({String id, List<String> tags, List<dynamic> conditions, List<dynamic> actions, int priority}) {
+  Rule({String? id, List<String>? tags, List<Object>? conditions, List<Object>? actions, int? priority}) {
     if (id != null) this.id = id;
     if (tags != null) this.tags = tags;
     if (conditions != null) this.conditions = conditions;
@@ -49,14 +49,14 @@ class Rule extends ChromeObject {
   /**
    * List of conditions that can trigger the actions.
    */
-  List<dynamic> get conditions => listify(jsProxy['conditions']);
-  set conditions(List<dynamic> value) => jsProxy['conditions'] = jsify(value);
+  List<Object> get conditions => listify(jsProxy['conditions']);
+  set conditions(List<Object> value) => jsProxy['conditions'] = jsify(value);
 
   /**
    * List of actions that are triggered if one of the conditions is fulfilled.
    */
-  List<dynamic> get actions => listify(jsProxy['actions']);
-  set actions(List<dynamic> value) => jsProxy['actions'] = jsify(value);
+  List<Object> get actions => listify(jsProxy['actions']);
+  set actions(List<Object> value) => jsProxy['actions'] = jsify(value);
 
   /**
    * Optional priority of this rule. Defaults to 100.
@@ -77,7 +77,7 @@ class ChromeEvent extends ChromeObject {
    * Registers an event listener _callback_ to an event.
    */
   Future addListener() {
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     jsProxy.callMethod('addListener', [completer.callback]);
     return completer.future;
   }
@@ -86,15 +86,25 @@ class ChromeEvent extends ChromeObject {
    * Deregisters an event listener _callback_ from an event.
    */
   Future removeListener() {
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     jsProxy.callMethod('removeListener', [completer.callback]);
     return completer.future;
   }
 
-  bool hasListener(dynamic callback) {
+  /**
+   * [callback] Listener whose registration status shall be tested.
+   * 
+   * Returns:
+   * True if _callback_ is registered to the event.
+   */
+  bool hasListener(Object callback) {
     return jsProxy.callMethod('hasListener', [jsify(callback)]);
   }
 
+  /**
+   * Returns:
+   * True if any event listeners are registered to the event.
+   */
   bool hasListeners() {
     return jsProxy.callMethod('hasListeners');
   }
@@ -114,7 +124,7 @@ class ChromeEvent extends ChromeObject {
    * Rules that were registered, the optional parameters are filled with values.
    */
   Future<List<Rule>> addRules(String eventName, int webViewInstanceId, List<Rule> rules) {
-    var completer = new ChromeCompleter<List<Rule>>.oneArg((e) => listify(e, _createRule));
+    var completer =  ChromeCompleter<List<Rule>>.oneArg((e) => listify(e, _createRule));
     jsProxy.callMethod('addRules', [eventName, webViewInstanceId, jsify(rules), completer.callback]);
     return completer.future;
   }
@@ -133,8 +143,8 @@ class ChromeEvent extends ChromeObject {
    * Returns:
    * Rules that were registered, the optional parameters are filled with values.
    */
-  Future<List<Rule>> getRules(String eventName, int webViewInstanceId, [List<String> ruleIdentifiers]) {
-    var completer = new ChromeCompleter<List<Rule>>.oneArg((e) => listify(e, _createRule));
+  Future<List<Rule>> getRules(String eventName, int webViewInstanceId, [List<String>? ruleIdentifiers]) {
+    var completer =  ChromeCompleter<List<Rule>>.oneArg((e) => listify(e, _createRule));
     jsProxy.callMethod('getRules', [eventName, webViewInstanceId, jsify(ruleIdentifiers), completer.callback]);
     return completer.future;
   }
@@ -150,8 +160,8 @@ class ChromeEvent extends ChromeObject {
    * [ruleIdentifiers] If an array is passed, only rules with identifiers
    * contained in this array are unregistered.
    */
-  Future removeRules(String eventName, int webViewInstanceId, [List<String> ruleIdentifiers]) {
-    var completer = new ChromeCompleter.noArgs();
+  Future removeRules(String eventName, int webViewInstanceId, [List<String>? ruleIdentifiers]) {
+    var completer =  ChromeCompleter.noArgs();
     jsProxy.callMethod('removeRules', [eventName, webViewInstanceId, jsify(ruleIdentifiers), completer.callback]);
     return completer.future;
   }
@@ -162,7 +172,7 @@ class ChromeEvent extends ChromeObject {
  * All criteria are case sensitive.
  */
 class UrlFilter extends ChromeObject {
-  UrlFilter({String hostContains, String hostEquals, String hostPrefix, String hostSuffix, String pathContains, String pathEquals, String pathPrefix, String pathSuffix, String queryContains, String queryEquals, String queryPrefix, String querySuffix, String urlContains, String urlEquals, String urlMatches, String originAndPathMatches, String urlPrefix, String urlSuffix, List<String> schemes, List<dynamic> ports}) {
+  UrlFilter({String? hostContains, String? hostEquals, String? hostPrefix, String? hostSuffix, String? pathContains, String? pathEquals, String? pathPrefix, String? pathSuffix, String? queryContains, String? queryEquals, String? queryPrefix, String? querySuffix, String? urlContains, String? urlEquals, String? urlMatches, String? originAndPathMatches, String? urlPrefix, String? urlSuffix, List<String>? schemes, List<Object>? ports}) {
     if (hostContains != null) this.hostContains = hostContains;
     if (hostEquals != null) this.hostEquals = hostEquals;
     if (hostPrefix != null) this.hostPrefix = hostPrefix;
@@ -327,8 +337,8 @@ class UrlFilter extends ChromeObject {
    * lists. For example `[80, 443, [1000, 1200]]` matches all requests on port
    * 80, 443 and in the range 1000-1200.
    */
-  List<dynamic> get ports => listify(jsProxy['ports']);
-  set ports(List<dynamic> value) => jsProxy['ports'] = jsify(value);
+  List<Object> get ports => listify(jsProxy['ports']);
+  set ports(List<Object> value) => jsProxy['ports'] = jsify(value);
 }
 
-Rule _createRule(JsObject jsProxy) => jsProxy == null ? null : new Rule.fromProxy(jsProxy);
+Rule _createRule(JsObject jsProxy) => Rule.fromProxy(jsProxy);

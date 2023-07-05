@@ -10,7 +10,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.pageCapture` namespace.
  */
-final ChromePageCapture pageCapture = new ChromePageCapture._();
+final ChromePageCapture pageCapture = ChromePageCapture._();
 
 class ChromePageCapture extends ChromeApi {
   JsObject get _pageCapture => chrome['pageCapture'];
@@ -25,21 +25,21 @@ class ChromePageCapture extends ChromeApi {
    * Returns:
    * The MHTML data as a Blob.
    */
-  Future<dynamic> saveAsMHTML(PageCaptureSaveAsMHTMLParams details) {
+  Future<Object> saveAsMHTML(PageCaptureSaveAsMHTMLParams details) {
     if (_pageCapture == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<dynamic>.oneArg();
+    var completer =  ChromeCompleter<Object>.oneArg();
     _pageCapture.callMethod('saveAsMHTML', [jsify(details), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.pageCapture' is not available");
+    throw  UnsupportedError("'chrome.pageCapture' is not available");
   }
 }
 
 class PageCaptureSaveAsMHTMLParams extends ChromeObject {
-  PageCaptureSaveAsMHTMLParams({int tabId}) {
+  PageCaptureSaveAsMHTMLParams({int? tabId}) {
     if (tabId != null) this.tabId = tabId;
   }
   PageCaptureSaveAsMHTMLParams.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);

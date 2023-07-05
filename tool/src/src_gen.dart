@@ -29,7 +29,7 @@ class DartGenerator {
    * fit on a single line, use `///` dartdoc style.
    */
   void writeDocs(String? docs, {bool preferSingle = false}) {
-    if (docs == null) {
+    if (docs == null || docs.isEmpty) {
       return;
     }
 

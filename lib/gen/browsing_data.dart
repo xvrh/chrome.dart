@@ -11,7 +11,7 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.browsingData` namespace.
  */
-final ChromeBrowsingData browsingData = new ChromeBrowsingData._();
+final ChromeBrowsingData browsingData = ChromeBrowsingData._();
 
 class ChromeBrowsingData extends ChromeApi {
   JsObject get _browsingData => chrome['browsingData'];
@@ -26,12 +26,10 @@ class ChromeBrowsingData extends ChromeApi {
    * not available in the settings UI, and some UI settings control more than
    * one data type listed here.
    */
-  Future<Map> settings() {
+  void settings() {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Map>.oneArg(mapify);
-    _browsingData.callMethod('settings', [completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('settings');
   }
 
   /**
@@ -39,155 +37,147 @@ class ChromeBrowsingData extends ChromeApi {
    * 
    * [dataToRemove] The set of data types to remove.
    */
-  Future remove(RemovalOptions options, DataTypeSet dataToRemove) {
+  void remove(RemovalOptions options, DataTypeSet dataToRemove) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('remove', [jsify(options), jsify(dataToRemove), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('remove', [jsify(options), jsify(dataToRemove)]);
   }
 
   /**
    * Clears websites' appcache data.
    */
-  Future removeAppcache(RemovalOptions options) {
+  void removeAppcache(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeAppcache', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeAppcache', [jsify(options)]);
   }
 
   /**
    * Clears the browser's cache.
    */
-  Future removeCache(RemovalOptions options) {
+  void removeCache(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeCache', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeCache', [jsify(options)]);
+  }
+
+  /**
+   * Clears websites' cache storage data.
+   */
+  void removeCacheStorage(RemovalOptions options) {
+    if (_browsingData == null) _throwNotAvailable();
+
+    _browsingData.callMethod('removeCacheStorage', [jsify(options)]);
   }
 
   /**
    * Clears the browser's cookies and server-bound certificates modified within
    * a particular timeframe.
    */
-  Future removeCookies(RemovalOptions options) {
+  void removeCookies(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeCookies', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeCookies', [jsify(options)]);
   }
 
   /**
    * Clears the browser's list of downloaded files (_not_ the downloaded files
    * themselves).
    */
-  Future removeDownloads(RemovalOptions options) {
+  void removeDownloads(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeDownloads', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeDownloads', [jsify(options)]);
   }
 
   /**
    * Clears websites' file system data.
    */
-  Future removeFileSystems(RemovalOptions options) {
+  void removeFileSystems(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeFileSystems', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeFileSystems', [jsify(options)]);
   }
 
   /**
    * Clears the browser's stored form data (autofill).
    */
-  Future removeFormData(RemovalOptions options) {
+  void removeFormData(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeFormData', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeFormData', [jsify(options)]);
   }
 
   /**
    * Clears the browser's history.
    */
-  Future removeHistory(RemovalOptions options) {
+  void removeHistory(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeHistory', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeHistory', [jsify(options)]);
   }
 
   /**
    * Clears websites' IndexedDB data.
    */
-  Future removeIndexedDB(RemovalOptions options) {
+  void removeIndexedDB(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeIndexedDB', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeIndexedDB', [jsify(options)]);
   }
 
   /**
    * Clears websites' local storage data.
    */
-  Future removeLocalStorage(RemovalOptions options) {
+  void removeLocalStorage(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeLocalStorage', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeLocalStorage', [jsify(options)]);
   }
 
   /**
    * Clears plugins' data.
    */
-  Future removePluginData(RemovalOptions options) {
+  void removePluginData(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removePluginData', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removePluginData', [jsify(options)]);
   }
 
   /**
    * Clears the browser's stored passwords.
    */
-  Future removePasswords(RemovalOptions options) {
+  void removePasswords(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removePasswords', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removePasswords', [jsify(options)]);
+  }
+
+  /**
+   * Clears websites' service workers.
+   */
+  void removeServiceWorkers(RemovalOptions options) {
+    if (_browsingData == null) _throwNotAvailable();
+
+    _browsingData.callMethod('removeServiceWorkers', [jsify(options)]);
   }
 
   /**
    * Clears websites' WebSQL data.
    */
-  Future removeWebSQL(RemovalOptions options) {
+  void removeWebSQL(RemovalOptions options) {
     if (_browsingData == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
-    _browsingData.callMethod('removeWebSQL', [jsify(options), completer.callback]);
-    return completer.future;
+    _browsingData.callMethod('removeWebSQL', [jsify(options)]);
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.browsingData' is not available");
+    throw  UnsupportedError("'chrome.browsingData' is not available");
   }
 }
 
 class OriginTypesBrowsingData extends ChromeObject {
-  OriginTypesBrowsingData({bool unprotectedWeb, bool protectedWeb, bool extension}) {
+  OriginTypesBrowsingData({bool? unprotectedWeb, bool? protectedWeb, bool? extension}) {
     if (unprotectedWeb != null) this.unprotectedWeb = unprotectedWeb;
     if (protectedWeb != null) this.protectedWeb = protectedWeb;
     if (extension != null) this.extension = extension;
@@ -218,9 +208,11 @@ class OriginTypesBrowsingData extends ChromeObject {
  * Options that determine exactly what data will be removed.
  */
 class RemovalOptions extends ChromeObject {
-  RemovalOptions({var since, OriginTypesBrowsingData originTypes}) {
+  RemovalOptions({Object? since, OriginTypesBrowsingData? originTypes, List<String>? origins, List<String>? excludeOrigins}) {
     if (since != null) this.since = since;
     if (originTypes != null) this.originTypes = originTypes;
+    if (origins != null) this.origins = origins;
+    if (excludeOrigins != null) this.excludeOrigins = excludeOrigins;
   }
   RemovalOptions.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -230,8 +222,8 @@ class RemovalOptions extends ChromeObject {
    * `Date` object). If absent, defaults to 0 (which would remove all browsing
    * data).
    */
-  dynamic get since => jsProxy['since'];
-  set since(var value) => jsProxy['since'] = jsify(value);
+  Object get since => jsProxy['since'];
+  set since(Object value) => jsProxy['since'] = jsify(value);
 
   /**
    * An object whose properties specify which origin types ought to be cleared.
@@ -241,15 +233,32 @@ class RemovalOptions extends ChromeObject {
    */
   OriginTypesBrowsingData get originTypes => _createOriginTypesBrowsingData(jsProxy['originTypes']);
   set originTypes(OriginTypesBrowsingData value) => jsProxy['originTypes'] = jsify(value);
+
+  /**
+   * When present, only data for origins in this list is deleted. Only supported
+   * for cookies, storage and cache. Cookies are cleared for the whole
+   * registrable domain.
+   */
+  List<String> get origins => listify(jsProxy['origins']);
+  set origins(List<String> value) => jsProxy['origins'] = jsify(value);
+
+  /**
+   * When present, data for origins in this list is excluded from deletion.
+   * Can't be used together with `origins`. Only supported for cookies, storage
+   * and cache.  Cookies are excluded for the whole registrable domain.
+   */
+  List<String> get excludeOrigins => listify(jsProxy['excludeOrigins']);
+  set excludeOrigins(List<String> value) => jsProxy['excludeOrigins'] = jsify(value);
 }
 
 /**
  * A set of data types. Missing data types are interpreted as `false`.
  */
 class DataTypeSet extends ChromeObject {
-  DataTypeSet({bool appcache, bool cache, bool cookies, bool downloads, bool fileSystems, bool formData, bool history, bool indexedDB, bool localStorage, bool serverBoundCertificates, bool passwords, bool pluginData, bool serviceWorkers, bool webSQL}) {
+  DataTypeSet({bool? appcache, bool? cache, bool? cacheStorage, bool? cookies, bool? downloads, bool? fileSystems, bool? formData, bool? history, bool? indexedDB, bool? localStorage, bool? serverBoundCertificates, bool? passwords, bool? pluginData, bool? serviceWorkers, bool? webSQL}) {
     if (appcache != null) this.appcache = appcache;
     if (cache != null) this.cache = cache;
+    if (cacheStorage != null) this.cacheStorage = cacheStorage;
     if (cookies != null) this.cookies = cookies;
     if (downloads != null) this.downloads = downloads;
     if (fileSystems != null) this.fileSystems = fileSystems;
@@ -272,11 +281,16 @@ class DataTypeSet extends ChromeObject {
   set appcache(bool value) => jsProxy['appcache'] = value;
 
   /**
-   * The browser's cache. Note: when removing data, this clears the _entire_
-   * cache: it is not limited to the range you specify.
+   * The browser's cache.
    */
   bool get cache => jsProxy['cache'];
   set cache(bool value) => jsProxy['cache'] = value;
+
+  /**
+   * Cache storage
+   */
+  bool get cacheStorage => jsProxy['cacheStorage'];
+  set cacheStorage(bool value) => jsProxy['cacheStorage'] = value;
 
   /**
    * The browser's cookies.
@@ -351,4 +365,4 @@ class DataTypeSet extends ChromeObject {
   set webSQL(bool value) => jsProxy['webSQL'] = value;
 }
 
-OriginTypesBrowsingData _createOriginTypesBrowsingData(JsObject jsProxy) => jsProxy == null ? null : new OriginTypesBrowsingData.fromProxy(jsProxy);
+OriginTypesBrowsingData _createOriginTypesBrowsingData(JsObject jsProxy) => OriginTypesBrowsingData.fromProxy(jsProxy);

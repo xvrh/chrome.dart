@@ -11,17 +11,17 @@ import '../src/common.dart';
 /**
  * Accessor for the `chrome.alarms` namespace.
  */
-final ChromeAlarms alarms = new ChromeAlarms._();
+final ChromeAlarms alarms = ChromeAlarms._();
 
 class ChromeAlarms extends ChromeApi {
   JsObject get _alarms => chrome['alarms'];
 
   Stream<Alarm> get onAlarm => _onAlarm.stream;
-  ChromeStreamController<Alarm> _onAlarm;
+  late ChromeStreamController<Alarm> _onAlarm;
 
   ChromeAlarms._() {
     var getApi = () => _alarms;
-    _onAlarm = new ChromeStreamController<Alarm>.oneArg(getApi, 'onAlarm', _createAlarm);
+    _onAlarm = ChromeStreamController<Alarm>.oneArg(getApi, 'onAlarm', _createAlarm);
   }
 
   bool get available => _alarms != null;
@@ -42,28 +42,30 @@ class ChromeAlarms extends ChromeApi {
    * there's no limit to how often the alarm can fire.
    * 
    * [name]: Optional name to identify this alarm. Defaults to the empty string.
-   * 
    * [alarmInfo]: Describes when the alarm should fire. The initial time must be
    * specified by either [when] or [delayInMinutes] (but not both). If
    * [periodInMinutes] is set, the alarm will repeat every [periodInMinutes]
    * minutes after the initial event. If neither [when] or [delayInMinutes] is
    * set for a repeating alarm, [periodInMinutes] is used as the default for
    * [delayInMinutes].
+   * [callback]: Invoked when the alarm has been created.
    */
-  void create(AlarmCreateInfo alarmInfo, [String name]) {
+  Future create(AlarmCreateInfo alarmInfo, [String? name]) {
     if (_alarms == null) _throwNotAvailable();
 
-    _alarms.callMethod('create', [name, jsify(alarmInfo)]);
+    var completer =  ChromeCompleter.noArgs();
+    _alarms.callMethod('create', [name, jsify(alarmInfo), completer.callback]);
+    return completer.future;
   }
 
   /**
    * Retrieves details about the specified alarm.
    * [name]: The name of the alarm to get. Defaults to the empty string.
    */
-  Future<Alarm> get([String name]) {
+  Future<Alarm> get([String? name]) {
     if (_alarms == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<Alarm>.oneArg(_createAlarm);
+    var completer =  ChromeCompleter<Alarm>.oneArg(_createAlarm);
     _alarms.callMethod('get', [name, completer.callback]);
     return completer.future;
   }
@@ -74,7 +76,7 @@ class ChromeAlarms extends ChromeApi {
   Future<List<Alarm>> getAll() {
     if (_alarms == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<Alarm>>.oneArg((e) => listify(e, _createAlarm));
+    var completer =  ChromeCompleter<List<Alarm>>.oneArg((e) => listify(e, _createAlarm));
     _alarms.callMethod('getAll', [completer.callback]);
     return completer.future;
   }
@@ -83,10 +85,10 @@ class ChromeAlarms extends ChromeApi {
    * Clears the alarm with the given name.
    * [name]: The name of the alarm to clear. Defaults to the empty string.
    */
-  Future<bool> clear([String name]) {
+  Future<bool> clear([String? name]) {
     if (_alarms == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
+    var completer =  ChromeCompleter<bool>.oneArg();
     _alarms.callMethod('clear', [name, completer.callback]);
     return completer.future;
   }
@@ -97,18 +99,18 @@ class ChromeAlarms extends ChromeApi {
   Future<bool> clearAll() {
     if (_alarms == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
+    var completer =  ChromeCompleter<bool>.oneArg();
     _alarms.callMethod('clearAll', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.alarms' is not available");
+    throw  UnsupportedError("'chrome.alarms' is not available");
   }
 }
 
 class Alarm extends ChromeObject {
-  Alarm({String name, num scheduledTime, num periodInMinutes}) {
+  Alarm({String? name, num? scheduledTime, num? periodInMinutes}) {
     if (name != null) this.name = name;
     if (scheduledTime != null) this.scheduledTime = scheduledTime;
     if (periodInMinutes != null) this.periodInMinutes = periodInMinutes;
@@ -129,7 +131,7 @@ class Alarm extends ChromeObject {
  * todo(mpcomplete): rename to CreateInfo when http://crbug.com/123073 is fixed.
  */
 class AlarmCreateInfo extends ChromeObject {
-  AlarmCreateInfo({num when, num delayInMinutes, num periodInMinutes}) {
+  AlarmCreateInfo({num? when, num? delayInMinutes, num? periodInMinutes}) {
     if (when != null) this.when = when;
     if (delayInMinutes != null) this.delayInMinutes = delayInMinutes;
     if (periodInMinutes != null) this.periodInMinutes = periodInMinutes;
@@ -146,4 +148,4 @@ class AlarmCreateInfo extends ChromeObject {
   set periodInMinutes(num value) => jsProxy['periodInMinutes'] = jsify(value);
 }
 
-Alarm _createAlarm(JsObject jsProxy) => jsProxy == null ? null : new Alarm.fromProxy(jsProxy);
+Alarm _createAlarm(JsObject jsProxy) => Alarm.fromProxy(jsProxy);

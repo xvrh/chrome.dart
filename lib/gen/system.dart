@@ -12,27 +12,27 @@ class ChromeSystem {
   /**
    * Accessor for the `chrome.system.cpu` namespace.
    */
-  final ChromeSystemCpu cpu = new ChromeSystemCpu._();
+  final ChromeSystemCpu cpu = ChromeSystemCpu._();
 
   /**
    * Accessor for the `chrome.system.display` namespace.
    */
-  final ChromeSystemDisplay display = new ChromeSystemDisplay._();
+  final ChromeSystemDisplay display = ChromeSystemDisplay._();
 
   /**
    * Accessor for the `chrome.system.memory` namespace.
    */
-  final ChromeSystemMemory memory = new ChromeSystemMemory._();
+  final ChromeSystemMemory memory = ChromeSystemMemory._();
 
   /**
    * Accessor for the `chrome.system.network` namespace.
    */
-  final ChromeSystemNetwork network = new ChromeSystemNetwork._();
+  final ChromeSystemNetwork network = ChromeSystemNetwork._();
 
   /**
    * Accessor for the `chrome.system.storage` namespace.
    */
-  final ChromeSystemStorage storage = new ChromeSystemStorage._();
+  final ChromeSystemStorage storage = ChromeSystemStorage._();
 }
 
 /**
@@ -51,13 +51,13 @@ class ChromeSystemCpu extends ChromeApi {
   Future<CpuInfo> getInfo() {
     if (_system_cpu == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<CpuInfo>.oneArg(_createCpuInfo);
+    var completer =  ChromeCompleter<CpuInfo>.oneArg(_createCpuInfo);
     _system_cpu.callMethod('getInfo', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.system.cpu' is not available");
+    throw  UnsupportedError("'chrome.system.cpu' is not available");
   }
 }
 
@@ -66,7 +66,7 @@ class ChromeSystemCpu extends ChromeApi {
  * increasing while the processor is powered on. Values are in milliseconds.
  */
 class CpuTime extends ChromeObject {
-  CpuTime({num user, num kernel, num idle, num total}) {
+  CpuTime({num? user, num? kernel, num? idle, num? total}) {
     if (user != null) this.user = user;
     if (kernel != null) this.kernel = kernel;
     if (idle != null) this.idle = idle;
@@ -88,7 +88,7 @@ class CpuTime extends ChromeObject {
 }
 
 class ProcessorInfo extends ChromeObject {
-  ProcessorInfo({CpuTime usage}) {
+  ProcessorInfo({CpuTime? usage}) {
     if (usage != null) this.usage = usage;
   }
   ProcessorInfo.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -98,7 +98,7 @@ class ProcessorInfo extends ChromeObject {
 }
 
 class CpuInfo extends ChromeObject {
-  CpuInfo({int numOfProcessors, String archName, String modelName, List<String> features, List<ProcessorInfo> processors, List<num> temperatures}) {
+  CpuInfo({int? numOfProcessors, String? archName, String? modelName, List<String>? features, List<ProcessorInfo>? processors, List<num>? temperatures}) {
     if (numOfProcessors != null) this.numOfProcessors = numOfProcessors;
     if (archName != null) this.archName = archName;
     if (modelName != null) this.modelName = modelName;
@@ -127,9 +127,9 @@ class CpuInfo extends ChromeObject {
   set temperatures(List<num> value) => jsProxy['temperatures'] = jsify(value);
 }
 
-CpuInfo _createCpuInfo(JsObject jsProxy) => jsProxy == null ? null : new CpuInfo.fromProxy(jsProxy);
-CpuTime _createCpuTime(JsObject jsProxy) => jsProxy == null ? null : new CpuTime.fromProxy(jsProxy);
-ProcessorInfo _createProcessorInfo(JsObject jsProxy) => jsProxy == null ? null : new ProcessorInfo.fromProxy(jsProxy);
+CpuInfo _createCpuInfo(JsObject jsProxy) => CpuInfo.fromProxy(jsProxy);
+CpuTime _createCpuTime(JsObject jsProxy) => CpuTime.fromProxy(jsProxy);
+ProcessorInfo _createProcessorInfo(JsObject jsProxy) => ProcessorInfo.fromProxy(jsProxy);
 
 /**
  * Use the `system.display` API to query display metadata.
@@ -138,7 +138,7 @@ class ChromeSystemDisplay extends ChromeApi {
   JsObject get _system_display => chrome['system']['display'];
 
   Stream get onDisplayChanged => _onDisplayChanged.stream;
-  ChromeStreamController _onDisplayChanged;
+  late ChromeStreamController _onDisplayChanged;
 
   ChromeSystemDisplay._() {
     var getApi = () => _system_display;
@@ -152,10 +152,10 @@ class ChromeSystemDisplay extends ChromeApi {
    * [flags]: Options affecting how the information is returned.
    * [callback]: The callback to invoke with the results.
    */
-  Future<List<DisplayUnitInfo>> getInfo([GetInfoFlags flags]) {
+  Future<List<DisplayUnitInfo>> getInfo([GetInfoFlags? flags]) {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<DisplayUnitInfo>>.oneArg((e) => listify(e, _createDisplayUnitInfo));
+    var completer =  ChromeCompleter<List<DisplayUnitInfo>>.oneArg((e) => listify(e, _createDisplayUnitInfo));
     _system_display.callMethod('getInfo', [jsify(flags), completer.callback]);
     return completer.future;
   }
@@ -168,7 +168,7 @@ class ChromeSystemDisplay extends ChromeApi {
   Future<List<DisplayLayout>> getDisplayLayout() {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<DisplayLayout>>.oneArg((e) => listify(e, _createDisplayLayout));
+    var completer =  ChromeCompleter<List<DisplayLayout>>.oneArg((e) => listify(e, _createDisplayLayout));
     _system_display.callMethod('getDisplayLayout', [completer.callback]);
     return completer.future;
   }
@@ -186,7 +186,7 @@ class ChromeSystemDisplay extends ChromeApi {
   Future setDisplayProperties(String id, DisplayProperties info) {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _system_display.callMethod('setDisplayProperties', [id, jsify(info), completer.callback]);
     return completer.future;
   }
@@ -205,16 +205,16 @@ class ChromeSystemDisplay extends ChromeApi {
   Future setDisplayLayout(List<DisplayLayout> layouts) {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _system_display.callMethod('setDisplayLayout', [jsify(layouts), completer.callback]);
     return completer.future;
   }
 
   /**
-   * Enables/disables the unified desktop feature. Note that this simply enables
-   * the feature, but will not change the actual desktop mode. (That is, if the
-   * desktop is in mirror mode, it will stay in mirror mode) NOTE: This is only
-   * available to Chrome OS Kiosk apps and Web UI.
+   * Enables/disables the unified desktop feature. If enabled while mirroring is
+   * active, the desktop mode will not change until mirroring is turned off.
+   * Otherwise, the desktop mode will switch to unified immediately. NOTE: This
+   * is only available to Chrome OS Kiosk apps and Web UI.
    * [enabled]: True if unified desktop should be enabled.
    */
   void enableUnifiedDesktop(bool enabled) {
@@ -237,7 +237,7 @@ class ChromeSystemDisplay extends ChromeApi {
 
   /**
    * Adjusts the current overscan insets for a display. Typically this should
-   * etiher move the display along an axis (e.g. left+right have the same value)
+   * either move the display along an axis (e.g. left+right have the same value)
    * or scale it along an axis (e.g. top+bottom have opposite values). Each
    * Adjust call is cumulative with previous calls since Start.
    * [id]: The display's unique identifier.
@@ -275,7 +275,7 @@ class ChromeSystemDisplay extends ChromeApi {
    * Displays the native touch calibration UX for the display with [id] as
    * display id. This will show an overlay on the screen with required
    * instructions on how to proceed. The callback will be invoked in case of
-   * successful calibraion only. If the calibration fails, this will throw an
+   * successful calibration only. If the calibration fails, this will throw an
    * error.
    * [id]: The display's unique identifier.
    * [callback]: Optional callback to inform the caller that the touch
@@ -285,7 +285,7 @@ class ChromeSystemDisplay extends ChromeApi {
   Future<bool> showNativeTouchCalibration(String id) {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<bool>.oneArg();
+    var completer =  ChromeCompleter<bool>.oneArg();
     _system_display.callMethod('showNativeTouchCalibration', [id, completer.callback]);
     return completer.future;
   }
@@ -343,13 +343,13 @@ class ChromeSystemDisplay extends ChromeApi {
   Future setMirrorMode(MirrorModeInfo info) {
     if (_system_display == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter.noArgs();
+    var completer =  ChromeCompleter.noArgs();
     _system_display.callMethod('setMirrorMode', [jsify(info), completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.system.display' is not available");
+    throw  UnsupportedError("'chrome.system.display' is not available");
   }
 }
 
@@ -382,7 +382,7 @@ class MirrorMode extends ChromeEnum {
 }
 
 class Insets extends ChromeObject {
-  Insets({int left, int top, int right, int bottom}) {
+  Insets({int? left, int? top, int? right, int? bottom}) {
     if (left != null) this.left = left;
     if (top != null) this.top = top;
     if (right != null) this.right = right;
@@ -404,7 +404,7 @@ class Insets extends ChromeObject {
 }
 
 class Point extends ChromeObject {
-  Point({int x, int y}) {
+  Point({int? x, int? y}) {
     if (x != null) this.x = x;
     if (y != null) this.y = y;
   }
@@ -418,7 +418,7 @@ class Point extends ChromeObject {
 }
 
 class TouchCalibrationPair extends ChromeObject {
-  TouchCalibrationPair({Point displayPoint, Point touchPoint}) {
+  TouchCalibrationPair({Point? displayPoint, Point? touchPoint}) {
     if (displayPoint != null) this.displayPoint = displayPoint;
     if (touchPoint != null) this.touchPoint = touchPoint;
   }
@@ -432,7 +432,7 @@ class TouchCalibrationPair extends ChromeObject {
 }
 
 class TouchCalibrationPairQuad extends ChromeObject {
-  TouchCalibrationPairQuad({TouchCalibrationPair pair1, TouchCalibrationPair pair2, TouchCalibrationPair pair3, TouchCalibrationPair pair4}) {
+  TouchCalibrationPairQuad({TouchCalibrationPair? pair1, TouchCalibrationPair? pair2, TouchCalibrationPair? pair3, TouchCalibrationPair? pair4}) {
     if (pair1 != null) this.pair1 = pair1;
     if (pair2 != null) this.pair2 = pair2;
     if (pair3 != null) this.pair3 = pair3;
@@ -454,15 +454,17 @@ class TouchCalibrationPairQuad extends ChromeObject {
 }
 
 class DisplayMode extends ChromeObject {
-  DisplayMode({int width, int height, int widthInNativePixels, int heightInNativePixels, num uiScale, num deviceScaleFactor, bool isNative, bool isSelected}) {
+  DisplayMode({int? width, int? height, int? widthInNativePixels, int? heightInNativePixels, num? uiScale, num? deviceScaleFactor, num? refreshRate, bool? isNative, bool? isSelected, bool? isInterlaced}) {
     if (width != null) this.width = width;
     if (height != null) this.height = height;
     if (widthInNativePixels != null) this.widthInNativePixels = widthInNativePixels;
     if (heightInNativePixels != null) this.heightInNativePixels = heightInNativePixels;
     if (uiScale != null) this.uiScale = uiScale;
     if (deviceScaleFactor != null) this.deviceScaleFactor = deviceScaleFactor;
+    if (refreshRate != null) this.refreshRate = refreshRate;
     if (isNative != null) this.isNative = isNative;
     if (isSelected != null) this.isSelected = isSelected;
+    if (isInterlaced != null) this.isInterlaced = isInterlaced;
   }
   DisplayMode.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
 
@@ -484,15 +486,21 @@ class DisplayMode extends ChromeObject {
   num get deviceScaleFactor => jsProxy['deviceScaleFactor'];
   set deviceScaleFactor(num value) => jsProxy['deviceScaleFactor'] = jsify(value);
 
+  num get refreshRate => jsProxy['refreshRate'];
+  set refreshRate(num value) => jsProxy['refreshRate'] = jsify(value);
+
   bool get isNative => jsProxy['isNative'];
   set isNative(bool value) => jsProxy['isNative'] = value;
 
   bool get isSelected => jsProxy['isSelected'];
   set isSelected(bool value) => jsProxy['isSelected'] = value;
+
+  bool get isInterlaced => jsProxy['isInterlaced'];
+  set isInterlaced(bool value) => jsProxy['isInterlaced'] = value;
 }
 
 class DisplayLayout extends ChromeObject {
-  DisplayLayout({String id, String parentId, LayoutPosition position, int offset}) {
+  DisplayLayout({String? id, String? parentId, LayoutPosition? position, int? offset}) {
     if (id != null) this.id = id;
     if (parentId != null) this.parentId = parentId;
     if (position != null) this.position = position;
@@ -513,17 +521,42 @@ class DisplayLayout extends ChromeObject {
   set offset(int value) => jsProxy['offset'] = value;
 }
 
+/**
+ * EDID extracted parameters. Field description refers to "VESA ENHANCED
+ * EXTENDED DISPLAY IDENTIFICATION DATA STANDARD (Defines EDID Structure Version
+ * 1, Revision 4)" Release A, Revision 2 September 25, 2006.
+ * https://www.vesa.org/vesa-standards
+ */
+class Edid extends ChromeObject {
+  Edid({String? manufacturerId, String? productId, int? yearOfManufacture}) {
+    if (manufacturerId != null) this.manufacturerId = manufacturerId;
+    if (productId != null) this.productId = productId;
+    if (yearOfManufacture != null) this.yearOfManufacture = yearOfManufacture;
+  }
+  Edid.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
+
+  String get manufacturerId => jsProxy['manufacturerId'];
+  set manufacturerId(String value) => jsProxy['manufacturerId'] = value;
+
+  String get productId => jsProxy['productId'];
+  set productId(String value) => jsProxy['productId'] = value;
+
+  int get yearOfManufacture => jsProxy['yearOfManufacture'];
+  set yearOfManufacture(int value) => jsProxy['yearOfManufacture'] = value;
+}
+
 class DisplayUnitInfo extends ChromeObject {
-  DisplayUnitInfo({String id, String name, String mirroringSourceId, List<String> mirroringDestinationIds, bool isPrimary, bool isInternal, bool isEnabled, bool isUnified, bool isTabletMode, num dpiX, num dpiY, int rotation, Bounds bounds, Insets overscan, Bounds workArea, List<DisplayMode> modes, bool hasTouchSupport, bool hasAccelerometerSupport, num displayZoomFactor}) {
+  DisplayUnitInfo({String? id, String? name, Edid? edid, String? mirroringSourceId, List<String>? mirroringDestinationIds, bool? isPrimary, bool? isInternal, bool? isEnabled, bool? isUnified, bool? isAutoRotationAllowed, num? dpiX, num? dpiY, int? rotation, Bounds? bounds, Insets? overscan, Bounds? workArea, List<DisplayMode>? modes, bool? hasTouchSupport, bool? hasAccelerometerSupport, List<num>? availableDisplayZoomFactors, num? displayZoomFactor}) {
     if (id != null) this.id = id;
     if (name != null) this.name = name;
+    if (edid != null) this.edid = edid;
     if (mirroringSourceId != null) this.mirroringSourceId = mirroringSourceId;
     if (mirroringDestinationIds != null) this.mirroringDestinationIds = mirroringDestinationIds;
     if (isPrimary != null) this.isPrimary = isPrimary;
     if (isInternal != null) this.isInternal = isInternal;
     if (isEnabled != null) this.isEnabled = isEnabled;
     if (isUnified != null) this.isUnified = isUnified;
-    if (isTabletMode != null) this.isTabletMode = isTabletMode;
+    if (isAutoRotationAllowed != null) this.isAutoRotationAllowed = isAutoRotationAllowed;
     if (dpiX != null) this.dpiX = dpiX;
     if (dpiY != null) this.dpiY = dpiY;
     if (rotation != null) this.rotation = rotation;
@@ -533,6 +566,7 @@ class DisplayUnitInfo extends ChromeObject {
     if (modes != null) this.modes = modes;
     if (hasTouchSupport != null) this.hasTouchSupport = hasTouchSupport;
     if (hasAccelerometerSupport != null) this.hasAccelerometerSupport = hasAccelerometerSupport;
+    if (availableDisplayZoomFactors != null) this.availableDisplayZoomFactors = availableDisplayZoomFactors;
     if (displayZoomFactor != null) this.displayZoomFactor = displayZoomFactor;
   }
   DisplayUnitInfo.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -542,6 +576,9 @@ class DisplayUnitInfo extends ChromeObject {
 
   String get name => jsProxy['name'];
   set name(String value) => jsProxy['name'] = value;
+
+  Edid get edid => _createEdid(jsProxy['edid']);
+  set edid(Edid value) => jsProxy['edid'] = jsify(value);
 
   String get mirroringSourceId => jsProxy['mirroringSourceId'];
   set mirroringSourceId(String value) => jsProxy['mirroringSourceId'] = value;
@@ -561,8 +598,8 @@ class DisplayUnitInfo extends ChromeObject {
   bool get isUnified => jsProxy['isUnified'];
   set isUnified(bool value) => jsProxy['isUnified'] = value;
 
-  bool get isTabletMode => jsProxy['isTabletMode'];
-  set isTabletMode(bool value) => jsProxy['isTabletMode'] = value;
+  bool get isAutoRotationAllowed => jsProxy['isAutoRotationAllowed'];
+  set isAutoRotationAllowed(bool value) => jsProxy['isAutoRotationAllowed'] = value;
 
   num get dpiX => jsProxy['dpiX'];
   set dpiX(num value) => jsProxy['dpiX'] = jsify(value);
@@ -591,12 +628,15 @@ class DisplayUnitInfo extends ChromeObject {
   bool get hasAccelerometerSupport => jsProxy['hasAccelerometerSupport'];
   set hasAccelerometerSupport(bool value) => jsProxy['hasAccelerometerSupport'] = value;
 
+  List<num> get availableDisplayZoomFactors => listify(jsProxy['availableDisplayZoomFactors']);
+  set availableDisplayZoomFactors(List<num> value) => jsProxy['availableDisplayZoomFactors'] = jsify(value);
+
   num get displayZoomFactor => jsProxy['displayZoomFactor'];
   set displayZoomFactor(num value) => jsProxy['displayZoomFactor'] = jsify(value);
 }
 
 class DisplayProperties extends ChromeObject {
-  DisplayProperties({bool isUnified, String mirroringSourceId, bool isPrimary, Insets overscan, int rotation, int boundsOriginX, int boundsOriginY, DisplayMode displayMode, num displayZoomFactor}) {
+  DisplayProperties({bool? isUnified, String? mirroringSourceId, bool? isPrimary, Insets? overscan, int? rotation, int? boundsOriginX, int? boundsOriginY, DisplayMode? displayMode, num? displayZoomFactor}) {
     if (isUnified != null) this.isUnified = isUnified;
     if (mirroringSourceId != null) this.mirroringSourceId = mirroringSourceId;
     if (isPrimary != null) this.isPrimary = isPrimary;
@@ -638,7 +678,7 @@ class DisplayProperties extends ChromeObject {
 }
 
 class GetInfoFlags extends ChromeObject {
-  GetInfoFlags({bool singleUnified}) {
+  GetInfoFlags({bool? singleUnified}) {
     if (singleUnified != null) this.singleUnified = singleUnified;
   }
   GetInfoFlags.fromProxy(JsObject jsProxy): super.fromProxy(jsProxy);
@@ -648,7 +688,7 @@ class GetInfoFlags extends ChromeObject {
 }
 
 class MirrorModeInfo extends ChromeObject {
-  MirrorModeInfo({MirrorMode mode, String mirroringSourceId, List<String> mirroringDestinationIds}) {
+  MirrorModeInfo({MirrorMode? mode, String? mirroringSourceId, List<String>? mirroringDestinationIds}) {
     if (mode != null) this.mode = mode;
     if (mirroringSourceId != null) this.mirroringSourceId = mirroringSourceId;
     if (mirroringDestinationIds != null) this.mirroringDestinationIds = mirroringDestinationIds;
@@ -665,14 +705,15 @@ class MirrorModeInfo extends ChromeObject {
   set mirroringDestinationIds(List<String> value) => jsProxy['mirroringDestinationIds'] = jsify(value);
 }
 
-DisplayUnitInfo _createDisplayUnitInfo(JsObject jsProxy) => jsProxy == null ? null : new DisplayUnitInfo.fromProxy(jsProxy);
-DisplayLayout _createDisplayLayout(JsObject jsProxy) => jsProxy == null ? null : new DisplayLayout.fromProxy(jsProxy);
-Point _createPoint(JsObject jsProxy) => jsProxy == null ? null : new Point.fromProxy(jsProxy);
-TouchCalibrationPair _createTouchCalibrationPair(JsObject jsProxy) => jsProxy == null ? null : new TouchCalibrationPair.fromProxy(jsProxy);
+DisplayUnitInfo _createDisplayUnitInfo(JsObject jsProxy) => DisplayUnitInfo.fromProxy(jsProxy);
+DisplayLayout _createDisplayLayout(JsObject jsProxy) => DisplayLayout.fromProxy(jsProxy);
+Point _createPoint(JsObject jsProxy) => Point.fromProxy(jsProxy);
+TouchCalibrationPair _createTouchCalibrationPair(JsObject jsProxy) => TouchCalibrationPair.fromProxy(jsProxy);
 LayoutPosition _createLayoutPosition(String value) => LayoutPosition.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-Bounds _createBounds(JsObject jsProxy) => jsProxy == null ? null : new Bounds.fromProxy(jsProxy);
-Insets _createInsets(JsObject jsProxy) => jsProxy == null ? null : new Insets.fromProxy(jsProxy);
-DisplayMode _createDisplayMode(JsObject jsProxy) => jsProxy == null ? null : new DisplayMode.fromProxy(jsProxy);
+Edid _createEdid(JsObject jsProxy) => Edid.fromProxy(jsProxy);
+Bounds _createBounds(JsObject jsProxy) => Bounds.fromProxy(jsProxy);
+Insets _createInsets(JsObject jsProxy) => Insets.fromProxy(jsProxy);
+DisplayMode _createDisplayMode(JsObject jsProxy) => DisplayMode.fromProxy(jsProxy);
 MirrorMode _createMirrorMode(String value) => MirrorMode.VALUES.singleWhere((ChromeEnum e) => e.value == value);
 
 /**
@@ -691,18 +732,18 @@ class ChromeSystemMemory extends ChromeApi {
   Future<MemoryInfo> getInfo() {
     if (_system_memory == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<MemoryInfo>.oneArg(_createMemoryInfo);
+    var completer =  ChromeCompleter<MemoryInfo>.oneArg(_createMemoryInfo);
     _system_memory.callMethod('getInfo', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.system.memory' is not available");
+    throw  UnsupportedError("'chrome.system.memory' is not available");
   }
 }
 
 class MemoryInfo extends ChromeObject {
-  MemoryInfo({num capacity, num availableCapacity}) {
+  MemoryInfo({num? capacity, num? availableCapacity}) {
     if (capacity != null) this.capacity = capacity;
     if (availableCapacity != null) this.availableCapacity = availableCapacity;
   }
@@ -715,7 +756,7 @@ class MemoryInfo extends ChromeObject {
   set availableCapacity(num value) => jsProxy['availableCapacity'] = jsify(value);
 }
 
-MemoryInfo _createMemoryInfo(JsObject jsProxy) => jsProxy == null ? null : new MemoryInfo.fromProxy(jsProxy);
+MemoryInfo _createMemoryInfo(JsObject jsProxy) => MemoryInfo.fromProxy(jsProxy);
 
 /**
  * Use the `chrome.system.network` API.
@@ -739,18 +780,18 @@ class ChromeSystemNetwork extends ChromeApi {
   Future<List<NetworkInterface>> getNetworkInterfaces() {
     if (_system_network == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<NetworkInterface>>.oneArg((e) => listify(e, _createNetworkInterface));
+    var completer =  ChromeCompleter<List<NetworkInterface>>.oneArg((e) => listify(e, _createNetworkInterface));
     _system_network.callMethod('getNetworkInterfaces', [completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.system.network' is not available");
+    throw  UnsupportedError("'chrome.system.network' is not available");
   }
 }
 
 class NetworkInterface extends ChromeObject {
-  NetworkInterface({String name, String address, int prefixLength}) {
+  NetworkInterface({String? name, String? address, int? prefixLength}) {
     if (name != null) this.name = name;
     if (address != null) this.address = address;
     if (prefixLength != null) this.prefixLength = prefixLength;
@@ -767,7 +808,7 @@ class NetworkInterface extends ChromeObject {
   set prefixLength(int value) => jsProxy['prefixLength'] = value;
 }
 
-NetworkInterface _createNetworkInterface(JsObject jsProxy) => jsProxy == null ? null : new NetworkInterface.fromProxy(jsProxy);
+NetworkInterface _createNetworkInterface(JsObject jsProxy) => NetworkInterface.fromProxy(jsProxy);
 
 /**
  * Use the `chrome.system.storage` API to query storage device information and
@@ -777,15 +818,15 @@ class ChromeSystemStorage extends ChromeApi {
   JsObject get _system_storage => chrome['system']['storage'];
 
   Stream<StorageUnitInfo> get onAttached => _onAttached.stream;
-  ChromeStreamController<StorageUnitInfo> _onAttached;
+  late ChromeStreamController<StorageUnitInfo> _onAttached;
 
   Stream<String> get onDetached => _onDetached.stream;
-  ChromeStreamController<String> _onDetached;
+  late ChromeStreamController<String> _onDetached;
 
   ChromeSystemStorage._() {
     var getApi = () => _system_storage;
-    _onAttached = new ChromeStreamController<StorageUnitInfo>.oneArg(getApi, 'onAttached', _createStorageUnitInfo);
-    _onDetached = new ChromeStreamController<String>.oneArg(getApi, 'onDetached', selfConverter);
+    _onAttached = ChromeStreamController<StorageUnitInfo>.oneArg(getApi, 'onAttached', _createStorageUnitInfo);
+    _onDetached = ChromeStreamController<String>.oneArg(getApi, 'onDetached', selfConverter);
   }
 
   bool get available => _system_storage != null;
@@ -797,7 +838,7 @@ class ChromeSystemStorage extends ChromeApi {
   Future<List<StorageUnitInfo>> getInfo() {
     if (_system_storage == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<List<StorageUnitInfo>>.oneArg((e) => listify(e, _createStorageUnitInfo));
+    var completer =  ChromeCompleter<List<StorageUnitInfo>>.oneArg((e) => listify(e, _createStorageUnitInfo));
     _system_storage.callMethod('getInfo', [completer.callback]);
     return completer.future;
   }
@@ -808,7 +849,7 @@ class ChromeSystemStorage extends ChromeApi {
   Future<EjectDeviceResultCode> ejectDevice(String id) {
     if (_system_storage == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<EjectDeviceResultCode>.oneArg(_createEjectDeviceResultCode);
+    var completer =  ChromeCompleter<EjectDeviceResultCode>.oneArg(_createEjectDeviceResultCode);
     _system_storage.callMethod('ejectDevice', [id, completer.callback]);
     return completer.future;
   }
@@ -820,13 +861,13 @@ class ChromeSystemStorage extends ChromeApi {
   Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) {
     if (_system_storage == null) _throwNotAvailable();
 
-    var completer = new ChromeCompleter<StorageAvailableCapacityInfo>.oneArg(_createStorageAvailableCapacityInfo);
+    var completer =  ChromeCompleter<StorageAvailableCapacityInfo>.oneArg(_createStorageAvailableCapacityInfo);
     _system_storage.callMethod('getAvailableCapacity', [id, completer.callback]);
     return completer.future;
   }
 
   void _throwNotAvailable() {
-    throw new UnsupportedError("'chrome.system.storage' is not available");
+    throw  UnsupportedError("'chrome.system.storage' is not available");
   }
 }
 
@@ -852,7 +893,7 @@ class EjectDeviceResultCode extends ChromeEnum {
 }
 
 class StorageUnitInfo extends ChromeObject {
-  StorageUnitInfo({String id, String name, StorageUnitType type, num capacity}) {
+  StorageUnitInfo({String? id, String? name, StorageUnitType? type, num? capacity}) {
     if (id != null) this.id = id;
     if (name != null) this.name = name;
     if (type != null) this.type = type;
@@ -874,7 +915,7 @@ class StorageUnitInfo extends ChromeObject {
 }
 
 class StorageAvailableCapacityInfo extends ChromeObject {
-  StorageAvailableCapacityInfo({String id, num availableCapacity}) {
+  StorageAvailableCapacityInfo({String? id, num? availableCapacity}) {
     if (id != null) this.id = id;
     if (availableCapacity != null) this.availableCapacity = availableCapacity;
   }
@@ -887,7 +928,7 @@ class StorageAvailableCapacityInfo extends ChromeObject {
   set availableCapacity(num value) => jsProxy['availableCapacity'] = jsify(value);
 }
 
-StorageUnitInfo _createStorageUnitInfo(JsObject jsProxy) => jsProxy == null ? null : new StorageUnitInfo.fromProxy(jsProxy);
+StorageUnitInfo _createStorageUnitInfo(JsObject jsProxy) => StorageUnitInfo.fromProxy(jsProxy);
 EjectDeviceResultCode _createEjectDeviceResultCode(String value) => EjectDeviceResultCode.VALUES.singleWhere((ChromeEnum e) => e.value == value);
-StorageAvailableCapacityInfo _createStorageAvailableCapacityInfo(JsObject jsProxy) => jsProxy == null ? null : new StorageAvailableCapacityInfo.fromProxy(jsProxy);
+StorageAvailableCapacityInfo _createStorageAvailableCapacityInfo(JsObject jsProxy) => StorageAvailableCapacityInfo.fromProxy(jsProxy);
 StorageUnitType _createStorageUnitType(String value) => StorageUnitType.VALUES.singleWhere((ChromeEnum e) => e.value == value);

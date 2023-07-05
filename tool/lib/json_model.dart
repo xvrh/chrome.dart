@@ -1,4 +1,3 @@
-zj
 library model_json;
 
 import 'chrome_model.dart';
@@ -9,14 +8,14 @@ abstract class JsonObject {
 
   JsonObject(this.json);
 
-  String get description => json['description'];
+  String get description => json['description']! as String;
 
   bool _bool(String key) => json[key] == true || json[key] == 'true';
 
-  static bool _isEnumType(Map<String, dynamic> json) =>
+  static bool _isEnumType(Map<String, dynamic>? json) =>
       json != null && json.containsKey('enum');
 
-  static bool _isDeclaredType(Map<String, dynamic> json) =>
+  static bool _isDeclaredType(Map<String, dynamic>? json) =>
       json != null && !json.containsKey('enum');
 }
 
@@ -27,32 +26,36 @@ class JsonNamespace extends JsonObject {
   final List<JsonDeclaredType> types;
   final List<JsonEnum> enums;
 
-  JsonNamespace(json) :
-    properties = JsonProperty.parse(json['properties']),
-    functions = JsonFunction.parse(json['functions']),
-    events = JsonEvent.parse(json['events']),
-    types = JsonDeclaredType.parse(json['types']),
-    enums = JsonEnum.parse(json['types']),
-    super(json);
+  JsonNamespace(Map<String, dynamic> json)
+      : properties =
+            JsonProperty.parse(json['properties'] as Map<String, dynamic>?),
+        functions = JsonFunction.parse(json['functions'] as List?),
+        events = JsonEvent.parse(json['events'] as List?),
+        types = JsonDeclaredType.parse(json['types'] as List?),
+        enums = JsonEnum.parse(json['types'] as List?),
+        super(json);
 
-  String get namespace => json['namespace'];
+  String get namespace => json['namespace']! as String;
 
   String toString() => "${runtimeType.toString()} ${namespace}";
 }
 
 class JsonEnum extends JsonObject {
-  JsonEnum(json) : super(json);
+  JsonEnum(Map<String, dynamic> json) : super(json);
 
-  List<dynamic> get values => json['enum'];
+  List<dynamic> get values => json['enum'] as List;
 
-  String get id => json['id'];
+  String get id => json['id'] as String;
 
   String get name => id;
 
-  static List<JsonEnum> parse(List<Map<String, dynamic>> jsons) {
+  static List<JsonEnum> parse(List? jsons) {
     if (jsons == null) return [];
-    return jsons.where(JsonObject._isEnumType)
-        .map((json) => new JsonEnum(json)).toList();
+    return jsons
+        .cast<Map<String, dynamic>>()
+        .where(JsonObject._isEnumType)
+        .map((json) => JsonEnum(json))
+        .toList();
   }
 }
 
@@ -60,23 +63,26 @@ class JsonProperty extends JsonObject {
   final String name;
   final JsonReturnType type;
 
-  static List<JsonProperty> parse(Map m) {
+  static List<JsonProperty> parse(Map<String, dynamic>? m) {
     // TODO: add support for 'choices'. Example browserAction.setIcon has
     // parameters that could be multiple types.
-    List<JsonProperty> properties = [];
+    var properties = <JsonProperty>[];
 
     if (m != null) {
-      for (String key in m.keys) {
-        properties.add(new JsonProperty(key, new JsonReturnType(m[key])));
+      for (var entry in m.entries) {
+        properties.add(JsonProperty(
+            entry.key, JsonReturnType(entry.value as Map<String, dynamic>)));
       }
     }
 
     return properties;
   }
 
-  JsonProperty(this.name, this.type): super(null);
+  JsonProperty(this.name, this.type) : super({});
 
+  @override
   String get description => type.description;
+
   bool get nodoc => type.nodoc;
 
   /// Returns whether this property itself defines properties.
@@ -94,99 +100,116 @@ class JsonProperty extends JsonObject {
 }
 
 class JsonFunction extends JsonObject {
-  final List<JsonParamType> parameters;
-  final JsonReturnType returns;
+  final List<JsonType> parameters;
+  final JsonReturnType? returns;
 
-  static List<JsonFunction> parse(List jsons) {
-    return (jsons == null ? [] : jsons.map((j) => new JsonFunction(j)).toList());
+  static List<JsonFunction> parse(List? jsons) {
+    return (jsons == null
+        ? []
+        : jsons
+            .cast<Map<String, dynamic>>()
+            .map((j) => JsonFunction(j))
+            .toList());
   }
 
-  JsonFunction(json) :
-    parameters = JsonParamType.parse(json['parameters']),
-    returns = json.containsKey('returns') ?
-        new JsonReturnType(json['returns']) : null,
-    super(json);
+  JsonFunction(Map<String, dynamic> json)
+      : parameters = JsonParamType.parse(json['parameters'] as List?),
+        returns = json.containsKey('returns')
+            ? new JsonReturnType(json['returns']! as Map<String, dynamic>)
+            : null,
+        super(json);
 
-  String get name => json['name'];
-  String get type => json['type'];
+  String get name => json['name']! as String;
+  String get type => json['type']! as String;
   bool get nocompile => _bool('nocompile');
 
   String toString() => "${runtimeType.toString()} ${name}()";
 }
 
 class JsonType extends JsonObject {
-  final List<JsonParamType> parameters;
+  final List<JsonType> parameters;
   final List<JsonProperty> properties;
 
-  JsonType(json):
-    this.parameters = JsonParamType.parse(json['parameters']),
-    this.properties = JsonProperty.parse(json['properties']),
-    super(json) {
-
+  JsonType(Map<String, dynamic> json)
+      : this.parameters = JsonParamType.parse(json['parameters'] as List?),
+        this.properties =
+            JsonProperty.parse(json['properties'] as Map<String, dynamic>?),
+        super(json) {
     if (parameters.isEmpty && json.containsKey('items')) {
-      parameters.add(new JsonType(json['items']));
+      parameters.add(new JsonType(json['items']! as Map<String, dynamic>));
     }
   }
 
-  String get name => null;
+  String get name => '';
 
-  String get type => json['type'];
-  String get ref => json[r'$ref'];
-  String get isInstanceOf => json['isInstanceOf'];
-  List<String> get enumOptions => json['enum'];
+  String get type => json['type']! as String;
+  String? get ref => json[r'$ref'] as String?;
+  String? get isInstanceOf => json['isInstanceOf'] as String?;
+  List<String>? get enumOptions => (json['enum'] as List?)?.cast<String>();
   bool get optional => _bool('optional');
   bool get nocompile => _bool('nocompile');
   bool get nodoc => _bool('nodoc');
-  bool get isCallback => type == 'function' && (name == 'callback' || name == 'responseCallback');
+  bool get isCallback =>
+      type == 'function' && (name == 'callback' || name == 'responseCallback');
 
   String toString() => "${runtimeType.toString()} ${type} (${ref})";
 }
 
 class JsonParamType extends JsonType {
-
-  static List<JsonType> parse(List jsons) {
-    return (jsons == null ? [] : jsons.map((j) => new JsonParamType(j)).toList());
+  static List<JsonType> parse(List? jsons) {
+    return (jsons == null
+        ? []
+        : jsons
+            .cast<Map<String, dynamic>>()
+            .map((j) => new JsonParamType(j))
+            .toList());
   }
 
-  JsonParamType(json): super(json);
+  JsonParamType(Map<String, dynamic> json) : super(json);
 
-  String get name => json['name'];
+  String get name => json['name']! as String;
 
   // rare ones
-  int get maxLength => json['maxLength'];
+  int? get maxLength => json['maxLength'] as int?;
   dynamic get value => json['value'];
 
   String toString() => "${runtimeType.toString()} ${name}";
 }
 
 class JsonReturnType extends JsonParamType {
-
-  JsonReturnType(json): super(json);
+  JsonReturnType(Map<String, dynamic> json) : super(json);
 }
 
 class JsonEvent extends JsonParamType {
-
-  static List<JsonEvent> parse(List jsons) {
-    return (jsons == null ? [] : jsons.map((j) => new JsonEvent(j)).toList());
+  static List<JsonEvent> parse(List? jsons) {
+    return (jsons == null
+        ? []
+        : jsons
+            .cast<Map<String, dynamic>>()
+            .map((j) => new JsonEvent(j))
+            .toList());
   }
 
-  JsonEvent(json): super(json);
+  JsonEvent(Map<String, dynamic> json) : super(json);
 }
 
 class JsonDeclaredType extends JsonType {
   final List<JsonFunction> functions;
 
-  static List<JsonDeclaredType> parse(List jsons) {
+  static List<JsonDeclaredType> parse(List? jsons) {
     if (jsons == null) return [];
-    return jsons.where(JsonObject._isDeclaredType)
-        .map((j) => new JsonDeclaredType(j)).toList();
+    return jsons
+        .cast<Map<String, dynamic>>()
+        .where(JsonObject._isDeclaredType)
+        .map((j) => new JsonDeclaredType(j))
+        .toList();
   }
 
-  JsonDeclaredType(Map<String, dynamic> json) :
-      this.functions = JsonFunction.parse(json['functions']),
-      super(json);
+  JsonDeclaredType(Map<String, dynamic> json)
+      : this.functions = JsonFunction.parse(json['functions'] as List?),
+        super(json);
 
-  String get id => json['id'];
+  String get id => json['id']! as String;
 
   String get name => id;
 
@@ -211,23 +234,23 @@ class JsonConverter {
   JsonConverter._(this.library);
 
   ChromeLibrary _convert(JsonNamespace namespace) => library
-      ..documentation = convertHtmlToDartdoc(namespace.description)
-      ..methods.addAll(namespace.functions.map(_convertMethod))
-      ..properties
-          .addAll(namespace.properties.map((p) => _convertProperty(p, true)))
-      // We call `toList` on the intermediate iterable because a side effect
-      // of lazily traversing the list is to modify the `library.types` list.
-      ..types.addAll(namespace.types.map(_convertDeclaredType).toList())
-      ..types.addAll(addtionalDeclaredTypes.map(_convertDeclaredType))
-      ..enumTypes.addAll(namespace.enums.map(_convertEnum))
-      ..events.addAll(namespace.events.map(_convertEvent));
+    ..documentation = convertHtmlToDartdoc(namespace.description)
+    ..methods.addAll(namespace.functions.map(_convertMethod))
+    ..properties
+        .addAll(namespace.properties.map((p) => _convertProperty(p, true)))
+    // We call `toList` on the intermediate iterable because a side effect
+    // of lazily traversing the list is to modify the `library.types` list.
+    ..types.addAll(namespace.types.map(_convertDeclaredType).toList())
+    ..types.addAll(addtionalDeclaredTypes.map(_convertDeclaredType))
+    ..enumTypes.addAll(namespace.enums.map(_convertEnum))
+    ..events.addAll(namespace.events.map(_convertEvent));
 
   ChromeEnumType _convertEnum(JsonEnum jsonEnum) => new ChromeEnumType()
-      ..values = jsonEnum.values.map(_convertEnumEntry)
-      ..name = jsonEnum.name
-      ..documentation = convertHtmlToDartdoc(jsonEnum.description);
+    ..values = jsonEnum.values.map(_convertEnumEntry).nonNulls.toList()
+    ..name = jsonEnum.name
+    ..documentation = convertHtmlToDartdoc(jsonEnum.description);
 
-  ChromeEnumEntry _convertEnumEntry(value) {
+  ChromeEnumEntry? _convertEnumEntry(value) {
     if (value is String) {
       // Remove . so that conversion yields legal identifier.
       return new ChromeEnumEntry(value.replaceAll('\.', ''));
@@ -238,7 +261,8 @@ class JsonConverter {
     }
   }
 
-  ChromeProperty _convertProperty(JsonProperty p, [bool onlyReturnType = false]) {
+  ChromeProperty _convertProperty(JsonProperty p,
+      [bool onlyReturnType = false]) {
     ChromeProperty property = new ChromeProperty(p.name, _convertType(p.type));
 
     property.documentation = convertHtmlToDartdoc(p.description);
@@ -272,11 +296,13 @@ class JsonConverter {
 
     method.name = f.name;
     method.documentation = convertHtmlToDartdoc(f.description);
-    method.returns = _convertType(f.returns);
-    method.params = f.parameters.map(
-      (JsonParamType param) => _convertType(param, f)).toList();
+    if (f.returns != null) {
+      method.returns = _convertType(f.returns!);
+    }
+    method.params =
+        f.parameters.map((param) => _convertType(param, f)).toList();
 
-    if (method.returns == null) {
+    if (f.returns == null) {
       if (!f.parameters.isEmpty && f.parameters.last.isCallback) {
         ChromeType type = method.params.removeLast();
 
@@ -287,7 +313,6 @@ class JsonConverter {
     } else if (!f.parameters.isEmpty && f.parameters.last.isCallback) {
       // TODO: there are 3 cases in the APIs where the return type is non-empty,
       // but the method returns it's value using a callback.
-
     }
 
     return method;
@@ -296,7 +321,7 @@ class JsonConverter {
   ChromeDeclaredType _convertDeclaredType(JsonDeclaredType t) {
     ChromeDeclaredType type = _convertType_(t, new ChromeDeclaredType());
 
-    type.methods =  t.functions.map(_convertMethod).toList();
+    type.methods = t.functions.map(_convertMethod).toList();
 
     int index = type.name.lastIndexOf('.');
 
@@ -309,19 +334,15 @@ class JsonConverter {
   }
 
   ChromeEvent _convertEvent(JsonEvent e) {
-    return _convertType_(e, new ChromeEvent());
+    return _convertType_(e, ChromeEvent());
   }
 
-  ChromeType _convertType(JsonType t, [JsonFunction function]) {
-    if (t == null) {
-      return null;
-    } else {
-      return _convertType_(t, new ChromeType(), function);
-    }
+  ChromeType _convertType(JsonType t, [JsonFunction? function]) {
+    return _convertType_(t, ChromeType(), function);
   }
 
   ChromeType _convertToFuture(ChromeMethod method, ChromeType chromeType) {
-    ChromeType future = new ChromeType();
+    ChromeType future = ChromeType();
     future.type = "Future";
 
     List<ChromeType> params = chromeType.parameters;
@@ -335,11 +356,11 @@ class JsonConverter {
       type.combinedReturnValue = true;
       type.parameters.addAll(params);
 
-      library.returnTypes.add(new ChromeReturnType(type.refName, params));
+      library.returnTypes.add(new ChromeReturnType(type.refName!, params));
 
       future.parameters.add(type);
-      future.documentation = params.map(
-          (p) => "[${p.name}] ${p.documentation}").join('\n');
+      future.documentation =
+          params.map((p) => "[${p.name}] ${p.documentation}").join('\n');
     } else if (params.length > 2) {
       throw new UnsupportedError(
           "unable to convert ${params.length} return values into a single return");
@@ -348,7 +369,8 @@ class JsonConverter {
     return future;
   }
 
-  ChromeType _convertType_(JsonType t, ChromeType type, [JsonFunction function]) {
+  T _convertType_<T extends ChromeType>(JsonType t, T type,
+      [JsonFunction? function]) {
     type.name = t.name;
     type.documentation = convertHtmlToDartdoc(t.description);
 
@@ -365,23 +387,20 @@ class JsonConverter {
       type.type = 'List';
     } else if (t.type == 'object' && t.isInstanceOf == null) {
       type.type = "Map";
-      Map<String, dynamic> additionalProps = t.json['additionalProperties'];
+      Map<String, dynamic>? additionalProps =
+          t.json['additionalProperties'] as Map<String, dynamic>?;
       if (additionalProps != null && additionalProps['type'] == 'any') {
         assert(t.parameters.isEmpty);
         type.parameters = [ChromeType.STRING, ChromeType.VAR];
       } else if (function != null) {
-
         String name = "${titleCase(toCamelCase(library.name))}"
-                      "${titleCase(function.name)}Params";
+            "${titleCase(function.name)}Params";
 
-        JsonDeclaredType declaredType = new JsonDeclaredType({
-          'id': name
-        });
+        JsonDeclaredType declaredType = new JsonDeclaredType({'id': name});
 
         type.type = declaredType.id;
         declaredType.properties.addAll(t.properties);
         addtionalDeclaredTypes.add(declaredType);
-
       }
 
 //      // create documentation from the type's properties
@@ -400,7 +419,6 @@ class JsonConverter {
 //          type.documentation = propertyDocs;
 //        }
 //      }
-
     } else if (t.type == 'object' && t.isInstanceOf != null) {
       type.type = "var";
       type.refName = t.isInstanceOf;
@@ -408,13 +426,13 @@ class JsonConverter {
     } else if (t.ref != null) {
       type.type = "var";
 
-      Pair<String, String> names = parseQualifiedName(t.ref);
+      var names = parseQualifiedName(t.ref!);
 
-      if (names.first != null) {
-        library.addImport(names.first);
+      if (names.$1 != null) {
+        library.addImport(names.$1);
       }
 
-      type.refName = names.last;
+      type.refName = names.$2;
     } else if (t.type == "function") {
       type.type = "function";
     } else {
@@ -424,13 +442,13 @@ class JsonConverter {
     type.optional = t.optional;
 
     if (t.parameters.isNotEmpty) {
-      type.parameters = t.parameters.map(_convertType).toList();
+      type.parameters = t.parameters.map((e) => _convertType(e)!).toList();
     }
     type.properties = t.properties.map(_convertProperty).toList();
     type.enumOptions = t.enumOptions;
 
     if (type.hasEnums) {
-      String enumStr = type.enumOptions.map((e) => "`${e}`").join(', ');
+      var enumStr = type.enumOptions!.map((e) => "`${e}`").join(', ');
       type.appendDocs("enum of ${enumStr}");
     }
 
@@ -456,16 +474,16 @@ bool _isInt(var val) {
   return false;
 }
 
-Pair<String, String> parseQualifiedName(String str) {
-  int index = str.lastIndexOf('.');
+(String?, String) parseQualifiedName(String str) {
+  var index = str.lastIndexOf('.');
 
   if (index != -1) {
     // devtools.inspectedWindow.Resource
-    String qualifier = str.substring(0, index);
-    String name = str.substring(index + 1);
+    var qualifier = str.substring(0, index);
+    var name = str.substring(index + 1);
 
-    return new Pair(qualifier, name);
+    return (qualifier, name);
   } else {
-    return new Pair(null, str);
+    return (null, str);
   }
 }

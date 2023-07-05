@@ -191,12 +191,12 @@ class ChromeReturnType {
 
   ChromeReturnType(this.name, this.params);
 
-  String toString() => name;
+  String toString() => '$name';
 }
 
 class ChromeEnumType extends ChromeType {
   /// The list of values entries for enum types.
-  List<ChromeEnumEntry> values = [];
+  List<ChromeEnumEntry> values = <ChromeEnumEntry>[];
 
   String toString() => name;
 }

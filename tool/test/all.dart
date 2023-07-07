@@ -1,8 +1,7 @@
-
 library all_test;
 
-import 'chrome_idl_files_test.dart' as test_chrome_idl_files;
-import 'chrome_idl_test.dart' as test_chrome_idl;
+import 'idl_files_test.dart' as test_chrome_idl_files;
+import 'idl_test.dart' as test_chrome_idl;
 import 'googlesource_test.dart' as googlesource_test;
 import 'model_json_test.dart' as model_json_test;
 import 'omaha_test.dart' as omaha_test;

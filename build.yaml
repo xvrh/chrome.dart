@@ -5,3 +5,6 @@ targets:
         generate_for:
           - test/**
           - tool/test/**
+      json_serializable:
+        generate_for:
+          - tool/**

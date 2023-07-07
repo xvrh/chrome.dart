@@ -35,7 +35,8 @@ List<T> listify<T>(JsObject obj, [Function? transformer = null]) {
 
 Map<K, V> mapify<K, V>(JsObject obj) {
   if (obj == null) return {};
-  return json.decode(_jsJSON.callMethod('stringify', [obj]));
+  return (json.decode(_jsJSON.callMethod('stringify', [obj])) as Map)
+      .cast<K, V>();
 }
 
 dynamic jsify(dynamic obj) {

@@ -8,7 +8,10 @@ environment:
 dev_dependencies:
   args:
   build_runner:
+  code_builder:
   collection:
+  json_annotation:
+  json_serializable:
   lints:
   logging:
   mockito:
@@ -17,4 +20,5 @@ dev_dependencies:
     git:
       url: https://github.com/petitparser/dart-petitparser.git
   test:
-
+  web:
+    path: ../web-dart

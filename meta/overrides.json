@@ -11,8 +11,7 @@
   ],
 
   "overrideClass": [
-    "ChromeAppWindow",
-    "AppWindow"
+
   ],
 
   "renameClass": {

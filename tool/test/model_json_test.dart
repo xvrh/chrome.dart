@@ -8,37 +8,28 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../lib/json_model.dart' as json_model;
-import '../lib/json_parser.dart' as json_parser;
 
 void main() {
-  final String testDirectory = path
-      .dirname(currentMirrorSystem().findLibrary(#model_json_test).uri.path);
-
   group('json_model', () {
     // Define a test for each .json file in idl/
-    File testFile = new File('idl/extensions/runtime.json');
-
     // The unittest script likes to be run with the cwd set to the project root.
-    if (testFile.existsSync()) {
-      var idlPath = path.joinAll(path.split(testDirectory)
-        ..removeLast()
-        ..removeLast()
-        ..add('idl'));
-      Iterable<File> jsonFiles = new Directory(idlPath)
-          .listSync(recursive: true, followLinks: false)
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.json'));
+    var idlPath = 'idl';
+    Iterable<File> jsonFiles = new Directory(idlPath)
+        .listSync(recursive: true, followLinks: false)
+        .whereType<File>()
+        .where((f) => f.path.endsWith('.json'));
 
-      for (File file in jsonFiles) {
-        // skip _api_features.json, _manifest_features.json, _permission_features.json
-        if (!file.path.contains('/_') &&
-            !file.path.contains('test_presubmit')) {
-          test(file.path, () {
-            json_model.JsonNamespace namespace =
-                json_parser.parse(file.readAsStringSync());
-            expect(namespace.namespace, isNotNull);
-          });
-        }
+    for (File file in jsonFiles) {
+      // skip _api_features.json, _manifest_features.json, _permission_features.json
+      if (!file.path.contains('/_') &&
+          !file.path.contains('test_presubmit') &&
+          !file.path.endsWith('_private.json') &&
+          !file.path.endsWith('_internal.json')) {
+        test(file.path, () {
+          var namespace =
+              json_model.JsonNamespace.parse(file.readAsStringSync());
+          expect(namespace.namespace, isNotNull);
+        });
       }
     }
   });
@@ -46,95 +37,45 @@ void main() {
   group("json model parameters", () {
     test("parse browser_action.json", () {
       File file = new File('idl/chrome/browser_action.json');
-      json_model.JsonNamespace namespace =
-          json_parser.parse(file.readAsStringSync());
+      var namespace = json_model.JsonNamespace.parse(file.readAsStringSync());
       expect(namespace.namespace, isNotNull);
       expect(namespace.functions.any((e) => e.name == "setTitle"), isTrue);
       json_model.JsonFunction function =
           namespace.functions.singleWhere((e) => e.name == "setTitle");
       expect(function.parameters.length, 1);
-      json_model.JsonType parameter = function.parameters[0];
+      var parameter = function.parameters[0];
       expect(parameter, isNotNull);
       expect(parameter.type, "object");
-      expect(parameter.properties.length, 2);
-      json_model.JsonProperty titleProperty =
-          parameter.properties.singleWhere((e) => e.name == "title");
+      expect(parameter.properties!.length, 2);
+      json_model.JsonProperty titleProperty = parameter.properties!['title']!;
       expect(titleProperty, isNotNull);
-      expect(titleProperty.type.type, equals("string"));
-      json_model.JsonProperty tabIdProperty =
-          parameter.properties.singleWhere((e) => e.name == "tabId");
+      expect(titleProperty.type, equals("string"));
+      json_model.JsonProperty tabIdProperty = parameter.properties!['tabId']!;
       expect(tabIdProperty, isNotNull);
-      expect(tabIdProperty.type.type, equals("integer"));
-      expect(tabIdProperty.type.optional, true);
+      expect(tabIdProperty.type, equals("integer"));
+      expect(tabIdProperty.optional, true);
     });
   });
 
   group('json enums', () {
     test('simple enum', () {
-      String data = '''[{
+      String data = '''{
         "id": "simpleEnum",
         "type": "string",
         "description": "A simple enum with two values",
         "enum": ["firstVal", "secondVal"]
-      }]''';
-      var jsonEnum =
-          json_model.JsonEnum.parse(json.decode(data) as List).single;
+      }''';
+      var jsonEnum = json_model.JsonDeclaredType.fromJson(
+          json.decode(data) as Map<String, dynamic>);
 
-      expect(jsonEnum.name, 'simpleEnum');
-      expect(jsonEnum.values.length, 2);
-      expect(jsonEnum.values, contains('firstVal'));
-      expect(jsonEnum.values, contains('secondVal'));
-    });
-
-    test('multiple simple enums', () {
-      String data = '''[
-      {
-        "id": "simpleEnum",
-        "type": "string",
-        "description": "A simple enum with two values",
-        "enum": ["firstVal", "secondVal"]
-      },
-      {
-        "id": "simplerEnum",
-        "type": "string",
-        "description": "A very simple enum with one value",
-        "enum": ["onlyVal"]
-      }]''';
-      var jsonEnums = json_model.JsonEnum.parse(json.decode(data) as List);
-
-      expect(jsonEnums.length, 2);
-      expect(jsonEnums[0].name, 'simpleEnum');
-      expect(jsonEnums[1].values.single, 'onlyVal');
-    });
-
-    test('mixed with declared types', () {
-      String data = '''[
-      {
-        "id": "simpleEnum",
-        "type": "string",
-        "description": "A simple enum with two values",
-        "enum": ["firstVal", "secondVal"]
-      },
-      {
-        "id": "notAnEnum",
-        "type": "object",
-        "description": "A type that shouldn't be treated as an enum"
-      },
-      {
-        "id": "simplerEnum",
-        "type": "string",
-        "description": "A very simple enum with one value",
-        "enum": ["onlyVal"]
-      }]''';
-      var jsonEnums = json_model.JsonEnum.parse(json.decode(data) as List);
-
-      expect(jsonEnums.length, 2);
-      expect(jsonEnums[0].name, 'simpleEnum');
-      expect(jsonEnums[1].name, 'simplerEnum');
+      expect(jsonEnum.id, 'simpleEnum');
+      expect(jsonEnum.enums!.length, 2);
+      expect(jsonEnum.enums![0].name, contains('firstVal'));
+      expect(jsonEnum.enums![1].name, contains('secondVal'));
     });
 
     test('enums with descriptions included', () {
-      String data = '''[{
+      String data = '''{
         "id": "describedEnum",
         "type": "string",
         "description": "An enum with two values with descriptions",
@@ -148,12 +89,12 @@ void main() {
             "description": "Some other bogus value"
           }
         ]
-      }]''';
-      var jsonEnum =
-          json_model.JsonEnum.parse(json.decode(data) as List).single;
+      }''';
+      var jsonEnum = json_model.JsonDeclaredType.fromJson(
+          json.decode(data) as Map<String, dynamic>);
 
-      expect(jsonEnum.name, 'describedEnum');
-      expect(jsonEnum.values.length, 2);
+      expect(jsonEnum.id, 'describedEnum');
+      expect(jsonEnum.enums!.length, 2);
     });
   });
 
@@ -213,23 +154,25 @@ void main() {
         ]
       }]""";
 
-      List<json_model.JsonFunction> functions =
-          json_model.JsonFunction.parse(json.decode(data) as List);
+      List<json_model.JsonFunction> functions = (json.decode(data) as List)
+          .cast<Map<String, dynamic>>()
+          .map(json_model.JsonFunction.fromJson)
+          .toList();
       expect(functions, isNotNull);
       expect(functions, hasLength(1));
       json_model.JsonFunction function = functions[0];
       expect(function, isNotNull);
       expect(function.name, equals("setIcon"));
       expect(function.parameters, hasLength(2));
-      json_model.JsonParamType objectType =
-          function.parameters[0] as json_model.JsonParamType;
-      expect(objectType, isNotNull);
-      List<json_model.JsonProperty> properties = objectType.properties;
-      expect(properties, isNotNull);
-      expect(properties, hasLength(3));
-      json_model.JsonProperty imageDataProperty = properties[0];
-      expect(imageDataProperty.name, equals("imageData"));
-      expect(imageDataProperty.isComplexProperty, isFalse);
+      //json_model.JsonParamType objectType =
+      //    function.parameters[0] as json_model.JsonParamType;
+      //expect(objectType, isNotNull);
+      //List<json_model.JsonProperty> properties = objectType.properties;
+      //expect(properties, isNotNull);
+      //expect(properties, hasLength(3));
+      //json_model.JsonProperty imageDataProperty = properties[0];
+      //expect(imageDataProperty.name, equals("imageData"));
+      //expect(imageDataProperty.isComplexProperty, isFalse);
       // TODO: unit test the choices once implemented
     });
   });

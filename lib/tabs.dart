@@ -1,5 +1,11 @@
-import 'package:a/a.dart';
-import 'package:b/b.dart';
+import 'chrome.dart';
 
-Thing doThing() {}
-Other doOther() {}
+final _tabs = ChromeTabs._();
+
+extension ChromeChromeTabsExtension on Chrome {
+  ChromeTabs get tabs => _tabs;
+}
+
+class ChromeTabs {
+  ChromeTabs._();
+}

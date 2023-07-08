@@ -216,9 +216,12 @@ ChromeApi loadJsonIdl(String content) {
   var jsonModel = JsonNamespace.parse(content);
   //TODO: conversion
   return ChromeApi(
-    name: '',
-    events: [],
-    documentation: Documentation(''),
+    name: jsonModel.namespace,
+    events: jsonModel.events.map((e) => Event(e.name, e.description)).toList(),
+    documentation: jsonModel.description,
     properties: {},
+    functions: jsonModel.functions
+        .map((f) => Method(name: f.name, documentation: f.description))
+        .toList(),
   );
 }

@@ -21,4 +21,3 @@ dev_dependencies:
       url: https://github.com/petitparser/dart-petitparser.git
   test:
   web:
-    path: ../web-dart

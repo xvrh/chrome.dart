@@ -1,7 +1,8 @@
 class ChromeApi {
   final String name;
-  final Documentation documentation;
+  final String documentation;
   final List<Event> events;
+  final List<Method> functions;
   final Map<String, Property> properties;
 
   ChromeApi({
@@ -9,30 +10,27 @@ class ChromeApi {
     required this.properties,
     required this.name,
     required this.events,
+    required this.functions,
   });
-}
-
-class Documentation {
-  Documentation(String? documentation);
 }
 
 class Event {
   final String name;
-  final Documentation documentation;
+  final String documentation;
 
   Event(this.name, this.documentation);
 }
 
 class Method {
   final String name;
-  final Documentation documentation;
+  final String documentation;
 
   Method({required this.name, required this.documentation});
 }
 
 class Enumeration {
   final String name;
-  final Documentation documentation;
+  final String documentation;
 
   Enumeration(this.name, this.documentation);
 }
@@ -46,4 +44,6 @@ class Dictionary {
 class Property {
   final String typeName;
   final bool optional;
+
+  Property({required this.typeName, required this.optional});
 }

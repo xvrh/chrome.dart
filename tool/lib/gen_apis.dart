@@ -26,8 +26,11 @@ void generateApi(String apiName) {
     throw UnimplementedError();
   }
 
-  var output = CodeGenerator(model).toCode();
-  File(p.join('lib', '$fileName.dart')).writeAsStringSync(output);
+  var output = CodeGenerator(model);
+  File(p.join('lib', 'js', '$fileName.dart'))
+      .writeAsStringSync(output.jsBinding());
+  File(p.join('lib', '$fileName.dart'))
+      .writeAsStringSync(output.highLevelApi());
 }
 
 String _apiNameToFileName(String name) {

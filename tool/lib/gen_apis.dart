@@ -5,6 +5,7 @@ import '../apis.dart';
 import 'chrome_model.dart';
 import 'code_generator.dart';
 import 'json_model.dart' as json;
+import 'idl_convert.dart' as idl;
 
 final idlPath = 'idl';
 
@@ -21,9 +22,9 @@ void generateApi(String apiName) {
 
   ChromeApi model;
   if (idlFile.path.endsWith('.json')) {
-    model = json.loadJsonIdl(content);
+    model = json.loadJsonModel(content);
   } else {
-    throw UnimplementedError();
+    model = idl.loadIdlModel(content);
   }
 
   var output = CodeGenerator(model);

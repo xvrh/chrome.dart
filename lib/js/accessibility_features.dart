@@ -12,7 +12,7 @@ extension JSChromeJSAccessibilityFeaturesExtension on JSChrome {
   /// `accessibilityFeatures.modify` permission. Note that
   /// `accessibilityFeatures.modify` does not imply `accessibilityFeatures.read`
   /// permission.
-  external JSAccessibilityFeatures get accessibilityFeatures;
+  external JSAccessibilityFeatures get AccessibilityFeatures;
 }
 
 @JS()

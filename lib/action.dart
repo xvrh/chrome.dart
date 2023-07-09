@@ -1,9 +1,9 @@
 import 'chrome.dart';
 
-final _action = ChromeAction._();
+final _Action = ChromeAction._();
 
 extension ChromeChromeActionExtension on Chrome {
-  ChromeAction get action => _action;
+  ChromeAction get Action => _Action;
 }
 
 class ChromeAction {

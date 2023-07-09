@@ -1,9 +1,9 @@
 import 'chrome.dart';
 
-final _tabs = ChromeTabs._();
+final _Tabs = ChromeTabs._();
 
 extension ChromeChromeTabsExtension on Chrome {
-  ChromeTabs get tabs => _tabs;
+  ChromeTabs get Tabs => _Tabs;
 }
 
 class ChromeTabs {

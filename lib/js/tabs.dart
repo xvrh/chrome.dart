@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSTabsExtension on JSChrome {
   /// Use the `chrome.tabs` API to interact with the browser's tab system. You
   /// can use this API to create, modify, and rearrange tabs in the browser.
-  external JSTabs get tabs;
+  external JSTabs get Tabs;
 }
 
 @JS()

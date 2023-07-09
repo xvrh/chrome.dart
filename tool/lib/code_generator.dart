@@ -13,9 +13,13 @@ class CodeGenerator {
 
   CodeGenerator(this.api);
 
-  String get apiClassName => 'Chrome${titleCase(api.name)}';
+  String get apiClassName => 'Chrome${_apiName}';
 
-  String get bindingClassName => 'JS${titleCase(api.name)}';
+  String get bindingClassName => 'JS${_apiName}';
+
+  String get _apiName => api.name.split('.').map(titleCase).join('');
+
+  String get _apiNameCamelCase => toCamelCase(_apiName);
 
   String jsBinding() {
     final library = Library((b) => b
@@ -60,13 +64,13 @@ class CodeGenerator {
     ..docs.add(documentationComment(api.documentation, indent: 2))
     ..external = true
     ..returns = refer(bindingClassName)
-    ..name = api.name
+    ..name = _apiName
     ..type = MethodType.getter);
 
   String highLevelApi() {
     final library = Library((b) => b.body.addAll([
           Field((b) => b
-            ..name = '_${api.name}'
+            ..name = '_${_apiName}'
             ..modifier = FieldModifier.final$
             ..assignment = refer(apiClassName).property('_').call([]).code),
           Extension((b) => b
@@ -74,9 +78,9 @@ class CodeGenerator {
             ..on = refer('Chrome', _sharedCodeUrl)
             ..methods.add(Method((b) => b
               ..returns = refer(apiClassName)
-              ..name = api.name
+              ..name = _apiName
               ..lambda = true
-              ..body = Code('_${api.name}')
+              ..body = Code('_${_apiName}')
               ..type = MethodType.getter))),
           Class((b) => b
             ..name = apiClassName

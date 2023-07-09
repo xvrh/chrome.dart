@@ -212,9 +212,8 @@ class _JsonEnumConverter extends JsonConverter<JsonEnumValue, Object> {
   }
 }
 
-ChromeApi loadJsonIdl(String content) {
+ChromeApi loadJsonModel(String content) {
   var jsonModel = JsonNamespace.parse(content);
-  //TODO: conversion
   return ChromeApi(
     name: jsonModel.namespace,
     events: jsonModel.events.map((e) => Event(e.name, e.description)).toList(),

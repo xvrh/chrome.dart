@@ -107,6 +107,24 @@ extension JSManagementExtension on JSManagement {
   external ChromeEvent get onDisabled;
 }
 
+/// These are all possible app launch types.
+typedef LaunchType = JSString;
+
+/// A reason the item is disabled.
+typedef ExtensionDisabledReason = JSString;
+
+/// The type of this extension, app, or theme.
+typedef ExtensionType = JSString;
+
+/// How the extension was installed. One of<br><var>admin</var>: The extension
+/// was installed because of an administrative
+/// policy,<br><var>development</var>: The extension was loaded unpacked in
+/// developer mode,<br><var>normal</var>: The extension was installed normally
+/// via a .crx file,<br><var>sideload</var>: The extension was installed by
+/// other software on the machine,<br><var>other</var>: The extension was
+/// installed by other means.
+typedef ExtensionInstallType = JSString;
+
 @JS()
 @staticInterop
 class IconInfo {
@@ -119,22 +137,6 @@ class IconInfo {
   /// `?grayscale=true` to the URL.
   external JSAny get url;
 }
-
-@JS()
-@staticInterop
-class LaunchType {}
-
-@JS()
-@staticInterop
-class ExtensionDisabledReason {}
-
-@JS()
-@staticInterop
-class ExtensionType {}
-
-@JS()
-@staticInterop
-class ExtensionInstallType {}
 
 @JS()
 @staticInterop

@@ -214,38 +214,53 @@ class _JsonEnumConverter extends JsonConverter<JsonEnumValue, Object> {
 
 ChromeApi loadJsonModel(String content) {
   var jsonModel = JsonNamespace.parse(content);
-  var enums = jsonModel.types.where((e) => e.enums != null);
+
+  var events = <Event>[];
+  for (var e in jsonModel.events) {
+    events.add(Event(e.name, e.description));
+  }
+
+  var enumerations = <Enumeration>[];
+  for (var e in jsonModel.types.where((e) => e.enums != null)) {
+    var values = e.enums!
+        .map(
+            (v) => EnumerationValue(name: v.name, documentation: v.description))
+        .toList();
+    enumerations
+        .add(Enumeration(e.id, documentation: e.description, values: values));
+  }
+
+  var dictionaries = <Dictionary>[];
+  for (var t in jsonModel.types.where((e) => e.enums == null)) {
+    var properties = t.properties?.entries
+        .map((e) => _dictionaryProperty(e.key, e.value))
+        .toList();
+    var dic = Dictionary(
+      t.id,
+      properties: properties ?? [],
+      documentation: t.description,
+    );
+    dictionaries.add(dic);
+  }
+
+  var functions = <Method>[];
+  for (var f in jsonModel.functions) {
+    var method = Method(
+      f.name,
+      parameters: f.parameters.map(_methodParameter).toList(),
+      documentation: f.description,
+    );
+    functions.add(method);
+  }
 
   return ChromeApi(
     name: jsonModel.namespace,
-    events: jsonModel.events.map((e) => Event(e.name, e.description)).toList(),
+    events: events,
     documentation: jsonModel.description,
     properties: {},
-    functions: jsonModel.functions
-        .map((f) => Method(
-              f.name,
-              parameters: f.parameters.map(_methodParameter).toList(),
-              documentation: f.description,
-            ))
-        .toList(),
-    dictionaries: jsonModel.types
-        .map((t) => Dictionary(
-              t.id,
-              properties: t.properties?.entries
-                      .map((e) => _dictionaryProperty(e.key, e.value))
-                      .toList() ??
-                  [],
-              documentation: t.description,
-            ))
-        .toList(),
-    enumerations: enums
-        .map((e) => Enumeration(e.id,
-            documentation: e.description,
-            values: e.enums!
-                .map((v) => EnumerationValue(
-                    name: v.name, documentation: v.description))
-                .toList()))
-        .toList(),
+    functions: functions,
+    dictionaries: dictionaries,
+    enumerations: enumerations,
   );
 }
 

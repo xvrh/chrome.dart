@@ -60,13 +60,19 @@ extension JSWindowsExtension on JSWindows {
   external ChromeEvent get onBoundsChanged;
 }
 
-@JS()
-@staticInterop
-class WindowType {}
+/// The type of browser window this is. In some circumstances a window may not
+/// be assigned a `type` property; for example, when querying closed windows
+/// from the $(ref:sessions) API.
+typedef WindowType = JSString;
 
-@JS()
-@staticInterop
-class WindowState {}
+/// The state of this browser window. In some circumstances a window may not be
+/// assigned a `state` property; for example, when querying closed windows from
+/// the $(ref:sessions) API.
+typedef WindowState = JSString;
+
+/// Specifies what type of browser window to create. 'panel' is deprecated and
+/// is available only to existing allowlisted extensions on Chrome OS.
+typedef CreateType = JSString;
 
 @JS()
 @staticInterop
@@ -120,10 +126,6 @@ class Window {
   /// $(ref:sessions) API.
   external JSAny? get sessionId;
 }
-
-@JS()
-@staticInterop
-class CreateType {}
 
 @JS()
 @staticInterop

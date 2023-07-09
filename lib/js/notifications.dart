@@ -84,6 +84,10 @@ extension JSNotificationsExtension on JSNotifications {
   external ChromeEvent get onShowSettings;
 }
 
+typedef TemplateType = JSString;
+
+typedef PermissionLevel = JSString;
+
 @JS()
 @staticInterop
 class NotificationItem {

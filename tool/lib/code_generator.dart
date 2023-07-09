@@ -39,11 +39,17 @@ class CodeGenerator {
           ..on = refer(bindingClassName)
           ..methods.addAll(api.functions.map(_bindingFunction))
           ..methods.addAll(api.events.map(_bindingEvent))),
+        for (var type in api.enumerations)
+          TypeDef((b) => b
+            ..name = type.name
+            ..docs.add(documentationComment(type.documentation, indent: 0))
+            ..definition = refer('JSString')),
         for (var type in api.dictionaries)
           Class((b) => b
             ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
             ..name = type.name
-            ..methods.addAll(type.properties.map(_bindingTypeProperty))),
+            ..methods.addAll(type.properties.map(_bindingTypeProperty))
+            ..methods.addAll(type.methods.map(_bindingTypeMethod))),
       ]));
 
     final emitter = DartEmitter(allocator: Allocator());
@@ -81,9 +87,17 @@ class CodeGenerator {
       ..docs.add(documentationComment(property.documentation, indent: 2))
       ..name = property.name
       ..external = true
-      ..returns = refer(
-          '${property.isArray ? 'JSArray' : 'JSAny'}${property.optional ? '?' : ''}')
+      ..returns =
+          refer('${property.type.bindingName}${property.optional ? '?' : ''}')
       ..type = MethodType.getter);
+  }
+
+  Method _bindingTypeMethod(model.Method method) {
+    return Method((b) => b
+      ..docs.add(documentationComment(method.documentation, indent: 2))
+      ..name = method.name
+      ..external = true
+      ..returns = refer('Object'));
   }
 
   String highLevelApi() {

@@ -61,9 +61,7 @@ extension JSTtsEngineExtension on JSTtsEngine {
   external ChromeEvent get onResume;
 }
 
-@JS()
-@staticInterop
-class VoiceGender {}
+typedef VoiceGender = JSString;
 
 @JS()
 @staticInterop

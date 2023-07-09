@@ -18,13 +18,9 @@ extension JSProxyExtension on JSProxy {
   external ChromeEvent get onProxyError;
 }
 
-@JS()
-@staticInterop
-class Scheme {}
+typedef Scheme = JSString;
 
-@JS()
-@staticInterop
-class Mode {}
+typedef Mode = JSString;
 
 @JS()
 @staticInterop

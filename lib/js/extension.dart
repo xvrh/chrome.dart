@@ -65,6 +65,5 @@ extension JSExtensionExtension on JSExtension {
   external ChromeEvent get onRequestExternal;
 }
 
-@JS()
-@staticInterop
-class ViewType {}
+/// The type of extension view.
+typedef ViewType = JSString;

@@ -21,6 +21,16 @@ extension JSScriptingExtension on JSScripting {
   external void globalParams();
 }
 
+///  The origin for a style change.
+///  See <a
+/// href="https://developer.mozilla.org/en-US/docs/Glossary/Style_origin">style
+/// origins</a>
+///  for more info.
+typedef StyleOrigin = JSString;
+
+///  The JavaScript world for a script to execute within.
+typedef ExecutionWorld = JSString;
+
 @JS()
 @staticInterop
 class InjectionTarget {

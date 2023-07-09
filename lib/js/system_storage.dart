@@ -39,6 +39,10 @@ extension JSSystemStorageExtension on JSSystemStorage {
   external ChromeEvent get onDetached;
 }
 
+typedef StorageUnitType = JSString;
+
+typedef EjectDeviceResultCode = JSString;
+
 @JS()
 @staticInterop
 class StorageUnitInfo {

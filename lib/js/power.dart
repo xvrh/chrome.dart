@@ -27,3 +27,5 @@ extension JSPowerExtension on JSPower {
   ///  currently active.
   external void reportActivity(callback);
 }
+
+typedef Level = JSString;

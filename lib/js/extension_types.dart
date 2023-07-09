@@ -14,9 +14,27 @@ class JSExtensionTypes {}
 
 extension JSExtensionTypesExtension on JSExtensionTypes {}
 
-@JS()
-@staticInterop
-class ImageFormat {}
+/// The format of an image.
+typedef ImageFormat = JSString;
+
+/// The soonest that the JavaScript or CSS will be injected into the tab.
+typedef RunAt = JSString;
+
+/// The <a
+/// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of
+/// injected CSS.
+typedef CSSOrigin = JSString;
+
+/// The type of frame.
+typedef FrameType = JSString;
+
+/// The document lifecycle of the frame.
+typedef DocumentLifecycle = JSString;
+
+/// The JavaScript world for a script to execute within. Can either be an
+/// isolated world, unique to this extension, or the main world of the DOM which
+/// is shared with the page's JavaScript.
+typedef ExecutionWorld = JSString;
 
 @JS()
 @staticInterop
@@ -30,14 +48,6 @@ class ImageDetails {
   /// needed to store it will decrease.
   external JSAny? get quality;
 }
-
-@JS()
-@staticInterop
-class RunAt {}
-
-@JS()
-@staticInterop
-class CSSOrigin {}
 
 @JS()
 @staticInterop
@@ -107,15 +117,3 @@ class DeleteInjectionDetails {
   /// the CSS to remove. Defaults to `"author"`.
   external JSAny? get cssOrigin;
 }
-
-@JS()
-@staticInterop
-class FrameType {}
-
-@JS()
-@staticInterop
-class DocumentLifecycle {}
-
-@JS()
-@staticInterop
-class ExecutionWorld {}

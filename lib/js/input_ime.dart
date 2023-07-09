@@ -115,9 +115,37 @@ extension JSInputImeExtension on JSInputIme {
   external ChromeEvent get onAssistiveWindowButtonClicked;
 }
 
-@JS()
-@staticInterop
-class KeyboardEventType {}
+typedef KeyboardEventType = JSString;
+
+/// Type of value this text field edits, (Text, Number, URL, etc)
+typedef InputContextType = JSString;
+
+/// The auto-capitalize type of the text field.
+typedef AutoCapitalizeType = JSString;
+
+/// The type of menu item. Radio buttons between separators are considered
+/// grouped.
+typedef MenuItemStyle = JSString;
+
+/// The type of the underline to modify this segment.
+typedef UnderlineStyle = JSString;
+
+/// Where to display the candidate window. If set to 'cursor', the window
+/// follows the cursor. If set to 'composition', the window is locked to the
+/// beginning of the composition.
+typedef WindowPosition = JSString;
+
+/// The screen type under which the IME is activated.
+typedef ScreenType = JSString;
+
+/// Which mouse buttons was clicked.
+typedef MouseButton = JSString;
+
+/// Type of assistive window.
+typedef AssistiveWindowType = JSString;
+
+/// ID of buttons in assistive window.
+typedef AssistiveWindowButton = JSString;
 
 @JS()
 @staticInterop
@@ -162,14 +190,6 @@ class KeyboardEvent {
 
 @JS()
 @staticInterop
-class InputContextType {}
-
-@JS()
-@staticInterop
-class AutoCapitalizeType {}
-
-@JS()
-@staticInterop
 class InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
@@ -197,10 +217,6 @@ class InputContext {
 
 @JS()
 @staticInterop
-class MenuItemStyle {}
-
-@JS()
-@staticInterop
 class MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
   external JSAny get id;
@@ -223,26 +239,6 @@ class MenuItem {
 
 @JS()
 @staticInterop
-class UnderlineStyle {}
-
-@JS()
-@staticInterop
-class WindowPosition {}
-
-@JS()
-@staticInterop
-class ScreenType {}
-
-@JS()
-@staticInterop
-class MouseButton {}
-
-@JS()
-@staticInterop
-class AssistiveWindowType {}
-
-@JS()
-@staticInterop
 class AssistiveWindowProperties {
   external JSAny get type;
 
@@ -252,10 +248,6 @@ class AssistiveWindowProperties {
   /// Strings for ChromeVox to announce.
   external JSAny? get announceString;
 }
-
-@JS()
-@staticInterop
-class AssistiveWindowButton {}
 
 @JS()
 @staticInterop

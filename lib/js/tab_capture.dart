@@ -61,6 +61,8 @@ extension JSTabCaptureExtension on JSTabCapture {
   external ChromeEvent get onStatusChanged;
 }
 
+typedef TabCaptureState = JSString;
+
 @JS()
 @staticInterop
 class CaptureInfo {

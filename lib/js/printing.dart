@@ -48,6 +48,18 @@ extension JSPrintingExtension on JSPrinting {
   external ChromeEvent get onJobStatusChanged;
 }
 
+///  The status of $(ref:submitJob) request.
+typedef SubmitJobStatus = JSString;
+
+///  The source of the printer.
+typedef PrinterSource = JSString;
+
+///  The status of the printer.
+typedef PrinterStatus = JSString;
+
+///  Status of the print job.
+typedef JobStatus = JSString;
+
 @JS()
 @staticInterop
 class SubmitJobRequest {

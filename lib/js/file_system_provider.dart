@@ -197,6 +197,24 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   external ChromeEvent get onExecuteActionRequested;
 }
 
+///  Error codes used by providing extensions in response to requests as well
+///  as in case of errors when calling methods of the API. For success,
+///  `"OK"` must be used.
+typedef ProviderError = JSString;
+
+///  Mode of opening a file. Used by $(ref:onOpenFileRequested).
+typedef OpenFileMode = JSString;
+
+///  Type of a change detected on the observed directory.
+typedef ChangeType = JSString;
+
+///  List of common actions. `"SHARE"` is for sharing files with
+///  others. `"SAVE_FOR_OFFLINE"` for pinning (saving for offline
+///  access). `"OFFLINE_NOT_NECESSARY"` for notifying that the file
+///  doesn't need to be stored for offline access anymore.
+///  Used by $(ref:onGetActionsRequested) and $(ref:onExecuteActionRequested).
+typedef CommonActionId = JSString;
+
 @JS()
 @staticInterop
 class EntryMetadata {

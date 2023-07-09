@@ -83,6 +83,9 @@ extension JSProcessesExtension on JSProcesses {
   external ChromeEvent get onExited;
 }
 
+///  The types of the browser processes.
+typedef ProcessType = JSString;
+
 @JS()
 @staticInterop
 class TaskInfo {

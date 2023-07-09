@@ -103,6 +103,8 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   );
 }
 
+typedef ClientCertificateType = JSString;
+
 @JS()
 @staticInterop
 class Match {

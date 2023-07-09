@@ -21,6 +21,19 @@ extension JSPrintingMetricsExtension on JSPrintingMetrics {
   external ChromeEvent get onPrintJobFinished;
 }
 
+///  The source of the print job.
+typedef PrintJobSource = JSString;
+
+///  The final status of the print job.
+typedef PrintJobStatus = JSString;
+
+///  The source of the printer.
+typedef PrinterSource = JSString;
+
+typedef ColorMode = JSString;
+
+typedef DuplexMode = JSString;
+
 @JS()
 @staticInterop
 class MediaSize {

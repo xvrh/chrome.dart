@@ -16,6 +16,5 @@ class JSPrivacy {}
 
 extension JSPrivacyExtension on JSPrivacy {}
 
-@JS()
-@staticInterop
-class IPHandlingPolicy {}
+/// The IP handling policy of WebRTC.
+typedef IPHandlingPolicy = JSString;

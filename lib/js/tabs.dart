@@ -225,13 +225,23 @@ extension JSTabsExtension on JSTabs {
   external ChromeEvent get onZoomChange;
 }
 
-@JS()
-@staticInterop
-class TabStatus {}
+/// The tab's loading status.
+typedef TabStatus = JSString;
 
-@JS()
-@staticInterop
-class MutedInfoReason {}
+/// An event that caused a muted state change.
+typedef MutedInfoReason = JSString;
+
+/// Defines how zoom changes are handled, i.e., which entity is responsible for
+/// the actual scaling of the page; defaults to `automatic`.
+typedef ZoomSettingsMode = JSString;
+
+/// Defines whether zoom changes persist for the page's origin, or only take
+/// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
+/// `per-tab` otherwise.
+typedef ZoomSettingsScope = JSString;
+
+/// The type of window.
+typedef WindowType = JSString;
 
 @JS()
 @staticInterop
@@ -342,14 +352,6 @@ class Tab {
 
 @JS()
 @staticInterop
-class ZoomSettingsMode {}
-
-@JS()
-@staticInterop
-class ZoomSettingsScope {}
-
-@JS()
-@staticInterop
 class ZoomSettings {
   /// Defines how zoom changes are handled, i.e., which entity is responsible
   /// for the actual scaling of the page; defaults to `automatic`.
@@ -364,7 +366,3 @@ class ZoomSettings {
   /// tabs.getZoomSettings.
   external JSAny? get defaultZoomFactor;
 }
-
-@JS()
-@staticInterop
-class WindowType {}

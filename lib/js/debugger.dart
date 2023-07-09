@@ -45,6 +45,12 @@ extension JSDebuggerExtension on JSDebugger {
   external ChromeEvent get onDetach;
 }
 
+/// Target type.
+typedef TargetInfoType = JSString;
+
+/// Connection termination reason.
+typedef DetachReason = JSString;
+
 @JS()
 @staticInterop
 class Debuggee {
@@ -59,14 +65,6 @@ class Debuggee {
   /// The opaque id of the debug target.
   external JSAny? get targetId;
 }
-
-@JS()
-@staticInterop
-class TargetInfoType {}
-
-@JS()
-@staticInterop
-class DetachReason {}
 
 @JS()
 @staticInterop

@@ -64,6 +64,21 @@ extension JSFontSettingsExtension on JSFontSettings {
   external ChromeEvent get onMinimumFontSizeChanged;
 }
 
+/// An ISO 15924 script code. The default, or global, script is represented by
+/// script code "Zyyy".
+typedef ScriptCode = JSString;
+
+/// A CSS generic font family.
+typedef GenericFamily = JSString;
+
+/// One of<br><var>not_controllable</var>: cannot be controlled by any
+/// extension<br><var>controlled_by_other_extensions</var>: controlled by
+/// extensions with higher
+/// precedence<br><var>controllable_by_this_extension</var>: can be controlled
+/// by this extension<br><var>controlled_by_this_extension</var>: controlled by
+/// this extension
+typedef LevelOfControl = JSString;
+
 @JS()
 @staticInterop
 class FontName {
@@ -73,15 +88,3 @@ class FontName {
   /// The display name of the font.
   external JSAny get displayName;
 }
-
-@JS()
-@staticInterop
-class ScriptCode {}
-
-@JS()
-@staticInterop
-class GenericFamily {}
-
-@JS()
-@staticInterop
-class LevelOfControl {}

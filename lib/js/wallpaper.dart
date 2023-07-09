@@ -17,6 +17,5 @@ extension JSWallpaperExtension on JSWallpaper {
   external void setWallpaper(details);
 }
 
-@JS()
-@staticInterop
-class WallpaperLayout {}
+/// The supported wallpaper layouts.
+typedef WallpaperLayout = JSString;

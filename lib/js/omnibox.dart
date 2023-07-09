@@ -43,13 +43,14 @@ extension JSOmniboxExtension on JSOmnibox {
   external ChromeEvent get onDeleteSuggestion;
 }
 
-@JS()
-@staticInterop
-class DescriptionStyleType {}
+/// The style type.
+typedef DescriptionStyleType = JSString;
 
-@JS()
-@staticInterop
-class OnInputEnteredDisposition {}
+/// The window disposition for the omnibox query. This is the recommended
+/// context to display results. For example, if the omnibox command is to
+/// navigate to a certain URL, a disposition of 'newForegroundTab' means the
+/// navigation should take place in a new selected tab.
+typedef OnInputEnteredDisposition = JSString;
 
 @JS()
 @staticInterop

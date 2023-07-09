@@ -95,6 +95,19 @@ extension JSVpnProviderExtension on JSVpnProvider {
   external ChromeEvent get onUIEvent;
 }
 
+///  The enum is used by the platform to notify the client of the VPN session
+///  status.
+typedef PlatformMessage = JSString;
+
+///  The enum is used by the VPN client to inform the platform
+///  of its current state. This helps provide meaningful messages
+///  to the user.
+typedef VpnConnectionState = JSString;
+
+///  The enum is used by the platform to indicate the event that triggered
+///  `onUIEvent`.
+typedef UIEvent = JSString;
+
 @JS()
 @staticInterop
 class Parameters {

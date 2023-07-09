@@ -46,9 +46,9 @@ extension JSHistoryExtension on JSHistory {
   external ChromeEvent get onVisitRemoved;
 }
 
-@JS()
-@staticInterop
-class TransitionType {}
+/// The <a href='#transition_types'>transition type</a> for this visit from its
+/// referrer.
+typedef TransitionType = JSString;
 
 @JS()
 @staticInterop

@@ -17,9 +17,8 @@ extension JSStorageExtension on JSStorage {
   external ChromeEvent get onChanged;
 }
 
-@JS()
-@staticInterop
-class AccessLevel {}
+/// The storage area's access level.
+typedef AccessLevel = JSString;
 
 @JS()
 @staticInterop

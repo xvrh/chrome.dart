@@ -46,6 +46,9 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   external ChromeEvent get onPrintRequested;
 }
 
+///  Error codes returned in response to $(ref:onPrintRequested) event.
+typedef PrintError = JSString;
+
 @JS()
 @staticInterop
 class PrinterInfo {

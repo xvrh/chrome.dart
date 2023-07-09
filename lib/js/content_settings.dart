@@ -16,6 +16,41 @@ class JSContentSettings {}
 
 extension JSContentSettingsExtension on JSContentSettings {}
 
+/// The scope of the ContentSetting. One of<br><var>regular</var>: setting for
+/// regular profile (which is inherited by the incognito profile if not
+/// overridden elsewhere),<br><var>incognito_session_only</var>: setting for
+/// incognito profile that can only be set during an incognito session and is
+/// deleted when the incognito session ends (overrides regular settings).
+typedef Scope = JSString;
+
+typedef AutoVerifyContentSetting = JSString;
+
+typedef CookiesContentSetting = JSString;
+
+typedef ImagesContentSetting = JSString;
+
+typedef JavascriptContentSetting = JSString;
+
+typedef LocationContentSetting = JSString;
+
+typedef PluginsContentSetting = JSString;
+
+typedef PopupsContentSetting = JSString;
+
+typedef NotificationsContentSetting = JSString;
+
+typedef FullscreenContentSetting = JSString;
+
+typedef MouselockContentSetting = JSString;
+
+typedef MicrophoneContentSetting = JSString;
+
+typedef CameraContentSetting = JSString;
+
+typedef PpapiBrokerContentSetting = JSString;
+
+typedef MultipleAutomaticDownloadsContentSetting = JSString;
+
 @JS()
 @staticInterop
 class ResourceIdentifier {
@@ -28,64 +63,4 @@ class ResourceIdentifier {
 
 @JS()
 @staticInterop
-class Scope {}
-
-@JS()
-@staticInterop
 class ContentSetting {}
-
-@JS()
-@staticInterop
-class AutoVerifyContentSetting {}
-
-@JS()
-@staticInterop
-class CookiesContentSetting {}
-
-@JS()
-@staticInterop
-class ImagesContentSetting {}
-
-@JS()
-@staticInterop
-class JavascriptContentSetting {}
-
-@JS()
-@staticInterop
-class LocationContentSetting {}
-
-@JS()
-@staticInterop
-class PluginsContentSetting {}
-
-@JS()
-@staticInterop
-class PopupsContentSetting {}
-
-@JS()
-@staticInterop
-class NotificationsContentSetting {}
-
-@JS()
-@staticInterop
-class FullscreenContentSetting {}
-
-@JS()
-@staticInterop
-class MouselockContentSetting {}
-
-@JS()
-@staticInterop
-class MicrophoneContentSetting {}
-
-@JS()
-@staticInterop
-class CameraContentSetting {}
-
-@JS()
-@staticInterop
-class PpapiBrokerContentSetting {}
-
-@JS()
-@staticInterop
-class MultipleAutomaticDownloadsContentSetting {}

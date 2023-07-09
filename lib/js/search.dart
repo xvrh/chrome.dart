@@ -21,6 +21,8 @@ extension JSSearchExtension on JSSearch {
   );
 }
 
+typedef Disposition = JSString;
+
 @JS()
 @staticInterop
 class QueryInfo {

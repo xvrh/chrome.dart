@@ -18,6 +18,17 @@ class ChromeApi {
   });
 }
 
+class TypeRef {
+  final String rawName;
+  final bool isArray;
+
+  TypeRef(this.rawName) : isArray = false;
+
+  TypeRef.array(this.rawName) : isArray = true;
+
+  String get bindingName => isArray ? 'JSArray' : rawName;
+}
+
 class Event {
   final String name;
   final String documentation;
@@ -51,22 +62,23 @@ class EnumerationValue {
 class Dictionary {
   final String name;
   final List<Property> properties;
+  final List<Method> methods;
   final String documentation;
 
-  Dictionary(this.name,
+  Dictionary(this.name, this.methods,
       {required this.properties, required this.documentation});
 }
 
 class Property {
   final String name;
-  final String typeName;
-  final bool isArray;
+  final TypeRef type;
   final bool optional;
   final String documentation;
 
-  Property(this.name,
-      {required this.typeName,
-      required this.optional,
-      required this.documentation,
-      required this.isArray});
+  Property(
+    this.name, {
+    required this.type,
+    required this.optional,
+    required this.documentation,
+  });
 }

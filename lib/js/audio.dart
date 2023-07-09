@@ -76,6 +76,12 @@ extension JSAudioExtension on JSAudio {
   external ChromeEvent get onDeviceListChanged;
 }
 
+///  Type of stream an audio device provides.
+typedef StreamType = JSString;
+
+///  Available audio device types.
+typedef DeviceType = JSString;
+
 @JS()
 @staticInterop
 class AudioDeviceInfo {

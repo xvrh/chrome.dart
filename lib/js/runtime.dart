@@ -186,6 +186,31 @@ extension JSRuntimeExtension on JSRuntime {
   external ChromeEvent get onRestartRequired;
 }
 
+/// The operating system Chrome is running on.
+typedef PlatformOs = JSString;
+
+/// The machine's processor architecture.
+typedef PlatformArch = JSString;
+
+/// The native client architecture. This may be different from arch on some
+/// platforms.
+typedef PlatformNaclArch = JSString;
+
+/// Result of the update check.
+typedef RequestUpdateCheckStatus = JSString;
+
+/// The reason that this event is being dispatched.
+typedef OnInstalledReason = JSString;
+
+/// The reason that the event is being dispatched. 'app_update' is used when the
+/// restart is needed because the application is updated to a newer version.
+/// 'os_update' is used when the restart is needed because the browser/OS is
+/// updated to a newer version. 'periodic' is used when the system runs for more
+/// than the permitted uptime set in the enterprise policy.
+typedef OnRestartRequiredReason = JSString;
+
+typedef ContextType = JSString;
+
 @JS()
 @staticInterop
 class Port {
@@ -262,18 +287,6 @@ class MessageSender {
 
 @JS()
 @staticInterop
-class PlatformOs {}
-
-@JS()
-@staticInterop
-class PlatformArch {}
-
-@JS()
-@staticInterop
-class PlatformNaclArch {}
-
-@JS()
-@staticInterop
 class PlatformInfo {
   /// The operating system Chrome is running on.
   external JSAny get os;
@@ -285,22 +298,6 @@ class PlatformInfo {
   /// platforms.
   external JSAny get nacl_arch;
 }
-
-@JS()
-@staticInterop
-class RequestUpdateCheckStatus {}
-
-@JS()
-@staticInterop
-class OnInstalledReason {}
-
-@JS()
-@staticInterop
-class OnRestartRequiredReason {}
-
-@JS()
-@staticInterop
-class ContextType {}
 
 @JS()
 @staticInterop

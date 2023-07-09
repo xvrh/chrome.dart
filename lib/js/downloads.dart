@@ -199,6 +199,51 @@ extension JSDownloadsExtension on JSDownloads {
   external ChromeEvent get onDeterminingFilename;
 }
 
+///  <dl><dt>uniquify</dt>
+///      <dd>To avoid duplication, the `filename` is changed to
+///      include a counter before the filename extension.</dd>
+///      <dt>overwrite</dt>
+///      <dd>The existing file will be overwritten with the new file.</dd>
+///      <dt>prompt</dt>
+///      <dd>The user will be prompted with a file chooser dialog.</dd>
+///  </dl>
+typedef FilenameConflictAction = JSString;
+
+typedef HttpMethod = JSString;
+
+typedef InterruptReason = JSString;
+
+///  <dl><dt>file</dt>
+///      <dd>The download's filename is suspicious.</dd>
+///      <dt>url</dt>
+///      <dd>The download's URL is known to be malicious.</dd>
+///      <dt>content</dt>
+///      <dd>The downloaded file is known to be malicious.</dd>
+///      <dt>uncommon</dt>
+///      <dd>The download's URL is not commonly downloaded and could be
+///      dangerous.</dd>
+///      <dt>host</dt>
+///      <dd>The download came from a host known to distribute malicious
+///      binaries and is likely dangerous.</dd>
+///      <dt>unwanted</dt>
+///      <dd>The download is potentially unwanted or unsafe. E.g. it could make
+///      changes to browser or computer settings.</dd>
+///      <dt>safe</dt>
+///      <dd>The download presents no known danger to the user's computer.</dd>
+///      <dt>accepted</dt>
+///      <dd>The user has accepted the dangerous download.</dd>
+///  </dl>
+typedef DangerType = JSString;
+
+///  <dl><dt>in_progress</dt>
+///      <dd>The download is currently receiving data from the server.</dd>
+///      <dt>interrupted</dt>
+///      <dd>An error broke the connection with the file host.</dd>
+///      <dt>complete</dt>
+///      <dd>The download completed successfully.</dd>
+///  </dl>
+typedef State = JSString;
+
 @JS()
 @staticInterop
 class HeaderNameValuePair {

@@ -148,6 +148,13 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   external ChromeEvent get onDisplayChanged;
 }
 
+///  Layout position, i.e. edge of parent that the display is attached to.
+typedef LayoutPosition = JSString;
+
+///  Mirror mode, i.e. different ways of how a display is mirrored to other
+///  displays.
+typedef MirrorMode = JSString;
+
 @JS()
 @staticInterop
 class Bounds {

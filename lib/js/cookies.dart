@@ -44,9 +44,23 @@ extension JSCookiesExtension on JSCookies {
   external ChromeEvent get onChanged;
 }
 
-@JS()
-@staticInterop
-class SameSiteStatus {}
+/// A cookie's 'SameSite' state
+/// (https://tools.ietf.org/html/draft-west-first-party-cookies).
+/// 'no_restriction' corresponds to a cookie set with 'SameSite=None', 'lax' to
+/// 'SameSite=Lax', and 'strict' to 'SameSite=Strict'. 'unspecified' corresponds
+/// to a cookie set without the SameSite attribute.
+typedef SameSiteStatus = JSString;
+
+/// The underlying reason behind the cookie's change. If a cookie was inserted,
+/// or removed via an explicit call to "chrome.cookies.remove", "cause" will be
+/// "explicit". If a cookie was automatically removed due to expiry, "cause"
+/// will be "expired". If a cookie was removed due to being overwritten with an
+/// already-expired expiration date, "cause" will be set to "expired_overwrite".
+///  If a cookie was automatically removed due to garbage collection, "cause"
+/// will be "evicted".  If a cookie was automatically removed due to a "set"
+/// call that overwrote it, "cause" will be "overwrite". Plan your response
+/// accordingly.
+typedef OnChangedCause = JSString;
 
 @JS()
 @staticInterop
@@ -101,10 +115,6 @@ class CookieStore {
   /// Identifiers of all the browser tabs that share this cookie store.
   external JSArray get tabIds;
 }
-
-@JS()
-@staticInterop
-class OnChangedCause {}
 
 @JS()
 @staticInterop

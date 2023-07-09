@@ -42,13 +42,16 @@ extension JSContextMenusExtension on JSContextMenus {
   external ChromeEvent get onClicked;
 }
 
-@JS()
-@staticInterop
-class ContextType {}
+/// The different contexts a menu can appear in. Specifying 'all' is equivalent
+/// to the combination of all other contexts except for 'launcher'. The
+/// 'launcher' context is only supported by apps and is used to add menu items
+/// to the context menu that appears when clicking the app icon in the
+/// launcher/taskbar/dock/etc. Different platforms might put limitations on what
+/// is actually supported in a launcher context menu.
+typedef ContextType = JSString;
 
-@JS()
-@staticInterop
-class ItemType {}
+/// The type of menu item.
+typedef ItemType = JSString;
 
 @JS()
 @staticInterop

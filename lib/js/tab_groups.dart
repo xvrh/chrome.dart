@@ -52,9 +52,8 @@ extension JSTabGroupsExtension on JSTabGroups {
   external ChromeEvent get onRemoved;
 }
 
-@JS()
-@staticInterop
-class Color {}
+/// The group's color.
+typedef Color = JSString;
 
 @JS()
 @staticInterop

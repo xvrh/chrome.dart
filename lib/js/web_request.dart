@@ -62,45 +62,27 @@ extension JSWebRequestExtension on JSWebRequest {
   external ChromeEvent get onActionIgnored;
 }
 
-@JS()
-@staticInterop
-class ResourceType {}
+typedef ResourceType = JSString;
 
-@JS()
-@staticInterop
-class OnBeforeRequestOptions {}
+typedef OnBeforeRequestOptions = JSString;
 
-@JS()
-@staticInterop
-class OnBeforeSendHeadersOptions {}
+typedef OnBeforeSendHeadersOptions = JSString;
 
-@JS()
-@staticInterop
-class OnSendHeadersOptions {}
+typedef OnSendHeadersOptions = JSString;
 
-@JS()
-@staticInterop
-class OnHeadersReceivedOptions {}
+typedef OnHeadersReceivedOptions = JSString;
 
-@JS()
-@staticInterop
-class OnAuthRequiredOptions {}
+typedef OnAuthRequiredOptions = JSString;
 
-@JS()
-@staticInterop
-class OnResponseStartedOptions {}
+typedef OnResponseStartedOptions = JSString;
 
-@JS()
-@staticInterop
-class OnBeforeRedirectOptions {}
+typedef OnBeforeRedirectOptions = JSString;
 
-@JS()
-@staticInterop
-class OnCompletedOptions {}
+typedef OnCompletedOptions = JSString;
 
-@JS()
-@staticInterop
-class OnErrorOccurredOptions {}
+typedef OnErrorOccurredOptions = JSString;
+
+typedef IgnoredActionType = JSString;
 
 @JS()
 @staticInterop
@@ -169,7 +151,3 @@ class UploadData {
 @JS()
 @staticInterop
 class FormDataItem {}
-
-@JS()
-@staticInterop
-class IgnoredActionType {}

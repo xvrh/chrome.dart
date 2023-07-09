@@ -127,6 +127,8 @@ extension JSIdentityExtension on JSIdentity {
   external ChromeEvent get onSignInChanged;
 }
 
+typedef AccountStatus = JSString;
+
 @JS()
 @staticInterop
 class AccountInfo {

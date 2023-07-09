@@ -89,6 +89,22 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   external ChromeEvent get onSignDigestRequested;
 }
 
+///  Types of supported cryptographic signature algorithms.
+typedef Algorithm = JSString;
+
+///  Types of errors that the extension can report.
+typedef Error = JSString;
+
+///  Deprecated. Replaced by $(ref:Algorithm).
+typedef Hash = JSString;
+
+///  The type of code being requested by the extension with requestPin function.
+typedef PinRequestType = JSString;
+
+///  The types of errors that can be presented to the user through the
+///  requestPin function.
+typedef PinRequestErrorType = JSString;
+
 @JS()
 @staticInterop
 class ClientCertificateInfo {

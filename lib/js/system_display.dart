@@ -159,151 +159,151 @@ typedef MirrorMode = JSString;
 @staticInterop
 class Bounds {
   ///  The x-coordinate of the upper-left corner.
-  external JSAny get left;
+  external int get left;
 
   ///  The y-coordinate of the upper-left corner.
-  external JSAny get top;
+  external int get top;
 
   ///  The width of the display in pixels.
-  external JSAny get width;
+  external int get width;
 
   ///  The height of the display in pixels.
-  external JSAny get height;
+  external int get height;
 }
 
 @JS()
 @staticInterop
 class Insets {
   ///  The x-axis distance from the left bound.
-  external JSAny get left;
+  external int get left;
 
   ///  The y-axis distance from the top bound.
-  external JSAny get top;
+  external int get top;
 
   ///  The x-axis distance from the right bound.
-  external JSAny get right;
+  external int get right;
 
   ///  The y-axis distance from the bottom bound.
-  external JSAny get bottom;
+  external int get bottom;
 }
 
 @JS()
 @staticInterop
 class Point {
   ///  The x-coordinate of the point.
-  external JSAny get x;
+  external int get x;
 
   ///  The y-coordinate of the point.
-  external JSAny get y;
+  external int get y;
 }
 
 @JS()
 @staticInterop
 class TouchCalibrationPair {
   ///  The coordinates of the display point.
-  external JSAny get displayPoint;
+  external Point get displayPoint;
 
   ///  The coordinates of the touch point corresponding to the display point.
-  external JSAny get touchPoint;
+  external Point get touchPoint;
 }
 
 @JS()
 @staticInterop
 class TouchCalibrationPairQuad {
   ///  First pair of touch and display point required for touch calibration.
-  external JSAny get pair1;
+  external TouchCalibrationPair get pair1;
 
   ///  Second pair of touch and display point required for touch calibration.
-  external JSAny get pair2;
+  external TouchCalibrationPair get pair2;
 
   ///  Third pair of touch and display point required for touch calibration.
-  external JSAny get pair3;
+  external TouchCalibrationPair get pair3;
 
   ///  Fourth pair of touch and display point required for touch calibration.
-  external JSAny get pair4;
+  external TouchCalibrationPair get pair4;
 }
 
 @JS()
 @staticInterop
 class DisplayMode {
   ///  The display mode width in device independent (user visible) pixels.
-  external JSAny get width;
+  external int get width;
 
   ///  The display mode height in device independent (user visible) pixels.
-  external JSAny get height;
+  external int get height;
 
   ///  The display mode width in native pixels.
-  external JSAny get widthInNativePixels;
+  external int get widthInNativePixels;
 
   ///  The display mode height in native pixels.
-  external JSAny get heightInNativePixels;
+  external int get heightInNativePixels;
 
   ///  The display mode UI scale factor.
-  external JSAny? get uiScale;
+  external double? get uiScale;
 
   ///  The display mode device scale factor.
-  external JSAny get deviceScaleFactor;
+  external double get deviceScaleFactor;
 
   ///  The display mode refresh rate in hertz.
-  external JSAny get refreshRate;
+  external double get refreshRate;
 
   ///  True if the mode is the display's native mode.
-  external JSAny get isNative;
+  external bool get isNative;
 
   ///  True if the display mode is currently selected.
-  external JSAny get isSelected;
+  external bool get isSelected;
 
   ///  True if this mode is interlaced, false if not provided.
-  external JSAny? get isInterlaced;
+  external bool? get isInterlaced;
 }
 
 @JS()
 @staticInterop
 class DisplayLayout {
   ///  The unique identifier of the display.
-  external JSAny get id;
+  external String get id;
 
   ///  The unique identifier of the parent display. Empty if this is the root.
-  external JSAny get parentId;
+  external String get parentId;
 
   ///  The layout position of this display relative to the parent. This will
   ///  be ignored for the root.
-  external JSAny get position;
+  external LayoutPosition get position;
 
   ///  The offset of the display along the connected edge. 0 indicates that
   ///  the topmost or leftmost corners are aligned.
-  external JSAny get offset;
+  external int get offset;
 }
 
 @JS()
 @staticInterop
 class Edid {
   ///  3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
-  external JSAny get manufacturerId;
+  external String get manufacturerId;
 
   ///  2 byte manufacturer-assigned code, Sec. 3.4.2 page 21. Required in v1.4.
-  external JSAny get productId;
+  external String get productId;
 
   ///  Year of manufacturer, Sec. 3.4.4 page 22. Required in v1.4.
-  external JSAny get yearOfManufacture;
+  external int get yearOfManufacture;
 }
 
 @JS()
 @staticInterop
 class DisplayUnitInfo {
   ///  The unique identifier of the display.
-  external JSAny get id;
+  external String get id;
 
   ///  The user-friendly name (e.g. "HP LCD monitor").
-  external JSAny get name;
+  external String get name;
 
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
-  external JSAny? get edid;
+  external Edid? get edid;
 
   ///  Chrome OS only. Identifier of the display that is being mirrored if
   ///  mirroring is enabled, otherwise empty. This will be set for all displays
   ///  (including the display being mirrored).
-  external JSAny get mirroringSourceId;
+  external String get mirroringSourceId;
 
   ///  Chrome OS only. Identifiers of the displays to which the source display
   ///  is being mirrored. Empty if no displays are being mirrored. This will be
@@ -312,49 +312,49 @@ class DisplayUnitInfo {
   external JSArray get mirroringDestinationIds;
 
   ///  True if this is the primary display.
-  external JSAny get isPrimary;
+  external bool get isPrimary;
 
   ///  True if this is an internal display.
-  external JSAny get isInternal;
+  external bool get isInternal;
 
   ///  True if this display is enabled.
-  external JSAny get isEnabled;
+  external bool get isEnabled;
 
   ///  True for all displays when in unified desktop mode. See documentation
   ///  for $(ref:enableUnifiedDesktop).
-  external JSAny get isUnified;
+  external bool get isUnified;
 
   ///  True when the auto-rotation is allowed. It happens when the device is in
   ///  a tablet physical state or kSupportsClamshellAutoRotation is set.
   ///  Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
   ///  Settings switches to a mojo API.
-  external JSAny? get isAutoRotationAllowed;
+  external bool? get isAutoRotationAllowed;
 
   ///  The number of pixels per inch along the x-axis.
-  external JSAny get dpiX;
+  external double get dpiX;
 
   ///  The number of pixels per inch along the y-axis.
-  external JSAny get dpiY;
+  external double get dpiY;
 
   ///  The display's clockwise rotation in degrees relative to the vertical
   ///  position.
   ///  Currently exposed only on ChromeOS. Will be set to 0 on other platforms.
   ///  A value of -1 will be interpreted as auto-rotate when the device is in
   ///  a physical tablet state.
-  external JSAny get rotation;
+  external int get rotation;
 
   ///  The display's logical bounds.
-  external JSAny get bounds;
+  external Bounds get bounds;
 
   ///  The display's insets within its screen's bounds.
   ///  Currently exposed only on ChromeOS. Will be set to empty insets on
   ///  other platforms.
-  external JSAny get overscan;
+  external Insets get overscan;
 
   ///  The usable work area of the display within the display bounds. The work
   ///  area excludes areas of the display reserved for OS, for example taskbar
   ///  and launcher.
-  external JSAny get workArea;
+  external Bounds get workArea;
 
   ///  The list of available display modes. The current mode will have
   ///  isSelected=true. Only available on Chrome OS. Will be set to an empty
@@ -362,12 +362,12 @@ class DisplayUnitInfo {
   external JSArray get modes;
 
   ///  True if this display has a touch input device associated with it.
-  external JSAny get hasTouchSupport;
+  external bool get hasTouchSupport;
 
   ///  True if this display has an accelerometer associated with it.
   ///  Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
   ///  Settings switches to a mojo API. NOTE: The name of this may change.
-  external JSAny get hasAccelerometerSupport;
+  external bool get hasAccelerometerSupport;
 
   ///  A list of zoom factor values that can be set for the display.
   external JSArray get availableDisplayZoomFactors;
@@ -375,7 +375,7 @@ class DisplayUnitInfo {
   ///  The ratio between the display's current and default zoom.
   ///  For example, value 1 is equivalent to 100% zoom, and value 1.5 is
   ///  equivalent to 150% zoom.
-  external JSAny get displayZoomFactor;
+  external double get displayZoomFactor;
 }
 
 @JS()
@@ -386,29 +386,29 @@ class DisplayProperties {
   ///  unified desktop mode will be disabled. This is only valid for the
   ///  primary display. If provided, mirroringSourceId must not be provided and
   ///  other properties will be ignored. This is has no effect if not provided.
-  external JSAny? get isUnified;
+  external bool? get isUnified;
 
   ///  Chrome OS only. If set and not empty, enables mirroring for this display
   ///  only. Otherwise disables mirroring for all displays. This value should
   ///  indicate the id of the source display to mirror, which must not be the
   ///  same as the id passed to setDisplayProperties. If set, no other property
   ///  may be set.
-  external JSAny? get mirroringSourceId;
+  external String? get mirroringSourceId;
 
   ///  If set to true, makes the display primary. No-op if set to false.
   ///  Note: If set, the display is considered primary for all other properties
   ///  (i.e. $(ref:isUnified) may be set and bounds origin may not).
-  external JSAny? get isPrimary;
+  external bool? get isPrimary;
 
   ///  If set, sets the display's overscan insets to the provided values. Note
   ///  that overscan values may not be negative or larger than a half of the
   ///  screen's size. Overscan cannot be changed on the internal monitor.
-  external JSAny? get overscan;
+  external Insets? get overscan;
 
   ///  If set, updates the display's rotation.
   ///  Legal values are [0, 90, 180, 270]. The rotation is set clockwise,
   ///  relative to the display's vertical position.
-  external JSAny? get rotation;
+  external int? get rotation;
 
   ///  If set, updates the display's logical bounds origin along the x-axis.
   ///  Applied together with $(ref:boundsOriginY). Defaults to the current value
@@ -417,22 +417,22 @@ class DisplayProperties {
   ///  origin may be different than the one set. The final bounds can be
   ///  retrieved using $(ref:getInfo). The bounds origin cannot be changed on
   ///  the primary display.
-  external JSAny? get boundsOriginX;
+  external int? get boundsOriginX;
 
   ///  If set, updates the display's logical bounds origin along the y-axis.
   ///  See documentation for $(ref:boundsOriginX) parameter.
-  external JSAny? get boundsOriginY;
+  external int? get boundsOriginY;
 
   ///  If set, updates the display mode to the mode matching this value.
   ///  If other parameters are invalid, this will not be applied. If the
   ///  display mode is invalid, it will not be applied and an error will be
   ///  set, but other properties will still be applied.
-  external JSAny? get displayMode;
+  external DisplayMode? get displayMode;
 
   ///  If set, updates the zoom associated with the display. This zoom performs
   ///  re-layout and repaint thus resulting in a better quality zoom than just
   ///  performing a pixel by pixel stretch enlargement.
-  external JSAny? get displayZoomFactor;
+  external double? get displayZoomFactor;
 }
 
 @JS()
@@ -441,17 +441,17 @@ class GetInfoFlags {
   ///  If set to true, only a single $(ref:DisplayUnitInfo) will be returned
   ///  by $(ref:getInfo) when in unified desktop mode (see
   ///  $(ref:enableUnifiedDesktop)). Defaults to false.
-  external JSAny? get singleUnified;
+  external bool? get singleUnified;
 }
 
 @JS()
 @staticInterop
 class MirrorModeInfo {
   ///  The mirror mode that should be set.
-  external JSAny get mode;
+  external MirrorMode get mode;
 
   ///  The id of the mirroring source display. This is only valid for 'mixed'.
-  external JSAny? get mirroringSourceId;
+  external String? get mirroringSourceId;
 
   ///  The ids of the mirroring destination displays. This is only valid for
   ///  'mixed'.

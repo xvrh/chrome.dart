@@ -57,5 +57,5 @@ class ImageDataType {}
 class TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external JSAny? get tabId;
+  external int? get tabId;
 }

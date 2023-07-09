@@ -83,7 +83,7 @@ extension JSActionExtension on JSAction {
 class TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external JSAny? get tabId;
+  external int? get tabId;
 }
 
 @JS()
@@ -92,7 +92,7 @@ class UserSettings {
   /// Whether the extension's action icon is visible on browser windows'
   /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
   /// user).
-  external JSAny get isOnToolbar;
+  external bool get isOnToolbar;
 }
 
 @JS()
@@ -100,5 +100,5 @@ class UserSettings {
 class OpenPopupOptions {
   /// The id of the window to open the action popup in. Defaults to the
   /// currently-active window if unspecified.
-  external JSAny? get windowId;
+  external int? get windowId;
 }

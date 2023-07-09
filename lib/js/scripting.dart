@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSScriptingExtension on JSChrome {
@@ -35,7 +36,7 @@ typedef ExecutionWorld = JSString;
 @staticInterop
 class InjectionTarget {
   ///  The ID of the tab into which to inject.
-  external JSAny get tabId;
+  external int get tabId;
 
   ///  The <a
   /// href="https://developer.chrome.com/extensions/webNavigation#frame_ids">IDs</a>
@@ -51,7 +52,7 @@ class InjectionTarget {
   ///  Whether the script should inject into all frames within the tab. Defaults
   ///  to false.
   ///  This must not be true if `frameIds` is specified.
-  external JSAny? get allFrames;
+  external bool? get allFrames;
 }
 
 @JS()
@@ -62,7 +63,7 @@ class ScriptInjection {
   ///  and execution context will be lost.
   ///  Exactly one of `files` and `func` must be
   ///  specified.
-  external JSAny? get func;
+  external JSFunction? get func;
 
   ///  The arguments to curry into a provided function. This is only valid if
   ///  the `func` parameter is specified. These arguments must be
@@ -74,7 +75,7 @@ class ScriptInjection {
   ///  https://crbug.com/1166438). We leave this silently in for backwards
   ///  compatibility.
   ///  TODO(devlin): Remove this in M95.
-  external JSAny? get function;
+  external JSFunction? get function;
 
   ///  The path of the JS or CSS files to inject, relative to the extension's
   ///  root directory.
@@ -83,29 +84,29 @@ class ScriptInjection {
   external JSArray? get files;
 
   ///  Details specifying the target into which to inject the script.
-  external JSAny get target;
+  external InjectionTarget get target;
 
   ///  The JavaScript "world" to run the script in. Defaults to
   ///  `ISOLATED`.
-  external JSAny? get world;
+  external ExecutionWorld? get world;
 
   ///  Whether the injection should be triggered in the target as soon as
   ///  possible. Note that this is not a guarantee that injection will occur
   ///  prior to page load, as the page may have already loaded by the time the
   ///  script reaches the target.
-  external JSAny? get injectImmediately;
+  external bool? get injectImmediately;
 }
 
 @JS()
 @staticInterop
 class CSSInjection {
   ///  Details specifying the target into which to insert the CSS.
-  external JSAny get target;
+  external InjectionTarget get target;
 
   ///  A string containing the CSS to inject.
   ///  Exactly one of `files` and `css` must be
   ///  specified.
-  external JSAny? get css;
+  external String? get css;
 
   ///  The path of the CSS files to inject, relative to the extension's root
   ///  directory.
@@ -114,7 +115,7 @@ class CSSInjection {
   external JSArray? get files;
 
   ///  The style origin for the injection. Defaults to `'AUTHOR'`.
-  external JSAny? get origin;
+  external StyleOrigin? get origin;
 }
 
 @JS()
@@ -124,10 +125,10 @@ class InjectionResult {
   external JSAny? get result;
 
   ///  The frame associated with the injection.
-  external JSAny get frameId;
+  external int get frameId;
 
   ///  The document associated with the injection.
-  external JSAny get documentId;
+  external String get documentId;
 }
 
 @JS()
@@ -135,7 +136,7 @@ class InjectionResult {
 class RegisteredContentScript {
   ///  The id of the content script, specified in the API call. Must not start
   ///  with a '_' as it's reserved as a prefix for generated script IDs.
-  external JSAny get id;
+  external String get id;
 
   ///  Specifies which pages this content script will be injected into. See
   ///  <a href="match_patterns">Match Patterns</a> for more details on the
@@ -162,23 +163,23 @@ class RegisteredContentScript {
   ///  for URL requirements; it will not inject into child frames if the URL
   ///  requirements are not met. Defaults to false, meaning that only the top
   ///  frame is matched.
-  external JSAny? get allFrames;
+  external bool? get allFrames;
 
   ///  TODO(devlin): Add documentation once the implementation is complete. See
   ///  crbug.com/55084.
-  external JSAny? get matchOriginAsFallback;
+  external bool? get matchOriginAsFallback;
 
   ///  Specifies when JavaScript files are injected into the web page. The
   ///  preferred and default value is `document_idle`.
-  external JSAny? get runAt;
+  external RunAt? get runAt;
 
   ///  Specifies if this content script will persist into future sessions. The
   ///  default is true.
-  external JSAny? get persistAcrossSessions;
+  external bool? get persistAcrossSessions;
 
   ///  The JavaScript "world" to run the script in. Defaults to
   ///  `ISOLATED`.
-  external JSAny? get world;
+  external ExecutionWorld? get world;
 }
 
 @JS()

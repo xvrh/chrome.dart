@@ -92,30 +92,30 @@ typedef PermissionLevel = JSString;
 @staticInterop
 class NotificationItem {
   ///  Title of one item of a list notification.
-  external JSAny get title;
+  external String get title;
 
   ///  Additional details about this item.
-  external JSAny get message;
+  external String get message;
 }
 
 @JS()
 @staticInterop
 class NotificationBitmap {
-  external JSAny get width;
+  external int get width;
 
-  external JSAny get height;
+  external int get height;
 
-  external JSAny? get data;
+  external JSArrayBuffer? get data;
 }
 
 @JS()
 @staticInterop
 class NotificationButton {
-  external JSAny get title;
+  external String get title;
 
-  external JSAny? get iconUrl;
+  external String? get iconUrl;
 
-  external JSAny? get iconBitmap;
+  external NotificationBitmap? get iconBitmap;
 }
 
 @JS()
@@ -123,7 +123,7 @@ class NotificationButton {
 class NotificationOptions {
   ///  Which type of notification to display.
   ///  <em>Required for $(ref:notifications.create)</em> method.
-  external JSAny? get type;
+  external TemplateType? get type;
 
   ///  A URL to the sender's avatar, app icon, or a thumbnail for image
   ///  notifications.
@@ -131,67 +131,67 @@ class NotificationOptions {
   ///  URLs can be a data URL, a blob URL, or a URL relative to a resource
   ///  within this extension's .crx file
   ///  <em>Required for $(ref:notifications.create)</em> method.
-  external JSAny? get iconUrl;
+  external String? get iconUrl;
 
-  external JSAny? get iconBitmap;
+  external NotificationBitmap? get iconBitmap;
 
   ///  A URL to the app icon mask. URLs have the same restrictions as
   ///  $(ref:notifications.NotificationOptions.iconUrl iconUrl).
   ///
   ///  The app icon mask should be in alpha channel, as only the alpha channel
   ///  of the image will be considered.
-  external JSAny? get appIconMaskUrl;
+  external String? get appIconMaskUrl;
 
-  external JSAny? get appIconMaskBitmap;
+  external NotificationBitmap? get appIconMaskBitmap;
 
   ///  Title of the notification (e.g. sender name for email).
   ///  <em>Required for $(ref:notifications.create)</em> method.
-  external JSAny? get title;
+  external String? get title;
 
   ///  Main notification content.
   ///  <em>Required for $(ref:notifications.create)</em> method.
-  external JSAny? get message;
+  external String? get message;
 
   ///  Alternate notification content with a lower-weight font.
-  external JSAny? get contextMessage;
+  external String? get contextMessage;
 
   ///  Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
   ///  is default.  On platforms that don't support a notification center
   ///  (Windows, Linux & Mac), -2 and -1 result in an error as notifications
   ///  with those priorities will not be shown at all.
-  external JSAny? get priority;
+  external int? get priority;
 
   ///  A timestamp associated with the notification, in milliseconds past the
   ///  epoch (e.g. `Date.now() + n`).
-  external JSAny? get eventTime;
+  external double? get eventTime;
 
   ///  Text and icons for up to two notification action buttons.
   external JSArray? get buttons;
 
   ///  Secondary notification content.
-  external JSAny? get expandedMessage;
+  external String? get expandedMessage;
 
   ///  A URL to the image thumbnail for image-type notifications.
   ///  URLs have the same restrictions as
   ///  $(ref:notifications.NotificationOptions.iconUrl iconUrl).
-  external JSAny? get imageUrl;
+  external String? get imageUrl;
 
-  external JSAny? get imageBitmap;
+  external NotificationBitmap? get imageBitmap;
 
   ///  Items for multi-item notifications. Users on Mac OS X only see the first
   ///  item.
   external JSArray? get items;
 
   ///  Current progress ranges from 0 to 100.
-  external JSAny? get progress;
+  external int? get progress;
 
-  external JSAny? get isClickable;
+  external bool? get isClickable;
 
   ///  Indicates that the notification should remain visible on screen until the
   ///  user activates or dismisses the notification. This defaults to false.
-  external JSAny? get requireInteraction;
+  external bool? get requireInteraction;
 
   ///  Indicates that no sounds or vibrations should be made when the
   ///  notification is being shown. This defaults to false.
-  external JSAny? get silent;
+  external bool? get silent;
 }

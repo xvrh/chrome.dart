@@ -67,15 +67,15 @@ typedef VoiceGender = JSString;
 @staticInterop
 class SpeakOptions {
   /// The name of the voice to use for synthesis.
-  external JSAny? get voiceName;
+  external String? get voiceName;
 
   /// The language to be used for synthesis, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external JSAny? get lang;
+  external String? get lang;
 
   /// Gender of voice for synthesized speech.
-  external JSAny? get gender;
+  external VoiceGender? get gender;
 
   /// Speaking rate relative to the default rate for this voice. 1.0 is the
   /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
@@ -83,25 +83,25 @@ class SpeakOptions {
   /// and 10.0, inclusive. When a voice does not support this full range of
   /// rates, don't return an error. Instead, clip the rate to the range the
   /// voice supports.
-  external JSAny? get rate;
+  external num? get rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to this voice's default pitch.
-  external JSAny? get pitch;
+  external num? get pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external JSAny? get volume;
+  external num? get volume;
 }
 
 @JS()
 @staticInterop
 class AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
-  external JSAny get sampleRate;
+  external int get sampleRate;
 
   /// The number of samples within an audio buffer.
-  external JSAny get bufferSize;
+  external int get bufferSize;
 }
 
 @JS()
@@ -114,8 +114,8 @@ class AudioBuffer {
   external JSAny get audioBuffer;
 
   /// The character index associated with this audio buffer.
-  external JSAny? get charIndex;
+  external int? get charIndex;
 
   /// True if this audio buffer is the last for the text being spoken.
-  external JSAny? get isLastBuffer;
+  external bool? get isLastBuffer;
 }

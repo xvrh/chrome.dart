@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'printing.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrintingMetricsExtension on JSChrome {
@@ -38,82 +39,82 @@ typedef DuplexMode = JSString;
 @staticInterop
 class MediaSize {
   ///  Width (in micrometers) of the media used for printing.
-  external JSAny get width;
+  external int get width;
 
   ///  Height (in micrometers) of the media used for printing.
-  external JSAny get height;
+  external int get height;
 
   ///  Vendor-provided ID, e.g. "iso_a3_297x420mm" or "na_index-3x5_3x5in".
   ///  Possible values are values of "media" IPP attribute and can be found on
   ///  <a
   /// href="https://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml">
   ///  IANA page</a> .
-  external JSAny get vendorId;
+  external String get vendorId;
 }
 
 @JS()
 @staticInterop
 class PrintSettings {
   ///  The requested color mode.
-  external JSAny get color;
+  external ColorMode get color;
 
   ///  The requested duplex mode.
-  external JSAny get duplex;
+  external DuplexMode get duplex;
 
   ///  The requested media size.
-  external JSAny get mediaSize;
+  external MediaSize get mediaSize;
 
   ///  The requested number of copies.
-  external JSAny get copies;
+  external int get copies;
 }
 
 @JS()
 @staticInterop
 class Printer {
   ///  Displayed name of the printer.
-  external JSAny get name;
+  external String get name;
 
   ///  The full path for the printer.
   ///  Contains protocol, hostname, port, and queue.
-  external JSAny get uri;
+  external String get uri;
 
   ///  The source of the printer.
-  external JSAny get source;
+  external PrinterSource get source;
 }
 
 @JS()
 @staticInterop
 class PrintJobInfo {
   ///  The ID of the job.
-  external JSAny get id;
+  external String get id;
 
   ///  The title of the document which was printed.
-  external JSAny get title;
+  external String get title;
 
   ///  Source showing who initiated the print job.
-  external JSAny get source;
+  external PrintJobSource get source;
 
   ///  ID of source. Null if source is PRINT_PREVIEW or ANDROID_APP.
-  external JSAny? get sourceId;
+  external String? get sourceId;
 
   ///  The final status of the job.
-  external JSAny get status;
+  external PrintJobStatus get status;
 
   ///  The job creation time (in milliseconds past the Unix epoch).
-  external JSAny get creationTime;
+  external double get creationTime;
 
   ///  The job completion time (in milliseconds past the Unix epoch).
-  external JSAny get completionTime;
+  external double get completionTime;
 
   ///  The info about the printer which printed the document.
-  external JSAny get printer;
+  external Printer get printer;
 
   ///  The settings of the print job.
-  external JSAny get settings;
+  external PrintSettings get settings;
 
   ///  The number of pages in the document.
-  external JSAny get numberOfPages;
+  external int get numberOfPages;
 
   ///  The status of the printer.
-  external JSAny get printer_status;
+  external PrinterStatus get printer_status;
 }

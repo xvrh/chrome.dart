@@ -124,11 +124,11 @@ class SetCertificatesDetails {
   ///  When called in response to $(ref:onCertificatesUpdateRequested), should
   ///  contain the received `certificatesRequestId` value. Otherwise,
   ///  should be unset.
-  external JSAny? get certificatesRequestId;
+  external int? get certificatesRequestId;
 
   ///  Error that occurred while extracting the certificates, if any. This error
   ///  will be surfaced to the user when appropriate.
-  external JSAny? get error;
+  external Error? get error;
 
   ///  List of currently available client certificates.
   external JSArray get clientCertificates;
@@ -138,24 +138,24 @@ class SetCertificatesDetails {
 @staticInterop
 class CertificatesUpdateRequest {
   ///  Request identifier to be passed to $(ref:setCertificates).
-  external JSAny get certificatesRequestId;
+  external int get certificatesRequestId;
 }
 
 @JS()
 @staticInterop
 class SignatureRequest {
   ///  Request identifier to be passed to $(ref:reportSignature).
-  external JSAny get signRequestId;
+  external int get signRequestId;
 
   ///  Data to be signed. Note that the data is not hashed.
-  external JSAny get input;
+  external JSArrayBuffer get input;
 
   ///  Signature algorithm to be used.
-  external JSAny get algorithm;
+  external Algorithm get algorithm;
 
   ///  The DER encoding of a X.509 certificate. The extension must sign
   ///  `input` using the associated private key.
-  external JSAny get certificate;
+  external JSArrayBuffer get certificate;
 }
 
 @JS()
@@ -163,13 +163,13 @@ class SignatureRequest {
 class ReportSignatureDetails {
   ///  Request identifier that was received via the $(ref:onSignatureRequested)
   ///  event.
-  external JSAny get signRequestId;
+  external int get signRequestId;
 
   ///  Error that occurred while generating the signature, if any.
-  external JSAny? get error;
+  external Error? get error;
 
   ///  The signature, if successfully generated.
-  external JSAny? get signature;
+  external JSArrayBuffer? get signature;
 }
 
 @JS()
@@ -177,7 +177,7 @@ class ReportSignatureDetails {
 class CertificateInfo {
   ///  Must be the DER encoding of a X.509 certificate. Currently, only
   ///  certificates of RSA keys are supported.
-  external JSAny get certificate;
+  external JSArrayBuffer get certificate;
 
   ///  Must be set to all hashes supported for this certificate. This extension
   ///  will only be asked for signatures of digests calculated with one of these
@@ -190,50 +190,50 @@ class CertificateInfo {
 class SignRequest {
   ///  The unique ID to be used by the extension should it need to call a method
   ///  that requires it, e.g. requestPin.
-  external JSAny get signRequestId;
+  external int get signRequestId;
 
   ///  The digest that must be signed.
-  external JSAny get digest;
+  external JSArrayBuffer get digest;
 
   ///  Refers to the hash algorithm that was used to create `digest`.
-  external JSAny get hash;
+  external Hash get hash;
 
   ///  The DER encoding of a X.509 certificate. The extension must sign
   ///  `digest` using the associated private key.
-  external JSAny get certificate;
+  external JSArrayBuffer get certificate;
 }
 
 @JS()
 @staticInterop
 class RequestPinDetails {
   ///  The ID given by Chrome in SignRequest.
-  external JSAny get signRequestId;
+  external int get signRequestId;
 
   ///  The type of code requested. Default is PIN.
-  external JSAny? get requestType;
+  external PinRequestType? get requestType;
 
   ///  The error template displayed to the user. This should be set if the
   ///  previous request failed, to notify the user of the failure reason.
-  external JSAny? get errorType;
+  external PinRequestErrorType? get errorType;
 
   ///  The number of attempts left. This is provided so that any UI can present
   ///  this information to the user. Chrome is not expected to enforce this,
   ///  instead stopPinRequest should be called by the extension with
   ///  errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
   ///  exceeded.
-  external JSAny? get attemptsLeft;
+  external int? get attemptsLeft;
 }
 
 @JS()
 @staticInterop
 class StopPinRequestDetails {
   ///  The ID given by Chrome in SignRequest.
-  external JSAny get signRequestId;
+  external int get signRequestId;
 
   ///  The error template. If present it is displayed to user. Intended to
   ///  contain the reason for stopping the flow if it was caused by an error,
   ///  e.g. MAX_ATTEMPTS_EXCEEDED.
-  external JSAny? get errorType;
+  external PinRequestErrorType? get errorType;
 }
 
 @JS()
@@ -241,5 +241,5 @@ class StopPinRequestDetails {
 class PinResponseDetails {
   ///  The code provided by the user. Empty if user closed the dialog or some
   ///  other error occurred.
-  external JSAny? get userInput;
+  external String? get userInput;
 }

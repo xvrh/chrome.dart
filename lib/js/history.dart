@@ -54,44 +54,44 @@ typedef TransitionType = JSString;
 @staticInterop
 class HistoryItem {
   /// The unique identifier for the item.
-  external JSAny get id;
+  external String get id;
 
   /// The URL navigated to by a user.
-  external JSAny? get url;
+  external String? get url;
 
   /// The title of the page when it was last loaded.
-  external JSAny? get title;
+  external String? get title;
 
   /// When this page was last loaded, represented in milliseconds since the
   /// epoch.
-  external JSAny? get lastVisitTime;
+  external num? get lastVisitTime;
 
   /// The number of times the user has navigated to this page.
-  external JSAny? get visitCount;
+  external int? get visitCount;
 
   /// The number of times the user has navigated to this page by typing in the
   /// address.
-  external JSAny? get typedCount;
+  external int? get typedCount;
 }
 
 @JS()
 @staticInterop
 class VisitItem {
   /// The unique identifier for the item.
-  external JSAny get id;
+  external String get id;
 
   /// The unique identifier for this visit.
-  external JSAny get visitId;
+  external String get visitId;
 
   /// When this visit occurred, represented in milliseconds since the epoch.
-  external JSAny? get visitTime;
+  external num? get visitTime;
 
   /// The visit ID of the referrer.
-  external JSAny get referringVisitId;
+  external String get referringVisitId;
 
   /// The <a href='#transition_types'>transition type</a> for this visit from
   /// its referrer.
-  external JSAny get transition;
+  external TransitionType get transition;
 }
 
 @JS()
@@ -99,5 +99,5 @@ class VisitItem {
 class UrlDetails {
   /// The URL for the operation. It must be in the format as returned from a
   /// call to history.search.
-  external JSAny get url;
+  external String get url;
 }

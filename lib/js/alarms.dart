@@ -74,16 +74,16 @@ extension JSAlarmsExtension on JSAlarms {
 @staticInterop
 class Alarm {
   ///  Name of this alarm.
-  external JSAny get name;
+  external String get name;
 
   ///  Time at which this alarm was scheduled to fire, in milliseconds past the
   ///  epoch (e.g. `Date.now() + n`).  For performance reasons, the
   ///  alarm may have been delayed an arbitrary amount beyond this.
-  external JSAny get scheduledTime;
+  external double get scheduledTime;
 
   ///  If not null, the alarm is a repeating alarm and will fire again in
   ///  <var>periodInMinutes</var> minutes.
-  external JSAny? get periodInMinutes;
+  external double? get periodInMinutes;
 }
 
 @JS()
@@ -91,18 +91,18 @@ class Alarm {
 class AlarmCreateInfo {
   ///  Time at which the alarm should fire, in milliseconds past the epoch
   ///  (e.g. `Date.now() + n`).
-  external JSAny? get when;
+  external double? get when;
 
   ///  Length of time in minutes after which the `onAlarm` event
   ///  should fire.
   ///
   ///  <!-- TODO: need minimum=0 -->
-  external JSAny? get delayInMinutes;
+  external double? get delayInMinutes;
 
   ///  If set, the onAlarm event should fire every <var>periodInMinutes</var>
   ///  minutes after the initial event specified by <var>when</var> or
   ///  <var>delayInMinutes</var>.  If not set, the alarm will only fire once.
   ///
   ///  <!-- TODO: need minimum=0 -->
-  external JSAny? get periodInMinutes;
+  external double? get periodInMinutes;
 }

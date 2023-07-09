@@ -87,8 +87,9 @@ class CodeGenerator {
       ..docs.add(documentationComment(property.documentation, indent: 2))
       ..name = property.name
       ..external = true
-      ..returns =
-          refer('${property.type.bindingName}${property.optional ? '?' : ''}')
+      ..returns = refer(
+          '${property.type.bindingName}${property.optional ? '?' : ''}',
+          property.type.url)
       ..type = MethodType.getter);
   }
 
@@ -119,7 +120,9 @@ class CodeGenerator {
             ..type = MethodType.getter))),
         Class((b) => b
           ..name = apiClassName
-          ..constructors.add(Constructor((c) => c.name = '_'))),
+          ..constructors.add(Constructor((c) => c.name = '_'))
+          ..methods.addAll(api.functions.map(_highLevelFunction))
+          ..methods.addAll(api.events.map(_highLevelEvent))),
         for (var enumeration in api.enumerations)
           Enum((b) => b
             ..name = enumeration.name
@@ -145,6 +148,27 @@ class CodeGenerator {
 
     final emitter = DartEmitter(allocator: Allocator());
     return _formatter.format('${library.accept(emitter)}');
+  }
+
+  Method _highLevelFunction(model.Method method) {
+    return Method((b) => b
+      ..docs.add(documentationComment(method.documentation, indent: 2))
+      ..name = method.name
+      ..returns = refer('void')
+      ..body = const Code('throw UnimplementedError()')
+      ..lambda = true
+      ..requiredParameters.addAll(
+          method.parameters.map((p) => Parameter((b) => b..name = p.name))));
+  }
+
+  Method _highLevelEvent(model.Event event) {
+    return Method((b) => b
+      ..name = event.name
+      ..docs.add(documentationComment(event.documentation, indent: 2))
+      ..returns = refer('Stream', _sharedCodeUrl)
+      ..body = const Code('throw UnimplementedError()')
+      ..lambda = true
+      ..type = MethodType.getter);
   }
 
   Expression _staticInteropAnnotation() =>

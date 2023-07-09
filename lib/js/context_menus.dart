@@ -57,46 +57,46 @@ typedef ItemType = JSString;
 @staticInterop
 class OnClickData {
   /// The ID of the menu item that was clicked.
-  external JSAny get menuItemId;
+  external JSObject get menuItemId;
 
   /// The parent ID, if any, for the item clicked.
-  external JSAny? get parentMenuItemId;
+  external JSObject? get parentMenuItemId;
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
   /// one of these types of elements.
-  external JSAny? get mediaType;
+  external String? get mediaType;
 
   /// If the element is a link, the URL it points to.
-  external JSAny? get linkUrl;
+  external String? get linkUrl;
 
   /// Will be present for elements with a 'src' URL.
-  external JSAny? get srcUrl;
+  external String? get srcUrl;
 
   /// The URL of the page where the menu item was clicked. This property is not
   /// set if the click occured in a context where there is no current page, such
   /// as in a launcher context menu.
-  external JSAny? get pageUrl;
+  external String? get pageUrl;
 
   ///  The URL of the frame of the element where the context menu was clicked,
   /// if it was in a frame.
-  external JSAny? get frameUrl;
+  external String? get frameUrl;
 
   ///  The <a href='webNavigation#frame_ids'>ID of the frame</a> of the element
   /// where the context menu was clicked, if it was in a frame.
-  external JSAny? get frameId;
+  external int? get frameId;
 
   /// The text for the context selection, if any.
-  external JSAny? get selectionText;
+  external String? get selectionText;
 
   /// A flag indicating whether the element is editable (text input, textarea,
   /// etc.).
-  external JSAny get editable;
+  external bool get editable;
 
   /// A flag indicating the state of a checkbox or radio item before it was
   /// clicked.
-  external JSAny? get wasChecked;
+  external bool? get wasChecked;
 
   /// A flag indicating the state of a checkbox or radio item after it is
   /// clicked.
-  external JSAny? get checked;
+  external bool? get checked;
 }

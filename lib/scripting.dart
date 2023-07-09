@@ -9,6 +9,13 @@ extension ChromeChromeScriptingExtension on Chrome {
 
 class ChromeScripting {
   ChromeScripting._();
+
+  ///  An object available for content scripts running in isolated worlds to use
+  ///  and modify as a JS object. One instance exists per frame and is shared
+  ///  between all content scripts for a given extension. This object is
+  ///  initialized when the frame is created, before document_start.
+  ///  TODO(crbug.com/1054624): Enable this once implementation is complete.
+  void globalParams() => throw UnimplementedError();
 }
 
 ///  The origin for a style change.

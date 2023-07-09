@@ -1,3 +1,6 @@
+import 'utils/split_words.dart';
+import 'utils/string_helpers.dart';
+
 class ChromeApi {
   final String name;
   final String documentation;
@@ -19,14 +22,50 @@ class ChromeApi {
 }
 
 class TypeRef {
-  final String rawName;
+  String rawName;
   final bool isArray;
+  String? url;
 
-  TypeRef(this.rawName) : isArray = false;
+  TypeRef._(this.rawName, this.url, {this.isArray = false});
 
-  TypeRef.array(this.rawName) : isArray = true;
+  factory TypeRef(String name, {bool isArray = false}) {
+    var (rawName, url) = _nameAndUrl(name);
+    return TypeRef._(rawName, url, isArray: isArray);
+  }
 
-  String get bindingName => isArray ? 'JSArray' : rawName;
+  static (String, String?) _nameAndUrl(String name) {
+    var split = name.split('.');
+    if (split.length > 1) {
+      var url = '${snakeCase(splitWords(split.first))}.dart';
+      return (split.last, url);
+    } else {
+      return (name, null);
+    }
+  }
+
+  String get bindingName => isArray ? 'JSArray' : _toJsName(rawName);
+
+  static String _toJsName(String type) {
+    return const {
+          'integer': 'int',
+          'long': 'int',
+          'boolean': 'bool',
+          'DOMString': 'String',
+          'string': 'String',
+          'number': 'num',
+          'object': 'JSObject',
+          'ArrayBuffer': 'JSArrayBuffer',
+          'any': 'JSAny',
+          'function': 'JSFunction',
+          'InjectedFunction': 'JSFunction',
+          'Date': 'JSObject', //TODO(xha): convert to a dart DateTime?
+          'binary': 'JSAny', //TODO: JSArrayBuffer ??
+          //TODO(xha): link to "package:web"?
+          'SubtleCrypto': 'JSObject',
+          'Blob': 'JSObject',
+        }[type] ??
+        type;
+  }
 }
 
 class Event {
@@ -65,8 +104,10 @@ class Dictionary {
   final List<Method> methods;
   final String documentation;
 
-  Dictionary(this.name, this.methods,
-      {required this.properties, required this.documentation});
+  Dictionary(this.name,
+      {required this.methods,
+      required this.properties,
+      required this.documentation});
 }
 
 class Property {

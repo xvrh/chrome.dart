@@ -22,8 +22,8 @@ extension JSTopSitesExtension on JSTopSites {
 @staticInterop
 class MostVisitedURL {
   /// The most visited URL.
-  external JSAny get url;
+  external String get url;
 
   /// The title of the page
-  external JSAny get title;
+  external String get title;
 }

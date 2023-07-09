@@ -9,6 +9,54 @@ extension ChromeChromeWindowsExtension on Chrome {
 
 class ChromeWindows {
   ChromeWindows._();
+
+  /// Gets details about a window.
+  void get(
+    windowId,
+    queryOptions,
+  ) =>
+      throw UnimplementedError();
+
+  /// Gets the <a href='#current-window'>current window</a>.
+  void getCurrent(queryOptions) => throw UnimplementedError();
+
+  /// Gets the window that was most recently focused &mdash; typically the
+  /// window 'on top'.
+  void getLastFocused(queryOptions) => throw UnimplementedError();
+
+  /// Gets all windows.
+  void getAll(queryOptions) => throw UnimplementedError();
+
+  /// Creates (opens) a new browser window with any optional sizing, position,
+  /// or default URL provided.
+  void create(createData) => throw UnimplementedError();
+
+  /// Updates the properties of a window. Specify only the properties that to be
+  /// changed; unspecified properties are unchanged.
+  void update(
+    windowId,
+    updateInfo,
+  ) =>
+      throw UnimplementedError();
+
+  /// Removes (closes) a window and all the tabs inside it.
+  void remove(windowId) => throw UnimplementedError();
+
+  /// Fired when a window is created.
+  Stream get onCreated => throw UnimplementedError();
+
+  /// Fired when a window is removed (closed).
+  Stream get onRemoved => throw UnimplementedError();
+
+  /// Fired when the currently focused window changes. Returns
+  /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
+  /// <b>Note:</b> On some Linux window managers, `WINDOW_ID_NONE` is always
+  /// sent immediately preceding a switch from one Chrome window to another.
+  Stream get onFocusChanged => throw UnimplementedError();
+
+  /// Fired when a window has been resized; this event is only dispatched when
+  /// the new bounds are committed, and not for in-progress changes.
+  Stream get onBoundsChanged => throw UnimplementedError();
 }
 
 /// The type of browser window this is. In some circumstances a window may not

@@ -44,10 +44,10 @@ class CreateParameters {
   external JSArray get reasons;
 
   ///  The (relative) URL to load in the document.
-  external JSAny get url;
+  external String get url;
 
   ///  A developer-provided string that explains, in more detail, the need for
   ///  the background context. The user agent _may_ use this in display to the
   ///  user.
-  external JSAny get justification;
+  external String get justification;
 }

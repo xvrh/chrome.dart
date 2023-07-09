@@ -77,13 +77,13 @@ class RemovalOptions {
   /// since the epoch (accessible via the `getTime` method of the JavaScript
   /// `Date` object). If absent, defaults to 0 (which would remove all browsing
   /// data).
-  external JSAny? get since;
+  external num? get since;
 
   /// An object whose properties specify which origin types ought to be cleared.
   /// If this object isn't specified, it defaults to clearing only "unprotected"
   /// origins. Please ensure that you <em>really</em> want to remove application
   /// data before adding 'protectedWeb' or 'extensions'.
-  external JSAny? get originTypes;
+  external JSObject? get originTypes;
 
   /// When present, only data for origins in this list is deleted. Only
   /// supported for cookies, storage and cache. Cookies are cleared for the
@@ -100,47 +100,47 @@ class RemovalOptions {
 @staticInterop
 class DataTypeSet {
   /// Websites' appcaches.
-  external JSAny? get appcache;
+  external bool? get appcache;
 
   /// The browser's cache.
-  external JSAny? get cache;
+  external bool? get cache;
 
   /// Cache storage
-  external JSAny? get cacheStorage;
+  external bool? get cacheStorage;
 
   /// The browser's cookies.
-  external JSAny? get cookies;
+  external bool? get cookies;
 
   /// The browser's download list.
-  external JSAny? get downloads;
+  external bool? get downloads;
 
   /// Websites' file systems.
-  external JSAny? get fileSystems;
+  external bool? get fileSystems;
 
   /// The browser's stored form data.
-  external JSAny? get formData;
+  external bool? get formData;
 
   /// The browser's history.
-  external JSAny? get history;
+  external bool? get history;
 
   /// Websites' IndexedDB data.
-  external JSAny? get indexedDB;
+  external bool? get indexedDB;
 
   /// Websites' local storage data.
-  external JSAny? get localStorage;
+  external bool? get localStorage;
 
   /// Server-bound certificates.
-  external JSAny? get serverBoundCertificates;
+  external bool? get serverBoundCertificates;
 
   /// Stored passwords.
-  external JSAny? get passwords;
+  external bool? get passwords;
 
   /// Plugins' data.
-  external JSAny? get pluginData;
+  external bool? get pluginData;
 
   /// Service Workers.
-  external JSAny? get serviceWorkers;
+  external bool? get serviceWorkers;
 
   /// Websites' WebSQL data.
-  external JSAny? get webSQL;
+  external bool? get webSQL;
 }

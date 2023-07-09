@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'events.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeContentExtension on JSChrome {
@@ -36,7 +37,7 @@ class ImageDataType {}
 class PageStateMatcher {
   /// Matches if the conditions of the `UrlFilter` are fulfilled for the
   /// top-level URL of the page.
-  external JSAny? get pageUrl;
+  external UrlFilter? get pageUrl;
 
   /// Matches if all of the CSS selectors in the array match displayed elements
   /// in a frame with the same origin as the page's main frame. All selectors in
@@ -48,27 +49,27 @@ class PageStateMatcher {
 
   /// Matches if the bookmarked state of the page is equal to the specified
   /// value. Requres the <a href='declare_permissions'>bookmarks permission</a>.
-  external JSAny? get isBookmarked;
+  external bool? get isBookmarked;
 
-  external JSAny get instanceType;
+  external PageStateMatcherInstanceType get instanceType;
 }
 
 @JS()
 @staticInterop
 class ShowPageAction {
-  external JSAny get instanceType;
+  external ShowPageActionInstanceType get instanceType;
 }
 
 @JS()
 @staticInterop
 class ShowAction {
-  external JSAny get instanceType;
+  external ShowActionInstanceType get instanceType;
 }
 
 @JS()
 @staticInterop
 class SetIcon {
-  external JSAny get instanceType;
+  external SetIconInstanceType get instanceType;
 
   /// Either an `ImageData` object or a dictionary {size -> ImageData}
   /// representing an icon to be set. If the icon is specified as a dictionary,
@@ -78,7 +79,7 @@ class SetIcon {
   /// size of the icon in the UI. At least one image must be specified. Note
   /// that `details.imageData = foo` is equivalent to `details.imageData =
   /// {'16': foo}`.
-  external JSAny? get imageData;
+  external JSObject? get imageData;
 }
 
 @JS()
@@ -92,11 +93,11 @@ class RequestContentScript {
 
   /// Whether the content script runs in all frames of the matching page, or in
   /// only the top frame. Default is `false`.
-  external JSAny? get allFrames;
+  external bool? get allFrames;
 
   /// Whether to insert the content script on `about:blank` and `about:srcdoc`.
   /// Default is `false`.
-  external JSAny? get matchAboutBlank;
+  external bool? get matchAboutBlank;
 
-  external JSAny get instanceType;
+  external RequestContentScriptInstanceType get instanceType;
 }

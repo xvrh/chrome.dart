@@ -127,81 +127,81 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
 @staticInterop
 class IsUvpaaRequest {
   ///  An opaque identifier for the request.
-  external JSAny get requestId;
+  external int get requestId;
 }
 
 @JS()
 @staticInterop
 class CreateRequest {
   ///  An opaque identifier for the request.
-  external JSAny get requestId;
+  external int get requestId;
 
   ///  The `PublicKeyCredentialCreationOptions` passed to
   ///  `navigator.credentials.create()`, serialized as a JSON
   ///  string. The serialization format is compatible with <a
   ///  href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
   ///  `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
-  external JSAny get requestDetailsJson;
+  external String get requestDetailsJson;
 }
 
 @JS()
 @staticInterop
 class GetRequest {
   ///  An opaque identifier for the request.
-  external JSAny get requestId;
+  external int get requestId;
 
   ///  The `PublicKeyCredentialRequestOptions` passed to
   ///  `navigator.credentials.get()`, serialized as a JSON string.
   ///  The serialization format is compatible with <a
   ///  href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
   ///  `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
-  external JSAny get requestDetailsJson;
+  external String get requestDetailsJson;
 }
 
 @JS()
 @staticInterop
 class DOMExceptionDetails {
-  external JSAny get name;
+  external String get name;
 
-  external JSAny get message;
+  external String get message;
 }
 
 @JS()
 @staticInterop
 class CreateResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
-  external JSAny get requestId;
+  external int get requestId;
 
   ///  The `DOMException` yielded by the remote request, if any.
-  external JSAny? get error;
+  external DOMExceptionDetails? get error;
 
   ///  The `PublicKeyCredential`, yielded by the remote request, if
   ///  any, serialized as a JSON string by calling
   ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
   ///  `PublicKeyCredential.toJSON()`</a>.
-  external JSAny? get responseJson;
+  external String? get responseJson;
 }
 
 @JS()
 @staticInterop
 class GetResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
-  external JSAny get requestId;
+  external int get requestId;
 
   ///  The `DOMException` yielded by the remote request, if any.
-  external JSAny? get error;
+  external DOMExceptionDetails? get error;
 
   ///  The `PublicKeyCredential`, yielded by the remote request, if
   ///  any, serialized as a JSON string by calling
   ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
   ///  `PublicKeyCredential.toJSON()`</a>.
-  external JSAny? get responseJson;
+  external String? get responseJson;
 }
 
 @JS()
 @staticInterop
 class IsUvpaaResponseDetails {
-  external JSAny get requestId;
+  external int get requestId;
 
-  external JSAny get isUvpaa;
+  external bool get isUvpaa;
 }

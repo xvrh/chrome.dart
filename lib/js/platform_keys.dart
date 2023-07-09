@@ -109,7 +109,7 @@ typedef ClientCertificateType = JSString;
 @staticInterop
 class Match {
   ///  The DER encoding of a X.509 certificate.
-  external JSAny get certificate;
+  external JSArrayBuffer get certificate;
 
   ///  The
   ///  <a href="http://www.w3.org/TR/WebCryptoAPI/#key-algorithm-dictionary">
@@ -117,7 +117,7 @@ class Match {
   ///  parameters that are inherent to the key of the certificate (e.g. the key
   ///  length). Other parameters like the hash function used by the sign
   ///  function are not included.
-  external JSAny get keyAlgorithm;
+  external JSObject get keyAlgorithm;
 }
 
 @JS()
@@ -138,7 +138,7 @@ class ClientCertificateRequest {
 @staticInterop
 class SelectDetails {
   ///  Only certificates that match this request will be returned.
-  external JSAny get request;
+  external ClientCertificateRequest get request;
 
   ///  If given, the `selectClientCertificates` operates on this
   ///  list. Otherwise, obtains the list of all certificates from the platform's
@@ -152,7 +152,7 @@ class SelectDetails {
   ///  certificate(s) and key(s). Only the selected certificate(s) will be
   ///  returned. If is false, the list is reduced to all certificates that the
   ///  extension has been granted access to (automatically or manually).
-  external JSAny get interactive;
+  external bool get interactive;
 }
 
 @JS()
@@ -165,7 +165,7 @@ class VerificationDetails {
 
   ///  The hostname of the server to verify the certificate for, e.g. the server
   ///  that presented the `serverCertificateChain`.
-  external JSAny get hostname;
+  external String get hostname;
 }
 
 @JS()
@@ -174,7 +174,7 @@ class VerificationResult {
   ///  The result of the trust verification: true if trust for the given
   ///  verification details could be established and false if trust is rejected
   ///  for any reason.
-  external JSAny get trusted;
+  external bool get trusted;
 
   ///  If the trust verification failed, this array contains the errors reported
   ///  by the underlying network layer. Otherwise, this array is empty.

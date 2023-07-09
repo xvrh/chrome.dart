@@ -59,18 +59,18 @@ typedef Color = JSString;
 @staticInterop
 class TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
-  external JSAny get id;
+  external int get id;
 
   /// Whether the group is collapsed. A collapsed group is one whose tabs are
   /// hidden.
-  external JSAny get collapsed;
+  external bool get collapsed;
 
   /// The group's color.
-  external JSAny get color;
+  external Color get color;
 
   /// The title of the group.
-  external JSAny? get title;
+  external String? get title;
 
   /// The ID of the window that contains the group.
-  external JSAny get windowId;
+  external int get windowId;
 }

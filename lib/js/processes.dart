@@ -90,41 +90,41 @@ typedef ProcessType = JSString;
 @staticInterop
 class TaskInfo {
   ///  The title of the task.
-  external JSAny get title;
+  external String get title;
 
   ///  Optional tab ID, if this task represents a tab running on a renderer
   ///  process.
-  external JSAny? get tabId;
+  external int? get tabId;
 }
 
 @JS()
 @staticInterop
 class Cache {
   ///  The size of the cache, in bytes.
-  external JSAny get size;
+  external double get size;
 
   ///  The part of the cache that is utilized, in bytes.
-  external JSAny get liveSize;
+  external double get liveSize;
 }
 
 @JS()
 @staticInterop
 class Process {
   ///  Unique ID of the process provided by the browser.
-  external JSAny get id;
+  external int get id;
 
   ///  The ID of the process, as provided by the OS.
-  external JSAny get osProcessId;
+  external int get osProcessId;
 
   ///  The type of process.
-  external JSAny get type;
+  external ProcessType get type;
 
   ///  The profile which the process is associated with.
-  external JSAny get profile;
+  external String get profile;
 
   ///  The debugging port for Native Client processes. Zero for other process
   ///  types and for NaCl processes that do not have debugging enabled.
-  external JSAny get naclDebugPort;
+  external int get naclDebugPort;
 
   ///  Array of TaskInfos representing the tasks running on this process.
   external JSArray get tasks;
@@ -135,45 +135,45 @@ class Process {
   ///  which can exceed 100% in multi-threaded processes.
   ///  Only available when receiving the object as part of a callback from
   ///  onUpdated or onUpdatedWithMemory.
-  external JSAny? get cpu;
+  external double? get cpu;
 
   ///  The most recent measurement of the process network usage, in bytes per
   ///  second. Only available when receiving the object as part of a callback
   ///  from onUpdated or onUpdatedWithMemory.
-  external JSAny? get network;
+  external double? get network;
 
   ///  The most recent measurement of the process private memory usage, in
   ///  bytes. Only available when receiving the object as part of a callback
   ///  from onUpdatedWithMemory or getProcessInfo with the includeMemory flag.
-  external JSAny? get privateMemory;
+  external double? get privateMemory;
 
   ///  The most recent measurement of the process JavaScript allocated memory,
   ///  in bytes. Only available when receiving the object as part of a callback
   ///  from onUpdated or onUpdatedWithMemory.
-  external JSAny? get jsMemoryAllocated;
+  external double? get jsMemoryAllocated;
 
   ///  The most recent measurement of the process JavaScript memory used, in
   ///  bytes. Only available when receiving the object as part of a callback
   ///  from onUpdated or onUpdatedWithMemory.
-  external JSAny? get jsMemoryUsed;
+  external double? get jsMemoryUsed;
 
   ///  The most recent measurement of the process's SQLite memory usage, in
   ///  bytes. Only available when receiving the object as part of a callback
   ///  from onUpdated or onUpdatedWithMemory.
-  external JSAny? get sqliteMemory;
+  external double? get sqliteMemory;
 
   ///  The most recent information about the image cache for the process. Only
   ///  available when receiving the object as part of a callback from onUpdated
   ///  or onUpdatedWithMemory.
-  external JSAny? get imageCache;
+  external Cache? get imageCache;
 
   ///  The most recent information about the script cache for the process. Only
   ///  available when receiving the object as part of a callback from onUpdated
   ///  or onUpdatedWithMemory.
-  external JSAny? get scriptCache;
+  external Cache? get scriptCache;
 
   ///  The most recent information about the CSS cache for the process. Only
   ///  available when receiving the object as part of a callback from onUpdated
   ///  or onUpdatedWithMemory.
-  external JSAny? get cssCache;
+  external Cache? get cssCache;
 }

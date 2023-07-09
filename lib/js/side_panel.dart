@@ -46,13 +46,13 @@ extension JSSidePanelExtension on JSSidePanel {
 @staticInterop
 class SidePanel {
   ///  Developer specified path for side panel display.
-  external JSAny get default_path;
+  external String get default_path;
 }
 
 @JS()
 @staticInterop
 class ManifestKeys {
-  external JSAny get side_panel;
+  external SidePanel get side_panel;
 }
 
 @JS()
@@ -63,15 +63,15 @@ class PanelOptions {
   ///  tab that doesn't have specific settings). Note: if the same path is set
   ///  for this tabId and the default tabId, then the panel for this tabId will
   ///  be a different instance than the panel for the default tabId.
-  external JSAny? get tabId;
+  external int? get tabId;
 
   ///  The path to the side panel HTML file to use. This must be a local
   ///  resource within the extension package.
-  external JSAny? get path;
+  external String? get path;
 
   ///  Whether the side panel should be enabled. This is optional. The default
   ///  value is true.
-  external JSAny? get enabled;
+  external bool? get enabled;
 }
 
 @JS()
@@ -79,7 +79,7 @@ class PanelOptions {
 class PanelBehavior {
   ///  Whether clicking the extension's icon will toggle showing the extension's
   ///  entry in the side panel. Defaults to false.
-  external JSAny? get openPanelOnActionClick;
+  external bool? get openPanelOnActionClick;
 }
 
 @JS()
@@ -88,5 +88,5 @@ class GetPanelOptions {
   ///  If specified, the side panel options for the given tab will be returned.
   ///  Otherwise, returns the default side panel options (used for any tab that
   ///  doesn't have specific settings).
-  external JSAny? get tabId;
+  external int? get tabId;
 }

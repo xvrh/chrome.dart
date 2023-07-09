@@ -9,4 +9,11 @@ extension ChromeChromePageCaptureExtension on Chrome {
 
 class ChromePageCapture {
   ChromePageCapture._();
+
+  /// Saves the content of the tab with given id as MHTML.
+  void saveAsMHTML(
+    details,
+    callback,
+  ) =>
+      throw UnimplementedError();
 }

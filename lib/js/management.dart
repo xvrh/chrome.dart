@@ -130,70 +130,70 @@ typedef ExtensionInstallType = JSString;
 class IconInfo {
   /// A number representing the width and height of the icon. Likely values
   /// include (but are not limited to) 128, 48, 24, and 16.
-  external JSAny get size;
+  external int get size;
 
   /// The URL for this icon image. To display a grayscale version of the icon
   /// (to indicate that an extension is disabled, for example), append
   /// `?grayscale=true` to the URL.
-  external JSAny get url;
+  external String get url;
 }
 
 @JS()
 @staticInterop
 class ExtensionInfo {
   /// The extension's unique identifier.
-  external JSAny get id;
+  external String get id;
 
   /// The name of this extension, app, or theme.
-  external JSAny get name;
+  external String get name;
 
   /// A short version of the name of this extension, app, or theme.
-  external JSAny get shortName;
+  external String get shortName;
 
   /// The description of this extension, app, or theme.
-  external JSAny get description;
+  external String get description;
 
   /// The <a href='manifest/version'>version</a> of this extension, app, or
   /// theme.
-  external JSAny get version;
+  external String get version;
 
   /// The <a href='manifest/version#version_name'>version name</a> of this
   /// extension, app, or theme if the manifest specified one.
-  external JSAny? get versionName;
+  external String? get versionName;
 
   /// Whether this extension can be disabled or uninstalled by the user.
-  external JSAny get mayDisable;
+  external bool get mayDisable;
 
   /// Whether this extension can be enabled by the user. This is only returned
   /// for extensions which are not enabled.
-  external JSAny? get mayEnable;
+  external bool? get mayEnable;
 
   /// Whether it is currently enabled or disabled.
-  external JSAny get enabled;
+  external bool get enabled;
 
   /// A reason the item is disabled.
-  external JSAny? get disabledReason;
+  external ExtensionDisabledReason? get disabledReason;
 
   /// True if this is an app.
-  external JSAny get isApp;
+  external bool get isApp;
 
   /// The type of this extension, app, or theme.
-  external JSAny get type;
+  external ExtensionType get type;
 
   /// The launch url (only present for apps).
-  external JSAny? get appLaunchUrl;
+  external String? get appLaunchUrl;
 
   /// The URL of the homepage of this extension, app, or theme.
-  external JSAny? get homepageUrl;
+  external String? get homepageUrl;
 
   /// The update URL of this extension, app, or theme.
-  external JSAny? get updateUrl;
+  external String? get updateUrl;
 
   /// Whether the extension, app, or theme declares that it supports offline.
-  external JSAny get offlineEnabled;
+  external bool get offlineEnabled;
 
   /// The url for the item's options page, if it has one.
-  external JSAny get optionsUrl;
+  external String get optionsUrl;
 
   /// A list of icon information. Note that this just reflects what was declared
   /// in the manifest, and the actual image at that url may be larger or smaller
@@ -210,10 +210,10 @@ class ExtensionInfo {
   external JSArray get hostPermissions;
 
   /// How the extension was installed.
-  external JSAny get installType;
+  external ExtensionInstallType get installType;
 
   /// The app launch type (only present for apps).
-  external JSAny? get launchType;
+  external LaunchType? get launchType;
 
   /// The currently available launch types (only present for apps).
   external JSArray? get availableLaunchTypes;
@@ -225,5 +225,5 @@ class UninstallOptions {
   /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
   /// to false for self uninstalls. If an extension uninstalls another
   /// extension, this parameter is ignored and the dialog is always shown.
-  external JSAny? get showConfirmDialog;
+  external bool? get showConfirmDialog;
 }

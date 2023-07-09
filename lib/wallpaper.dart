@@ -9,6 +9,10 @@ extension ChromeChromeWallpaperExtension on Chrome {
 
 class ChromeWallpaper {
   ChromeWallpaper._();
+
+  /// Sets wallpaper to the image at <em>url</em> or <em>wallpaperData</em> with
+  /// the specified <em>layout</em>
+  void setWallpaper(details) => throw UnimplementedError();
 }
 
 /// The supported wallpaper layouts.

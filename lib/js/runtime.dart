@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'tabs.dart';
 export 'chrome.dart';
 
 extension JSChromeJSRuntimeExtension on JSChrome {
@@ -215,22 +216,22 @@ typedef ContextType = JSString;
 @staticInterop
 class Port {
   /// The name of the port, as specified in the call to $(ref:runtime.connect).
-  external JSAny get name;
+  external String get name;
 
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  external JSAny get disconnect;
+  external JSFunction get disconnect;
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  external JSAny get postMessage;
+  external JSFunction get postMessage;
 
   /// This property will <b>only</b> be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
   /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
   /// listeners.
-  external JSAny? get sender;
+  external MessageSender? get sender;
 }
 
 @JS()
@@ -240,100 +241,100 @@ class MessageSender {
   /// will <strong>only</strong> be present when the connection was opened from
   /// a tab (including content scripts), and <strong>only</strong> if the
   /// receiver is an extension, not an app.
-  external JSAny? get tab;
+  external Tab? get tab;
 
   /// The <a href='webNavigation#frame_ids'>frame</a> that opened the
   /// connection. 0 for top-level frames, positive for child frames. This will
   /// only be set when `tab` is set.
-  external JSAny? get frameId;
+  external int? get frameId;
 
   /// The guest process id of the requesting webview, if available. Only
   /// available for component extensions.
-  external JSAny? get guestProcessId;
+  external int? get guestProcessId;
 
   /// The guest render frame routing id of the requesting webview, if available.
   /// Only available for component extensions.
-  external JSAny? get guestRenderFrameRoutingId;
+  external int? get guestRenderFrameRoutingId;
 
   /// The ID of the extension or app that opened the connection, if any.
-  external JSAny? get id;
+  external String? get id;
 
   /// The URL of the page or frame that opened the connection. If the sender is
   /// in an iframe, it will be iframe's URL not the URL of the page which hosts
   /// it.
-  external JSAny? get url;
+  external String? get url;
 
   /// The name of the native application that opened the connection, if any.
-  external JSAny? get nativeApplication;
+  external String? get nativeApplication;
 
   /// The TLS channel ID of the page or frame that opened the connection, if
   /// requested by the extension or app, and if available.
-  external JSAny? get tlsChannelId;
+  external String? get tlsChannelId;
 
   /// The origin of the page or frame that opened the connection. It can vary
   /// from the url property (e.g., about:blank) or can be opaque (e.g.,
   /// sandboxed iframes). This is useful for identifying if the origin can be
   /// trusted if we can't immediately tell from the URL.
-  external JSAny? get origin;
+  external String? get origin;
 
   /// A UUID of the document that opened the connection.
-  external JSAny? get documentId;
+  external String? get documentId;
 
   /// The lifecycle the document that opened the connection is in at the time
   /// the port was created. Note that the lifecycle state of the document may
   /// have changed since port creation.
-  external JSAny? get documentLifecycle;
+  external String? get documentLifecycle;
 }
 
 @JS()
 @staticInterop
 class PlatformInfo {
   /// The operating system Chrome is running on.
-  external JSAny get os;
+  external PlatformOs get os;
 
   /// The machine's processor architecture.
-  external JSAny get arch;
+  external PlatformArch get arch;
 
   /// The native client architecture. This may be different from arch on some
   /// platforms.
-  external JSAny get nacl_arch;
+  external PlatformNaclArch get nacl_arch;
 }
 
 @JS()
 @staticInterop
 class ExtensionContext {
   /// The type of context this corresponds to.
-  external JSAny get contextType;
+  external ContextType get contextType;
 
   /// A unique identifier for this context
-  external JSAny get contextId;
+  external String get contextId;
 
   /// The ID of the tab for this context, or -1 if this context is not hosted in
   /// a tab.
-  external JSAny get tabId;
+  external int get tabId;
 
   /// The ID of the window for this context, or -1 if this context is not hosted
   /// in a window.
-  external JSAny get windowId;
+  external int get windowId;
 
   /// A UUID for the document associated with this context, or undefined if this
   /// context is hosted not in a document.
-  external JSAny? get documentId;
+  external String? get documentId;
 
   /// The ID of the frame for this context, or -1 if this context is not hosted
   /// in a frame.
-  external JSAny get frameId;
+  external int get frameId;
 
   /// The URL of the document associated with this context, or undefined if the
   /// context is not hosted in a document.
-  external JSAny? get documentUrl;
+  external String? get documentUrl;
 
   /// The origin of the document associated with this context, or undefined if
   /// the context is not hosted in a document.
-  external JSAny? get documentOrigin;
+  external String? get documentOrigin;
 
   /// Whether the context is associated with an incognito profile.
-  external JSAny get incognito;
+  external bool get incognito;
 }
 
 @JS()
@@ -355,5 +356,5 @@ class ContextFilter {
 
   external JSArray? get documentOrigins;
 
-  external JSAny? get incognito;
+  external bool? get incognito;
 }

@@ -30,7 +30,7 @@ class ScanOptions {
   external JSArray? get mimeTypes;
 
   ///  The number of scanned images allowed (defaults to 1).
-  external JSAny? get maxImages;
+  external int? get maxImages;
 }
 
 @JS()
@@ -41,5 +41,5 @@ class ScanResults {
   external JSArray get dataUrls;
 
   ///  The MIME type of `dataUrls`.
-  external JSAny get mimeType;
+  external String get mimeType;
 }

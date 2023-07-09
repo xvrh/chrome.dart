@@ -9,6 +9,16 @@ extension ChromeChromeLoginStateExtension on Chrome {
 
 class ChromeLoginState {
   ChromeLoginState._();
+
+  ///  Gets the type of the profile the extension is in.
+  void getProfileType(callback) => throw UnimplementedError();
+
+  ///  Gets the current session state.
+  void getSessionState(callback) => throw UnimplementedError();
+
+  ///  Dispatched when the session state changes. `sessionState`
+  ///  is the new session state.
+  Stream get onSessionStateChanged => throw UnimplementedError();
 }
 
 enum ProfileType {

@@ -249,15 +249,15 @@ class MutedInfo {
   /// Whether the tab is muted (prevented from playing sound). The tab may be
   /// muted even if it has not played or is not currently playing sound.
   /// Equivalent to whether the 'muted' audio indicator is showing.
-  external JSAny get muted;
+  external bool get muted;
 
   /// The reason the tab was muted or unmuted. Not set if the tab's mute state
   /// has never been changed.
-  external JSAny? get reason;
+  external MutedInfoReason? get reason;
 
   /// The ID of the extension that changed the muted state. Not set if an
   /// extension was not the reason the muted state last changed.
-  external JSAny? get extensionId;
+  external String? get extensionId;
 }
 
 @JS()
@@ -268,86 +268,86 @@ class Tab {
   /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
   /// be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps
   /// and devtools windows.
-  external JSAny? get id;
+  external int? get id;
 
   /// The zero-based index of the tab within its window.
-  external JSAny get index;
+  external int get index;
 
   /// The ID of the group that the tab belongs to.
-  external JSAny get groupId;
+  external int get groupId;
 
   /// The ID of the window that contains the tab.
-  external JSAny get windowId;
+  external int get windowId;
 
   /// The ID of the tab that opened this tab, if any. This property is only
   /// present if the opener tab still exists.
-  external JSAny? get openerTabId;
+  external int? get openerTabId;
 
   /// Whether the tab is selected.
-  external JSAny get selected;
+  external bool get selected;
 
   /// Whether the tab is highlighted.
-  external JSAny get highlighted;
+  external bool get highlighted;
 
   /// Whether the tab is active in its window. Does not necessarily mean the
   /// window is focused.
-  external JSAny get active;
+  external bool get active;
 
   /// Whether the tab is pinned.
-  external JSAny get pinned;
+  external bool get pinned;
 
   /// Whether the tab has produced sound over the past couple of seconds (but it
   /// might not be heard if also muted). Equivalent to whether the 'speaker
   /// audio' indicator is showing.
-  external JSAny? get audible;
+  external bool? get audible;
 
   /// Whether the tab is discarded. A discarded tab is one whose content has
   /// been unloaded from memory, but is still visible in the tab strip. Its
   /// content is reloaded the next time it is activated.
-  external JSAny get discarded;
+  external bool get discarded;
 
   /// Whether the tab can be discarded automatically by the browser when
   /// resources are low.
-  external JSAny get autoDiscardable;
+  external bool get autoDiscardable;
 
   /// The tab's muted state and the reason for the last state change.
-  external JSAny? get mutedInfo;
+  external MutedInfo? get mutedInfo;
 
   /// The last committed URL of the main frame of the tab. This property is only
   /// present if the extension's manifest includes the `"tabs"` permission and
   /// may be an empty string if the tab has not yet committed. See also
   /// $(ref:Tab.pendingUrl).
-  external JSAny? get url;
+  external String? get url;
 
   /// The URL the tab is navigating to, before it has committed. This property
   /// is only present if the extension's manifest includes the `"tabs"`
   /// permission and there is a pending navigation.
-  external JSAny? get pendingUrl;
+  external String? get pendingUrl;
 
   /// The title of the tab. This property is only present if the extension's
   /// manifest includes the `"tabs"` permission.
-  external JSAny? get title;
+  external String? get title;
 
   /// The URL of the tab's favicon. This property is only present if the
   /// extension's manifest includes the `"tabs"` permission. It may also be an
   /// empty string if the tab is loading.
-  external JSAny? get favIconUrl;
+  external String? get favIconUrl;
 
   /// The tab's loading status.
-  external JSAny? get status;
+  external TabStatus? get status;
 
   /// Whether the tab is in an incognito window.
-  external JSAny get incognito;
+  external bool get incognito;
 
   /// The width of the tab in pixels.
-  external JSAny? get width;
+  external int? get width;
 
   /// The height of the tab in pixels.
-  external JSAny? get height;
+  external int? get height;
 
   /// The session ID used to uniquely identify a tab obtained from the
   /// $(ref:sessions) API.
-  external JSAny? get sessionId;
+  external String? get sessionId;
 }
 
 @JS()
@@ -355,14 +355,14 @@ class Tab {
 class ZoomSettings {
   /// Defines how zoom changes are handled, i.e., which entity is responsible
   /// for the actual scaling of the page; defaults to `automatic`.
-  external JSAny? get mode;
+  external ZoomSettingsMode? get mode;
 
   /// Defines whether zoom changes persist for the page's origin, or only take
   /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
   /// `per-tab` otherwise.
-  external JSAny? get scope;
+  external ZoomSettingsScope? get scope;
 
   /// Used to return the default zoom level for the current tab in calls to
   /// tabs.getZoomSettings.
-  external JSAny? get defaultZoomFactor;
+  external num? get defaultZoomFactor;
 }

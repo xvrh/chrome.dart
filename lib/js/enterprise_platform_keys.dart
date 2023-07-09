@@ -177,7 +177,7 @@ class Token {
   ///  referring to the platform's user-specific and the system-wide hardware
   ///  token, respectively. Any other tokens (with other identifiers) might be
   ///  returned by $(ref:enterprise.platformKeys.getTokens).</p>
-  external JSAny get id;
+  external String get id;
 
   ///  Implements the WebCrypto's
   ///  <a
@@ -193,7 +193,7 @@ class Token {
   ///  `window.crypto.subtle`. Equally, `Key` objects
   ///  created with `window.crypto.subtle` cannot be used with this
   ///  interface.</p>
-  external JSAny get subtleCrypto;
+  external JSObject get subtleCrypto;
 
   ///  Implements the WebCrypto's
   ///  <a
@@ -210,29 +210,29 @@ class Token {
   ///  `window.crypto.subtle`. Equally, `Key` objects
   ///  created with `window.crypto.subtle` cannot be used with this
   ///  interface.</p>
-  external JSAny get softwareBackedSubtleCrypto;
+  external JSObject get softwareBackedSubtleCrypto;
 }
 
 @JS()
 @staticInterop
 class RegisterKeyOptions {
   ///  Which algorithm the registered key should use.
-  external JSAny get algorithm;
+  external Algorithm get algorithm;
 }
 
 @JS()
 @staticInterop
 class ChallengeKeyOptions {
   ///  A challenge as emitted by the Verified Access Web API.
-  external JSAny get challenge;
+  external JSArrayBuffer get challenge;
 
   ///  If present, registers the challenged key with the specified
   ///  `scope`'s token.  The key can then be associated with a
   ///  certificate and used like any other signing key.  Subsequent calls to
   ///  this function will then generate a new Enterprise Key in the specified
   ///  `scope`.
-  external JSAny? get registerKey;
+  external RegisterKeyOptions? get registerKey;
 
   ///  Which Enterprise Key to challenge.
-  external JSAny get scope;
+  external Scope get scope;
 }

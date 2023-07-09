@@ -81,50 +81,50 @@ class Window {
   /// some circumstances a window may not be assigned an `ID` property; for
   /// example, when querying windows using the $(ref:sessions) API, in which
   /// case a session ID may be present.
-  external JSAny? get id;
+  external int? get id;
 
   /// Whether the window is currently the focused window.
-  external JSAny get focused;
+  external bool get focused;
 
   /// The offset of the window from the top edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `top` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSAny? get top;
+  external int? get top;
 
   /// The offset of the window from the left edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `left` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSAny? get left;
+  external int? get left;
 
   /// The width of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `width` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSAny? get width;
+  external int? get width;
 
   /// The height of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `height` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSAny? get height;
+  external int? get height;
 
   /// Array of $(ref:tabs.Tab) objects representing the current tabs in the
   /// window.
   external JSArray? get tabs;
 
   /// Whether the window is incognito.
-  external JSAny get incognito;
+  external bool get incognito;
 
   /// The type of browser window this is.
-  external JSAny? get type;
+  external WindowType? get type;
 
   /// The state of this browser window.
-  external JSAny? get state;
+  external WindowState? get state;
 
   /// Whether the window is set to be always on top.
-  external JSAny get alwaysOnTop;
+  external bool get alwaysOnTop;
 
   /// The session ID used to uniquely identify a window, obtained from the
   /// $(ref:sessions) API.
-  external JSAny? get sessionId;
+  external String? get sessionId;
 }
 
 @JS()
@@ -134,7 +134,7 @@ class QueryOptions {
   /// that contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects
   /// only contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties
   /// if the extension's manifest file includes the `"tabs"` permission.
-  external JSAny? get populate;
+  external bool? get populate;
 
   /// If set, the $(ref:windows.Window) returned is filtered based on its type.
   /// If unset, the default filter is set to `['normal', 'popup']`.

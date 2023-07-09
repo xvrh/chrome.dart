@@ -239,6 +239,7 @@ ChromeApi loadJsonModel(String content) {
       t.id,
       properties: properties ?? [],
       documentation: t.description,
+      methods: [],
     );
     dictionaries.add(dic);
   }
@@ -267,8 +268,7 @@ ChromeApi loadJsonModel(String content) {
 Property _dictionaryProperty(String name, JsonProperty prop) {
   return Property(
     name,
-    typeName: prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object',
-    isArray: prop.items != null,
+    type: _propertyType(prop),
     optional: prop.optional ?? false,
     documentation: prop.description,
   );
@@ -277,9 +277,14 @@ Property _dictionaryProperty(String name, JsonProperty prop) {
 Property _methodParameter(JsonProperty prop) {
   return Property(
     prop.name!,
-    typeName: prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object',
-    isArray: prop.items != null,
+    type: _propertyType(prop),
     optional: prop.optional ?? false,
     documentation: prop.description,
   );
+}
+
+TypeRef _propertyType(JsonProperty prop) {
+  var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object';
+  var isArray = prop.items != null;
+  return TypeRef(typeName, isArray: isArray);
 }

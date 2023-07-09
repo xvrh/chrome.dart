@@ -53,34 +53,34 @@ typedef PrintError = JSString;
 @staticInterop
 class PrinterInfo {
   ///  Unique printer ID.
-  external JSAny get id;
+  external String get id;
 
   ///  Printer's human readable name.
-  external JSAny get name;
+  external String get name;
 
   ///  Printer's human readable description.
-  external JSAny? get description;
+  external String? get description;
 }
 
 @JS()
 @staticInterop
 class PrintJob {
   ///  ID of the printer which should handle the job.
-  external JSAny get printerId;
+  external String get printerId;
 
   ///  The print job title.
-  external JSAny get title;
+  external String get title;
 
   ///  Print ticket in
   ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
   ///  CJT format</a>.
-  external JSAny get ticket;
+  external JSObject get ticket;
 
   ///  The document content type. Supported formats are
   ///  `"application/pdf"` and `"image/pwg-raster"`.
-  external JSAny get contentType;
+  external String get contentType;
 
   ///  Blob containing the document data to print. Format must match
   ///  |contentType|.
-  external JSAny get document;
+  external JSObject get document;
 }

@@ -113,14 +113,14 @@ typedef UIEvent = JSString;
 class Parameters {
   ///  IP address for the VPN interface in CIDR notation.
   ///  IPv4 is currently the only supported mode.
-  external JSAny get address;
+  external String get address;
 
   ///  Broadcast address for the VPN interface. (default: deduced
   ///  from IP address and mask)
-  external JSAny? get broadcastAddress;
+  external String? get broadcastAddress;
 
   ///  MTU setting for the VPN interface. (default: 1500 bytes)
-  external JSAny? get mtu;
+  external String? get mtu;
 
   ///  Exclude network traffic to the list of IP blocks in CIDR notation from
   ///  the tunnel. This can be used to bypass traffic to and from the VPN
@@ -163,5 +163,5 @@ class Parameters {
   ///  This property is new in Chrome 51; it will generate an exception in
   ///  earlier versions. try/catch can be used to conditionally enable the
   ///  feature based on browser support.
-  external JSAny? get reconnect;
+  external String? get reconnect;
 }

@@ -9,6 +9,8 @@ extension ChromeChromeDeclarativeContentExtension on Chrome {
 
 class ChromeDeclarativeContent {
   ChromeDeclarativeContent._();
+
+  Stream get onPageChanged => throw UnimplementedError();
 }
 
 enum PageStateMatcherInstanceType {

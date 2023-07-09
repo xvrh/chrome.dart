@@ -9,4 +9,11 @@ extension ChromeChromeCommandsExtension on Chrome {
 
 class ChromeCommands {
   ChromeCommands._();
+
+  /// Returns all the registered extension commands for this extension and their
+  /// shortcut (if active).
+  void getAll() => throw UnimplementedError();
+
+  /// Fired when a registered command is activated using a keyboard shortcut.
+  Stream get onCommand => throw UnimplementedError();
 }

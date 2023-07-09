@@ -29,11 +29,11 @@ extension JSEnterpriseNetworkingAttributesExtension
 @staticInterop
 class NetworkDetails {
   ///  The device's MAC address.
-  external JSAny get macAddress;
+  external String get macAddress;
 
   ///  The device's local IPv4 address (undefined if not configured).
-  external JSAny? get ipv4;
+  external String? get ipv4;
 
   ///  The device's local IPv6 address (undefined if not configured).
-  external JSAny? get ipv6;
+  external String? get ipv6;
 }

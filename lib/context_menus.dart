@@ -9,6 +9,36 @@ extension ChromeChromeContextMenusExtension on Chrome {
 
 class ChromeContextMenus {
   ChromeContextMenus._();
+
+  /// Creates a new context menu item. If an error occurs during creation, it
+  /// may not be detected until the creation callback fires; details will be in
+  /// $(ref:runtime.lastError).
+  void create(
+    createProperties,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  /// Updates a previously created context menu item.
+  void update(
+    id,
+    updateProperties,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  /// Removes a context menu item.
+  void remove(
+    menuItemId,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  /// Removes all context menu items added by this extension.
+  void removeAll(callback) => throw UnimplementedError();
+
+  /// Fired when a context menu item is clicked.
+  Stream get onClicked => throw UnimplementedError();
 }
 
 /// The different contexts a menu can appear in. Specifying 'all' is equivalent

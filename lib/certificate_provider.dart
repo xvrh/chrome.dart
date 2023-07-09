@@ -9,6 +9,85 @@ extension ChromeChromeCertificateProviderExtension on Chrome {
 
 class ChromeCertificateProvider {
   ChromeCertificateProvider._();
+
+  ///  Requests the PIN from the user. Only one ongoing request at a time is
+  ///  allowed. The requests issued while another flow is ongoing are rejected.
+  ///  It's the extension's responsibility to try again later if another flow is
+  ///  in progress.
+  ///  |details|: Contains the details about the requested dialog.
+  ///  |callback|: Is called when the dialog is resolved with the user input, or
+  ///  when the dialog request finishes unsuccessfully (e.g. the dialog was
+  ///  canceled by the user or was not allowed to be shown).
+  void requestPin(
+    details,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Stops the pin request started by the $(ref:requestPin) function.
+  ///  |details|: Contains the details about the reason for stopping the
+  ///  request flow.
+  ///  |callback|: To be used by Chrome to send to the extension the status from
+  ///  their request to close PIN dialog for user.
+  void stopPinRequest(
+    details,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Sets a list of certificates to use in the browser.
+  ///  <p>The extension should call this function after initialization and on
+  ///  every change in the set of currently available certificates. The
+  ///  extension should also call this function in response to
+  ///  $(ref:onCertificatesUpdateRequested) every time this event is
+  ///  received.</p>
+  ///  |details|: The certificates to set. Invalid certificates will be ignored.
+  ///  |callback|: Called upon completion.
+  void setCertificates(
+    details,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Should be called as a response to $(ref:onSignatureRequested).
+  ///  <p>The extension must eventually call this function for every
+  ///  $(ref:onSignatureRequested) event; the API implementation will stop
+  ///  waiting for this call after some time and respond with a timeout
+  ///  error when this function is called.</p>
+  void reportSignature(
+    details,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  This event fires if the certificates set via $(ref:setCertificates)
+  ///  are insufficient or the browser requests updated information. The
+  ///  extension must call $(ref:setCertificates) with the updated list of
+  ///  certificates and the received `certificatesRequestId`.
+  Stream get onCertificatesUpdateRequested => throw UnimplementedError();
+
+  ///  This event fires every time the browser needs to sign a message using a
+  ///  certificate provided by this extension via $(ref:setCertificates).
+  ///  <p>The extension must sign the input data from `request` using
+  ///  the appropriate algorithm and private key and return it by calling
+  ///  $(ref:reportSignature) with the received `signRequestId`.</p>
+  Stream get onSignatureRequested => throw UnimplementedError();
+
+  ///  <p>This event fires every time the browser requests the current list of
+  ///  certificates provided by this extension. The extension must call
+  ///  `reportCallback` exactly once with the current list of
+  ///  certificates.</p>
+  Stream get onCertificatesRequested => throw UnimplementedError();
+
+  ///  This event fires every time the browser needs to sign a message using
+  ///  a certificate provided by this extension in reply to an
+  ///  $(ref:onCertificatesRequested) event.
+  ///  The extension must sign the data in `request` using the
+  ///  appropriate algorithm and private key and return it by calling
+  ///  `reportCallback`. `reportCallback` must be called
+  ///  exactly once.
+  ///  |request|: Contains the details about the sign request.
+  Stream get onSignDigestRequested => throw UnimplementedError();
 }
 
 ///  Types of supported cryptographic signature algorithms.

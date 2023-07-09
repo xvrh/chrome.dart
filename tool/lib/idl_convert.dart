@@ -1,9 +1,42 @@
 import 'chrome_model.dart';
+import 'idl_model.dart';
 import 'idl_parser.dart';
 
 ChromeApi loadIdlModel(String content) {
   var parser = ChromeIDLParser();
   var namespace = parser.namespaceDeclaration.parse(content).value;
+
+  var dictionaries = <Dictionary>[];
+  for (var t in namespace.typeDeclarations) {
+    var properties = <Property>[];
+    for (var m in t.members) {
+      var p = Property(m.name,
+          type: _propertyType(m.type),
+          optional: m.isOptional,
+          documentation: _toDocumentation(m.documentation));
+      properties.add(p);
+    }
+
+    var methods = <Method>[];
+    for (var m in t.methods) {
+      var method = Method(m.name,
+          parameters: m.parameters
+              .map((p) => Property(p.name,
+                  type: _propertyType(p.type),
+                  optional: p.isOptional,
+                  documentation: ''))
+              .toList(),
+          documentation: _toDocumentation(m.documentation));
+      methods.add(method);
+    }
+
+    var dict = Dictionary(t.name,
+        properties: properties,
+        methods: methods,
+        documentation: _toDocumentation(t.documentation));
+    dictionaries.add(dict);
+  }
+
   return ChromeApi(
     name: namespace.name,
     events: namespace.eventDeclaration?.methods
@@ -15,26 +48,17 @@ ChromeApi loadIdlModel(String content) {
     functions: namespace.functionDeclaration?.methods
             .map((f) => Method(f.name,
                 parameters: f.parameters
-                    .map((p) => Property(p.name,
-                        typeName: p.type.name,
-                        optional: p.isOptional,
-                        documentation: '',
-                        isArray: p.type.isArray))
+                    .map((p) => Property(
+                          p.name,
+                          type: _propertyType(p.type),
+                          optional: p.isOptional,
+                          documentation: '',
+                        ))
                     .toList(),
                 documentation: _toDocumentation(f.documentation)))
             .toList() ??
         [],
-    dictionaries: namespace.typeDeclarations
-        .map((t) => Dictionary(t.name,
-            properties: t.members
-                .map((m) => Property(m.name,
-                    typeName: m.type.name,
-                    isArray: m.type.isArray,
-                    optional: m.isOptional,
-                    documentation: _toDocumentation(m.documentation)))
-                .toList(),
-            documentation: _toDocumentation(t.documentation)))
-        .toList(),
+    dictionaries: dictionaries,
     enumerations: namespace.enumDeclarations
         .map((e) => Enumeration(
               e.name,
@@ -47,6 +71,11 @@ ChromeApi loadIdlModel(String content) {
             ))
         .toList(),
   );
+}
+
+TypeRef _propertyType(IDLType type) {
+  var typeName = type.name;
+  return TypeRef(typeName, isArray: type.isArray);
 }
 
 //TODO(xha): keep the raw documentation and now re-wrap it in code-generation

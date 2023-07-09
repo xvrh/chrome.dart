@@ -9,4 +9,7 @@ extension ChromeChromeFileBrowserHandlerExtension on Chrome {
 
 class ChromeFileBrowserHandler {
   ChromeFileBrowserHandler._();
+
+  /// Fired when file system action is executed from ChromeOS file browser.
+  Stream get onExecute => throw UnimplementedError();
 }

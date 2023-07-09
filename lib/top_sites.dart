@@ -9,4 +9,7 @@ extension ChromeChromeTopSitesExtension on Chrome {
 
 class ChromeTopSites {
   ChromeTopSites._();
+
+  /// Gets a list of top sites.
+  void get() => throw UnimplementedError();
 }

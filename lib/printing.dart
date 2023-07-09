@@ -9,6 +9,43 @@ extension ChromeChromePrintingExtension on Chrome {
 
 class ChromePrinting {
   ChromePrinting._();
+
+  ///  Submits the job for print.
+  ///  If the extension is not listed in PrintingAPIExtensionsAllowlist policy,
+  ///  the user will be prompted to accept the print job.
+  void submitJob(
+    request,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Cancels previously submitted job.
+  ///  |jobId|: The id of the print job to cancel. This should be the same id
+  ///  received in a $(ref:SubmitJobResponse).
+  void cancelJob(
+    jobId,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Returns the list of available printers on the device. This includes
+  ///  manually added, enterprise and discovered printers.
+  void getPrinters(callback) => throw UnimplementedError();
+
+  ///  Returns the status and capabilities of the printer in
+  ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
+  ///  CDD format</a>.
+  ///  This call will fail with a runtime error if no printers with given id are
+  ///  installed.
+  void getPrinterInfo(
+    printerId,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  ///  Event fired when the status of the job is changed.
+  ///  This is only fired for the jobs created by this extension.
+  Stream get onJobStatusChanged => throw UnimplementedError();
 }
 
 ///  The status of $(ref:submitJob) request.

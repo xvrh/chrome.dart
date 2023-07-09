@@ -27,13 +27,13 @@ typedef Disposition = JSString;
 @staticInterop
 class QueryInfo {
   ///  String to query with the default search provider.
-  external JSAny get text;
+  external String get text;
 
   ///  Location where search results should be displayed.
   ///  `CURRENT_TAB` is the default.
-  external JSAny? get disposition;
+  external Disposition? get disposition;
 
   ///  Location where search results should be displayed.
   ///  `tabId` cannot be used with `disposition`.
-  external JSAny? get tabId;
+  external int? get tabId;
 }

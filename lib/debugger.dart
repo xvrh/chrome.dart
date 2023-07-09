@@ -9,6 +9,35 @@ extension ChromeChromeDebuggerExtension on Chrome {
 
 class ChromeDebugger {
   ChromeDebugger._();
+
+  /// Attaches debugger to the given target.
+  void attach(
+    target,
+    requiredVersion,
+  ) =>
+      throw UnimplementedError();
+
+  /// Detaches debugger from the given target.
+  void detach(target) => throw UnimplementedError();
+
+  /// Sends given command to the debugging target.
+  void sendCommand(
+    target,
+    method,
+    commandParams,
+  ) =>
+      throw UnimplementedError();
+
+  /// Returns the list of available debug targets.
+  void getTargets() => throw UnimplementedError();
+
+  /// Fired whenever debugging target issues instrumentation event.
+  Stream get onEvent => throw UnimplementedError();
+
+  /// Fired when browser terminates debugging session for the tab. This happens
+  /// when either the tab is being closed or Chrome DevTools is being invoked
+  /// for the attached tab.
+  Stream get onDetach => throw UnimplementedError();
 }
 
 /// Target type.

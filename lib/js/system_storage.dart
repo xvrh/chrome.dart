@@ -50,24 +50,24 @@ class StorageUnitInfo {
   ///  This ID will be persistent within the same run of a single application.
   ///  It will not be a persistent identifier between different runs of an
   ///  application, or between different applications.
-  external JSAny get id;
+  external String get id;
 
   ///  The name of the storage unit.
-  external JSAny get name;
+  external String get name;
 
   ///  The media type of the storage unit.
-  external JSAny get type;
+  external StorageUnitType get type;
 
   ///  The total amount of the storage space, in bytes.
-  external JSAny get capacity;
+  external double get capacity;
 }
 
 @JS()
 @staticInterop
 class StorageAvailableCapacityInfo {
   ///  A copied |id| of getAvailableCapacity function parameter |id|.
-  external JSAny get id;
+  external String get id;
 
   ///  The available capacity of the storage device, in bytes.
-  external JSAny get availableCapacity;
+  external double get availableCapacity;
 }

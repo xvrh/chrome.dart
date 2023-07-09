@@ -20,8 +20,8 @@ extension JSSystemMemoryExtension on JSSystemMemory {
 @staticInterop
 class MemoryInfo {
   ///  The total amount of physical memory capacity, in bytes.
-  external JSAny get capacity;
+  external double get capacity;
 
   ///  The amount of available capacity, in bytes.
-  external JSAny get availableCapacity;
+  external double get availableCapacity;
 }

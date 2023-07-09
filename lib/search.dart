@@ -9,6 +9,15 @@ extension ChromeChromeSearchExtension on Chrome {
 
 class ChromeSearch {
   ChromeSearch._();
+
+  ///  Used to query the default search provider.
+  ///  In case of an error,
+  ///  $(ref:runtime.lastError) will be set.
+  void query(
+    queryInfo,
+    callback,
+  ) =>
+      throw UnimplementedError();
 }
 
 enum Disposition {

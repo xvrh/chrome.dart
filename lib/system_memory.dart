@@ -9,4 +9,7 @@ extension ChromeChromeSystemMemoryExtension on Chrome {
 
 class ChromeSystemMemory {
   ChromeSystemMemory._();
+
+  ///  Get physical memory information.
+  void getInfo(callback) => throw UnimplementedError();
 }

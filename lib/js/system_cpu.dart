@@ -20,37 +20,37 @@ extension JSSystemCpuExtension on JSSystemCpu {
 @staticInterop
 class CpuTime {
   ///  The cumulative time used by userspace programs on this processor.
-  external JSAny get user;
+  external double get user;
 
   ///  The cumulative time used by kernel programs on this processor.
-  external JSAny get kernel;
+  external double get kernel;
 
   ///  The cumulative time spent idle by this processor.
-  external JSAny get idle;
+  external double get idle;
 
   ///  The total cumulative time for this processor.  This value is equal to
   ///  user + kernel + idle.
-  external JSAny get total;
+  external double get total;
 }
 
 @JS()
 @staticInterop
 class ProcessorInfo {
   ///  Cumulative usage info for this logical processor.
-  external JSAny get usage;
+  external CpuTime get usage;
 }
 
 @JS()
 @staticInterop
 class CpuInfo {
   ///  The number of logical processors.
-  external JSAny get numOfProcessors;
+  external int get numOfProcessors;
 
   ///  The architecture name of the processors.
-  external JSAny get archName;
+  external String get archName;
 
   ///  The model name of the processors.
-  external JSAny get modelName;
+  external String get modelName;
 
   ///  A set of feature codes indicating some of the processor's capabilities.
   ///  The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",

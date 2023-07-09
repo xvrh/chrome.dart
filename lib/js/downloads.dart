@@ -248,10 +248,10 @@ typedef State = JSString;
 @staticInterop
 class HeaderNameValuePair {
   ///  Name of the HTTP header.
-  external JSAny get name;
+  external String get name;
 
   ///  Value of the HTTP header.
-  external JSAny get value;
+  external String get value;
 }
 
 @JS()
@@ -264,17 +264,17 @@ class FilenameSuggestion {
   ///  back-references ".." will be ignored. `filename` is ignored if
   ///  there are any $(ref:onDeterminingFilename) listeners registered by any
   ///  extensions.
-  external JSAny get filename;
+  external String get filename;
 
   ///  The action to take if `filename` already exists.
-  external JSAny? get conflictAction;
+  external FilenameConflictAction? get conflictAction;
 }
 
 @JS()
 @staticInterop
 class DownloadOptions {
   ///  The URL to download.
-  external JSAny get url;
+  external String get url;
 
   ///  A file path relative to the Downloads directory to contain the downloaded
   ///  file, possibly containing subdirectories. Absolute paths, empty paths,
@@ -282,17 +282,17 @@ class DownloadOptions {
   ///  $(ref:onDeterminingFilename) allows suggesting a filename after the
   /// file's
   ///  MIME type and a tentative filename have been determined.
-  external JSAny? get filename;
+  external String? get filename;
 
   ///  The action to take if `filename` already exists.
-  external JSAny? get conflictAction;
+  external FilenameConflictAction? get conflictAction;
 
   ///  Use a file-chooser to allow the user to select a filename regardless of
   ///  whether `filename` is set or already exists.
-  external JSAny? get saveAs;
+  external bool? get saveAs;
 
   ///  The HTTP method to use if the URL uses the HTTP[S] protocol.
-  external JSAny? get method;
+  external HttpMethod? get method;
 
   ///  Extra HTTP headers to send with the request if the URL uses the HTTP[s]
   ///  protocol. Each header is represented as a dictionary containing the keys
@@ -301,69 +301,69 @@ class DownloadOptions {
   external JSArray? get headers;
 
   ///  Post body.
-  external JSAny? get body;
+  external String? get body;
 }
 
 @JS()
 @staticInterop
 class DownloadItem {
   ///  An identifier that is persistent across browser sessions.
-  external JSAny get id;
+  external int get id;
 
   ///  The absolute URL that this download initiated from, before any
   ///  redirects.
-  external JSAny get url;
+  external String get url;
 
   ///  The absolute URL that this download is being made from, after all
   ///  redirects.
-  external JSAny get finalUrl;
+  external String get finalUrl;
 
   ///  Absolute URL.
-  external JSAny get referrer;
+  external String get referrer;
 
   ///  Absolute local path.
-  external JSAny get filename;
+  external String get filename;
 
   ///  False if this download is recorded in the history, true if it is not
   ///  recorded.
-  external JSAny get incognito;
+  external bool get incognito;
 
   ///  Indication of whether this download is thought to be safe or known to be
   ///  suspicious.
-  external JSAny get danger;
+  external DangerType get danger;
 
   ///  The file's MIME type.
-  external JSAny get mime;
+  external String get mime;
 
   ///  The time when the download began in ISO 8601 format. May be passed
   ///  directly to the Date constructor: `chrome.downloads.search({},
   ///  function(items){items.forEach(function(item){console.log(new
   ///  Date(item.startTime))})})`
-  external JSAny get startTime;
+  external String get startTime;
 
   ///  The time when the download ended in ISO 8601 format. May be passed
   ///  directly to the Date constructor: `chrome.downloads.search({},
   ///  function(items){items.forEach(function(item){if (item.endTime)
   ///  console.log(new Date(item.endTime))})})`
-  external JSAny? get endTime;
+  external String? get endTime;
 
   ///  Estimated time when the download will complete in ISO 8601 format. May be
   ///  passed directly to the Date constructor:
   ///  `chrome.downloads.search({},
   ///  function(items){items.forEach(function(item){if (item.estimatedEndTime)
   ///  console.log(new Date(item.estimatedEndTime))})})`
-  external JSAny? get estimatedEndTime;
+  external String? get estimatedEndTime;
 
   ///  Indicates whether the download is progressing, interrupted, or complete.
-  external JSAny get state;
+  external State get state;
 
   ///  True if the download has stopped reading data from the host, but kept the
   ///  connection open.
-  external JSAny get paused;
+  external bool get paused;
 
   ///  True if the download is in progress and paused, or else if it is
   ///  interrupted and can be resumed starting from where it was interrupted.
-  external JSAny get canResume;
+  external bool get canResume;
 
   ///  Why the download was interrupted. Several kinds of HTTP errors may be
   ///  grouped under one of the errors beginning with `SERVER_`.
@@ -371,18 +371,18 @@ class DownloadItem {
   ///  relating to the process of writing the file to the file system begin with
   ///  `FILE_`, and interruptions initiated by the user begin with
   ///  `USER_`.
-  external JSAny? get error;
+  external InterruptReason? get error;
 
   ///  Number of bytes received so far from the host, without considering file
   ///  compression.
-  external JSAny get bytesReceived;
+  external double get bytesReceived;
 
   ///  Number of bytes in the whole file, without considering file compression,
   ///  or -1 if unknown.
-  external JSAny get totalBytes;
+  external double get totalBytes;
 
   ///  Number of bytes in the whole file post-decompression, or -1 if unknown.
-  external JSAny get fileSize;
+  external double get fileSize;
 
   ///  Whether the downloaded file still exists. This information may be out of
   ///  date because Chrome does not automatically watch for file removal. Call
@@ -395,16 +395,16 @@ class DownloadItem {
   ///  $(ref:search)() may be called as often as necessary, but will not check
   /// for
   ///  file existence any more frequently than once every 10 seconds.
-  external JSAny get exists;
+  external bool get exists;
 
   ///  The identifier for the extension that initiated this download if this
   ///  download was initiated by an extension. Does not change once it is set.
-  external JSAny? get byExtensionId;
+  external String? get byExtensionId;
 
   ///  The localized name of the extension that initiated this download if this
   ///  download was initiated by an extension. May change if the extension
   ///  changes its name or if the user changes their locale.
-  external JSAny? get byExtensionName;
+  external String? get byExtensionName;
 }
 
 @JS()
@@ -418,46 +418,46 @@ class DownloadQuery {
 
   ///  Limits results to $(ref:DownloadItem) that
   ///  started before the given ms since the epoch.
-  external JSAny? get startedBefore;
+  external String? get startedBefore;
 
   ///  Limits results to $(ref:DownloadItem) that
   ///  started after the given ms since the epoch.
-  external JSAny? get startedAfter;
+  external String? get startedAfter;
 
   ///  Limits results to $(ref:DownloadItem) that ended before the given ms
   /// since the
   ///  epoch.
-  external JSAny? get endedBefore;
+  external String? get endedBefore;
 
   ///  Limits results to $(ref:DownloadItem) that ended after the given ms since
   /// the
   ///  epoch.
-  external JSAny? get endedAfter;
+  external String? get endedAfter;
 
   ///  Limits results to $(ref:DownloadItem) whose
   ///  `totalBytes` is greater than the given integer.
-  external JSAny? get totalBytesGreater;
+  external double? get totalBytesGreater;
 
   ///  Limits results to $(ref:DownloadItem) whose
   ///  `totalBytes` is less than the given integer.
-  external JSAny? get totalBytesLess;
+  external double? get totalBytesLess;
 
   ///  Limits results to $(ref:DownloadItem) whose
   ///  `filename` matches the given regular expression.
-  external JSAny? get filenameRegex;
+  external String? get filenameRegex;
 
   ///  Limits results to $(ref:DownloadItem) whose
   ///  `url` matches the given regular expression.
-  external JSAny? get urlRegex;
+  external String? get urlRegex;
 
   ///  Limits results to $(ref:DownloadItem) whose
   ///  `finalUrl` matches the given regular expression.
-  external JSAny? get finalUrlRegex;
+  external String? get finalUrlRegex;
 
   ///  The maximum number of matching $(ref:DownloadItem) returned. Defaults to
   ///  1000. Set to 0 in order to return all matching $(ref:DownloadItem). See
   ///  $(ref:search) for how to page through results.
-  external JSAny? get limit;
+  external int? get limit;
 
   ///  Set elements of this array to $(ref:DownloadItem) properties in order to
   ///  sort search results. For example, setting
@@ -467,79 +467,79 @@ class DownloadQuery {
   external JSArray? get orderBy;
 
   ///  The `id` of the $(ref:DownloadItem) to query.
-  external JSAny? get id;
+  external int? get id;
 
   ///  The absolute URL that this download initiated from, before any
   ///  redirects.
-  external JSAny? get url;
+  external String? get url;
 
   ///  The absolute URL that this download is being made from, after all
   ///  redirects.
-  external JSAny? get finalUrl;
+  external String? get finalUrl;
 
   ///  Absolute local path.
-  external JSAny? get filename;
+  external String? get filename;
 
   ///  Indication of whether this download is thought to be safe or known to be
   ///  suspicious.
-  external JSAny? get danger;
+  external DangerType? get danger;
 
   ///  The file's MIME type.
-  external JSAny? get mime;
+  external String? get mime;
 
   ///  The time when the download began in ISO 8601 format.
-  external JSAny? get startTime;
+  external String? get startTime;
 
   ///  The time when the download ended in ISO 8601 format.
-  external JSAny? get endTime;
+  external String? get endTime;
 
   ///  Indicates whether the download is progressing, interrupted, or complete.
-  external JSAny? get state;
+  external State? get state;
 
   ///  True if the download has stopped reading data from the host, but kept the
   ///  connection open.
-  external JSAny? get paused;
+  external bool? get paused;
 
   ///  Why a download was interrupted.
-  external JSAny? get error;
+  external InterruptReason? get error;
 
   ///  Number of bytes received so far from the host, without considering file
   ///  compression.
-  external JSAny? get bytesReceived;
+  external double? get bytesReceived;
 
   ///  Number of bytes in the whole file, without considering file compression,
   ///  or -1 if unknown.
-  external JSAny? get totalBytes;
+  external double? get totalBytes;
 
   ///  Number of bytes in the whole file post-decompression, or -1 if unknown.
-  external JSAny? get fileSize;
+  external double? get fileSize;
 
   ///  Whether the downloaded file exists;
-  external JSAny? get exists;
+  external bool? get exists;
 }
 
 @JS()
 @staticInterop
 class StringDelta {
-  external JSAny? get previous;
+  external String? get previous;
 
-  external JSAny? get current;
+  external String? get current;
 }
 
 @JS()
 @staticInterop
 class DoubleDelta {
-  external JSAny? get previous;
+  external double? get previous;
 
-  external JSAny? get current;
+  external double? get current;
 }
 
 @JS()
 @staticInterop
 class BooleanDelta {
-  external JSAny? get previous;
+  external bool? get previous;
 
-  external JSAny? get current;
+  external bool? get current;
 }
 
 @JS()
@@ -547,49 +547,49 @@ class BooleanDelta {
 class DownloadDelta {
   ///  The `id` of the $(ref:DownloadItem)
   ///  that changed.
-  external JSAny get id;
+  external int get id;
 
   ///  The change in `url`, if any.
-  external JSAny? get url;
+  external StringDelta? get url;
 
   ///  The change in `finalUrl`, if any.
-  external JSAny? get finalUrl;
+  external StringDelta? get finalUrl;
 
   ///  The change in `filename`, if any.
-  external JSAny? get filename;
+  external StringDelta? get filename;
 
   ///  The change in `danger`, if any.
-  external JSAny? get danger;
+  external StringDelta? get danger;
 
   ///  The change in `mime`, if any.
-  external JSAny? get mime;
+  external StringDelta? get mime;
 
   ///  The change in `startTime`, if any.
-  external JSAny? get startTime;
+  external StringDelta? get startTime;
 
   ///  The change in `endTime`, if any.
-  external JSAny? get endTime;
+  external StringDelta? get endTime;
 
   ///  The change in `state`, if any.
-  external JSAny? get state;
+  external StringDelta? get state;
 
   ///  The change in `canResume`, if any.
-  external JSAny? get canResume;
+  external BooleanDelta? get canResume;
 
   ///  The change in `paused`, if any.
-  external JSAny? get paused;
+  external BooleanDelta? get paused;
 
   ///  The change in `error`, if any.
-  external JSAny? get error;
+  external StringDelta? get error;
 
   ///  The change in `totalBytes`, if any.
-  external JSAny? get totalBytes;
+  external DoubleDelta? get totalBytes;
 
   ///  The change in `fileSize`, if any.
-  external JSAny? get fileSize;
+  external DoubleDelta? get fileSize;
 
   ///  The change in `exists`, if any.
-  external JSAny? get exists;
+  external BooleanDelta? get exists;
 }
 
 @JS()
@@ -599,12 +599,12 @@ class GetFileIconOptions {
   ///  size * size pixels. The default and largest size for the icon is 32x32
   ///  pixels. The only supported sizes are 16 and 32. It is an error to specify
   ///  any other size.
-  external JSAny? get size;
+  external int? get size;
 }
 
 @JS()
 @staticInterop
 class UiOptions {
   ///  Enable or disable the download UI.
-  external JSAny get enabled;
+  external bool get enabled;
 }

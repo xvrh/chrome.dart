@@ -66,51 +66,51 @@ typedef OnChangedCause = JSString;
 @staticInterop
 class Cookie {
   /// The name of the cookie.
-  external JSAny get name;
+  external String get name;
 
   /// The value of the cookie.
-  external JSAny get value;
+  external String get value;
 
   /// The domain of the cookie (e.g. "www.google.com", "example.com").
-  external JSAny get domain;
+  external String get domain;
 
   /// True if the cookie is a host-only cookie (i.e. a request's host must
   /// exactly match the domain of the cookie).
-  external JSAny get hostOnly;
+  external bool get hostOnly;
 
   /// The path of the cookie.
-  external JSAny get path;
+  external String get path;
 
   /// True if the cookie is marked as Secure (i.e. its scope is limited to
   /// secure channels, typically HTTPS).
-  external JSAny get secure;
+  external bool get secure;
 
   /// True if the cookie is marked as HttpOnly (i.e. the cookie is inaccessible
   /// to client-side scripts).
-  external JSAny get httpOnly;
+  external bool get httpOnly;
 
   /// The cookie's same-site status (i.e. whether the cookie is sent with
   /// cross-site requests).
-  external JSAny get sameSite;
+  external SameSiteStatus get sameSite;
 
   /// True if the cookie is a session cookie, as opposed to a persistent cookie
   /// with an expiration date.
-  external JSAny get session;
+  external bool get session;
 
   /// The expiration date of the cookie as the number of seconds since the UNIX
   /// epoch. Not provided for session cookies.
-  external JSAny? get expirationDate;
+  external num? get expirationDate;
 
   /// The ID of the cookie store containing this cookie, as provided in
   /// getAllCookieStores().
-  external JSAny get storeId;
+  external String get storeId;
 }
 
 @JS()
 @staticInterop
 class CookieStore {
   /// The unique identifier for the cookie store.
-  external JSAny get id;
+  external String get id;
 
   /// Identifiers of all the browser tabs that share this cookie store.
   external JSArray get tabIds;
@@ -123,12 +123,12 @@ class CookieDetails {
   /// be a full URL, in which case any data following the URL path (e.g. the
   /// query string) is simply ignored. If host permissions for this URL are not
   /// specified in the manifest file, the API call will fail.
-  external JSAny get url;
+  external String get url;
 
   /// The name of the cookie to access.
-  external JSAny get name;
+  external String get name;
 
   /// The ID of the cookie store in which to look for the cookie. By default,
   /// the current execution context's cookie store will be used.
-  external JSAny? get storeId;
+  external String? get storeId;
 }

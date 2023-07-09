@@ -48,5 +48,5 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
 @staticInterop
 class Resource {
   /// The URL of the resource.
-  external JSAny get url;
+  external String get url;
 }

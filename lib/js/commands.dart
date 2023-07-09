@@ -26,11 +26,11 @@ extension JSCommandsExtension on JSCommands {
 @staticInterop
 class Command {
   /// The name of the Extension Command
-  external JSAny? get name;
+  external String? get name;
 
   /// The Extension Command description
-  external JSAny? get description;
+  external String? get description;
 
   /// The shortcut active for this command, or blank if not active.
-  external JSAny? get shortcut;
+  external String? get shortcut;
 }

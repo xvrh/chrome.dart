@@ -9,6 +9,9 @@ extension ChromeChromeProxyExtension on Chrome {
 
 class ChromeProxy {
   ChromeProxy._();
+
+  /// Notifies about proxy errors.
+  Stream get onProxyError => throw UnimplementedError();
 }
 
 enum Scheme {

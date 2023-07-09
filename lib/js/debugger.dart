@@ -55,41 +55,41 @@ typedef DetachReason = JSString;
 @staticInterop
 class Debuggee {
   /// The id of the tab which you intend to debug.
-  external JSAny? get tabId;
+  external int? get tabId;
 
   /// The id of the extension which you intend to debug. Attaching to an
   /// extension background page is only possible when the
   /// `--silent-debugger-extension-api` command-line switch is used.
-  external JSAny? get extensionId;
+  external String? get extensionId;
 
   /// The opaque id of the debug target.
-  external JSAny? get targetId;
+  external String? get targetId;
 }
 
 @JS()
 @staticInterop
 class TargetInfo {
   /// Target type.
-  external JSAny get type;
+  external TargetInfoType get type;
 
   /// Target id.
-  external JSAny get id;
+  external String get id;
 
   /// The tab id, defined if type == 'page'.
-  external JSAny? get tabId;
+  external int? get tabId;
 
   /// The extension id, defined if type = 'background_page'.
-  external JSAny? get extensionId;
+  external String? get extensionId;
 
   /// True if debugger is already attached.
-  external JSAny get attached;
+  external bool get attached;
 
   /// Target page title.
-  external JSAny get title;
+  external String get title;
 
   /// Target URL.
-  external JSAny get url;
+  external String get url;
 
   /// Target favicon URL.
-  external JSAny? get faviconUrl;
+  external String? get faviconUrl;
 }

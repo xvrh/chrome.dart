@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeNetRequestExtension on JSChrome {
@@ -210,25 +211,25 @@ typedef UnsupportedRegexReason = JSString;
 class Ruleset {
   ///  A non-empty string uniquely identifying the ruleset. IDs beginning with
   ///  '_' are reserved for internal use.
-  external JSAny get id;
+  external String get id;
 
   ///  The path of the JSON ruleset relative to the extension directory.
-  external JSAny get path;
+  external String get path;
 
   ///  Whether the ruleset is enabled by default.
-  external JSAny get enabled;
+  external bool get enabled;
 }
 
 @JS()
 @staticInterop
 class QueryKeyValue {
-  external JSAny get key;
+  external String get key;
 
-  external JSAny get value;
+  external String get value;
 
   ///  If true, the query key is replaced only if it's already present.
   ///  Otherwise, the key is also added if it's missing. Defaults to false.
-  external JSAny? get replaceOnly;
+  external bool? get replaceOnly;
 }
 
 @JS()
@@ -246,53 +247,53 @@ class QueryTransform {
 class URLTransform {
   ///  The new scheme for the request. Allowed values are "http", "https",
   ///  "ftp" and "chrome-extension".
-  external JSAny? get scheme;
+  external String? get scheme;
 
   ///  The new host for the request.
-  external JSAny? get host;
+  external String? get host;
 
   ///  The new port for the request. If empty, the existing port is cleared.
-  external JSAny? get port;
+  external String? get port;
 
   ///  The new path for the request. If empty, the existing path is cleared.
-  external JSAny? get path;
+  external String? get path;
 
   ///  The new query for the request. Should be either empty, in which case the
   ///  existing query is cleared; or should begin with '?'.
-  external JSAny? get query;
+  external String? get query;
 
   ///  Add, remove or replace query key-value pairs.
-  external JSAny? get queryTransform;
+  external QueryTransform? get queryTransform;
 
   ///  The new fragment for the request. Should be either empty, in which case
   ///  the existing fragment is cleared; or should begin with '#'.
-  external JSAny? get fragment;
+  external String? get fragment;
 
   ///  The new username for the request.
-  external JSAny? get username;
+  external String? get username;
 
   ///  The new password for the request.
-  external JSAny? get password;
+  external String? get password;
 }
 
 @JS()
 @staticInterop
 class Redirect {
   ///  Path relative to the extension directory. Should start with '/'.
-  external JSAny? get extensionPath;
+  external String? get extensionPath;
 
   ///  Url transformations to perform.
-  external JSAny? get transform;
+  external URLTransform? get transform;
 
   ///  The redirect url. Redirects to JavaScript urls are not allowed.
-  external JSAny? get url;
+  external String? get url;
 
   ///  Substitution pattern for rules which specify a `regexFilter`.
   ///  The first match of `regexFilter` within the url will be
   ///  replaced with this pattern. Within `regexSubstitution`,
   ///  backslash-escaped digits (\1 to \9) can be used to insert the
   ///  corresponding capture groups. \0 refers to the entire matching text.
-  external JSAny? get regexSubstitution;
+  external String? get regexSubstitution;
 }
 
 @JS()
@@ -334,7 +335,7 @@ class RuleCondition {
   ///  http://abc.&#x0440;&#x0444;?q=&#x0444;, the
   ///  `urlFilter` will be matched against the url
   ///  http://abc.xn--p1ai/?q=%D1%84.
-  external JSAny? get urlFilter;
+  external String? get urlFilter;
 
   ///  Regular expression to match against the network request url. This follows
   ///  the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
@@ -346,11 +347,11 @@ class RuleCondition {
   ///  characters. This is matched against a url where the host is encoded in
   ///  the punycode format (in case of internationalized domains) and any other
   ///  non-ascii characters are url encoded in utf-8.
-  external JSAny? get regexFilter;
+  external String? get regexFilter;
 
   ///  Whether the `urlFilter` or `regexFilter`
   ///  (whichever is specified) is case sensitive. Default is true.
-  external JSAny? get isUrlFilterCaseSensitive;
+  external bool? get isUrlFilterCaseSensitive;
 
   ///  The rule will only match network requests originating from the list of
   ///  `initiatorDomains`. If the list is omitted, the rule is
@@ -452,7 +453,7 @@ class RuleCondition {
   ///  Specifies whether the network request is first-party or third-party to
   ///  the domain from which it originated. If omitted, all requests are
   ///  accepted.
-  external JSAny? get domainType;
+  external DomainType? get domainType;
 
   ///  List of $(ref:tabs.Tab.id) which the rule should match. An ID of
   ///  $(ref:tabs.TAB_ID_NONE) matches requests which don't originate from a
@@ -470,25 +471,25 @@ class RuleCondition {
 @staticInterop
 class ModifyHeaderInfo {
   ///  The name of the header to be modified.
-  external JSAny get header;
+  external String get header;
 
   ///  The operation to be performed on a header.
-  external JSAny get operation;
+  external HeaderOperation get operation;
 
   ///  The new value for the header. Must be specified for `append`
   ///  and `set` operations.
-  external JSAny? get value;
+  external String? get value;
 }
 
 @JS()
 @staticInterop
 class RuleAction {
   ///  The type of action to perform.
-  external JSAny get type;
+  external RuleActionType get type;
 
   ///  Describes how the redirect should be performed. Only valid for redirect
   ///  rules.
-  external JSAny? get redirect;
+  external Redirect? get redirect;
 
   ///  The request headers to modify for the request. Only valid if
   ///  RuleActionType is "modifyHeaders".
@@ -503,28 +504,28 @@ class RuleAction {
 @staticInterop
 class Rule {
   ///  An id which uniquely identifies a rule. Mandatory and should be >= 1.
-  external JSAny get id;
+  external int get id;
 
   ///  Rule priority. Defaults to 1. When specified, should be >= 1.
-  external JSAny? get priority;
+  external int? get priority;
 
   ///  The condition under which this rule is triggered.
-  external JSAny get condition;
+  external RuleCondition get condition;
 
   ///  The action to take if this rule is matched.
-  external JSAny get action;
+  external RuleAction get action;
 }
 
 @JS()
 @staticInterop
 class MatchedRule {
   ///  A matching rule's ID.
-  external JSAny get ruleId;
+  external int get ruleId;
 
   ///  ID of the $(ref:Ruleset) this rule belongs to. For a rule originating
   ///  from the set of dynamic rules, this will be equal to
   ///  $(ref:DYNAMIC_RULESET_ID).
-  external JSAny get rulesetId;
+  external String get rulesetId;
 }
 
 @JS()
@@ -537,16 +538,16 @@ class GetRulesFilter {
 @JS()
 @staticInterop
 class MatchedRuleInfo {
-  external JSAny get rule;
+  external MatchedRule get rule;
 
   ///  The time the rule was matched. Timestamps will correspond to the
   ///  Javascript convention for times, i.e. number of milliseconds since the
   ///  epoch.
-  external JSAny get timeStamp;
+  external double get timeStamp;
 
   ///  The tabId of the tab from which the request originated if the tab is
   ///  still active. Else -1.
-  external JSAny get tabId;
+  external int get tabId;
 }
 
 @JS()
@@ -554,10 +555,10 @@ class MatchedRuleInfo {
 class MatchedRulesFilter {
   ///  If specified, only matches rules for the given tab. Matches rules not
   ///  associated with any active tab if set to -1.
-  external JSAny? get tabId;
+  external int? get tabId;
 
   ///  If specified, only matches rules after the given timestamp.
-  external JSAny? get minTimeStamp;
+  external double? get minTimeStamp;
 }
 
 @JS()
@@ -571,17 +572,17 @@ class RulesMatchedDetails {
 @staticInterop
 class RequestDetails {
   ///  The ID of the request. Request IDs are unique within a browser session.
-  external JSAny get requestId;
+  external String get requestId;
 
   ///  The URL of the request.
-  external JSAny get url;
+  external String get url;
 
   ///  The origin where the request was initiated. This does not change through
   ///  redirects. If this is an opaque origin, the string 'null' will be used.
-  external JSAny? get initiator;
+  external String? get initiator;
 
   ///  Standard HTTP method.
-  external JSAny get method;
+  external String get method;
 
   ///  The value 0 indicates that the request happens in the main frame; a
   ///  positive value indicates the ID of a subframe in which the request
@@ -589,64 +590,64 @@ class RequestDetails {
   ///  `main_frame` or `sub_frame`), `frameId`
   ///  indicates the ID of this frame, not the ID of the outer frame. Frame IDs
   ///  are unique within a tab.
-  external JSAny get frameId;
+  external int get frameId;
 
   ///  The unique identifier for the frame's document, if this request is for a
   ///  frame.
-  external JSAny? get documentId;
+  external String? get documentId;
 
   ///  The type of the frame, if this request is for a frame.
-  external JSAny? get frameType;
+  external FrameType? get frameType;
 
   ///  The lifecycle of the frame's document, if this request is for a
   ///  frame.
-  external JSAny? get documentLifecycle;
+  external DocumentLifecycle? get documentLifecycle;
 
   ///  ID of frame that wraps the frame which sent the request. Set to -1 if no
   ///  parent frame exists.
-  external JSAny get parentFrameId;
+  external int get parentFrameId;
 
   ///  The unique identifier for the frame's parent document, if this request
   ///  is for a frame and has a parent.
-  external JSAny? get parentDocumentId;
+  external String? get parentDocumentId;
 
   ///  The ID of the tab in which the request takes place. Set to -1 if the
   ///  request isn't related to a tab.
-  external JSAny get tabId;
+  external int get tabId;
 
   ///  The resource type of the request.
-  external JSAny get type;
+  external ResourceType get type;
 }
 
 @JS()
 @staticInterop
 class TestMatchRequestDetails {
   ///  The URL of the hypothetical request.
-  external JSAny get url;
+  external String get url;
 
   ///  The initiator URL (if any) for the hypothetical request.
-  external JSAny? get initiator;
+  external String? get initiator;
 
   ///  Standard HTTP method of the hypothetical request. Defaults to "get" for
   ///  HTTP requests and is ignored for non-HTTP requests.
-  external JSAny? get method;
+  external RequestMethod? get method;
 
   ///  The resource type of the hypothetical request.
-  external JSAny get type;
+  external ResourceType get type;
 
   ///  The ID of the tab in which the hypothetical request takes place. Does
   ///  not need to correspond to a real tab ID. Default is -1, meaning that
   ///  the request isn't related to a tab.
-  external JSAny? get tabId;
+  external int? get tabId;
 }
 
 @JS()
 @staticInterop
 class MatchedRuleInfoDebug {
-  external JSAny get rule;
+  external MatchedRule get rule;
 
   ///  Details about the request for which the rule was matched.
-  external JSAny get request;
+  external RequestDetails get request;
 }
 
 @JS()
@@ -658,33 +659,33 @@ class DNRInfo {
 @JS()
 @staticInterop
 class ManifestKeys {
-  external JSAny get declarative_net_request;
+  external DNRInfo get declarative_net_request;
 }
 
 @JS()
 @staticInterop
 class RegexOptions {
   ///  The regular expresson to check.
-  external JSAny get regex;
+  external String get regex;
 
   ///  Whether the `regex` specified is case sensitive. Default is
   ///  true.
-  external JSAny? get isCaseSensitive;
+  external bool? get isCaseSensitive;
 
   ///  Whether the `regex` specified requires capturing. Capturing is
   ///  only required for redirect rules which specify a
   ///  `regexSubstition` action. The default is false.
-  external JSAny? get requireCapturing;
+  external bool? get requireCapturing;
 }
 
 @JS()
 @staticInterop
 class IsRegexSupportedResult {
-  external JSAny get isSupported;
+  external bool get isSupported;
 
   ///  Specifies the reason why the regular expression is not supported. Only
   ///  provided if `isSupported` is false.
-  external JSAny? get reason;
+  external UnsupportedRegexReason? get reason;
 }
 
 @JS()
@@ -720,7 +721,7 @@ class UpdateRulesetOptions {
 @staticInterop
 class UpdateStaticRulesOptions {
   ///  The id corresponding to a static $(ref:Ruleset).
-  external JSAny get rulesetId;
+  external String get rulesetId;
 
   ///  Set of ids corresponding to rules in the $(ref:Ruleset) to disable.
   external JSArray? get disableRuleIds;
@@ -733,18 +734,18 @@ class UpdateStaticRulesOptions {
 @staticInterop
 class GetDisabledRuleIdsOptions {
   ///  The id corresponding to a static $(ref:Ruleset).
-  external JSAny get rulesetId;
+  external String get rulesetId;
 }
 
 @JS()
 @staticInterop
 class TabActionCountUpdate {
   ///  The tab for which to update the action count.
-  external JSAny get tabId;
+  external int get tabId;
 
   ///  The amount to increment the tab's action count by. Negative values will
   ///  decrement the count.
-  external JSAny get increment;
+  external int get increment;
 }
 
 @JS()
@@ -752,8 +753,8 @@ class TabActionCountUpdate {
 class ExtensionActionOptions {
   ///  Whether to automatically display the action count for a page as the
   ///  extension's badge text. This preference is persisted across sessions.
-  external JSAny? get displayActionCountAsBadgeText;
+  external bool? get displayActionCountAsBadgeText;
 
   ///  Details of how the tab's action count should be adjusted.
-  external JSAny? get tabUpdate;
+  external TabActionCountUpdate? get tabUpdate;
 }

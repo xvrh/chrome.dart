@@ -9,6 +9,19 @@ extension ChromeChromeDesktopCaptureExtension on Chrome {
 
 class ChromeDesktopCapture {
   ChromeDesktopCapture._();
+
+  /// Shows desktop media picker UI with the specified set of sources.
+  void chooseDesktopMedia(
+    sources,
+    targetTab,
+    options,
+    callback,
+  ) =>
+      throw UnimplementedError();
+
+  /// Hides desktop media picker dialog shown by chooseDesktopMedia().
+  void cancelChooseDesktopMedia(desktopMediaRequestId) =>
+      throw UnimplementedError();
 }
 
 /// Enum used to define set of desktop media sources used in

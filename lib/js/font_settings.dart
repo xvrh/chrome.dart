@@ -83,8 +83,8 @@ typedef LevelOfControl = JSString;
 @staticInterop
 class FontName {
   /// The font ID.
-  external JSAny get fontId;
+  external String get fontId;
 
   /// The display name of the font.
-  external JSAny get displayName;
+  external String get displayName;
 }

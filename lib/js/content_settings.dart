@@ -55,10 +55,10 @@ typedef MultipleAutomaticDownloadsContentSetting = JSString;
 @staticInterop
 class ResourceIdentifier {
   /// The resource identifier for the given content type.
-  external JSAny get id;
+  external String get id;
 
   /// A human readable description of the resource.
-  external JSAny? get description;
+  external String? get description;
 }
 
 @JS()

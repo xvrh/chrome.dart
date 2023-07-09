@@ -27,5 +27,5 @@ class FileHandlerExecuteEventDetails {
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a
   /// browser session.
-  external JSAny? get tab_id;
+  external int? get tab_id;
 }

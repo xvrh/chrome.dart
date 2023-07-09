@@ -22,11 +22,11 @@ extension JSSystemNetworkExtension on JSSystemNetwork {
 class NetworkInterface {
   ///  The underlying name of the adapter. On *nix, this will typically be
   ///  "eth0", "wlan0", etc.
-  external JSAny get name;
+  external String get name;
 
   ///  The available IPv4/6 address.
-  external JSAny get address;
+  external String get address;
 
   ///  The prefix length
-  external JSAny get prefixLength;
+  external int get prefixLength;
 }

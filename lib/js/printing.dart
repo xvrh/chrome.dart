@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'printer_provider.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrintingExtension on JSChrome {
@@ -68,22 +69,22 @@ class SubmitJobRequest {
   ///  shouldn't include FitToPageTicketItem, PageRangeTicketItem,
   ///  ReverseOrderTicketItem and VendorTicketItem fields since they are
   ///  irrelevant for native printing. All other fields must be present.
-  external JSAny get job;
+  external PrintJob get job;
 
   ///  Used internally to store the blob uuid after parameter customization and
   ///  shouldn't be populated by the extension.
-  external JSAny? get documentBlobUuid;
+  external String? get documentBlobUuid;
 }
 
 @JS()
 @staticInterop
 class SubmitJobResponse {
   ///  The status of the request.
-  external JSAny get status;
+  external SubmitJobStatus get status;
 
   ///  The id of created print job. This is a unique identifier among all print
   ///  jobs on the device. If status is not OK, jobId will be null.
-  external JSAny? get jobId;
+  external String? get jobId;
 }
 
 @JS()
@@ -91,33 +92,33 @@ class SubmitJobResponse {
 class Printer {
   ///  The printer's identifier; guaranteed to be unique among printers on the
   ///  device.
-  external JSAny get id;
+  external String get id;
 
   ///  The name of the printer.
-  external JSAny get name;
+  external String get name;
 
   ///  The human-readable description of the printer.
-  external JSAny get description;
+  external String get description;
 
   ///  The printer URI. This can be used by extensions to choose the printer for
   ///  the user.
-  external JSAny get uri;
+  external String get uri;
 
   ///  The source of the printer (user or policy configured).
-  external JSAny get source;
+  external PrinterSource get source;
 
   ///  The flag which shows whether the printer fits
   ///  <a
   /// href="https://chromium.org/administrators/policy-list-3#DefaultPrinterSelection">
   ///  DefaultPrinterSelection</a> rules.
   ///  Note that several printers could be flagged.
-  external JSAny get isDefault;
+  external bool get isDefault;
 
   ///  The value showing how recent the printer was used for printing from
   ///  Chrome. The lower the value is the more recent the printer was used. The
   ///  minimum value is 0. Missing value indicates that the printer wasn't used
   ///  recently. This value is guaranteed to be unique amongst printers.
-  external JSAny? get recentlyUsedRank;
+  external int? get recentlyUsedRank;
 }
 
 @JS()
@@ -127,8 +128,8 @@ class GetPrinterInfoResponse {
   ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   ///  CDD format</a>.
   ///  The property may be missing.
-  external JSAny? get capabilities;
+  external JSObject? get capabilities;
 
   ///  The status of the printer.
-  external JSAny get status;
+  external PrinterStatus get status;
 }

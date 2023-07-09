@@ -9,6 +9,57 @@ extension ChromeChromeFontSettingsExtension on Chrome {
 
 class ChromeFontSettings {
   ChromeFontSettings._();
+
+  /// Clears the font set by this extension, if any.
+  void clearFont(details) => throw UnimplementedError();
+
+  /// Gets the font for a given script and generic font family.
+  void getFont(details) => throw UnimplementedError();
+
+  /// Sets the font for a given script and generic font family.
+  void setFont(details) => throw UnimplementedError();
+
+  /// Gets a list of fonts on the system.
+  void getFontList() => throw UnimplementedError();
+
+  /// Clears the default font size set by this extension, if any.
+  void clearDefaultFontSize(details) => throw UnimplementedError();
+
+  /// Gets the default font size.
+  void getDefaultFontSize(details) => throw UnimplementedError();
+
+  /// Sets the default font size.
+  void setDefaultFontSize(details) => throw UnimplementedError();
+
+  /// Clears the default fixed font size set by this extension, if any.
+  void clearDefaultFixedFontSize(details) => throw UnimplementedError();
+
+  /// Gets the default size for fixed width fonts.
+  void getDefaultFixedFontSize(details) => throw UnimplementedError();
+
+  /// Sets the default size for fixed width fonts.
+  void setDefaultFixedFontSize(details) => throw UnimplementedError();
+
+  /// Clears the minimum font size set by this extension, if any.
+  void clearMinimumFontSize(details) => throw UnimplementedError();
+
+  /// Gets the minimum font size.
+  void getMinimumFontSize(details) => throw UnimplementedError();
+
+  /// Sets the minimum font size.
+  void setMinimumFontSize(details) => throw UnimplementedError();
+
+  /// Fired when a font setting changes.
+  Stream get onFontChanged => throw UnimplementedError();
+
+  /// Fired when the default font size setting changes.
+  Stream get onDefaultFontSizeChanged => throw UnimplementedError();
+
+  /// Fired when the default fixed font size setting changes.
+  Stream get onDefaultFixedFontSizeChanged => throw UnimplementedError();
+
+  /// Fired when the minimum font size setting changes.
+  Stream get onMinimumFontSizeChanged => throw UnimplementedError();
 }
 
 /// An ISO 15924 script code. The default, or global, script is represented by

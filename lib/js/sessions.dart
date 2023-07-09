@@ -1,5 +1,7 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'tabs.dart';
+import 'windows.dart';
 export 'chrome.dart';
 
 extension JSChromeJSSessionsExtension on JSChrome {
@@ -34,7 +36,7 @@ class Filter {
   /// The maximum number of entries to be fetched in the requested list. Omit
   /// this parameter to fetch the maximum number of entries
   /// ($(ref:sessions.MAX_SESSION_RESULTS)).
-  external JSAny? get maxResults;
+  external int? get maxResults;
 }
 
 @JS()
@@ -42,24 +44,24 @@ class Filter {
 class Session {
   /// The time when the window or tab was closed or modified, represented in
   /// milliseconds since the epoch.
-  external JSAny get lastModified;
+  external int get lastModified;
 
   /// The $(ref:tabs.Tab), if this entry describes a tab. Either this or
   /// $(ref:sessions.Session.window) will be set.
-  external JSAny? get tab;
+  external Tab? get tab;
 
   /// The $(ref:windows.Window), if this entry describes a window. Either this
   /// or $(ref:sessions.Session.tab) will be set.
-  external JSAny? get window;
+  external Window? get window;
 }
 
 @JS()
 @staticInterop
 class Device {
-  external JSAny get info;
+  external String get info;
 
   /// The name of the foreign device.
-  external JSAny get deviceName;
+  external String get deviceName;
 
   /// A list of open window sessions for the foreign device, sorted from most
   /// recently to least recently modified session.

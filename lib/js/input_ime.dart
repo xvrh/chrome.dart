@@ -151,41 +151,41 @@ typedef AssistiveWindowButton = JSString;
 @staticInterop
 class KeyboardEvent {
   /// One of keyup or keydown.
-  external JSAny get type;
+  external KeyboardEventType get type;
 
   /// (Deprecated) The ID of the request. Use the `requestId` param from the
   /// `onKeyEvent` event instead.
-  external JSAny? get requestId;
+  external String? get requestId;
 
   /// The extension ID of the sender of this keyevent.
-  external JSAny? get extensionId;
+  external String? get extensionId;
 
   /// Value of the key being pressed
-  external JSAny get key;
+  external String get key;
 
   /// Value of the physical key being pressed. The value is not affected by
   /// current keyboard layout or modifier state.
-  external JSAny get code;
+  external String get code;
 
   /// The deprecated HTML keyCode, which is system- and implementation-dependent
   /// numerical code signifying the unmodified identifier associated with the
   /// key pressed.
-  external JSAny? get keyCode;
+  external int? get keyCode;
 
   /// Whether or not the ALT key is pressed.
-  external JSAny? get altKey;
+  external bool? get altKey;
 
   /// Whether or not the ALTGR key is pressed.
-  external JSAny? get altgrKey;
+  external bool? get altgrKey;
 
   /// Whether or not the CTRL key is pressed.
-  external JSAny? get ctrlKey;
+  external bool? get ctrlKey;
 
   /// Whether or not the SHIFT key is pressed.
-  external JSAny? get shiftKey;
+  external bool? get shiftKey;
 
   /// Whether or not the CAPS_LOCK is enabled.
-  external JSAny? get capsLock;
+  external bool? get capsLock;
 }
 
 @JS()
@@ -193,67 +193,67 @@ class KeyboardEvent {
 class InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
-  external JSAny get contextID;
+  external int get contextID;
 
   /// Type of value this text field edits, (Text, Number, URL, etc)
-  external JSAny get type;
+  external InputContextType get type;
 
   /// Whether the text field wants auto-correct.
-  external JSAny get autoCorrect;
+  external bool get autoCorrect;
 
   /// Whether the text field wants auto-complete.
-  external JSAny get autoComplete;
+  external bool get autoComplete;
 
   /// The auto-capitalize type of the text field.
-  external JSAny get autoCapitalize;
+  external AutoCapitalizeType get autoCapitalize;
 
   /// Whether the text field wants spell-check.
-  external JSAny get spellCheck;
+  external bool get spellCheck;
 
   /// Whether text entered into the text field should be used to improve typing
   /// suggestions for the user.
-  external JSAny get shouldDoLearning;
+  external bool get shouldDoLearning;
 }
 
 @JS()
 @staticInterop
 class MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
-  external JSAny get id;
+  external String get id;
 
   /// Text displayed in the menu for this item.
-  external JSAny? get label;
+  external String? get label;
 
   /// The type of menu item.
-  external JSAny? get style;
+  external MenuItemStyle? get style;
 
   /// Indicates this item is visible.
-  external JSAny? get visible;
+  external bool? get visible;
 
   /// Indicates this item should be drawn with a check.
-  external JSAny? get checked;
+  external bool? get checked;
 
   /// Indicates this item is enabled.
-  external JSAny? get enabled;
+  external bool? get enabled;
 }
 
 @JS()
 @staticInterop
 class AssistiveWindowProperties {
-  external JSAny get type;
+  external AssistiveWindowType get type;
 
   /// Sets true to show AssistiveWindow, sets false to hide.
-  external JSAny get visible;
+  external bool get visible;
 
   /// Strings for ChromeVox to announce.
-  external JSAny? get announceString;
+  external String? get announceString;
 }
 
 @JS()
 @staticInterop
 class MenuParameters {
   /// ID of the engine to use.
-  external JSAny get engineID;
+  external String get engineID;
 
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.

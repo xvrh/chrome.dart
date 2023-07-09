@@ -96,37 +96,37 @@ typedef BookmarkTreeNodeUnmodifiable = JSString;
 class BookmarkTreeNode {
   /// The unique identifier for the node. IDs are unique within the current
   /// profile, and they remain valid even after the browser is restarted.
-  external JSAny get id;
+  external String get id;
 
   /// The `id` of the parent folder.  Omitted for the root node.
-  external JSAny? get parentId;
+  external String? get parentId;
 
   /// The 0-based position of this node within its parent folder.
-  external JSAny? get index;
+  external int? get index;
 
   /// The URL navigated to when a user clicks the bookmark. Omitted for folders.
-  external JSAny? get url;
+  external String? get url;
 
   /// The text displayed for the node.
-  external JSAny get title;
+  external String get title;
 
   /// When this node was created, in milliseconds since the epoch (`new
   /// Date(dateAdded)`).
-  external JSAny? get dateAdded;
+  external num? get dateAdded;
 
   /// When this node was last opened, in milliseconds since the epoch. Not set
   /// for folders.
-  external JSAny? get dateLastUsed;
+  external num? get dateLastUsed;
 
   /// When the contents of this folder last changed, in milliseconds since the
   /// epoch.
-  external JSAny? get dateGroupModified;
+  external num? get dateGroupModified;
 
   /// Indicates the reason why this node is unmodifiable. The <var>managed</var>
   /// value indicates that this node was configured by the system administrator
   /// or by the custodian of a supervised user. Omitted if the node can be
   /// modified by the user and the extension (default).
-  external JSAny? get unmodifiable;
+  external BookmarkTreeNodeUnmodifiable? get unmodifiable;
 
   /// An ordered list of children of this node.
   external JSArray? get children;
@@ -136,11 +136,11 @@ class BookmarkTreeNode {
 @staticInterop
 class CreateDetails {
   /// Defaults to the Other Bookmarks folder.
-  external JSAny? get parentId;
+  external String? get parentId;
 
-  external JSAny? get index;
+  external int? get index;
 
-  external JSAny? get title;
+  external String? get title;
 
-  external JSAny? get url;
+  external String? get url;
 }

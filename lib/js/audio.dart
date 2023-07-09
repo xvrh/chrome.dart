@@ -86,28 +86,28 @@ typedef DeviceType = JSString;
 @staticInterop
 class AudioDeviceInfo {
   ///  The unique identifier of the audio device.
-  external JSAny get id;
+  external String get id;
 
   ///  Stream type associated with this device.
-  external JSAny get streamType;
+  external StreamType get streamType;
 
   ///  Type of the device.
-  external JSAny get deviceType;
+  external DeviceType get deviceType;
 
   ///  The user-friendly name (e.g. "USB Microphone").
-  external JSAny get displayName;
+  external String get displayName;
 
   ///  Device name.
-  external JSAny get deviceName;
+  external String get deviceName;
 
   ///  True if this is the current active device.
-  external JSAny get isActive;
+  external bool get isActive;
 
   ///  The sound level of the device, volume for output, gain for input.
-  external JSAny get level;
+  external int get level;
 
   ///  The stable/persisted device id string when available.
-  external JSAny? get stableDeviceId;
+  external String? get stableDeviceId;
 }
 
 @JS()
@@ -119,7 +119,7 @@ class DeviceFilter {
 
   ///  If set, only audio devices whose active state matches this value will
   ///  satisfy the filter.
-  external JSAny? get isActive;
+  external bool? get isActive;
 }
 
 @JS()
@@ -131,7 +131,7 @@ class DeviceProperties {
   ///  </p>
   ///  <p>If used with audio input device, represents audio device gain.</p>
   ///  <p>If used with audio output device, represents audio device volume.</p>
-  external JSAny? get level;
+  external int? get level;
 }
 
 @JS()
@@ -153,18 +153,18 @@ class DeviceIdLists {
 class MuteChangedEvent {
   ///  The type of the stream for which the mute value changed. The updated mute
   ///  value applies to all devices with this stream type.
-  external JSAny get streamType;
+  external StreamType get streamType;
 
   ///  Whether or not the stream is now muted.
-  external JSAny get isMuted;
+  external bool get isMuted;
 }
 
 @JS()
 @staticInterop
 class LevelChangedEvent {
   ///  ID of device whose sound level has changed.
-  external JSAny get deviceId;
+  external String get deviceId;
 
   ///  The device's new sound level.
-  external JSAny get level;
+  external int get level;
 }

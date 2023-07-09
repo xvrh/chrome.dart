@@ -18,7 +18,7 @@ extension JSEventsExtension on JSEvents {}
 @staticInterop
 class Rule {
   /// Optional identifier that allows referencing this rule.
-  external JSAny? get id;
+  external String? get id;
 
   /// Tags can be used to annotate rules and perform operations on sets of
   /// rules.
@@ -31,7 +31,7 @@ class Rule {
   external JSArray get actions;
 
   /// Optional priority of this rule. Defaults to 100.
-  external JSAny? get priority;
+  external int? get priority;
 }
 
 @JS()
@@ -49,74 +49,74 @@ class UrlFilter {
   /// match against components ('.foo.'). Suffix- and exact-matching for the
   /// last components need to be done separately using hostSuffix, because no
   /// implicit dot is added at the end of the host name.
-  external JSAny? get hostContains;
+  external String? get hostContains;
 
   /// Matches if the host name of the URL is equal to a specified string.
-  external JSAny? get hostEquals;
+  external String? get hostEquals;
 
   /// Matches if the host name of the URL starts with a specified string.
-  external JSAny? get hostPrefix;
+  external String? get hostPrefix;
 
   /// Matches if the host name of the URL ends with a specified string.
-  external JSAny? get hostSuffix;
+  external String? get hostSuffix;
 
   /// Matches if the path segment of the URL contains a specified string.
-  external JSAny? get pathContains;
+  external String? get pathContains;
 
   /// Matches if the path segment of the URL is equal to a specified string.
-  external JSAny? get pathEquals;
+  external String? get pathEquals;
 
   /// Matches if the path segment of the URL starts with a specified string.
-  external JSAny? get pathPrefix;
+  external String? get pathPrefix;
 
   /// Matches if the path segment of the URL ends with a specified string.
-  external JSAny? get pathSuffix;
+  external String? get pathSuffix;
 
   /// Matches if the query segment of the URL contains a specified string.
-  external JSAny? get queryContains;
+  external String? get queryContains;
 
   /// Matches if the query segment of the URL is equal to a specified string.
-  external JSAny? get queryEquals;
+  external String? get queryEquals;
 
   /// Matches if the query segment of the URL starts with a specified string.
-  external JSAny? get queryPrefix;
+  external String? get queryPrefix;
 
   /// Matches if the query segment of the URL ends with a specified string.
-  external JSAny? get querySuffix;
+  external String? get querySuffix;
 
   /// Matches if the URL (without fragment identifier) contains a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external JSAny? get urlContains;
+  external String? get urlContains;
 
   /// Matches if the URL (without fragment identifier) is equal to a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external JSAny? get urlEquals;
+  external String? get urlEquals;
 
   /// Matches if the URL (without fragment identifier) matches a specified
   /// regular expression. Port numbers are stripped from the URL if they match
   /// the default port number. The regular expressions use the <a
   /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
   /// syntax</a>.
-  external JSAny? get urlMatches;
+  external String? get urlMatches;
 
   /// Matches if the URL without query segment and fragment identifier matches a
   /// specified regular expression. Port numbers are stripped from the URL if
   /// they match the default port number. The regular expressions use the <a
   /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
   /// syntax</a>.
-  external JSAny? get originAndPathMatches;
+  external String? get originAndPathMatches;
 
   /// Matches if the URL (without fragment identifier) starts with a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external JSAny? get urlPrefix;
+  external String? get urlPrefix;
 
   /// Matches if the URL (without fragment identifier) ends with a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external JSAny? get urlSuffix;
+  external String? get urlSuffix;
 
   /// Matches if the scheme of the URL is equal to any of the schemes specified
   /// in the array.

@@ -9,6 +9,9 @@ extension ChromeChromeStorageExtension on Chrome {
 
 class ChromeStorage {
   ChromeStorage._();
+
+  /// Fired when one or more items change.
+  Stream get onChanged => throw UnimplementedError();
 }
 
 /// The storage area's access level.

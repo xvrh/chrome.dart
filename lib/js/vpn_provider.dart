@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSVpnProviderExtension on JSChrome {
   ///  Use the `chrome.vpnProvider` API to implement a VPN
   ///  client.
-  external JSVpnProvider get VpnProvider;
+  external JSVpnProvider get vpnProvider;
 }
 
 @JS()
@@ -18,33 +18,48 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |name|: The name of the VPN configuration.
   ///  |callback|: Called when the configuration is created or if there is an
   ///  error.
-  external void createConfig();
+  external void createConfig(
+    name,
+    callback,
+  );
 
   ///  Destroys a VPN configuration created by the extension.
   ///  |id|: ID of the VPN configuration to destroy.
   ///  |callback|: Called when the configuration is destroyed or if there is an
   ///  error.
-  external void destroyConfig();
+  external void destroyConfig(
+    id,
+    callback,
+  );
 
   ///  Sets the parameters for the VPN session. This should be called
   ///  immediately after `"connected"` is received from the platform.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |parameters|: The parameters for the VPN session.
   ///  |callback|: Called when the parameters are set or if there is an error.
-  external void setParameters();
+  external void setParameters(
+    parameters,
+    callback,
+  );
 
   ///  Sends an IP packet through the tunnel created for the VPN session.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |data|: The IP packet to be sent to the platform.
   ///  |callback|: Called when the packet is sent or if there is an error.
-  external void sendPacket();
+  external void sendPacket(
+    data,
+    callback,
+  );
 
   ///  Notifies the VPN session state to the platform.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |state|: The VPN session state of the VPN client.
   ///  |callback|: Called when the notification is complete or if there is an
   ///  error.
-  external void notifyConnectionStateChanged();
+  external void notifyConnectionStateChanged(
+    state,
+    callback,
+  );
 
   ///  Triggered when a message is received from the platform for a
   ///  VPN configuration owned by the extension.
@@ -78,4 +93,62 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |event|: The UI event that is triggered.
   ///  |id|: ID of the configuration for which the UI event was triggered.
   external ChromeEvent get onUIEvent;
+}
+
+@JS()
+@staticInterop
+class Parameters {
+  ///  IP address for the VPN interface in CIDR notation.
+  ///  IPv4 is currently the only supported mode.
+  external JSAny get address;
+
+  ///  Broadcast address for the VPN interface. (default: deduced
+  ///  from IP address and mask)
+  external JSAny? get broadcastAddress;
+
+  ///  MTU setting for the VPN interface. (default: 1500 bytes)
+  external JSAny? get mtu;
+
+  ///  Exclude network traffic to the list of IP blocks in CIDR notation from
+  ///  the tunnel. This can be used to bypass traffic to and from the VPN
+  ///  server.
+  ///  When many rules match a destination, the rule with the longest matching
+  ///  prefix wins.
+  ///  Entries that correspond to the same CIDR block are treated as duplicates.
+  ///  Such duplicates in the collated (exclusionList + inclusionList) list are
+  ///  eliminated and the exact duplicate entry that will be eliminated is
+  ///  undefined.
+  external JSArray get exclusionList;
+
+  ///  Include network traffic to the list of IP blocks in CIDR notation to the
+  ///  tunnel. This parameter can be used to set up a split tunnel. By default
+  ///  no traffic is directed to the tunnel. Adding the entry "0.0.0.0/0" to
+  ///  this list gets all the user traffic redirected to the tunnel.
+  ///  When many rules match a destination, the rule with the longest matching
+  ///  prefix wins.
+  ///  Entries that correspond to the same CIDR block are treated as duplicates.
+  ///  Such duplicates in the collated (exclusionList + inclusionList) list are
+  ///  eliminated and the exact duplicate entry that will be eliminated is
+  ///  undefined.
+  external JSArray get inclusionList;
+
+  ///  A list of search domains. (default: no search domain)
+  external JSArray? get domainSearch;
+
+  ///  A list of IPs for the DNS servers.
+  external JSArray get dnsServers;
+
+  ///  Whether or not the VPN extension implements auto-reconnection.
+  ///
+  ///  If true, the `linkDown`, `linkUp`,
+  ///  `linkChanged`, `suspend`, and `resume`
+  ///  platform messages will be used to signal the respective events.
+  ///  If false, the system will forcibly disconnect the VPN if the network
+  ///  topology changes, and the user will need to reconnect manually.
+  ///  (default: false)
+  ///
+  ///  This property is new in Chrome 51; it will generate an exception in
+  ///  earlier versions. try/catch can be used to conditionally enable the
+  ///  feature based on browser support.
+  external JSAny? get reconnect;
 }

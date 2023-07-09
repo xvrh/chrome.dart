@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _SidePanel = ChromeSidePanel._();
+final _sidePanel = ChromeSidePanel._();
 
 extension ChromeChromeSidePanelExtension on Chrome {
-  ChromeSidePanel get SidePanel => _SidePanel;
+  ChromeSidePanel get sidePanel => _sidePanel;
 }
 
 class ChromeSidePanel {

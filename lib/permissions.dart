@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Permissions = ChromePermissions._();
+final _permissions = ChromePermissions._();
 
 extension ChromeChromePermissionsExtension on Chrome {
-  ChromePermissions get Permissions => _Permissions;
+  ChromePermissions get permissions => _permissions;
 }
 
 class ChromePermissions {

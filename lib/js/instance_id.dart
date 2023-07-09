@@ -4,7 +4,7 @@ export 'chrome.dart';
 
 extension JSChromeJSInstanceIDExtension on JSChrome {
   /// Use `chrome.instanceID` to access the Instance ID service.
-  external JSInstanceID get InstanceID;
+  external JSInstanceID get instanceID;
 }
 
 @JS()
@@ -23,10 +23,10 @@ extension JSInstanceIDExtension on JSInstanceID {
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
-  external void getToken();
+  external void getToken(getTokenParams);
 
   /// Revokes a granted token.
-  external void deleteToken();
+  external void deleteToken(deleteTokenParams);
 
   /// Resets the app instance identifier and revokes all tokens associated with
   /// it.

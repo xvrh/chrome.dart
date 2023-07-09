@@ -7,7 +7,7 @@ extension JSChromeJSPrivacyExtension on JSChrome {
   /// that can affect a user's privacy. This API relies on the <a
   /// href='types#ChromeSetting'>ChromeSetting prototype of the type API</a> for
   /// getting and setting Chrome's configuration.
-  external JSPrivacy get Privacy;
+  external JSPrivacy get privacy;
 }
 
 @JS()
@@ -15,3 +15,7 @@ extension JSChromeJSPrivacyExtension on JSChrome {
 class JSPrivacy {}
 
 extension JSPrivacyExtension on JSPrivacy {}
+
+@JS()
+@staticInterop
+class IPHandlingPolicy {}

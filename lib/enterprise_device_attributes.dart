@@ -1,10 +1,11 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _EnterpriseDeviceAttributes = ChromeEnterpriseDeviceAttributes._();
+final _enterpriseDeviceAttributes = ChromeEnterpriseDeviceAttributes._();
 
 extension ChromeChromeEnterpriseDeviceAttributesExtension on Chrome {
-  ChromeEnterpriseDeviceAttributes get EnterpriseDeviceAttributes =>
-      _EnterpriseDeviceAttributes;
+  ChromeEnterpriseDeviceAttributes get enterpriseDeviceAttributes =>
+      _enterpriseDeviceAttributes;
 }
 
 class ChromeEnterpriseDeviceAttributes {

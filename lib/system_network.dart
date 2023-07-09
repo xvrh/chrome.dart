@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _SystemNetwork = ChromeSystemNetwork._();
+final _systemNetwork = ChromeSystemNetwork._();
 
 extension ChromeChromeSystemNetworkExtension on Chrome {
-  ChromeSystemNetwork get SystemNetwork => _SystemNetwork;
+  ChromeSystemNetwork get systemNetwork => _systemNetwork;
 }
 
 class ChromeSystemNetwork {

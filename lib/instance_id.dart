@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _InstanceID = ChromeInstanceID._();
+final _instanceID = ChromeInstanceID._();
 
 extension ChromeChromeInstanceIDExtension on Chrome {
-  ChromeInstanceID get InstanceID => _InstanceID;
+  ChromeInstanceID get instanceID => _instanceID;
 }
 
 class ChromeInstanceID {

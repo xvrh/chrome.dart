@@ -4,7 +4,7 @@ export 'chrome.dart';
 
 extension JSChromeJSSystemMemoryExtension on JSChrome {
   ///  The `chrome.system.memory` API.
-  external JSSystemMemory get SystemMemory;
+  external JSSystemMemory get systemMemory;
 }
 
 @JS()
@@ -13,5 +13,15 @@ class JSSystemMemory {}
 
 extension JSSystemMemoryExtension on JSSystemMemory {
   ///  Get physical memory information.
-  external void getInfo();
+  external void getInfo(callback);
+}
+
+@JS()
+@staticInterop
+class MemoryInfo {
+  ///  The total amount of physical memory capacity, in bytes.
+  external JSAny get capacity;
+
+  ///  The amount of available capacity, in bytes.
+  external JSAny get availableCapacity;
 }

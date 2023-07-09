@@ -1,10 +1,7 @@
-.buildlog
-.project
-.settings/
-.pub/
-.packages
-.idea
-.dart_tool
+_*
+.*
+!.gitignore
+
 *.dart.js
 *.dart.js.deps
 *.dart.js.map
@@ -14,6 +11,7 @@ out
 packages
 pubspec.lock
 docs/
+build/
 dart.js
 dart_interop.js
 interop.js

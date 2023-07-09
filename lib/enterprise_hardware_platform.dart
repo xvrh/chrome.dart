@@ -1,10 +1,11 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _EnterpriseHardwarePlatform = ChromeEnterpriseHardwarePlatform._();
+final _enterpriseHardwarePlatform = ChromeEnterpriseHardwarePlatform._();
 
 extension ChromeChromeEnterpriseHardwarePlatformExtension on Chrome {
-  ChromeEnterpriseHardwarePlatform get EnterpriseHardwarePlatform =>
-      _EnterpriseHardwarePlatform;
+  ChromeEnterpriseHardwarePlatform get enterpriseHardwarePlatform =>
+      _enterpriseHardwarePlatform;
 }
 
 class ChromeEnterpriseHardwarePlatform {

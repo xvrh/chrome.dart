@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _DevtoolsRecorder = ChromeDevtoolsRecorder._();
+final _devtoolsRecorder = ChromeDevtoolsRecorder._();
 
 extension ChromeChromeDevtoolsRecorderExtension on Chrome {
-  ChromeDevtoolsRecorder get DevtoolsRecorder => _DevtoolsRecorder;
+  ChromeDevtoolsRecorder get devtoolsRecorder => _devtoolsRecorder;
 }
 
 class ChromeDevtoolsRecorder {

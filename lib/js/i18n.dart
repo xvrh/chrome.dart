@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSI18nExtension on JSChrome {
   /// Use the `chrome.i18n` infrastructure to implement internationalization
   /// across your whole app or extension.
-  external JSI18n get I18n;
+  external JSI18n get i18N;
 }
 
 @JS()
@@ -23,12 +23,20 @@ extension JSI18nExtension on JSI18n {
   /// `getMessage()` call is wrong &mdash; for example, <em>messageName</em> is
   /// not a string or the <em>substitutions</em> array has more than 9 elements
   /// &mdash; this method returns `undefined`.
-  external void getMessage();
+  external void getMessage(
+    messageName,
+    substitutions,
+    options,
+  );
 
   /// Gets the browser UI language of the browser. This is different from
   /// $(ref:i18n.getAcceptLanguages) which returns the preferred user languages.
   external void getUILanguage();
 
   /// Detects the language of the provided text using CLD.
-  external void detectLanguage();
+  external void detectLanguage(text);
 }
+
+@JS()
+@staticInterop
+class LanguageCode {}

@@ -7,7 +7,7 @@ extension JSChromeJSEnterpriseHardwarePlatformExtension on JSChrome {
   ///  manufacturer and model of the hardware platform where the browser runs.
   ///  Note: This API is only available to extensions installed by enterprise
   ///  policy.
-  external JSEnterpriseHardwarePlatform get EnterpriseHardwarePlatform;
+  external JSEnterpriseHardwarePlatform get enterpriseHardwarePlatform;
 }
 
 @JS()
@@ -19,5 +19,13 @@ extension JSEnterpriseHardwarePlatformExtension
   ///  Obtains the manufacturer and model for the hardware platform and, if
   ///  the extension is authorized, returns it via |callback|.
   ///  |callback|: Called with the hardware platform info.
-  external void getHardwarePlatformInfo();
+  external void getHardwarePlatformInfo(callback);
+}
+
+@JS()
+@staticInterop
+class HardwarePlatformInfo {
+  external JSAny get model;
+
+  external JSAny get manufacturer;
 }

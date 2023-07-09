@@ -7,7 +7,7 @@ extension JSChromeJSGcmExtension on JSChrome {
   /// messages through <a
   /// href='https://firebase.google.com/docs/cloud-messaging/'>Firebase Cloud
   /// Messaging</a> (FCM).
-  external JSGcm get Gcm;
+  external JSGcm get gcm;
 }
 
 @JS()
@@ -18,13 +18,19 @@ extension JSGcmExtension on JSGcm {
   /// Registers the application with FCM. The registration ID will be returned
   /// by the `callback`. If `register` is called again with the same list of
   /// `senderIds`, the same registration ID will be returned.
-  external void register();
+  external void register(
+    senderIds,
+    callback,
+  );
 
   /// Unregisters the application from FCM.
-  external void unregister();
+  external void unregister(callback);
 
   /// Sends a message according to its contents.
-  external void send();
+  external void send(
+    message,
+    callback,
+  );
 
   /// Fired when a message is received through FCM.
   external ChromeEvent get onMessage;

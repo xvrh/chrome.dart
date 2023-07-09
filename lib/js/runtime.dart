@@ -7,7 +7,7 @@ extension JSChromeJSRuntimeExtension on JSChrome {
   /// details about the manifest, and listen for and respond to events in the
   /// app or extension lifecycle. You can also use this API to convert the
   /// relative path of URLs to fully-qualified URLs.
-  external JSRuntime get Runtime;
+  external JSRuntime get runtime;
 }
 
 @JS()
@@ -39,12 +39,12 @@ extension JSRuntimeExtension on JSRuntime {
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  external void getURL();
+  external void getURL(path);
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  external void setUninstallURL();
+  external void setUninstallURL(url);
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
@@ -74,7 +74,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  external void restartAfterDelay();
+  external void restartAfterDelay(seconds);
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
@@ -83,11 +83,14 @@ extension JSRuntimeExtension on JSRuntime {
   /// messaging</a>. Note that this does not connect to any listeners in a
   /// content script. Extensions may connect to content scripts embedded in tabs
   /// via $(ref:tabs.connect).
-  external void connect();
+  external void connect(
+    extensionId,
+    connectInfo,
+  );
 
   /// Connects to a native application in the host machine. See <a
   /// href="nativeMessaging">Native Messaging</a> for more information.
-  external void connectNative();
+  external void connectNative(application);
 
   /// Sends a single message to event listeners within your extension/app or a
   /// different extension/app. Similar to $(ref:runtime.connect) but only sends
@@ -97,19 +100,26 @@ extension JSRuntimeExtension on JSRuntime {
   /// $(ref:runtime.onMessageExternal), if a different extension. Note that
   /// extensions cannot send messages to content scripts using this method. To
   /// send messages to content scripts, use $(ref:tabs.sendMessage).
-  external void sendMessage();
+  external void sendMessage(
+    extensionId,
+    message,
+    options,
+  );
 
   /// Send a single message to a native application.
-  external void sendNativeMessage();
+  external void sendNativeMessage(
+    application,
+    message,
+  );
 
   /// Returns information about the current platform.
   external void getPlatformInfo();
 
   /// Returns a DirectoryEntry for the package directory.
-  external void getPackageDirectoryEntry();
+  external void getPackageDirectoryEntry(callback);
 
   /// Fetches information about active contexts associated with this extension
-  external void getContexts();
+  external void getContexts(filter);
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
@@ -174,4 +184,179 @@ extension JSRuntimeExtension on JSRuntime {
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
   external ChromeEvent get onRestartRequired;
+}
+
+@JS()
+@staticInterop
+class Port {
+  /// The name of the port, as specified in the call to $(ref:runtime.connect).
+  external JSAny get name;
+
+  /// Immediately disconnect the port. Calling `disconnect()` on an
+  /// already-disconnected port has no effect. When a port is disconnected, no
+  /// new events will be dispatched to this port.
+  external JSAny get disconnect;
+
+  /// Send a message to the other end of the port. If the port is disconnected,
+  /// an error is thrown.
+  external JSAny get postMessage;
+
+  /// This property will <b>only</b> be present on ports passed to
+  /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
+  /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
+  /// listeners.
+  external JSAny? get sender;
+}
+
+@JS()
+@staticInterop
+class MessageSender {
+  /// The $(ref:tabs.Tab) which opened the connection, if any. This property
+  /// will <strong>only</strong> be present when the connection was opened from
+  /// a tab (including content scripts), and <strong>only</strong> if the
+  /// receiver is an extension, not an app.
+  external JSAny? get tab;
+
+  /// The <a href='webNavigation#frame_ids'>frame</a> that opened the
+  /// connection. 0 for top-level frames, positive for child frames. This will
+  /// only be set when `tab` is set.
+  external JSAny? get frameId;
+
+  /// The guest process id of the requesting webview, if available. Only
+  /// available for component extensions.
+  external JSAny? get guestProcessId;
+
+  /// The guest render frame routing id of the requesting webview, if available.
+  /// Only available for component extensions.
+  external JSAny? get guestRenderFrameRoutingId;
+
+  /// The ID of the extension or app that opened the connection, if any.
+  external JSAny? get id;
+
+  /// The URL of the page or frame that opened the connection. If the sender is
+  /// in an iframe, it will be iframe's URL not the URL of the page which hosts
+  /// it.
+  external JSAny? get url;
+
+  /// The name of the native application that opened the connection, if any.
+  external JSAny? get nativeApplication;
+
+  /// The TLS channel ID of the page or frame that opened the connection, if
+  /// requested by the extension or app, and if available.
+  external JSAny? get tlsChannelId;
+
+  /// The origin of the page or frame that opened the connection. It can vary
+  /// from the url property (e.g., about:blank) or can be opaque (e.g.,
+  /// sandboxed iframes). This is useful for identifying if the origin can be
+  /// trusted if we can't immediately tell from the URL.
+  external JSAny? get origin;
+
+  /// A UUID of the document that opened the connection.
+  external JSAny? get documentId;
+
+  /// The lifecycle the document that opened the connection is in at the time
+  /// the port was created. Note that the lifecycle state of the document may
+  /// have changed since port creation.
+  external JSAny? get documentLifecycle;
+}
+
+@JS()
+@staticInterop
+class PlatformOs {}
+
+@JS()
+@staticInterop
+class PlatformArch {}
+
+@JS()
+@staticInterop
+class PlatformNaclArch {}
+
+@JS()
+@staticInterop
+class PlatformInfo {
+  /// The operating system Chrome is running on.
+  external JSAny get os;
+
+  /// The machine's processor architecture.
+  external JSAny get arch;
+
+  /// The native client architecture. This may be different from arch on some
+  /// platforms.
+  external JSAny get nacl_arch;
+}
+
+@JS()
+@staticInterop
+class RequestUpdateCheckStatus {}
+
+@JS()
+@staticInterop
+class OnInstalledReason {}
+
+@JS()
+@staticInterop
+class OnRestartRequiredReason {}
+
+@JS()
+@staticInterop
+class ContextType {}
+
+@JS()
+@staticInterop
+class ExtensionContext {
+  /// The type of context this corresponds to.
+  external JSAny get contextType;
+
+  /// A unique identifier for this context
+  external JSAny get contextId;
+
+  /// The ID of the tab for this context, or -1 if this context is not hosted in
+  /// a tab.
+  external JSAny get tabId;
+
+  /// The ID of the window for this context, or -1 if this context is not hosted
+  /// in a window.
+  external JSAny get windowId;
+
+  /// A UUID for the document associated with this context, or undefined if this
+  /// context is hosted not in a document.
+  external JSAny? get documentId;
+
+  /// The ID of the frame for this context, or -1 if this context is not hosted
+  /// in a frame.
+  external JSAny get frameId;
+
+  /// The URL of the document associated with this context, or undefined if the
+  /// context is not hosted in a document.
+  external JSAny? get documentUrl;
+
+  /// The origin of the document associated with this context, or undefined if
+  /// the context is not hosted in a document.
+  external JSAny? get documentOrigin;
+
+  /// Whether the context is associated with an incognito profile.
+  external JSAny get incognito;
+}
+
+@JS()
+@staticInterop
+class ContextFilter {
+  external JSArray? get contextTypes;
+
+  external JSArray? get contextIds;
+
+  external JSArray? get tabIds;
+
+  external JSArray? get windowIds;
+
+  external JSArray? get documentIds;
+
+  external JSArray? get frameIds;
+
+  external JSArray? get documentUrls;
+
+  external JSArray? get documentOrigins;
+
+  external JSAny? get incognito;
 }

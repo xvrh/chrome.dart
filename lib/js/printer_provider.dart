@@ -6,7 +6,7 @@ extension JSChromeJSPrinterProviderExtension on JSChrome {
   ///  The `chrome.printerProvider` API exposes events used by print
   ///  manager to query printers controlled by extensions, to query their
   ///  capabilities and to submit print jobs to these printers.
-  external JSPrinterProvider get PrinterProvider;
+  external JSPrinterProvider get printerProvider;
 }
 
 @JS()
@@ -44,4 +44,40 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   ///  |resultCallback|: Callback that should be called when the printing
   ///  request is completed.
   external ChromeEvent get onPrintRequested;
+}
+
+@JS()
+@staticInterop
+class PrinterInfo {
+  ///  Unique printer ID.
+  external JSAny get id;
+
+  ///  Printer's human readable name.
+  external JSAny get name;
+
+  ///  Printer's human readable description.
+  external JSAny? get description;
+}
+
+@JS()
+@staticInterop
+class PrintJob {
+  ///  ID of the printer which should handle the job.
+  external JSAny get printerId;
+
+  ///  The print job title.
+  external JSAny get title;
+
+  ///  Print ticket in
+  ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
+  ///  CJT format</a>.
+  external JSAny get ticket;
+
+  ///  The document content type. Supported formats are
+  ///  `"application/pdf"` and `"image/pwg-raster"`.
+  external JSAny get contentType;
+
+  ///  Blob containing the document data to print. Format must match
+  ///  |contentType|.
+  external JSAny get document;
 }

@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSTabsExtension on JSChrome {
   /// Use the `chrome.tabs` API to interact with the browser's tab system. You
   /// can use this API to create, modify, and rearrange tabs in the browser.
-  external JSTabs get Tabs;
+  external JSTabs get tabs;
 }
 
 @JS()
@@ -14,7 +14,7 @@ class JSTabs {}
 
 extension JSTabsExtension on JSTabs {
   /// Retrieves details about the specified tab.
-  external void get();
+  external void get(tabId);
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
@@ -25,65 +25,84 @@ extension JSTabsExtension on JSTabs {
   /// $(ref:runtime.onConnect) event is fired in each content script running in
   /// the specified tab for the current extension. For more details, see <a
   /// href='messaging'>Content Script Messaging</a>.
-  external void connect();
+  external void connect(
+    tabId,
+    connectInfo,
+  );
 
   /// Sends a single request to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
   /// $(ref:extension.onRequest) event is fired in each content script running
   /// in the specified tab for the current extension.
-  external void sendRequest();
+  external void sendRequest(
+    tabId,
+    request,
+  );
 
   /// Sends a single message to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
   /// $(ref:runtime.onMessage) event is fired in each content script running in
   /// the specified tab for the current extension.
-  external void sendMessage();
+  external void sendMessage(
+    tabId,
+    message,
+    options,
+  );
 
   /// Gets the tab that is selected in the specified window.
-  external void getSelected();
+  external void getSelected(windowId);
 
   /// Gets details about all tabs in the specified window.
-  external void getAllInWindow();
+  external void getAllInWindow(windowId);
 
   /// Creates a new tab.
-  external void create();
+  external void create(createProperties);
 
   /// Duplicates a tab.
-  external void duplicate();
+  external void duplicate(tabId);
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
-  external void query();
+  external void query(queryInfo);
 
   /// Highlights the given tabs and focuses on the first of group. Will appear
   /// to do nothing if the specified tab is currently active.
-  external void highlight();
+  external void highlight(highlightInfo);
 
   /// Modifies the properties of a tab. Properties that are not specified in
   /// <var>updateProperties</var> are not modified.
-  external void update();
+  external void update(
+    tabId,
+    updateProperties,
+  );
 
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
   /// === "normal") windows.
-  external void move();
+  external void move(
+    tabIds,
+    moveProperties,
+  );
 
   /// Reload a tab.
-  external void reload();
+  external void reload(
+    tabId,
+    reloadProperties,
+  );
 
   /// Closes one or more tabs.
-  external void remove();
+  external void remove(tabIds);
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
-  external void group();
+  external void group(options);
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
-  external void ungroup();
+  external void ungroup(tabIds);
 
   /// Detects the primary language of the content in a tab.
-  external void detectLanguage();
+  external void detectLanguage(tabId);
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
@@ -94,45 +113,63 @@ extension JSTabsExtension on JSTabs {
   /// pages, other extensions' pages, and data: URLs. These sensitive sites can
   /// only be captured with the activeTab permission. File URLs may be captured
   /// only if the extension has been granted file access.
-  external void captureVisibleTab();
+  external void captureVisibleTab(
+    windowId,
+    options,
+  );
 
   /// Injects JavaScript code into a page. For details, see the <a
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
-  external void executeScript();
+  external void executeScript(
+    tabId,
+    details,
+  );
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with $(ref:scripting.removeCSS). For details, see the <a
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
-  external void insertCSS();
+  external void insertCSS(
+    tabId,
+    details,
+  );
 
   /// Removes from a page CSS that was previously injected by a call to
   /// $(ref:scripting.insertCSS).
-  external void removeCSS();
+  external void removeCSS(
+    tabId,
+    details,
+  );
 
   /// Zooms a specified tab.
-  external void setZoom();
+  external void setZoom(
+    tabId,
+    zoomFactor,
+  );
 
   /// Gets the current zoom factor of a specified tab.
-  external void getZoom();
+  external void getZoom(tabId);
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
-  external void setZoomSettings();
+  external void setZoomSettings(
+    tabId,
+    zoomSettings,
+  );
 
   /// Gets the current zoom settings of a specified tab.
-  external void getZoomSettings();
+  external void getZoomSettings(tabId);
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  external void discard();
+  external void discard(tabId);
 
   /// Go foward to the next page, if one is available.
-  external void goForward();
+  external void goForward(tabId);
 
   /// Go back to the previous page, if one is available.
-  external void goBack();
+  external void goBack(tabId);
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can
@@ -187,3 +224,147 @@ extension JSTabsExtension on JSTabs {
   /// Fired when a tab is zoomed.
   external ChromeEvent get onZoomChange;
 }
+
+@JS()
+@staticInterop
+class TabStatus {}
+
+@JS()
+@staticInterop
+class MutedInfoReason {}
+
+@JS()
+@staticInterop
+class MutedInfo {
+  /// Whether the tab is muted (prevented from playing sound). The tab may be
+  /// muted even if it has not played or is not currently playing sound.
+  /// Equivalent to whether the 'muted' audio indicator is showing.
+  external JSAny get muted;
+
+  /// The reason the tab was muted or unmuted. Not set if the tab's mute state
+  /// has never been changed.
+  external JSAny? get reason;
+
+  /// The ID of the extension that changed the muted state. Not set if an
+  /// extension was not the reason the muted state last changed.
+  external JSAny? get extensionId;
+}
+
+@JS()
+@staticInterop
+class Tab {
+  /// The ID of the tab. Tab IDs are unique within a browser session. Under some
+  /// circumstances a tab may not be assigned an ID; for example, when querying
+  /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
+  /// be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps
+  /// and devtools windows.
+  external JSAny? get id;
+
+  /// The zero-based index of the tab within its window.
+  external JSAny get index;
+
+  /// The ID of the group that the tab belongs to.
+  external JSAny get groupId;
+
+  /// The ID of the window that contains the tab.
+  external JSAny get windowId;
+
+  /// The ID of the tab that opened this tab, if any. This property is only
+  /// present if the opener tab still exists.
+  external JSAny? get openerTabId;
+
+  /// Whether the tab is selected.
+  external JSAny get selected;
+
+  /// Whether the tab is highlighted.
+  external JSAny get highlighted;
+
+  /// Whether the tab is active in its window. Does not necessarily mean the
+  /// window is focused.
+  external JSAny get active;
+
+  /// Whether the tab is pinned.
+  external JSAny get pinned;
+
+  /// Whether the tab has produced sound over the past couple of seconds (but it
+  /// might not be heard if also muted). Equivalent to whether the 'speaker
+  /// audio' indicator is showing.
+  external JSAny? get audible;
+
+  /// Whether the tab is discarded. A discarded tab is one whose content has
+  /// been unloaded from memory, but is still visible in the tab strip. Its
+  /// content is reloaded the next time it is activated.
+  external JSAny get discarded;
+
+  /// Whether the tab can be discarded automatically by the browser when
+  /// resources are low.
+  external JSAny get autoDiscardable;
+
+  /// The tab's muted state and the reason for the last state change.
+  external JSAny? get mutedInfo;
+
+  /// The last committed URL of the main frame of the tab. This property is only
+  /// present if the extension's manifest includes the `"tabs"` permission and
+  /// may be an empty string if the tab has not yet committed. See also
+  /// $(ref:Tab.pendingUrl).
+  external JSAny? get url;
+
+  /// The URL the tab is navigating to, before it has committed. This property
+  /// is only present if the extension's manifest includes the `"tabs"`
+  /// permission and there is a pending navigation.
+  external JSAny? get pendingUrl;
+
+  /// The title of the tab. This property is only present if the extension's
+  /// manifest includes the `"tabs"` permission.
+  external JSAny? get title;
+
+  /// The URL of the tab's favicon. This property is only present if the
+  /// extension's manifest includes the `"tabs"` permission. It may also be an
+  /// empty string if the tab is loading.
+  external JSAny? get favIconUrl;
+
+  /// The tab's loading status.
+  external JSAny? get status;
+
+  /// Whether the tab is in an incognito window.
+  external JSAny get incognito;
+
+  /// The width of the tab in pixels.
+  external JSAny? get width;
+
+  /// The height of the tab in pixels.
+  external JSAny? get height;
+
+  /// The session ID used to uniquely identify a tab obtained from the
+  /// $(ref:sessions) API.
+  external JSAny? get sessionId;
+}
+
+@JS()
+@staticInterop
+class ZoomSettingsMode {}
+
+@JS()
+@staticInterop
+class ZoomSettingsScope {}
+
+@JS()
+@staticInterop
+class ZoomSettings {
+  /// Defines how zoom changes are handled, i.e., which entity is responsible
+  /// for the actual scaling of the page; defaults to `automatic`.
+  external JSAny? get mode;
+
+  /// Defines whether zoom changes persist for the page's origin, or only take
+  /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
+  /// `per-tab` otherwise.
+  external JSAny? get scope;
+
+  /// Used to return the default zoom level for the current tab in calls to
+  /// tabs.getZoomSettings.
+  external JSAny? get defaultZoomFactor;
+}
+
+@JS()
+@staticInterop
+class WindowType {}

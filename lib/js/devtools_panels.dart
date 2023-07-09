@@ -6,7 +6,7 @@ extension JSChromeJSDevtoolsPanelsExtension on JSChrome {
   /// Use the `chrome.devtools.panels` API to integrate your extension into
   /// Developer Tools window UI: create your own panels, access existing panels,
   /// and add sidebars.
-  external JSDevtoolsPanels get DevtoolsPanels;
+  external JSDevtoolsPanels get devtoolsPanels;
 }
 
 @JS()
@@ -15,13 +15,43 @@ class JSDevtoolsPanels {}
 
 extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
   /// Creates an extension panel.
-  external void create();
+  external void create(
+    title,
+    iconPath,
+    pagePath,
+    callback,
+  );
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  external void setOpenResourceHandler();
+  external void setOpenResourceHandler(callback);
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
-  external void openResource();
+  external void openResource(
+    url,
+    lineNumber,
+    columnNumber,
+    callback,
+  );
 }
+
+@JS()
+@staticInterop
+class ElementsPanel {}
+
+@JS()
+@staticInterop
+class SourcesPanel {}
+
+@JS()
+@staticInterop
+class ExtensionPanel {}
+
+@JS()
+@staticInterop
+class ExtensionSidebarPane {}
+
+@JS()
+@staticInterop
+class Button {}

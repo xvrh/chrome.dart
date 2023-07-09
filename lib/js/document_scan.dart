@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSDocumentScanExtension on JSChrome {
   ///  Use the `chrome.documentScan` API to discover and retrieve
   ///  images from attached paper document scanners.
-  external JSDocumentScan get DocumentScan;
+  external JSDocumentScan get documentScan;
 }
 
 @JS()
@@ -17,5 +17,29 @@ extension JSDocumentScanExtension on JSDocumentScan {
   ///  sent to the callback.
   ///  |options| : Object containing scan parameters.
   ///  |callback| : Called with the result and data from the scan.
-  external void scan();
+  external void scan(
+    options,
+    callback,
+  );
+}
+
+@JS()
+@staticInterop
+class ScanOptions {
+  ///  The MIME types that are accepted by the caller.
+  external JSArray? get mimeTypes;
+
+  ///  The number of scanned images allowed (defaults to 1).
+  external JSAny? get maxImages;
+}
+
+@JS()
+@staticInterop
+class ScanResults {
+  ///  The data image URLs in a form that can be passed as the "src" value to
+  ///  an image tag.
+  external JSArray get dataUrls;
+
+  ///  The MIME type of `dataUrls`.
+  external JSAny get mimeType;
 }

@@ -6,7 +6,7 @@ extension JSChromeJSWebAuthenticationProxyExtension on JSChrome {
   ///  The `chrome.webAuthenticationProxy`. API lets remote desktop
   ///  software running on a remote host intercept Web Authentication API
   ///  (WebAuthn) requests in order to handle them on a local client.
-  external JSWebAuthenticationProxy get WebAuthenticationProxy;
+  external JSWebAuthenticationProxy get webAuthenticationProxy;
 }
 
 @JS()
@@ -19,19 +19,28 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  `onCreateRequest` event it has received, unless the request
   ///  was canceled (in which case, an `onRequestCanceled` event is
   ///  fired).
-  external void completeCreateRequest();
+  external void completeCreateRequest(
+    details,
+    callback,
+  );
 
   ///  Reports the result of a `navigator.credentials.get()` call.
   ///  The extension must call this for every `onGetRequest` event
   ///  it has received, unless the request was canceled (in which case, an
   ///  `onRequestCanceled` event is fired).
-  external void completeGetRequest();
+  external void completeGetRequest(
+    details,
+    callback,
+  );
 
   ///  Reports the result of a
   ///  `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   ///  call. The extension must call this for every
   ///  `onIsUvpaaRequest` event it has received.
-  external void completeIsUvpaaRequest();
+  external void completeIsUvpaaRequest(
+    details,
+    callback,
+  );
 
   ///  Makes this extension the active Web Authentication API request proxy.
   ///
@@ -51,7 +60,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  external void attach();
+  external void attach(callback);
 
   ///  Removes this extension from being the active Web Authentication API
   ///  request proxy.
@@ -63,7 +72,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  external void detach();
+  external void detach(callback);
 
   ///  A native application associated with this extension can cause this
   ///  event to be fired by writing to a file with a name equal to the
@@ -112,4 +121,87 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  client side. Extensions cannot complete a request once it has been
   ///  canceled.
   external ChromeEvent get onRequestCanceled;
+}
+
+@JS()
+@staticInterop
+class IsUvpaaRequest {
+  ///  An opaque identifier for the request.
+  external JSAny get requestId;
+}
+
+@JS()
+@staticInterop
+class CreateRequest {
+  ///  An opaque identifier for the request.
+  external JSAny get requestId;
+
+  ///  The `PublicKeyCredentialCreationOptions` passed to
+  ///  `navigator.credentials.create()`, serialized as a JSON
+  ///  string. The serialization format is compatible with <a
+  ///  href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
+  ///  `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
+  external JSAny get requestDetailsJson;
+}
+
+@JS()
+@staticInterop
+class GetRequest {
+  ///  An opaque identifier for the request.
+  external JSAny get requestId;
+
+  ///  The `PublicKeyCredentialRequestOptions` passed to
+  ///  `navigator.credentials.get()`, serialized as a JSON string.
+  ///  The serialization format is compatible with <a
+  ///  href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
+  ///  `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
+  external JSAny get requestDetailsJson;
+}
+
+@JS()
+@staticInterop
+class DOMExceptionDetails {
+  external JSAny get name;
+
+  external JSAny get message;
+}
+
+@JS()
+@staticInterop
+class CreateResponseDetails {
+  ///  The `requestId` of the `CreateRequest`.
+  external JSAny get requestId;
+
+  ///  The `DOMException` yielded by the remote request, if any.
+  external JSAny? get error;
+
+  ///  The `PublicKeyCredential`, yielded by the remote request, if
+  ///  any, serialized as a JSON string by calling
+  ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  ///  `PublicKeyCredential.toJSON()`</a>.
+  external JSAny? get responseJson;
+}
+
+@JS()
+@staticInterop
+class GetResponseDetails {
+  ///  The `requestId` of the `CreateRequest`.
+  external JSAny get requestId;
+
+  ///  The `DOMException` yielded by the remote request, if any.
+  external JSAny? get error;
+
+  ///  The `PublicKeyCredential`, yielded by the remote request, if
+  ///  any, serialized as a JSON string by calling
+  ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  ///  `PublicKeyCredential.toJSON()`</a>.
+  external JSAny? get responseJson;
+}
+
+@JS()
+@staticInterop
+class IsUvpaaResponseDetails {
+  external JSAny get requestId;
+
+  external JSAny get isUvpaa;
 }

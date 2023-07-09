@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Events = ChromeEvents._();
+final _events = ChromeEvents._();
 
 extension ChromeChromeEventsExtension on Chrome {
-  ChromeEvents get Events => _Events;
+  ChromeEvents get events => _events;
 }
 
 class ChromeEvents {

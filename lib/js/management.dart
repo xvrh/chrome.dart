@@ -7,7 +7,7 @@ extension JSChromeJSManagementExtension on JSChrome {
   /// extensions/apps that are installed and running. It is particularly useful
   /// for extensions that <a href='override'>override</a> the built-in New Tab
   /// page.
-  external JSManagement get Management;
+  external JSManagement get management;
 }
 
 @JS()
@@ -20,7 +20,7 @@ extension JSManagementExtension on JSManagement {
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
-  external void get();
+  external void get(id);
 
   /// Returns information about the calling extension, app, or theme. Note: This
   /// function can be used without requesting the 'management' permission in the
@@ -29,44 +29,56 @@ extension JSManagementExtension on JSManagement {
 
   /// Returns a list of <a href='permission_warnings'>permission warnings</a>
   /// for the given extension id.
-  external void getPermissionWarningsById();
+  external void getPermissionWarningsById(id);
 
   /// Returns a list of <a href='permission_warnings'>permission warnings</a>
   /// for the given extension manifest string. Note: This function can be used
   /// without requesting the 'management' permission in the manifest.
-  external void getPermissionWarningsByManifest();
+  external void getPermissionWarningsByManifest(manifestStr);
 
   /// Enables or disables an app or extension. In most cases this function must
   /// be called in the context of a user gesture (e.g. an onclick handler for a
   /// button), and may present the user with a native confirmation UI as a way
   /// of preventing abuse.
-  external void setEnabled();
+  external void setEnabled(
+    id,
+    enabled,
+  );
 
   /// Uninstalls a currently installed app or extension. Note: This function
   /// does not work in managed environments when the user is not allowed to
   /// uninstall the specified extension/app. If the uninstall fails (e.g. the
   /// user cancels the dialog) the promise will be rejected or the callback will
   /// be called with $(ref:runtime.lastError) set.
-  external void uninstall();
+  external void uninstall(
+    id,
+    options,
+  );
 
   /// Uninstalls the calling extension. Note: This function can be used without
   /// requesting the 'management' permission in the manifest. This function does
   /// not work in managed environments when the user is not allowed to uninstall
   /// the specified extension/app.
-  external void uninstallSelf();
+  external void uninstallSelf(options);
 
   /// Launches an application.
-  external void launchApp();
+  external void launchApp(id);
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
-  external void createAppShortcut();
+  external void createAppShortcut(id);
 
   /// Set the launch type of an app.
-  external void setLaunchType();
+  external void setLaunchType(
+    id,
+    launchType,
+  );
 
   /// Generate an app for a URL. Returns the generated bookmark app.
-  external void generateAppForLink();
+  external void generateAppForLink(
+    url,
+    title,
+  );
 
   /// Checks if the replacement android app can be installed. Errors generated
   /// by this API are reported by setting $(ref:runtime.lastError) and executing
@@ -93,4 +105,123 @@ extension JSManagementExtension on JSManagement {
 
   /// Fired when an app or extension has been disabled.
   external ChromeEvent get onDisabled;
+}
+
+@JS()
+@staticInterop
+class IconInfo {
+  /// A number representing the width and height of the icon. Likely values
+  /// include (but are not limited to) 128, 48, 24, and 16.
+  external JSAny get size;
+
+  /// The URL for this icon image. To display a grayscale version of the icon
+  /// (to indicate that an extension is disabled, for example), append
+  /// `?grayscale=true` to the URL.
+  external JSAny get url;
+}
+
+@JS()
+@staticInterop
+class LaunchType {}
+
+@JS()
+@staticInterop
+class ExtensionDisabledReason {}
+
+@JS()
+@staticInterop
+class ExtensionType {}
+
+@JS()
+@staticInterop
+class ExtensionInstallType {}
+
+@JS()
+@staticInterop
+class ExtensionInfo {
+  /// The extension's unique identifier.
+  external JSAny get id;
+
+  /// The name of this extension, app, or theme.
+  external JSAny get name;
+
+  /// A short version of the name of this extension, app, or theme.
+  external JSAny get shortName;
+
+  /// The description of this extension, app, or theme.
+  external JSAny get description;
+
+  /// The <a href='manifest/version'>version</a> of this extension, app, or
+  /// theme.
+  external JSAny get version;
+
+  /// The <a href='manifest/version#version_name'>version name</a> of this
+  /// extension, app, or theme if the manifest specified one.
+  external JSAny? get versionName;
+
+  /// Whether this extension can be disabled or uninstalled by the user.
+  external JSAny get mayDisable;
+
+  /// Whether this extension can be enabled by the user. This is only returned
+  /// for extensions which are not enabled.
+  external JSAny? get mayEnable;
+
+  /// Whether it is currently enabled or disabled.
+  external JSAny get enabled;
+
+  /// A reason the item is disabled.
+  external JSAny? get disabledReason;
+
+  /// True if this is an app.
+  external JSAny get isApp;
+
+  /// The type of this extension, app, or theme.
+  external JSAny get type;
+
+  /// The launch url (only present for apps).
+  external JSAny? get appLaunchUrl;
+
+  /// The URL of the homepage of this extension, app, or theme.
+  external JSAny? get homepageUrl;
+
+  /// The update URL of this extension, app, or theme.
+  external JSAny? get updateUrl;
+
+  /// Whether the extension, app, or theme declares that it supports offline.
+  external JSAny get offlineEnabled;
+
+  /// The url for the item's options page, if it has one.
+  external JSAny get optionsUrl;
+
+  /// A list of icon information. Note that this just reflects what was declared
+  /// in the manifest, and the actual image at that url may be larger or smaller
+  /// than what was declared, so you might consider using explicit width and
+  /// height attributes on img tags referencing these images. See the <a
+  /// href='manifest/icons'>manifest documentation on icons</a> for more
+  /// details.
+  external JSArray? get icons;
+
+  /// Returns a list of API based permissions.
+  external JSArray get permissions;
+
+  /// Returns a list of host based permissions.
+  external JSArray get hostPermissions;
+
+  /// How the extension was installed.
+  external JSAny get installType;
+
+  /// The app launch type (only present for apps).
+  external JSAny? get launchType;
+
+  /// The currently available launch types (only present for apps).
+  external JSArray? get availableLaunchTypes;
+}
+
+@JS()
+@staticInterop
+class UninstallOptions {
+  /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
+  /// to false for self uninstalls. If an extension uninstalls another
+  /// extension, this parameter is ignored and the dialog is always shown.
+  external JSAny? get showConfirmDialog;
 }

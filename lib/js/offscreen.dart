@@ -4,7 +4,7 @@ export 'chrome.dart';
 
 extension JSChromeJSOffscreenExtension on JSChrome {
   ///  Use the `offscreen` API to create and manage offscreen documents.
-  external JSOffscreen get Offscreen;
+  external JSOffscreen get offscreen;
 }
 
 @JS()
@@ -16,11 +16,14 @@ extension JSOffscreenExtension on JSOffscreen {
   ///  |parameters|: The parameters describing the offscreen document to create.
   ///  |callback|: Invoked when the offscreen document is created and has
   ///  completed its initial page load.
-  external void createDocument();
+  external void createDocument(
+    parameters,
+    callback,
+  );
 
   ///  Closes the currently-open offscreen document for the extension.
   ///  |callback|: Invoked when the offscreen document has been closed.
-  external void closeDocument();
+  external void closeDocument(callback);
 
   ///  Determines whether the extension has an active document.
   ///  TODO(https://crbug.com/1339382): This probably isn't something we want to
@@ -29,5 +32,20 @@ extension JSOffscreenExtension on JSOffscreen {
   ///  alternative. But this is pretty useful in testing environments.
   ///  |callback|: Invoked with the result of whether the extension has an
   ///  active offscreen document.
-  external void hasDocument();
+  external void hasDocument(callback);
+}
+
+@JS()
+@staticInterop
+class CreateParameters {
+  ///  The reason(s) the extension is creating the offscreen document.
+  external JSArray get reasons;
+
+  ///  The (relative) URL to load in the document.
+  external JSAny get url;
+
+  ///  A developer-provided string that explains, in more detail, the need for
+  ///  the background context. The user agent _may_ use this in display to the
+  ///  user.
+  external JSAny get justification;
 }

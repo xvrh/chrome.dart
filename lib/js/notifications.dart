@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSNotificationsExtension on JSChrome {
   ///  Use the `chrome.notifications` API to create rich notifications
   ///  using templates and show these notifications to users in the system tray.
-  external JSNotifications get Notifications;
+  external JSNotifications get notifications;
 }
 
 @JS()
@@ -26,7 +26,11 @@ extension JSNotificationsExtension on JSNotifications {
   ///  that represents the created notification.
   ///
   ///  The callback is required before Chrome 42.
-  external void create();
+  external void create(
+    notificationId,
+    options,
+    callback,
+  );
 
   ///  Updates an existing notification.
   ///  |notificationId|: The id of the notification to be updated. This is
@@ -35,7 +39,11 @@ extension JSNotificationsExtension on JSNotifications {
   ///  |callback|: Called to indicate whether a matching notification existed.
   ///
   ///  The callback is required before Chrome 42.
-  external void update();
+  external void update(
+    notificationId,
+    options,
+    callback,
+  );
 
   ///  Clears the specified notification.
   ///  |notificationId|: The id of the notification to be cleared. This is
@@ -43,16 +51,19 @@ extension JSNotificationsExtension on JSNotifications {
   ///  |callback|: Called to indicate whether a matching notification existed.
   ///
   ///  The callback is required before Chrome 42.
-  external void clear();
+  external void clear(
+    notificationId,
+    callback,
+  );
 
   ///  Retrieves all the notifications of this app or extension.
   ///  |callback|: Returns the set of notification_ids currently in the system.
-  external void getAll();
+  external void getAll(callback);
 
   ///  Retrieves whether the user has enabled notifications from this app
   ///  or extension.
   ///  |callback|: Returns the current permission level.
-  external void getPermissionLevel();
+  external void getPermissionLevel(callback);
 
   ///  The notification closed, either by the system or by user action.
   external ChromeEvent get onClosed;
@@ -71,4 +82,112 @@ extension JSNotificationsExtension on JSNotifications {
   ///  Chrome 47, only ChromeOS has UI that dispatches this event.
   ///  As of Chrome 65, that UI has been removed from ChromeOS, too.
   external ChromeEvent get onShowSettings;
+}
+
+@JS()
+@staticInterop
+class NotificationItem {
+  ///  Title of one item of a list notification.
+  external JSAny get title;
+
+  ///  Additional details about this item.
+  external JSAny get message;
+}
+
+@JS()
+@staticInterop
+class NotificationBitmap {
+  external JSAny get width;
+
+  external JSAny get height;
+
+  external JSAny? get data;
+}
+
+@JS()
+@staticInterop
+class NotificationButton {
+  external JSAny get title;
+
+  external JSAny? get iconUrl;
+
+  external JSAny? get iconBitmap;
+}
+
+@JS()
+@staticInterop
+class NotificationOptions {
+  ///  Which type of notification to display.
+  ///  <em>Required for $(ref:notifications.create)</em> method.
+  external JSAny? get type;
+
+  ///  A URL to the sender's avatar, app icon, or a thumbnail for image
+  ///  notifications.
+  ///
+  ///  URLs can be a data URL, a blob URL, or a URL relative to a resource
+  ///  within this extension's .crx file
+  ///  <em>Required for $(ref:notifications.create)</em> method.
+  external JSAny? get iconUrl;
+
+  external JSAny? get iconBitmap;
+
+  ///  A URL to the app icon mask. URLs have the same restrictions as
+  ///  $(ref:notifications.NotificationOptions.iconUrl iconUrl).
+  ///
+  ///  The app icon mask should be in alpha channel, as only the alpha channel
+  ///  of the image will be considered.
+  external JSAny? get appIconMaskUrl;
+
+  external JSAny? get appIconMaskBitmap;
+
+  ///  Title of the notification (e.g. sender name for email).
+  ///  <em>Required for $(ref:notifications.create)</em> method.
+  external JSAny? get title;
+
+  ///  Main notification content.
+  ///  <em>Required for $(ref:notifications.create)</em> method.
+  external JSAny? get message;
+
+  ///  Alternate notification content with a lower-weight font.
+  external JSAny? get contextMessage;
+
+  ///  Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
+  ///  is default.  On platforms that don't support a notification center
+  ///  (Windows, Linux & Mac), -2 and -1 result in an error as notifications
+  ///  with those priorities will not be shown at all.
+  external JSAny? get priority;
+
+  ///  A timestamp associated with the notification, in milliseconds past the
+  ///  epoch (e.g. `Date.now() + n`).
+  external JSAny? get eventTime;
+
+  ///  Text and icons for up to two notification action buttons.
+  external JSArray? get buttons;
+
+  ///  Secondary notification content.
+  external JSAny? get expandedMessage;
+
+  ///  A URL to the image thumbnail for image-type notifications.
+  ///  URLs have the same restrictions as
+  ///  $(ref:notifications.NotificationOptions.iconUrl iconUrl).
+  external JSAny? get imageUrl;
+
+  external JSAny? get imageBitmap;
+
+  ///  Items for multi-item notifications. Users on Mac OS X only see the first
+  ///  item.
+  external JSArray? get items;
+
+  ///  Current progress ranges from 0 to 100.
+  external JSAny? get progress;
+
+  external JSAny? get isClickable;
+
+  ///  Indicates that the notification should remain visible on screen until the
+  ///  user activates or dismisses the notification. This defaults to false.
+  external JSAny? get requireInteraction;
+
+  ///  Indicates that no sounds or vibrations should be made when the
+  ///  notification is being shown. This defaults to false.
+  external JSAny? get silent;
 }

@@ -4,7 +4,7 @@ export 'chrome.dart';
 
 extension JSChromeJSTypesExtension on JSChrome {
   /// The `chrome.types` API contains type declarations for Chrome.
-  external JSTypes get Types;
+  external JSTypes get types;
 }
 
 @JS()
@@ -12,3 +12,15 @@ extension JSChromeJSTypesExtension on JSChrome {
 class JSTypes {}
 
 extension JSTypesExtension on JSTypes {}
+
+@JS()
+@staticInterop
+class ChromeSettingScope {}
+
+@JS()
+@staticInterop
+class LevelOfControl {}
+
+@JS()
+@staticInterop
+class ChromeSetting {}

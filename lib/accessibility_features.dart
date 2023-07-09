@@ -1,10 +1,11 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _AccessibilityFeatures = ChromeAccessibilityFeatures._();
+final _accessibilityFeatures = ChromeAccessibilityFeatures._();
 
 extension ChromeChromeAccessibilityFeaturesExtension on Chrome {
-  ChromeAccessibilityFeatures get AccessibilityFeatures =>
-      _AccessibilityFeatures;
+  ChromeAccessibilityFeatures get accessibilityFeatures =>
+      _accessibilityFeatures;
 }
 
 class ChromeAccessibilityFeatures {

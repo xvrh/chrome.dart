@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSDownloadsExtension on JSChrome {
   ///  Use the `chrome.downloads` API to programmatically initiate,
   ///  monitor, manipulate, and search for downloads.
-  external JSDownloads get Downloads;
+  external JSDownloads get downloads;
 }
 
 @JS()
@@ -26,7 +26,10 @@ extension JSDownloadsExtension on JSDownloads {
   ///  backwards compatible between releases. Extensions must not parse it.
   ///  |options|: What to download and how.
   ///  |callback|: Called with the id of the new $(ref:DownloadItem).
-  external void download();
+  external void download(
+    options,
+    callback,
+  );
 
   ///  Find $(ref:DownloadItem). Set `query` to the empty object to get
   ///  all $(ref:DownloadItem). To get a specific $(ref:DownloadItem), set only
@@ -35,7 +38,10 @@ extension JSDownloadsExtension on JSDownloads {
   ///  `orderBy: ['-startTime']`, set `limit` to the
   ///  number of items per page, and set `startedAfter` to the
   ///  `startTime` of the last item from the last page.
-  external void search();
+  external void search(
+    query,
+    callback,
+  );
 
   ///  Pause the download. If the request was successful the download is in a
   ///  paused state. Otherwise $(ref:runtime.lastError) contains an error
@@ -43,20 +49,29 @@ extension JSDownloadsExtension on JSDownloads {
   ///  The request will fail if the download is not active.
   ///  |downloadId|: The id of the download to pause.
   ///  |callback|: Called when the pause request is completed.
-  external void pause();
+  external void pause(
+    downloadId,
+    callback,
+  );
 
   ///  Resume a paused download. If the request was successful the download is
   ///  in progress and unpaused. Otherwise $(ref:runtime.lastError) contains an
   ///  error message. The request will fail if the download is not active.
   ///  |downloadId|: The id of the download to resume.
   ///  |callback|: Called when the resume request is completed.
-  external void resume();
+  external void resume(
+    downloadId,
+    callback,
+  );
 
   ///  Cancel a download. When `callback` is run, the download is
   ///  cancelled, completed, interrupted or doesn't exist anymore.
   ///  |downloadId|: The id of the download to cancel.
   ///  |callback|: Called when the cancel request is completed.
-  external void cancel();
+  external void cancel(
+    downloadId,
+    callback,
+  );
 
   ///  Retrieve an icon for the specified download. For new downloads, file
   ///  icons are available after the $(ref:onCreated) event has been received.
@@ -70,7 +85,11 @@ extension JSDownloadsExtension on JSDownloads {
   ///  determined, $(ref:runtime.lastError) will contain an error message.
   ///  |downloadId|: The identifier for the download.
   ///  |callback|: A URL to an image that represents the download.
-  external void getFileIcon();
+  external void getFileIcon(
+    downloadId,
+    options,
+    callback,
+  );
 
   ///  Open the downloaded file now if the $(ref:DownloadItem) is complete;
   ///  otherwise returns an error through $(ref:runtime.lastError). Requires the
@@ -78,11 +97,11 @@ extension JSDownloadsExtension on JSDownloads {
   ///  `"downloads"` permission. An $(ref:onChanged) event will fire
   ///  when the item is opened for the first time.
   ///  |downloadId|: The identifier for the downloaded file.
-  external void open();
+  external void open(downloadId);
 
   ///  Show the downloaded file in its folder in a file manager.
   ///  |downloadId|: The identifier for the downloaded file.
-  external void show();
+  external void show(downloadId);
 
   ///  Show the default Downloads folder in a file manager.
   external void showDefaultFolder();
@@ -91,11 +110,17 @@ extension JSDownloadsExtension on JSDownloads {
   ///  downloaded file. An $(ref:onErased) event will fire for each
   ///  $(ref:DownloadItem) that matches `query`, then
   ///  `callback` will be called.
-  external void erase();
+  external void erase(
+    query,
+    callback,
+  );
 
   ///  Remove the downloaded file if it exists and the $(ref:DownloadItem) is
   ///  complete; otherwise return an error through $(ref:runtime.lastError).
-  external void removeFile();
+  external void removeFile(
+    downloadId,
+    callback,
+  );
 
   ///  Prompt the user to accept a dangerous download. Can only be called from a
   ///  visible context (tab, window, or page/browser action popup). Does not
@@ -107,7 +132,10 @@ extension JSDownloadsExtension on JSDownloads {
   ///  'complete', and $(ref:onChanged) fires.
   ///  |downloadId|: The identifier for the $(ref:DownloadItem).
   ///  |callback|: Called when the danger prompt dialog closes.
-  external void acceptDanger();
+  external void acceptDanger(
+    downloadId,
+    callback,
+  );
 
   ///  Enable or disable the gray shelf at the bottom of every window associated
   ///  with the current browser profile. The shelf will be disabled as long as
@@ -115,7 +143,7 @@ extension JSDownloadsExtension on JSDownloads {
   ///  one other extension has disabled it will return an error through
   ///  $(ref:runtime.lastError). Requires the `"downloads.shelf"`
   ///  permission in addition to the `"downloads"` permission.
-  external void setShelfEnabled();
+  external void setShelfEnabled(enabled);
 
   ///  Change the download UI of every window associated with the current
   ///  browser profile. As long as at least one extension has set
@@ -126,7 +154,10 @@ extension JSDownloadsExtension on JSDownloads {
   ///  permission in addition to the `"downloads"` permission.
   ///  |options|: Encapsulate a change to the download UI.
   ///  |callback|: Called when the UI update is completed.
-  external void setUiOptions();
+  external void setUiOptions(
+    options,
+    callback,
+  );
 
   ///  This event fires with the $(ref:DownloadItem) object when a download
   ///  begins.
@@ -166,4 +197,369 @@ extension JSDownloadsExtension on JSDownloads {
   ///  tentative filename have been determined, pass `filename` to
   ///  $(ref:download) instead.
   external ChromeEvent get onDeterminingFilename;
+}
+
+@JS()
+@staticInterop
+class HeaderNameValuePair {
+  ///  Name of the HTTP header.
+  external JSAny get name;
+
+  ///  Value of the HTTP header.
+  external JSAny get value;
+}
+
+@JS()
+@staticInterop
+class FilenameSuggestion {
+  ///  The $(ref:DownloadItem)'s new target $(ref:DownloadItem.filename), as a
+  /// path
+  ///  relative to the user's default Downloads directory, possibly containing
+  ///  subdirectories. Absolute paths, empty paths, and paths containing
+  ///  back-references ".." will be ignored. `filename` is ignored if
+  ///  there are any $(ref:onDeterminingFilename) listeners registered by any
+  ///  extensions.
+  external JSAny get filename;
+
+  ///  The action to take if `filename` already exists.
+  external JSAny? get conflictAction;
+}
+
+@JS()
+@staticInterop
+class DownloadOptions {
+  ///  The URL to download.
+  external JSAny get url;
+
+  ///  A file path relative to the Downloads directory to contain the downloaded
+  ///  file, possibly containing subdirectories. Absolute paths, empty paths,
+  ///  and paths containing back-references ".." will cause an error.
+  ///  $(ref:onDeterminingFilename) allows suggesting a filename after the
+  /// file's
+  ///  MIME type and a tentative filename have been determined.
+  external JSAny? get filename;
+
+  ///  The action to take if `filename` already exists.
+  external JSAny? get conflictAction;
+
+  ///  Use a file-chooser to allow the user to select a filename regardless of
+  ///  whether `filename` is set or already exists.
+  external JSAny? get saveAs;
+
+  ///  The HTTP method to use if the URL uses the HTTP[S] protocol.
+  external JSAny? get method;
+
+  ///  Extra HTTP headers to send with the request if the URL uses the HTTP[s]
+  ///  protocol. Each header is represented as a dictionary containing the keys
+  ///  `name` and either `value` or
+  ///  `binaryValue`, restricted to those allowed by XMLHttpRequest.
+  external JSArray? get headers;
+
+  ///  Post body.
+  external JSAny? get body;
+}
+
+@JS()
+@staticInterop
+class DownloadItem {
+  ///  An identifier that is persistent across browser sessions.
+  external JSAny get id;
+
+  ///  The absolute URL that this download initiated from, before any
+  ///  redirects.
+  external JSAny get url;
+
+  ///  The absolute URL that this download is being made from, after all
+  ///  redirects.
+  external JSAny get finalUrl;
+
+  ///  Absolute URL.
+  external JSAny get referrer;
+
+  ///  Absolute local path.
+  external JSAny get filename;
+
+  ///  False if this download is recorded in the history, true if it is not
+  ///  recorded.
+  external JSAny get incognito;
+
+  ///  Indication of whether this download is thought to be safe or known to be
+  ///  suspicious.
+  external JSAny get danger;
+
+  ///  The file's MIME type.
+  external JSAny get mime;
+
+  ///  The time when the download began in ISO 8601 format. May be passed
+  ///  directly to the Date constructor: `chrome.downloads.search({},
+  ///  function(items){items.forEach(function(item){console.log(new
+  ///  Date(item.startTime))})})`
+  external JSAny get startTime;
+
+  ///  The time when the download ended in ISO 8601 format. May be passed
+  ///  directly to the Date constructor: `chrome.downloads.search({},
+  ///  function(items){items.forEach(function(item){if (item.endTime)
+  ///  console.log(new Date(item.endTime))})})`
+  external JSAny? get endTime;
+
+  ///  Estimated time when the download will complete in ISO 8601 format. May be
+  ///  passed directly to the Date constructor:
+  ///  `chrome.downloads.search({},
+  ///  function(items){items.forEach(function(item){if (item.estimatedEndTime)
+  ///  console.log(new Date(item.estimatedEndTime))})})`
+  external JSAny? get estimatedEndTime;
+
+  ///  Indicates whether the download is progressing, interrupted, or complete.
+  external JSAny get state;
+
+  ///  True if the download has stopped reading data from the host, but kept the
+  ///  connection open.
+  external JSAny get paused;
+
+  ///  True if the download is in progress and paused, or else if it is
+  ///  interrupted and can be resumed starting from where it was interrupted.
+  external JSAny get canResume;
+
+  ///  Why the download was interrupted. Several kinds of HTTP errors may be
+  ///  grouped under one of the errors beginning with `SERVER_`.
+  ///  Errors relating to the network begin with `NETWORK_`, errors
+  ///  relating to the process of writing the file to the file system begin with
+  ///  `FILE_`, and interruptions initiated by the user begin with
+  ///  `USER_`.
+  external JSAny? get error;
+
+  ///  Number of bytes received so far from the host, without considering file
+  ///  compression.
+  external JSAny get bytesReceived;
+
+  ///  Number of bytes in the whole file, without considering file compression,
+  ///  or -1 if unknown.
+  external JSAny get totalBytes;
+
+  ///  Number of bytes in the whole file post-decompression, or -1 if unknown.
+  external JSAny get fileSize;
+
+  ///  Whether the downloaded file still exists. This information may be out of
+  ///  date because Chrome does not automatically watch for file removal. Call
+  ///  $(ref:search)() in order to trigger the check for file existence. When
+  /// the
+  ///  existence check completes, if the file has been deleted, then an
+  ///  $(ref:onChanged) event will fire. Note that $(ref:search)() does not wait
+  ///  for the existence check to finish before returning, so results from
+  ///  $(ref:search)() may not accurately reflect the file system. Also,
+  ///  $(ref:search)() may be called as often as necessary, but will not check
+  /// for
+  ///  file existence any more frequently than once every 10 seconds.
+  external JSAny get exists;
+
+  ///  The identifier for the extension that initiated this download if this
+  ///  download was initiated by an extension. Does not change once it is set.
+  external JSAny? get byExtensionId;
+
+  ///  The localized name of the extension that initiated this download if this
+  ///  download was initiated by an extension. May change if the extension
+  ///  changes its name or if the user changes their locale.
+  external JSAny? get byExtensionName;
+}
+
+@JS()
+@staticInterop
+class DownloadQuery {
+  ///  This array of search terms limits results to $(ref:DownloadItem) whose
+  ///  `filename` or `url` or `finalUrl`
+  ///  contain all of the search terms that do not begin with a dash '-' and
+  ///  none of the search terms that do begin with a dash.
+  external JSArray? get query;
+
+  ///  Limits results to $(ref:DownloadItem) that
+  ///  started before the given ms since the epoch.
+  external JSAny? get startedBefore;
+
+  ///  Limits results to $(ref:DownloadItem) that
+  ///  started after the given ms since the epoch.
+  external JSAny? get startedAfter;
+
+  ///  Limits results to $(ref:DownloadItem) that ended before the given ms
+  /// since the
+  ///  epoch.
+  external JSAny? get endedBefore;
+
+  ///  Limits results to $(ref:DownloadItem) that ended after the given ms since
+  /// the
+  ///  epoch.
+  external JSAny? get endedAfter;
+
+  ///  Limits results to $(ref:DownloadItem) whose
+  ///  `totalBytes` is greater than the given integer.
+  external JSAny? get totalBytesGreater;
+
+  ///  Limits results to $(ref:DownloadItem) whose
+  ///  `totalBytes` is less than the given integer.
+  external JSAny? get totalBytesLess;
+
+  ///  Limits results to $(ref:DownloadItem) whose
+  ///  `filename` matches the given regular expression.
+  external JSAny? get filenameRegex;
+
+  ///  Limits results to $(ref:DownloadItem) whose
+  ///  `url` matches the given regular expression.
+  external JSAny? get urlRegex;
+
+  ///  Limits results to $(ref:DownloadItem) whose
+  ///  `finalUrl` matches the given regular expression.
+  external JSAny? get finalUrlRegex;
+
+  ///  The maximum number of matching $(ref:DownloadItem) returned. Defaults to
+  ///  1000. Set to 0 in order to return all matching $(ref:DownloadItem). See
+  ///  $(ref:search) for how to page through results.
+  external JSAny? get limit;
+
+  ///  Set elements of this array to $(ref:DownloadItem) properties in order to
+  ///  sort search results. For example, setting
+  ///  `orderBy=['startTime']` sorts the $(ref:DownloadItem) by their
+  ///  start time in ascending order. To specify descending order, prefix with a
+  ///  hyphen: '-startTime'.
+  external JSArray? get orderBy;
+
+  ///  The `id` of the $(ref:DownloadItem) to query.
+  external JSAny? get id;
+
+  ///  The absolute URL that this download initiated from, before any
+  ///  redirects.
+  external JSAny? get url;
+
+  ///  The absolute URL that this download is being made from, after all
+  ///  redirects.
+  external JSAny? get finalUrl;
+
+  ///  Absolute local path.
+  external JSAny? get filename;
+
+  ///  Indication of whether this download is thought to be safe or known to be
+  ///  suspicious.
+  external JSAny? get danger;
+
+  ///  The file's MIME type.
+  external JSAny? get mime;
+
+  ///  The time when the download began in ISO 8601 format.
+  external JSAny? get startTime;
+
+  ///  The time when the download ended in ISO 8601 format.
+  external JSAny? get endTime;
+
+  ///  Indicates whether the download is progressing, interrupted, or complete.
+  external JSAny? get state;
+
+  ///  True if the download has stopped reading data from the host, but kept the
+  ///  connection open.
+  external JSAny? get paused;
+
+  ///  Why a download was interrupted.
+  external JSAny? get error;
+
+  ///  Number of bytes received so far from the host, without considering file
+  ///  compression.
+  external JSAny? get bytesReceived;
+
+  ///  Number of bytes in the whole file, without considering file compression,
+  ///  or -1 if unknown.
+  external JSAny? get totalBytes;
+
+  ///  Number of bytes in the whole file post-decompression, or -1 if unknown.
+  external JSAny? get fileSize;
+
+  ///  Whether the downloaded file exists;
+  external JSAny? get exists;
+}
+
+@JS()
+@staticInterop
+class StringDelta {
+  external JSAny? get previous;
+
+  external JSAny? get current;
+}
+
+@JS()
+@staticInterop
+class DoubleDelta {
+  external JSAny? get previous;
+
+  external JSAny? get current;
+}
+
+@JS()
+@staticInterop
+class BooleanDelta {
+  external JSAny? get previous;
+
+  external JSAny? get current;
+}
+
+@JS()
+@staticInterop
+class DownloadDelta {
+  ///  The `id` of the $(ref:DownloadItem)
+  ///  that changed.
+  external JSAny get id;
+
+  ///  The change in `url`, if any.
+  external JSAny? get url;
+
+  ///  The change in `finalUrl`, if any.
+  external JSAny? get finalUrl;
+
+  ///  The change in `filename`, if any.
+  external JSAny? get filename;
+
+  ///  The change in `danger`, if any.
+  external JSAny? get danger;
+
+  ///  The change in `mime`, if any.
+  external JSAny? get mime;
+
+  ///  The change in `startTime`, if any.
+  external JSAny? get startTime;
+
+  ///  The change in `endTime`, if any.
+  external JSAny? get endTime;
+
+  ///  The change in `state`, if any.
+  external JSAny? get state;
+
+  ///  The change in `canResume`, if any.
+  external JSAny? get canResume;
+
+  ///  The change in `paused`, if any.
+  external JSAny? get paused;
+
+  ///  The change in `error`, if any.
+  external JSAny? get error;
+
+  ///  The change in `totalBytes`, if any.
+  external JSAny? get totalBytes;
+
+  ///  The change in `fileSize`, if any.
+  external JSAny? get fileSize;
+
+  ///  The change in `exists`, if any.
+  external JSAny? get exists;
+}
+
+@JS()
+@staticInterop
+class GetFileIconOptions {
+  ///  The size of the returned icon. The icon will be square with dimensions
+  ///  size * size pixels. The default and largest size for the icon is 32x32
+  ///  pixels. The only supported sizes are 16 and 32. It is an error to specify
+  ///  any other size.
+  external JSAny? get size;
+}
+
+@JS()
+@staticInterop
+class UiOptions {
+  ///  Enable or disable the download UI.
+  external JSAny get enabled;
 }

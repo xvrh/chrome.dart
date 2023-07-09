@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSWebRequestExtension on JSChrome {
   /// Use the `chrome.webRequest` API to observe and analyze traffic and to
   /// intercept, block, or modify requests in-flight.
-  external JSWebRequest get WebRequest;
+  external JSWebRequest get webRequest;
 }
 
 @JS()
@@ -16,7 +16,7 @@ extension JSWebRequestExtension on JSWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  external void handlerBehaviorChanged();
+  external void handlerBehaviorChanged(callback);
 
   /// Fired when a request is about to occur.
   external ChromeEvent get onBeforeRequest;
@@ -61,3 +61,115 @@ extension JSWebRequestExtension on JSWebRequest {
   /// ignored. This happens in case of conflicts with other extensions.
   external ChromeEvent get onActionIgnored;
 }
+
+@JS()
+@staticInterop
+class ResourceType {}
+
+@JS()
+@staticInterop
+class OnBeforeRequestOptions {}
+
+@JS()
+@staticInterop
+class OnBeforeSendHeadersOptions {}
+
+@JS()
+@staticInterop
+class OnSendHeadersOptions {}
+
+@JS()
+@staticInterop
+class OnHeadersReceivedOptions {}
+
+@JS()
+@staticInterop
+class OnAuthRequiredOptions {}
+
+@JS()
+@staticInterop
+class OnResponseStartedOptions {}
+
+@JS()
+@staticInterop
+class OnBeforeRedirectOptions {}
+
+@JS()
+@staticInterop
+class OnCompletedOptions {}
+
+@JS()
+@staticInterop
+class OnErrorOccurredOptions {}
+
+@JS()
+@staticInterop
+class RequestFilter {
+  /// A list of URLs or URL patterns. Requests that cannot match any of the URLs
+  /// will be filtered out.
+  external JSArray get urls;
+
+  /// A list of request types. Requests that cannot match any of the types will
+  /// be filtered out.
+  external JSArray? get types;
+
+  external JSAny? get tabId;
+
+  external JSAny? get windowId;
+}
+
+@JS()
+@staticInterop
+class HttpHeaders {}
+
+@JS()
+@staticInterop
+class BlockingResponse {
+  /// If true, the request is cancelled. This prevents the request from being
+  /// sent. This can be used as a response to the onBeforeRequest,
+  /// onBeforeSendHeaders, onHeadersReceived and onAuthRequired events.
+  external JSAny? get cancel;
+
+  /// Only used as a response to the onBeforeRequest and onHeadersReceived
+  /// events. If set, the original request is prevented from being
+  /// sent/completed and is instead redirected to the given URL. Redirections to
+  /// non-HTTP schemes such as `data:` are allowed. Redirects initiated by a
+  /// redirect action use the original request method for the redirect, with one
+  /// exception: If the redirect is initiated at the onHeadersReceived stage,
+  /// then the redirect will be issued using the GET method. Redirects from URLs
+  /// with `ws://` and `wss://` schemes are <b>ignored</b>.
+  external JSAny? get redirectUrl;
+
+  /// Only used as a response to the onBeforeSendHeaders event. If set, the
+  /// request is made with these request headers instead.
+  external JSAny? get requestHeaders;
+
+  /// Only used as a response to the onHeadersReceived event. If set, the server
+  /// is assumed to have responded with these response headers instead. Only
+  /// return `responseHeaders` if you really want to modify the headers in order
+  /// to limit the number of conflicts (only one extension may modify
+  /// `responseHeaders` for each request).
+  external JSAny? get responseHeaders;
+
+  /// Only used as a response to the onAuthRequired event. If set, the request
+  /// is made using the supplied credentials.
+  external JSAny? get authCredentials;
+}
+
+@JS()
+@staticInterop
+class UploadData {
+  /// An ArrayBuffer with a copy of the data.
+  external JSAny? get bytes;
+
+  /// A string with the file's path and name.
+  external JSAny? get file;
+}
+
+@JS()
+@staticInterop
+class FormDataItem {}
+
+@JS()
+@staticInterop
+class IgnoredActionType {}

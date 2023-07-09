@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSStorageExtension on JSChrome {
   /// Use the `chrome.storage` API to store, retrieve, and track changes to user
   /// data.
-  external JSStorage get Storage;
+  external JSStorage get storage;
 }
 
 @JS()
@@ -16,3 +16,21 @@ extension JSStorageExtension on JSStorage {
   /// Fired when one or more items change.
   external ChromeEvent get onChanged;
 }
+
+@JS()
+@staticInterop
+class AccessLevel {}
+
+@JS()
+@staticInterop
+class StorageChange {
+  /// The old value of the item, if there was an old value.
+  external JSAny? get oldValue;
+
+  /// The new value of the item, if there is a new value.
+  external JSAny? get newValue;
+}
+
+@JS()
+@staticInterop
+class StorageArea {}

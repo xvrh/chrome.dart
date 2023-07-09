@@ -1,10 +1,11 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _WebAuthenticationProxy = ChromeWebAuthenticationProxy._();
+final _webAuthenticationProxy = ChromeWebAuthenticationProxy._();
 
 extension ChromeChromeWebAuthenticationProxyExtension on Chrome {
-  ChromeWebAuthenticationProxy get WebAuthenticationProxy =>
-      _WebAuthenticationProxy;
+  ChromeWebAuthenticationProxy get webAuthenticationProxy =>
+      _webAuthenticationProxy;
 }
 
 class ChromeWebAuthenticationProxy {

@@ -13,10 +13,39 @@ ChromeApi loadIdlModel(String content) {
     documentation: _toDocumentation(namespace.documentation),
     properties: {},
     functions: namespace.functionDeclaration?.methods
-            .map((f) => Method(
-                name: f.name, documentation: _toDocumentation(f.documentation)))
+            .map((f) => Method(f.name,
+                parameters: f.parameters
+                    .map((p) => Property(p.name,
+                        typeName: p.type.name,
+                        optional: p.isOptional,
+                        documentation: '',
+                        isArray: p.type.isArray))
+                    .toList(),
+                documentation: _toDocumentation(f.documentation)))
             .toList() ??
         [],
+    dictionaries: namespace.typeDeclarations
+        .map((t) => Dictionary(t.name,
+            properties: t.members
+                .map((m) => Property(m.name,
+                    typeName: m.type.name,
+                    isArray: m.type.isArray,
+                    optional: m.isOptional,
+                    documentation: _toDocumentation(m.documentation)))
+                .toList(),
+            documentation: _toDocumentation(t.documentation)))
+        .toList(),
+    enumerations: namespace.enumDeclarations
+        .map((e) => Enumeration(
+              e.name,
+              documentation: _toDocumentation(e.documentation),
+              values: e.enums
+                  .map((v) => EnumerationValue(
+                      name: v.name,
+                      documentation: _toDocumentation(v.documentation)))
+                  .toList(),
+            ))
+        .toList(),
   );
 }
 

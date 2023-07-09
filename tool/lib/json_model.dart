@@ -214,13 +214,57 @@ class _JsonEnumConverter extends JsonConverter<JsonEnumValue, Object> {
 
 ChromeApi loadJsonModel(String content) {
   var jsonModel = JsonNamespace.parse(content);
+  var enums = jsonModel.types.where((e) => e.enums != null);
+
   return ChromeApi(
     name: jsonModel.namespace,
     events: jsonModel.events.map((e) => Event(e.name, e.description)).toList(),
     documentation: jsonModel.description,
     properties: {},
     functions: jsonModel.functions
-        .map((f) => Method(name: f.name, documentation: f.description))
+        .map((f) => Method(
+              f.name,
+              parameters: f.parameters.map(_methodParameter).toList(),
+              documentation: f.description,
+            ))
         .toList(),
+    dictionaries: jsonModel.types
+        .map((t) => Dictionary(
+              t.id,
+              properties: t.properties?.entries
+                      .map((e) => _dictionaryProperty(e.key, e.value))
+                      .toList() ??
+                  [],
+              documentation: t.description,
+            ))
+        .toList(),
+    enumerations: enums
+        .map((e) => Enumeration(e.id,
+            documentation: e.description,
+            values: e.enums!
+                .map((v) => EnumerationValue(
+                    name: v.name, documentation: v.description))
+                .toList()))
+        .toList(),
+  );
+}
+
+Property _dictionaryProperty(String name, JsonProperty prop) {
+  return Property(
+    name,
+    typeName: prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object',
+    isArray: prop.items != null,
+    optional: prop.optional ?? false,
+    documentation: prop.description,
+  );
+}
+
+Property _methodParameter(JsonProperty prop) {
+  return Property(
+    prop.name!,
+    typeName: prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object',
+    isArray: prop.items != null,
+    optional: prop.optional ?? false,
+    documentation: prop.description,
   );
 }

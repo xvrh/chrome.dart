@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _TopSites = ChromeTopSites._();
+final _topSites = ChromeTopSites._();
 
 extension ChromeChromeTopSitesExtension on Chrome {
-  ChromeTopSites get TopSites => _TopSites;
+  ChromeTopSites get topSites => _topSites;
 }
 
 class ChromeTopSites {

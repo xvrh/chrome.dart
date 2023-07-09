@@ -1,11 +1,36 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Proxy = ChromeProxy._();
+final _proxy = ChromeProxy._();
 
 extension ChromeChromeProxyExtension on Chrome {
-  ChromeProxy get Proxy => _Proxy;
+  ChromeProxy get proxy => _proxy;
 }
 
 class ChromeProxy {
   ChromeProxy._();
+}
+
+enum Scheme {
+  http('http'),
+  https('https'),
+  quic('quic'),
+  socks4('socks4'),
+  socks5('socks5');
+
+  const Scheme(this.value);
+
+  final String value;
+}
+
+enum Mode {
+  direct('direct'),
+  autoDetect('auto_detect'),
+  pacScript('pac_script'),
+  fixedServers('fixed_servers'),
+  system('system');
+
+  const Mode(this.value);
+
+  final String value;
 }

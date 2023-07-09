@@ -7,7 +7,7 @@ extension JSChromeJSTabGroupsExtension on JSChrome {
   /// system. You can use this API to modify and rearrange tab groups in the
   /// browser. To group and ungroup tabs, or to query what tabs are in groups,
   /// use the `chrome.tabs` API.
-  external JSTabGroups get TabGroups;
+  external JSTabGroups get tabGroups;
 }
 
 @JS()
@@ -16,18 +16,24 @@ class JSTabGroups {}
 
 extension JSTabGroupsExtension on JSTabGroups {
   /// Retrieves details about the specified group.
-  external void get();
+  external void get(groupId);
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
-  external void query();
+  external void query(queryInfo);
 
   /// Modifies the properties of a group. Properties that are not specified in
   /// <var>updateProperties</var> are not modified.
-  external void update();
+  external void update(
+    groupId,
+    updateProperties,
+  );
 
   /// Moves the group and all its tabs within its window, or to a new window.
-  external void move();
+  external void move(
+    groupId,
+    moveProperties,
+  );
 
   /// Fired when a group is created.
   external ChromeEvent get onCreated;
@@ -44,4 +50,28 @@ extension JSTabGroupsExtension on JSTabGroups {
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
   external ChromeEvent get onRemoved;
+}
+
+@JS()
+@staticInterop
+class Color {}
+
+@JS()
+@staticInterop
+class TabGroup {
+  /// The ID of the group. Group IDs are unique within a browser session.
+  external JSAny get id;
+
+  /// Whether the group is collapsed. A collapsed group is one whose tabs are
+  /// hidden.
+  external JSAny get collapsed;
+
+  /// The group's color.
+  external JSAny get color;
+
+  /// The title of the group.
+  external JSAny? get title;
+
+  /// The ID of the window that contains the group.
+  external JSAny get windowId;
 }

@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Alarms = ChromeAlarms._();
+final _alarms = ChromeAlarms._();
 
 extension ChromeChromeAlarmsExtension on Chrome {
-  ChromeAlarms get Alarms => _Alarms;
+  ChromeAlarms get alarms => _alarms;
 }
 
 class ChromeAlarms {

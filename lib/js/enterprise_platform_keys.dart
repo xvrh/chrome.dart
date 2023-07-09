@@ -9,7 +9,7 @@ extension JSChromeJSEnterprisePlatformKeysExtension on JSChrome {
   ///  platform and can be used for TLS authentication, network access or by
   /// other
   ///  extension through $(ref:platformKeys chrome.platformKeys).
-  external JSEnterprisePlatformKeys get EnterprisePlatformKeys;
+  external JSEnterprisePlatformKeys get enterprisePlatformKeys;
 }
 
 @JS()
@@ -23,14 +23,17 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  contain the system-wide token with `id` `"system"`.
   ///  The system-wide token will be the same for all sessions on this device
   ///  (device in the sense of e.g. a Chromebook).
-  external void getTokens();
+  external void getTokens(callback);
 
   ///  Returns the list of all client certificates available from the given
   ///  token. Can be used to check for the existence and expiration of client
   ///  certificates that are usable for a certain authentication.
   ///  |tokenId|: The id of a Token returned by `getTokens`.
   ///  |callback|: Called back with the list of the available certificates.
-  external void getCertificates();
+  external void getCertificates(
+    tokenId,
+    callback,
+  );
 
   ///  Imports `certificate` to the given token if the certified key
   ///  is already stored in this token.
@@ -40,7 +43,11 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |tokenId|: The id of a Token returned by `getTokens`.
   ///  |certificate|: The DER encoding of a X.509 certificate.
   ///  |callback|: Called back when this operation is finished.
-  external void importCertificate();
+  external void importCertificate(
+    tokenId,
+    certificate,
+    callback,
+  );
 
   ///  Removes `certificate` from the given token if present.
   ///  Should be used to remove obsolete certificates so that they are not
@@ -49,7 +56,11 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |tokenId|: The id of a Token returned by `getTokens`.
   ///  |certificate|: The DER encoding of a X.509 certificate.
   ///  |callback|: Called back when this operation is finished.
-  external void removeCertificate();
+  external void removeCertificate(
+    tokenId,
+    certificate,
+    callback,
+  );
 
   ///  Similar to `challengeMachineKey` and
   ///  `challengeUserKey`, but allows specifying the algorithm of a
@@ -77,7 +88,10 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |options|: Object containing the fields defined in
   ///             $(ref:ChallengeKeyOptions).
   ///  |callback|: Called back with the challenge response.
-  external void challengeKey();
+  external void challengeKey(
+    options,
+    callback,
+  );
 
   ///  Challenges a hardware-backed Enterprise Machine Key and emits the
   ///  response as part of a remote attestation protocol. Only useful on Chrome
@@ -108,7 +122,11 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///                 to this function will then generate a new Enterprise
   ///                 Machine Key.
   ///  |callback|: Called back with the challenge response.
-  external void challengeMachineKey();
+  external void challengeMachineKey(
+    challenge,
+    registerKey,
+    callback,
+  );
 
   ///  Challenges a hardware-backed Enterprise User Key and emits the response
   ///  as part of a remote attestation protocol. Only useful on Chrome OS and in
@@ -138,5 +156,77 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///                 This key is 2048-bit RSA. Subsequent calls to this
   ///                 function will then generate a new Enterprise User Key.
   ///  |callback|: Called back with the challenge response.
-  external void challengeUserKey();
+  external void challengeUserKey(
+    challenge,
+    registerKey,
+    callback,
+  );
+}
+
+@JS()
+@staticInterop
+class Token {
+  ///  Uniquely identifies this `Token`.
+  ///  <p>Static IDs are `"user"` and `"system"`,
+  ///  referring to the platform's user-specific and the system-wide hardware
+  ///  token, respectively. Any other tokens (with other identifiers) might be
+  ///  returned by $(ref:enterprise.platformKeys.getTokens).</p>
+  external JSAny get id;
+
+  ///  Implements the WebCrypto's
+  ///  <a
+  /// href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">SubtleCrypto</a>
+  ///  interface. The cryptographic operations, including key generation, are
+  ///  hardware-backed.
+  ///  <p>Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  ///  `modulusLength` up to 2048 and ECDSA with
+  ///  `namedCurve` P-256 can be generated. Each key can be
+  ///  used for signing data at most once.</p>
+  ///  <p>Keys generated on a specific `Token` cannot be used with
+  ///  any other Tokens, nor can they be used with
+  ///  `window.crypto.subtle`. Equally, `Key` objects
+  ///  created with `window.crypto.subtle` cannot be used with this
+  ///  interface.</p>
+  external JSAny get subtleCrypto;
+
+  ///  Implements the WebCrypto's
+  ///  <a
+  /// href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">SubtleCrypto</a>
+  ///  interface. The cryptographic operations, including key generation, are
+  ///  software-backed. Protection of the keys, and thus implementation of the
+  ///  non-extractable property, is done in software, so the keys are less
+  ///  protected than hardware-backed keys.
+  ///  <p>Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  ///  `modulusLength` up to 2048 can be generated. Each key can be
+  ///  used for signing data at most once.</p>
+  ///  <p>Keys generated on a specific `Token` cannot be used with
+  ///  any other Tokens, nor can they be used with
+  ///  `window.crypto.subtle`. Equally, `Key` objects
+  ///  created with `window.crypto.subtle` cannot be used with this
+  ///  interface.</p>
+  external JSAny get softwareBackedSubtleCrypto;
+}
+
+@JS()
+@staticInterop
+class RegisterKeyOptions {
+  ///  Which algorithm the registered key should use.
+  external JSAny get algorithm;
+}
+
+@JS()
+@staticInterop
+class ChallengeKeyOptions {
+  ///  A challenge as emitted by the Verified Access Web API.
+  external JSAny get challenge;
+
+  ///  If present, registers the challenged key with the specified
+  ///  `scope`'s token.  The key can then be associated with a
+  ///  certificate and used like any other signing key.  Subsequent calls to
+  ///  this function will then generate a new Enterprise Key in the specified
+  ///  `scope`.
+  external JSAny? get registerKey;
+
+  ///  Which Enterprise Key to challenge.
+  external JSAny get scope;
 }

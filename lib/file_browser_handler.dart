@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _FileBrowserHandler = ChromeFileBrowserHandler._();
+final _fileBrowserHandler = ChromeFileBrowserHandler._();
 
 extension ChromeChromeFileBrowserHandlerExtension on Chrome {
-  ChromeFileBrowserHandler get FileBrowserHandler => _FileBrowserHandler;
+  ChromeFileBrowserHandler get fileBrowserHandler => _fileBrowserHandler;
 }
 
 class ChromeFileBrowserHandler {

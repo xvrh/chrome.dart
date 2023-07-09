@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _DocumentScan = ChromeDocumentScan._();
+final _documentScan = ChromeDocumentScan._();
 
 extension ChromeChromeDocumentScanExtension on Chrome {
-  ChromeDocumentScan get DocumentScan => _DocumentScan;
+  ChromeDocumentScan get documentScan => _documentScan;
 }
 
 class ChromeDocumentScan {

@@ -8,7 +8,7 @@ extension JSChromeJSEnterpriseNetworkingAttributesExtension on JSChrome {
   ///  Note: This API is only available to extensions force-installed by
   /// enterprise
   ///  policy.
-  external JSEnterpriseNetworkingAttributes get EnterpriseNetworkingAttributes;
+  external JSEnterpriseNetworkingAttributes get enterpriseNetworkingAttributes;
 }
 
 @JS()
@@ -22,5 +22,18 @@ extension JSEnterpriseNetworkingAttributesExtension
   ///  network, $(ref:runtime.lastError) will be set with a failure reason.
   ///  |callback| : Called with the device's default network's
   ///  $(ref:NetworkDetails).
-  external void getNetworkDetails();
+  external void getNetworkDetails(callback);
+}
+
+@JS()
+@staticInterop
+class NetworkDetails {
+  ///  The device's MAC address.
+  external JSAny get macAddress;
+
+  ///  The device's local IPv4 address (undefined if not configured).
+  external JSAny? get ipv4;
+
+  ///  The device's local IPv6 address (undefined if not configured).
+  external JSAny? get ipv6;
 }

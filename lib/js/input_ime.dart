@@ -6,7 +6,7 @@ extension JSChromeJSInputImeExtension on JSChrome {
   /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
   /// This allows your extension to handle keystrokes, set the composition, and
   /// manage the candidate window.
-  external JSInputIme get InputIme;
+  external JSInputIme get inputIme;
 }
 
 @JS()
@@ -16,19 +16,19 @@ class JSInputIme {}
 extension JSInputImeExtension on JSInputIme {
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  external void setComposition();
+  external void setComposition(parameters);
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  external void clearComposition();
+  external void clearComposition(parameters);
 
   /// Commits the provided text to the current input.
-  external void commitText();
+  external void commitText(parameters);
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  external void sendKeyEvents();
+  external void sendKeyEvents(parameters);
 
   /// Hides the input view window, which is popped up automatically by system.
   /// If the input view window is already hidden, this function will do nothing.
@@ -36,34 +36,37 @@ extension JSInputImeExtension on JSInputIme {
 
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
-  external void setCandidateWindowProperties();
+  external void setCandidateWindowProperties(parameters);
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  external void setCandidates();
+  external void setCandidates(parameters);
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  external void setCursorPosition();
+  external void setCursorPosition(parameters);
 
   /// Shows/Hides an assistive window with the given properties.
-  external void setAssistiveWindowProperties();
+  external void setAssistiveWindowProperties(parameters);
 
   /// Highlights/Unhighlights a button in an assistive window.
-  external void setAssistiveWindowButtonHighlighted();
+  external void setAssistiveWindowButtonHighlighted(parameters);
 
   /// Adds the provided menu items to the language menu when this IME is active.
-  external void setMenuItems();
+  external void setMenuItems(parameters);
 
   /// Updates the state of the MenuItems specified
-  external void updateMenuItems();
+  external void updateMenuItems(parameters);
 
   /// Deletes the text around the caret.
-  external void deleteSurroundingText();
+  external void deleteSurroundingText(parameters);
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
-  external void keyEventHandled();
+  external void keyEventHandled(
+    requestId,
+    response,
+  );
 
   /// This event is sent when an IME is activated. It signals that the IME will
   /// be receiving onKeyPress events.
@@ -110,4 +113,157 @@ extension JSInputImeExtension on JSInputIme {
 
   /// This event is sent when a button in an assistive window is clicked.
   external ChromeEvent get onAssistiveWindowButtonClicked;
+}
+
+@JS()
+@staticInterop
+class KeyboardEventType {}
+
+@JS()
+@staticInterop
+class KeyboardEvent {
+  /// One of keyup or keydown.
+  external JSAny get type;
+
+  /// (Deprecated) The ID of the request. Use the `requestId` param from the
+  /// `onKeyEvent` event instead.
+  external JSAny? get requestId;
+
+  /// The extension ID of the sender of this keyevent.
+  external JSAny? get extensionId;
+
+  /// Value of the key being pressed
+  external JSAny get key;
+
+  /// Value of the physical key being pressed. The value is not affected by
+  /// current keyboard layout or modifier state.
+  external JSAny get code;
+
+  /// The deprecated HTML keyCode, which is system- and implementation-dependent
+  /// numerical code signifying the unmodified identifier associated with the
+  /// key pressed.
+  external JSAny? get keyCode;
+
+  /// Whether or not the ALT key is pressed.
+  external JSAny? get altKey;
+
+  /// Whether or not the ALTGR key is pressed.
+  external JSAny? get altgrKey;
+
+  /// Whether or not the CTRL key is pressed.
+  external JSAny? get ctrlKey;
+
+  /// Whether or not the SHIFT key is pressed.
+  external JSAny? get shiftKey;
+
+  /// Whether or not the CAPS_LOCK is enabled.
+  external JSAny? get capsLock;
+}
+
+@JS()
+@staticInterop
+class InputContextType {}
+
+@JS()
+@staticInterop
+class AutoCapitalizeType {}
+
+@JS()
+@staticInterop
+class InputContext {
+  /// This is used to specify targets of text field operations.  This ID becomes
+  /// invalid as soon as onBlur is called.
+  external JSAny get contextID;
+
+  /// Type of value this text field edits, (Text, Number, URL, etc)
+  external JSAny get type;
+
+  /// Whether the text field wants auto-correct.
+  external JSAny get autoCorrect;
+
+  /// Whether the text field wants auto-complete.
+  external JSAny get autoComplete;
+
+  /// The auto-capitalize type of the text field.
+  external JSAny get autoCapitalize;
+
+  /// Whether the text field wants spell-check.
+  external JSAny get spellCheck;
+
+  /// Whether text entered into the text field should be used to improve typing
+  /// suggestions for the user.
+  external JSAny get shouldDoLearning;
+}
+
+@JS()
+@staticInterop
+class MenuItemStyle {}
+
+@JS()
+@staticInterop
+class MenuItem {
+  /// String that will be passed to callbacks referencing this MenuItem.
+  external JSAny get id;
+
+  /// Text displayed in the menu for this item.
+  external JSAny? get label;
+
+  /// The type of menu item.
+  external JSAny? get style;
+
+  /// Indicates this item is visible.
+  external JSAny? get visible;
+
+  /// Indicates this item should be drawn with a check.
+  external JSAny? get checked;
+
+  /// Indicates this item is enabled.
+  external JSAny? get enabled;
+}
+
+@JS()
+@staticInterop
+class UnderlineStyle {}
+
+@JS()
+@staticInterop
+class WindowPosition {}
+
+@JS()
+@staticInterop
+class ScreenType {}
+
+@JS()
+@staticInterop
+class MouseButton {}
+
+@JS()
+@staticInterop
+class AssistiveWindowType {}
+
+@JS()
+@staticInterop
+class AssistiveWindowProperties {
+  external JSAny get type;
+
+  /// Sets true to show AssistiveWindow, sets false to hide.
+  external JSAny get visible;
+
+  /// Strings for ChromeVox to announce.
+  external JSAny? get announceString;
+}
+
+@JS()
+@staticInterop
+class AssistiveWindowButton {}
+
+@JS()
+@staticInterop
+class MenuParameters {
+  /// ID of the engine to use.
+  external JSAny get engineID;
+
+  /// MenuItems to add or update. They will be added in the order they exist in
+  /// the array.
+  external JSArray get items;
 }

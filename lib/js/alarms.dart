@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSAlarmsExtension on JSChrome {
   ///  Use the `chrome.alarms` API to schedule code to run
   ///  periodically or at a specified time in the future.
-  external JSAlarms get Alarms;
+  external JSAlarms get alarms;
 }
 
 @JS()
@@ -39,23 +39,70 @@ extension JSAlarmsExtension on JSAlarms {
   ///  repeating alarm, <var>periodInMinutes</var> is used as the default for
   ///  <var>delayInMinutes</var>.
   ///  |callback|: Invoked when the alarm has been created.
-  external void create();
+  external void create(
+    name,
+    alarmInfo,
+    callback,
+  );
 
   ///  Retrieves details about the specified alarm.
   ///  |name|: The name of the alarm to get. Defaults to the empty string.
-  external void get();
+  external void get(
+    name,
+    callback,
+  );
 
   ///  Gets an array of all the alarms.
-  external void getAll();
+  external void getAll(callback);
 
   ///  Clears the alarm with the given name.
   ///  |name|: The name of the alarm to clear. Defaults to the empty string.
-  external void clear();
+  external void clear(
+    name,
+    callback,
+  );
 
   ///  Clears all alarms.
-  external void clearAll();
+  external void clearAll(callback);
 
   ///  Fired when an alarm has elapsed. Useful for event pages.
   ///  |alarm|: The alarm that has elapsed.
   external ChromeEvent get onAlarm;
+}
+
+@JS()
+@staticInterop
+class Alarm {
+  ///  Name of this alarm.
+  external JSAny get name;
+
+  ///  Time at which this alarm was scheduled to fire, in milliseconds past the
+  ///  epoch (e.g. `Date.now() + n`).  For performance reasons, the
+  ///  alarm may have been delayed an arbitrary amount beyond this.
+  external JSAny get scheduledTime;
+
+  ///  If not null, the alarm is a repeating alarm and will fire again in
+  ///  <var>periodInMinutes</var> minutes.
+  external JSAny? get periodInMinutes;
+}
+
+@JS()
+@staticInterop
+class AlarmCreateInfo {
+  ///  Time at which the alarm should fire, in milliseconds past the epoch
+  ///  (e.g. `Date.now() + n`).
+  external JSAny? get when;
+
+  ///  Length of time in minutes after which the `onAlarm` event
+  ///  should fire.
+  ///
+  ///  <!-- TODO: need minimum=0 -->
+  external JSAny? get delayInMinutes;
+
+  ///  If set, the onAlarm event should fire every <var>periodInMinutes</var>
+  ///  minutes after the initial event specified by <var>when</var> or
+  ///  <var>delayInMinutes</var>.  If not set, the alarm will only fire once.
+  ///
+  ///  <!-- TODO: need minimum=0 -->
+  external JSAny? get periodInMinutes;
 }

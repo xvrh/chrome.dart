@@ -10,7 +10,7 @@ extension JSChromeJSPlatformKeysExtension on JSChrome {
   ///  E.g. this allows usage of platform managed certificates in third party
   /// VPNs
   ///  (see $(ref:vpnProvider chrome.vpnProvider)).
-  external JSPlatformKeys get PlatformKeys;
+  external JSPlatformKeys get platformKeys;
 }
 
 @JS()
@@ -26,7 +26,10 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  to the certificate.
   ///  The selected/filtered client certificates will be passed to
   ///  `callback`.
-  external void selectClientCertificates();
+  external void selectClientCertificates(
+    details,
+    callback,
+  );
 
   ///  Passes the key pair of `certificate` for usage with
   ///  $(ref:platformKeys.subtleCrypto) to `callback`.
@@ -46,7 +49,11 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  apply PKCS#1 v1.5 padding but not hash the given data.
   ///  <p>Currently, this method only supports the "RSASSA-PKCS1-v1_5" and
   ///  "ECDSA" algorithms.</p>
-  external void getKeyPair();
+  external void getKeyPair(
+    certificate,
+    parameters,
+    callback,
+  );
 
   ///  Passes the key pair identified by `publicKeySpkiDer` for
   ///  usage with $(ref:platformKeys.subtleCrypto) to `callback`.
@@ -68,7 +75,11 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  named-curve P-256 and "RSASSA-PKCS1-v1_5" algorithm with one of the
   ///  hashing algorithms "none", "SHA-1", "SHA-256", "SHA-384", and
   ///  "SHA-512".</p>
-  external void getKeyPairBySpki();
+  external void getKeyPairBySpki(
+    publicKeySpkiDer,
+    parameters,
+    callback,
+  );
 
   ///  An implementation of WebCrypto's
   ///  <a href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">
@@ -86,5 +97,89 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  certification path and checks trust by a known CA.
   ///  The implementation is supposed to respect the EKU serverAuth and to
   ///  support subject alternative names.
-  external void verifyTLSServerCertificate();
+  external void verifyTLSServerCertificate(
+    details,
+    callback,
+  );
+}
+
+@JS()
+@staticInterop
+class Match {
+  ///  The DER encoding of a X.509 certificate.
+  external JSAny get certificate;
+
+  ///  The
+  ///  <a href="http://www.w3.org/TR/WebCryptoAPI/#key-algorithm-dictionary">
+  ///  KeyAlgorithm</a> of the certified key. This contains algorithm
+  ///  parameters that are inherent to the key of the certificate (e.g. the key
+  ///  length). Other parameters like the hash function used by the sign
+  ///  function are not included.
+  external JSAny get keyAlgorithm;
+}
+
+@JS()
+@staticInterop
+class ClientCertificateRequest {
+  ///  This field is a list of the types of certificates requested, sorted in
+  ///  order of the server's preference. Only certificates of a type contained
+  ///  in this list will be retrieved. If `certificateTypes` is the
+  ///  empty list, however, certificates of any type will be returned.
+  external JSArray get certificateTypes;
+
+  ///  List of distinguished names of certificate authorities allowed by the
+  ///  server. Each entry must be a DER-encoded X.509 DistinguishedName.
+  external JSArray get certificateAuthorities;
+}
+
+@JS()
+@staticInterop
+class SelectDetails {
+  ///  Only certificates that match this request will be returned.
+  external JSAny get request;
+
+  ///  If given, the `selectClientCertificates` operates on this
+  ///  list. Otherwise, obtains the list of all certificates from the platform's
+  ///  certificate stores that are available to this extensions.
+  ///  Entries that the extension doesn't have permission for or which doesn't
+  ///  match the request, are removed.
+  external JSArray? get clientCerts;
+
+  ///  If true, the filtered list is presented to the user to manually select a
+  ///  certificate and thereby granting the extension access to the
+  ///  certificate(s) and key(s). Only the selected certificate(s) will be
+  ///  returned. If is false, the list is reduced to all certificates that the
+  ///  extension has been granted access to (automatically or manually).
+  external JSAny get interactive;
+}
+
+@JS()
+@staticInterop
+class VerificationDetails {
+  ///  Each chain entry must be the DER encoding of a X.509 certificate, the
+  ///  first entry must be the server certificate and each entry must certify
+  ///  the entry preceding it.
+  external JSArray get serverCertificateChain;
+
+  ///  The hostname of the server to verify the certificate for, e.g. the server
+  ///  that presented the `serverCertificateChain`.
+  external JSAny get hostname;
+}
+
+@JS()
+@staticInterop
+class VerificationResult {
+  ///  The result of the trust verification: true if trust for the given
+  ///  verification details could be established and false if trust is rejected
+  ///  for any reason.
+  external JSAny get trusted;
+
+  ///  If the trust verification failed, this array contains the errors reported
+  ///  by the underlying network layer. Otherwise, this array is empty.
+  ///
+  ///  <strong>Note:</strong> This list is meant for debugging only and may not
+  ///  contain all relevant errors. The errors returned may change in future
+  ///  revisions of this API, and are not guaranteed to be forwards or backwards
+  ///  compatible.
+  external JSArray get debug_errors;
 }

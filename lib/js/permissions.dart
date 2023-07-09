@@ -7,7 +7,7 @@ extension JSChromeJSPermissionsExtension on JSChrome {
   /// href='permissions#manifest'>declared optional permissions</a> at run time
   /// rather than install time, so users understand why the permissions are
   /// needed and grant only those that are necessary.
-  external JSPermissions get Permissions;
+  external JSPermissions get permissions;
 }
 
 @JS()
@@ -19,7 +19,7 @@ extension JSPermissionsExtension on JSPermissions {
   external void getAll();
 
   /// Checks if the extension has the specified permissions.
-  external void contains();
+  external void contains(permissions);
 
   /// Requests access to the specified permissions, displaying a prompt to the
   /// user if necessary. These permissions must either be defined in the
@@ -29,15 +29,27 @@ extension JSPermissionsExtension on JSPermissions {
   /// you specify `*://*/*` in the `optional_permissions` section of the
   /// manifest, you can request `http://example.com/`. If there are any problems
   /// requesting the permissions, $(ref:runtime.lastError) will be set.
-  external void request();
+  external void request(permissions);
 
   /// Removes access to the specified permissions. If there are any problems
   /// removing the permissions, $(ref:runtime.lastError) will be set.
-  external void remove();
+  external void remove(permissions);
 
   /// Fired when the extension acquires new permissions.
   external ChromeEvent get onAdded;
 
   /// Fired when access to permissions has been removed from the extension.
   external ChromeEvent get onRemoved;
+}
+
+@JS()
+@staticInterop
+class Permissions {
+  /// List of named permissions (does not include hosts or origins).
+  external JSArray? get permissions;
+
+  /// The list of host permissions, including those specified in the
+  /// `optional_permissions` or `permissions` keys in the manifest, and those
+  /// associated with <a href='content_scripts'>Content Scripts</a>.
+  external JSArray? get origins;
 }

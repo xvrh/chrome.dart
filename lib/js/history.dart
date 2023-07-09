@@ -7,7 +7,7 @@ extension JSChromeJSHistoryExtension on JSChrome {
   /// visited pages. You can add, remove, and query for URLs in the browser's
   /// history. To override the history page with your own version, see <a
   /// href='override'>Override Pages</a>.
-  external JSHistory get History;
+  external JSHistory get history;
 }
 
 @JS()
@@ -17,22 +17,22 @@ class JSHistory {}
 extension JSHistoryExtension on JSHistory {
   /// Searches the history for the last visit time of each page matching the
   /// query.
-  external void search();
+  external void search(query);
 
   /// Retrieves information about visits to a URL.
-  external void getVisits();
+  external void getVisits(details);
 
   /// Adds a URL to the history at the current time with a <a
   /// href='#transition_types'>transition type</a> of "link".
-  external void addUrl();
+  external void addUrl(details);
 
   /// Removes all occurrences of the given URL from the history.
-  external void deleteUrl();
+  external void deleteUrl(details);
 
   /// Removes all items within the specified date range from the history.  Pages
   /// will not be removed from the history unless all visits fall within the
   /// range.
-  external void deleteRange();
+  external void deleteRange(range);
 
   /// Deletes all items from the history.
   external void deleteAll();
@@ -44,4 +44,60 @@ extension JSHistoryExtension on JSHistory {
   /// Fired when one or more URLs are removed from the history service.  When
   /// all visits have been removed the URL is purged from history.
   external ChromeEvent get onVisitRemoved;
+}
+
+@JS()
+@staticInterop
+class TransitionType {}
+
+@JS()
+@staticInterop
+class HistoryItem {
+  /// The unique identifier for the item.
+  external JSAny get id;
+
+  /// The URL navigated to by a user.
+  external JSAny? get url;
+
+  /// The title of the page when it was last loaded.
+  external JSAny? get title;
+
+  /// When this page was last loaded, represented in milliseconds since the
+  /// epoch.
+  external JSAny? get lastVisitTime;
+
+  /// The number of times the user has navigated to this page.
+  external JSAny? get visitCount;
+
+  /// The number of times the user has navigated to this page by typing in the
+  /// address.
+  external JSAny? get typedCount;
+}
+
+@JS()
+@staticInterop
+class VisitItem {
+  /// The unique identifier for the item.
+  external JSAny get id;
+
+  /// The unique identifier for this visit.
+  external JSAny get visitId;
+
+  /// When this visit occurred, represented in milliseconds since the epoch.
+  external JSAny? get visitTime;
+
+  /// The visit ID of the referrer.
+  external JSAny get referringVisitId;
+
+  /// The <a href='#transition_types'>transition type</a> for this visit from
+  /// its referrer.
+  external JSAny get transition;
+}
+
+@JS()
+@staticInterop
+class UrlDetails {
+  /// The URL for the operation. It must be in the format as returned from a
+  /// call to history.search.
+  external JSAny get url;
 }

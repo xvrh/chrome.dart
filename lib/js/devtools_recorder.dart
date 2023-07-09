@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSDevtoolsRecorderExtension on JSChrome {
   /// Use the `chrome.devtools.recorder` API to customize the Recorder panel in
   /// DevTools.
-  external JSDevtoolsRecorder get DevtoolsRecorder;
+  external JSDevtoolsRecorder get devtoolsRecorder;
 }
 
 @JS()
@@ -14,9 +14,24 @@ class JSDevtoolsRecorder {}
 
 extension JSDevtoolsRecorderExtension on JSDevtoolsRecorder {
   /// Registers a Recorder extension plugin.
-  external void registerRecorderExtensionPlugin();
+  external void registerRecorderExtensionPlugin(
+    plugin,
+    name,
+    mediaType,
+  );
 
   /// Creates a view that can handle the replay. This view will be embedded
   /// inside the Recorder panel.
-  external void createView();
+  external void createView(
+    title,
+    pagePath,
+  );
 }
+
+@JS()
+@staticInterop
+class RecorderExtensionPlugin {}
+
+@JS()
+@staticInterop
+class RecorderView {}

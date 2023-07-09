@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Sessions = ChromeSessions._();
+final _sessions = ChromeSessions._();
 
 extension ChromeChromeSessionsExtension on Chrome {
-  ChromeSessions get Sessions => _Sessions;
+  ChromeSessions get sessions => _sessions;
 }
 
 class ChromeSessions {

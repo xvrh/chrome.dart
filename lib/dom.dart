@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Dom = ChromeDom._();
+final _dom = ChromeDom._();
 
 extension ChromeChromeDomExtension on Chrome {
-  ChromeDom get Dom => _Dom;
+  ChromeDom get dom => _dom;
 }
 
 class ChromeDom {

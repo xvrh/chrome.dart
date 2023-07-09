@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _Gcm = ChromeGcm._();
+final _gcm = ChromeGcm._();
 
 extension ChromeChromeGcmExtension on Chrome {
-  ChromeGcm get Gcm => _Gcm;
+  ChromeGcm get gcm => _gcm;
 }
 
 class ChromeGcm {

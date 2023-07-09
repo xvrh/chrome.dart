@@ -1,10 +1,11 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _DevtoolsInspectedWindow = ChromeDevtoolsInspectedWindow._();
+final _devtoolsInspectedWindow = ChromeDevtoolsInspectedWindow._();
 
 extension ChromeChromeDevtoolsInspectedWindowExtension on Chrome {
-  ChromeDevtoolsInspectedWindow get DevtoolsInspectedWindow =>
-      _DevtoolsInspectedWindow;
+  ChromeDevtoolsInspectedWindow get devtoolsInspectedWindow =>
+      _devtoolsInspectedWindow;
 }
 
 class ChromeDevtoolsInspectedWindow {

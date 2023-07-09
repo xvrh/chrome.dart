@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _SystemCpu = ChromeSystemCpu._();
+final _systemCpu = ChromeSystemCpu._();
 
 extension ChromeChromeSystemCpuExtension on Chrome {
-  ChromeSystemCpu get SystemCpu => _SystemCpu;
+  ChromeSystemCpu get systemCpu => _systemCpu;
 }
 
 class ChromeSystemCpu {

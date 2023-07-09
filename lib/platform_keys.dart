@@ -1,11 +1,21 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _PlatformKeys = ChromePlatformKeys._();
+final _platformKeys = ChromePlatformKeys._();
 
 extension ChromeChromePlatformKeysExtension on Chrome {
-  ChromePlatformKeys get PlatformKeys => _PlatformKeys;
+  ChromePlatformKeys get platformKeys => _platformKeys;
 }
 
 class ChromePlatformKeys {
   ChromePlatformKeys._();
+}
+
+enum ClientCertificateType {
+  rsaSign('rsaSign'),
+  ecdsaSign('ecdsaSign');
+
+  const ClientCertificateType(this.value);
+
+  final String value;
 }

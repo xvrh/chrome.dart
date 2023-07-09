@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSWebNavigationExtension on JSChrome {
   /// Use the `chrome.webNavigation` API to receive notifications about the
   /// status of navigation requests in-flight.
-  external JSWebNavigation get WebNavigation;
+  external JSWebNavigation get webNavigation;
 }
 
 @JS()
@@ -15,10 +15,10 @@ class JSWebNavigation {}
 extension JSWebNavigationExtension on JSWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
-  external void getFrame();
+  external void getFrame(details);
 
   /// Retrieves information about all frames of a given tab.
-  external void getAllFrames();
+  external void getAllFrames(details);
 
   /// Fired when a navigation is about to occur.
   external ChromeEvent get onBeforeNavigate;
@@ -57,3 +57,11 @@ extension JSWebNavigationExtension on JSWebNavigation {
   /// for that frame will use the updated URL.
   external ChromeEvent get onHistoryStateUpdated;
 }
+
+@JS()
+@staticInterop
+class TransitionType {}
+
+@JS()
+@staticInterop
+class TransitionQualifier {}

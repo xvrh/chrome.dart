@@ -4,7 +4,7 @@ export 'chrome.dart';
 
 extension JSChromeJSSearchExtension on JSChrome {
   ///  Use the `chrome.search` API to search via the default provider.
-  external JSSearch get Search;
+  external JSSearch get search;
 }
 
 @JS()
@@ -15,5 +15,23 @@ extension JSSearchExtension on JSSearch {
   ///  Used to query the default search provider.
   ///  In case of an error,
   ///  $(ref:runtime.lastError) will be set.
-  external void query();
+  external void query(
+    queryInfo,
+    callback,
+  );
+}
+
+@JS()
+@staticInterop
+class QueryInfo {
+  ///  String to query with the default search provider.
+  external JSAny get text;
+
+  ///  Location where search results should be displayed.
+  ///  `CURRENT_TAB` is the default.
+  external JSAny? get disposition;
+
+  ///  Location where search results should be displayed.
+  ///  `tabId` cannot be used with `disposition`.
+  external JSAny? get tabId;
 }

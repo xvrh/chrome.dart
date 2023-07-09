@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _I18n = ChromeI18n._();
+final _i18N = ChromeI18n._();
 
 extension ChromeChromeI18nExtension on Chrome {
-  ChromeI18n get I18n => _I18n;
+  ChromeI18n get i18N => _i18N;
 }
 
 class ChromeI18n {

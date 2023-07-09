@@ -6,7 +6,7 @@ extension JSChromeJSFileBrowserHandlerExtension on JSChrome {
   /// Use the `chrome.fileBrowserHandler` API to extend the Chrome OS file
   /// browser. For example, you can use this API to enable users to upload files
   /// to your website.
-  external JSFileBrowserHandler get FileBrowserHandler;
+  external JSFileBrowserHandler get fileBrowserHandler;
 }
 
 @JS()
@@ -16,4 +16,16 @@ class JSFileBrowserHandler {}
 extension JSFileBrowserHandlerExtension on JSFileBrowserHandler {
   /// Fired when file system action is executed from ChromeOS file browser.
   external ChromeEvent get onExecute;
+}
+
+@JS()
+@staticInterop
+class FileHandlerExecuteEventDetails {
+  /// Array of Entry instances representing files that are targets of this
+  /// action (selected in ChromeOS file browser).
+  external JSArray get entries;
+
+  /// The ID of the tab that raised this event. Tab IDs are unique within a
+  /// browser session.
+  external JSAny? get tab_id;
 }

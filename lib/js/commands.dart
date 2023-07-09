@@ -6,7 +6,7 @@ extension JSChromeJSCommandsExtension on JSChrome {
   /// Use the commands API to add keyboard shortcuts that trigger actions in
   /// your extension, for example, an action to open the browser action or send
   /// a command to the extension.
-  external JSCommands get Commands;
+  external JSCommands get commands;
 }
 
 @JS()
@@ -20,4 +20,17 @@ extension JSCommandsExtension on JSCommands {
 
   /// Fired when a registered command is activated using a keyboard shortcut.
   external ChromeEvent get onCommand;
+}
+
+@JS()
+@staticInterop
+class Command {
+  /// The name of the Extension Command
+  external JSAny? get name;
+
+  /// The Extension Command description
+  external JSAny? get description;
+
+  /// The shortcut active for this command, or blank if not active.
+  external JSAny? get shortcut;
 }

@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _DevtoolsPanels = ChromeDevtoolsPanels._();
+final _devtoolsPanels = ChromeDevtoolsPanels._();
 
 extension ChromeChromeDevtoolsPanelsExtension on Chrome {
-  ChromeDevtoolsPanels get DevtoolsPanels => _DevtoolsPanels;
+  ChromeDevtoolsPanels get devtoolsPanels => _devtoolsPanels;
 }
 
 class ChromeDevtoolsPanels {

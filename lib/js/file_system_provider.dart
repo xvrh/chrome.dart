@@ -5,7 +5,7 @@ export 'chrome.dart';
 extension JSChromeJSFileSystemProviderExtension on JSChrome {
   ///  Use the `chrome.fileSystemProvider` API to create file systems,
   ///  that can be accessible from the file manager on Chrome OS.
-  external JSFileSystemProvider get FileSystemProvider;
+  external JSFileSystemProvider get fileSystemProvider;
 }
 
 @JS()
@@ -25,7 +25,10 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
-  external void mount();
+  external void mount(
+    options,
+    callback,
+  );
 
   ///  Unmounts a file system with the given `fileSystemId`. It
   ///  must be called after $(ref:onUnmountRequested) is invoked. Also,
@@ -34,14 +37,20 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
-  external void unmount();
+  external void unmount(
+    options,
+    callback,
+  );
 
   ///  Returns all file systems mounted by the extension.
-  external void getAll();
+  external void getAll(callback);
 
   ///  Returns information about a file system with the passed
   ///  `fileSystemId`.
-  external void get();
+  external void get(
+    fileSystemId,
+    callback,
+  );
 
   ///  Notifies about changes in the watched directory at
   ///  `observedPath` in `recursive` mode. If the file
@@ -72,7 +81,10 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set
   ///  will a corresponding error code.
-  external void notify();
+  external void notify(
+    options,
+    callback,
+  );
 
   ///  Raised when unmounting for the file system with the
   ///  `fileSystemId` identifier is requested. In the response, the
@@ -183,4 +195,491 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///  requested. After the action is completed, `successCallback`
   ///  must be called. On error, `errorCallback` must be called.
   external ChromeEvent get onExecuteActionRequested;
+}
+
+@JS()
+@staticInterop
+class EntryMetadata {
+  ///  True if it is a directory. Must be provided if requested in
+  ///  `options`.
+  external JSAny? get isDirectory;
+
+  ///  Name of this entry (not full path name). Must not contain '/'. For root
+  ///  it must be empty. Must be provided if requested in `options`.
+  external JSAny? get name;
+
+  ///  File size in bytes. Must be provided if requested in
+  ///  `options`.
+  external JSAny? get size;
+
+  ///  The last modified time of this entry. Must be provided if requested in
+  ///  `options`.
+  external JSAny? get modificationTime;
+
+  ///  Mime type for the entry. Always optional, but should be provided if
+  ///  requested in `options`.
+  external JSAny? get mimeType;
+
+  ///  Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at most
+  ///  32 KB in size. Optional, but can be provided only when explicitly
+  ///  requested by the $(ref:onGetMetadataRequested) event.
+  external JSAny? get thumbnail;
+}
+
+@JS()
+@staticInterop
+class Watcher {
+  ///  The path of the entry being observed.
+  external JSAny get entryPath;
+
+  ///  Whether watching should include all child entries recursively. It can be
+  ///  true for directories only.
+  external JSAny get recursive;
+
+  ///  Tag used by the last notification for the watcher.
+  external JSAny? get lastTag;
+}
+
+@JS()
+@staticInterop
+class OpenedFile {
+  ///  A request ID to be be used by consecutive read/write and close requests.
+  external JSAny get openRequestId;
+
+  ///  The path of the opened file.
+  external JSAny get filePath;
+
+  ///  Whether the file was opened for reading or writing.
+  external JSAny get mode;
+}
+
+@JS()
+@staticInterop
+class FileSystemInfo {
+  ///  The identifier of the file system.
+  external JSAny get fileSystemId;
+
+  ///  A human-readable name for the file system.
+  external JSAny get displayName;
+
+  ///  Whether the file system supports operations which may change contents
+  ///  of the file system (such as creating, deleting or writing to files).
+  external JSAny get writable;
+
+  ///  The maximum number of files that can be opened at once. If 0, then not
+  ///  limited.
+  external JSAny get openedFilesLimit;
+
+  ///  List of currently opened files.
+  external JSArray get openedFiles;
+
+  ///  Whether the file system supports the `tag` field for observing
+  ///  directories.
+  external JSAny? get supportsNotifyTag;
+
+  ///  List of watchers.
+  external JSArray get watchers;
+}
+
+@JS()
+@staticInterop
+class MountOptions {
+  ///  The string indentifier of the file system. Must be unique per each
+  ///  extension.
+  external JSAny get fileSystemId;
+
+  ///  A human-readable name for the file system.
+  external JSAny get displayName;
+
+  ///  Whether the file system supports operations which may change contents
+  ///  of the file system (such as creating, deleting or writing to files).
+  external JSAny? get writable;
+
+  ///  The maximum number of files that can be opened at once. If not specified,
+  ///  or 0, then not limited.
+  external JSAny? get openedFilesLimit;
+
+  ///  Whether the file system supports the `tag` field for observed
+  ///  directories.
+  external JSAny? get supportsNotifyTag;
+
+  ///  Whether the framework should resume the file system at the next sign-in
+  ///  session. True by default.
+  external JSAny? get persistent;
+}
+
+@JS()
+@staticInterop
+class UnmountOptions {
+  ///  The identifier of the file system to be unmounted.
+  external JSAny get fileSystemId;
+}
+
+@JS()
+@staticInterop
+class UnmountRequestedOptions {
+  ///  The identifier of the file system to be unmounted.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+}
+
+@JS()
+@staticInterop
+class GetMetadataRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the entry to fetch metadata about.
+  external JSAny get entryPath;
+
+  ///  Set to `true` if `is_directory` value is requested.
+  external JSAny get isDirectory;
+
+  ///  Set to `true` if `name` value is requested.
+  external JSAny get name;
+
+  ///  Set to `true` if `size` value is requested.
+  external JSAny get size;
+
+  ///  Set to `true` if `modificationTime` value is
+  ///  requested.
+  external JSAny get modificationTime;
+
+  ///  Set to `true` if `mimeType` value is requested.
+  external JSAny get mimeType;
+
+  ///  Set to `true` if the thumbnail is requested.
+  external JSAny get thumbnail;
+}
+
+@JS()
+@staticInterop
+class GetActionsRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  List of paths of entries for the list of actions.
+  external JSArray get entryPaths;
+}
+
+@JS()
+@staticInterop
+class ReadDirectoryRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the directory which contents are requested.
+  external JSAny get directoryPath;
+
+  ///  Set to `true` if `is_directory` value is requested.
+  external JSAny get isDirectory;
+
+  ///  Set to `true` if `name` value is requested.
+  external JSAny get name;
+
+  ///  Set to `true` if `size` value is requested.
+  external JSAny get size;
+
+  ///  Set to `true` if `modificationTime` value is
+  ///  requested.
+  external JSAny get modificationTime;
+
+  ///  Set to `true` if `mimeType` value is requested.
+  external JSAny get mimeType;
+
+  ///  Set to `true` if the thumbnail is requested.
+  external JSAny get thumbnail;
+}
+
+@JS()
+@staticInterop
+class OpenFileRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  A request ID which will be used by consecutive read/write and close
+  ///  requests.
+  external JSAny get requestId;
+
+  ///  The path of the file to be opened.
+  external JSAny get filePath;
+
+  ///  Whether the file will be used for reading or writing.
+  external JSAny get mode;
+}
+
+@JS()
+@staticInterop
+class CloseFileRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  A request ID used to open the file.
+  external JSAny get openRequestId;
+}
+
+@JS()
+@staticInterop
+class ReadFileRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  A request ID used to open the file.
+  external JSAny get openRequestId;
+
+  ///  Position in the file (in bytes) to start reading from.
+  external JSAny get offset;
+
+  ///  Number of bytes to be returned.
+  external JSAny get length;
+}
+
+@JS()
+@staticInterop
+class CreateDirectoryRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the directory to be created.
+  external JSAny get directoryPath;
+
+  ///  Whether the operation is recursive (for directories only).
+  external JSAny get recursive;
+}
+
+@JS()
+@staticInterop
+class DeleteEntryRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the entry to be deleted.
+  external JSAny get entryPath;
+
+  ///  Whether the operation is recursive (for directories only).
+  external JSAny get recursive;
+}
+
+@JS()
+@staticInterop
+class CreateFileRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the file to be created.
+  external JSAny get filePath;
+}
+
+@JS()
+@staticInterop
+class CopyEntryRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The source path of the entry to be copied.
+  external JSAny get sourcePath;
+
+  ///  The destination path for the copy operation.
+  external JSAny get targetPath;
+}
+
+@JS()
+@staticInterop
+class MoveEntryRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The source path of the entry to be moved into a new place.
+  external JSAny get sourcePath;
+
+  ///  The destination path for the copy operation.
+  external JSAny get targetPath;
+}
+
+@JS()
+@staticInterop
+class TruncateRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the file to be truncated.
+  external JSAny get filePath;
+
+  ///  Number of bytes to be retained after the operation completes.
+  external JSAny get length;
+}
+
+@JS()
+@staticInterop
+class WriteFileRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  A request ID used to open the file.
+  external JSAny get openRequestId;
+
+  ///  Position in the file (in bytes) to start writing the bytes from.
+  external JSAny get offset;
+
+  ///  Buffer of bytes to be written to the file.
+  external JSAny get data;
+}
+
+@JS()
+@staticInterop
+class AbortRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  An ID of the request to be aborted.
+  external JSAny get operationRequestId;
+}
+
+@JS()
+@staticInterop
+class AddWatcherRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the entry to be observed.
+  external JSAny get entryPath;
+
+  ///  Whether observing should include all child entries recursively. It can be
+  ///  true for directories only.
+  external JSAny get recursive;
+}
+
+@JS()
+@staticInterop
+class RemoveWatcherRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The path of the watched entry.
+  external JSAny get entryPath;
+
+  ///  Mode of the watcher.
+  external JSAny get recursive;
+}
+
+@JS()
+@staticInterop
+class Action {
+  ///  The identifier of the action. Any string or $(ref:CommonActionId) for
+  ///  common actions.
+  external JSAny get id;
+
+  ///  The title of the action. It may be ignored for common actions.
+  external JSAny? get title;
+}
+
+@JS()
+@staticInterop
+class ExecuteActionRequestedOptions {
+  ///  The identifier of the file system related to this operation.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
+
+  ///  The set of paths of the entries to be used for the action.
+  external JSArray get entryPaths;
+
+  ///  The identifier of the action to be executed.
+  external JSAny get actionId;
+}
+
+@JS()
+@staticInterop
+class Change {
+  ///  The path of the changed entry.
+  external JSAny get entryPath;
+
+  ///  The type of the change which happened to the entry.
+  external JSAny get changeType;
+}
+
+@JS()
+@staticInterop
+class NotifyOptions {
+  ///  The identifier of the file system related to this change.
+  external JSAny get fileSystemId;
+
+  ///  The path of the observed entry.
+  external JSAny get observedPath;
+
+  ///  Mode of the observed entry.
+  external JSAny get recursive;
+
+  ///  The type of the change which happened to the observed entry. If it is
+  ///  DELETED, then the observed entry will be automatically removed from the
+  ///  list of observed entries.
+  external JSAny get changeType;
+
+  ///  List of changes to entries within the observed directory (including the
+  ///  entry itself)
+  external JSArray? get changes;
+
+  ///  Tag for the notification. Required if the file system was mounted with
+  ///  the `supportsNotifyTag` option. Note, that this flag is
+  ///  necessary to provide notifications about changes which changed even
+  ///  when the system was shutdown.
+  external JSAny? get tag;
+}
+
+@JS()
+@staticInterop
+class ConfigureRequestedOptions {
+  ///  The identifier of the file system to be configured.
+  external JSAny get fileSystemId;
+
+  ///  The unique identifier of this request.
+  external JSAny get requestId;
 }

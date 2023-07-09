@@ -1,9 +1,10 @@
 import 'chrome.dart';
+export 'chrome.dart';
 
-final _PageCapture = ChromePageCapture._();
+final _pageCapture = ChromePageCapture._();
 
 extension ChromeChromePageCaptureExtension on Chrome {
-  ChromePageCapture get PageCapture => _PageCapture;
+  ChromePageCapture get pageCapture => _pageCapture;
 }
 
 class ChromePageCapture {

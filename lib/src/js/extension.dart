@@ -20,7 +20,7 @@ extension JSExtensionExtension on JSExtension {
   /// response. The $(ref:extension.onRequest) event is fired in each page of
   /// the extension.
   external JSPromise sendRequest(
-    String extensionId,
+    String? extensionId,
     JSAny request,
   );
 
@@ -30,7 +30,7 @@ extension JSExtensionExtension on JSExtension {
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
-  external JSArray getViews(GetViewsFetchProperties fetchProperties);
+  external JSArray getViews(GetViewsFetchProperties? fetchProperties);
 
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
@@ -40,7 +40,7 @@ extension JSExtensionExtension on JSExtension {
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
-  external JSArray getExtensionTabs(int windowId);
+  external JSArray getExtensionTabs(int? windowId);
 
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'

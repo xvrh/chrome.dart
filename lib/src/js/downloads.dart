@@ -87,7 +87,7 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |callback|: A URL to an image that represents the download.
   external void getFileIcon(
     int downloadId,
-    GetFileIconOptions options,
+    GetFileIconOptions? options,
     JSFunction callback,
   );
 

@@ -27,7 +27,7 @@ extension JSNotificationsExtension on JSNotifications {
   ///
   ///  The callback is required before Chrome 42.
   external void create(
-    String notificationId,
+    String? notificationId,
     NotificationOptions options,
     JSFunction callback,
   );

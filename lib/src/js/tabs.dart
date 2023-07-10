@@ -29,7 +29,7 @@ extension JSTabsExtension on JSTabs {
   /// href='messaging'>Content Script Messaging</a>.
   external Port connect(
     int tabId,
-    ConnectInfo connectInfo,
+    ConnectInfo? connectInfo,
   );
 
   /// Sends a single request to the content script(s) in the specified tab, with
@@ -48,14 +48,14 @@ extension JSTabsExtension on JSTabs {
   external JSPromise sendMessage(
     int tabId,
     JSAny message,
-    SendMessageOptions options,
+    SendMessageOptions? options,
   );
 
   /// Gets the tab that is selected in the specified window.
-  external JSPromise getSelected(int windowId);
+  external JSPromise getSelected(int? windowId);
 
   /// Gets details about all tabs in the specified window.
-  external JSPromise getAllInWindow(int windowId);
+  external JSPromise getAllInWindow(int? windowId);
 
   /// Creates a new tab.
   external JSPromise create(CreateProperties createProperties);
@@ -74,7 +74,7 @@ extension JSTabsExtension on JSTabs {
   /// Modifies the properties of a tab. Properties that are not specified in
   /// `updateProperties` are not modified.
   external JSPromise update(
-    int tabId,
+    int? tabId,
     UpdateProperties updateProperties,
   );
 
@@ -88,8 +88,8 @@ extension JSTabsExtension on JSTabs {
 
   /// Reload a tab.
   external JSPromise reload(
-    int tabId,
-    ReloadProperties reloadProperties,
+    int? tabId,
+    ReloadProperties? reloadProperties,
   );
 
   /// Closes one or more tabs.
@@ -104,7 +104,7 @@ extension JSTabsExtension on JSTabs {
   external JSPromise ungroup(JSObject tabIds);
 
   /// Detects the primary language of the content in a tab.
-  external JSPromise detectLanguage(int tabId);
+  external JSPromise detectLanguage(int? tabId);
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
@@ -116,15 +116,15 @@ extension JSTabsExtension on JSTabs {
   /// only be captured with the activeTab permission. File URLs may be captured
   /// only if the extension has been granted file access.
   external JSPromise captureVisibleTab(
-    int windowId,
-    ImageDetails options,
+    int? windowId,
+    ImageDetails? options,
   );
 
   /// Injects JavaScript code into a page. For details, see the <a
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
   external JSPromise executeScript(
-    int tabId,
+    int? tabId,
     InjectDetails details,
   );
 
@@ -133,45 +133,45 @@ extension JSTabsExtension on JSTabs {
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
   external JSPromise insertCSS(
-    int tabId,
+    int? tabId,
     InjectDetails details,
   );
 
   /// Removes from a page CSS that was previously injected by a call to
   /// $(ref:scripting.insertCSS).
   external JSPromise removeCSS(
-    int tabId,
+    int? tabId,
     DeleteInjectionDetails details,
   );
 
   /// Zooms a specified tab.
   external JSPromise setZoom(
-    int tabId,
+    int? tabId,
     num zoomFactor,
   );
 
   /// Gets the current zoom factor of a specified tab.
-  external JSPromise getZoom(int tabId);
+  external JSPromise getZoom(int? tabId);
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
   external JSPromise setZoomSettings(
-    int tabId,
+    int? tabId,
     ZoomSettings zoomSettings,
   );
 
   /// Gets the current zoom settings of a specified tab.
-  external JSPromise getZoomSettings(int tabId);
+  external JSPromise getZoomSettings(int? tabId);
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  external JSPromise discard(int tabId);
+  external JSPromise discard(int? tabId);
 
   /// Go foward to the next page, if one is available.
-  external JSPromise goForward(int tabId);
+  external JSPromise goForward(int? tabId);
 
   /// Go back to the previous page, if one is available.
-  external JSPromise goBack(int tabId);
+  external JSPromise goBack(int? tabId);
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can

@@ -25,8 +25,8 @@ extension JSI18nExtension on JSI18n {
   /// &mdash; this method returns `undefined`.
   external String getMessage(
     String messageName,
-    JSAny substitutions,
-    GetMessageOptions options,
+    JSAny? substitutions,
+    GetMessageOptions? options,
   );
 
   /// Gets the browser UI language of the browser. This is different from

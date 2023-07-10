@@ -48,7 +48,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |callback|: Called with the set of dynamic rules. An error might be
   ///  raised in case of transient internal errors.
   external void getDynamicRules(
-    GetRulesFilter filter,
+    GetRulesFilter? filter,
     JSFunction callback,
   );
 
@@ -79,7 +79,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |filter|: An object to filter the list of fetched rules.
   ///  |callback|: Called with the set of session scoped rules.
   external void getSessionRules(
-    GetRulesFilter filter,
+    GetRulesFilter? filter,
     JSFunction callback,
   );
 
@@ -140,7 +140,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  be returned. This can happen for multiple reasons, such as insufficient
   ///  permissions, or exceeding the quota.
   external void getMatchedRules(
-    MatchedRulesFilter filter,
+    MatchedRulesFilter? filter,
     JSFunction callback,
   );
 

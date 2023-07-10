@@ -85,8 +85,8 @@ extension JSRuntimeExtension on JSRuntime {
   /// content script. Extensions may connect to content scripts embedded in tabs
   /// via $(ref:tabs.connect).
   external Port connect(
-    String extensionId,
-    ConnectInfo connectInfo,
+    String? extensionId,
+    ConnectInfo? connectInfo,
   );
 
   /// Connects to a native application in the host machine. See <a
@@ -102,9 +102,9 @@ extension JSRuntimeExtension on JSRuntime {
   /// extensions cannot send messages to content scripts using this method. To
   /// send messages to content scripts, use $(ref:tabs.sendMessage).
   external JSPromise sendMessage(
-    String extensionId,
+    String? extensionId,
     JSAny message,
-    SendMessageOptions options,
+    SendMessageOptions? options,
   );
 
   /// Send a single message to a native application.

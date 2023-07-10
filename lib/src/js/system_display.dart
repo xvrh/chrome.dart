@@ -16,7 +16,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  |flags|: Options affecting how the information is returned.
   ///  |callback|: The callback to invoke with the results.
   external void getInfo(
-    GetInfoFlags flags,
+    GetInfoFlags? flags,
     JSFunction callback,
   );
 

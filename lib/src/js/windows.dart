@@ -16,22 +16,22 @@ extension JSWindowsExtension on JSWindows {
   /// Gets details about a window.
   external JSPromise get(
     int windowId,
-    QueryOptions queryOptions,
+    QueryOptions? queryOptions,
   );
 
   /// Gets the <a href='#current-window'>current window</a>.
-  external JSPromise getCurrent(QueryOptions queryOptions);
+  external JSPromise getCurrent(QueryOptions? queryOptions);
 
   /// Gets the window that was most recently focused &mdash; typically the
   /// window 'on top'.
-  external JSPromise getLastFocused(QueryOptions queryOptions);
+  external JSPromise getLastFocused(QueryOptions? queryOptions);
 
   /// Gets all windows.
-  external JSPromise getAll(QueryOptions queryOptions);
+  external JSPromise getAll(QueryOptions? queryOptions);
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  external JSPromise create(CreateData createData);
+  external JSPromise create(CreateData? createData);
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.

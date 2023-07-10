@@ -26,12 +26,12 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   /// true and `value` is set to the string value of thrown object.
   external void eval(
     String expression,
-    EvalOptions options,
-    JSFunction callback,
+    EvalOptions? options,
+    JSFunction? callback,
   );
 
   /// Reloads the inspected page.
-  external void reload(ReloadOptions reloadOptions);
+  external void reload(ReloadOptions? reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
   external void getResources(JSFunction callback);

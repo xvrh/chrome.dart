@@ -19,24 +19,24 @@ extension JSContextMenusExtension on JSContextMenus {
   /// $(ref:runtime.lastError).
   external JSObject create(
     CreateProperties createProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Updates a previously created context menu item.
   external void update(
     JSObject id,
     UpdateProperties updateProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes a context menu item.
   external void remove(
     JSObject menuItemId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes all context menu items added by this extension.
-  external void removeAll(JSFunction callback);
+  external void removeAll(JSFunction? callback);
 
   /// Fired when a context menu item is clicked.
   external ChromeEvent get onClicked;

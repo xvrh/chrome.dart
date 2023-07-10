@@ -40,7 +40,7 @@ extension JSAlarmsExtension on JSAlarms {
   ///  `delayInMinutes`.
   ///  |callback|: Invoked when the alarm has been created.
   external void create(
-    String name,
+    String? name,
     AlarmCreateInfo alarmInfo,
     JSFunction callback,
   );
@@ -48,7 +48,7 @@ extension JSAlarmsExtension on JSAlarms {
   ///  Retrieves details about the specified alarm.
   ///  |name|: The name of the alarm to get. Defaults to the empty string.
   external void get(
-    String name,
+    String? name,
     JSFunction callback,
   );
 
@@ -58,7 +58,7 @@ extension JSAlarmsExtension on JSAlarms {
   ///  Clears the alarm with the given name.
   ///  |name|: The name of the alarm to clear. Defaults to the empty string.
   external void clear(
-    String name,
+    String? name,
     JSFunction callback,
   );
 

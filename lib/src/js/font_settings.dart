@@ -25,31 +25,31 @@ extension JSFontSettingsExtension on JSFontSettings {
   external JSPromise getFontList();
 
   /// Clears the default font size set by this extension, if any.
-  external JSPromise clearDefaultFontSize(ClearDefaultFontSizeDetails details);
+  external JSPromise clearDefaultFontSize(ClearDefaultFontSizeDetails? details);
 
   /// Gets the default font size.
-  external JSPromise getDefaultFontSize(GetDefaultFontSizeDetails details);
+  external JSPromise getDefaultFontSize(GetDefaultFontSizeDetails? details);
 
   /// Sets the default font size.
   external JSPromise setDefaultFontSize(SetDefaultFontSizeDetails details);
 
   /// Clears the default fixed font size set by this extension, if any.
   external JSPromise clearDefaultFixedFontSize(
-      ClearDefaultFixedFontSizeDetails details);
+      ClearDefaultFixedFontSizeDetails? details);
 
   /// Gets the default size for fixed width fonts.
   external JSPromise getDefaultFixedFontSize(
-      GetDefaultFixedFontSizeDetails details);
+      GetDefaultFixedFontSizeDetails? details);
 
   /// Sets the default size for fixed width fonts.
   external JSPromise setDefaultFixedFontSize(
       SetDefaultFixedFontSizeDetails details);
 
   /// Clears the minimum font size set by this extension, if any.
-  external JSPromise clearMinimumFontSize(ClearMinimumFontSizeDetails details);
+  external JSPromise clearMinimumFontSize(ClearMinimumFontSizeDetails? details);
 
   /// Gets the minimum font size.
-  external JSPromise getMinimumFontSize(GetMinimumFontSizeDetails details);
+  external JSPromise getMinimumFontSize(GetMinimumFontSizeDetails? details);
 
   /// Sets the minimum font size.
   external JSPromise setMinimumFontSize(SetMinimumFontSizeDetails details);

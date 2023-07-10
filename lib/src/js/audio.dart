@@ -21,7 +21,7 @@ extension JSAudioExtension on JSAudio {
   ///      returned device list will contain all available audio devices.
   ///  |callback|: Reports the requested list of audio devices.
   external void getDevices(
-    DeviceFilter filter,
+    DeviceFilter? filter,
     JSFunction callback,
   );
 

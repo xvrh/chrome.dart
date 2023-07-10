@@ -16,14 +16,14 @@ class JSSessions {}
 
 extension JSSessionsExtension on JSSessions {
   /// Gets the list of recently closed tabs and/or windows.
-  external JSPromise getRecentlyClosed(Filter filter);
+  external JSPromise getRecentlyClosed(Filter? filter);
 
   /// Retrieves all devices with synced sessions.
-  external JSPromise getDevices(Filter filter);
+  external JSPromise getDevices(Filter? filter);
 
   /// Reopens a $(ref:windows.Window) or $(ref:tabs.Tab), with an optional
   /// callback to run when the entry has been restored.
-  external JSPromise restore(String sessionId);
+  external JSPromise restore(String? sessionId);
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.

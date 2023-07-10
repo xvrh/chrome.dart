@@ -55,7 +55,8 @@ class CodeGenerator {
     var parameters = method.parameters
         .map((p) => Parameter((b) => b
           ..name = p.name
-          ..type = refer(p.type.bindingName, p.type.bindingUrl)))
+          ..type = refer('${p.type.bindingName}${p.optional ? '?' : ''}',
+              p.type.bindingUrl)))
         .toList();
 
     Reference returns;

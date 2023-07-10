@@ -18,7 +18,7 @@ extension JSTtsExtension on JSTts {
   /// Speaks text using a text-to-speech engine.
   external JSPromise speak(
     String utterance,
-    TtsOptions options,
+    TtsOptions? options,
   );
 
   /// Stops any current speech and flushes the queue of any pending utterances.

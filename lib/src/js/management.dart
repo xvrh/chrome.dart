@@ -52,14 +52,14 @@ extension JSManagementExtension on JSManagement {
   /// be called with $(ref:runtime.lastError) set.
   external JSPromise uninstall(
     String id,
-    UninstallOptions options,
+    UninstallOptions? options,
   );
 
   /// Uninstalls the calling extension. Note: This function can be used without
   /// requesting the 'management' permission in the manifest. This function does
   /// not work in managed environments when the user is not allowed to uninstall
   /// the specified extension/app.
-  external JSPromise uninstallSelf(UninstallOptions options);
+  external JSPromise uninstallSelf(UninstallOptions? options);
 
   /// Launches an application.
   external JSPromise launchApp(String id);

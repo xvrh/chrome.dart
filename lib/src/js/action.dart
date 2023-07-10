@@ -58,21 +58,21 @@ extension JSActionExtension on JSAction {
   external JSPromise getBadgeTextColor(TabDetails details);
 
   /// Enables the action for a tab. By default, actions are enabled.
-  external JSPromise enable(int tabId);
+  external JSPromise enable(int? tabId);
 
   /// Disables the action for a tab.
-  external JSPromise disable(int tabId);
+  external JSPromise disable(int? tabId);
 
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// $(ref:declarativeContent) always return false.
-  external JSPromise isEnabled(int tabId);
+  external JSPromise isEnabled(int? tabId);
 
   /// Returns the user-specified settings relating to an extension's action.
   external JSPromise getUserSettings();
 
   /// Opens the extension's popup.
-  external JSPromise openPopup(OpenPopupOptions options);
+  external JSPromise openPopup(OpenPopupOptions? options);
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.

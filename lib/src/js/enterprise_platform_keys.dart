@@ -124,7 +124,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |callback|: Called back with the challenge response.
   external void challengeMachineKey(
     JSArrayBuffer challenge,
-    bool registerKey,
+    bool? registerKey,
     JSFunction callback,
   );
 

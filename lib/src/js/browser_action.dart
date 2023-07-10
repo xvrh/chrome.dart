@@ -29,7 +29,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// must be specified.
   external void setIcon(
     SetIconDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
@@ -55,10 +55,10 @@ extension JSBrowserActionExtension on JSBrowserAction {
   external JSPromise getBadgeBackgroundColor(TabDetails details);
 
   /// Enables the browser action for a tab. Defaults to enabled.
-  external JSPromise enable(int tabId);
+  external JSPromise enable(int? tabId);
 
   /// Disables the browser action for a tab.
-  external JSPromise disable(int tabId);
+  external JSPromise disable(int? tabId);
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.

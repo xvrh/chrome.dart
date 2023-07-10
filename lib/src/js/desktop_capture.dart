@@ -17,8 +17,8 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
   /// Shows desktop media picker UI with the specified set of sources.
   external int chooseDesktopMedia(
     JSArray sources,
-    Tab targetTab,
-    ChooseDesktopMediaOptions options,
+    Tab? targetTab,
+    ChooseDesktopMediaOptions? options,
     JSFunction callback,
   );
 

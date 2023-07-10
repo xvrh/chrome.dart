@@ -50,7 +50,7 @@ extension JSTabCaptureExtension on JSTabCapture {
   ///  corresponds to the target tab. The created `streamId` can
   ///  only be used once and expires after a few seconds if it is not used.
   external void getMediaStreamId(
-    GetMediaStreamOptions options,
+    GetMediaStreamOptions? options,
     JSFunction callback,
   );
 

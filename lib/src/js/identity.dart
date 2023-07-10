@@ -45,7 +45,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  available, this parameter contains the list of granted scopes
   ///  corresponding with the returned token.
   external void getAuthToken(
-    TokenDetails details,
+    TokenDetails? details,
     JSFunction callback,
   );
 
@@ -64,7 +64,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  Chrome account, of an empty `ProfileUserInfo` if the account
   ///  with given `details` doesn't exist.
   external void getProfileUserInfo(
-    ProfileDetails details,
+    ProfileDetails? details,
     JSFunction callback,
   );
 
@@ -121,7 +121,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  `https://<app-id>.chromiumapp.org/*`.
   ///
   ///  |path| : The path appended to the end of the generated URL.
-  external void getRedirectURL(String path);
+  external void getRedirectURL(String? path);
 
   ///  Fired when signin state changes for an account on the user's profile.
   external ChromeEvent get onSignInChanged;

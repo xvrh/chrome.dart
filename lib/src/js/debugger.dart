@@ -30,7 +30,7 @@ extension JSDebuggerExtension on JSDebugger {
   external JSPromise sendCommand(
     Debuggee target,
     String method,
-    JSObject commandParams,
+    JSObject? commandParams,
   );
 
   /// Returns the list of available debug targets.

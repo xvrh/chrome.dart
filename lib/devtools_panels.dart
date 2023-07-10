@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _devtoolsPanels = ChromeDevtoolsPanels._();
 
-extension ChromeChromeDevtoolsPanelsExtension on Chrome {
+extension ChromeDevtoolsPanelsExtension on Chrome {
   ChromeDevtoolsPanels get devtoolsPanels => _devtoolsPanels;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _webNavigation = ChromeWebNavigation._();
 
-extension ChromeChromeWebNavigationExtension on Chrome {
+extension ChromeWebNavigationExtension on Chrome {
   ChromeWebNavigation get webNavigation => _webNavigation;
 }
 

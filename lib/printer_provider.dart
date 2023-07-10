@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _printerProvider = ChromePrinterProvider._();
 
-extension ChromeChromePrinterProviderExtension on Chrome {
+extension ChromePrinterProviderExtension on Chrome {
   ChromePrinterProvider get printerProvider => _printerProvider;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _notifications = ChromeNotifications._();
 
-extension ChromeChromeNotificationsExtension on Chrome {
+extension ChromeNotificationsExtension on Chrome {
   ChromeNotifications get notifications => _notifications;
 }
 

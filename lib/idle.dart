@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _idle = ChromeIdle._();
 
-extension ChromeChromeIdleExtension on Chrome {
+extension ChromeIdleExtension on Chrome {
   ChromeIdle get idle => _idle;
 }
 

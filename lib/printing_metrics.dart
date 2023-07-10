@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _printingMetrics = ChromePrintingMetrics._();
 
-extension ChromeChromePrintingMetricsExtension on Chrome {
+extension ChromePrintingMetricsExtension on Chrome {
   ChromePrintingMetrics get printingMetrics => _printingMetrics;
 }
 

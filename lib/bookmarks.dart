@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _bookmarks = ChromeBookmarks._();
 
-extension ChromeChromeBookmarksExtension on Chrome {
+extension ChromeBookmarksExtension on Chrome {
   ChromeBookmarks get bookmarks => _bookmarks;
 }
 

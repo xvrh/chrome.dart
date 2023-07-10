@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _windows = ChromeWindows._();
 
-extension ChromeChromeWindowsExtension on Chrome {
+extension ChromeWindowsExtension on Chrome {
   ChromeWindows get windows => _windows;
 }
 

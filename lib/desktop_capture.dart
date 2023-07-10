@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _desktopCapture = ChromeDesktopCapture._();
 
-extension ChromeChromeDesktopCaptureExtension on Chrome {
+extension ChromeDesktopCaptureExtension on Chrome {
   ChromeDesktopCapture get desktopCapture => _desktopCapture;
 }
 

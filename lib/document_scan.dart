@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _documentScan = ChromeDocumentScan._();
 
-extension ChromeChromeDocumentScanExtension on Chrome {
+extension ChromeDocumentScanExtension on Chrome {
   ChromeDocumentScan get documentScan => _documentScan;
 }
 

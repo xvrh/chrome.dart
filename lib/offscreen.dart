@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _offscreen = ChromeOffscreen._();
 
-extension ChromeChromeOffscreenExtension on Chrome {
+extension ChromeOffscreenExtension on Chrome {
   ChromeOffscreen get offscreen => _offscreen;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _vpnProvider = ChromeVpnProvider._();
 
-extension ChromeChromeVpnProviderExtension on Chrome {
+extension ChromeVpnProviderExtension on Chrome {
   ChromeVpnProvider get vpnProvider => _vpnProvider;
 }
 

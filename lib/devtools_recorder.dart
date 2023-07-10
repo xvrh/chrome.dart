@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _devtoolsRecorder = ChromeDevtoolsRecorder._();
 
-extension ChromeChromeDevtoolsRecorderExtension on Chrome {
+extension ChromeDevtoolsRecorderExtension on Chrome {
   ChromeDevtoolsRecorder get devtoolsRecorder => _devtoolsRecorder;
 }
 

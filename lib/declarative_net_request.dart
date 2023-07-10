@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _declarativeNetRequest = ChromeDeclarativeNetRequest._();
 
-extension ChromeChromeDeclarativeNetRequestExtension on Chrome {
+extension ChromeDeclarativeNetRequestExtension on Chrome {
   ChromeDeclarativeNetRequest get declarativeNetRequest =>
       _declarativeNetRequest;
 }

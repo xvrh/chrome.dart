@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _extension = ChromeExtension._();
 
-extension ChromeChromeExtensionExtension on Chrome {
+extension ChromeExtensionExtension on Chrome {
   ChromeExtension get extension => _extension;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _runtime = ChromeRuntime._();
 
-extension ChromeChromeRuntimeExtension on Chrome {
+extension ChromeRuntimeExtension on Chrome {
   ChromeRuntime get runtime => _runtime;
 }
 

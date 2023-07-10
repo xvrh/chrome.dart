@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _action = ChromeAction._();
 
-extension ChromeChromeActionExtension on Chrome {
+extension ChromeActionExtension on Chrome {
   ChromeAction get action => _action;
 }
 

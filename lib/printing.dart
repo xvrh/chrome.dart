@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _printing = ChromePrinting._();
 
-extension ChromeChromePrintingExtension on Chrome {
+extension ChromePrintingExtension on Chrome {
   ChromePrinting get printing => _printing;
 }
 

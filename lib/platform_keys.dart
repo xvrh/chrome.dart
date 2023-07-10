@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _platformKeys = ChromePlatformKeys._();
 
-extension ChromeChromePlatformKeysExtension on Chrome {
+extension ChromePlatformKeysExtension on Chrome {
   ChromePlatformKeys get platformKeys => _platformKeys;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _pageCapture = ChromePageCapture._();
 
-extension ChromeChromePageCaptureExtension on Chrome {
+extension ChromePageCaptureExtension on Chrome {
   ChromePageCapture get pageCapture => _pageCapture;
 }
 

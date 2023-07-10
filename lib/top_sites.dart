@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _topSites = ChromeTopSites._();
 
-extension ChromeChromeTopSitesExtension on Chrome {
+extension ChromeTopSitesExtension on Chrome {
   ChromeTopSites get topSites => _topSites;
 }
 

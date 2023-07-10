@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _power = ChromePower._();
 
-extension ChromeChromePowerExtension on Chrome {
+extension ChromePowerExtension on Chrome {
   ChromePower get power => _power;
 }
 

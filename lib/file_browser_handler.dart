@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _fileBrowserHandler = ChromeFileBrowserHandler._();
 
-extension ChromeChromeFileBrowserHandlerExtension on Chrome {
+extension ChromeFileBrowserHandlerExtension on Chrome {
   ChromeFileBrowserHandler get fileBrowserHandler => _fileBrowserHandler;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _instanceID = ChromeInstanceID._();
 
-extension ChromeChromeInstanceIDExtension on Chrome {
+extension ChromeInstanceIDExtension on Chrome {
   ChromeInstanceID get instanceID => _instanceID;
 }
 

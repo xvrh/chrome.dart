@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _gcm = ChromeGcm._();
 
-extension ChromeChromeGcmExtension on Chrome {
+extension ChromeGcmExtension on Chrome {
   ChromeGcm get gcm => _gcm;
 }
 

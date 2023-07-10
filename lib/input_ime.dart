@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _inputIme = ChromeInputIme._();
 
-extension ChromeChromeInputImeExtension on Chrome {
+extension ChromeInputImeExtension on Chrome {
   ChromeInputIme get inputIme => _inputIme;
 }
 

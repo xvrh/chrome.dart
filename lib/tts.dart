@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _tts = ChromeTts._();
 
-extension ChromeChromeTtsExtension on Chrome {
+extension ChromeTtsExtension on Chrome {
   ChromeTts get tts => _tts;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _enterpriseDeviceAttributes = ChromeEnterpriseDeviceAttributes._();
 
-extension ChromeChromeEnterpriseDeviceAttributesExtension on Chrome {
+extension ChromeEnterpriseDeviceAttributesExtension on Chrome {
   ChromeEnterpriseDeviceAttributes get enterpriseDeviceAttributes =>
       _enterpriseDeviceAttributes;
 }

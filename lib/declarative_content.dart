@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _declarativeContent = ChromeDeclarativeContent._();
 
-extension ChromeChromeDeclarativeContentExtension on Chrome {
+extension ChromeDeclarativeContentExtension on Chrome {
   ChromeDeclarativeContent get declarativeContent => _declarativeContent;
 }
 

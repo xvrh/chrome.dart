@@ -28,11 +28,10 @@ void generateApi(String apiName) {
     model = idl.IdlModelConverter.fromString(content).convert();
   }
 
-  var output = CodeGenerator(model);
   File(p.join('lib', 'src', 'js', '$fileName.dart'))
-      .writeAsStringSync(output.jsBinding());
+      .writeAsStringSync(JsBindingGenerator(model).toCode());
   File(p.join('lib', '$fileName.dart'))
-      .writeAsStringSync(output.highLevelApi());
+      .writeAsStringSync(DartApiGenerator(model).toCode());
 }
 
 String _apiNameToFileName(String name) {

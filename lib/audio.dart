@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _audio = ChromeAudio._();
 
-extension ChromeChromeAudioExtension on Chrome {
+extension ChromeAudioExtension on Chrome {
   ChromeAudio get audio => _audio;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _sidePanel = ChromeSidePanel._();
 
-extension ChromeChromeSidePanelExtension on Chrome {
+extension ChromeSidePanelExtension on Chrome {
   ChromeSidePanel get sidePanel => _sidePanel;
 }
 

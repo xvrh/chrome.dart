@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _systemDisplay = ChromeSystemDisplay._();
 
-extension ChromeChromeSystemDisplayExtension on Chrome {
+extension ChromeSystemDisplayExtension on Chrome {
   ChromeSystemDisplay get systemDisplay => _systemDisplay;
 }
 

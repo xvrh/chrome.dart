@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _wallpaper = ChromeWallpaper._();
 
-extension ChromeChromeWallpaperExtension on Chrome {
+extension ChromeWallpaperExtension on Chrome {
   ChromeWallpaper get wallpaper => _wallpaper;
 }
 

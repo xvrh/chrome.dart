@@ -4,7 +4,7 @@ export 'chrome.dart';
 final _enterpriseNetworkingAttributes =
     ChromeEnterpriseNetworkingAttributes._();
 
-extension ChromeChromeEnterpriseNetworkingAttributesExtension on Chrome {
+extension ChromeEnterpriseNetworkingAttributesExtension on Chrome {
   ChromeEnterpriseNetworkingAttributes get enterpriseNetworkingAttributes =>
       _enterpriseNetworkingAttributes;
 }

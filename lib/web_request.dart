@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _webRequest = ChromeWebRequest._();
 
-extension ChromeChromeWebRequestExtension on Chrome {
+extension ChromeWebRequestExtension on Chrome {
   ChromeWebRequest get webRequest => _webRequest;
 }
 

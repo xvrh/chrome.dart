@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _scripting = ChromeScripting._();
 
-extension ChromeChromeScriptingExtension on Chrome {
+extension ChromeScriptingExtension on Chrome {
   ChromeScripting get scripting => _scripting;
 }
 

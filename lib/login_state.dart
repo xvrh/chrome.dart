@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _loginState = ChromeLoginState._();
 
-extension ChromeChromeLoginStateExtension on Chrome {
+extension ChromeLoginStateExtension on Chrome {
   ChromeLoginState get loginState => _loginState;
 }
 

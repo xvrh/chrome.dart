@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _devtoolsInspectedWindow = ChromeDevtoolsInspectedWindow._();
 
-extension ChromeChromeDevtoolsInspectedWindowExtension on Chrome {
+extension ChromeDevtoolsInspectedWindowExtension on Chrome {
   ChromeDevtoolsInspectedWindow get devtoolsInspectedWindow =>
       _devtoolsInspectedWindow;
 }

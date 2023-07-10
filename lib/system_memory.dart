@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _systemMemory = ChromeSystemMemory._();
 
-extension ChromeChromeSystemMemoryExtension on Chrome {
+extension ChromeSystemMemoryExtension on Chrome {
   ChromeSystemMemory get systemMemory => _systemMemory;
 }
 

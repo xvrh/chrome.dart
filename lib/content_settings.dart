@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _contentSettings = ChromeContentSettings._();
 
-extension ChromeChromeContentSettingsExtension on Chrome {
+extension ChromeContentSettingsExtension on Chrome {
   ChromeContentSettings get contentSettings => _contentSettings;
 }
 

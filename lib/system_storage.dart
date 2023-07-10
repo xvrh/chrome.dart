@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _systemStorage = ChromeSystemStorage._();
 
-extension ChromeChromeSystemStorageExtension on Chrome {
+extension ChromeSystemStorageExtension on Chrome {
   ChromeSystemStorage get systemStorage => _systemStorage;
 }
 

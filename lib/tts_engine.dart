@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _ttsEngine = ChromeTtsEngine._();
 
-extension ChromeChromeTtsEngineExtension on Chrome {
+extension ChromeTtsEngineExtension on Chrome {
   ChromeTtsEngine get ttsEngine => _ttsEngine;
 }
 

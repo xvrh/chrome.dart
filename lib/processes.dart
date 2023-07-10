@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _processes = ChromeProcesses._();
 
-extension ChromeChromeProcessesExtension on Chrome {
+extension ChromeProcessesExtension on Chrome {
   ChromeProcesses get processes => _processes;
 }
 

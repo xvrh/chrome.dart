@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _commands = ChromeCommands._();
 
-extension ChromeChromeCommandsExtension on Chrome {
+extension ChromeCommandsExtension on Chrome {
   ChromeCommands get commands => _commands;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _sessions = ChromeSessions._();
 
-extension ChromeChromeSessionsExtension on Chrome {
+extension ChromeSessionsExtension on Chrome {
   ChromeSessions get sessions => _sessions;
 }
 

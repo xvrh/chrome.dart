@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _i18N = ChromeI18n._();
 
-extension ChromeChromeI18nExtension on Chrome {
+extension ChromeI18nExtension on Chrome {
   ChromeI18n get i18N => _i18N;
 }
 

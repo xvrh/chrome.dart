@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _history = ChromeHistory._();
 
-extension ChromeChromeHistoryExtension on Chrome {
+extension ChromeHistoryExtension on Chrome {
   ChromeHistory get history => _history;
 }
 

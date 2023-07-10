@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _omnibox = ChromeOmnibox._();
 
-extension ChromeChromeOmniboxExtension on Chrome {
+extension ChromeOmniboxExtension on Chrome {
   ChromeOmnibox get omnibox => _omnibox;
 }
 

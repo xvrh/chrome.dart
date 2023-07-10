@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _systemCpu = ChromeSystemCpu._();
 
-extension ChromeChromeSystemCpuExtension on Chrome {
+extension ChromeSystemCpuExtension on Chrome {
   ChromeSystemCpu get systemCpu => _systemCpu;
 }
 

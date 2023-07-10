@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _certificateProvider = ChromeCertificateProvider._();
 
-extension ChromeChromeCertificateProviderExtension on Chrome {
+extension ChromeCertificateProviderExtension on Chrome {
   ChromeCertificateProvider get certificateProvider => _certificateProvider;
 }
 

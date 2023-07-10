@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _pageAction = ChromePageAction._();
 
-extension ChromeChromePageActionExtension on Chrome {
+extension ChromePageActionExtension on Chrome {
   ChromePageAction get pageAction => _pageAction;
 }
 

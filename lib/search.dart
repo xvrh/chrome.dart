@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _search = ChromeSearch._();
 
-extension ChromeChromeSearchExtension on Chrome {
+extension ChromeSearchExtension on Chrome {
   ChromeSearch get search => _search;
 }
 

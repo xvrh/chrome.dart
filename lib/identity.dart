@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _identity = ChromeIdentity._();
 
-extension ChromeChromeIdentityExtension on Chrome {
+extension ChromeIdentityExtension on Chrome {
   ChromeIdentity get identity => _identity;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _tabCapture = ChromeTabCapture._();
 
-extension ChromeChromeTabCaptureExtension on Chrome {
+extension ChromeTabCaptureExtension on Chrome {
   ChromeTabCapture get tabCapture => _tabCapture;
 }
 

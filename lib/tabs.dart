@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _tabs = ChromeTabs._();
 
-extension ChromeChromeTabsExtension on Chrome {
+extension ChromeTabsExtension on Chrome {
   ChromeTabs get tabs => _tabs;
 }
 

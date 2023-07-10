@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _enterprisePlatformKeys = ChromeEnterprisePlatformKeys._();
 
-extension ChromeChromeEnterprisePlatformKeysExtension on Chrome {
+extension ChromeEnterprisePlatformKeysExtension on Chrome {
   ChromeEnterprisePlatformKeys get enterprisePlatformKeys =>
       _enterprisePlatformKeys;
 }

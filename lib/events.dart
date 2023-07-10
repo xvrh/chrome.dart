@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _events = ChromeEvents._();
 
-extension ChromeChromeEventsExtension on Chrome {
+extension ChromeEventsExtension on Chrome {
   ChromeEvents get events => _events;
 }
 

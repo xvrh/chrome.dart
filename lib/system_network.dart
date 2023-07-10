@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _systemNetwork = ChromeSystemNetwork._();
 
-extension ChromeChromeSystemNetworkExtension on Chrome {
+extension ChromeSystemNetworkExtension on Chrome {
   ChromeSystemNetwork get systemNetwork => _systemNetwork;
 }
 

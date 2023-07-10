@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _browsingData = ChromeBrowsingData._();
 
-extension ChromeChromeBrowsingDataExtension on Chrome {
+extension ChromeBrowsingDataExtension on Chrome {
   ChromeBrowsingData get browsingData => _browsingData;
 }
 

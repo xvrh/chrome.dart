@@ -24,11 +24,11 @@ class ChromeApi {
 class TypeRef {
   static final void$ = TypeRef('void');
 
-  String _rawName;
+  String name;
   final bool isArray;
-  String? _url;
+  String? url;
 
-  TypeRef._(this._rawName, this._url, {this.isArray = false});
+  TypeRef._(this.name, this.url, {this.isArray = false});
 
   factory TypeRef(String name, {bool isArray = false}) {
     var (rawName, url) = _nameAndUrl(name);
@@ -43,33 +43,6 @@ class TypeRef {
     } else {
       return (name, null);
     }
-  }
-
-  String get bindingName => isArray ? 'JSArray' : _toJsName(_rawName);
-  String? get bindingUrl => isArray ? null : _url;
-
-  static String _toJsName(String type) {
-    return const {
-          'integer': 'int',
-          'long': 'int',
-          'number': 'num',
-          'boolean': 'bool',
-          'DOMString': 'String',
-          'string': 'String',
-          'object': 'JSObject',
-          'ArrayBuffer': 'JSArrayBuffer',
-          'any': 'JSAny',
-          'function': 'JSFunction',
-          'InjectedFunction': 'JSFunction',
-          'Date': 'JSObject', //TODO(xha): convert to a dart DateTime?
-          'binary': 'JSAny', //TODO: JSArrayBuffer ??
-          //TODO(xha): link to "package:web"?
-          'HTMLElement': 'JSObject',
-          'Window': 'JSObject',
-          'SubtleCrypto': 'JSObject',
-          'Blob': 'JSObject',
-        }[type] ??
-        type;
   }
 }
 

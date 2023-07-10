@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _fileSystemProvider = ChromeFileSystemProvider._();
 
-extension ChromeChromeFileSystemProviderExtension on Chrome {
+extension ChromeFileSystemProviderExtension on Chrome {
   ChromeFileSystemProvider get fileSystemProvider => _fileSystemProvider;
 }
 

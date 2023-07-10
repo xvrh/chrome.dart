@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _privacy = ChromePrivacy._();
 
-extension ChromeChromePrivacyExtension on Chrome {
+extension ChromePrivacyExtension on Chrome {
   ChromePrivacy get privacy => _privacy;
 }
 

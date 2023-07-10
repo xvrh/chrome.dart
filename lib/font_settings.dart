@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _fontSettings = ChromeFontSettings._();
 
-extension ChromeChromeFontSettingsExtension on Chrome {
+extension ChromeFontSettingsExtension on Chrome {
   ChromeFontSettings get fontSettings => _fontSettings;
 }
 

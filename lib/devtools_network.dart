@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _devtoolsNetwork = ChromeDevtoolsNetwork._();
 
-extension ChromeChromeDevtoolsNetworkExtension on Chrome {
+extension ChromeDevtoolsNetworkExtension on Chrome {
   ChromeDevtoolsNetwork get devtoolsNetwork => _devtoolsNetwork;
 }
 

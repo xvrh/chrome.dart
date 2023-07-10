@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _webAuthenticationProxy = ChromeWebAuthenticationProxy._();
 
-extension ChromeChromeWebAuthenticationProxyExtension on Chrome {
+extension ChromeWebAuthenticationProxyExtension on Chrome {
   ChromeWebAuthenticationProxy get webAuthenticationProxy =>
       _webAuthenticationProxy;
 }

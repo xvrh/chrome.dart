@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _management = ChromeManagement._();
 
-extension ChromeChromeManagementExtension on Chrome {
+extension ChromeManagementExtension on Chrome {
   ChromeManagement get management => _management;
 }
 

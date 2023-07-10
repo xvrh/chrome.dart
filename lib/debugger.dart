@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _debugger = ChromeDebugger._();
 
-extension ChromeChromeDebuggerExtension on Chrome {
+extension ChromeDebuggerExtension on Chrome {
   ChromeDebugger get debugger => _debugger;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _enterpriseHardwarePlatform = ChromeEnterpriseHardwarePlatform._();
 
-extension ChromeChromeEnterpriseHardwarePlatformExtension on Chrome {
+extension ChromeEnterpriseHardwarePlatformExtension on Chrome {
   ChromeEnterpriseHardwarePlatform get enterpriseHardwarePlatform =>
       _enterpriseHardwarePlatform;
 }

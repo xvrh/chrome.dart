@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _cookies = ChromeCookies._();
 
-extension ChromeChromeCookiesExtension on Chrome {
+extension ChromeCookiesExtension on Chrome {
   ChromeCookies get cookies => _cookies;
 }
 

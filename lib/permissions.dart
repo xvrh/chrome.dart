@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _permissions = ChromePermissions._();
 
-extension ChromeChromePermissionsExtension on Chrome {
+extension ChromePermissionsExtension on Chrome {
   ChromePermissions get permissions => _permissions;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _proxy = ChromeProxy._();
 
-extension ChromeChromeProxyExtension on Chrome {
+extension ChromeProxyExtension on Chrome {
   ChromeProxy get proxy => _proxy;
 }
 

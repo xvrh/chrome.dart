@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _contextMenus = ChromeContextMenus._();
 
-extension ChromeChromeContextMenusExtension on Chrome {
+extension ChromeContextMenusExtension on Chrome {
   ChromeContextMenus get contextMenus => _contextMenus;
 }
 

@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _accessibilityFeatures = ChromeAccessibilityFeatures._();
 
-extension ChromeChromeAccessibilityFeaturesExtension on Chrome {
+extension ChromeAccessibilityFeaturesExtension on Chrome {
   ChromeAccessibilityFeatures get accessibilityFeatures =>
       _accessibilityFeatures;
 }

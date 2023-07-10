@@ -3,7 +3,7 @@ export 'chrome.dart';
 
 final _tabGroups = ChromeTabGroups._();
 
-extension ChromeChromeTabGroupsExtension on Chrome {
+extension ChromeTabGroupsExtension on Chrome {
   ChromeTabGroups get tabGroups => _tabGroups;
 }
 

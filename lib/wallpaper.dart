@@ -19,7 +19,7 @@ class ChromeWallpaper {
 enum WallpaperLayout {
   stretch('STRETCH'),
   center('CENTER'),
-  centerCROPPED('CENTER_CROPPED');
+  centerCropped('CENTER_CROPPED');
 
   const WallpaperLayout(this.value);
 

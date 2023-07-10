@@ -18,13 +18,13 @@ class ChromeSearch {
 
 enum Disposition {
   ///  Display results in the calling tab or the tab from the active browser.
-  currentTAB('CURRENT_TAB'),
+  currentTab('CURRENT_TAB'),
 
   ///  Display search results in a new tab.
-  newTAB('NEW_TAB'),
+  newTab('NEW_TAB'),
 
   ///  Display search results in a new window.
-  newWINDOW('NEW_WINDOW');
+  newWindow('NEW_WINDOW');
 
   const Disposition(this.value);
 

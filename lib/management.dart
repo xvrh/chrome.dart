@@ -109,10 +109,10 @@ class ChromeManagement {
 
 /// These are all possible app launch types.
 enum LaunchType {
-  openASREGULARTAB('OPEN_AS_REGULAR_TAB'),
-  openASPINNEDTAB('OPEN_AS_PINNED_TAB'),
-  openASWINDOW('OPEN_AS_WINDOW'),
-  openFULLSCREEN('OPEN_FULL_SCREEN');
+  openAsRegularTab('OPEN_AS_REGULAR_TAB'),
+  openAsPinnedTab('OPEN_AS_PINNED_TAB'),
+  openAsWindow('OPEN_AS_WINDOW'),
+  openFullScreen('OPEN_FULL_SCREEN');
 
   const LaunchType(this.value);
 

@@ -53,11 +53,11 @@ enum PrintError {
   ///  Print ticket is invalid. For example, ticket is inconsistent with
   ///  capabilities or extension is not able to handle all settings from the
   ///  ticket.
-  invalidTICKET('INVALID_TICKET'),
+  invalidTicket('INVALID_TICKET'),
 
   ///  Document is invalid. For example, data may be corrupted or the format is
   ///  incompatible with the extension.
-  invalidDATA('INVALID_DATA');
+  invalidData('INVALID_DATA');
 
   const PrintError(this.value);
 

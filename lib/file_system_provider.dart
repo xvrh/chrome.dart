@@ -188,20 +188,20 @@ class ChromeFileSystemProvider {
 enum ProviderError {
   ok('OK'),
   failed('FAILED'),
-  inUSE('IN_USE'),
+  inUse('IN_USE'),
   exists('EXISTS'),
-  notFOUND('NOT_FOUND'),
-  accessDENIED('ACCESS_DENIED'),
-  tooMANYOPENED('TOO_MANY_OPENED'),
-  noMEMORY('NO_MEMORY'),
-  noSPACE('NO_SPACE'),
-  notADIRECTORY('NOT_A_DIRECTORY'),
-  invalidOPERATION('INVALID_OPERATION'),
+  notFound('NOT_FOUND'),
+  accessDenied('ACCESS_DENIED'),
+  tooManyOpened('TOO_MANY_OPENED'),
+  noMemory('NO_MEMORY'),
+  noSpace('NO_SPACE'),
+  notADirectory('NOT_A_DIRECTORY'),
+  invalidOperation('INVALID_OPERATION'),
   security('SECURITY'),
   abort('ABORT'),
-  notAFILE('NOT_A_FILE'),
-  notEMPTY('NOT_EMPTY'),
-  invalidURL('INVALID_URL'),
+  notAFile('NOT_A_FILE'),
+  notEmpty('NOT_EMPTY'),
+  invalidUrl('INVALID_URL'),
   io('IO');
 
   const ProviderError(this.value);
@@ -235,8 +235,8 @@ enum ChangeType {
 ///  doesn't need to be stored for offline access anymore.
 ///  Used by $(ref:onGetActionsRequested) and $(ref:onExecuteActionRequested).
 enum CommonActionId {
-  saveFOROFFLINE('SAVE_FOR_OFFLINE'),
-  offlineNOTNECESSARY('OFFLINE_NOT_NECESSARY'),
+  saveForOffline('SAVE_FOR_OFFLINE'),
+  offlineNotNecessary('OFFLINE_NOT_NECESSARY'),
   share('SHARE');
 
   const CommonActionId(this.value);

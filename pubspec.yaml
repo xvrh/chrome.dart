@@ -21,6 +21,3 @@ dev_dependencies:
       url: https://github.com/petitparser/dart-petitparser.git
   test:
   web:
-  html2md :
-    git:
-      url: https://github.com/xvrh/html2md.git

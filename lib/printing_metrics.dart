@@ -21,10 +21,10 @@ class ChromePrintingMetrics {
 ///  The source of the print job.
 enum PrintJobSource {
   ///  The job was created from the Print Preview page initiated by the user.
-  printPREVIEW('PRINT_PREVIEW'),
+  printPreview('PRINT_PREVIEW'),
 
   ///  The job was created from an Android App.
-  androidAPP('ANDROID_APP'),
+  androidApp('ANDROID_APP'),
 
   ///  The job was created by extension via Chrome API.
   extension('EXTENSION');
@@ -65,7 +65,7 @@ enum PrinterSource {
 
 enum ColorMode {
   ///  Black and white mode was used.
-  blackANDWHITE('BLACK_AND_WHITE'),
+  blackAndWhite('BLACK_AND_WHITE'),
 
   ///  Color mode was used.
   color('COLOR');
@@ -77,13 +77,13 @@ enum ColorMode {
 
 enum DuplexMode {
   ///  One-sided printing was used.
-  oneSIDED('ONE_SIDED'),
+  oneSided('ONE_SIDED'),
 
   ///  Two-sided printing was used, flipping on long edge.
-  twoSIDEDLONGEDGE('TWO_SIDED_LONG_EDGE'),
+  twoSidedLongEdge('TWO_SIDED_LONG_EDGE'),
 
   ///  Two-sided printing was used, flipping on short edge.
-  twoSIDEDSHORTEDGE('TWO_SIDED_SHORT_EDGE');
+  twoSidedShortEdge('TWO_SIDED_SHORT_EDGE');
 
   const DuplexMode(this.value);
 

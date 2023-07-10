@@ -231,7 +231,7 @@ class CodeGenerator {
 }
 
 String _toEnumValue(String input) {
-  input = lowerCamel(splitWords(input));
+  input = lowerCamel(splitWords(input).map((e) => e.toLowerCase()));
 
   return preventKeywords(input);
 }

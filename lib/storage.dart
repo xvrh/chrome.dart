@@ -16,8 +16,8 @@ class ChromeStorage {
 
 /// The storage area's access level.
 enum AccessLevel {
-  trustedCONTEXTS('TRUSTED_CONTEXTS'),
-  trustedANDUNTRUSTEDCONTEXTS('TRUSTED_AND_UNTRUSTED_CONTEXTS');
+  trustedContexts('TRUSTED_CONTEXTS'),
+  trustedAndUntrustedContexts('TRUSTED_AND_UNTRUSTED_CONTEXTS');
 
   const AccessLevel(this.value);
 

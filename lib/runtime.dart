@@ -269,7 +269,7 @@ enum ContextType {
   tab('TAB'),
   popup('POPUP'),
   background('BACKGROUND'),
-  offscreenDOCUMENT('OFFSCREEN_DOCUMENT');
+  offscreenDocument('OFFSCREEN_DOCUMENT');
 
   const ContextType(this.value);
 

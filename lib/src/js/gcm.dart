@@ -50,6 +50,39 @@ extension JSGcmExtension on JSGcm {
 
 @JS()
 @staticInterop
+class OnMessageMessage {}
+
+extension OnMessageMessageExtension on OnMessageMessage {
+  /// The message data.
+  external OnMessageMessageData get data;
+
+  /// The sender who issued the message.
+  external String? get from;
+
+  /// The collapse key of a message. See the <a
+  /// href='https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages'>Non-collapsible
+  /// and collapsible messages</a> for details.
+  external String? get collapseKey;
+}
+
+@JS()
+@staticInterop
+class OnSendErrorError {}
+
+extension OnSendErrorErrorExtension on OnSendErrorError {
+  /// The error message describing the problem.
+  external String get errorMessage;
+
+  /// The ID of the message with this error, if error is related to a specific
+  /// message.
+  external String? get messageId;
+
+  /// Additional details related to the error, when available.
+  external OnSendErrorErrorDetails get details;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class SendMessage {
   external factory SendMessage({
@@ -77,6 +110,18 @@ class SendMessage {
     SendMessageData data,
   });
 }
+
+@JS()
+@staticInterop
+class OnMessageMessageData {}
+
+extension OnMessageMessageDataExtension on OnMessageMessageData {}
+
+@JS()
+@staticInterop
+class OnSendErrorErrorDetails {}
+
+extension OnSendErrorErrorDetailsExtension on OnSendErrorErrorDetails {}
 
 @JS()
 @staticInterop

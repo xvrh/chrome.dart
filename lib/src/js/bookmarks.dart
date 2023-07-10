@@ -155,6 +155,51 @@ extension CreateDetailsExtension on CreateDetails {
 
 @JS()
 @staticInterop
+class OnRemovedRemoveInfo {}
+
+extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
+  external String get parentId;
+
+  external int get index;
+
+  external BookmarkTreeNode get node;
+}
+
+@JS()
+@staticInterop
+class OnChangedChangeInfo {}
+
+extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
+  external String get title;
+
+  external String? get url;
+}
+
+@JS()
+@staticInterop
+class OnMovedMoveInfo {}
+
+extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
+  external String get parentId;
+
+  external int get index;
+
+  external String get oldParentId;
+
+  external int get oldIndex;
+}
+
+@JS()
+@staticInterop
+class OnChildrenReorderedReorderInfo {}
+
+extension OnChildrenReorderedReorderInfoExtension
+    on OnChildrenReorderedReorderInfo {
+  external JSArray get childIds;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class MoveDestination {
   external factory MoveDestination({

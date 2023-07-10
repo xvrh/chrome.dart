@@ -276,6 +276,43 @@ extension MenuParametersExtension on MenuParameters {
 
 @JS()
 @staticInterop
+class OnSurroundingTextChangedSurroundingInfo {}
+
+extension OnSurroundingTextChangedSurroundingInfoExtension
+    on OnSurroundingTextChangedSurroundingInfo {
+  /// The text around the cursor. This is only a subset of all text in the input
+  /// field.
+  external String get text;
+
+  /// The ending position of the selection. This value indicates caret position
+  /// if there is no selection.
+  external int get focus;
+
+  /// The beginning position of the selection. This value indicates caret
+  /// position if there is no selection.
+  external int get anchor;
+
+  /// The offset position of `text`. Since `text` only includes a subset of text
+  /// around the cursor, offset indicates the absolute position of the first
+  /// character of `text`.
+  external int get offset;
+}
+
+@JS()
+@staticInterop
+class OnAssistiveWindowButtonClickedDetails {}
+
+extension OnAssistiveWindowButtonClickedDetailsExtension
+    on OnAssistiveWindowButtonClickedDetails {
+  /// The ID of the button clicked.
+  external AssistiveWindowButton get buttonID;
+
+  /// The type of the assistive window.
+  external AssistiveWindowType get windowType;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class SetCompositionParameters {
   external factory SetCompositionParameters({

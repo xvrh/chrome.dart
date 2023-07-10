@@ -19,29 +19,24 @@ class TabsApi {
     int? index,
     String? url,
   }) async {
-    var completer = Completer<Tab>();
-    binding.chrome.tabs.create(
-      binding.CreateProperties(active: active, index: index, url: url),
-      (binding.Tab tab) {
-        completer.complete(tab.toDart);
-      }.toJS,
-    );
-    return completer.future;
+    var jsTab = await promiseToFuture<binding.Tab>(binding.chrome.tabs.create(
+        binding.CreateProperties(active: active, index: index, url: url)));
+    return jsTab.toDart;
   }
 
   Stream<Tab> get onCreated {
     var controller = StreamController<Tab>.broadcast();
 
-    var callback = (binding.JSTab tab) {
+    var callback = (binding.Tab tab) {
       controller.add(tab.toDart);
     }.toJS;
 
     controller
       ..onListen = () {
-        binding.tabs.onCreated.addListener(callback);
+        binding.chrome.tabs.onCreated.addListener(callback);
       }
       ..onCancel = () {
-        binding.tabs.onCreated.removeListener(callback);
+        binding.chrome.tabs.onCreated.removeListener(callback);
         controller.close();
       };
 
@@ -51,42 +46,17 @@ class TabsApi {
   Stream<OnMoveEvent> get onMoved {
     var controller = StreamController<OnMoveEvent>.broadcast();
 
-    var callback = (int tabId, binding.JSMoveInfo moveInfo) {
+    var callback = (int tabId, binding.OnMovedMoveInfo moveInfo) {
       controller.add(OnMoveEvent(tabId: tabId, moveInfo: MoveInfo._(moveInfo)));
     }.toJS;
 
     controller
       ..onListen = () {
         print('Add listener');
-        binding.tabs.onMoved.addListener(callback);
+        binding.chrome.tabs.onMoved.addListener(callback);
       }
       ..onCancel = () {
-        binding.tabs.onMoved.removeListener(callback);
-        controller.close();
-      };
-
-    return controller.stream;
-  }
-
-  Stream<({int tabId, ({int windowId, int fromIndex, int toIndex}) moveInfo})>
-      get onMoved2 {
-    var controller = StreamController<
-        ({
-          int tabId,
-          ({int windowId, int fromIndex, int toIndex}) moveInfo
-        })>.broadcast();
-
-    var callback = (int tabId, binding.JSMoveInfo moveInfo) {
-      controller.add((tabId: tabId, moveInfo: moveInfo.toRecord));
-    }.toJS;
-
-    controller
-      ..onListen = () {
-        print('Add listener');
-        binding.tabs.onMoved.addListener(callback);
-      }
-      ..onCancel = () {
-        binding.tabs.onMoved.removeListener(callback);
+        binding.chrome.tabs.onMoved.removeListener(callback);
         controller.close();
       };
 
@@ -107,7 +77,7 @@ class QueryInfo {
     this.status,
   });
 
-  binding.JSQueryInfo get toJS => binding.JSQueryInfo(
+  binding.QueryInfo get toJS => binding.QueryInfo(
         active: active,
         currentWindow: currentWindow,
         pinned: pinned,
@@ -162,7 +132,7 @@ class OnMoveEvent {
 }
 
 class MoveInfo {
-  final binding.MoveInfo _object;
+  final binding.OnMovedMoveInfo _object;
 
   // Questions:
   //  - Should we always generate setter
@@ -185,16 +155,8 @@ class MoveInfo {
 
   MoveInfo(
       {required int windowId, required int fromIndex, required int toIndex})
-      : _object = binding.MoveInfo()
+      : _object = binding.OnMovedMoveInfo()
           ..windowId = windowId
           ..fromIndex = fromIndex
           ..toIndex = toIndex;
-}
-
-extension on binding.MoveInfo {
-  ({int windowId, int fromIndex, int toIndex}) get toRecord => (
-        windowId: windowId,
-        fromIndex: fromIndex,
-        toIndex: toIndex,
-      );
 }

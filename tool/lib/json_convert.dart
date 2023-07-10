@@ -26,8 +26,21 @@ class JsonModelConverter {
 
   Iterable<Event> _convertEvents() sync* {
     for (var e in model.events) {
-      yield Event(e.name, e.description);
+      yield _toEvent(e);
     }
+  }
+
+  Event _toEvent(JsonFunction event) {
+    for (var param in event.parameters) {
+      var name = param.name!;
+      var parameterType = _addSyntheticTypeIfNeeded(param, name, event.name,
+              anonymous: false) ??
+          _propertyType(param);
+
+      //TODO: create synthetic class to hold event with > 1 parameter
+    }
+
+    return Event(event.name, event.description);
   }
 
   Iterable<Method> _convertFunctions() sync* {
@@ -141,7 +154,7 @@ class JsonModelConverter {
       var events = <Event>[];
       if (t.events != null) {
         for (var event in t.events!) {
-          events.add(Event(event.name!, event.description));
+          events.add(_toEvent(event));
         }
       }
 

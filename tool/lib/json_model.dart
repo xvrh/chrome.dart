@@ -106,7 +106,7 @@ class JsonDeclaredType {
 
   final List<JsonFunction>? functions;
 
-  final List<JsonProperty>? events;
+  final List<JsonFunction>? events;
 
   final JsonProperty? additionalProperties;
 

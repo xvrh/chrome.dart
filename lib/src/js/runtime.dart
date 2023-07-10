@@ -388,6 +388,32 @@ extension ContextFilterExtension on ContextFilter {
 
 @JS()
 @staticInterop
+class OnInstalledDetails {}
+
+extension OnInstalledDetailsExtension on OnInstalledDetails {
+  /// The reason that this event is being dispatched.
+  external OnInstalledReason get reason;
+
+  /// Indicates the previous version of the extension, which has just been
+  /// updated. This is present only if 'reason' is 'update'.
+  external String? get previousVersion;
+
+  /// Indicates the ID of the imported shared module extension which updated.
+  /// This is present only if 'reason' is 'shared_module_update'.
+  external String? get id;
+}
+
+@JS()
+@staticInterop
+class OnUpdateAvailableDetails {}
+
+extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
+  /// The version number of the available update.
+  external String get version;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class ConnectInfo {
   external factory ConnectInfo({

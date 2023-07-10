@@ -110,6 +110,17 @@ extension UrlDetailsExtension on UrlDetails {
 
 @JS()
 @staticInterop
+class OnVisitRemovedRemoved {}
+
+extension OnVisitRemovedRemovedExtension on OnVisitRemovedRemoved {
+  /// True if all history was removed.  If true, then urls will be empty.
+  external bool get allHistory;
+
+  external JSArray? get urls;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class SearchQuery {
   external factory SearchQuery({

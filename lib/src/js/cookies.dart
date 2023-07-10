@@ -141,6 +141,21 @@ extension CookieDetailsExtension on CookieDetails {
 
 @JS()
 @staticInterop
+class OnChangedChangeInfo {}
+
+extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
+  /// True if a cookie was removed.
+  external bool get removed;
+
+  /// Information about the cookie that was set or removed.
+  external Cookie get cookie;
+
+  /// The underlying reason behind the cookie's change.
+  external OnChangedCause get cause;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class GetAllDetails {
   external factory GetAllDetails({

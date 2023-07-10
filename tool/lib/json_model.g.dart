@@ -90,7 +90,7 @@ JsonDeclaredType _$JsonDeclaredTypeFromJson(Map<String, dynamic> json) {
         ?.map((e) => JsonFunction.fromJson(e as Map<String, dynamic>))
         .toList(),
     events: (json['events'] as List<dynamic>?)
-        ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => JsonFunction.fromJson(e as Map<String, dynamic>))
         .toList(),
     nodoc: json['nodoc'] as bool?,
     nocompile: json['nocompile'] as bool?,

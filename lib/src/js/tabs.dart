@@ -385,6 +385,156 @@ extension ZoomSettingsExtension on ZoomSettings {
 
 @JS()
 @staticInterop
+class OnUpdatedChangeInfo {}
+
+extension OnUpdatedChangeInfoExtension on OnUpdatedChangeInfo {
+  /// The tab's loading status.
+  external TabStatus? get status;
+
+  /// The tab's URL if it has changed.
+  external String? get url;
+
+  /// The tab's new group.
+  external int? get groupId;
+
+  /// The tab's new pinned state.
+  external bool? get pinned;
+
+  /// The tab's new audible state.
+  external bool? get audible;
+
+  /// The tab's new discarded state.
+  external bool? get discarded;
+
+  /// The tab's new auto-discardable state.
+  external bool? get autoDiscardable;
+
+  /// The tab's new muted state and the reason for the change.
+  external MutedInfo? get mutedInfo;
+
+  /// The tab's new favicon URL.
+  external String? get favIconUrl;
+
+  /// The tab's new title.
+  external String? get title;
+}
+
+@JS()
+@staticInterop
+class OnMovedMoveInfo {}
+
+extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
+  external int get windowId;
+
+  external int get fromIndex;
+
+  external int get toIndex;
+}
+
+@JS()
+@staticInterop
+class OnSelectionChangedSelectInfo {}
+
+extension OnSelectionChangedSelectInfoExtension
+    on OnSelectionChangedSelectInfo {
+  /// The ID of the window the selected tab changed inside of.
+  external int get windowId;
+}
+
+@JS()
+@staticInterop
+class OnActiveChangedSelectInfo {}
+
+extension OnActiveChangedSelectInfoExtension on OnActiveChangedSelectInfo {
+  /// The ID of the window the selected tab changed inside of.
+  external int get windowId;
+}
+
+@JS()
+@staticInterop
+class OnActivatedActiveInfo {}
+
+extension OnActivatedActiveInfoExtension on OnActivatedActiveInfo {
+  /// The ID of the tab that has become active.
+  external int get tabId;
+
+  /// The ID of the window the active tab changed inside of.
+  external int get windowId;
+}
+
+@JS()
+@staticInterop
+class OnHighlightChangedSelectInfo {}
+
+extension OnHighlightChangedSelectInfoExtension
+    on OnHighlightChangedSelectInfo {
+  /// The window whose tabs changed.
+  external int get windowId;
+
+  /// All highlighted tabs in the window.
+  external JSArray get tabIds;
+}
+
+@JS()
+@staticInterop
+class OnHighlightedHighlightInfo {}
+
+extension OnHighlightedHighlightInfoExtension on OnHighlightedHighlightInfo {
+  /// The window whose tabs changed.
+  external int get windowId;
+
+  /// All highlighted tabs in the window.
+  external JSArray get tabIds;
+}
+
+@JS()
+@staticInterop
+class OnDetachedDetachInfo {}
+
+extension OnDetachedDetachInfoExtension on OnDetachedDetachInfo {
+  external int get oldWindowId;
+
+  external int get oldPosition;
+}
+
+@JS()
+@staticInterop
+class OnAttachedAttachInfo {}
+
+extension OnAttachedAttachInfoExtension on OnAttachedAttachInfo {
+  external int get newWindowId;
+
+  external int get newPosition;
+}
+
+@JS()
+@staticInterop
+class OnRemovedRemoveInfo {}
+
+extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
+  /// The window whose tab is closed.
+  external int get windowId;
+
+  /// True when the tab was closed because its parent window was closed.
+  external bool get isWindowClosing;
+}
+
+@JS()
+@staticInterop
+class OnZoomChangeZoomChangeInfo {}
+
+extension OnZoomChangeZoomChangeInfoExtension on OnZoomChangeZoomChangeInfo {
+  external int get tabId;
+
+  external num get oldZoomFactor;
+
+  external num get newZoomFactor;
+
+  external ZoomSettings get zoomSettings;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class ConnectInfo {
   external factory ConnectInfo({

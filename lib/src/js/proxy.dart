@@ -106,3 +106,19 @@ extension ProxyConfigExtension on ProxyConfig {
   /// 'system' = Use system proxy settings
   external Mode get mode;
 }
+
+@JS()
+@staticInterop
+class OnProxyErrorDetails {}
+
+extension OnProxyErrorDetailsExtension on OnProxyErrorDetails {
+  /// If true, the error was fatal and the network transaction was aborted.
+  /// Otherwise, a direct connection is used instead.
+  external bool get fatal;
+
+  /// The error description.
+  external String get error;
+
+  /// Additional details about the error such as a JavaScript runtime error.
+  external String get details;
+}

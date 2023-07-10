@@ -55,14 +55,15 @@ class CodeGenerator {
     var parameters = method.parameters
         .map((p) => Parameter((b) => b
           ..name = p.name
-          ..type = refer(p.type.bindingName, p.type.url)))
+          ..type = refer(p.type.bindingName, p.type.bindingUrl)))
         .toList();
 
     Reference returns;
     if (method.returns.isAsync && method.returns.supportPromise) {
       returns = refer('JSPromise', _dartInteropUrl);
     } else if (!method.returns.isAsync) {
-      returns = refer(method.returns.type.bindingName, method.returns.type.url);
+      returns = refer(
+          method.returns.type.bindingName, method.returns.type.bindingUrl);
     } else {
       returns = refer('void');
       parameters.add(Parameter((b) => b
@@ -126,7 +127,7 @@ class CodeGenerator {
       ..external = true
       ..returns = refer(
           '${property.type.bindingName}${property.optional ? '?' : ''}',
-          property.type.url)
+          property.type.bindingUrl)
       ..type = MethodType.getter);
   }
 
@@ -136,7 +137,7 @@ class CodeGenerator {
       ..name = property.name
       ..type = refer(
           '${property.type.bindingName}${property.optional ? '?' : ''}',
-          property.type.url));
+          property.type.bindingUrl));
   }
 
   String highLevelApi() {
@@ -144,7 +145,7 @@ class CodeGenerator {
       ..directives.add(Directive.export('chrome.dart'))
       ..body.addAll([
         Field((b) => b
-          ..name = '_${_apiNameCamelCase}'
+          ..name = '_$_apiNameCamelCase'
           ..modifier = FieldModifier.final$
           ..assignment = refer(apiClassName).property('_').call([]).code),
         Extension((b) => b

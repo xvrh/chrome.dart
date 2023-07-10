@@ -604,10 +604,10 @@ class GroupOptions {
 
 @JS()
 @staticInterop
-class GroupOptionsCreateProperties {}
+@anonymous
+class GroupOptionsCreateProperties {
+  external factory GroupOptionsCreateProperties(
 
-extension GroupOptionsCreatePropertiesExtension
-    on GroupOptionsCreateProperties {
-  /// The window of the new group. Defaults to the current window.
-  external int? get windowId;
+      /// The window of the new group. Defaults to the current window.
+      int? windowId);
 }

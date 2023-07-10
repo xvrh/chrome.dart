@@ -77,6 +77,7 @@ class SendMessage {
 
 @JS()
 @staticInterop
-class SendMessageData {}
-
-extension SendMessageDataExtension on SendMessageData {}
+@anonymous
+class SendMessageData {
+  external factory SendMessageData();
+}

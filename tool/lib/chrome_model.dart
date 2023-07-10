@@ -24,11 +24,11 @@ class ChromeApi {
 class TypeRef {
   static final void$ = TypeRef('void');
 
-  String rawName;
+  String _rawName;
   final bool isArray;
-  String? url;
+  String? _url;
 
-  TypeRef._(this.rawName, this.url, {this.isArray = false});
+  TypeRef._(this._rawName, this._url, {this.isArray = false});
 
   factory TypeRef(String name, {bool isArray = false}) {
     var (rawName, url) = _nameAndUrl(name);
@@ -45,7 +45,8 @@ class TypeRef {
     }
   }
 
-  String get bindingName => isArray ? 'JSArray' : _toJsName(rawName);
+  String get bindingName => isArray ? 'JSArray' : _toJsName(_rawName);
+  String? get bindingUrl => isArray ? null : _url;
 
   static String _toJsName(String type) {
     return const {

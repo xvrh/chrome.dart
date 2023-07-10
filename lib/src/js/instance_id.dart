@@ -71,6 +71,7 @@ class DeleteTokenParams {
 
 @JS()
 @staticInterop
-class GetTokenParamsOptions {}
-
-extension GetTokenParamsOptionsExtension on GetTokenParamsOptions {}
+@anonymous
+class GetTokenParamsOptions {
+  external factory GetTokenParamsOptions();
+}

@@ -164,11 +164,10 @@ extension FormDataItemExtension on FormDataItem {}
 
 @JS()
 @staticInterop
-class BlockingResponseAuthCredentials {}
-
-extension BlockingResponseAuthCredentialsExtension
-    on BlockingResponseAuthCredentials {
-  external String get username;
-
-  external String get password;
+@anonymous
+class BlockingResponseAuthCredentials {
+  external factory BlockingResponseAuthCredentials(
+    String username,
+    String password,
+  );
 }

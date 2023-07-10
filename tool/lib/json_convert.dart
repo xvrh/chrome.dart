@@ -59,22 +59,9 @@ class JsonModelConverter {
   Iterable<Property> _functionParameters(JsonFunction function) sync* {
     for (var param in function.parameters) {
       var name = param.name!;
-      var parameterType = _propertyType(param);
-      if (param.properties != null) {
-        var typeName = upperCamel(splitWords(
-            '${name.startsWith(function.name) ? '' : function.name} $name'));
-        parameterType = TypeRef(typeName);
-        _dictionariesToGenerate.add(JsonDeclaredType(
-            typeName, param.description,
-            properties: param.properties)
-          ..isAnonymous = true);
-      } else if (param.enums != null) {
-        var typeName = upperCamel(splitWords(
-            '${name.startsWith(function.name) ? '' : function.name} $name'));
-        parameterType = TypeRef(typeName);
-        _dictionariesToGenerate.add(
-            JsonDeclaredType(typeName, param.description, enums: param.enums));
-      }
+      var parameterType =
+          _addSyntheticTypeIfNeeded(param, name, function.name) ??
+              _propertyType(param);
 
       yield Property(
         name,
@@ -85,26 +72,47 @@ class JsonModelConverter {
     }
   }
 
+  TypeRef? _addSyntheticTypeIfNeeded(
+      JsonProperty property, String name, String parent) {
+    TypeRef? type;
+    if (property.properties != null) {
+      var typeName = upperCamel(
+          splitWords('${name.startsWith(parent) ? '' : parent} $name'));
+      type = TypeRef(typeName);
+      _dictionariesToGenerate.add(JsonDeclaredType(
+          typeName, property.description,
+          properties: property.properties)
+        ..isAnonymous = true);
+    } else if (property.enums != null) {
+      var typeName = upperCamel(
+          splitWords('${name.startsWith(parent) ? '' : parent} $name'));
+      type = TypeRef(typeName);
+      _dictionariesToGenerate.add(JsonDeclaredType(
+          typeName, property.description,
+          enums: property.enums));
+    } else if (property.items case var items?) {
+      if (items.$ref == null) {
+        if (items.properties != null) {
+          _addSyntheticTypeIfNeeded(items, name, parent);
+        } else if (items.enums != null) {
+          throw UnimplementedError('$parent $name');
+        }
+      }
+    }
+    return type;
+  }
+
   Iterable<Dictionary> _convertDictionaries() sync* {
     while (_dictionariesToGenerate.isNotEmpty) {
       var t = _dictionariesToGenerate.removeAt(0);
       var properties = <Property>[];
       if (t.properties != null) {
         for (var e in t.properties!.entries) {
-          var propertyType = _propertyType(e.value);
+          var propertyType = _addSyntheticTypeIfNeeded(e.value, e.key, t.id) ??
+              _propertyType(e.value);
 
           if (e.value.parameters != null) {
             //TODO(xha): support function parameter
-          }
-          if (e.value.enums != null) {
-            throw UnimplementedError();
-          }
-          if (e.value.properties != null) {
-            var typeName = '${t.id}${firstLetterUpper(e.key)}';
-            propertyType = TypeRef(typeName);
-            _dictionariesToGenerate.add(JsonDeclaredType(
-                typeName, e.value.description,
-                properties: e.value.properties));
           }
 
           var property = Property(
@@ -144,7 +152,12 @@ class JsonModelConverter {
   }
 
   TypeRef _propertyType(JsonProperty prop) {
-    var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object';
+    var typeName = prop.isInstanceOf ??
+        prop.items?.name ??
+        prop.items?.$ref ??
+        prop.type ??
+        prop.$ref ??
+        'object';
     var isArray = prop.items != null;
     return TypeRef(typeName, isArray: isArray);
   }

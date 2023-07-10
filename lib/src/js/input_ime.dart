@@ -430,35 +430,90 @@ class DeleteSurroundingTextParameters {
 
 @JS()
 @staticInterop
-class SetCandidateWindowPropertiesParametersProperties {}
+@anonymous
+class SetCompositionParametersSegments {
+  external factory SetCompositionParametersSegments(
+    /// Index of the character to start this segment at
+    int start,
 
-extension SetCandidateWindowPropertiesParametersPropertiesExtension
-    on SetCandidateWindowPropertiesParametersProperties {
-  /// True to show the Candidate window, false to hide it.
-  external bool? get visible;
+    /// Index of the character to end this segment after.
+    int end,
 
-  /// True to show the cursor, false to hide it.
-  external bool? get cursorVisible;
+    /// The type of the underline to modify this segment.
+    UnderlineStyle style,
+  );
+}
 
-  /// True if the candidate window should be rendered vertical, false to make it
-  /// horizontal.
-  external bool? get vertical;
+@JS()
+@staticInterop
+@anonymous
+class SetCandidateWindowPropertiesParametersProperties {
+  external factory SetCandidateWindowPropertiesParametersProperties(
+    /// True to show the Candidate window, false to hide it.
+    bool? visible,
 
-  /// The number of candidates to display per page.
-  external int? get pageSize;
+    /// True to show the cursor, false to hide it.
+    bool? cursorVisible,
 
-  /// Text that is shown at the bottom of the candidate window.
-  external String? get auxiliaryText;
+    /// True if the candidate window should be rendered vertical, false to make it
+    /// horizontal.
+    bool? vertical,
 
-  /// True to display the auxiliary text, false to hide it.
-  external bool? get auxiliaryTextVisible;
+    /// The number of candidates to display per page.
+    int? pageSize,
 
-  /// The total number of candidates for the candidate window.
-  external int? get totalCandidates;
+    /// Text that is shown at the bottom of the candidate window.
+    String? auxiliaryText,
 
-  /// The index of the current chosen candidate out of total candidates.
-  external int? get currentCandidateIndex;
+    /// True to display the auxiliary text, false to hide it.
+    bool? auxiliaryTextVisible,
 
-  /// Where to display the candidate window.
-  external WindowPosition? get windowPosition;
+    /// The total number of candidates for the candidate window.
+    int? totalCandidates,
+
+    /// The index of the current chosen candidate out of total candidates.
+    int? currentCandidateIndex,
+
+    /// Where to display the candidate window.
+    WindowPosition? windowPosition,
+  );
+}
+
+@JS()
+@staticInterop
+@anonymous
+class SetCandidatesParametersCandidates {
+  external factory SetCandidatesParametersCandidates(
+    /// The candidate
+    String candidate,
+
+    /// The candidate's id
+    int id,
+
+    /// The id to add these candidates under
+    int? parentId,
+
+    /// Short string displayed to next to the candidate, often the shortcut key or
+    /// index
+    String? label,
+
+    /// Additional text describing the candidate
+    String? annotation,
+
+    /// The usage or detail description of word.
+    SetCandidatesParametersCandidatesUsage? usage,
+  );
+}
+
+@JS()
+@staticInterop
+@anonymous
+class SetCandidatesParametersCandidatesUsage {
+  external factory SetCandidatesParametersCandidatesUsage(
+    /// The title string of details description.
+    String title,
+
+    /// The body string of detail description.
+    String body,
+  );
 }

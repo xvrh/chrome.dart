@@ -23,18 +23,18 @@ extension JSI18nExtension on JSI18n {
   /// `getMessage()` call is wrong &mdash; for example, <em>messageName</em> is
   /// not a string or the <em>substitutions</em> array has more than 9 elements
   /// &mdash; this method returns `undefined`.
-  external JSString getMessage(
-    JSString messageName,
+  external String getMessage(
+    String messageName,
     JSAny? substitutions,
     GetMessageOptions? options,
   );
 
   /// Gets the browser UI language of the browser. This is different from
   /// $(ref:i18n.getAcceptLanguages) which returns the preferred user languages.
-  external JSString getUILanguage();
+  external String getUILanguage();
 
   /// Detects the language of the provided text using CLD.
-  external JSPromise detectLanguage(JSString text);
+  external JSPromise detectLanguage(String text);
 }
 
 @JS()
@@ -53,5 +53,5 @@ class GetMessageOptions {
       /// itself, not to the placeholders. Developers might want to use this if the
       /// translation is used in an HTML context. Closure Templates used with
       /// Closure Compiler generate this automatically.
-      JSBoolean? escapeLt});
+      bool? escapeLt});
 }

@@ -48,7 +48,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// Returns information about a file system with the passed
   /// `fileSystemId`.
   external void get(
-    JSString fileSystemId,
+    String fileSystemId,
     JSFunction callback,
   );
 
@@ -222,11 +222,11 @@ class EntryMetadata {}
 extension EntryMetadataExtension on EntryMetadata {
   /// True if it is a directory. Must be provided if requested in
   /// `options`.
-  external JSBoolean? get isDirectory;
+  external bool? get isDirectory;
 
   /// Name of this entry (not full path name). Must not contain '/'. For root
   /// it must be empty. Must be provided if requested in `options`.
-  external JSString? get name;
+  external String? get name;
 
   /// File size in bytes. Must be provided if requested in
   /// `options`.
@@ -238,12 +238,12 @@ extension EntryMetadataExtension on EntryMetadata {
 
   /// Mime type for the entry. Always optional, but should be provided if
   /// requested in `options`.
-  external JSString? get mimeType;
+  external String? get mimeType;
 
   /// Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at most
   /// 32 KB in size. Optional, but can be provided only when explicitly
   /// requested by the $(ref:onGetMetadataRequested) event.
-  external JSString? get thumbnail;
+  external String? get thumbnail;
 }
 
 @JS()
@@ -252,14 +252,14 @@ class Watcher {}
 
 extension WatcherExtension on Watcher {
   /// The path of the entry being observed.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// Whether watching should include all child entries recursively. It can be
   /// true for directories only.
-  external JSBoolean get recursive;
+  external bool get recursive;
 
   /// Tag used by the last notification for the watcher.
-  external JSString? get lastTag;
+  external String? get lastTag;
 }
 
 @JS()
@@ -268,10 +268,10 @@ class OpenedFile {}
 
 extension OpenedFileExtension on OpenedFile {
   /// A request ID to be be used by consecutive read/write and close requests.
-  external JSNumber get openRequestId;
+  external int get openRequestId;
 
   /// The path of the opened file.
-  external JSString get filePath;
+  external String get filePath;
 
   /// Whether the file was opened for reading or writing.
   external OpenFileMode get mode;
@@ -283,25 +283,25 @@ class FileSystemInfo {}
 
 extension FileSystemInfoExtension on FileSystemInfo {
   /// The identifier of the file system.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// A human-readable name for the file system.
-  external JSString get displayName;
+  external String get displayName;
 
   /// Whether the file system supports operations which may change contents
   /// of the file system (such as creating, deleting or writing to files).
-  external JSBoolean get writable;
+  external bool get writable;
 
   /// The maximum number of files that can be opened at once. If 0, then not
   /// limited.
-  external JSNumber get openedFilesLimit;
+  external int get openedFilesLimit;
 
   /// List of currently opened files.
   external JSArray get openedFiles;
 
   /// Whether the file system supports the `tag` field for observing
   /// directories.
-  external JSBoolean? get supportsNotifyTag;
+  external bool? get supportsNotifyTag;
 
   /// List of watchers.
   external JSArray get watchers;
@@ -314,26 +314,26 @@ class MountOptions {}
 extension MountOptionsExtension on MountOptions {
   /// The string indentifier of the file system. Must be unique per each
   /// extension.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// A human-readable name for the file system.
-  external JSString get displayName;
+  external String get displayName;
 
   /// Whether the file system supports operations which may change contents
   /// of the file system (such as creating, deleting or writing to files).
-  external JSBoolean? get writable;
+  external bool? get writable;
 
   /// The maximum number of files that can be opened at once. If not specified,
   /// or 0, then not limited.
-  external JSNumber? get openedFilesLimit;
+  external int? get openedFilesLimit;
 
   /// Whether the file system supports the `tag` field for observed
   /// directories.
-  external JSBoolean? get supportsNotifyTag;
+  external bool? get supportsNotifyTag;
 
   /// Whether the framework should resume the file system at the next sign-in
   /// session. True by default.
-  external JSBoolean? get persistent;
+  external bool? get persistent;
 }
 
 @JS()
@@ -342,7 +342,7 @@ class UnmountOptions {}
 
 extension UnmountOptionsExtension on UnmountOptions {
   /// The identifier of the file system to be unmounted.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 }
 
 @JS()
@@ -351,10 +351,10 @@ class UnmountRequestedOptions {}
 
 extension UnmountRequestedOptionsExtension on UnmountRequestedOptions {
   /// The identifier of the file system to be unmounted.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 }
 
 @JS()
@@ -363,32 +363,32 @@ class GetMetadataRequestedOptions {}
 
 extension GetMetadataRequestedOptionsExtension on GetMetadataRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the entry to fetch metadata about.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// Set to `true` if `is_directory` value is requested.
-  external JSBoolean get isDirectory;
+  external bool get isDirectory;
 
   /// Set to `true` if `name` value is requested.
-  external JSBoolean get name;
+  external bool get name;
 
   /// Set to `true` if `size` value is requested.
-  external JSBoolean get size;
+  external bool get size;
 
   /// Set to `true` if `modificationTime` value is
   /// requested.
-  external JSBoolean get modificationTime;
+  external bool get modificationTime;
 
   /// Set to `true` if `mimeType` value is requested.
-  external JSBoolean get mimeType;
+  external bool get mimeType;
 
   /// Set to `true` if the thumbnail is requested.
-  external JSBoolean get thumbnail;
+  external bool get thumbnail;
 }
 
 @JS()
@@ -397,10 +397,10 @@ class GetActionsRequestedOptions {}
 
 extension GetActionsRequestedOptionsExtension on GetActionsRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// List of paths of entries for the list of actions.
   external JSArray get entryPaths;
@@ -413,32 +413,32 @@ class ReadDirectoryRequestedOptions {}
 extension ReadDirectoryRequestedOptionsExtension
     on ReadDirectoryRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the directory which contents are requested.
-  external JSString get directoryPath;
+  external String get directoryPath;
 
   /// Set to `true` if `is_directory` value is requested.
-  external JSBoolean get isDirectory;
+  external bool get isDirectory;
 
   /// Set to `true` if `name` value is requested.
-  external JSBoolean get name;
+  external bool get name;
 
   /// Set to `true` if `size` value is requested.
-  external JSBoolean get size;
+  external bool get size;
 
   /// Set to `true` if `modificationTime` value is
   /// requested.
-  external JSBoolean get modificationTime;
+  external bool get modificationTime;
 
   /// Set to `true` if `mimeType` value is requested.
-  external JSBoolean get mimeType;
+  external bool get mimeType;
 
   /// Set to `true` if the thumbnail is requested.
-  external JSBoolean get thumbnail;
+  external bool get thumbnail;
 }
 
 @JS()
@@ -447,14 +447,14 @@ class OpenFileRequestedOptions {}
 
 extension OpenFileRequestedOptionsExtension on OpenFileRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// A request ID which will be used by consecutive read/write and close
   /// requests.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the file to be opened.
-  external JSString get filePath;
+  external String get filePath;
 
   /// Whether the file will be used for reading or writing.
   external OpenFileMode get mode;
@@ -466,13 +466,13 @@ class CloseFileRequestedOptions {}
 
 extension CloseFileRequestedOptionsExtension on CloseFileRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// A request ID used to open the file.
-  external JSNumber get openRequestId;
+  external int get openRequestId;
 }
 
 @JS()
@@ -481,13 +481,13 @@ class ReadFileRequestedOptions {}
 
 extension ReadFileRequestedOptionsExtension on ReadFileRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// A request ID used to open the file.
-  external JSNumber get openRequestId;
+  external int get openRequestId;
 
   /// Position in the file (in bytes) to start reading from.
   external double get offset;
@@ -503,16 +503,16 @@ class CreateDirectoryRequestedOptions {}
 extension CreateDirectoryRequestedOptionsExtension
     on CreateDirectoryRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the directory to be created.
-  external JSString get directoryPath;
+  external String get directoryPath;
 
   /// Whether the operation is recursive (for directories only).
-  external JSBoolean get recursive;
+  external bool get recursive;
 }
 
 @JS()
@@ -521,16 +521,16 @@ class DeleteEntryRequestedOptions {}
 
 extension DeleteEntryRequestedOptionsExtension on DeleteEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the entry to be deleted.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// Whether the operation is recursive (for directories only).
-  external JSBoolean get recursive;
+  external bool get recursive;
 }
 
 @JS()
@@ -539,13 +539,13 @@ class CreateFileRequestedOptions {}
 
 extension CreateFileRequestedOptionsExtension on CreateFileRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the file to be created.
-  external JSString get filePath;
+  external String get filePath;
 }
 
 @JS()
@@ -554,16 +554,16 @@ class CopyEntryRequestedOptions {}
 
 extension CopyEntryRequestedOptionsExtension on CopyEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The source path of the entry to be copied.
-  external JSString get sourcePath;
+  external String get sourcePath;
 
   /// The destination path for the copy operation.
-  external JSString get targetPath;
+  external String get targetPath;
 }
 
 @JS()
@@ -572,16 +572,16 @@ class MoveEntryRequestedOptions {}
 
 extension MoveEntryRequestedOptionsExtension on MoveEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The source path of the entry to be moved into a new place.
-  external JSString get sourcePath;
+  external String get sourcePath;
 
   /// The destination path for the copy operation.
-  external JSString get targetPath;
+  external String get targetPath;
 }
 
 @JS()
@@ -590,13 +590,13 @@ class TruncateRequestedOptions {}
 
 extension TruncateRequestedOptionsExtension on TruncateRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the file to be truncated.
-  external JSString get filePath;
+  external String get filePath;
 
   /// Number of bytes to be retained after the operation completes.
   external double get length;
@@ -608,13 +608,13 @@ class WriteFileRequestedOptions {}
 
 extension WriteFileRequestedOptionsExtension on WriteFileRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// A request ID used to open the file.
-  external JSNumber get openRequestId;
+  external int get openRequestId;
 
   /// Position in the file (in bytes) to start writing the bytes from.
   external double get offset;
@@ -629,13 +629,13 @@ class AbortRequestedOptions {}
 
 extension AbortRequestedOptionsExtension on AbortRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// An ID of the request to be aborted.
-  external JSNumber get operationRequestId;
+  external int get operationRequestId;
 }
 
 @JS()
@@ -644,17 +644,17 @@ class AddWatcherRequestedOptions {}
 
 extension AddWatcherRequestedOptionsExtension on AddWatcherRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the entry to be observed.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// Whether observing should include all child entries recursively. It can be
   /// true for directories only.
-  external JSBoolean get recursive;
+  external bool get recursive;
 }
 
 @JS()
@@ -664,16 +664,16 @@ class RemoveWatcherRequestedOptions {}
 extension RemoveWatcherRequestedOptionsExtension
     on RemoveWatcherRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The path of the watched entry.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// Mode of the watcher.
-  external JSBoolean get recursive;
+  external bool get recursive;
 }
 
 @JS()
@@ -683,10 +683,10 @@ class Action {}
 extension ActionExtension on Action {
   /// The identifier of the action. Any string or $(ref:CommonActionId) for
   /// common actions.
-  external JSString get id;
+  external String get id;
 
   /// The title of the action. It may be ignored for common actions.
-  external JSString? get title;
+  external String? get title;
 }
 
 @JS()
@@ -696,16 +696,16 @@ class ExecuteActionRequestedOptions {}
 extension ExecuteActionRequestedOptionsExtension
     on ExecuteActionRequestedOptions {
   /// The identifier of the file system related to this operation.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 
   /// The set of paths of the entries to be used for the action.
   external JSArray get entryPaths;
 
   /// The identifier of the action to be executed.
-  external JSString get actionId;
+  external String get actionId;
 }
 
 @JS()
@@ -714,7 +714,7 @@ class Change {}
 
 extension ChangeExtension on Change {
   /// The path of the changed entry.
-  external JSString get entryPath;
+  external String get entryPath;
 
   /// The type of the change which happened to the entry.
   external ChangeType get changeType;
@@ -726,13 +726,13 @@ class NotifyOptions {}
 
 extension NotifyOptionsExtension on NotifyOptions {
   /// The identifier of the file system related to this change.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The path of the observed entry.
-  external JSString get observedPath;
+  external String get observedPath;
 
   /// Mode of the observed entry.
-  external JSBoolean get recursive;
+  external bool get recursive;
 
   /// The type of the change which happened to the observed entry. If it is
   /// DELETED, then the observed entry will be automatically removed from the
@@ -747,7 +747,7 @@ extension NotifyOptionsExtension on NotifyOptions {
   /// the `supportsNotifyTag` option. Note, that this flag is
   /// necessary to provide notifications about changes which changed even
   /// when the system was shutdown.
-  external JSString? get tag;
+  external String? get tag;
 }
 
 @JS()
@@ -756,8 +756,8 @@ class ConfigureRequestedOptions {}
 
 extension ConfigureRequestedOptionsExtension on ConfigureRequestedOptions {
   /// The identifier of the file system to be configured.
-  external JSString get fileSystemId;
+  external String get fileSystemId;
 
   /// The unique identifier of this request.
-  external JSNumber get requestId;
+  external int get requestId;
 }

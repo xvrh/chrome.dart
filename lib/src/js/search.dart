@@ -29,7 +29,7 @@ class QueryInfo {}
 
 extension QueryInfoExtension on QueryInfo {
   /// String to query with the default search provider.
-  external JSString get text;
+  external String get text;
 
   /// Location where search results should be displayed.
   /// `CURRENT_TAB` is the default.
@@ -37,5 +37,5 @@ extension QueryInfoExtension on QueryInfo {
 
   /// Location where search results should be displayed.
   /// `tabId` cannot be used with `disposition`.
-  external JSNumber? get tabId;
+  external int? get tabId;
 }

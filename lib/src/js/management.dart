@@ -20,7 +20,7 @@ extension JSManagementExtension on JSManagement {
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
-  external JSPromise get(JSString id);
+  external JSPromise get(String id);
 
   /// Returns information about the calling extension, app, or theme. Note: This
   /// function can be used without requesting the 'management' permission in the
@@ -29,20 +29,20 @@ extension JSManagementExtension on JSManagement {
 
   /// Returns a list of <a href='permission_warnings'>permission warnings</a>
   /// for the given extension id.
-  external JSPromise getPermissionWarningsById(JSString id);
+  external JSPromise getPermissionWarningsById(String id);
 
   /// Returns a list of <a href='permission_warnings'>permission warnings</a>
   /// for the given extension manifest string. Note: This function can be used
   /// without requesting the 'management' permission in the manifest.
-  external JSPromise getPermissionWarningsByManifest(JSString manifestStr);
+  external JSPromise getPermissionWarningsByManifest(String manifestStr);
 
   /// Enables or disables an app or extension. In most cases this function must
   /// be called in the context of a user gesture (e.g. an onclick handler for a
   /// button), and may present the user with a native confirmation UI as a way
   /// of preventing abuse.
   external JSPromise setEnabled(
-    JSString id,
-    JSBoolean enabled,
+    String id,
+    bool enabled,
   );
 
   /// Uninstalls a currently installed app or extension. Note: This function
@@ -51,7 +51,7 @@ extension JSManagementExtension on JSManagement {
   /// user cancels the dialog) the promise will be rejected or the callback will
   /// be called with $(ref:runtime.lastError) set.
   external JSPromise uninstall(
-    JSString id,
+    String id,
     UninstallOptions? options,
   );
 
@@ -62,22 +62,22 @@ extension JSManagementExtension on JSManagement {
   external JSPromise uninstallSelf(UninstallOptions? options);
 
   /// Launches an application.
-  external JSPromise launchApp(JSString id);
+  external JSPromise launchApp(String id);
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
-  external JSPromise createAppShortcut(JSString id);
+  external JSPromise createAppShortcut(String id);
 
   /// Set the launch type of an app.
   external JSPromise setLaunchType(
-    JSString id,
+    String id,
     LaunchType launchType,
   );
 
   /// Generate an app for a URL. Returns the generated bookmark app.
   external JSPromise generateAppForLink(
-    JSString url,
-    JSString title,
+    String url,
+    String title,
   );
 
   /// Checks if the replacement android app can be installed. Errors generated
@@ -131,12 +131,12 @@ class IconInfo {}
 extension IconInfoExtension on IconInfo {
   /// A number representing the width and height of the icon. Likely values
   /// include (but are not limited to) 128, 48, 24, and 16.
-  external JSNumber get size;
+  external int get size;
 
   /// The URL for this icon image. To display a grayscale version of the icon
   /// (to indicate that an extension is disabled, for example), append
   /// `?grayscale=true` to the URL.
-  external JSString get url;
+  external String get url;
 }
 
 @JS()
@@ -145,58 +145,58 @@ class ExtensionInfo {}
 
 extension ExtensionInfoExtension on ExtensionInfo {
   /// The extension's unique identifier.
-  external JSString get id;
+  external String get id;
 
   /// The name of this extension, app, or theme.
-  external JSString get name;
+  external String get name;
 
   /// A short version of the name of this extension, app, or theme.
-  external JSString get shortName;
+  external String get shortName;
 
   /// The description of this extension, app, or theme.
-  external JSString get description;
+  external String get description;
 
   /// The <a href='manifest/version'>version</a> of this extension, app, or
   /// theme.
-  external JSString get version;
+  external String get version;
 
   /// The <a href='manifest/version#version_name'>version name</a> of this
   /// extension, app, or theme if the manifest specified one.
-  external JSString? get versionName;
+  external String? get versionName;
 
   /// Whether this extension can be disabled or uninstalled by the user.
-  external JSBoolean get mayDisable;
+  external bool get mayDisable;
 
   /// Whether this extension can be enabled by the user. This is only returned
   /// for extensions which are not enabled.
-  external JSBoolean? get mayEnable;
+  external bool? get mayEnable;
 
   /// Whether it is currently enabled or disabled.
-  external JSBoolean get enabled;
+  external bool get enabled;
 
   /// A reason the item is disabled.
   external ExtensionDisabledReason? get disabledReason;
 
   /// True if this is an app.
-  external JSBoolean get isApp;
+  external bool get isApp;
 
   /// The type of this extension, app, or theme.
   external ExtensionType get type;
 
   /// The launch url (only present for apps).
-  external JSString? get appLaunchUrl;
+  external String? get appLaunchUrl;
 
   /// The URL of the homepage of this extension, app, or theme.
-  external JSString? get homepageUrl;
+  external String? get homepageUrl;
 
   /// The update URL of this extension, app, or theme.
-  external JSString? get updateUrl;
+  external String? get updateUrl;
 
   /// Whether the extension, app, or theme declares that it supports offline.
-  external JSBoolean get offlineEnabled;
+  external bool get offlineEnabled;
 
   /// The url for the item's options page, if it has one.
-  external JSString get optionsUrl;
+  external String get optionsUrl;
 
   /// A list of icon information. Note that this just reflects what was declared
   /// in the manifest, and the actual image at that url may be larger or smaller
@@ -230,5 +230,5 @@ extension UninstallOptionsExtension on UninstallOptions {
   /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
   /// to false for self uninstalls. If an extension uninstalls another
   /// extension, this parameter is ignored and the dialog is always shown.
-  external JSBoolean? get showConfirmDialog;
+  external bool? get showConfirmDialog;
 }

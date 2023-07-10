@@ -58,7 +58,7 @@ class GetDetails {
       {
       /// Whether to return the value that applies to the incognito session (default
       /// false).
-      JSBoolean? incognito});
+      bool? incognito});
 }
 
 @JS()

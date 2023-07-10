@@ -17,7 +17,7 @@ extension JSProcessesExtension on JSProcesses {
   /// |tabId|: The ID of the tab for which the renderer process ID is to be
   /// returned.
   external void getProcessIdForTab(
-    JSNumber tabId,
+    int tabId,
     JSFunction callback,
   );
 
@@ -25,7 +25,7 @@ extension JSProcessesExtension on JSProcesses {
   /// about:crash, but without changing the tab's URL.
   /// |processId|: The ID of the process to be terminated.
   external void terminate(
-    JSNumber processId,
+    int processId,
     JSFunction callback,
   );
 
@@ -38,7 +38,7 @@ extension JSProcessesExtension on JSProcesses {
   /// only be queried for when needed.
   external void getProcessInfo(
     JSObject processIds,
-    JSBoolean includeMemory,
+    bool includeMemory,
     JSFunction callback,
   );
 
@@ -92,11 +92,11 @@ class TaskInfo {}
 
 extension TaskInfoExtension on TaskInfo {
   /// The title of the task.
-  external JSString get title;
+  external String get title;
 
   /// Optional tab ID, if this task represents a tab running on a renderer
   /// process.
-  external JSNumber? get tabId;
+  external int? get tabId;
 }
 
 @JS()
@@ -117,20 +117,20 @@ class Process {}
 
 extension ProcessExtension on Process {
   /// Unique ID of the process provided by the browser.
-  external JSNumber get id;
+  external int get id;
 
   /// The ID of the process, as provided by the OS.
-  external JSNumber get osProcessId;
+  external int get osProcessId;
 
   /// The type of process.
   external ProcessType get type;
 
   /// The profile which the process is associated with.
-  external JSString get profile;
+  external String get profile;
 
   /// The debugging port for Native Client processes. Zero for other process
   /// types and for NaCl processes that do not have debugging enabled.
-  external JSNumber get naclDebugPort;
+  external int get naclDebugPort;
 
   /// Array of TaskInfos representing the tasks running on this process.
   external JSArray get tasks;

@@ -16,7 +16,7 @@ class JSTabGroups {}
 
 extension JSTabGroupsExtension on JSTabGroups {
   /// Retrieves details about the specified group.
-  external JSPromise get(JSNumber groupId);
+  external JSPromise get(int groupId);
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
@@ -25,13 +25,13 @@ extension JSTabGroupsExtension on JSTabGroups {
   /// Modifies the properties of a group. Properties that are not specified in
   /// `updateProperties` are not modified.
   external JSPromise update(
-    JSNumber groupId,
+    int groupId,
     UpdateProperties updateProperties,
   );
 
   /// Moves the group and all its tabs within its window, or to a new window.
   external JSPromise move(
-    JSNumber groupId,
+    int groupId,
     MoveProperties moveProperties,
   );
 
@@ -64,20 +64,20 @@ class TabGroup {}
 
 extension TabGroupExtension on TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
-  external JSNumber get id;
+  external int get id;
 
   /// Whether the group is collapsed. A collapsed group is one whose tabs are
   /// hidden.
-  external JSBoolean get collapsed;
+  external bool get collapsed;
 
   /// The group's color.
   external Color get color;
 
   /// The title of the group.
-  external JSString? get title;
+  external String? get title;
 
   /// The ID of the window that contains the group.
-  external JSNumber get windowId;
+  external int get windowId;
 }
 
 @JS()
@@ -86,17 +86,17 @@ extension TabGroupExtension on TabGroup {
 class QueryInfo {
   external factory QueryInfo({
     /// Whether the groups are collapsed.
-    JSBoolean? collapsed,
+    bool? collapsed,
 
     /// The color of the groups.
     Color? color,
 
     /// Match group titles against a pattern.
-    JSString? title,
+    String? title,
 
     /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
     /// <a href='windows#current-window'>current window</a>.
-    JSNumber? windowId,
+    int? windowId,
   });
 }
 
@@ -106,13 +106,13 @@ class QueryInfo {
 class UpdateProperties {
   external factory UpdateProperties({
     /// Whether the group should be collapsed.
-    JSBoolean? collapsed,
+    bool? collapsed,
 
     /// The color of the group.
     Color? color,
 
     /// The title of the group.
-    JSString? title,
+    String? title,
   });
 }
 
@@ -124,10 +124,10 @@ class MoveProperties {
     /// The window to move the group to. Defaults to the window the group is
     /// currently in. Note that groups can only be moved to and from windows with
     /// $(ref:windows.WindowType) type `"normal"`.
-    JSNumber? windowId,
+    int? windowId,
 
     /// The position to move the group to. Use `-1` to place the group at the end
     /// of the window.
-    JSNumber index,
+    int index,
   });
 }

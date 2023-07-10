@@ -16,9 +16,9 @@ class JSDevtoolsPanels {}
 extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
   /// Creates an extension panel.
   external void create(
-    JSString title,
-    JSString iconPath,
-    JSString pagePath,
+    String title,
+    String iconPath,
+    String pagePath,
     JSFunction? callback,
   );
 
@@ -29,9 +29,9 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   external void openResource(
-    JSString url,
-    JSNumber lineNumber,
-    JSNumber? columnNumber,
+    String url,
+    int lineNumber,
+    int? columnNumber,
     JSFunction? callback,
   );
 
@@ -43,7 +43,7 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 
   /// The name of the color theme set in user's DevTools settings. Possible
   /// values: `default` (the default) and `dark`.
-  external JSString get themeName;
+  external String get themeName;
 }
 
 @JS()
@@ -53,7 +53,7 @@ class ElementsPanel {}
 extension ElementsPanelExtension on ElementsPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
-    JSString title,
+    String title,
     JSFunction? callback,
   );
 
@@ -68,7 +68,7 @@ class SourcesPanel {}
 extension SourcesPanelExtension on SourcesPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
-    JSString title,
+    String title,
     JSFunction? callback,
   );
 
@@ -83,9 +83,9 @@ class ExtensionPanel {}
 extension ExtensionPanelExtension on ExtensionPanel {
   /// Appends a button to the status bar of the panel.
   external Button createStatusBarButton(
-    JSString iconPath,
-    JSString tooltipText,
-    JSBoolean disabled,
+    String iconPath,
+    String tooltipText,
+    bool disabled,
   );
 
   /// Fired upon a search action (start of a new search, search result
@@ -105,25 +105,25 @@ class ExtensionSidebarPane {}
 
 extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
   /// Sets the height of the sidebar.
-  external void setHeight(JSString height);
+  external void setHeight(String height);
 
   /// Sets an expression that is evaluated within the inspected page. The result
   /// is displayed in the sidebar pane.
   external void setExpression(
-    JSString expression,
-    JSString? rootTitle,
+    String expression,
+    String? rootTitle,
     JSFunction? callback,
   );
 
   /// Sets a JSON-compliant object to be displayed in the sidebar pane.
   external void setObject(
-    JSString jsonObject,
-    JSString? rootTitle,
+    String jsonObject,
+    String? rootTitle,
     JSFunction? callback,
   );
 
   /// Sets an HTML page to be displayed in the sidebar pane.
-  external void setPage(JSString path);
+  external void setPage(String path);
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
@@ -142,9 +142,9 @@ extension ButtonExtension on Button {
   /// Updates the attributes of the button. If some of the arguments are omitted
   /// or `null`, the corresponding attributes are not updated.
   external void update(
-    JSString? iconPath,
-    JSString? tooltipText,
-    JSBoolean? disabled,
+    String? iconPath,
+    String? tooltipText,
+    bool? disabled,
   );
 
   /// Fired when the button is clicked.

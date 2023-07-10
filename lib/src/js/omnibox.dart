@@ -16,7 +16,7 @@ extension JSOmniboxExtension on JSOmnibox {
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
   external void sendSuggestions(
-    JSNumber requestId,
+    int requestId,
     JSArray suggestResults,
   );
 
@@ -57,12 +57,12 @@ typedef OnInputEnteredDisposition = JSString;
 class MatchClassification {}
 
 extension MatchClassificationExtension on MatchClassification {
-  external JSNumber get offset;
+  external int get offset;
 
   /// The style type
   external DescriptionStyleType get type;
 
-  external JSNumber? get length;
+  external int? get length;
 }
 
 @JS()
@@ -72,7 +72,7 @@ class SuggestResult {}
 extension SuggestResultExtension on SuggestResult {
   /// The text that is put into the URL bar, and that is sent to the extension
   /// when the user chooses this entry.
-  external JSString get content;
+  external String get content;
 
   /// The text that is displayed in the URL dropdown. Can contain XML-style
   /// markup for styling. The supported tags are 'url' (for a literal URL),
@@ -81,10 +81,10 @@ extension SuggestResultExtension on SuggestResult {
   /// <dim><match>dimmed match</match></dim>. You must escape the five
   /// predefined entities to display them as text:
   /// stackoverflow.com/a/1091953/89484
-  external JSString get description;
+  external String get description;
 
   /// Whether the suggest result can be deleted by the user.
-  external JSBoolean? get deletable;
+  external bool? get deletable;
 
   /// An array of style ranges for the description, as provided by the
   /// extension.
@@ -101,7 +101,7 @@ extension DefaultSuggestResultExtension on DefaultSuggestResult {
   /// 'match' (for highlighting text that matched what the user's query), and
   /// 'dim' (for dim helper text). The styles can be nested, eg.
   /// <dim><match>dimmed match</match></dim>.
-  external JSString get description;
+  external String get description;
 
   /// An array of style ranges for the description, as provided by the
   /// extension.

@@ -55,10 +55,10 @@ extension JSBrowserActionExtension on JSBrowserAction {
   external JSPromise getBadgeBackgroundColor(TabDetails details);
 
   /// Enables the browser action for a tab. Defaults to enabled.
-  external JSPromise enable(JSNumber? tabId);
+  external JSPromise enable(int? tabId);
 
   /// Disables the browser action for a tab.
-  external JSPromise disable(JSNumber? tabId);
+  external JSPromise disable(int? tabId);
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
@@ -88,7 +88,7 @@ class TabDetails {}
 extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external JSNumber? get tabId;
+  external int? get tabId;
 }
 
 @JS()
@@ -97,11 +97,11 @@ extension TabDetailsExtension on TabDetails {
 class SetTitleDetails {
   external factory SetTitleDetails({
     /// The string the browser action should display when moused over.
-    JSString title,
+    String title,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -131,7 +131,7 @@ class SetIconDetails {
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -142,11 +142,11 @@ class SetPopupDetails {
   external factory SetPopupDetails({
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
 
     /// The relative path to the HTML file to show in a popup. If set to the empty
     /// string (`''`), no popup is shown.
-    JSString popup,
+    String popup,
   });
 }
 
@@ -159,11 +159,11 @@ class SetBadgeTextDetails {
     /// the space. If an empty string (`''`) is passed, the badge text is cleared.
     ///  If `tabId` is specified and `text` is null, the text for the specified
     /// tab is cleared and defaults to the global badge text.
-    JSString? text,
+    String? text,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -179,6 +179,6 @@ class SetBadgeBackgroundColorDetails {
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }

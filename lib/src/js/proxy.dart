@@ -37,11 +37,11 @@ extension ProxyServerExtension on ProxyServer {
 
   /// The hostname or IP address of the proxy server. Hostnames must be in ASCII
   /// (in Punycode format). IDNA is not supported, yet.
-  external JSString get host;
+  external String get host;
 
   /// The port of the proxy server. Defaults to a port that depends on the
   /// scheme.
-  external JSNumber? get port;
+  external int? get port;
 }
 
 @JS()
@@ -76,14 +76,14 @@ class PacScript {}
 
 extension PacScriptExtension on PacScript {
   /// URL of the PAC file to be used.
-  external JSString? get url;
+  external String? get url;
 
   /// A PAC script.
-  external JSString? get data;
+  external String? get data;
 
   /// If true, an invalid PAC script will prevent the network stack from falling
   /// back to direct connections. Defaults to false.
-  external JSBoolean? get mandatory;
+  external bool? get mandatory;
 }
 
 @JS()

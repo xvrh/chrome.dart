@@ -16,15 +16,15 @@ extension JSDevtoolsRecorderExtension on JSDevtoolsRecorder {
   /// Registers a Recorder extension plugin.
   external void registerRecorderExtensionPlugin(
     RecorderExtensionPlugin plugin,
-    JSString name,
-    JSString mediaType,
+    String name,
+    String mediaType,
   );
 
   /// Creates a view that can handle the replay. This view will be embedded
   /// inside the Recorder panel.
   external RecorderView createView(
-    JSString title,
-    JSString pagePath,
+    String title,
+    String pagePath,
   );
 }
 

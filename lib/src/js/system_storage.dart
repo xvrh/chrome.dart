@@ -21,14 +21,14 @@ extension JSSystemStorageExtension on JSSystemStorage {
 
   /// Ejects a removable storage device.
   external void ejectDevice(
-    JSString id,
+    String id,
     JSFunction callback,
   );
 
   /// Get the available capacity of a specified |id| storage device.
   /// The |id| is the transient device ID from StorageUnitInfo.
   external void getAvailableCapacity(
-    JSString id,
+    String id,
     JSFunction callback,
   );
 
@@ -52,10 +52,10 @@ extension StorageUnitInfoExtension on StorageUnitInfo {
   /// This ID will be persistent within the same run of a single application.
   /// It will not be a persistent identifier between different runs of an
   /// application, or between different applications.
-  external JSString get id;
+  external String get id;
 
   /// The name of the storage unit.
-  external JSString get name;
+  external String get name;
 
   /// The media type of the storage unit.
   external StorageUnitType get type;
@@ -71,7 +71,7 @@ class StorageAvailableCapacityInfo {}
 extension StorageAvailableCapacityInfoExtension
     on StorageAvailableCapacityInfo {
   /// A copied |id| of getAvailableCapacity function parameter |id|.
-  external JSString get id;
+  external String get id;
 
   /// The available capacity of the storage device, in bytes.
   external double get availableCapacity;

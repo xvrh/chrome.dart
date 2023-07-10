@@ -23,7 +23,7 @@ extension JSSessionsExtension on JSSessions {
 
   /// Reopens a $(ref:windows.Window) or $(ref:tabs.Tab), with an optional
   /// callback to run when the entry has been restored.
-  external JSPromise restore(JSString? sessionId);
+  external JSPromise restore(String? sessionId);
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
@@ -42,7 +42,7 @@ extension FilterExtension on Filter {
   /// The maximum number of entries to be fetched in the requested list. Omit
   /// this parameter to fetch the maximum number of entries
   /// ($(ref:sessions.MAX_SESSION_RESULTS)).
-  external JSNumber? get maxResults;
+  external int? get maxResults;
 }
 
 @JS()
@@ -52,7 +52,7 @@ class Session {}
 extension SessionExtension on Session {
   /// The time when the window or tab was closed or modified, represented in
   /// milliseconds since the epoch.
-  external JSNumber get lastModified;
+  external int get lastModified;
 
   /// The $(ref:tabs.Tab), if this entry describes a tab. Either this or
   /// $(ref:sessions.Session.window) will be set.
@@ -68,10 +68,10 @@ extension SessionExtension on Session {
 class Device {}
 
 extension DeviceExtension on Device {
-  external JSString get info;
+  external String get info;
 
   /// The name of the foreign device.
-  external JSString get deviceName;
+  external String get deviceName;
 
   /// A list of open window sessions for the foreign device, sorted from most
   /// recently to least recently modified session.

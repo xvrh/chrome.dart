@@ -17,7 +17,7 @@ class JSTts {}
 extension JSTtsExtension on JSTts {
   /// Speaks text using a text-to-speech engine.
   external JSPromise speak(
-    JSString utterance,
+    String utterance,
     TtsOptions? options,
   );
 
@@ -57,19 +57,19 @@ extension TtsOptionsExtension on TtsOptions {
   /// If true, enqueues this utterance if TTS is already in progress. If false
   /// (the default), interrupts any current speech and flushes the speech queue
   /// before speaking this new utterance.
-  external JSBoolean? get enqueue;
+  external bool? get enqueue;
 
   /// The name of the voice to use for synthesis. If empty, uses any available
   /// voice.
-  external JSString? get voiceName;
+  external String? get voiceName;
 
   /// The extension ID of the speech engine to use, if known.
-  external JSString? get extensionId;
+  external String? get extensionId;
 
   /// The language to be used for synthesis, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external JSString? get lang;
+  external String? get lang;
 
   /// Gender of voice for synthesized speech.
   external VoiceGender? get gender;
@@ -80,15 +80,15 @@ extension TtsOptionsExtension on TtsOptions {
   /// disallowed, but many voices will constrain the minimum and maximum rates
   /// further&mdash;for example a particular voice may not actually speak faster
   /// than 3 times normal even if you specify a value larger than 3.0.
-  external JSNumber? get rate;
+  external num? get rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to a voice's default pitch.
-  external JSNumber? get pitch;
+  external num? get pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external JSNumber? get volume;
+  external num? get volume;
 
   /// The TTS event types the voice must support.
   external JSArray? get requiredEventTypes;
@@ -123,22 +123,22 @@ extension TtsEventExtension on TtsEvent {
   /// event fires at the end of one word and before the beginning of the next.
   /// The `charIndex` represents a point in the text at the beginning of the
   /// next word to be spoken.
-  external JSNumber? get charIndex;
+  external int? get charIndex;
 
   /// The error description, if the event type is `error`.
-  external JSString? get errorMessage;
+  external String? get errorMessage;
 
   /// An ID unique to the calling function's context so that events can get
   /// routed back to the correct tts.speak call.
-  external JSNumber? get srcId;
+  external num? get srcId;
 
   /// True if this is the final event that will be sent to this handler.
-  external JSBoolean? get isFinalEvent;
+  external bool? get isFinalEvent;
 
   /// The length of the next part of the utterance. For example, in a `word`
   /// event, this is the length of the word which will be spoken next. It will
   /// be set to -1 if not set by the speech engine.
-  external JSNumber? get length;
+  external int? get length;
 }
 
 @JS()
@@ -147,22 +147,22 @@ class TtsVoice {}
 
 extension TtsVoiceExtension on TtsVoice {
   /// The name of the voice.
-  external JSString? get voiceName;
+  external String? get voiceName;
 
   /// The language that this voice supports, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external JSString? get lang;
+  external String? get lang;
 
   /// This voice's gender.
   external VoiceGender? get gender;
 
   /// If true, the synthesis engine is a remote network resource. It may be
   /// higher latency and may incur bandwidth costs.
-  external JSBoolean? get remote;
+  external bool? get remote;
 
   /// The ID of the extension providing this voice.
-  external JSString? get extensionId;
+  external String? get extensionId;
 
   /// All of the callback event types that this voice is capable of sending.
   external JSArray? get eventTypes;

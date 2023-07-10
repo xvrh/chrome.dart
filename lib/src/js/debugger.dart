@@ -20,7 +20,7 @@ extension JSDebuggerExtension on JSDebugger {
   /// Attaches debugger to the given target.
   external JSPromise attach(
     Debuggee target,
-    JSString requiredVersion,
+    String requiredVersion,
   );
 
   /// Detaches debugger from the given target.
@@ -29,7 +29,7 @@ extension JSDebuggerExtension on JSDebugger {
   /// Sends given command to the debugging target.
   external JSPromise sendCommand(
     Debuggee target,
-    JSString method,
+    String method,
     JSObject? commandParams,
   );
 
@@ -57,15 +57,15 @@ class Debuggee {}
 
 extension DebuggeeExtension on Debuggee {
   /// The id of the tab which you intend to debug.
-  external JSNumber? get tabId;
+  external int? get tabId;
 
   /// The id of the extension which you intend to debug. Attaching to an
   /// extension background page is only possible when the
   /// `--silent-debugger-extension-api` command-line switch is used.
-  external JSString? get extensionId;
+  external String? get extensionId;
 
   /// The opaque id of the debug target.
-  external JSString? get targetId;
+  external String? get targetId;
 }
 
 @JS()
@@ -77,23 +77,23 @@ extension TargetInfoExtension on TargetInfo {
   external TargetInfoType get type;
 
   /// Target id.
-  external JSString get id;
+  external String get id;
 
   /// The tab id, defined if type == 'page'.
-  external JSNumber? get tabId;
+  external int? get tabId;
 
   /// The extension id, defined if type = 'background_page'.
-  external JSString? get extensionId;
+  external String? get extensionId;
 
   /// True if debugger is already attached.
-  external JSBoolean get attached;
+  external bool get attached;
 
   /// Target page title.
-  external JSString get title;
+  external String get title;
 
   /// Target URL.
-  external JSString get url;
+  external String get url;
 
   /// Target favicon URL.
-  external JSString? get faviconUrl;
+  external String? get faviconUrl;
 }

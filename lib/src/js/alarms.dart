@@ -40,7 +40,7 @@ extension JSAlarmsExtension on JSAlarms {
   /// `delayInMinutes`.
   /// |callback|: Invoked when the alarm has been created.
   external void create(
-    JSString? name,
+    String? name,
     AlarmCreateInfo alarmInfo,
     JSFunction callback,
   );
@@ -48,7 +48,7 @@ extension JSAlarmsExtension on JSAlarms {
   /// Retrieves details about the specified alarm.
   /// |name|: The name of the alarm to get. Defaults to the empty string.
   external void get(
-    JSString? name,
+    String? name,
     JSFunction callback,
   );
 
@@ -58,7 +58,7 @@ extension JSAlarmsExtension on JSAlarms {
   /// Clears the alarm with the given name.
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
   external void clear(
-    JSString? name,
+    String? name,
     JSFunction callback,
   );
 
@@ -76,7 +76,7 @@ class Alarm {}
 
 extension AlarmExtension on Alarm {
   /// Name of this alarm.
-  external JSString get name;
+  external String get name;
 
   /// Time at which this alarm was scheduled to fire, in milliseconds past the
   /// epoch (e.g. `Date.now() + n`).  For performance reasons, the

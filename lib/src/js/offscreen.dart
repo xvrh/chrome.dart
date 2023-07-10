@@ -46,10 +46,10 @@ extension CreateParametersExtension on CreateParameters {
   external JSArray get reasons;
 
   /// The (relative) URL to load in the document.
-  external JSString get url;
+  external String get url;
 
   /// A developer-provided string that explains, in more detail, the need for
   /// the background context. The user agent _may_ use this in display to the
   /// user.
-  external JSString get justification;
+  external String get justification;
 }

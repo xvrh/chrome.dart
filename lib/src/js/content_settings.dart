@@ -171,10 +171,10 @@ class ResourceIdentifier {}
 
 extension ResourceIdentifierExtension on ResourceIdentifier {
   /// The resource identifier for the given content type.
-  external JSString get id;
+  external String get id;
 
   /// A human readable description of the resource.
-  external JSString? get description;
+  external String? get description;
 }
 
 @JS()
@@ -211,12 +211,12 @@ class GetDetails {
   external factory GetDetails({
     /// The primary URL for which the content setting should be retrieved. Note
     /// that the meaning of a primary URL depends on the content type.
-    JSString primaryUrl,
+    String primaryUrl,
 
     /// The secondary URL for which the content setting should be retrieved.
     /// Defaults to the primary URL. Note that the meaning of a secondary URL
     /// depends on the content type, and not all content types use secondary URLs.
-    JSString? secondaryUrl,
+    String? secondaryUrl,
 
     /// A more specific identifier of the type of content for which the settings
     /// should be retrieved.
@@ -224,7 +224,7 @@ class GetDetails {
 
     /// Whether to check the content settings for an incognito session. (default
     /// false)
-    JSBoolean? incognito,
+    bool? incognito,
   });
 }
 
@@ -235,12 +235,12 @@ class SetDetails {
   external factory SetDetails({
     /// The pattern for the primary URL. For details on the format of a pattern,
     /// see <a href='contentSettings#patterns'>Content Setting Patterns</a>.
-    JSString primaryPattern,
+    String primaryPattern,
 
     /// The pattern for the secondary URL. Defaults to matching all URLs. For
     /// details on the format of a pattern, see <a
     /// href='contentSettings#patterns'>Content Setting Patterns</a>.
-    JSString? secondaryPattern,
+    String? secondaryPattern,
 
     /// The resource identifier for the content type.
     ResourceIdentifier? resourceIdentifier,

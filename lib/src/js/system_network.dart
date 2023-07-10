@@ -24,11 +24,11 @@ class NetworkInterface {}
 extension NetworkInterfaceExtension on NetworkInterface {
   /// The underlying name of the adapter. On *nix, this will typically be
   /// "eth0", "wlan0", etc.
-  external JSString get name;
+  external String get name;
 
   /// The available IPv4/6 address.
-  external JSString get address;
+  external String get address;
 
   /// The prefix length
-  external JSNumber get prefixLength;
+  external int get prefixLength;
 }

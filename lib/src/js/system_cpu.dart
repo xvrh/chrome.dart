@@ -50,13 +50,13 @@ class CpuInfo {}
 
 extension CpuInfoExtension on CpuInfo {
   /// The number of logical processors.
-  external JSNumber get numOfProcessors;
+  external int get numOfProcessors;
 
   /// The architecture name of the processors.
-  external JSString get archName;
+  external String get archName;
 
   /// The model name of the processors.
-  external JSString get modelName;
+  external String get modelName;
 
   /// A set of feature codes indicating some of the processor's capabilities.
   /// The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",

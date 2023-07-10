@@ -24,8 +24,8 @@ class MostVisitedURL {}
 
 extension MostVisitedURLExtension on MostVisitedURL {
   /// The most visited URL.
-  external JSString get url;
+  external String get url;
 
   /// The title of the page
-  external JSString get title;
+  external String get title;
 }

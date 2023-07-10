@@ -88,10 +88,10 @@ class FontName {}
 
 extension FontNameExtension on FontName {
   /// The font ID.
-  external JSString get fontId;
+  external String get fontId;
 
   /// The display name of the font.
-  external JSString get displayName;
+  external String get displayName;
 }
 
 @JS()
@@ -136,7 +136,7 @@ class SetFontDetails {
 
     /// The font ID. The empty string means to fallback to the global script font
     /// setting.
-    JSString fontId,
+    String fontId,
   });
 }
 
@@ -161,7 +161,7 @@ class SetDefaultFontSizeDetails {
   external factory SetDefaultFontSizeDetails(
       {
       /// The font size in pixels.
-      JSNumber pixelSize});
+      int pixelSize});
 }
 
 @JS()
@@ -185,7 +185,7 @@ class SetDefaultFixedFontSizeDetails {
   external factory SetDefaultFixedFontSizeDetails(
       {
       /// The font size in pixels.
-      JSNumber pixelSize});
+      int pixelSize});
 }
 
 @JS()
@@ -209,5 +209,5 @@ class SetMinimumFontSizeDetails {
   external factory SetMinimumFontSizeDetails(
       {
       /// The font size in pixels.
-      JSNumber pixelSize});
+      int pixelSize});
 }

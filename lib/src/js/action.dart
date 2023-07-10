@@ -58,15 +58,15 @@ extension JSActionExtension on JSAction {
   external JSPromise getBadgeTextColor(TabDetails details);
 
   /// Enables the action for a tab. By default, actions are enabled.
-  external JSPromise enable(JSNumber? tabId);
+  external JSPromise enable(int? tabId);
 
   /// Disables the action for a tab.
-  external JSPromise disable(JSNumber? tabId);
+  external JSPromise disable(int? tabId);
 
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// $(ref:declarativeContent) always return false.
-  external JSPromise isEnabled(JSNumber? tabId);
+  external JSPromise isEnabled(int? tabId);
 
   /// Returns the user-specified settings relating to an extension's action.
   external JSPromise getUserSettings();
@@ -86,7 +86,7 @@ class TabDetails {}
 extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external JSNumber? get tabId;
+  external int? get tabId;
 }
 
 @JS()
@@ -97,7 +97,7 @@ extension UserSettingsExtension on UserSettings {
   /// Whether the extension's action icon is visible on browser windows'
   /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
   /// user).
-  external JSBoolean get isOnToolbar;
+  external bool get isOnToolbar;
 }
 
 @JS()
@@ -107,7 +107,7 @@ class OpenPopupOptions {}
 extension OpenPopupOptionsExtension on OpenPopupOptions {
   /// The id of the window to open the action popup in. Defaults to the
   /// currently-active window if unspecified.
-  external JSNumber? get windowId;
+  external int? get windowId;
 }
 
 @JS()
@@ -116,11 +116,11 @@ extension OpenPopupOptionsExtension on OpenPopupOptions {
 class SetTitleDetails {
   external factory SetTitleDetails({
     /// The string the action should display when moused over.
-    JSString title,
+    String title,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -150,7 +150,7 @@ class SetIconDetails {
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -161,11 +161,11 @@ class SetPopupDetails {
   external factory SetPopupDetails({
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
 
     /// The relative path to the HTML file to show in a popup. If set to the empty
     /// string (`''`), no popup is shown.
-    JSString popup,
+    String popup,
   });
 }
 
@@ -176,11 +176,11 @@ class SetBadgeTextDetails {
   external factory SetBadgeTextDetails({
     /// Any number of characters can be passed, but only about four can fit in the
     /// space.
-    JSString text,
+    String text,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -196,7 +196,7 @@ class SetBadgeBackgroundColorDetails {
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }
 
@@ -216,6 +216,6 @@ class SetBadgeTextColorDetails {
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
-    JSNumber? tabId,
+    int? tabId,
   });
 }

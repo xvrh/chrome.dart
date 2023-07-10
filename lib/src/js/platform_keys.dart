@@ -155,7 +155,7 @@ extension SelectDetailsExtension on SelectDetails {
   /// certificate(s) and key(s). Only the selected certificate(s) will be
   /// returned. If is false, the list is reduced to all certificates that the
   /// extension has been granted access to (automatically or manually).
-  external JSBoolean get interactive;
+  external bool get interactive;
 }
 
 @JS()
@@ -170,7 +170,7 @@ extension VerificationDetailsExtension on VerificationDetails {
 
   /// The hostname of the server to verify the certificate for, e.g. the server
   /// that presented the `serverCertificateChain`.
-  external JSString get hostname;
+  external String get hostname;
 }
 
 @JS()
@@ -181,7 +181,7 @@ extension VerificationResultExtension on VerificationResult {
   /// The result of the trust verification: true if trust for the given
   /// verification details could be established and false if trust is rejected
   /// for any reason.
-  external JSBoolean get trusted;
+  external bool get trusted;
 
   /// If the trust verification failed, this array contains the errors reported
   /// by the underlying network layer. Otherwise, this array is empty.

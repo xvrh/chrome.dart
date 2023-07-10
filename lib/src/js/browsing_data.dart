@@ -79,7 +79,7 @@ extension RemovalOptionsExtension on RemovalOptions {
   /// since the epoch (accessible via the `getTime` method of the JavaScript
   /// `Date` object). If absent, defaults to 0 (which would remove all browsing
   /// data).
-  external JSNumber? get since;
+  external num? get since;
 
   /// An object whose properties specify which origin types ought to be cleared.
   /// If this object isn't specified, it defaults to clearing only "unprotected"
@@ -104,49 +104,49 @@ class DataTypeSet {}
 
 extension DataTypeSetExtension on DataTypeSet {
   /// Websites' appcaches.
-  external JSBoolean? get appcache;
+  external bool? get appcache;
 
   /// The browser's cache.
-  external JSBoolean? get cache;
+  external bool? get cache;
 
   /// Cache storage
-  external JSBoolean? get cacheStorage;
+  external bool? get cacheStorage;
 
   /// The browser's cookies.
-  external JSBoolean? get cookies;
+  external bool? get cookies;
 
   /// The browser's download list.
-  external JSBoolean? get downloads;
+  external bool? get downloads;
 
   /// Websites' file systems.
-  external JSBoolean? get fileSystems;
+  external bool? get fileSystems;
 
   /// The browser's stored form data.
-  external JSBoolean? get formData;
+  external bool? get formData;
 
   /// The browser's history.
-  external JSBoolean? get history;
+  external bool? get history;
 
   /// Websites' IndexedDB data.
-  external JSBoolean? get indexedDB;
+  external bool? get indexedDB;
 
   /// Websites' local storage data.
-  external JSBoolean? get localStorage;
+  external bool? get localStorage;
 
   /// Server-bound certificates.
-  external JSBoolean? get serverBoundCertificates;
+  external bool? get serverBoundCertificates;
 
   /// Stored passwords.
-  external JSBoolean? get passwords;
+  external bool? get passwords;
 
   /// Plugins' data.
-  external JSBoolean? get pluginData;
+  external bool? get pluginData;
 
   /// Service Workers.
-  external JSBoolean? get serviceWorkers;
+  external bool? get serviceWorkers;
 
   /// Websites' WebSQL data.
-  external JSBoolean? get webSQL;
+  external bool? get webSQL;
 }
 
 @JS()
@@ -155,12 +155,12 @@ class RemovalOptionsOriginTypes {}
 
 extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
   /// Normal websites.
-  external JSBoolean? get unprotectedWeb;
+  external bool? get unprotectedWeb;
 
   /// Websites that have been installed as hosted applications (be careful!).
-  external JSBoolean? get protectedWeb;
+  external bool? get protectedWeb;
 
   /// Extensions and packaged applications a user has installed (be _really_
   /// careful!).
-  external JSBoolean? get extension;
+  external bool? get extension;
 }

@@ -27,7 +27,7 @@ extension JSNotificationsExtension on JSNotifications {
   ///
   /// The callback is required before Chrome 42.
   external void create(
-    JSString? notificationId,
+    String? notificationId,
     NotificationOptions options,
     JSFunction callback,
   );
@@ -40,7 +40,7 @@ extension JSNotificationsExtension on JSNotifications {
   ///
   /// The callback is required before Chrome 42.
   external void update(
-    JSString notificationId,
+    String notificationId,
     NotificationOptions options,
     JSFunction callback,
   );
@@ -52,7 +52,7 @@ extension JSNotificationsExtension on JSNotifications {
   ///
   /// The callback is required before Chrome 42.
   external void clear(
-    JSString notificationId,
+    String notificationId,
     JSFunction callback,
   );
 
@@ -94,10 +94,10 @@ class NotificationItem {}
 
 extension NotificationItemExtension on NotificationItem {
   /// Title of one item of a list notification.
-  external JSString get title;
+  external String get title;
 
   /// Additional details about this item.
-  external JSString get message;
+  external String get message;
 }
 
 @JS()
@@ -105,9 +105,9 @@ extension NotificationItemExtension on NotificationItem {
 class NotificationBitmap {}
 
 extension NotificationBitmapExtension on NotificationBitmap {
-  external JSNumber get width;
+  external int get width;
 
-  external JSNumber get height;
+  external int get height;
 
   external JSArrayBuffer? get data;
 }
@@ -117,9 +117,9 @@ extension NotificationBitmapExtension on NotificationBitmap {
 class NotificationButton {}
 
 extension NotificationButtonExtension on NotificationButton {
-  external JSString get title;
+  external String get title;
 
-  external JSString? get iconUrl;
+  external String? get iconUrl;
 
   external NotificationBitmap? get iconBitmap;
 }
@@ -139,7 +139,7 @@ extension NotificationOptionsExtension on NotificationOptions {
   /// URLs can be a data URL, a blob URL, or a URL relative to a resource
   /// within this extension's .crx file
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external JSString? get iconUrl;
+  external String? get iconUrl;
 
   external NotificationBitmap? get iconBitmap;
 
@@ -148,26 +148,26 @@ extension NotificationOptionsExtension on NotificationOptions {
   ///
   /// The app icon mask should be in alpha channel, as only the alpha channel
   /// of the image will be considered.
-  external JSString? get appIconMaskUrl;
+  external String? get appIconMaskUrl;
 
   external NotificationBitmap? get appIconMaskBitmap;
 
   /// Title of the notification (e.g. sender name for email).
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external JSString? get title;
+  external String? get title;
 
   /// Main notification content.
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external JSString? get message;
+  external String? get message;
 
   /// Alternate notification content with a lower-weight font.
-  external JSString? get contextMessage;
+  external String? get contextMessage;
 
   /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
   /// is default.  On platforms that don't support a notification center
   /// (Windows, Linux & Mac), -2 and -1 result in an error as notifications
   /// with those priorities will not be shown at all.
-  external JSNumber? get priority;
+  external int? get priority;
 
   /// A timestamp associated with the notification, in milliseconds past the
   /// epoch (e.g. `Date.now() + n`).
@@ -177,12 +177,12 @@ extension NotificationOptionsExtension on NotificationOptions {
   external JSArray? get buttons;
 
   /// Secondary notification content.
-  external JSString? get expandedMessage;
+  external String? get expandedMessage;
 
   /// A URL to the image thumbnail for image-type notifications.
   /// URLs have the same restrictions as
   /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
-  external JSString? get imageUrl;
+  external String? get imageUrl;
 
   external NotificationBitmap? get imageBitmap;
 
@@ -191,15 +191,15 @@ extension NotificationOptionsExtension on NotificationOptions {
   external JSArray? get items;
 
   /// Current progress ranges from 0 to 100.
-  external JSNumber? get progress;
+  external int? get progress;
 
-  external JSBoolean? get isClickable;
+  external bool? get isClickable;
 
   /// Indicates that the notification should remain visible on screen until the
   /// user activates or dismisses the notification. This defaults to false.
-  external JSBoolean? get requireInteraction;
+  external bool? get requireInteraction;
 
   /// Indicates that no sounds or vibrations should be made when the
   /// notification is being shown. This defaults to false.
-  external JSBoolean? get silent;
+  external bool? get silent;
 }

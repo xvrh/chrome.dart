@@ -68,8 +68,8 @@ extension JSInputImeExtension on JSInputIme {
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
   external void keyEventHandled(
-    JSString requestId,
-    JSBoolean response,
+    String requestId,
+    bool response,
   );
 
   /// This event is sent when an IME is activated. It signals that the IME will
@@ -161,37 +161,37 @@ extension KeyboardEventExtension on KeyboardEvent {
 
   /// (Deprecated) The ID of the request. Use the `requestId` param from the
   /// `onKeyEvent` event instead.
-  external JSString? get requestId;
+  external String? get requestId;
 
   /// The extension ID of the sender of this keyevent.
-  external JSString? get extensionId;
+  external String? get extensionId;
 
   /// Value of the key being pressed
-  external JSString get key;
+  external String get key;
 
   /// Value of the physical key being pressed. The value is not affected by
   /// current keyboard layout or modifier state.
-  external JSString get code;
+  external String get code;
 
   /// The deprecated HTML keyCode, which is system- and implementation-dependent
   /// numerical code signifying the unmodified identifier associated with the
   /// key pressed.
-  external JSNumber? get keyCode;
+  external int? get keyCode;
 
   /// Whether or not the ALT key is pressed.
-  external JSBoolean? get altKey;
+  external bool? get altKey;
 
   /// Whether or not the ALTGR key is pressed.
-  external JSBoolean? get altgrKey;
+  external bool? get altgrKey;
 
   /// Whether or not the CTRL key is pressed.
-  external JSBoolean? get ctrlKey;
+  external bool? get ctrlKey;
 
   /// Whether or not the SHIFT key is pressed.
-  external JSBoolean? get shiftKey;
+  external bool? get shiftKey;
 
   /// Whether or not the CAPS_LOCK is enabled.
-  external JSBoolean? get capsLock;
+  external bool? get capsLock;
 }
 
 @JS()
@@ -201,26 +201,26 @@ class InputContext {}
 extension InputContextExtension on InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
-  external JSNumber get contextID;
+  external int get contextID;
 
   /// Type of value this text field edits, (Text, Number, URL, etc)
   external InputContextType get type;
 
   /// Whether the text field wants auto-correct.
-  external JSBoolean get autoCorrect;
+  external bool get autoCorrect;
 
   /// Whether the text field wants auto-complete.
-  external JSBoolean get autoComplete;
+  external bool get autoComplete;
 
   /// The auto-capitalize type of the text field.
   external AutoCapitalizeType get autoCapitalize;
 
   /// Whether the text field wants spell-check.
-  external JSBoolean get spellCheck;
+  external bool get spellCheck;
 
   /// Whether text entered into the text field should be used to improve typing
   /// suggestions for the user.
-  external JSBoolean get shouldDoLearning;
+  external bool get shouldDoLearning;
 }
 
 @JS()
@@ -229,22 +229,22 @@ class MenuItem {}
 
 extension MenuItemExtension on MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
-  external JSString get id;
+  external String get id;
 
   /// Text displayed in the menu for this item.
-  external JSString? get label;
+  external String? get label;
 
   /// The type of menu item.
   external MenuItemStyle? get style;
 
   /// Indicates this item is visible.
-  external JSBoolean? get visible;
+  external bool? get visible;
 
   /// Indicates this item should be drawn with a check.
-  external JSBoolean? get checked;
+  external bool? get checked;
 
   /// Indicates this item is enabled.
-  external JSBoolean? get enabled;
+  external bool? get enabled;
 }
 
 @JS()
@@ -255,10 +255,10 @@ extension AssistiveWindowPropertiesExtension on AssistiveWindowProperties {
   external AssistiveWindowType get type;
 
   /// Sets true to show AssistiveWindow, sets false to hide.
-  external JSBoolean get visible;
+  external bool get visible;
 
   /// Strings for ChromeVox to announce.
-  external JSString? get announceString;
+  external String? get announceString;
 }
 
 @JS()
@@ -267,7 +267,7 @@ class MenuParameters {}
 
 extension MenuParametersExtension on MenuParameters {
   /// ID of the engine to use.
-  external JSString get engineID;
+  external String get engineID;
 
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.
@@ -280,19 +280,19 @@ extension MenuParametersExtension on MenuParameters {
 class SetCompositionParameters {
   external factory SetCompositionParameters({
     /// ID of the context where the composition text will be set
-    JSNumber contextID,
+    int contextID,
 
     /// Text to set
-    JSString text,
+    String text,
 
     /// Position in the text that the selection starts at.
-    JSNumber? selectionStart,
+    int? selectionStart,
 
     /// Position in the text that the selection ends at.
-    JSNumber? selectionEnd,
+    int? selectionEnd,
 
     /// Position in the text of the cursor.
-    JSNumber cursor,
+    int cursor,
 
     /// List of segments and their associated types.
     JSArray? segments,
@@ -306,7 +306,7 @@ class ClearCompositionParameters {
   external factory ClearCompositionParameters(
       {
       /// ID of the context where the composition will be cleared
-      JSNumber contextID});
+      int contextID});
 }
 
 @JS()
@@ -315,10 +315,10 @@ class ClearCompositionParameters {
 class CommitTextParameters {
   external factory CommitTextParameters({
     /// ID of the context where the text will be committed
-    JSNumber contextID,
+    int contextID,
 
     /// The text to commit
-    JSString text,
+    String text,
   });
 }
 
@@ -329,7 +329,7 @@ class SendKeyEventsParameters {
   external factory SendKeyEventsParameters({
     /// ID of the context where the key events will be sent, or zero to send key
     /// events to non-input field.
-    JSNumber contextID,
+    int contextID,
 
     /// Data on the key event.
     JSArray keyData,
@@ -342,7 +342,7 @@ class SendKeyEventsParameters {
 class SetCandidateWindowPropertiesParameters {
   external factory SetCandidateWindowPropertiesParameters({
     /// ID of the engine to set properties on.
-    JSString engineID,
+    String engineID,
     SetCandidateWindowPropertiesParametersProperties properties,
   });
 }
@@ -353,7 +353,7 @@ class SetCandidateWindowPropertiesParameters {
 class SetCandidatesParameters {
   external factory SetCandidatesParameters({
     /// ID of the context that owns the candidate window.
-    JSNumber contextID,
+    int contextID,
 
     /// List of candidates to show in the candidate window
     JSArray candidates,
@@ -366,10 +366,10 @@ class SetCandidatesParameters {
 class SetCursorPositionParameters {
   external factory SetCursorPositionParameters({
     /// ID of the context that owns the candidate window.
-    JSNumber contextID,
+    int contextID,
 
     /// ID of the candidate to select.
-    JSNumber candidateID,
+    int candidateID,
   });
 }
 
@@ -379,7 +379,7 @@ class SetCursorPositionParameters {
 class SetAssistiveWindowPropertiesParameters {
   external factory SetAssistiveWindowPropertiesParameters({
     /// ID of the context owning the assistive window.
-    JSNumber contextID,
+    int contextID,
 
     /// Properties of the assistive window.
     AssistiveWindowProperties properties,
@@ -392,7 +392,7 @@ class SetAssistiveWindowPropertiesParameters {
 class SetAssistiveWindowButtonHighlightedParameters {
   external factory SetAssistiveWindowButtonHighlightedParameters({
     /// ID of the context owning the assistive window.
-    JSNumber contextID,
+    int contextID,
 
     /// The ID of the button
     AssistiveWindowButton buttonID,
@@ -401,10 +401,10 @@ class SetAssistiveWindowButtonHighlightedParameters {
     AssistiveWindowType windowType,
 
     /// The text for the screenreader to announce.
-    JSString? announceString,
+    String? announceString,
 
     /// Whether the button should be highlighted.
-    JSBoolean highlighted,
+    bool highlighted,
   });
 }
 
@@ -414,17 +414,17 @@ class SetAssistiveWindowButtonHighlightedParameters {
 class DeleteSurroundingTextParameters {
   external factory DeleteSurroundingTextParameters({
     /// ID of the engine receiving the event.
-    JSString engineID,
+    String engineID,
 
     /// ID of the context where the surrounding text will be deleted.
-    JSNumber contextID,
+    int contextID,
 
     /// The offset from the caret position where deletion will start. This value
     /// can be negative.
-    JSNumber offset,
+    int offset,
 
     /// The number of characters to be deleted
-    JSNumber length,
+    int length,
   });
 }
 
@@ -434,10 +434,10 @@ class DeleteSurroundingTextParameters {
 class SetCompositionParametersSegments {
   external factory SetCompositionParametersSegments({
     /// Index of the character to start this segment at
-    JSNumber start,
+    int start,
 
     /// Index of the character to end this segment after.
-    JSNumber end,
+    int end,
 
     /// The type of the underline to modify this segment.
     UnderlineStyle style,
@@ -450,29 +450,29 @@ class SetCompositionParametersSegments {
 class SetCandidateWindowPropertiesParametersProperties {
   external factory SetCandidateWindowPropertiesParametersProperties({
     /// True to show the Candidate window, false to hide it.
-    JSBoolean? visible,
+    bool? visible,
 
     /// True to show the cursor, false to hide it.
-    JSBoolean? cursorVisible,
+    bool? cursorVisible,
 
     /// True if the candidate window should be rendered vertical, false to make it
     /// horizontal.
-    JSBoolean? vertical,
+    bool? vertical,
 
     /// The number of candidates to display per page.
-    JSNumber? pageSize,
+    int? pageSize,
 
     /// Text that is shown at the bottom of the candidate window.
-    JSString? auxiliaryText,
+    String? auxiliaryText,
 
     /// True to display the auxiliary text, false to hide it.
-    JSBoolean? auxiliaryTextVisible,
+    bool? auxiliaryTextVisible,
 
     /// The total number of candidates for the candidate window.
-    JSNumber? totalCandidates,
+    int? totalCandidates,
 
     /// The index of the current chosen candidate out of total candidates.
-    JSNumber? currentCandidateIndex,
+    int? currentCandidateIndex,
 
     /// Where to display the candidate window.
     WindowPosition? windowPosition,
@@ -485,20 +485,20 @@ class SetCandidateWindowPropertiesParametersProperties {
 class SetCandidatesParametersCandidates {
   external factory SetCandidatesParametersCandidates({
     /// The candidate
-    JSString candidate,
+    String candidate,
 
     /// The candidate's id
-    JSNumber id,
+    int id,
 
     /// The id to add these candidates under
-    JSNumber? parentId,
+    int? parentId,
 
     /// Short string displayed to next to the candidate, often the shortcut key or
     /// index
-    JSString? label,
+    String? label,
 
     /// Additional text describing the candidate
-    JSString? annotation,
+    String? annotation,
 
     /// The usage or detail description of word.
     SetCandidatesParametersCandidatesUsage? usage,
@@ -511,9 +511,9 @@ class SetCandidatesParametersCandidates {
 class SetCandidatesParametersCandidatesUsage {
   external factory SetCandidatesParametersCandidatesUsage({
     /// The title string of details description.
-    JSString title,
+    String title,
 
     /// The body string of detail description.
-    JSString body,
+    String body,
   });
 }

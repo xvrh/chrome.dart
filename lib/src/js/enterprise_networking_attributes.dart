@@ -31,11 +31,11 @@ class NetworkDetails {}
 
 extension NetworkDetailsExtension on NetworkDetails {
   /// The device's MAC address.
-  external JSString get macAddress;
+  external String get macAddress;
 
   /// The device's local IPv4 address (undefined if not configured).
-  external JSString? get ipv4;
+  external String? get ipv4;
 
   /// The device's local IPv6 address (undefined if not configured).
-  external JSString? get ipv6;
+  external String? get ipv6;
 }

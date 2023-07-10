@@ -50,12 +50,12 @@ class TypeRef {
 
   static String _toJsName(String type) {
     return const {
-          'integer': 'JSNumber',
-          'long': 'JSNumber',
-          'number': 'JSNumber',
-          'boolean': 'JSBoolean',
-          'DOMString': 'JSString',
-          'string': 'JSString',
+          'integer': 'int',
+          'long': 'int',
+          'number': 'num',
+          'boolean': 'bool',
+          'DOMString': 'String',
+          'string': 'String',
           'object': 'JSObject',
           'ArrayBuffer': 'JSArrayBuffer',
           'any': 'JSAny',

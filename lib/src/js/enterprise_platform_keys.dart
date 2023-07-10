@@ -31,7 +31,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// |tokenId|: The id of a Token returned by `getTokens`.
   /// |callback|: Called back with the list of the available certificates.
   external void getCertificates(
-    JSString tokenId,
+    String tokenId,
     JSFunction callback,
   );
 
@@ -44,7 +44,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// |certificate|: The DER encoding of a X.509 certificate.
   /// |callback|: Called back when this operation is finished.
   external void importCertificate(
-    JSString tokenId,
+    String tokenId,
     JSArrayBuffer certificate,
     JSFunction callback,
   );
@@ -57,7 +57,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// |certificate|: The DER encoding of a X.509 certificate.
   /// |callback|: Called back when this operation is finished.
   external void removeCertificate(
-    JSString tokenId,
+    String tokenId,
     JSArrayBuffer certificate,
     JSFunction callback,
   );
@@ -124,7 +124,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// |callback|: Called back with the challenge response.
   external void challengeMachineKey(
     JSArrayBuffer challenge,
-    JSBoolean? registerKey,
+    bool? registerKey,
     JSFunction callback,
   );
 
@@ -158,7 +158,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// |callback|: Called back with the challenge response.
   external void challengeUserKey(
     JSArrayBuffer challenge,
-    JSBoolean registerKey,
+    bool registerKey,
     JSFunction callback,
   );
 }
@@ -179,7 +179,7 @@ extension TokenExtension on Token {
   /// referring to the platform's user-specific and the system-wide hardware
   /// token, respectively. Any other tokens (with other identifiers) might be
   /// returned by $(ref:enterprise.platformKeys.getTokens).</p>
-  external JSString get id;
+  external String get id;
 
   /// Implements the WebCrypto's
   /// <a

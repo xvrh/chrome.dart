@@ -26,5 +26,5 @@ class SaveAsMHTMLDetails {
   external factory SaveAsMHTMLDetails(
       {
       /// The id of the tab to save as MHTML.
-      JSNumber tabId});
+      int tabId});
 }

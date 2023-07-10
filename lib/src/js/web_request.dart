@@ -102,9 +102,9 @@ extension RequestFilterExtension on RequestFilter {
   /// be filtered out.
   external JSArray? get types;
 
-  external JSNumber? get tabId;
+  external int? get tabId;
 
-  external JSNumber? get windowId;
+  external int? get windowId;
 }
 
 @JS()
@@ -121,7 +121,7 @@ extension BlockingResponseExtension on BlockingResponse {
   /// If true, the request is cancelled. This prevents the request from being
   /// sent. This can be used as a response to the onBeforeRequest,
   /// onBeforeSendHeaders, onHeadersReceived and onAuthRequired events.
-  external JSBoolean? get cancel;
+  external bool? get cancel;
 
   /// Only used as a response to the onBeforeRequest and onHeadersReceived
   /// events. If set, the original request is prevented from being
@@ -131,7 +131,7 @@ extension BlockingResponseExtension on BlockingResponse {
   /// exception: If the redirect is initiated at the onHeadersReceived stage,
   /// then the redirect will be issued using the GET method. Redirects from URLs
   /// with `ws://` and `wss://` schemes are **ignored**.
-  external JSString? get redirectUrl;
+  external String? get redirectUrl;
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the
   /// request is made with these request headers instead.
@@ -158,7 +158,7 @@ extension UploadDataExtension on UploadData {
   external JSAny? get bytes;
 
   /// A string with the file's path and name.
-  external JSString? get file;
+  external String? get file;
 }
 
 @JS()
@@ -173,7 +173,7 @@ class BlockingResponseAuthCredentials {}
 
 extension BlockingResponseAuthCredentialsExtension
     on BlockingResponseAuthCredentials {
-  external JSString get username;
+  external String get username;
 
-  external JSString get password;
+  external String get password;
 }

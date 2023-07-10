@@ -15,7 +15,7 @@ class JSWindows {}
 extension JSWindowsExtension on JSWindows {
   /// Gets details about a window.
   external JSPromise get(
-    JSNumber windowId,
+    int windowId,
     QueryOptions? queryOptions,
   );
 
@@ -36,12 +36,12 @@ extension JSWindowsExtension on JSWindows {
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
   external JSPromise update(
-    JSNumber windowId,
+    int windowId,
     UpdateInfo updateInfo,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
-  external JSPromise remove(JSNumber windowId);
+  external JSPromise remove(int windowId);
 
   /// Fired when a window is created.
   external ChromeEvent get onCreated;
@@ -90,37 +90,37 @@ extension WindowExtension on Window {
   /// some circumstances a window may not be assigned an `ID` property; for
   /// example, when querying windows using the $(ref:sessions) API, in which
   /// case a session ID may be present.
-  external JSNumber? get id;
+  external int? get id;
 
   /// Whether the window is currently the focused window.
-  external JSBoolean get focused;
+  external bool get focused;
 
   /// The offset of the window from the top edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `top` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSNumber? get top;
+  external int? get top;
 
   /// The offset of the window from the left edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `left` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSNumber? get left;
+  external int? get left;
 
   /// The width of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `width` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSNumber? get width;
+  external int? get width;
 
   /// The height of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `height` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external JSNumber? get height;
+  external int? get height;
 
   /// Array of $(ref:tabs.Tab) objects representing the current tabs in the
   /// window.
   external JSArray? get tabs;
 
   /// Whether the window is incognito.
-  external JSBoolean get incognito;
+  external bool get incognito;
 
   /// The type of browser window this is.
   external WindowType? get type;
@@ -129,11 +129,11 @@ extension WindowExtension on Window {
   external WindowState? get state;
 
   /// Whether the window is set to be always on top.
-  external JSBoolean get alwaysOnTop;
+  external bool get alwaysOnTop;
 
   /// The session ID used to uniquely identify a window, obtained from the
   /// $(ref:sessions) API.
-  external JSString? get sessionId;
+  external String? get sessionId;
 }
 
 @JS()
@@ -145,7 +145,7 @@ extension QueryOptionsExtension on QueryOptions {
   /// contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects only
   /// contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties if
   /// the extension's manifest file includes the `"tabs"` permission.
-  external JSBoolean? get populate;
+  external bool? get populate;
 
   /// If set, the $(ref:windows.Window) returned is filtered based on its type.
   /// If unset, the default filter is set to `['normal', 'popup']`.
@@ -164,31 +164,31 @@ class CreateData {
     JSObject? url,
 
     /// The ID of the tab to add to the new window.
-    JSNumber? tabId,
+    int? tabId,
 
     /// The number of pixels to position the new window from the left edge of the
     /// screen. If not specified, the new window is offset naturally from the last
     /// focused window. This value is ignored for panels.
-    JSNumber? left,
+    int? left,
 
     /// The number of pixels to position the new window from the top edge of the
     /// screen. If not specified, the new window is offset naturally from the last
     /// focused window. This value is ignored for panels.
-    JSNumber? top,
+    int? top,
 
     /// The width in pixels of the new window, including the frame. If not
     /// specified, defaults to a natural width.
-    JSNumber? width,
+    int? width,
 
     /// The height in pixels of the new window, including the frame. If not
     /// specified, defaults to a natural height.
-    JSNumber? height,
+    int? height,
 
     /// If `true`, opens an active window. If `false`, opens an inactive window.
-    JSBoolean? focused,
+    bool? focused,
 
     /// Whether the new window should be an incognito window.
-    JSBoolean? incognito,
+    bool? incognito,
 
     /// Specifies what type of browser window to create.
     CreateType? type,
@@ -202,7 +202,7 @@ class CreateData {
     /// and is in the same <a
     /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
     /// of related browsing contexts</a> as the caller.
-    JSBoolean? setSelfAsOpener,
+    bool? setSelfAsOpener,
   });
 }
 
@@ -213,31 +213,31 @@ class UpdateInfo {
   external factory UpdateInfo({
     /// The offset from the left edge of the screen to move the window to in
     /// pixels. This value is ignored for panels.
-    JSNumber? left,
+    int? left,
 
     /// The offset from the top edge of the screen to move the window to in
     /// pixels. This value is ignored for panels.
-    JSNumber? top,
+    int? top,
 
     /// The width to resize the window to in pixels. This value is ignored for
     /// panels.
-    JSNumber? width,
+    int? width,
 
     /// The height to resize the window to in pixels. This value is ignored for
     /// panels.
-    JSNumber? height,
+    int? height,
 
     /// If `true`, brings the window to the front; cannot be combined with the
     /// state 'minimized'. If `false`, brings the next window in the z-order to
     /// the front; cannot be combined with the state 'fullscreen' or 'maximized'.
-    JSBoolean? focused,
+    bool? focused,
 
     /// If `true`, causes the window to be displayed in a manner that draws the
     /// user's attention to the window, without changing the focused window. The
     /// effect lasts until the user changes focus to the window. This option has
     /// no effect if the window already has focus. Set to `false` to cancel a
     /// previous `drawAttention` request.
-    JSBoolean? drawAttention,
+    bool? drawAttention,
 
     /// The new state of the window. The 'minimized', 'maximized', and
     /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or

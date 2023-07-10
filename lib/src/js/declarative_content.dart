@@ -53,7 +53,7 @@ extension PageStateMatcherExtension on PageStateMatcher {
 
   /// Matches if the bookmarked state of the page is equal to the specified
   /// value. Requres the <a href='declare_permissions'>bookmarks permission</a>.
-  external JSBoolean? get isBookmarked;
+  external bool? get isBookmarked;
 
   external PageStateMatcherInstanceType get instanceType;
 }
@@ -105,11 +105,11 @@ extension RequestContentScriptExtension on RequestContentScript {
 
   /// Whether the content script runs in all frames of the matching page, or in
   /// only the top frame. Default is `false`.
-  external JSBoolean? get allFrames;
+  external bool? get allFrames;
 
   /// Whether to insert the content script on `about:blank` and `about:srcdoc`.
   /// Default is `false`.
-  external JSBoolean? get matchAboutBlank;
+  external bool? get matchAboutBlank;
 
   external RequestContentScriptInstanceType get instanceType;
 }

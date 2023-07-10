@@ -72,17 +72,17 @@ typedef TransitionQualifier = JSString;
 class GetFrameDetails {
   external factory GetFrameDetails({
     /// The ID of the tab in which the frame is.
-    JSNumber? tabId,
+    int? tabId,
 
     /// The ID of the process that runs the renderer for this tab.
-    JSNumber? processId,
+    int? processId,
 
     /// The ID of the frame in the given tab.
-    JSNumber? frameId,
+    int? frameId,
 
     /// The UUID of the document. If the frameId and/or tabId are provided they
     /// will be validated to match the document found by provided document ID.
-    JSString? documentId,
+    String? documentId,
   });
 }
 
@@ -93,5 +93,5 @@ class GetAllFramesDetails {
   external factory GetAllFramesDetails(
       {
       /// The ID of the tab.
-      JSNumber tabId});
+      int tabId});
 }

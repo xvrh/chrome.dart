@@ -40,12 +40,12 @@ extension JSRuntimeExtension on JSRuntime {
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  external JSString getURL(JSString path);
+  external String getURL(String path);
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  external JSPromise setUninstallURL(JSString url);
+  external JSPromise setUninstallURL(String url);
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
@@ -75,7 +75,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  external JSPromise restartAfterDelay(JSNumber seconds);
+  external JSPromise restartAfterDelay(int seconds);
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
@@ -85,13 +85,13 @@ extension JSRuntimeExtension on JSRuntime {
   /// content script. Extensions may connect to content scripts embedded in tabs
   /// via $(ref:tabs.connect).
   external Port connect(
-    JSString? extensionId,
+    String? extensionId,
     ConnectInfo? connectInfo,
   );
 
   /// Connects to a native application in the host machine. See <a
   /// href="nativeMessaging">Native Messaging</a> for more information.
-  external Port connectNative(JSString application);
+  external Port connectNative(String application);
 
   /// Sends a single message to event listeners within your extension/app or a
   /// different extension/app. Similar to $(ref:runtime.connect) but only sends
@@ -102,14 +102,14 @@ extension JSRuntimeExtension on JSRuntime {
   /// extensions cannot send messages to content scripts using this method. To
   /// send messages to content scripts, use $(ref:tabs.sendMessage).
   external JSPromise sendMessage(
-    JSString? extensionId,
+    String? extensionId,
     JSAny message,
     SendMessageOptions? options,
   );
 
   /// Send a single message to a native application.
   external JSPromise sendNativeMessage(
-    JSString application,
+    String application,
     JSObject message,
   );
 
@@ -190,7 +190,7 @@ extension JSRuntimeExtension on JSRuntime {
   external JSObject get lastError;
 
   /// The ID of the extension/app.
-  external JSString get id;
+  external String get id;
 }
 
 /// The operating system Chrome is running on.
@@ -224,7 +224,7 @@ class Port {}
 
 extension PortExtension on Port {
   /// The name of the port, as specified in the call to $(ref:runtime.connect).
-  external JSString get name;
+  external String get name;
 
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
@@ -267,44 +267,44 @@ extension MessageSenderExtension on MessageSender {
   /// The <a href='webNavigation#frame_ids'>frame</a> that opened the
   /// connection. 0 for top-level frames, positive for child frames. This will
   /// only be set when `tab` is set.
-  external JSNumber? get frameId;
+  external int? get frameId;
 
   /// The guest process id of the requesting webview, if available. Only
   /// available for component extensions.
-  external JSNumber? get guestProcessId;
+  external int? get guestProcessId;
 
   /// The guest render frame routing id of the requesting webview, if available.
   /// Only available for component extensions.
-  external JSNumber? get guestRenderFrameRoutingId;
+  external int? get guestRenderFrameRoutingId;
 
   /// The ID of the extension or app that opened the connection, if any.
-  external JSString? get id;
+  external String? get id;
 
   /// The URL of the page or frame that opened the connection. If the sender is
   /// in an iframe, it will be iframe's URL not the URL of the page which hosts
   /// it.
-  external JSString? get url;
+  external String? get url;
 
   /// The name of the native application that opened the connection, if any.
-  external JSString? get nativeApplication;
+  external String? get nativeApplication;
 
   /// The TLS channel ID of the page or frame that opened the connection, if
   /// requested by the extension or app, and if available.
-  external JSString? get tlsChannelId;
+  external String? get tlsChannelId;
 
   /// The origin of the page or frame that opened the connection. It can vary
   /// from the url property (e.g., about:blank) or can be opaque (e.g.,
   /// sandboxed iframes). This is useful for identifying if the origin can be
   /// trusted if we can't immediately tell from the URL.
-  external JSString? get origin;
+  external String? get origin;
 
   /// A UUID of the document that opened the connection.
-  external JSString? get documentId;
+  external String? get documentId;
 
   /// The lifecycle the document that opened the connection is in at the time
   /// the port was created. Note that the lifecycle state of the document may
   /// have changed since port creation.
-  external JSString? get documentLifecycle;
+  external String? get documentLifecycle;
 }
 
 @JS()
@@ -332,34 +332,34 @@ extension ExtensionContextExtension on ExtensionContext {
   external ContextType get contextType;
 
   /// A unique identifier for this context
-  external JSString get contextId;
+  external String get contextId;
 
   /// The ID of the tab for this context, or -1 if this context is not hosted in
   /// a tab.
-  external JSNumber get tabId;
+  external int get tabId;
 
   /// The ID of the window for this context, or -1 if this context is not hosted
   /// in a window.
-  external JSNumber get windowId;
+  external int get windowId;
 
   /// A UUID for the document associated with this context, or undefined if this
   /// context is hosted not in a document.
-  external JSString? get documentId;
+  external String? get documentId;
 
   /// The ID of the frame for this context, or -1 if this context is not hosted
   /// in a frame.
-  external JSNumber get frameId;
+  external int get frameId;
 
   /// The URL of the document associated with this context, or undefined if the
   /// context is not hosted in a document.
-  external JSString? get documentUrl;
+  external String? get documentUrl;
 
   /// The origin of the document associated with this context, or undefined if
   /// the context is not hosted in a document.
-  external JSString? get documentOrigin;
+  external String? get documentOrigin;
 
   /// Whether the context is associated with an incognito profile.
-  external JSBoolean get incognito;
+  external bool get incognito;
 }
 
 @JS()
@@ -383,7 +383,7 @@ extension ContextFilterExtension on ContextFilter {
 
   external JSArray? get documentOrigins;
 
-  external JSBoolean? get incognito;
+  external bool? get incognito;
 }
 
 @JS()
@@ -393,11 +393,11 @@ class ConnectInfo {
   external factory ConnectInfo({
     /// Will be passed into onConnect for processes that are listening for the
     /// connection event.
-    JSString? name,
+    String? name,
 
     /// Whether the TLS channel ID will be passed into onConnectExternal for
     /// processes that are listening for the connection event.
-    JSBoolean? includeTlsChannelId,
+    bool? includeTlsChannelId,
   });
 }
 
@@ -409,5 +409,5 @@ class SendMessageOptions {
       {
       /// Whether the TLS channel ID will be passed into onMessageExternal for
       /// processes that are listening for the connection event.
-      JSBoolean? includeTlsChannelId});
+      bool? includeTlsChannelId});
 }

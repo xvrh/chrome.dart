@@ -26,7 +26,7 @@ extension JSPrintingExtension on JSPrinting {
   /// |jobId|: The id of the print job to cancel. This should be the same id
   /// received in a $(ref:SubmitJobResponse).
   external void cancelJob(
-    JSString jobId,
+    String jobId,
     JSFunction callback,
   );
 
@@ -40,7 +40,7 @@ extension JSPrintingExtension on JSPrinting {
   /// This call will fail with a runtime error if no printers with given id are
   /// installed.
   external void getPrinterInfo(
-    JSString printerId,
+    String printerId,
     JSFunction callback,
   );
 
@@ -50,11 +50,11 @@ extension JSPrintingExtension on JSPrinting {
 
   /// The maximum number of times that $(ref:submitJob) can be called per
   /// minute.
-  external JSNumber get MAX_SUBMIT_JOB_CALLS_PER_MINUTE;
+  external int get MAX_SUBMIT_JOB_CALLS_PER_MINUTE;
 
   /// The maximum number of times that $(ref:getPrinterInfo) can be called per
   /// minute.
-  external JSNumber get MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE;
+  external int get MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE;
 }
 
 /// The status of $(ref:submitJob) request.
@@ -83,7 +83,7 @@ extension SubmitJobRequestExtension on SubmitJobRequest {
 
   /// Used internally to store the blob uuid after parameter customization and
   /// shouldn't be populated by the extension.
-  external JSString? get documentBlobUuid;
+  external String? get documentBlobUuid;
 }
 
 @JS()
@@ -96,7 +96,7 @@ extension SubmitJobResponseExtension on SubmitJobResponse {
 
   /// The id of created print job. This is a unique identifier among all print
   /// jobs on the device. If status is not OK, jobId will be null.
-  external JSString? get jobId;
+  external String? get jobId;
 }
 
 @JS()
@@ -106,17 +106,17 @@ class Printer {}
 extension PrinterExtension on Printer {
   /// The printer's identifier; guaranteed to be unique among printers on the
   /// device.
-  external JSString get id;
+  external String get id;
 
   /// The name of the printer.
-  external JSString get name;
+  external String get name;
 
   /// The human-readable description of the printer.
-  external JSString get description;
+  external String get description;
 
   /// The printer URI. This can be used by extensions to choose the printer for
   /// the user.
-  external JSString get uri;
+  external String get uri;
 
   /// The source of the printer (user or policy configured).
   external PrinterSource get source;
@@ -126,13 +126,13 @@ extension PrinterExtension on Printer {
   /// href="https://chromium.org/administrators/policy-list-3#DefaultPrinterSelection">
   /// DefaultPrinterSelection</a> rules.
   /// Note that several printers could be flagged.
-  external JSBoolean get isDefault;
+  external bool get isDefault;
 
   /// The value showing how recent the printer was used for printing from
   /// Chrome. The lower the value is the more recent the printer was used. The
   /// minimum value is 0. Missing value indicates that the printer wasn't used
   /// recently. This value is guaranteed to be unique amongst printers.
-  external JSNumber? get recentlyUsedRank;
+  external int? get recentlyUsedRank;
 }
 
 @JS()

@@ -17,11 +17,11 @@ class JSPageAction {}
 extension JSPageActionExtension on JSPageAction {
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
-  external JSPromise show(JSNumber tabId);
+  external JSPromise show(int tabId);
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
-  external JSPromise hide(JSNumber tabId);
+  external JSPromise hide(int tabId);
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
@@ -61,7 +61,7 @@ class TabDetails {}
 extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external JSNumber? get tabId;
+  external int? get tabId;
 }
 
 @JS()
@@ -70,10 +70,10 @@ extension TabDetailsExtension on TabDetails {
 class SetTitleDetails {
   external factory SetTitleDetails({
     /// The id of the tab for which you want to modify the page action.
-    JSNumber tabId,
+    int tabId,
 
     /// The tooltip string.
-    JSString title,
+    String title,
   });
 }
 
@@ -83,7 +83,7 @@ class SetTitleDetails {
 class SetIconDetails {
   external factory SetIconDetails({
     /// The id of the tab for which you want to modify the page action.
-    JSNumber tabId,
+    int tabId,
 
     /// Either an ImageData object or a dictionary {size -> ImageData}
     /// representing icon to be set. If the icon is specified as a dictionary, the
@@ -105,7 +105,7 @@ class SetIconDetails {
     JSObject? path,
 
     /// **Deprecated.** This argument is ignored.
-    JSNumber? iconIndex,
+    int? iconIndex,
   });
 }
 
@@ -115,10 +115,10 @@ class SetIconDetails {
 class SetPopupDetails {
   external factory SetPopupDetails({
     /// The id of the tab for which you want to modify the page action.
-    JSNumber tabId,
+    int tabId,
 
     /// The relative path to the HTML file to show in a popup. If set to the empty
     /// string (`''`), no popup is shown.
-    JSString popup,
+    String popup,
   });
 }

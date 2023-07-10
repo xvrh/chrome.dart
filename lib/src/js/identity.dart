@@ -121,7 +121,7 @@ extension JSIdentityExtension on JSIdentity {
   /// `https://<app-id>.chromiumapp.org/*`.
   ///
   /// |path| : The path appended to the end of the generated URL.
-  external void getRedirectURL(JSString? path);
+  external void getRedirectURL(String? path);
 
   /// Fired when signin state changes for an account on the user's profile.
   external ChromeEvent get onSignInChanged;
@@ -136,7 +136,7 @@ class AccountInfo {}
 extension AccountInfoExtension on AccountInfo {
   /// A unique identifier for the account. This ID will not change
   /// for the lifetime of the account.
-  external JSString get id;
+  external String get id;
 }
 
 @JS()
@@ -159,13 +159,13 @@ extension ProfileUserInfoExtension on ProfileUserInfo {
   /// profile. Empty if the user is not signed in or the
   /// `identity.email` manifest permission is not
   /// specified.
-  external JSString get email;
+  external String get email;
 
   /// A unique identifier for the account. This ID will not change
   /// for the lifetime of the account. Empty if the user is not
   /// signed in or (in M41+) the `identity.email`
   /// manifest permission is not specified.
-  external JSString get id;
+  external String get id;
 }
 
 @JS()
@@ -179,7 +179,7 @@ extension TokenDetailsExtension on TokenDetails {
   /// prompt the user as necessary. When the flag is
   /// `false` or omitted, `getAuthToken` will
   /// return failure any time a prompt would be required.
-  external JSBoolean? get interactive;
+  external bool? get interactive;
 
   /// The account ID whose token should be returned. If not specified, the
   /// function will use an account from the Chrome profile: the Sync account if
@@ -195,7 +195,7 @@ extension TokenDetailsExtension on TokenDetails {
   /// The `enableGranularPermissions` flag allows extensions to
   /// opt-in early to the granular permissions consent screen, in which
   /// requested permissions are granted or denied individually.
-  external JSBoolean? get enableGranularPermissions;
+  external bool? get enableGranularPermissions;
 }
 
 @JS()
@@ -204,7 +204,7 @@ class InvalidTokenDetails {}
 
 extension InvalidTokenDetailsExtension on InvalidTokenDetails {
   /// The specific token that should be removed from the cache.
-  external JSString get token;
+  external String get token;
 }
 
 @JS()
@@ -213,7 +213,7 @@ class WebAuthFlowDetails {}
 
 extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// The URL that initiates the auth flow.
-  external JSString get url;
+  external String get url;
 
   /// Whether to launch auth flow in interactive mode.
   ///
@@ -231,7 +231,7 @@ extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// `abortOnLoadForNonInteractive` can be set to `false`
   /// in combination with setting `timeoutMsForNonInteractive` to give
   /// the page a chance to perform any redirects.
-  external JSBoolean? get interactive;
+  external bool? get interactive;
 
   /// Whether to terminate `launchWebAuthFlow` for non-interactive
   /// requests after the page loads. This parameter does not affect interactive
@@ -243,13 +243,13 @@ extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// `timeoutMsForNonInteractive` passes. This is useful for
   /// identity providers that use JavaScript to perform redirections after the
   /// page loads.
-  external JSBoolean? get abortOnLoadForNonInteractive;
+  external bool? get abortOnLoadForNonInteractive;
 
   /// The maximum amount of time, in miliseconds,
   /// `launchWebAuthFlow` is allowed to run in non-interactive mode
   /// in total. Only has an effect if `interactive` is
   /// `false`.
-  external JSNumber? get timeoutMsForNonInteractive;
+  external int? get timeoutMsForNonInteractive;
 }
 
 @JS()
@@ -258,7 +258,7 @@ class GetAuthTokenResult {}
 
 extension GetAuthTokenResultExtension on GetAuthTokenResult {
   /// The specific token associated with the request.
-  external JSString? get token;
+  external String? get token;
 
   /// A list of OAuth2 scopes granted to the extension.
   external JSArray? get grantedScopes;

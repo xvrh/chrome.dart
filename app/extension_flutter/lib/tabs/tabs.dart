@@ -88,7 +88,7 @@ class QueryInfo {
 class Tab {
   final String? title;
   final bool active;
-  final int id;
+  final int? id;
   final TabStatus status;
 
   Tab({
@@ -121,7 +121,7 @@ enum TabStatus {
   static TabStatus _fromJS(binding.TabStatus status) =>
       TabStatus.values.firstWhere((e) => e.value == status);
 
-  binding.TabStatus get toJS => value;
+  binding.TabStatus get toJS => value.toJS;
 }
 
 class OnMoveEvent {

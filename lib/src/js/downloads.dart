@@ -207,11 +207,11 @@ extension JSDownloadsExtension on JSDownloads {
 ///     <dt>prompt</dt>
 ///     <dd>The user will be prompted with a file chooser dialog.</dd>
 /// </dl>
-typedef FilenameConflictAction = JSString;
+typedef FilenameConflictAction = String;
 
-typedef HttpMethod = JSString;
+typedef HttpMethod = String;
 
-typedef InterruptReason = JSString;
+typedef InterruptReason = String;
 
 /// <dl><dt>file</dt>
 ///     <dd>The download's filename is suspicious.</dd>
@@ -233,7 +233,7 @@ typedef InterruptReason = JSString;
 ///     <dt>accepted</dt>
 ///     <dd>The user has accepted the dangerous download.</dd>
 /// </dl>
-typedef DangerType = JSString;
+typedef DangerType = String;
 
 /// <dl><dt>in_progress</dt>
 ///     <dd>The download is currently receiving data from the server.</dd>
@@ -242,7 +242,7 @@ typedef DangerType = JSString;
 ///     <dt>complete</dt>
 ///     <dd>The download completed successfully.</dd>
 /// </dl>
-typedef State = JSString;
+typedef State = String;
 
 @JS()
 @staticInterop

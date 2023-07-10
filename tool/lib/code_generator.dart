@@ -44,7 +44,7 @@ class CodeGenerator {
           TypeDef((b) => b
             ..name = type.name
             ..docs.add(documentationComment(type.documentation, indent: 0))
-            ..definition = refer('JSString')),
+            ..definition = refer('String')),
         for (var type in api.dictionaries) ..._bindingDictionary(type),
       ]));
 

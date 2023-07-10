@@ -200,20 +200,20 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
 /// Error codes used by providing extensions in response to requests as well
 /// as in case of errors when calling methods of the API. For success,
 /// `"OK"` must be used.
-typedef ProviderError = JSString;
+typedef ProviderError = String;
 
 /// Mode of opening a file. Used by $(ref:onOpenFileRequested).
-typedef OpenFileMode = JSString;
+typedef OpenFileMode = String;
 
 /// Type of a change detected on the observed directory.
-typedef ChangeType = JSString;
+typedef ChangeType = String;
 
 /// List of common actions. `"SHARE"` is for sharing files with
 /// others. `"SAVE_FOR_OFFLINE"` for pinning (saving for offline
 /// access). `"OFFLINE_NOT_NECESSARY"` for notifying that the file
 /// doesn't need to be stored for offline access anymore.
 /// Used by $(ref:onGetActionsRequested) and $(ref:onExecuteActionRequested).
-typedef CommonActionId = JSString;
+typedef CommonActionId = String;
 
 @JS()
 @staticInterop

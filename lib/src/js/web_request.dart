@@ -68,27 +68,27 @@ extension JSWebRequestExtension on JSWebRequest {
   external JSObject get MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES;
 }
 
-typedef ResourceType = JSString;
+typedef ResourceType = String;
 
-typedef OnBeforeRequestOptions = JSString;
+typedef OnBeforeRequestOptions = String;
 
-typedef OnBeforeSendHeadersOptions = JSString;
+typedef OnBeforeSendHeadersOptions = String;
 
-typedef OnSendHeadersOptions = JSString;
+typedef OnSendHeadersOptions = String;
 
-typedef OnHeadersReceivedOptions = JSString;
+typedef OnHeadersReceivedOptions = String;
 
-typedef OnAuthRequiredOptions = JSString;
+typedef OnAuthRequiredOptions = String;
 
-typedef OnResponseStartedOptions = JSString;
+typedef OnResponseStartedOptions = String;
 
-typedef OnBeforeRedirectOptions = JSString;
+typedef OnBeforeRedirectOptions = String;
 
-typedef OnCompletedOptions = JSString;
+typedef OnCompletedOptions = String;
 
-typedef OnErrorOccurredOptions = JSString;
+typedef OnErrorOccurredOptions = String;
 
-typedef IgnoredActionType = JSString;
+typedef IgnoredActionType = String;
 
 @JS()
 @staticInterop

@@ -76,7 +76,7 @@ extension JSExtensionExtension on JSExtension {
 }
 
 /// The type of extension view.
-typedef ViewType = JSString;
+typedef ViewType = String;
 
 @JS()
 @staticInterop

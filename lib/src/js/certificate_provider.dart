@@ -90,20 +90,20 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
 }
 
 /// Types of supported cryptographic signature algorithms.
-typedef Algorithm = JSString;
+typedef Algorithm = String;
 
 /// Types of errors that the extension can report.
-typedef Error = JSString;
+typedef Error = String;
 
 /// Deprecated. Replaced by $(ref:Algorithm).
-typedef Hash = JSString;
+typedef Hash = String;
 
 /// The type of code being requested by the extension with requestPin function.
-typedef PinRequestType = JSString;
+typedef PinRequestType = String;
 
 /// The types of errors that can be presented to the user through the
 /// requestPin function.
-typedef PinRequestErrorType = JSString;
+typedef PinRequestErrorType = String;
 
 @JS()
 @staticInterop

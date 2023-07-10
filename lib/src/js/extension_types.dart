@@ -15,26 +15,26 @@ class JSExtensionTypes {}
 extension JSExtensionTypesExtension on JSExtensionTypes {}
 
 /// The format of an image.
-typedef ImageFormat = JSString;
+typedef ImageFormat = String;
 
 /// The soonest that the JavaScript or CSS will be injected into the tab.
-typedef RunAt = JSString;
+typedef RunAt = String;
 
 /// The <a
 /// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of
 /// injected CSS.
-typedef CSSOrigin = JSString;
+typedef CSSOrigin = String;
 
 /// The type of frame.
-typedef FrameType = JSString;
+typedef FrameType = String;
 
 /// The document lifecycle of the frame.
-typedef DocumentLifecycle = JSString;
+typedef DocumentLifecycle = String;
 
 /// The JavaScript world for a script to execute within. Can either be an
 /// isolated world, unique to this extension, or the main world of the DOM which
 /// is shared with the page's JavaScript.
-typedef ExecutionWorld = JSString;
+typedef ExecutionWorld = String;
 
 @JS()
 @staticInterop

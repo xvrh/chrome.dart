@@ -100,7 +100,7 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   );
 }
 
-typedef ClientCertificateType = JSString;
+typedef ClientCertificateType = String;
 
 @JS()
 @staticInterop

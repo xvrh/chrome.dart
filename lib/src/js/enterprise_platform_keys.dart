@@ -164,10 +164,10 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
 }
 
 /// Whether to use the Enterprise User Key or the Enterprise Machine Key.
-typedef Scope = JSString;
+typedef Scope = String;
 
 /// Type of key to generate.
-typedef Algorithm = JSString;
+typedef Algorithm = String;
 
 @JS()
 @staticInterop

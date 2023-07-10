@@ -37,4 +37,4 @@ extension JSIdleExtension on JSIdle {
   external ChromeEvent get onStateChanged;
 }
 
-typedef IdleState = JSString;
+typedef IdleState = String;

@@ -23,17 +23,17 @@ extension JSPrintingMetricsExtension on JSPrintingMetrics {
 }
 
 /// The source of the print job.
-typedef PrintJobSource = JSString;
+typedef PrintJobSource = String;
 
 /// The final status of the print job.
-typedef PrintJobStatus = JSString;
+typedef PrintJobStatus = String;
 
 /// The source of the printer.
-typedef PrinterSource = JSString;
+typedef PrinterSource = String;
 
-typedef ColorMode = JSString;
+typedef ColorMode = String;
 
-typedef DuplexMode = JSString;
+typedef DuplexMode = String;
 
 @JS()
 @staticInterop

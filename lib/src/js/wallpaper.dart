@@ -18,7 +18,7 @@ extension JSWallpaperExtension on JSWallpaper {
 }
 
 /// The supported wallpaper layouts.
-typedef WallpaperLayout = JSString;
+typedef WallpaperLayout = String;
 
 @JS()
 @staticInterop

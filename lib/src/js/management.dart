@@ -108,13 +108,13 @@ extension JSManagementExtension on JSManagement {
 }
 
 /// These are all possible app launch types.
-typedef LaunchType = JSString;
+typedef LaunchType = String;
 
 /// A reason the item is disabled.
-typedef ExtensionDisabledReason = JSString;
+typedef ExtensionDisabledReason = String;
 
 /// The type of this extension, app, or theme.
-typedef ExtensionType = JSString;
+typedef ExtensionType = String;
 
 /// How the extension was installed. One of
 /// `admin`: The extension was installed because of an administrative policy,
@@ -122,7 +122,7 @@ typedef ExtensionType = JSString;
 /// `normal`: The extension was installed normally via a .crx file,
 /// `sideload`: The extension was installed by other software on the machine,
 /// `other`: The extension was installed by other means.
-typedef ExtensionInstallType = JSString;
+typedef ExtensionInstallType = String;
 
 @JS()
 @staticInterop

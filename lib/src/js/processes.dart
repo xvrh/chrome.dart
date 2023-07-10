@@ -84,7 +84,7 @@ extension JSProcessesExtension on JSProcesses {
 }
 
 /// The types of the browser processes.
-typedef ProcessType = JSString;
+typedef ProcessType = String;
 
 @JS()
 @staticInterop

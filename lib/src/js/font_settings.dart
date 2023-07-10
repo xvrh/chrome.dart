@@ -69,10 +69,10 @@ extension JSFontSettingsExtension on JSFontSettings {
 
 /// An ISO 15924 script code. The default, or global, script is represented by
 /// script code "Zyyy".
-typedef ScriptCode = JSString;
+typedef ScriptCode = String;
 
 /// A CSS generic font family.
-typedef GenericFamily = JSString;
+typedef GenericFamily = String;
 
 /// One of
 /// `not_controllable`: cannot be controlled by any extension
@@ -80,7 +80,7 @@ typedef GenericFamily = JSString;
 /// precedence
 /// `controllable_by_this_extension`: can be controlled by this extension
 /// `controlled_by_this_extension`: controlled by this extension
-typedef LevelOfControl = JSString;
+typedef LevelOfControl = String;
 
 @JS()
 @staticInterop

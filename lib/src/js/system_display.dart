@@ -149,11 +149,11 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
 }
 
 /// Layout position, i.e. edge of parent that the display is attached to.
-typedef LayoutPosition = JSString;
+typedef LayoutPosition = String;
 
 /// Mirror mode, i.e. different ways of how a display is mirrored to other
 /// displays.
-typedef MirrorMode = JSString;
+typedef MirrorMode = String;
 
 @JS()
 @staticInterop

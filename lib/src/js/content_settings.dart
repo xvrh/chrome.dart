@@ -135,35 +135,35 @@ extension JSContentSettingsExtension on JSContentSettings {
 /// `incognito_session_only`: setting for incognito profile that can only be set
 /// during an incognito session and is deleted when the incognito session ends
 /// (overrides regular settings).
-typedef Scope = JSString;
+typedef Scope = String;
 
-typedef AutoVerifyContentSetting = JSString;
+typedef AutoVerifyContentSetting = String;
 
-typedef CookiesContentSetting = JSString;
+typedef CookiesContentSetting = String;
 
-typedef ImagesContentSetting = JSString;
+typedef ImagesContentSetting = String;
 
-typedef JavascriptContentSetting = JSString;
+typedef JavascriptContentSetting = String;
 
-typedef LocationContentSetting = JSString;
+typedef LocationContentSetting = String;
 
-typedef PluginsContentSetting = JSString;
+typedef PluginsContentSetting = String;
 
-typedef PopupsContentSetting = JSString;
+typedef PopupsContentSetting = String;
 
-typedef NotificationsContentSetting = JSString;
+typedef NotificationsContentSetting = String;
 
-typedef FullscreenContentSetting = JSString;
+typedef FullscreenContentSetting = String;
 
-typedef MouselockContentSetting = JSString;
+typedef MouselockContentSetting = String;
 
-typedef MicrophoneContentSetting = JSString;
+typedef MicrophoneContentSetting = String;
 
-typedef CameraContentSetting = JSString;
+typedef CameraContentSetting = String;
 
-typedef PpapiBrokerContentSetting = JSString;
+typedef PpapiBrokerContentSetting = String;
 
-typedef MultipleAutomaticDownloadsContentSetting = JSString;
+typedef MultipleAutomaticDownloadsContentSetting = String;
 
 @JS()
 @staticInterop

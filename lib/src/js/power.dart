@@ -28,4 +28,4 @@ extension JSPowerExtension on JSPower {
   external void reportActivity(JSFunction callback);
 }
 
-typedef Level = JSString;
+typedef Level = String;

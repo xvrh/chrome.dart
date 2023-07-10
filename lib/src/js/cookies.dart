@@ -49,7 +49,7 @@ extension JSCookiesExtension on JSCookies {
 /// 'no_restriction' corresponds to a cookie set with 'SameSite=None', 'lax' to
 /// 'SameSite=Lax', and 'strict' to 'SameSite=Strict'. 'unspecified' corresponds
 /// to a cookie set without the SameSite attribute.
-typedef SameSiteStatus = JSString;
+typedef SameSiteStatus = String;
 
 /// The underlying reason behind the cookie's change. If a cookie was inserted,
 /// or removed via an explicit call to "chrome.cookies.remove", "cause" will be
@@ -60,7 +60,7 @@ typedef SameSiteStatus = JSString;
 /// will be "evicted".  If a cookie was automatically removed due to a "set"
 /// call that overwrote it, "cause" will be "overwrite". Plan your response
 /// accordingly.
-typedef OnChangedCause = JSString;
+typedef OnChangedCause = String;
 
 @JS()
 @staticInterop

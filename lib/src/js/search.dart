@@ -21,7 +21,7 @@ extension JSSearchExtension on JSSearch {
   );
 }
 
-typedef Disposition = JSString;
+typedef Disposition = String;
 
 @JS()
 @staticInterop

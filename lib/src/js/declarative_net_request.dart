@@ -229,24 +229,24 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
 }
 
 /// This describes the resource type of the network request.
-typedef ResourceType = JSString;
+typedef ResourceType = String;
 
 /// This describes the HTTP request method of a network request.
-typedef RequestMethod = JSString;
+typedef RequestMethod = String;
 
 /// This describes whether the request is first or third party to the frame in
 /// which it originated. A request is said to be first party if it has the same
 /// domain (eTLD+1) as the frame in which the request originated.
-typedef DomainType = JSString;
+typedef DomainType = String;
 
 /// This describes the possible operations for a "modifyHeaders" rule.
-typedef HeaderOperation = JSString;
+typedef HeaderOperation = String;
 
 /// Describes the kind of action to take if a given RuleCondition matches.
-typedef RuleActionType = JSString;
+typedef RuleActionType = String;
 
 /// Describes the reason why a given regular expression isn't supported.
-typedef UnsupportedRegexReason = JSString;
+typedef UnsupportedRegexReason = String;
 
 @JS()
 @staticInterop

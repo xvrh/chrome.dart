@@ -105,10 +105,10 @@ extension JSScriptingExtension on JSScripting {
 /// href="https://developer.mozilla.org/en-US/docs/Glossary/Style_origin">style
 /// origins</a>
 /// for more info.
-typedef StyleOrigin = JSString;
+typedef StyleOrigin = String;
 
 /// The JavaScript world for a script to execute within.
-typedef ExecutionWorld = JSString;
+typedef ExecutionWorld = String;
 
 @JS()
 @staticInterop

@@ -35,7 +35,7 @@ extension JSOffscreenExtension on JSOffscreen {
   external void hasDocument(JSFunction callback);
 }
 
-typedef Reason = JSString;
+typedef Reason = String;
 
 @JS()
 @staticInterop

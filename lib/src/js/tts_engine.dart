@@ -62,7 +62,7 @@ extension JSTtsEngineExtension on JSTtsEngine {
   external ChromeEvent get onResume;
 }
 
-typedef VoiceGender = JSString;
+typedef VoiceGender = String;
 
 @JS()
 @staticInterop

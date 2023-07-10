@@ -48,7 +48,7 @@ extension JSHistoryExtension on JSHistory {
 
 /// The <a href='#transition_types'>transition type</a> for this visit from its
 /// referrer.
-typedef TransitionType = JSString;
+typedef TransitionType = String;
 
 @JS()
 @staticInterop

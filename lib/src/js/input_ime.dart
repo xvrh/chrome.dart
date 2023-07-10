@@ -119,37 +119,37 @@ extension JSInputImeExtension on JSInputIme {
   external ChromeEvent get onAssistiveWindowButtonClicked;
 }
 
-typedef KeyboardEventType = JSString;
+typedef KeyboardEventType = String;
 
 /// Type of value this text field edits, (Text, Number, URL, etc)
-typedef InputContextType = JSString;
+typedef InputContextType = String;
 
 /// The auto-capitalize type of the text field.
-typedef AutoCapitalizeType = JSString;
+typedef AutoCapitalizeType = String;
 
 /// The type of menu item. Radio buttons between separators are considered
 /// grouped.
-typedef MenuItemStyle = JSString;
+typedef MenuItemStyle = String;
 
 /// The type of the underline to modify this segment.
-typedef UnderlineStyle = JSString;
+typedef UnderlineStyle = String;
 
 /// Where to display the candidate window. If set to 'cursor', the window
 /// follows the cursor. If set to 'composition', the window is locked to the
 /// beginning of the composition.
-typedef WindowPosition = JSString;
+typedef WindowPosition = String;
 
 /// The screen type under which the IME is activated.
-typedef ScreenType = JSString;
+typedef ScreenType = String;
 
 /// Which mouse buttons was clicked.
-typedef MouseButton = JSString;
+typedef MouseButton = String;
 
 /// Type of assistive window.
-typedef AssistiveWindowType = JSString;
+typedef AssistiveWindowType = String;
 
 /// ID of buttons in assistive window.
-typedef AssistiveWindowButton = JSString;
+typedef AssistiveWindowButton = String;
 
 @JS()
 @staticInterop

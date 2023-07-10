@@ -18,15 +18,15 @@ extension JSDeclarativeContentExtension on JSDeclarativeContent {
   external ChromeEvent get onPageChanged;
 }
 
-typedef PageStateMatcherInstanceType = JSString;
+typedef PageStateMatcherInstanceType = String;
 
-typedef ShowPageActionInstanceType = JSString;
+typedef ShowPageActionInstanceType = String;
 
-typedef ShowActionInstanceType = JSString;
+typedef ShowActionInstanceType = String;
 
-typedef SetIconInstanceType = JSString;
+typedef SetIconInstanceType = String;
 
-typedef RequestContentScriptInstanceType = JSString;
+typedef RequestContentScriptInstanceType = String;
 
 @JS()
 @staticInterop

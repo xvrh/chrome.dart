@@ -56,7 +56,7 @@ extension JSTabGroupsExtension on JSTabGroups {
 }
 
 /// The group's color.
-typedef Color = JSString;
+typedef Color = String;
 
 @JS()
 @staticInterop

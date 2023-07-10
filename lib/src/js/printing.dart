@@ -58,16 +58,16 @@ extension JSPrintingExtension on JSPrinting {
 }
 
 /// The status of $(ref:submitJob) request.
-typedef SubmitJobStatus = JSString;
+typedef SubmitJobStatus = String;
 
 /// The source of the printer.
-typedef PrinterSource = JSString;
+typedef PrinterSource = String;
 
 /// The status of the printer.
-typedef PrinterStatus = JSString;
+typedef PrinterStatus = String;
 
 /// Status of the print job.
-typedef JobStatus = JSString;
+typedef JobStatus = String;
 
 @JS()
 @staticInterop

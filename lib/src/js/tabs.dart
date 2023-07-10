@@ -236,22 +236,22 @@ extension JSTabsExtension on JSTabs {
 }
 
 /// The tab's loading status.
-typedef TabStatus = JSString;
+typedef TabStatus = String;
 
 /// An event that caused a muted state change.
-typedef MutedInfoReason = JSString;
+typedef MutedInfoReason = String;
 
 /// Defines how zoom changes are handled, i.e., which entity is responsible for
 /// the actual scaling of the page; defaults to `automatic`.
-typedef ZoomSettingsMode = JSString;
+typedef ZoomSettingsMode = String;
 
 /// Defines whether zoom changes persist for the page's origin, or only take
 /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
 /// `per-tab` otherwise.
-typedef ZoomSettingsScope = JSString;
+typedef ZoomSettingsScope = String;
 
 /// The type of window.
-typedef WindowType = JSString;
+typedef WindowType = String;
 
 @JS()
 @staticInterop

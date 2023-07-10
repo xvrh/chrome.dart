@@ -46,10 +46,10 @@ extension JSDebuggerExtension on JSDebugger {
 }
 
 /// Target type.
-typedef TargetInfoType = JSString;
+typedef TargetInfoType = String;
 
 /// Connection termination reason.
-typedef DetachReason = JSString;
+typedef DetachReason = String;
 
 @JS()
 @staticInterop

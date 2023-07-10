@@ -33,7 +33,7 @@ extension JSStorageExtension on JSStorage {
 }
 
 /// The storage area's access level.
-typedef AccessLevel = JSString;
+typedef AccessLevel = String;
 
 @JS()
 @staticInterop

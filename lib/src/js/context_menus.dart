@@ -53,10 +53,10 @@ extension JSContextMenusExtension on JSContextMenus {
 /// to the context menu that appears when clicking the app icon in the
 /// launcher/taskbar/dock/etc. Different platforms might put limitations on what
 /// is actually supported in a launcher context menu.
-typedef ContextType = JSString;
+typedef ContextType = String;
 
 /// The type of menu item.
-typedef ItemType = JSString;
+typedef ItemType = String;
 
 @JS()
 @staticInterop

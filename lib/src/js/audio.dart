@@ -77,10 +77,10 @@ extension JSAudioExtension on JSAudio {
 }
 
 /// Type of stream an audio device provides.
-typedef StreamType = JSString;
+typedef StreamType = String;
 
 /// Available audio device types.
-typedef DeviceType = JSString;
+typedef DeviceType = String;
 
 @JS()
 @staticInterop

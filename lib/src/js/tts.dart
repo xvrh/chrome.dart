@@ -45,9 +45,9 @@ extension JSTtsExtension on JSTts {
   external ChromeEvent get onEvent;
 }
 
-typedef EventType = JSString;
+typedef EventType = String;
 
-typedef VoiceGender = JSString;
+typedef VoiceGender = String;
 
 @JS()
 @staticInterop

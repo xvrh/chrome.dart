@@ -63,9 +63,9 @@ extension JSWebNavigationExtension on JSWebNavigation {
 /// API are used. These are the same transition types as defined in the <a
 /// href="history#transition_types">history API</a> except with `"start_page"`
 /// in place of `"auto_toplevel"` (for backwards compatibility).
-typedef TransitionType = JSString;
+typedef TransitionType = String;
 
-typedef TransitionQualifier = JSString;
+typedef TransitionQualifier = String;
 
 @JS()
 @staticInterop

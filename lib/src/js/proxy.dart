@@ -23,9 +23,9 @@ extension JSProxyExtension on JSProxy {
   external ChromeSetting get settings;
 }
 
-typedef Scheme = JSString;
+typedef Scheme = String;
 
-typedef Mode = JSString;
+typedef Mode = String;
 
 @JS()
 @staticInterop

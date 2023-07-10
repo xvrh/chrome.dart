@@ -29,4 +29,4 @@ extension JSPrivacyExtension on JSPrivacy {
 }
 
 /// The IP handling policy of WebRTC.
-typedef IPHandlingPolicy = JSString;
+typedef IPHandlingPolicy = String;

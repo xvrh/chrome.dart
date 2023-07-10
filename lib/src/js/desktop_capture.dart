@@ -28,15 +28,15 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
 
 /// Enum used to define set of desktop media sources used in
 /// chooseDesktopMedia().
-typedef DesktopCaptureSourceType = JSString;
+typedef DesktopCaptureSourceType = String;
 
 /// Mirrors <a
 /// href="https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum">SystemAudioPreferenceEnum</a>.
-typedef SystemAudioPreferenceEnum = JSString;
+typedef SystemAudioPreferenceEnum = String;
 
 /// Mirrors <a
 /// href="https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum">SelfCapturePreferenceEnum</a>.
-typedef SelfCapturePreferenceEnum = JSString;
+typedef SelfCapturePreferenceEnum = String;
 
 @JS()
 @staticInterop

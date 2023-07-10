@@ -47,7 +47,7 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
 }
 
 /// Error codes returned in response to $(ref:onPrintRequested) event.
-typedef PrintError = JSString;
+typedef PrintError = String;
 
 @JS()
 @staticInterop

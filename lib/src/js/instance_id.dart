@@ -44,11 +44,11 @@ class GetTokenParams {
     /// Identifies the entity that is authorized to access resources associated
     /// with this Instance ID. It can be a project ID from <a
     /// href='https://code.google.com/apis/console'>Google developer console</a>.
-    String authorizedEntity,
+    JSString authorizedEntity,
 
     /// Identifies authorized actions that the authorized entity can take. E.g.
     /// for sending GCM messages, `GCM` scope should be used.
-    String scope,
+    JSString scope,
 
     /// Allows including a small number of string key/value pairs that will be
     /// associated with the token and may be used in processing the request.
@@ -62,10 +62,10 @@ class GetTokenParams {
 class DeleteTokenParams {
   external factory DeleteTokenParams(
     /// The authorized entity that is used to obtain the token.
-    String authorizedEntity,
+    JSString authorizedEntity,
 
     /// The scope that is used to obtain the token.
-    String scope,
+    JSString scope,
   );
 }
 

@@ -48,7 +48,7 @@ extension ImageDetailsExtension on ImageDetails {
   /// This value is ignored for PNG images.  As quality is decreased, the
   /// resulting image will have more visual artifacts, and the number of bytes
   /// needed to store it will decrease.
-  external int? get quality;
+  external JSNumber? get quality;
 }
 
 @JS()
@@ -63,26 +63,26 @@ extension InjectDetailsExtension on InjectDetails {
   /// extension to <a
   /// href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross site
   /// scripting</a> attacks.
-  external String? get code;
+  external JSString? get code;
 
   /// JavaScript or CSS file to inject.
-  external String? get file;
+  external JSString? get file;
 
   /// If allFrames is `true`, implies that the JavaScript or CSS should be
   /// injected into all frames of current page. By default, it's `false` and is
   /// only injected into the top frame. If `true` and `frameId` is set, then the
   /// code is inserted in the selected frame and all of its child frames.
-  external bool? get allFrames;
+  external JSBoolean? get allFrames;
 
   /// The <a href='webNavigation#frame_ids'>frame</a> where the script or CSS
   /// should be injected. Defaults to 0 (the top-level frame).
-  external int? get frameId;
+  external JSNumber? get frameId;
 
   /// If matchAboutBlank is true, then the code is also injected in about:blank
   /// and about:srcdoc frames if your extension has access to its parent
   /// document. Code cannot be inserted in top-level about:-frames. By default
   /// it is `false`.
-  external bool? get matchAboutBlank;
+  external JSBoolean? get matchAboutBlank;
 
   /// The soonest that the JavaScript or CSS will be injected into the tab.
   /// Defaults to "document_idle".
@@ -101,25 +101,25 @@ class DeleteInjectionDetails {}
 
 extension DeleteInjectionDetailsExtension on DeleteInjectionDetails {
   /// CSS code to remove.
-  external String? get code;
+  external JSString? get code;
 
   /// CSS file to remove.
-  external String? get file;
+  external JSString? get file;
 
   /// If allFrames is `true`, implies that the CSS should be removed from all
   /// frames of current page. By default, it's `false` and is only removed from
   /// the top frame. If `true` and `frameId` is set, then the code is removed
   /// from the selected frame and all of its child frames.
-  external bool? get allFrames;
+  external JSBoolean? get allFrames;
 
   /// The <a href='webNavigation#frame_ids'>frame</a> from where the CSS should
   /// be removed. Defaults to 0 (the top-level frame).
-  external int? get frameId;
+  external JSNumber? get frameId;
 
   /// If matchAboutBlank is true, then the code is also removed from about:blank
   /// and about:srcdoc frames if your extension has access to its parent
   /// document. By default it is `false`.
-  external bool? get matchAboutBlank;
+  external JSBoolean? get matchAboutBlank;
 
   /// The <a
   /// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of

@@ -38,7 +38,7 @@ extension JSAudioExtension on JSAudio {
 
   ///  Sets the properties for the input or output device.
   external void setProperties(
-    String id,
+    JSString id,
     DeviceProperties properties,
     JSFunction callback,
   );
@@ -58,7 +58,7 @@ extension JSAudioExtension on JSAudio {
   ///  |isMuted|: New mute value.
   external void setMute(
     StreamType streamType,
-    bool isMuted,
+    JSBoolean isMuted,
     JSFunction callback,
   );
 
@@ -88,7 +88,7 @@ class AudioDeviceInfo {}
 
 extension AudioDeviceInfoExtension on AudioDeviceInfo {
   ///  The unique identifier of the audio device.
-  external String get id;
+  external JSString get id;
 
   ///  Stream type associated with this device.
   external StreamType get streamType;
@@ -97,19 +97,19 @@ extension AudioDeviceInfoExtension on AudioDeviceInfo {
   external DeviceType get deviceType;
 
   ///  The user-friendly name (e.g. "USB Microphone").
-  external String get displayName;
+  external JSString get displayName;
 
   ///  Device name.
-  external String get deviceName;
+  external JSString get deviceName;
 
   ///  True if this is the current active device.
-  external bool get isActive;
+  external JSBoolean get isActive;
 
   ///  The sound level of the device, volume for output, gain for input.
-  external int get level;
+  external JSNumber get level;
 
   ///  The stable/persisted device id string when available.
-  external String? get stableDeviceId;
+  external JSString? get stableDeviceId;
 }
 
 @JS()
@@ -123,7 +123,7 @@ extension DeviceFilterExtension on DeviceFilter {
 
   ///  If set, only audio devices whose active state matches this value will
   ///  satisfy the filter.
-  external bool? get isActive;
+  external JSBoolean? get isActive;
 }
 
 @JS()
@@ -137,7 +137,7 @@ extension DevicePropertiesExtension on DeviceProperties {
   ///  </p>
   ///  <p>If used with audio input device, represents audio device gain.</p>
   ///  <p>If used with audio output device, represents audio device volume.</p>
-  external int? get level;
+  external JSNumber? get level;
 }
 
 @JS()
@@ -166,7 +166,7 @@ extension MuteChangedEventExtension on MuteChangedEvent {
   external StreamType get streamType;
 
   ///  Whether or not the stream is now muted.
-  external bool get isMuted;
+  external JSBoolean get isMuted;
 }
 
 @JS()
@@ -175,8 +175,8 @@ class LevelChangedEvent {}
 
 extension LevelChangedEventExtension on LevelChangedEvent {
   ///  ID of device whose sound level has changed.
-  external String get deviceId;
+  external JSString get deviceId;
 
   ///  The device's new sound level.
-  external int get level;
+  external JSNumber get level;
 }

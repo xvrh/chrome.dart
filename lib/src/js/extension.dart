@@ -20,13 +20,13 @@ extension JSExtensionExtension on JSExtension {
   /// response. The $(ref:extension.onRequest) event is fired in each page of
   /// the extension.
   external JSPromise sendRequest(
-    String? extensionId,
+    JSString? extensionId,
     JSAny request,
   );
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
-  external String getURL(String path);
+  external JSString getURL(JSString path);
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
@@ -40,7 +40,7 @@ extension JSExtensionExtension on JSExtension {
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
-  external JSArray getExtensionTabs(int? windowId);
+  external JSArray getExtensionTabs(JSNumber? windowId);
 
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
@@ -55,7 +55,7 @@ extension JSExtensionExtension on JSExtension {
   /// Sets the value of the ap CGI parameter used in the extension's update URL.
   ///  This value is ignored for extensions that are hosted in the Chrome
   /// Extension Gallery.
-  external void setUpdateUrlData(String data);
+  external void setUpdateUrlData(JSString data);
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.
@@ -78,10 +78,10 @@ class GetViewsFetchProperties {
     ViewType? type,
 
     /// The window to restrict the search to. If omitted, returns all views.
-    int? windowId,
+    JSNumber? windowId,
 
     /// Find a view according to a tab id. If this field is omitted, returns all
     /// views.
-    int? tabId,
+    JSNumber? tabId,
   );
 }

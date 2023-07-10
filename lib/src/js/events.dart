@@ -20,7 +20,7 @@ class Rule {}
 
 extension RuleExtension on Rule {
   /// Optional identifier that allows referencing this rule.
-  external String? get id;
+  external JSString? get id;
 
   /// Tags can be used to annotate rules and perform operations on sets of
   /// rules.
@@ -33,7 +33,7 @@ extension RuleExtension on Rule {
   external JSArray get actions;
 
   /// Optional priority of this rule. Defaults to 100.
-  external int? get priority;
+  external JSNumber? get priority;
 }
 
 @JS()
@@ -55,74 +55,74 @@ extension UrlFilterExtension on UrlFilter {
   /// match against components ('.foo.'). Suffix- and exact-matching for the
   /// last components need to be done separately using hostSuffix, because no
   /// implicit dot is added at the end of the host name.
-  external String? get hostContains;
+  external JSString? get hostContains;
 
   /// Matches if the host name of the URL is equal to a specified string.
-  external String? get hostEquals;
+  external JSString? get hostEquals;
 
   /// Matches if the host name of the URL starts with a specified string.
-  external String? get hostPrefix;
+  external JSString? get hostPrefix;
 
   /// Matches if the host name of the URL ends with a specified string.
-  external String? get hostSuffix;
+  external JSString? get hostSuffix;
 
   /// Matches if the path segment of the URL contains a specified string.
-  external String? get pathContains;
+  external JSString? get pathContains;
 
   /// Matches if the path segment of the URL is equal to a specified string.
-  external String? get pathEquals;
+  external JSString? get pathEquals;
 
   /// Matches if the path segment of the URL starts with a specified string.
-  external String? get pathPrefix;
+  external JSString? get pathPrefix;
 
   /// Matches if the path segment of the URL ends with a specified string.
-  external String? get pathSuffix;
+  external JSString? get pathSuffix;
 
   /// Matches if the query segment of the URL contains a specified string.
-  external String? get queryContains;
+  external JSString? get queryContains;
 
   /// Matches if the query segment of the URL is equal to a specified string.
-  external String? get queryEquals;
+  external JSString? get queryEquals;
 
   /// Matches if the query segment of the URL starts with a specified string.
-  external String? get queryPrefix;
+  external JSString? get queryPrefix;
 
   /// Matches if the query segment of the URL ends with a specified string.
-  external String? get querySuffix;
+  external JSString? get querySuffix;
 
   /// Matches if the URL (without fragment identifier) contains a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external String? get urlContains;
+  external JSString? get urlContains;
 
   /// Matches if the URL (without fragment identifier) is equal to a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external String? get urlEquals;
+  external JSString? get urlEquals;
 
   /// Matches if the URL (without fragment identifier) matches a specified
   /// regular expression. Port numbers are stripped from the URL if they match
   /// the default port number. The regular expressions use the <a
   /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
   /// syntax</a>.
-  external String? get urlMatches;
+  external JSString? get urlMatches;
 
   /// Matches if the URL without query segment and fragment identifier matches a
   /// specified regular expression. Port numbers are stripped from the URL if
   /// they match the default port number. The regular expressions use the <a
   /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
   /// syntax</a>.
-  external String? get originAndPathMatches;
+  external JSString? get originAndPathMatches;
 
   /// Matches if the URL (without fragment identifier) starts with a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external String? get urlPrefix;
+  external JSString? get urlPrefix;
 
   /// Matches if the URL (without fragment identifier) ends with a specified
   /// string. Port numbers are stripped from the URL if they match the default
   /// port number.
-  external String? get urlSuffix;
+  external JSString? get urlSuffix;
 
   /// Matches if the scheme of the URL is equal to any of the schemes specified
   /// in the array.

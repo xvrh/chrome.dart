@@ -37,7 +37,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
   external void setDisplayProperties(
-    String id,
+    JSString id,
     DisplayProperties info,
     JSFunction callback,
   );
@@ -62,13 +62,13 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  off. Otherwise, the desktop mode will switch to unified immediately.
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   ///  |enabled|: True if unified desktop should be enabled.
-  external void enableUnifiedDesktop(bool enabled);
+  external void enableUnifiedDesktop(JSBoolean enabled);
 
   ///  Starts overscan calibration for a display. This will show an overlay
   ///  on the screen indicating the current overscan insets. If overscan
   ///  calibration for display |id| is in progress this will reset calibration.
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationStart(String id);
+  external void overscanCalibrationStart(JSString id);
 
   ///  Adjusts the current overscan insets for a display. Typically this should
   ///  either move the display along an axis (e.g. left+right have the same
@@ -77,19 +77,19 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  |id|: The display's unique identifier.
   ///  |delta|: The amount to change the overscan insets.
   external void overscanCalibrationAdjust(
-    String id,
+    JSString id,
     Insets delta,
   );
 
   ///  Resets the overscan insets for a display to the last saved value (i.e
   ///  before Start was called).
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationReset(String id);
+  external void overscanCalibrationReset(JSString id);
 
   ///  Complete overscan adjustments for a display  by saving the current values
   ///  and hiding the overlay.
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationComplete(String id);
+  external void overscanCalibrationComplete(JSString id);
 
   ///  Displays the native touch calibration UX for the display with |id| as
   ///  display id. This will show an overlay on the screen with required
@@ -101,7 +101,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///       calibration has ended. The argument of the callback informs if the
   ///       calibration was a success or not.
   external void showNativeTouchCalibration(
-    String id,
+    JSString id,
     JSFunction callback,
   );
 
@@ -109,7 +109,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  using a custom UX for collecting calibration data. If another touch
   ///  calibration is already in progress this will throw an error.
   ///  |id|: The display's unique identifier.
-  external void startCustomTouchCalibration(String id);
+  external void startCustomTouchCalibration(JSString id);
 
   ///  Sets the touch calibration pairs for a display. These |pairs| would be
   ///  used to calibrate the touch screen for display with |id| called in
@@ -128,7 +128,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  default state by clearing any touch calibration data associated with the
   ///  display.
   ///  |id|: The display's unique identifier.
-  external void clearTouchCalibration(String id);
+  external void clearTouchCalibration(JSString id);
 
   ///  Sets the display mode to the specified mirror mode. Each call resets the
   ///  state from previous calls. Calling setDisplayProperties() will fail for
@@ -161,16 +161,16 @@ class Bounds {}
 
 extension BoundsExtension on Bounds {
   ///  The x-coordinate of the upper-left corner.
-  external int get left;
+  external JSNumber get left;
 
   ///  The y-coordinate of the upper-left corner.
-  external int get top;
+  external JSNumber get top;
 
   ///  The width of the display in pixels.
-  external int get width;
+  external JSNumber get width;
 
   ///  The height of the display in pixels.
-  external int get height;
+  external JSNumber get height;
 }
 
 @JS()
@@ -179,16 +179,16 @@ class Insets {}
 
 extension InsetsExtension on Insets {
   ///  The x-axis distance from the left bound.
-  external int get left;
+  external JSNumber get left;
 
   ///  The y-axis distance from the top bound.
-  external int get top;
+  external JSNumber get top;
 
   ///  The x-axis distance from the right bound.
-  external int get right;
+  external JSNumber get right;
 
   ///  The y-axis distance from the bottom bound.
-  external int get bottom;
+  external JSNumber get bottom;
 }
 
 @JS()
@@ -197,10 +197,10 @@ class Point {}
 
 extension PointExtension on Point {
   ///  The x-coordinate of the point.
-  external int get x;
+  external JSNumber get x;
 
   ///  The y-coordinate of the point.
-  external int get y;
+  external JSNumber get y;
 }
 
 @JS()
@@ -239,16 +239,16 @@ class DisplayMode {}
 
 extension DisplayModeExtension on DisplayMode {
   ///  The display mode width in device independent (user visible) pixels.
-  external int get width;
+  external JSNumber get width;
 
   ///  The display mode height in device independent (user visible) pixels.
-  external int get height;
+  external JSNumber get height;
 
   ///  The display mode width in native pixels.
-  external int get widthInNativePixels;
+  external JSNumber get widthInNativePixels;
 
   ///  The display mode height in native pixels.
-  external int get heightInNativePixels;
+  external JSNumber get heightInNativePixels;
 
   ///  The display mode UI scale factor.
   external double? get uiScale;
@@ -260,13 +260,13 @@ extension DisplayModeExtension on DisplayMode {
   external double get refreshRate;
 
   ///  True if the mode is the display's native mode.
-  external bool get isNative;
+  external JSBoolean get isNative;
 
   ///  True if the display mode is currently selected.
-  external bool get isSelected;
+  external JSBoolean get isSelected;
 
   ///  True if this mode is interlaced, false if not provided.
-  external bool? get isInterlaced;
+  external JSBoolean? get isInterlaced;
 }
 
 @JS()
@@ -275,10 +275,10 @@ class DisplayLayout {}
 
 extension DisplayLayoutExtension on DisplayLayout {
   ///  The unique identifier of the display.
-  external String get id;
+  external JSString get id;
 
   ///  The unique identifier of the parent display. Empty if this is the root.
-  external String get parentId;
+  external JSString get parentId;
 
   ///  The layout position of this display relative to the parent. This will
   ///  be ignored for the root.
@@ -286,7 +286,7 @@ extension DisplayLayoutExtension on DisplayLayout {
 
   ///  The offset of the display along the connected edge. 0 indicates that
   ///  the topmost or leftmost corners are aligned.
-  external int get offset;
+  external JSNumber get offset;
 }
 
 @JS()
@@ -295,13 +295,13 @@ class Edid {}
 
 extension EdidExtension on Edid {
   ///  3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
-  external String get manufacturerId;
+  external JSString get manufacturerId;
 
   ///  2 byte manufacturer-assigned code, Sec. 3.4.2 page 21. Required in v1.4.
-  external String get productId;
+  external JSString get productId;
 
   ///  Year of manufacturer, Sec. 3.4.4 page 22. Required in v1.4.
-  external int get yearOfManufacture;
+  external JSNumber get yearOfManufacture;
 }
 
 @JS()
@@ -310,10 +310,10 @@ class DisplayUnitInfo {}
 
 extension DisplayUnitInfoExtension on DisplayUnitInfo {
   ///  The unique identifier of the display.
-  external String get id;
+  external JSString get id;
 
   ///  The user-friendly name (e.g. "HP LCD monitor").
-  external String get name;
+  external JSString get name;
 
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   external Edid? get edid;
@@ -321,7 +321,7 @@ extension DisplayUnitInfoExtension on DisplayUnitInfo {
   ///  Chrome OS only. Identifier of the display that is being mirrored if
   ///  mirroring is enabled, otherwise empty. This will be set for all displays
   ///  (including the display being mirrored).
-  external String get mirroringSourceId;
+  external JSString get mirroringSourceId;
 
   ///  Chrome OS only. Identifiers of the displays to which the source display
   ///  is being mirrored. Empty if no displays are being mirrored. This will be
@@ -330,23 +330,23 @@ extension DisplayUnitInfoExtension on DisplayUnitInfo {
   external JSArray get mirroringDestinationIds;
 
   ///  True if this is the primary display.
-  external bool get isPrimary;
+  external JSBoolean get isPrimary;
 
   ///  True if this is an internal display.
-  external bool get isInternal;
+  external JSBoolean get isInternal;
 
   ///  True if this display is enabled.
-  external bool get isEnabled;
+  external JSBoolean get isEnabled;
 
   ///  True for all displays when in unified desktop mode. See documentation
   ///  for $(ref:enableUnifiedDesktop).
-  external bool get isUnified;
+  external JSBoolean get isUnified;
 
   ///  True when the auto-rotation is allowed. It happens when the device is in
   ///  a tablet physical state or kSupportsClamshellAutoRotation is set.
   ///  Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
   ///  Settings switches to a mojo API.
-  external bool? get isAutoRotationAllowed;
+  external JSBoolean? get isAutoRotationAllowed;
 
   ///  The number of pixels per inch along the x-axis.
   external double get dpiX;
@@ -359,7 +359,7 @@ extension DisplayUnitInfoExtension on DisplayUnitInfo {
   ///  Currently exposed only on ChromeOS. Will be set to 0 on other platforms.
   ///  A value of -1 will be interpreted as auto-rotate when the device is in
   ///  a physical tablet state.
-  external int get rotation;
+  external JSNumber get rotation;
 
   ///  The display's logical bounds.
   external Bounds get bounds;
@@ -380,12 +380,12 @@ extension DisplayUnitInfoExtension on DisplayUnitInfo {
   external JSArray get modes;
 
   ///  True if this display has a touch input device associated with it.
-  external bool get hasTouchSupport;
+  external JSBoolean get hasTouchSupport;
 
   ///  True if this display has an accelerometer associated with it.
   ///  Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
   ///  Settings switches to a mojo API. NOTE: The name of this may change.
-  external bool get hasAccelerometerSupport;
+  external JSBoolean get hasAccelerometerSupport;
 
   ///  A list of zoom factor values that can be set for the display.
   external JSArray get availableDisplayZoomFactors;
@@ -406,19 +406,19 @@ extension DisplayPropertiesExtension on DisplayProperties {
   ///  unified desktop mode will be disabled. This is only valid for the
   ///  primary display. If provided, mirroringSourceId must not be provided and
   ///  other properties will be ignored. This is has no effect if not provided.
-  external bool? get isUnified;
+  external JSBoolean? get isUnified;
 
   ///  Chrome OS only. If set and not empty, enables mirroring for this display
   ///  only. Otherwise disables mirroring for all displays. This value should
   ///  indicate the id of the source display to mirror, which must not be the
   ///  same as the id passed to setDisplayProperties. If set, no other property
   ///  may be set.
-  external String? get mirroringSourceId;
+  external JSString? get mirroringSourceId;
 
   ///  If set to true, makes the display primary. No-op if set to false.
   ///  Note: If set, the display is considered primary for all other properties
   ///  (i.e. $(ref:isUnified) may be set and bounds origin may not).
-  external bool? get isPrimary;
+  external JSBoolean? get isPrimary;
 
   ///  If set, sets the display's overscan insets to the provided values. Note
   ///  that overscan values may not be negative or larger than a half of the
@@ -428,7 +428,7 @@ extension DisplayPropertiesExtension on DisplayProperties {
   ///  If set, updates the display's rotation.
   ///  Legal values are [0, 90, 180, 270]. The rotation is set clockwise,
   ///  relative to the display's vertical position.
-  external int? get rotation;
+  external JSNumber? get rotation;
 
   ///  If set, updates the display's logical bounds origin along the x-axis.
   ///  Applied together with $(ref:boundsOriginY). Defaults to the current value
@@ -437,11 +437,11 @@ extension DisplayPropertiesExtension on DisplayProperties {
   ///  origin may be different than the one set. The final bounds can be
   ///  retrieved using $(ref:getInfo). The bounds origin cannot be changed on
   ///  the primary display.
-  external int? get boundsOriginX;
+  external JSNumber? get boundsOriginX;
 
   ///  If set, updates the display's logical bounds origin along the y-axis.
   ///  See documentation for $(ref:boundsOriginX) parameter.
-  external int? get boundsOriginY;
+  external JSNumber? get boundsOriginY;
 
   ///  If set, updates the display mode to the mode matching this value.
   ///  If other parameters are invalid, this will not be applied. If the
@@ -463,7 +463,7 @@ extension GetInfoFlagsExtension on GetInfoFlags {
   ///  If set to true, only a single $(ref:DisplayUnitInfo) will be returned
   ///  by $(ref:getInfo) when in unified desktop mode (see
   ///  $(ref:enableUnifiedDesktop)). Defaults to false.
-  external bool? get singleUnified;
+  external JSBoolean? get singleUnified;
 }
 
 @JS()
@@ -475,7 +475,7 @@ extension MirrorModeInfoExtension on MirrorModeInfo {
   external MirrorMode get mode;
 
   ///  The id of the mirroring source display. This is only valid for 'mixed'.
-  external String? get mirroringSourceId;
+  external JSString? get mirroringSourceId;
 
   ///  The ids of the mirroring destination displays. This is only valid for
   ///  'mixed'.

@@ -129,7 +129,7 @@ class IsUvpaaRequest {}
 
 extension IsUvpaaRequestExtension on IsUvpaaRequest {
   ///  An opaque identifier for the request.
-  external int get requestId;
+  external JSNumber get requestId;
 }
 
 @JS()
@@ -138,14 +138,14 @@ class CreateRequest {}
 
 extension CreateRequestExtension on CreateRequest {
   ///  An opaque identifier for the request.
-  external int get requestId;
+  external JSNumber get requestId;
 
   ///  The `PublicKeyCredentialCreationOptions` passed to
   ///  `navigator.credentials.create()`, serialized as a JSON
   ///  string. The serialization format is compatible with <a
   ///  href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
   ///  `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
-  external String get requestDetailsJson;
+  external JSString get requestDetailsJson;
 }
 
 @JS()
@@ -154,14 +154,14 @@ class GetRequest {}
 
 extension GetRequestExtension on GetRequest {
   ///  An opaque identifier for the request.
-  external int get requestId;
+  external JSNumber get requestId;
 
   ///  The `PublicKeyCredentialRequestOptions` passed to
   ///  `navigator.credentials.get()`, serialized as a JSON string.
   ///  The serialization format is compatible with <a
   ///  href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
   ///  `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
-  external String get requestDetailsJson;
+  external JSString get requestDetailsJson;
 }
 
 @JS()
@@ -169,9 +169,9 @@ extension GetRequestExtension on GetRequest {
 class DOMExceptionDetails {}
 
 extension DOMExceptionDetailsExtension on DOMExceptionDetails {
-  external String get name;
+  external JSString get name;
 
-  external String get message;
+  external JSString get message;
 }
 
 @JS()
@@ -180,7 +180,7 @@ class CreateResponseDetails {}
 
 extension CreateResponseDetailsExtension on CreateResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
-  external int get requestId;
+  external JSNumber get requestId;
 
   ///  The `DOMException` yielded by the remote request, if any.
   external DOMExceptionDetails? get error;
@@ -189,7 +189,7 @@ extension CreateResponseDetailsExtension on CreateResponseDetails {
   ///  any, serialized as a JSON string by calling
   ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
   ///  `PublicKeyCredential.toJSON()`</a>.
-  external String? get responseJson;
+  external JSString? get responseJson;
 }
 
 @JS()
@@ -198,7 +198,7 @@ class GetResponseDetails {}
 
 extension GetResponseDetailsExtension on GetResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
-  external int get requestId;
+  external JSNumber get requestId;
 
   ///  The `DOMException` yielded by the remote request, if any.
   external DOMExceptionDetails? get error;
@@ -207,7 +207,7 @@ extension GetResponseDetailsExtension on GetResponseDetails {
   ///  any, serialized as a JSON string by calling
   ///  href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
   ///  `PublicKeyCredential.toJSON()`</a>.
-  external String? get responseJson;
+  external JSString? get responseJson;
 }
 
 @JS()
@@ -215,7 +215,7 @@ extension GetResponseDetailsExtension on GetResponseDetails {
 class IsUvpaaResponseDetails {}
 
 extension IsUvpaaResponseDetailsExtension on IsUvpaaResponseDetails {
-  external int get requestId;
+  external JSNumber get requestId;
 
-  external bool get isUvpaa;
+  external JSBoolean get isUvpaa;
 }

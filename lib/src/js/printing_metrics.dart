@@ -41,17 +41,17 @@ class MediaSize {}
 
 extension MediaSizeExtension on MediaSize {
   ///  Width (in micrometers) of the media used for printing.
-  external int get width;
+  external JSNumber get width;
 
   ///  Height (in micrometers) of the media used for printing.
-  external int get height;
+  external JSNumber get height;
 
   ///  Vendor-provided ID, e.g. "iso_a3_297x420mm" or "na_index-3x5_3x5in".
   ///  Possible values are values of "media" IPP attribute and can be found on
   ///  <a
   /// href="https://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml">
   ///  IANA page</a> .
-  external String get vendorId;
+  external JSString get vendorId;
 }
 
 @JS()
@@ -69,7 +69,7 @@ extension PrintSettingsExtension on PrintSettings {
   external MediaSize get mediaSize;
 
   ///  The requested number of copies.
-  external int get copies;
+  external JSNumber get copies;
 }
 
 @JS()
@@ -78,11 +78,11 @@ class Printer {}
 
 extension PrinterExtension on Printer {
   ///  Displayed name of the printer.
-  external String get name;
+  external JSString get name;
 
   ///  The full path for the printer.
   ///  Contains protocol, hostname, port, and queue.
-  external String get uri;
+  external JSString get uri;
 
   ///  The source of the printer.
   external PrinterSource get source;
@@ -94,16 +94,16 @@ class PrintJobInfo {}
 
 extension PrintJobInfoExtension on PrintJobInfo {
   ///  The ID of the job.
-  external String get id;
+  external JSString get id;
 
   ///  The title of the document which was printed.
-  external String get title;
+  external JSString get title;
 
   ///  Source showing who initiated the print job.
   external PrintJobSource get source;
 
   ///  ID of source. Null if source is PRINT_PREVIEW or ANDROID_APP.
-  external String? get sourceId;
+  external JSString? get sourceId;
 
   ///  The final status of the job.
   external PrintJobStatus get status;
@@ -121,7 +121,7 @@ extension PrintJobInfoExtension on PrintJobInfo {
   external PrintSettings get settings;
 
   ///  The number of pages in the document.
-  external int get numberOfPages;
+  external JSNumber get numberOfPages;
 
   ///  The status of the printer.
   external PrinterStatus get printer_status;

@@ -16,9 +16,9 @@ class JSDevtoolsPanels {}
 extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
   /// Creates an extension panel.
   external void create(
-    String title,
-    String iconPath,
-    String pagePath,
+    JSString title,
+    JSString iconPath,
+    JSString pagePath,
     JSFunction? callback,
   );
 
@@ -29,9 +29,9 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   external void openResource(
-    String url,
-    int lineNumber,
-    int? columnNumber,
+    JSString url,
+    JSNumber lineNumber,
+    JSNumber? columnNumber,
     JSFunction? callback,
   );
 }

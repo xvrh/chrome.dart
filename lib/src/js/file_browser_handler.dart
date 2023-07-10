@@ -30,5 +30,5 @@ extension FileHandlerExecuteEventDetailsExtension
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a
   /// browser session.
-  external int? get tab_id;
+  external JSNumber? get tab_id;
 }

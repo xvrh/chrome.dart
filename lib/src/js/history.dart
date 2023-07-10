@@ -56,24 +56,24 @@ class HistoryItem {}
 
 extension HistoryItemExtension on HistoryItem {
   /// The unique identifier for the item.
-  external String get id;
+  external JSString get id;
 
   /// The URL navigated to by a user.
-  external String? get url;
+  external JSString? get url;
 
   /// The title of the page when it was last loaded.
-  external String? get title;
+  external JSString? get title;
 
   /// When this page was last loaded, represented in milliseconds since the
   /// epoch.
-  external num? get lastVisitTime;
+  external JSNumber? get lastVisitTime;
 
   /// The number of times the user has navigated to this page.
-  external int? get visitCount;
+  external JSNumber? get visitCount;
 
   /// The number of times the user has navigated to this page by typing in the
   /// address.
-  external int? get typedCount;
+  external JSNumber? get typedCount;
 }
 
 @JS()
@@ -82,16 +82,16 @@ class VisitItem {}
 
 extension VisitItemExtension on VisitItem {
   /// The unique identifier for the item.
-  external String get id;
+  external JSString get id;
 
   /// The unique identifier for this visit.
-  external String get visitId;
+  external JSString get visitId;
 
   /// When this visit occurred, represented in milliseconds since the epoch.
-  external num? get visitTime;
+  external JSNumber? get visitTime;
 
   /// The visit ID of the referrer.
-  external String get referringVisitId;
+  external JSString get referringVisitId;
 
   /// The <a href='#transition_types'>transition type</a> for this visit from
   /// its referrer.
@@ -105,7 +105,7 @@ class UrlDetails {}
 extension UrlDetailsExtension on UrlDetails {
   /// The URL for the operation. It must be in the format as returned from a
   /// call to history.search.
-  external String get url;
+  external JSString get url;
 }
 
 @JS()
@@ -115,19 +115,19 @@ class SearchQuery {
   external factory SearchQuery(
     /// A free-text query to the history service.  Leave empty to retrieve all
     /// pages.
-    String text,
+    JSString text,
 
     /// Limit results to those visited after this date, represented in
     /// milliseconds since the epoch. If not specified, this defaults to 24 hours
     /// in the past.
-    num? startTime,
+    JSNumber? startTime,
 
     /// Limit results to those visited before this date, represented in
     /// milliseconds since the epoch.
-    num? endTime,
+    JSNumber? endTime,
 
     /// The maximum number of results to retrieve.  Defaults to 100.
-    int? maxResults,
+    JSNumber? maxResults,
   );
 }
 
@@ -138,10 +138,10 @@ class DeleteRangeRange {
   external factory DeleteRangeRange(
     /// Items added to history after this date, represented in milliseconds since
     /// the epoch.
-    num startTime,
+    JSNumber startTime,
 
     /// Items added to history before this date, represented in milliseconds since
     /// the epoch.
-    num endTime,
+    JSNumber endTime,
   );
 }

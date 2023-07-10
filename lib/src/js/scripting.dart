@@ -97,7 +97,7 @@ extension JSScriptingExtension on JSScripting {
   ///  between all content scripts for a given extension. This object is
   ///  initialized when the frame is created, before document_start.
   ///  TODO(crbug.com/1054624): Enable this once implementation is complete.
-  external int get globalParams;
+  external JSNumber get globalParams;
 }
 
 ///  The origin for a style change.
@@ -116,7 +116,7 @@ class InjectionTarget {}
 
 extension InjectionTargetExtension on InjectionTarget {
   ///  The ID of the tab into which to inject.
-  external int get tabId;
+  external JSNumber get tabId;
 
   ///  The <a
   /// href="https://developer.chrome.com/extensions/webNavigation#frame_ids">IDs</a>
@@ -132,7 +132,7 @@ extension InjectionTargetExtension on InjectionTarget {
   ///  Whether the script should inject into all frames within the tab. Defaults
   ///  to false.
   ///  This must not be true if `frameIds` is specified.
-  external bool? get allFrames;
+  external JSBoolean? get allFrames;
 }
 
 @JS()
@@ -176,7 +176,7 @@ extension ScriptInjectionExtension on ScriptInjection {
   ///  possible. Note that this is not a guarantee that injection will occur
   ///  prior to page load, as the page may have already loaded by the time the
   ///  script reaches the target.
-  external bool? get injectImmediately;
+  external JSBoolean? get injectImmediately;
 }
 
 @JS()
@@ -190,7 +190,7 @@ extension CSSInjectionExtension on CSSInjection {
   ///  A string containing the CSS to inject.
   ///  Exactly one of `files` and `css` must be
   ///  specified.
-  external String? get css;
+  external JSString? get css;
 
   ///  The path of the CSS files to inject, relative to the extension's root
   ///  directory.
@@ -211,10 +211,10 @@ extension InjectionResultExtension on InjectionResult {
   external JSAny? get result;
 
   ///  The frame associated with the injection.
-  external int get frameId;
+  external JSNumber get frameId;
 
   ///  The document associated with the injection.
-  external String get documentId;
+  external JSString get documentId;
 }
 
 @JS()
@@ -224,7 +224,7 @@ class RegisteredContentScript {}
 extension RegisteredContentScriptExtension on RegisteredContentScript {
   ///  The id of the content script, specified in the API call. Must not start
   ///  with a '_' as it's reserved as a prefix for generated script IDs.
-  external String get id;
+  external JSString get id;
 
   ///  Specifies which pages this content script will be injected into. See
   ///  <a href="match_patterns">Match Patterns</a> for more details on the
@@ -251,11 +251,11 @@ extension RegisteredContentScriptExtension on RegisteredContentScript {
   ///  for URL requirements; it will not inject into child frames if the URL
   ///  requirements are not met. Defaults to false, meaning that only the top
   ///  frame is matched.
-  external bool? get allFrames;
+  external JSBoolean? get allFrames;
 
   ///  TODO(devlin): Add documentation once the implementation is complete. See
   ///  crbug.com/55084.
-  external bool? get matchOriginAsFallback;
+  external JSBoolean? get matchOriginAsFallback;
 
   ///  Specifies when JavaScript files are injected into the web page. The
   ///  preferred and default value is `document_idle`.
@@ -263,7 +263,7 @@ extension RegisteredContentScriptExtension on RegisteredContentScript {
 
   ///  Specifies if this content script will persist into future sessions. The
   ///  default is true.
-  external bool? get persistAcrossSessions;
+  external JSBoolean? get persistAcrossSessions;
 
   ///  The JavaScript "world" to run the script in. Defaults to
   ///  `ISOLATED`.

@@ -25,13 +25,13 @@ extension JSTtsEngineExtension on JSTtsEngine {
 
   /// Routes a TTS event from a speech engine to a client.
   external void sendTtsEvent(
-    int requestId,
+    JSNumber requestId,
     TtsEvent event,
   );
 
   /// Routes TTS audio from a speech engine to a client.
   external void sendTtsAudio(
-    int requestId,
+    JSNumber requestId,
     AudioBuffer audio,
   );
 
@@ -70,12 +70,12 @@ class SpeakOptions {}
 
 extension SpeakOptionsExtension on SpeakOptions {
   /// The name of the voice to use for synthesis.
-  external String? get voiceName;
+  external JSString? get voiceName;
 
   /// The language to be used for synthesis, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external String? get lang;
+  external JSString? get lang;
 
   /// Gender of voice for synthesized speech.
   external VoiceGender? get gender;
@@ -86,15 +86,15 @@ extension SpeakOptionsExtension on SpeakOptions {
   /// and 10.0, inclusive. When a voice does not support this full range of
   /// rates, don't return an error. Instead, clip the rate to the range the
   /// voice supports.
-  external num? get rate;
+  external JSNumber? get rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to this voice's default pitch.
-  external num? get pitch;
+  external JSNumber? get pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external num? get volume;
+  external JSNumber? get volume;
 }
 
 @JS()
@@ -103,10 +103,10 @@ class AudioStreamOptions {}
 
 extension AudioStreamOptionsExtension on AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
-  external int get sampleRate;
+  external JSNumber get sampleRate;
 
   /// The number of samples within an audio buffer.
-  external int get bufferSize;
+  external JSNumber get bufferSize;
 }
 
 @JS()
@@ -121,8 +121,8 @@ extension AudioBufferExtension on AudioBuffer {
   external JSAny get audioBuffer;
 
   /// The character index associated with this audio buffer.
-  external int? get charIndex;
+  external JSNumber? get charIndex;
 
   /// True if this audio buffer is the last for the text being spoken.
-  external bool? get isLastBuffer;
+  external JSBoolean? get isLastBuffer;
 }

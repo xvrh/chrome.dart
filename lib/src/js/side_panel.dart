@@ -48,7 +48,7 @@ class SidePanel {}
 
 extension SidePanelExtension on SidePanel {
   ///  Developer specified path for side panel display.
-  external String get default_path;
+  external JSString get default_path;
 }
 
 @JS()
@@ -69,15 +69,15 @@ extension PanelOptionsExtension on PanelOptions {
   ///  tab that doesn't have specific settings). Note: if the same path is set
   ///  for this tabId and the default tabId, then the panel for this tabId will
   ///  be a different instance than the panel for the default tabId.
-  external int? get tabId;
+  external JSNumber? get tabId;
 
   ///  The path to the side panel HTML file to use. This must be a local
   ///  resource within the extension package.
-  external String? get path;
+  external JSString? get path;
 
   ///  Whether the side panel should be enabled. This is optional. The default
   ///  value is true.
-  external bool? get enabled;
+  external JSBoolean? get enabled;
 }
 
 @JS()
@@ -87,7 +87,7 @@ class PanelBehavior {}
 extension PanelBehaviorExtension on PanelBehavior {
   ///  Whether clicking the extension's icon will toggle showing the extension's
   ///  entry in the side panel. Defaults to false.
-  external bool? get openPanelOnActionClick;
+  external JSBoolean? get openPanelOnActionClick;
 }
 
 @JS()
@@ -98,5 +98,5 @@ extension GetPanelOptionsExtension on GetPanelOptions {
   ///  If specified, the side panel options for the given tab will be returned.
   ///  Otherwise, returns the default side panel options (used for any tab that
   ///  doesn't have specific settings).
-  external int? get tabId;
+  external JSNumber? get tabId;
 }

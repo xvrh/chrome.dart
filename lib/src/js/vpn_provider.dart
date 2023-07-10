@@ -19,7 +19,7 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |callback|: Called when the configuration is created or if there is an
   ///  error.
   external void createConfig(
-    String name,
+    JSString name,
     JSFunction callback,
   );
 
@@ -28,7 +28,7 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |callback|: Called when the configuration is destroyed or if there is an
   ///  error.
   external void destroyConfig(
-    String id,
+    JSString id,
     JSFunction callback,
   );
 
@@ -115,14 +115,14 @@ class Parameters {}
 extension ParametersExtension on Parameters {
   ///  IP address for the VPN interface in CIDR notation.
   ///  IPv4 is currently the only supported mode.
-  external String get address;
+  external JSString get address;
 
   ///  Broadcast address for the VPN interface. (default: deduced
   ///  from IP address and mask)
-  external String? get broadcastAddress;
+  external JSString? get broadcastAddress;
 
   ///  MTU setting for the VPN interface. (default: 1500 bytes)
-  external String? get mtu;
+  external JSString? get mtu;
 
   ///  Exclude network traffic to the list of IP blocks in CIDR notation from
   ///  the tunnel. This can be used to bypass traffic to and from the VPN
@@ -165,5 +165,5 @@ extension ParametersExtension on Parameters {
   ///  This property is new in Chrome 51; it will generate an exception in
   ///  earlier versions. try/catch can be used to conditionally enable the
   ///  feature based on browser support.
-  external String? get reconnect;
+  external JSString? get reconnect;
 }

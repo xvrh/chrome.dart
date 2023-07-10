@@ -28,11 +28,11 @@ class Command {}
 
 extension CommandExtension on Command {
   /// The name of the Extension Command
-  external String? get name;
+  external JSString? get name;
 
   /// The Extension Command description
-  external String? get description;
+  external JSString? get description;
 
   /// The shortcut active for this command, or blank if not active.
-  external String? get shortcut;
+  external JSString? get shortcut;
 }

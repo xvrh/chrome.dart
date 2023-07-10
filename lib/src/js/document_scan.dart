@@ -32,7 +32,7 @@ extension ScanOptionsExtension on ScanOptions {
   external JSArray? get mimeTypes;
 
   ///  The number of scanned images allowed (defaults to 1).
-  external int? get maxImages;
+  external JSNumber? get maxImages;
 }
 
 @JS()
@@ -45,5 +45,5 @@ extension ScanResultsExtension on ScanResults {
   external JSArray get dataUrls;
 
   ///  The MIME type of `dataUrls`.
-  external String get mimeType;
+  external JSString get mimeType;
 }

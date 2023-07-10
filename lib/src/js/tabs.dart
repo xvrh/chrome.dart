@@ -16,7 +16,7 @@ class JSTabs {}
 
 extension JSTabsExtension on JSTabs {
   /// Retrieves details about the specified tab.
-  external JSPromise get(int tabId);
+  external JSPromise get(JSNumber tabId);
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
@@ -28,7 +28,7 @@ extension JSTabsExtension on JSTabs {
   /// the specified tab for the current extension. For more details, see <a
   /// href='messaging'>Content Script Messaging</a>.
   external Port connect(
-    int tabId,
+    JSNumber tabId,
     ConnectInfo? connectInfo,
   );
 
@@ -37,7 +37,7 @@ extension JSTabsExtension on JSTabs {
   /// $(ref:extension.onRequest) event is fired in each content script running
   /// in the specified tab for the current extension.
   external JSPromise sendRequest(
-    int tabId,
+    JSNumber tabId,
     JSAny request,
   );
 
@@ -46,22 +46,22 @@ extension JSTabsExtension on JSTabs {
   /// $(ref:runtime.onMessage) event is fired in each content script running in
   /// the specified tab for the current extension.
   external JSPromise sendMessage(
-    int tabId,
+    JSNumber tabId,
     JSAny message,
     SendMessageOptions? options,
   );
 
   /// Gets the tab that is selected in the specified window.
-  external JSPromise getSelected(int? windowId);
+  external JSPromise getSelected(JSNumber? windowId);
 
   /// Gets details about all tabs in the specified window.
-  external JSPromise getAllInWindow(int? windowId);
+  external JSPromise getAllInWindow(JSNumber? windowId);
 
   /// Creates a new tab.
   external JSPromise create(CreateProperties createProperties);
 
   /// Duplicates a tab.
-  external JSPromise duplicate(int tabId);
+  external JSPromise duplicate(JSNumber tabId);
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
@@ -74,7 +74,7 @@ extension JSTabsExtension on JSTabs {
   /// Modifies the properties of a tab. Properties that are not specified in
   /// `updateProperties` are not modified.
   external JSPromise update(
-    int? tabId,
+    JSNumber? tabId,
     UpdateProperties updateProperties,
   );
 
@@ -88,7 +88,7 @@ extension JSTabsExtension on JSTabs {
 
   /// Reload a tab.
   external JSPromise reload(
-    int? tabId,
+    JSNumber? tabId,
     ReloadProperties? reloadProperties,
   );
 
@@ -104,7 +104,7 @@ extension JSTabsExtension on JSTabs {
   external JSPromise ungroup(JSObject tabIds);
 
   /// Detects the primary language of the content in a tab.
-  external JSPromise detectLanguage(int? tabId);
+  external JSPromise detectLanguage(JSNumber? tabId);
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
@@ -116,7 +116,7 @@ extension JSTabsExtension on JSTabs {
   /// only be captured with the activeTab permission. File URLs may be captured
   /// only if the extension has been granted file access.
   external JSPromise captureVisibleTab(
-    int? windowId,
+    JSNumber? windowId,
     ImageDetails? options,
   );
 
@@ -124,7 +124,7 @@ extension JSTabsExtension on JSTabs {
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
   external JSPromise executeScript(
-    int? tabId,
+    JSNumber? tabId,
     InjectDetails details,
   );
 
@@ -133,45 +133,45 @@ extension JSTabsExtension on JSTabs {
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
   external JSPromise insertCSS(
-    int? tabId,
+    JSNumber? tabId,
     InjectDetails details,
   );
 
   /// Removes from a page CSS that was previously injected by a call to
   /// $(ref:scripting.insertCSS).
   external JSPromise removeCSS(
-    int? tabId,
+    JSNumber? tabId,
     DeleteInjectionDetails details,
   );
 
   /// Zooms a specified tab.
   external JSPromise setZoom(
-    int? tabId,
-    num zoomFactor,
+    JSNumber? tabId,
+    JSNumber zoomFactor,
   );
 
   /// Gets the current zoom factor of a specified tab.
-  external JSPromise getZoom(int? tabId);
+  external JSPromise getZoom(JSNumber? tabId);
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
   external JSPromise setZoomSettings(
-    int? tabId,
+    JSNumber? tabId,
     ZoomSettings zoomSettings,
   );
 
   /// Gets the current zoom settings of a specified tab.
-  external JSPromise getZoomSettings(int? tabId);
+  external JSPromise getZoomSettings(JSNumber? tabId);
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  external JSPromise discard(int? tabId);
+  external JSPromise discard(JSNumber? tabId);
 
   /// Go foward to the next page, if one is available.
-  external JSPromise goForward(int? tabId);
+  external JSPromise goForward(JSNumber? tabId);
 
   /// Go back to the previous page, if one is available.
-  external JSPromise goBack(int? tabId);
+  external JSPromise goBack(JSNumber? tabId);
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can
@@ -253,7 +253,7 @@ extension MutedInfoExtension on MutedInfo {
   /// Whether the tab is muted (prevented from playing sound). The tab may be
   /// muted even if it has not played or is not currently playing sound.
   /// Equivalent to whether the 'muted' audio indicator is showing.
-  external bool get muted;
+  external JSBoolean get muted;
 
   /// The reason the tab was muted or unmuted. Not set if the tab's mute state
   /// has never been changed.
@@ -261,7 +261,7 @@ extension MutedInfoExtension on MutedInfo {
 
   /// The ID of the extension that changed the muted state. Not set if an
   /// extension was not the reason the muted state last changed.
-  external String? get extensionId;
+  external JSString? get extensionId;
 }
 
 @JS()
@@ -274,47 +274,47 @@ extension TabExtension on Tab {
   /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
   /// be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps
   /// and devtools windows.
-  external int? get id;
+  external JSNumber? get id;
 
   /// The zero-based index of the tab within its window.
-  external int get index;
+  external JSNumber get index;
 
   /// The ID of the group that the tab belongs to.
-  external int get groupId;
+  external JSNumber get groupId;
 
   /// The ID of the window that contains the tab.
-  external int get windowId;
+  external JSNumber get windowId;
 
   /// The ID of the tab that opened this tab, if any. This property is only
   /// present if the opener tab still exists.
-  external int? get openerTabId;
+  external JSNumber? get openerTabId;
 
   /// Whether the tab is selected.
-  external bool get selected;
+  external JSBoolean get selected;
 
   /// Whether the tab is highlighted.
-  external bool get highlighted;
+  external JSBoolean get highlighted;
 
   /// Whether the tab is active in its window. Does not necessarily mean the
   /// window is focused.
-  external bool get active;
+  external JSBoolean get active;
 
   /// Whether the tab is pinned.
-  external bool get pinned;
+  external JSBoolean get pinned;
 
   /// Whether the tab has produced sound over the past couple of seconds (but it
   /// might not be heard if also muted). Equivalent to whether the 'speaker
   /// audio' indicator is showing.
-  external bool? get audible;
+  external JSBoolean? get audible;
 
   /// Whether the tab is discarded. A discarded tab is one whose content has
   /// been unloaded from memory, but is still visible in the tab strip. Its
   /// content is reloaded the next time it is activated.
-  external bool get discarded;
+  external JSBoolean get discarded;
 
   /// Whether the tab can be discarded automatically by the browser when
   /// resources are low.
-  external bool get autoDiscardable;
+  external JSBoolean get autoDiscardable;
 
   /// The tab's muted state and the reason for the last state change.
   external MutedInfo? get mutedInfo;
@@ -323,37 +323,37 @@ extension TabExtension on Tab {
   /// present if the extension's manifest includes the `"tabs"` permission and
   /// may be an empty string if the tab has not yet committed. See also
   /// $(ref:Tab.pendingUrl).
-  external String? get url;
+  external JSString? get url;
 
   /// The URL the tab is navigating to, before it has committed. This property
   /// is only present if the extension's manifest includes the `"tabs"`
   /// permission and there is a pending navigation.
-  external String? get pendingUrl;
+  external JSString? get pendingUrl;
 
   /// The title of the tab. This property is only present if the extension's
   /// manifest includes the `"tabs"` permission.
-  external String? get title;
+  external JSString? get title;
 
   /// The URL of the tab's favicon. This property is only present if the
   /// extension's manifest includes the `"tabs"` permission. It may also be an
   /// empty string if the tab is loading.
-  external String? get favIconUrl;
+  external JSString? get favIconUrl;
 
   /// The tab's loading status.
   external TabStatus? get status;
 
   /// Whether the tab is in an incognito window.
-  external bool get incognito;
+  external JSBoolean get incognito;
 
   /// The width of the tab in pixels.
-  external int? get width;
+  external JSNumber? get width;
 
   /// The height of the tab in pixels.
-  external int? get height;
+  external JSNumber? get height;
 
   /// The session ID used to uniquely identify a tab obtained from the
   /// $(ref:sessions) API.
-  external String? get sessionId;
+  external JSString? get sessionId;
 }
 
 @JS()
@@ -372,7 +372,7 @@ extension ZoomSettingsExtension on ZoomSettings {
 
   /// Used to return the default zoom level for the current tab in calls to
   /// tabs.getZoomSettings.
-  external num? get defaultZoomFactor;
+  external JSNumber? get defaultZoomFactor;
 }
 
 @JS()
@@ -382,16 +382,16 @@ class ConnectInfo {
   external factory ConnectInfo(
     /// Is passed into onConnect for content scripts that are listening for the
     /// connection event.
-    String? name,
+    JSString? name,
 
     /// Open a port to a specific <a href='webNavigation#frame_ids'>frame</a>
     /// identified by `frameId` instead of all frames in the tab.
-    int? frameId,
+    JSNumber? frameId,
 
     /// Open a port to a specific <a
     /// href='webNavigation#document_ids'>document</a> identified by `documentId`
     /// instead of all frames in the tab.
-    String? documentId,
+    JSString? documentId,
   );
 }
 
@@ -402,12 +402,12 @@ class SendMessageOptions {
   external factory SendMessageOptions(
     /// Send a message to a specific <a href='webNavigation#frame_ids'>frame</a>
     /// identified by `frameId` instead of all frames in the tab.
-    int? frameId,
+    JSNumber? frameId,
 
     /// Send a message to a specific <a
     /// href='webNavigation#document_ids'>document</a> identified by `documentId`
     /// instead of all frames in the tab.
-    String? documentId,
+    JSString? documentId,
   );
 }
 
@@ -418,33 +418,33 @@ class CreateProperties {
   external factory CreateProperties(
     /// The window in which to create the new tab. Defaults to the <a
     /// href='windows#current-window'>current window</a>.
-    int? windowId,
+    JSNumber? windowId,
 
     /// The position the tab should take in the window. The provided value is
     /// clamped to between zero and the number of tabs in the window.
-    int? index,
+    JSNumber? index,
 
     /// The URL to initially navigate the tab to. Fully-qualified URLs must
     /// include a scheme (i.e., 'http://www.google.com', not 'www.google.com').
     /// Relative URLs are relative to the current page within the extension.
     /// Defaults to the New Tab Page.
-    String? url,
+    JSString? url,
 
     /// Whether the tab should become the active tab in the window. Does not
     /// affect whether the window is focused (see $(ref:windows.update)). Defaults
     /// to `true`.
-    bool? active,
+    JSBoolean? active,
 
     /// Whether the tab should become the selected tab in the window. Defaults to
     /// `true`
-    bool? selected,
+    JSBoolean? selected,
 
     /// Whether the tab should be pinned. Defaults to `false`
-    bool? pinned,
+    JSBoolean? pinned,
 
     /// The ID of the tab that opened this tab. If specified, the opener tab must
     /// be in the same window as the newly created tab.
-    int? openerTabId,
+    JSNumber? openerTabId,
   );
 }
 
@@ -454,42 +454,42 @@ class CreateProperties {
 class QueryInfo {
   external factory QueryInfo(
     /// Whether the tabs are active in their windows.
-    bool? active,
+    JSBoolean? active,
 
     /// Whether the tabs are pinned.
-    bool? pinned,
+    JSBoolean? pinned,
 
     /// Whether the tabs are audible.
-    bool? audible,
+    JSBoolean? audible,
 
     /// Whether the tabs are muted.
-    bool? muted,
+    JSBoolean? muted,
 
     /// Whether the tabs are highlighted.
-    bool? highlighted,
+    JSBoolean? highlighted,
 
     /// Whether the tabs are discarded. A discarded tab is one whose content has
     /// been unloaded from memory, but is still visible in the tab strip. Its
     /// content is reloaded the next time it is activated.
-    bool? discarded,
+    JSBoolean? discarded,
 
     /// Whether the tabs can be discarded automatically by the browser when
     /// resources are low.
-    bool? autoDiscardable,
+    JSBoolean? autoDiscardable,
 
     /// Whether the tabs are in the <a href='windows#current-window'>current
     /// window</a>.
-    bool? currentWindow,
+    JSBoolean? currentWindow,
 
     /// Whether the tabs are in the last focused window.
-    bool? lastFocusedWindow,
+    JSBoolean? lastFocusedWindow,
 
     /// The tab loading status.
     TabStatus? status,
 
     /// Match page titles against a pattern. This property is ignored if the
     /// extension does not have the `"tabs"` permission.
-    String? title,
+    JSString? title,
 
     /// Match tabs against one or more <a href='match_patterns'>URL patterns</a>.
     /// Fragment identifiers are not matched. This property is ignored if the
@@ -498,17 +498,17 @@ class QueryInfo {
 
     /// The ID of the group that the tabs are in, or
     /// $(ref:tabGroups.TAB_GROUP_ID_NONE) for ungrouped tabs.
-    int? groupId,
+    JSNumber? groupId,
 
     /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
     /// <a href='windows#current-window'>current window</a>.
-    int? windowId,
+    JSNumber? windowId,
 
     /// The type of window the tabs are in.
     WindowType? windowType,
 
     /// The position of the tabs within their windows.
-    int? index,
+    JSNumber? index,
   );
 }
 
@@ -518,7 +518,7 @@ class QueryInfo {
 class HighlightInfo {
   external factory HighlightInfo(
     /// The window that contains the tabs.
-    int? windowId,
+    JSNumber? windowId,
 
     /// One or more tab indices to highlight.
     JSObject tabs,
@@ -532,31 +532,31 @@ class UpdateProperties {
   external factory UpdateProperties(
     /// A URL to navigate the tab to. JavaScript URLs are not supported; use
     /// $(ref:scripting.executeScript) instead.
-    String? url,
+    JSString? url,
 
     /// Whether the tab should be active. Does not affect whether the window is
     /// focused (see $(ref:windows.update)).
-    bool? active,
+    JSBoolean? active,
 
     /// Adds or removes the tab from the current selection.
-    bool? highlighted,
+    JSBoolean? highlighted,
 
     /// Whether the tab should be selected.
-    bool? selected,
+    JSBoolean? selected,
 
     /// Whether the tab should be pinned.
-    bool? pinned,
+    JSBoolean? pinned,
 
     /// Whether the tab should be muted.
-    bool? muted,
+    JSBoolean? muted,
 
     /// The ID of the tab that opened this tab. If specified, the opener tab must
     /// be in the same window as this tab.
-    int? openerTabId,
+    JSNumber? openerTabId,
 
     /// Whether the tab should be discarded automatically by the browser when
     /// resources are low.
-    bool? autoDiscardable,
+    JSBoolean? autoDiscardable,
   );
 }
 
@@ -566,11 +566,11 @@ class UpdateProperties {
 class MoveProperties {
   external factory MoveProperties(
     /// Defaults to the window the tab is currently in.
-    int? windowId,
+    JSNumber? windowId,
 
     /// The position to move the window to. Use `-1` to place the tab at the end
     /// of the window.
-    int index,
+    JSNumber index,
   );
 }
 
@@ -581,7 +581,7 @@ class ReloadProperties {
   external factory ReloadProperties(
 
       /// Whether to bypass local caching. Defaults to `false`.
-      bool? bypassCache);
+      JSBoolean? bypassCache);
 }
 
 @JS()
@@ -594,7 +594,7 @@ class GroupOptions {
 
     /// The ID of the group to add the tabs to. If not specified, a new group will
     /// be created.
-    int? groupId,
+    JSNumber? groupId,
 
     /// Configurations for creating a group. Cannot be used if groupId is already
     /// specified.
@@ -609,5 +609,5 @@ class GroupOptionsCreateProperties {
   external factory GroupOptionsCreateProperties(
 
       /// The window of the new group. Defaults to the current window.
-      int? windowId);
+      JSNumber? windowId);
 }

@@ -55,13 +55,13 @@ class PrinterInfo {}
 
 extension PrinterInfoExtension on PrinterInfo {
   ///  Unique printer ID.
-  external String get id;
+  external JSString get id;
 
   ///  Printer's human readable name.
-  external String get name;
+  external JSString get name;
 
   ///  Printer's human readable description.
-  external String? get description;
+  external JSString? get description;
 }
 
 @JS()
@@ -70,10 +70,10 @@ class PrintJob {}
 
 extension PrintJobExtension on PrintJob {
   ///  ID of the printer which should handle the job.
-  external String get printerId;
+  external JSString get printerId;
 
   ///  The print job title.
-  external String get title;
+  external JSString get title;
 
   ///  Print ticket in
   ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
@@ -82,7 +82,7 @@ extension PrintJobExtension on PrintJob {
 
   ///  The document content type. Supported formats are
   ///  `"application/pdf"` and `"image/pwg-raster"`.
-  external String get contentType;
+  external JSString get contentType;
 
   ///  Blob containing the document data to print. Format must match
   ///  |contentType|.

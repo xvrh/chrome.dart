@@ -29,16 +29,16 @@ class SetWallpaperDetails {
     JSAny? data,
 
     /// The URL of the wallpaper to be set (can be relative).
-    String? url,
+    JSString? url,
 
     /// The supported wallpaper layouts.
     WallpaperLayout layout,
 
     /// The file name of the saved wallpaper.
-    String filename,
+    JSString filename,
 
     /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
     /// supported yet.
-    bool? thumbnail,
+    JSBoolean? thumbnail,
   );
 }

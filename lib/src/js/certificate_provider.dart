@@ -128,7 +128,7 @@ extension SetCertificatesDetailsExtension on SetCertificatesDetails {
   ///  When called in response to $(ref:onCertificatesUpdateRequested), should
   ///  contain the received `certificatesRequestId` value. Otherwise,
   ///  should be unset.
-  external int? get certificatesRequestId;
+  external JSNumber? get certificatesRequestId;
 
   ///  Error that occurred while extracting the certificates, if any. This error
   ///  will be surfaced to the user when appropriate.
@@ -144,7 +144,7 @@ class CertificatesUpdateRequest {}
 
 extension CertificatesUpdateRequestExtension on CertificatesUpdateRequest {
   ///  Request identifier to be passed to $(ref:setCertificates).
-  external int get certificatesRequestId;
+  external JSNumber get certificatesRequestId;
 }
 
 @JS()
@@ -153,7 +153,7 @@ class SignatureRequest {}
 
 extension SignatureRequestExtension on SignatureRequest {
   ///  Request identifier to be passed to $(ref:reportSignature).
-  external int get signRequestId;
+  external JSNumber get signRequestId;
 
   ///  Data to be signed. Note that the data is not hashed.
   external JSArrayBuffer get input;
@@ -173,7 +173,7 @@ class ReportSignatureDetails {}
 extension ReportSignatureDetailsExtension on ReportSignatureDetails {
   ///  Request identifier that was received via the $(ref:onSignatureRequested)
   ///  event.
-  external int get signRequestId;
+  external JSNumber get signRequestId;
 
   ///  Error that occurred while generating the signature, if any.
   external Error? get error;
@@ -204,7 +204,7 @@ class SignRequest {}
 extension SignRequestExtension on SignRequest {
   ///  The unique ID to be used by the extension should it need to call a method
   ///  that requires it, e.g. requestPin.
-  external int get signRequestId;
+  external JSNumber get signRequestId;
 
   ///  The digest that must be signed.
   external JSArrayBuffer get digest;
@@ -223,7 +223,7 @@ class RequestPinDetails {}
 
 extension RequestPinDetailsExtension on RequestPinDetails {
   ///  The ID given by Chrome in SignRequest.
-  external int get signRequestId;
+  external JSNumber get signRequestId;
 
   ///  The type of code requested. Default is PIN.
   external PinRequestType? get requestType;
@@ -237,7 +237,7 @@ extension RequestPinDetailsExtension on RequestPinDetails {
   ///  instead stopPinRequest should be called by the extension with
   ///  errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
   ///  exceeded.
-  external int? get attemptsLeft;
+  external JSNumber? get attemptsLeft;
 }
 
 @JS()
@@ -246,7 +246,7 @@ class StopPinRequestDetails {}
 
 extension StopPinRequestDetailsExtension on StopPinRequestDetails {
   ///  The ID given by Chrome in SignRequest.
-  external int get signRequestId;
+  external JSNumber get signRequestId;
 
   ///  The error template. If present it is displayed to user. Intended to
   ///  contain the reason for stopping the flow if it was caused by an error,
@@ -261,5 +261,5 @@ class PinResponseDetails {}
 extension PinResponseDetailsExtension on PinResponseDetails {
   ///  The code provided by the user. Empty if user closed the dialog or some
   ///  other error occurred.
-  external String? get userInput;
+  external JSString? get userInput;
 }

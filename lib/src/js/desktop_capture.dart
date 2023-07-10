@@ -15,7 +15,7 @@ class JSDesktopCapture {}
 
 extension JSDesktopCaptureExtension on JSDesktopCapture {
   /// Shows desktop media picker UI with the specified set of sources.
-  external int chooseDesktopMedia(
+  external JSNumber chooseDesktopMedia(
     JSArray sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
@@ -23,7 +23,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
-  external void cancelChooseDesktopMedia(int desktopMediaRequestId);
+  external void cancelChooseDesktopMedia(JSNumber desktopMediaRequestId);
 }
 
 /// Enum used to define set of desktop media sources used in
@@ -54,6 +54,6 @@ class ChooseDesktopMediaOptions {
     /// Indicates that the caller intends to perform local audio suppression, and
     /// that the media picker shown to the user should therefore reflect that with
     /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
-    bool? suppressLocalAudioPlaybackIntended,
+    JSBoolean? suppressLocalAudioPlaybackIntended,
   );
 }

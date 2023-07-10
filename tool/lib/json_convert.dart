@@ -59,9 +59,9 @@ class JsonModelConverter {
   Iterable<Property> _functionParameters(JsonFunction function) sync* {
     for (var param in function.parameters) {
       var name = param.name!;
-      var parameterType =
-          _addSyntheticTypeIfNeeded(param, name, function.name) ??
-              _propertyType(param);
+      var parameterType = _addSyntheticTypeIfNeeded(param, name, function.name,
+              anonymous: true) ??
+          _propertyType(param);
 
       yield Property(
         name,
@@ -73,7 +73,8 @@ class JsonModelConverter {
   }
 
   TypeRef? _addSyntheticTypeIfNeeded(
-      JsonProperty property, String name, String parent) {
+      JsonProperty property, String name, String parent,
+      {required bool anonymous}) {
     TypeRef? type;
     if (property.properties != null) {
       var typeName = upperCamel(
@@ -82,7 +83,7 @@ class JsonModelConverter {
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           properties: property.properties)
-        ..isAnonymous = true);
+        ..isAnonymous = anonymous);
     } else if (property.enums != null) {
       var typeName = upperCamel(
           splitWords('${name.startsWith(parent) ? '' : parent} $name'));
@@ -93,7 +94,7 @@ class JsonModelConverter {
     } else if (property.items case var items?) {
       if (items.$ref == null) {
         if (items.properties != null) {
-          _addSyntheticTypeIfNeeded(items, name, parent);
+          _addSyntheticTypeIfNeeded(items, name, parent, anonymous: anonymous);
         } else if (items.enums != null) {
           throw UnimplementedError('$parent $name');
         }
@@ -108,7 +109,8 @@ class JsonModelConverter {
       var properties = <Property>[];
       if (t.properties != null) {
         for (var e in t.properties!.entries) {
-          var propertyType = _addSyntheticTypeIfNeeded(e.value, e.key, t.id) ??
+          var propertyType = _addSyntheticTypeIfNeeded(e.value, e.key, t.id,
+                  anonymous: t.isAnonymous) ??
               _propertyType(e.value);
 
           if (e.value.parameters != null) {

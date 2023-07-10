@@ -151,17 +151,16 @@ extension DataTypeSetExtension on DataTypeSet {
 
 @JS()
 @staticInterop
-@anonymous
-class RemovalOptionsOriginTypes {
-  external factory RemovalOptionsOriginTypes(
-    /// Normal websites.
-    bool? unprotectedWeb,
+class RemovalOptionsOriginTypes {}
 
-    /// Websites that have been installed as hosted applications (be careful!).
-    bool? protectedWeb,
+extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
+  /// Normal websites.
+  external bool? get unprotectedWeb;
 
-    /// Extensions and packaged applications a user has installed (be _really_
-    /// careful!).
-    bool? extension,
-  );
+  /// Websites that have been installed as hosted applications (be careful!).
+  external bool? get protectedWeb;
+
+  /// Extensions and packaged applications a user has installed (be _really_
+  /// careful!).
+  external bool? get extension;
 }

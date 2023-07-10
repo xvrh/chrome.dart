@@ -12,10 +12,10 @@ extension ChromeChromeEnterpriseNetworkingAttributesExtension on Chrome {
 class ChromeEnterpriseNetworkingAttributes {
   ChromeEnterpriseNetworkingAttributes._();
 
-  ///  Retrieves the network details of the device's default network.
-  ///  If the user is not affiliated or the device is not connected to a
-  ///  network, $(ref:runtime.lastError) will be set with a failure reason.
-  ///  |callback| : Called with the device's default network's
-  ///  $(ref:NetworkDetails).
+  /// Retrieves the network details of the device's default network.
+  /// If the user is not affiliated or the device is not connected to a
+  /// network, $(ref:runtime.lastError) will be set with a failure reason.
+  /// |callback| : Called with the device's default network's
+  /// $(ref:NetworkDetails).
   void getNetworkDetails() => throw UnimplementedError();
 }

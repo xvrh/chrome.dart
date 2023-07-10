@@ -3,7 +3,7 @@ import 'dart:js_interop';
 export 'chrome.dart';
 
 extension JSChromeJSSidePanelExtension on JSChrome {
-  ///  chrome.sidePanel API
+  /// chrome.sidePanel API
   external JSSidePanel get sidePanel;
 }
 
@@ -12,33 +12,33 @@ extension JSChromeJSSidePanelExtension on JSChrome {
 class JSSidePanel {}
 
 extension JSSidePanelExtension on JSSidePanel {
-  ///  Configures the side panel.
-  ///  |options|: The configuration options to apply to the panel.
-  ///  |callback|: Invoked when the options have been set.
+  /// Configures the side panel.
+  /// |options|: The configuration options to apply to the panel.
+  /// |callback|: Invoked when the options have been set.
   external void setOptions(
     PanelOptions options,
     JSFunction callback,
   );
 
-  ///  Returns the active panel configuration.
-  ///  |options|: Specifies the context to return the configuration for.
-  ///  |callback|: Called with the active panel configuration.
+  /// Returns the active panel configuration.
+  /// |options|: Specifies the context to return the configuration for.
+  /// |callback|: Called with the active panel configuration.
   external void getOptions(
     GetPanelOptions options,
     JSFunction callback,
   );
 
-  ///  Configures the extension's side panel behavior. This is an upsert
-  ///  operation.
-  ///  |behavior|: The new behavior to be set.
-  ///  |callback|: Called when the new behavior has been set.
+  /// Configures the extension's side panel behavior. This is an upsert
+  /// operation.
+  /// |behavior|: The new behavior to be set.
+  /// |callback|: Called when the new behavior has been set.
   external void setPanelBehavior(
     PanelBehavior behavior,
     JSFunction callback,
   );
 
-  ///  Returns the extension's current side panel behavior.
-  ///  |callback|: Called with the extension's side panel behavior.
+  /// Returns the extension's current side panel behavior.
+  /// |callback|: Called with the extension's side panel behavior.
   external void getPanelBehavior(JSFunction callback);
 }
 
@@ -47,7 +47,7 @@ extension JSSidePanelExtension on JSSidePanel {
 class SidePanel {}
 
 extension SidePanelExtension on SidePanel {
-  ///  Developer specified path for side panel display.
+  /// Developer specified path for side panel display.
   external JSString get default_path;
 }
 
@@ -64,19 +64,19 @@ extension ManifestKeysExtension on ManifestKeys {
 class PanelOptions {}
 
 extension PanelOptionsExtension on PanelOptions {
-  ///  If specified, the side panel options will only apply to the tab with
-  ///  this id. If omitted, these options set the default behavior (used for any
-  ///  tab that doesn't have specific settings). Note: if the same path is set
-  ///  for this tabId and the default tabId, then the panel for this tabId will
-  ///  be a different instance than the panel for the default tabId.
+  /// If specified, the side panel options will only apply to the tab with
+  /// this id. If omitted, these options set the default behavior (used for any
+  /// tab that doesn't have specific settings). Note: if the same path is set
+  /// for this tabId and the default tabId, then the panel for this tabId will
+  /// be a different instance than the panel for the default tabId.
   external JSNumber? get tabId;
 
-  ///  The path to the side panel HTML file to use. This must be a local
-  ///  resource within the extension package.
+  /// The path to the side panel HTML file to use. This must be a local
+  /// resource within the extension package.
   external JSString? get path;
 
-  ///  Whether the side panel should be enabled. This is optional. The default
-  ///  value is true.
+  /// Whether the side panel should be enabled. This is optional. The default
+  /// value is true.
   external JSBoolean? get enabled;
 }
 
@@ -85,8 +85,8 @@ extension PanelOptionsExtension on PanelOptions {
 class PanelBehavior {}
 
 extension PanelBehaviorExtension on PanelBehavior {
-  ///  Whether clicking the extension's icon will toggle showing the extension's
-  ///  entry in the side panel. Defaults to false.
+  /// Whether clicking the extension's icon will toggle showing the extension's
+  /// entry in the side panel. Defaults to false.
   external JSBoolean? get openPanelOnActionClick;
 }
 
@@ -95,8 +95,8 @@ extension PanelBehaviorExtension on PanelBehavior {
 class GetPanelOptions {}
 
 extension GetPanelOptionsExtension on GetPanelOptions {
-  ///  If specified, the side panel options for the given tab will be returned.
-  ///  Otherwise, returns the default side panel options (used for any tab that
-  ///  doesn't have specific settings).
+  /// If specified, the side panel options for the given tab will be returned.
+  /// Otherwise, returns the default side panel options (used for any tab that
+  /// doesn't have specific settings).
   external JSNumber? get tabId;
 }

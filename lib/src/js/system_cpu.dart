@@ -3,7 +3,7 @@ import 'dart:js_interop';
 export 'chrome.dart';
 
 extension JSChromeJSSystemCpuExtension on JSChrome {
-  ///  Use the `system.cpu` API to query CPU metadata.
+  /// Use the `system.cpu` API to query CPU metadata.
   external JSSystemCpu get systemCpu;
 }
 
@@ -12,7 +12,7 @@ extension JSChromeJSSystemCpuExtension on JSChrome {
 class JSSystemCpu {}
 
 extension JSSystemCpuExtension on JSSystemCpu {
-  ///  Queries basic CPU information of the system.
+  /// Queries basic CPU information of the system.
   external void getInfo(JSFunction callback);
 }
 
@@ -21,17 +21,17 @@ extension JSSystemCpuExtension on JSSystemCpu {
 class CpuTime {}
 
 extension CpuTimeExtension on CpuTime {
-  ///  The cumulative time used by userspace programs on this processor.
+  /// The cumulative time used by userspace programs on this processor.
   external double get user;
 
-  ///  The cumulative time used by kernel programs on this processor.
+  /// The cumulative time used by kernel programs on this processor.
   external double get kernel;
 
-  ///  The cumulative time spent idle by this processor.
+  /// The cumulative time spent idle by this processor.
   external double get idle;
 
-  ///  The total cumulative time for this processor.  This value is equal to
-  ///  user + kernel + idle.
+  /// The total cumulative time for this processor.  This value is equal to
+  /// user + kernel + idle.
   external double get total;
 }
 
@@ -40,7 +40,7 @@ extension CpuTimeExtension on CpuTime {
 class ProcessorInfo {}
 
 extension ProcessorInfoExtension on ProcessorInfo {
-  ///  Cumulative usage info for this logical processor.
+  /// Cumulative usage info for this logical processor.
   external CpuTime get usage;
 }
 
@@ -49,26 +49,26 @@ extension ProcessorInfoExtension on ProcessorInfo {
 class CpuInfo {}
 
 extension CpuInfoExtension on CpuInfo {
-  ///  The number of logical processors.
+  /// The number of logical processors.
   external JSNumber get numOfProcessors;
 
-  ///  The architecture name of the processors.
+  /// The architecture name of the processors.
   external JSString get archName;
 
-  ///  The model name of the processors.
+  /// The model name of the processors.
   external JSString get modelName;
 
-  ///  A set of feature codes indicating some of the processor's capabilities.
-  ///  The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",
-  ///  "sse4_1", "sse4_2", and "avx".
+  /// A set of feature codes indicating some of the processor's capabilities.
+  /// The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",
+  /// "sse4_1", "sse4_2", and "avx".
   external JSArray get features;
 
-  ///  Information about each logical processor.
+  /// Information about each logical processor.
   external JSArray get processors;
 
-  ///  List of CPU temperature readings from each thermal zone of the CPU.
-  ///  Temperatures are in degrees Celsius.
+  /// List of CPU temperature readings from each thermal zone of the CPU.
+  /// Temperatures are in degrees Celsius.
   ///
-  ///  **Currently supported on Chrome OS only.**
+  /// **Currently supported on Chrome OS only.**
   external JSArray get temperatures;
 }

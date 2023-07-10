@@ -10,7 +10,7 @@ extension ChromeChromeSystemNetworkExtension on Chrome {
 class ChromeSystemNetwork {
   ChromeSystemNetwork._();
 
-  ///  Retrieves information about local adapters on this system.
-  ///  |callback| : Called when local adapter information is available.
+  /// Retrieves information about local adapters on this system.
+  /// |callback| : Called when local adapter information is available.
   void getNetworkInterfaces() => throw UnimplementedError();
 }

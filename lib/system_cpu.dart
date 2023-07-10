@@ -10,6 +10,6 @@ extension ChromeChromeSystemCpuExtension on Chrome {
 class ChromeSystemCpu {
   ChromeSystemCpu._();
 
-  ///  Queries basic CPU information of the system.
+  /// Queries basic CPU information of the system.
   void getInfo() => throw UnimplementedError();
 }

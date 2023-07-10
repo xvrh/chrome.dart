@@ -311,7 +311,11 @@ class ChromeIDLGrammar extends GrammarDefinition {
         string('//'),
         ref0(newlineLexicalToken).neg().star(),
         ref0(newlineLexicalToken).optional()
-      ).toSequenceParser().map3((_, e, __) => e.join());
+      ).toSequenceParser().map3((_, e, __) {
+        var line = e.join();
+        if (line.startsWith(' ')) return line.substring(1);
+        return line;
+      });
 
   Parser<String> multiLineComment() => (
         [string('/**'), string('/*')].toChoiceParser(),

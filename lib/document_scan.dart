@@ -10,9 +10,9 @@ extension ChromeChromeDocumentScanExtension on Chrome {
 class ChromeDocumentScan {
   ChromeDocumentScan._();
 
-  ///  Performs a document scan.  On success, the PNG data will be
-  ///  sent to the callback.
-  ///  |options| : Object containing scan parameters.
-  ///  |callback| : Called with the result and data from the scan.
+  /// Performs a document scan.  On success, the PNG data will be
+  /// sent to the callback.
+  /// |options| : Object containing scan parameters.
+  /// |callback| : Called with the result and data from the scan.
   void scan(options) => throw UnimplementedError();
 }

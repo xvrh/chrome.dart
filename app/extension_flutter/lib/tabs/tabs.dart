@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:js_interop';
 import 'dart:js_util';
 
-import 'js.dart' as binding;
+import 'package:chrome/src/js/tabs.dart' as binding;
 
 // tabs.dart
 final tabs = TabsApi();
@@ -10,10 +10,8 @@ final tabs = TabsApi();
 class TabsApi {
   Future<List<Tab>> query({QueryInfo? queryInfo}) async {
     var jsTab = await promiseToFuture<JSArray>(
-        binding.tabs.query(queryInfo?.toJS ?? binding.JSQueryInfo()));
-    return jsTab.toDart
-        .map((JSAny? e) => (e! as binding.JSTab).toDart)
-        .toList();
+        binding.chrome.tabs.query(queryInfo?.toJS ?? binding.QueryInfo()));
+    return jsTab.toDart.map((JSAny? e) => (e! as binding.Tab).toDart).toList();
   }
 
   Future<Tab> create({
@@ -22,9 +20,9 @@ class TabsApi {
     String? url,
   }) async {
     var completer = Completer<Tab>();
-    binding.tabs.create(
-      binding.JSCreateProperties(active: active, index: index, url: url),
-      (binding.JSTab tab) {
+    binding.chrome.tabs.create(
+      binding.CreateProperties(active: active, index: index, url: url),
+      (binding.Tab tab) {
         completer.complete(tab.toDart);
       }.toJS,
     );
@@ -131,7 +129,7 @@ class Tab {
   });
 }
 
-extension on binding.JSTab {
+extension on binding.Tab {
   Tab get toDart => Tab(
         title: title,
         active: active,
@@ -150,10 +148,10 @@ enum TabStatus {
 
   const TabStatus(this.value);
 
-  static TabStatus _fromJS(binding.JSTabStatus status) =>
+  static TabStatus _fromJS(binding.TabStatus status) =>
       TabStatus.values.firstWhere((e) => e.value == status);
 
-  binding.JSTabStatus get toJS => value;
+  binding.TabStatus get toJS => value;
 }
 
 class OnMoveEvent {
@@ -164,7 +162,7 @@ class OnMoveEvent {
 }
 
 class MoveInfo {
-  final binding.JSMoveInfo _object;
+  final binding.MoveInfo _object;
 
   // Questions:
   //  - Should we always generate setter
@@ -187,13 +185,13 @@ class MoveInfo {
 
   MoveInfo(
       {required int windowId, required int fromIndex, required int toIndex})
-      : _object = binding.JSMoveInfo()
+      : _object = binding.MoveInfo()
           ..windowId = windowId
           ..fromIndex = fromIndex
           ..toIndex = toIndex;
 }
 
-extension on binding.JSMoveInfo {
+extension on binding.MoveInfo {
   ({int windowId, int fromIndex, int toIndex}) get toRecord => (
         windowId: windowId,
         fromIndex: fromIndex,

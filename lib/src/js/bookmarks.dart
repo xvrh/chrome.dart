@@ -157,18 +157,18 @@ extension CreateDetailsExtension on CreateDetails {
 @staticInterop
 @anonymous
 class MoveDestination {
-  external factory MoveDestination(
+  external factory MoveDestination({
     JSString? parentId,
     JSNumber? index,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class UpdateChanges {
-  external factory UpdateChanges(
+  external factory UpdateChanges({
     JSString? title,
     JSString? url,
-  );
+  });
 }

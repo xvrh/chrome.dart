@@ -24,7 +24,7 @@ extension JSPageCaptureExtension on JSPageCapture {
 @anonymous
 class SaveAsMHTMLDetails {
   external factory SaveAsMHTMLDetails(
-
+      {
       /// The id of the tab to save as MHTML.
-      JSNumber tabId);
+      JSNumber tabId});
 }

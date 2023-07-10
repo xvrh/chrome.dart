@@ -199,16 +199,16 @@ extension ContentSettingExtension on ContentSetting {
 @anonymous
 class ClearDetails {
   external factory ClearDetails(
-
+      {
       /// Where to clear the setting (default: regular).
-      Scope? scope);
+      Scope? scope});
 }
 
 @JS()
 @staticInterop
 @anonymous
 class GetDetails {
-  external factory GetDetails(
+  external factory GetDetails({
     /// The primary URL for which the content setting should be retrieved. Note
     /// that the meaning of a primary URL depends on the content type.
     JSString primaryUrl,
@@ -225,14 +225,14 @@ class GetDetails {
     /// Whether to check the content settings for an incognito session. (default
     /// false)
     JSBoolean? incognito,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetDetails {
-  external factory SetDetails(
+  external factory SetDetails({
     /// The pattern for the primary URL. For details on the format of a pattern,
     /// see <a href='contentSettings#patterns'>Content Setting Patterns</a>.
     JSString primaryPattern,
@@ -251,5 +251,5 @@ class SetDetails {
 
     /// Where to set the setting (default: regular).
     Scope? scope,
-  );
+  });
 }

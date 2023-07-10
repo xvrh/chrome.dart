@@ -1,7 +1,7 @@
 // Separate completely the low and high abstraction
 
 // binding.dart
-
+/*
 import 'dart:js_interop';
 
 @JS('chrome.tabs')
@@ -73,3 +73,4 @@ extension JSMoveInfoExtension on JSMoveInfo {
 }
 
 typedef JSTabStatus = String;
+*/

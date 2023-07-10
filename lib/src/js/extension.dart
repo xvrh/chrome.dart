@@ -82,7 +82,7 @@ typedef ViewType = JSString;
 @staticInterop
 @anonymous
 class GetViewsFetchProperties {
-  external factory GetViewsFetchProperties(
+  external factory GetViewsFetchProperties({
     /// The type of view to get. If omitted, returns all views (including
     /// background pages and tabs).
     ViewType? type,
@@ -93,5 +93,5 @@ class GetViewsFetchProperties {
     /// Find a view according to a tab id. If this field is omitted, returns all
     /// views.
     JSNumber? tabId,
-  );
+  });
 }

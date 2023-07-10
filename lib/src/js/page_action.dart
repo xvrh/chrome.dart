@@ -68,20 +68,20 @@ extension TabDetailsExtension on TabDetails {
 @staticInterop
 @anonymous
 class SetTitleDetails {
-  external factory SetTitleDetails(
+  external factory SetTitleDetails({
     /// The id of the tab for which you want to modify the page action.
     JSNumber tabId,
 
     /// The tooltip string.
     JSString title,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetIconDetails {
-  external factory SetIconDetails(
+  external factory SetIconDetails({
     /// The id of the tab for which you want to modify the page action.
     JSNumber tabId,
 
@@ -106,19 +106,19 @@ class SetIconDetails {
 
     /// **Deprecated.** This argument is ignored.
     JSNumber? iconIndex,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetPopupDetails {
-  external factory SetPopupDetails(
+  external factory SetPopupDetails({
     /// The id of the tab for which you want to modify the page action.
     JSNumber tabId,
 
     /// The relative path to the HTML file to show in a popup. If set to the empty
     /// string (`''`), no popup is shown.
     JSString popup,
-  );
+  });
 }

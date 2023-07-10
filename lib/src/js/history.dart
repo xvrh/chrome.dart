@@ -112,7 +112,7 @@ extension UrlDetailsExtension on UrlDetails {
 @staticInterop
 @anonymous
 class SearchQuery {
-  external factory SearchQuery(
+  external factory SearchQuery({
     /// A free-text query to the history service.  Leave empty to retrieve all
     /// pages.
     JSString text,
@@ -128,14 +128,14 @@ class SearchQuery {
 
     /// The maximum number of results to retrieve.  Defaults to 100.
     JSNumber? maxResults,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class DeleteRangeRange {
-  external factory DeleteRangeRange(
+  external factory DeleteRangeRange({
     /// Items added to history after this date, represented in milliseconds since
     /// the epoch.
     JSNumber startTime,
@@ -143,5 +143,5 @@ class DeleteRangeRange {
     /// Items added to history before this date, represented in milliseconds since
     /// the epoch.
     JSNumber endTime,
-  );
+  });
 }

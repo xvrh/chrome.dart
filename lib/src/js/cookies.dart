@@ -143,7 +143,7 @@ extension CookieDetailsExtension on CookieDetails {
 @staticInterop
 @anonymous
 class GetAllDetails {
-  external factory GetAllDetails(
+  external factory GetAllDetails({
     /// Restricts the retrieved cookies to those that would match the given URL.
     JSString? url,
 
@@ -167,14 +167,14 @@ class GetAllDetails {
     /// The cookie store to retrieve cookies from. If omitted, the current
     /// execution context's cookie store will be used.
     JSString? storeId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetDetails {
-  external factory SetDetails(
+  external factory SetDetails({
     /// The request-URI to associate with the setting of the cookie. This value
     /// can affect the default domain and path values of the created cookie. If
     /// host permissions for this URL are not specified in the manifest file, the
@@ -211,5 +211,5 @@ class SetDetails {
     /// The ID of the cookie store in which to set the cookie. By default, the
     /// cookie is set in the current execution context's cookie store.
     JSString? storeId,
-  );
+  });
 }

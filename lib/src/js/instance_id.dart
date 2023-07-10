@@ -40,7 +40,7 @@ extension JSInstanceIDExtension on JSInstanceID {
 @staticInterop
 @anonymous
 class GetTokenParams {
-  external factory GetTokenParams(
+  external factory GetTokenParams({
     /// Identifies the entity that is authorized to access resources associated
     /// with this Instance ID. It can be a project ID from <a
     /// href='https://code.google.com/apis/console'>Google developer console</a>.
@@ -53,20 +53,20 @@ class GetTokenParams {
     /// Allows including a small number of string key/value pairs that will be
     /// associated with the token and may be used in processing the request.
     GetTokenParamsOptions? options,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class DeleteTokenParams {
-  external factory DeleteTokenParams(
+  external factory DeleteTokenParams({
     /// The authorized entity that is used to obtain the token.
     JSString authorizedEntity,
 
     /// The scope that is used to obtain the token.
     JSString scope,
-  );
+  });
 }
 
 @JS()

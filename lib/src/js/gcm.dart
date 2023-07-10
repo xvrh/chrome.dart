@@ -52,7 +52,7 @@ extension JSGcmExtension on JSGcm {
 @staticInterop
 @anonymous
 class SendMessage {
-  external factory SendMessage(
+  external factory SendMessage({
     /// The ID of the server to send the message to as assigned by <a
     /// href='https://console.cloud.google.com/apis/dashboard'>Google API
     /// Console</a>.
@@ -75,7 +75,7 @@ class SendMessage {
     /// as well as case-sensitive `collapse_key` are disallowed as key prefixes.
     /// Sum of all key/value pairs should not exceed $(ref:gcm.MAX_MESSAGE_SIZE).
     SendMessageData data,
-  );
+  });
 }
 
 @JS()

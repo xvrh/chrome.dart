@@ -98,35 +98,35 @@ extension FontNameExtension on FontName {
 @staticInterop
 @anonymous
 class ClearFontDetails {
-  external factory ClearFontDetails(
+  external factory ClearFontDetails({
     /// The script for which the font should be cleared. If omitted, the global
     /// script font setting is cleared.
     ScriptCode? script,
 
     /// The generic font family for which the font should be cleared.
     GenericFamily genericFamily,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class GetFontDetails {
-  external factory GetFontDetails(
+  external factory GetFontDetails({
     /// The script for which the font should be retrieved. If omitted, the font
     /// setting for the global script (script code "Zyyy") is retrieved.
     ScriptCode? script,
 
     /// The generic font family for which the font should be retrieved.
     GenericFamily genericFamily,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetFontDetails {
-  external factory SetFontDetails(
+  external factory SetFontDetails({
     /// The script code which the font should be set. If omitted, the font setting
     /// for the global script (script code "Zyyy") is set.
     ScriptCode? script,
@@ -137,7 +137,7 @@ class SetFontDetails {
     /// The font ID. The empty string means to fallback to the global script font
     /// setting.
     JSString fontId,
-  );
+  });
 }
 
 @JS()
@@ -159,9 +159,9 @@ class GetDefaultFontSizeDetails {
 @anonymous
 class SetDefaultFontSizeDetails {
   external factory SetDefaultFontSizeDetails(
-
+      {
       /// The font size in pixels.
-      JSNumber pixelSize);
+      JSNumber pixelSize});
 }
 
 @JS()
@@ -183,9 +183,9 @@ class GetDefaultFixedFontSizeDetails {
 @anonymous
 class SetDefaultFixedFontSizeDetails {
   external factory SetDefaultFixedFontSizeDetails(
-
+      {
       /// The font size in pixels.
-      JSNumber pixelSize);
+      JSNumber pixelSize});
 }
 
 @JS()
@@ -207,7 +207,7 @@ class GetMinimumFontSizeDetails {
 @anonymous
 class SetMinimumFontSizeDetails {
   external factory SetMinimumFontSizeDetails(
-
+      {
       /// The font size in pixels.
-      JSNumber pixelSize);
+      JSNumber pixelSize});
 }

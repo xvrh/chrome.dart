@@ -84,7 +84,7 @@ extension TabGroupExtension on TabGroup {
 @staticInterop
 @anonymous
 class QueryInfo {
-  external factory QueryInfo(
+  external factory QueryInfo({
     /// Whether the groups are collapsed.
     JSBoolean? collapsed,
 
@@ -97,14 +97,14 @@ class QueryInfo {
     /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
     /// <a href='windows#current-window'>current window</a>.
     JSNumber? windowId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class UpdateProperties {
-  external factory UpdateProperties(
+  external factory UpdateProperties({
     /// Whether the group should be collapsed.
     JSBoolean? collapsed,
 
@@ -113,14 +113,14 @@ class UpdateProperties {
 
     /// The title of the group.
     JSString? title,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class MoveProperties {
-  external factory MoveProperties(
+  external factory MoveProperties({
     /// The window to move the group to. Defaults to the window the group is
     /// currently in. Note that groups can only be moved to and from windows with
     /// $(ref:windows.WindowType) type `"normal"`.
@@ -129,5 +129,5 @@ class MoveProperties {
     /// The position to move the group to. Use `-1` to place the group at the end
     /// of the window.
     JSNumber index,
-  );
+  });
 }

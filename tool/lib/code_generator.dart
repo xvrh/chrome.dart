@@ -118,7 +118,7 @@ class CodeGenerator {
         ..constructors.add(Constructor((b) => b
           ..external = true
           ..factory = true
-          ..requiredParameters
+          ..optionalParameters
               .addAll(type.properties.map(_bindingTypePropertyAsParameter)))));
     } else {
       yield Class((b) => b
@@ -148,6 +148,7 @@ class CodeGenerator {
     return Parameter((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
       ..name = property.name
+      ..named = true
       ..type = refer(
           '${property.type.bindingName}${property.optional ? '?' : ''}',
           property.type.bindingUrl));

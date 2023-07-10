@@ -156,7 +156,7 @@ extension QueryOptionsExtension on QueryOptions {
 @staticInterop
 @anonymous
 class CreateData {
-  external factory CreateData(
+  external factory CreateData({
     /// A URL or array of URLs to open as tabs in the window. Fully-qualified URLs
     /// must include a scheme, e.g., 'http://www.google.com', not
     /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
@@ -203,14 +203,14 @@ class CreateData {
     /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
     /// of related browsing contexts</a> as the caller.
     JSBoolean? setSelfAsOpener,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class UpdateInfo {
-  external factory UpdateInfo(
+  external factory UpdateInfo({
     /// The offset from the left edge of the screen to move the window to in
     /// pixels. This value is ignored for panels.
     JSNumber? left,
@@ -243,5 +243,5 @@ class UpdateInfo {
     /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or
     /// 'height'.
     WindowState? state,
-  );
+  });
 }

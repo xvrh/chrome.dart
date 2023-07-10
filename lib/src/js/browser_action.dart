@@ -95,21 +95,21 @@ extension TabDetailsExtension on TabDetails {
 @staticInterop
 @anonymous
 class SetTitleDetails {
-  external factory SetTitleDetails(
+  external factory SetTitleDetails({
     /// The string the browser action should display when moused over.
     JSString title,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
     JSNumber? tabId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetIconDetails {
-  external factory SetIconDetails(
+  external factory SetIconDetails({
     /// Either an ImageData object or a dictionary {size -> ImageData}
     /// representing an icon to be set. If the icon is specified as a dictionary,
     /// the image used is chosen depending on the screen's pixel density. If the
@@ -132,14 +132,14 @@ class SetIconDetails {
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
     JSNumber? tabId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetPopupDetails {
-  external factory SetPopupDetails(
+  external factory SetPopupDetails({
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
     JSNumber? tabId,
@@ -147,14 +147,14 @@ class SetPopupDetails {
     /// The relative path to the HTML file to show in a popup. If set to the empty
     /// string (`''`), no popup is shown.
     JSString popup,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetBadgeTextDetails {
-  external factory SetBadgeTextDetails(
+  external factory SetBadgeTextDetails({
     /// Any number of characters can be passed, but only about four can fit into
     /// the space. If an empty string (`''`) is passed, the badge text is cleared.
     ///  If `tabId` is specified and `text` is null, the text for the specified
@@ -164,14 +164,14 @@ class SetBadgeTextDetails {
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
     JSNumber? tabId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetBadgeBackgroundColorDetails {
-  external factory SetBadgeBackgroundColorDetails(
+  external factory SetBadgeBackgroundColorDetails({
     /// An array of four integers in the range 0-255 that make up the RGBA color
     /// of the badge. Can also be a string with a CSS hex color value; for
     /// example, `#FF0000` or `#F00` (red). Renders colors at full opacity.
@@ -180,5 +180,5 @@ class SetBadgeBackgroundColorDetails {
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
     JSNumber? tabId,
-  );
+  });
 }

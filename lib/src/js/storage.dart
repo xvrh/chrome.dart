@@ -80,7 +80,7 @@ extension StorageAreaExtension on StorageArea {
 @anonymous
 class SetAccessLevelAccessOptions {
   external factory SetAccessLevelAccessOptions(
-
+      {
       /// The access level of the storage area.
-      AccessLevel accessLevel);
+      AccessLevel accessLevel});
 }

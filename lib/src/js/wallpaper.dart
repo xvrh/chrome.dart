@@ -24,7 +24,7 @@ typedef WallpaperLayout = JSString;
 @staticInterop
 @anonymous
 class SetWallpaperDetails {
-  external factory SetWallpaperDetails(
+  external factory SetWallpaperDetails({
     /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
     JSAny? data,
 
@@ -40,5 +40,5 @@ class SetWallpaperDetails {
     /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
     /// supported yet.
     JSBoolean? thumbnail,
-  );
+  });
 }

@@ -387,7 +387,7 @@ extension ZoomSettingsExtension on ZoomSettings {
 @staticInterop
 @anonymous
 class ConnectInfo {
-  external factory ConnectInfo(
+  external factory ConnectInfo({
     /// Is passed into onConnect for content scripts that are listening for the
     /// connection event.
     JSString? name,
@@ -400,14 +400,14 @@ class ConnectInfo {
     /// href='webNavigation#document_ids'>document</a> identified by `documentId`
     /// instead of all frames in the tab.
     JSString? documentId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SendMessageOptions {
-  external factory SendMessageOptions(
+  external factory SendMessageOptions({
     /// Send a message to a specific <a href='webNavigation#frame_ids'>frame</a>
     /// identified by `frameId` instead of all frames in the tab.
     JSNumber? frameId,
@@ -416,14 +416,14 @@ class SendMessageOptions {
     /// href='webNavigation#document_ids'>document</a> identified by `documentId`
     /// instead of all frames in the tab.
     JSString? documentId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class CreateProperties {
-  external factory CreateProperties(
+  external factory CreateProperties({
     /// The window in which to create the new tab. Defaults to the <a
     /// href='windows#current-window'>current window</a>.
     JSNumber? windowId,
@@ -453,14 +453,14 @@ class CreateProperties {
     /// The ID of the tab that opened this tab. If specified, the opener tab must
     /// be in the same window as the newly created tab.
     JSNumber? openerTabId,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class QueryInfo {
-  external factory QueryInfo(
+  external factory QueryInfo({
     /// Whether the tabs are active in their windows.
     JSBoolean? active,
 
@@ -517,27 +517,27 @@ class QueryInfo {
 
     /// The position of the tabs within their windows.
     JSNumber? index,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class HighlightInfo {
-  external factory HighlightInfo(
+  external factory HighlightInfo({
     /// The window that contains the tabs.
     JSNumber? windowId,
 
     /// One or more tab indices to highlight.
     JSObject tabs,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class UpdateProperties {
-  external factory UpdateProperties(
+  external factory UpdateProperties({
     /// A URL to navigate the tab to. JavaScript URLs are not supported; use
     /// $(ref:scripting.executeScript) instead.
     JSString? url,
@@ -565,21 +565,21 @@ class UpdateProperties {
     /// Whether the tab should be discarded automatically by the browser when
     /// resources are low.
     JSBoolean? autoDiscardable,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class MoveProperties {
-  external factory MoveProperties(
+  external factory MoveProperties({
     /// Defaults to the window the tab is currently in.
     JSNumber? windowId,
 
     /// The position to move the window to. Use `-1` to place the tab at the end
     /// of the window.
     JSNumber index,
-  );
+  });
 }
 
 @JS()
@@ -587,16 +587,16 @@ class MoveProperties {
 @anonymous
 class ReloadProperties {
   external factory ReloadProperties(
-
+      {
       /// Whether to bypass local caching. Defaults to `false`.
-      JSBoolean? bypassCache);
+      JSBoolean? bypassCache});
 }
 
 @JS()
 @staticInterop
 @anonymous
 class GroupOptions {
-  external factory GroupOptions(
+  external factory GroupOptions({
     /// The tab ID or list of tab IDs to add to the specified group.
     JSObject tabIds,
 
@@ -607,7 +607,7 @@ class GroupOptions {
     /// Configurations for creating a group. Cannot be used if groupId is already
     /// specified.
     GroupOptionsCreateProperties? createProperties,
-  );
+  });
 }
 
 @JS()
@@ -615,7 +615,7 @@ class GroupOptions {
 @anonymous
 class GroupOptionsCreateProperties {
   external factory GroupOptionsCreateProperties(
-
+      {
       /// The window of the new group. Defaults to the current window.
-      JSNumber? windowId);
+      JSNumber? windowId});
 }

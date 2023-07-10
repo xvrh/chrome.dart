@@ -48,10 +48,10 @@ extension LanguageCodeExtension on LanguageCode {}
 @anonymous
 class GetMessageOptions {
   external factory GetMessageOptions(
-
+      {
       /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
       /// itself, not to the placeholders. Developers might want to use this if the
       /// translation is used in an HTML context. Closure Templates used with
       /// Closure Compiler generate this automatically.
-      JSBoolean? escapeLt);
+      JSBoolean? escapeLt});
 }

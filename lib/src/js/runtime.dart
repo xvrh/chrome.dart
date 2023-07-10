@@ -390,7 +390,7 @@ extension ContextFilterExtension on ContextFilter {
 @staticInterop
 @anonymous
 class ConnectInfo {
-  external factory ConnectInfo(
+  external factory ConnectInfo({
     /// Will be passed into onConnect for processes that are listening for the
     /// connection event.
     JSString? name,
@@ -398,7 +398,7 @@ class ConnectInfo {
     /// Whether the TLS channel ID will be passed into onConnectExternal for
     /// processes that are listening for the connection event.
     JSBoolean? includeTlsChannelId,
-  );
+  });
 }
 
 @JS()
@@ -406,8 +406,8 @@ class ConnectInfo {
 @anonymous
 class SendMessageOptions {
   external factory SendMessageOptions(
-
+      {
       /// Whether the TLS channel ID will be passed into onMessageExternal for
       /// processes that are listening for the connection event.
-      JSBoolean? includeTlsChannelId);
+      JSBoolean? includeTlsChannelId});
 }

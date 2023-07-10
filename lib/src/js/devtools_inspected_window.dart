@@ -71,7 +71,7 @@ extension ResourceExtension on Resource {
 @staticInterop
 @anonymous
 class EvalOptions {
-  external factory EvalOptions(
+  external factory EvalOptions({
     /// If specified, the expression is evaluated on the iframe whose URL matches
     /// the one specified. By default, the expression is evaluated in the top
     /// frame of the inspected page.
@@ -88,14 +88,14 @@ class EvalOptions {
     /// that matches the specified origin. If given, scriptExecutionContext
     /// overrides the 'true' setting on useContentScriptContext.
     JSString? scriptExecutionContext,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class ReloadOptions {
-  external factory ReloadOptions(
+  external factory ReloadOptions({
     /// When true, the loader will bypass the cache for all inspected page
     /// resources loaded before the `load` event is fired. The effect is similar
     /// to pressing Ctrl+Shift+R in the inspected window or within the Developer
@@ -113,5 +113,5 @@ class ReloadOptions {
     /// The script will not be injected after subsequent reloads&mdash;for
     /// example, if the user presses Ctrl+R.
     JSString? injectedScript,
-  );
+  });
 }

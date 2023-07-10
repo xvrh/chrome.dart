@@ -112,7 +112,7 @@ extension OnClickDataExtension on OnClickData {
 @staticInterop
 @anonymous
 class CreateProperties {
-  external factory CreateProperties(
+  external factory CreateProperties({
     /// The type of menu item. Defaults to `normal`.
     ItemType? type,
 
@@ -158,14 +158,14 @@ class CreateProperties {
 
     /// Whether this context menu item is enabled or disabled. Defaults to `true`.
     JSBoolean? enabled,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class UpdateProperties {
-  external factory UpdateProperties(
+  external factory UpdateProperties({
     ItemType? type,
     JSString? title,
     JSBoolean? checked,
@@ -181,5 +181,5 @@ class UpdateProperties {
     JSArray? documentUrlPatterns,
     JSArray? targetUrlPatterns,
     JSBoolean? enabled,
-  );
+  });
 }

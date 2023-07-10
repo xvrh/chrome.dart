@@ -278,7 +278,7 @@ extension MenuParametersExtension on MenuParameters {
 @staticInterop
 @anonymous
 class SetCompositionParameters {
-  external factory SetCompositionParameters(
+  external factory SetCompositionParameters({
     /// ID of the context where the composition text will be set
     JSNumber contextID,
 
@@ -296,7 +296,7 @@ class SetCompositionParameters {
 
     /// List of segments and their associated types.
     JSArray? segments,
-  );
+  });
 }
 
 @JS()
@@ -304,93 +304,93 @@ class SetCompositionParameters {
 @anonymous
 class ClearCompositionParameters {
   external factory ClearCompositionParameters(
-
+      {
       /// ID of the context where the composition will be cleared
-      JSNumber contextID);
+      JSNumber contextID});
 }
 
 @JS()
 @staticInterop
 @anonymous
 class CommitTextParameters {
-  external factory CommitTextParameters(
+  external factory CommitTextParameters({
     /// ID of the context where the text will be committed
     JSNumber contextID,
 
     /// The text to commit
     JSString text,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SendKeyEventsParameters {
-  external factory SendKeyEventsParameters(
+  external factory SendKeyEventsParameters({
     /// ID of the context where the key events will be sent, or zero to send key
     /// events to non-input field.
     JSNumber contextID,
 
     /// Data on the key event.
     JSArray keyData,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCandidateWindowPropertiesParameters {
-  external factory SetCandidateWindowPropertiesParameters(
+  external factory SetCandidateWindowPropertiesParameters({
     /// ID of the engine to set properties on.
     JSString engineID,
     SetCandidateWindowPropertiesParametersProperties properties,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCandidatesParameters {
-  external factory SetCandidatesParameters(
+  external factory SetCandidatesParameters({
     /// ID of the context that owns the candidate window.
     JSNumber contextID,
 
     /// List of candidates to show in the candidate window
     JSArray candidates,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCursorPositionParameters {
-  external factory SetCursorPositionParameters(
+  external factory SetCursorPositionParameters({
     /// ID of the context that owns the candidate window.
     JSNumber contextID,
 
     /// ID of the candidate to select.
     JSNumber candidateID,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetAssistiveWindowPropertiesParameters {
-  external factory SetAssistiveWindowPropertiesParameters(
+  external factory SetAssistiveWindowPropertiesParameters({
     /// ID of the context owning the assistive window.
     JSNumber contextID,
 
     /// Properties of the assistive window.
     AssistiveWindowProperties properties,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetAssistiveWindowButtonHighlightedParameters {
-  external factory SetAssistiveWindowButtonHighlightedParameters(
+  external factory SetAssistiveWindowButtonHighlightedParameters({
     /// ID of the context owning the assistive window.
     JSNumber contextID,
 
@@ -405,14 +405,14 @@ class SetAssistiveWindowButtonHighlightedParameters {
 
     /// Whether the button should be highlighted.
     JSBoolean highlighted,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class DeleteSurroundingTextParameters {
-  external factory DeleteSurroundingTextParameters(
+  external factory DeleteSurroundingTextParameters({
     /// ID of the engine receiving the event.
     JSString engineID,
 
@@ -425,14 +425,14 @@ class DeleteSurroundingTextParameters {
 
     /// The number of characters to be deleted
     JSNumber length,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCompositionParametersSegments {
-  external factory SetCompositionParametersSegments(
+  external factory SetCompositionParametersSegments({
     /// Index of the character to start this segment at
     JSNumber start,
 
@@ -441,14 +441,14 @@ class SetCompositionParametersSegments {
 
     /// The type of the underline to modify this segment.
     UnderlineStyle style,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCandidateWindowPropertiesParametersProperties {
-  external factory SetCandidateWindowPropertiesParametersProperties(
+  external factory SetCandidateWindowPropertiesParametersProperties({
     /// True to show the Candidate window, false to hide it.
     JSBoolean? visible,
 
@@ -476,14 +476,14 @@ class SetCandidateWindowPropertiesParametersProperties {
 
     /// Where to display the candidate window.
     WindowPosition? windowPosition,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCandidatesParametersCandidates {
-  external factory SetCandidatesParametersCandidates(
+  external factory SetCandidatesParametersCandidates({
     /// The candidate
     JSString candidate,
 
@@ -502,18 +502,18 @@ class SetCandidatesParametersCandidates {
 
     /// The usage or detail description of word.
     SetCandidatesParametersCandidatesUsage? usage,
-  );
+  });
 }
 
 @JS()
 @staticInterop
 @anonymous
 class SetCandidatesParametersCandidatesUsage {
-  external factory SetCandidatesParametersCandidatesUsage(
+  external factory SetCandidatesParametersCandidatesUsage({
     /// The title string of details description.
     JSString title,
 
     /// The body string of detail description.
     JSString body,
-  );
+  });
 }

@@ -63,6 +63,16 @@ extension JSExtensionExtension on JSExtension {
 
   /// Fired when a request is sent from another extension.
   external ChromeEvent get onRequestExternal;
+
+  /// Set for the lifetime of a callback if an ansychronous extension api has
+  /// resulted in an error. If no error has occured lastError will be
+  /// `undefined`.
+  external JSObject get lastError;
+
+  /// True for content scripts running inside incognito tabs, and for extension
+  /// pages running inside an incognito process. The latter only applies to
+  /// extensions with 'split' incognito_behavior.
+  external JSBoolean get inIncognitoContext;
 }
 
 /// The type of extension view.

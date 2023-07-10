@@ -50,6 +50,9 @@ extension JSTabGroupsExtension on JSTabGroups {
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
   external ChromeEvent get onRemoved;
+
+  /// An ID that represents the absence of a group.
+  external JSObject get TAB_GROUP_ID_NONE;
 }
 
 /// The group's color.

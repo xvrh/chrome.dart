@@ -18,7 +18,7 @@ class JsonModelConverter {
       documentation: model.description,
       events: _convertEvents().toList(),
       functions: _convertFunctions().toList(),
-      properties: [],
+      properties: _convertProperties().toList(),
       dictionaries: _convertDictionaries().toList(),
       enumerations: _convertEnums().toList(),
     );
@@ -149,6 +149,17 @@ class JsonModelConverter {
         e.id,
         documentation: e.description,
         values: values,
+      );
+    }
+  }
+
+  Iterable<Property> _convertProperties() sync* {
+    for (var prop in model.properties.entries) {
+      yield Property(
+        prop.key,
+        type: _propertyType(prop.value),
+        optional: prop.value.optional ?? false,
+        documentation: prop.value.description,
       );
     }
   }

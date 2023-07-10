@@ -34,6 +34,16 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
     JSNumber? columnNumber,
     JSFunction? callback,
   );
+
+  /// Elements panel.
+  external ElementsPanel get elements;
+
+  /// Sources panel.
+  external SourcesPanel get sources;
+
+  /// The name of the color theme set in user's DevTools settings. Possible
+  /// values: `default` (the default) and `dark`.
+  external JSString get themeName;
 }
 
 @JS()

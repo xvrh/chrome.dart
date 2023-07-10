@@ -43,6 +43,9 @@ extension JSGcmExtension on JSGcm {
 
   /// Fired when it was not possible to send a message to the FCM server.
   external ChromeEvent get onSendError;
+
+  /// The maximum size (in bytes) of all key/value pairs in a message.
+  external JSObject get MAX_MESSAGE_SIZE;
 }
 
 @JS()

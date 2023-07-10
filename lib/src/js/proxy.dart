@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSProxyExtension on JSChrome {
@@ -16,6 +17,10 @@ class JSProxy {}
 extension JSProxyExtension on JSProxy {
   /// Notifies about proxy errors.
   external ChromeEvent get onProxyError;
+
+  /// Proxy settings to be used. The value of this setting is a ProxyConfig
+  /// object.
+  external ChromeSetting get settings;
 }
 
 typedef Scheme = JSString;

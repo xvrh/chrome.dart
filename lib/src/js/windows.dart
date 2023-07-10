@@ -58,6 +58,13 @@ extension JSWindowsExtension on JSWindows {
   /// Fired when a window has been resized; this event is only dispatched when
   /// the new bounds are committed, and not for in-progress changes.
   external ChromeEvent get onBoundsChanged;
+
+  /// The windowId value that represents the absence of a Chrome browser window.
+  external JSObject get WINDOW_ID_NONE;
+
+  /// The windowId value that represents the <a
+  /// href='windows#current-window'>current window</a>.
+  external JSObject get WINDOW_ID_CURRENT;
 }
 
 /// The type of browser window this is. In some circumstances a window may not

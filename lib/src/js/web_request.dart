@@ -60,6 +60,11 @@ extension JSWebRequestExtension on JSWebRequest {
   /// Fired when an extension's proposed modification to a network request is
   /// ignored. This happens in case of conflicts with other extensions.
   external ChromeEvent get onActionIgnored;
+
+  /// The maximum number of times that `handlerBehaviorChanged` can be called
+  /// per 10 minute sustained interval. `handlerBehaviorChanged` is an expensive
+  /// function call that shouldn't be called often.
+  external JSObject get MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES;
 }
 
 typedef ResourceType = JSString;

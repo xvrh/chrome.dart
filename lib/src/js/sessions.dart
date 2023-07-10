@@ -28,6 +28,10 @@ extension JSSessionsExtension on JSSessions {
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
   external ChromeEvent get onChanged;
+
+  /// The maximum number of $(ref:sessions.Session) that will be included in a
+  /// requested list.
+  external JSObject get MAX_SESSION_RESULTS;
 }
 
 @JS()

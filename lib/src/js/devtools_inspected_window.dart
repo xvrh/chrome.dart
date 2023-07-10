@@ -42,6 +42,10 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   /// Fired when a new revision of the resource is committed (e.g. user saves an
   /// edited version of the resource in the Developer Tools).
   external ChromeEvent get onResourceContentCommitted;
+
+  /// The ID of the tab being inspected. This ID may be used with chrome.tabs.*
+  /// API.
+  external JSNumber get tabId;
 }
 
 @JS()

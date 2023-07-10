@@ -84,6 +84,10 @@ extension JSBookmarksExtension on JSBookmarks {
 
   /// Fired when a bookmark import session is ended.
   external ChromeEvent get onImportEnded;
+
+  external JSObject get MAX_WRITE_OPERATIONS_PER_HOUR;
+
+  external JSObject get MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
 }
 
 /// Indicates the reason why this node is unmodifiable. The `managed` value

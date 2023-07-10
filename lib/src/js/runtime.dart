@@ -185,6 +185,12 @@ extension JSRuntimeExtension on JSRuntime {
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
   external ChromeEvent get onRestartRequired;
+
+  /// This will be defined during an API method callback if there was an error
+  external JSObject get lastError;
+
+  /// The ID of the extension/app.
+  external JSString get id;
 }
 
 /// The operating system Chrome is running on.

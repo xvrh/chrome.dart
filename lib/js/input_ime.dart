@@ -16,19 +16,19 @@ class JSInputIme {}
 extension JSInputImeExtension on JSInputIme {
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  external JSPromise setComposition(JSObject parameters);
+  external JSPromise setComposition(SetCompositionParameters parameters);
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  external JSPromise clearComposition(JSObject parameters);
+  external JSPromise clearComposition(ClearCompositionParameters parameters);
 
   /// Commits the provided text to the current input.
-  external JSPromise commitText(JSObject parameters);
+  external JSPromise commitText(CommitTextParameters parameters);
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  external JSPromise sendKeyEvents(JSObject parameters);
+  external JSPromise sendKeyEvents(SendKeyEventsParameters parameters);
 
   /// Hides the input view window, which is popped up automatically by system.
   /// If the input view window is already hidden, this function will do nothing.
@@ -36,21 +36,24 @@ extension JSInputImeExtension on JSInputIme {
 
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
-  external JSPromise setCandidateWindowProperties(JSObject parameters);
+  external JSPromise setCandidateWindowProperties(
+      SetCandidateWindowPropertiesParameters parameters);
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  external JSPromise setCandidates(JSObject parameters);
+  external JSPromise setCandidates(SetCandidatesParameters parameters);
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  external JSPromise setCursorPosition(JSObject parameters);
+  external JSPromise setCursorPosition(SetCursorPositionParameters parameters);
 
   /// Shows/Hides an assistive window with the given properties.
-  external JSPromise setAssistiveWindowProperties(JSObject parameters);
+  external JSPromise setAssistiveWindowProperties(
+      SetAssistiveWindowPropertiesParameters parameters);
 
   /// Highlights/Unhighlights a button in an assistive window.
-  external JSPromise setAssistiveWindowButtonHighlighted(JSObject parameters);
+  external JSPromise setAssistiveWindowButtonHighlighted(
+      SetAssistiveWindowButtonHighlightedParameters parameters);
 
   /// Adds the provided menu items to the language menu when this IME is active.
   external JSPromise setMenuItems(MenuParameters parameters);
@@ -59,7 +62,8 @@ extension JSInputImeExtension on JSInputIme {
   external JSPromise updateMenuItems(MenuParameters parameters);
 
   /// Deletes the text around the caret.
-  external JSPromise deleteSurroundingText(JSObject parameters);
+  external JSPromise deleteSurroundingText(
+      DeleteSurroundingTextParameters parameters);
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
@@ -258,4 +262,161 @@ class MenuParameters {
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.
   external JSArray get items;
+}
+
+@JS()
+@staticInterop
+class SetCompositionParameters {
+  /// ID of the context where the composition text will be set
+  external int get contextID;
+
+  /// Text to set
+  external String get text;
+
+  /// Position in the text that the selection starts at.
+  external int? get selectionStart;
+
+  /// Position in the text that the selection ends at.
+  external int? get selectionEnd;
+
+  /// Position in the text of the cursor.
+  external int get cursor;
+
+  /// List of segments and their associated types.
+  external JSArray? get segments;
+}
+
+@JS()
+@staticInterop
+class ClearCompositionParameters {
+  /// ID of the context where the composition will be cleared
+  external int get contextID;
+}
+
+@JS()
+@staticInterop
+class CommitTextParameters {
+  /// ID of the context where the text will be committed
+  external int get contextID;
+
+  /// The text to commit
+  external String get text;
+}
+
+@JS()
+@staticInterop
+class SendKeyEventsParameters {
+  /// ID of the context where the key events will be sent, or zero to send key
+  /// events to non-input field.
+  external int get contextID;
+
+  /// Data on the key event.
+  external JSArray get keyData;
+}
+
+@JS()
+@staticInterop
+class SetCandidateWindowPropertiesParameters {
+  /// ID of the engine to set properties on.
+  external String get engineID;
+
+  external SetCandidateWindowPropertiesParametersProperties get properties;
+}
+
+@JS()
+@staticInterop
+class SetCandidatesParameters {
+  /// ID of the context that owns the candidate window.
+  external int get contextID;
+
+  /// List of candidates to show in the candidate window
+  external JSArray get candidates;
+}
+
+@JS()
+@staticInterop
+class SetCursorPositionParameters {
+  /// ID of the context that owns the candidate window.
+  external int get contextID;
+
+  /// ID of the candidate to select.
+  external int get candidateID;
+}
+
+@JS()
+@staticInterop
+class SetAssistiveWindowPropertiesParameters {
+  /// ID of the context owning the assistive window.
+  external int get contextID;
+
+  /// Properties of the assistive window.
+  external AssistiveWindowProperties get properties;
+}
+
+@JS()
+@staticInterop
+class SetAssistiveWindowButtonHighlightedParameters {
+  /// ID of the context owning the assistive window.
+  external int get contextID;
+
+  /// The ID of the button
+  external AssistiveWindowButton get buttonID;
+
+  /// The window type the button belongs to.
+  external AssistiveWindowType get windowType;
+
+  /// The text for the screenreader to announce.
+  external String? get announceString;
+
+  /// Whether the button should be highlighted.
+  external bool get highlighted;
+}
+
+@JS()
+@staticInterop
+class DeleteSurroundingTextParameters {
+  /// ID of the engine receiving the event.
+  external String get engineID;
+
+  /// ID of the context where the surrounding text will be deleted.
+  external int get contextID;
+
+  /// The offset from the caret position where deletion will start. This value
+  /// can be negative.
+  external int get offset;
+
+  /// The number of characters to be deleted
+  external int get length;
+}
+
+@JS()
+@staticInterop
+class SetCandidateWindowPropertiesParametersProperties {
+  /// True to show the Candidate window, false to hide it.
+  external bool? get visible;
+
+  /// True to show the cursor, false to hide it.
+  external bool? get cursorVisible;
+
+  /// True if the candidate window should be rendered vertical, false to make it
+  /// horizontal.
+  external bool? get vertical;
+
+  /// The number of candidates to display per page.
+  external int? get pageSize;
+
+  /// Text that is shown at the bottom of the candidate window.
+  external String? get auxiliaryText;
+
+  /// True to display the auxiliary text, false to hide it.
+  external bool? get auxiliaryTextVisible;
+
+  /// The total number of candidates for the candidate window.
+  external int? get totalCandidates;
+
+  /// The index of the current chosen candidate out of total candidates.
+  external int? get currentCandidateIndex;
+
+  /// Where to display the candidate window.
+  external WindowPosition? get windowPosition;
 }

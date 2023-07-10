@@ -26,7 +26,7 @@ extension JSI18nExtension on JSI18n {
   external String getMessage(
     String messageName,
     JSAny substitutions,
-    JSObject options,
+    GetMessageOptions options,
   );
 
   /// Gets the browser UI language of the browser. This is different from
@@ -40,3 +40,13 @@ extension JSI18nExtension on JSI18n {
 @JS()
 @staticInterop
 class LanguageCode {}
+
+@JS()
+@staticInterop
+class GetMessageOptions {
+  /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
+  /// itself, not to the placeholders. Developers might want to use this if the
+  /// translation is used in an HTML context. Closure Templates used with
+  /// Closure Compiler generate this automatically.
+  external bool? get escapeLt;
+}

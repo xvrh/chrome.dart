@@ -25,7 +25,7 @@ extension JSPageActionExtension on JSPageAction {
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
-  external JSPromise setTitle(JSObject details);
+  external JSPromise setTitle(SetTitleDetails details);
 
   /// Gets the title of the page action.
   external JSPromise getTitle(TabDetails details);
@@ -34,11 +34,11 @@ extension JSPageActionExtension on JSPageAction {
   /// path to an image file or as the pixel data from a canvas element, or as
   /// dictionary of either one of those. Either the **path** or the
   /// **imageData** property must be specified.
-  external JSPromise setIcon(JSObject details);
+  external JSPromise setIcon(SetIconDetails details);
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// page action's icon.
-  external JSPromise setPopup(JSObject details);
+  external JSPromise setPopup(SetPopupDetails details);
 
   /// Gets the html document set as the popup for this page action.
   external JSPromise getPopup(TabDetails details);
@@ -58,4 +58,54 @@ class TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
   external int? get tabId;
+}
+
+@JS()
+@staticInterop
+class SetTitleDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int get tabId;
+
+  /// The tooltip string.
+  external String get title;
+}
+
+@JS()
+@staticInterop
+class SetIconDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int get tabId;
+
+  /// Either an ImageData object or a dictionary {size -> ImageData}
+  /// representing icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+  /// {'16': foo}'
+  external JSObject? get imageData;
+
+  /// Either a relative image path or a dictionary {size -> relative image path}
+  /// pointing to icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+  external JSObject? get path;
+
+  /// **Deprecated.** This argument is ignored.
+  external int? get iconIndex;
+}
+
+@JS()
+@staticInterop
+class SetPopupDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int get tabId;
+
+  /// The relative path to the HTML file to show in a popup. If set to the empty
+  /// string (`''`), no popup is shown.
+  external String get popup;
 }

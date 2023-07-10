@@ -17,7 +17,7 @@ class JSHistory {}
 extension JSHistoryExtension on JSHistory {
   /// Searches the history for the last visit time of each page matching the
   /// query.
-  external JSPromise search(JSObject query);
+  external JSPromise search(SearchQuery query);
 
   /// Retrieves information about visits to a URL.
   external JSPromise getVisits(UrlDetails details);
@@ -32,7 +32,7 @@ extension JSHistoryExtension on JSHistory {
   /// Removes all items within the specified date range from the history.  Pages
   /// will not be removed from the history unless all visits fall within the
   /// range.
-  external JSPromise deleteRange(JSObject range);
+  external JSPromise deleteRange(DeleteRangeRange range);
 
   /// Deletes all items from the history.
   external JSPromise deleteAll();
@@ -100,4 +100,36 @@ class UrlDetails {
   /// The URL for the operation. It must be in the format as returned from a
   /// call to history.search.
   external String get url;
+}
+
+@JS()
+@staticInterop
+class SearchQuery {
+  /// A free-text query to the history service.  Leave empty to retrieve all
+  /// pages.
+  external String get text;
+
+  /// Limit results to those visited after this date, represented in
+  /// milliseconds since the epoch. If not specified, this defaults to 24 hours
+  /// in the past.
+  external num? get startTime;
+
+  /// Limit results to those visited before this date, represented in
+  /// milliseconds since the epoch.
+  external num? get endTime;
+
+  /// The maximum number of results to retrieve.  Defaults to 100.
+  external int? get maxResults;
+}
+
+@JS()
+@staticInterop
+class DeleteRangeRange {
+  /// Items added to history after this date, represented in milliseconds since
+  /// the epoch.
+  external num get startTime;
+
+  /// Items added to history before this date, represented in milliseconds since
+  /// the epoch.
+  external num get endTime;
 }

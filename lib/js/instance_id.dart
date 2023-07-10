@@ -23,10 +23,10 @@ extension JSInstanceIDExtension on JSInstanceID {
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
-  external JSPromise getToken(JSObject getTokenParams);
+  external JSPromise getToken(GetTokenParams getTokenParams);
 
   /// Revokes a granted token.
-  external JSPromise deleteToken(JSObject deleteTokenParams);
+  external JSPromise deleteToken(DeleteTokenParams deleteTokenParams);
 
   /// Resets the app instance identifier and revokes all tokens associated with
   /// it.
@@ -35,3 +35,34 @@ extension JSInstanceIDExtension on JSInstanceID {
   /// Fired when all the granted tokens need to be refreshed.
   external ChromeEvent get onTokenRefresh;
 }
+
+@JS()
+@staticInterop
+class GetTokenParams {
+  /// Identifies the entity that is authorized to access resources associated
+  /// with this Instance ID. It can be a project ID from <a
+  /// href='https://code.google.com/apis/console'>Google developer console</a>.
+  external String get authorizedEntity;
+
+  /// Identifies authorized actions that the authorized entity can take. E.g.
+  /// for sending GCM messages, `GCM` scope should be used.
+  external String get scope;
+
+  /// Allows including a small number of string key/value pairs that will be
+  /// associated with the token and may be used in processing the request.
+  external GetTokenParamsOptions? get options;
+}
+
+@JS()
+@staticInterop
+class DeleteTokenParams {
+  /// The authorized entity that is used to obtain the token.
+  external String get authorizedEntity;
+
+  /// The scope that is used to obtain the token.
+  external String get scope;
+}
+
+@JS()
+@staticInterop
+class GetTokenParamsOptions {}

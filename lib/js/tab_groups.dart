@@ -20,19 +20,19 @@ extension JSTabGroupsExtension on JSTabGroups {
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
-  external JSPromise query(JSObject queryInfo);
+  external JSPromise query(QueryInfo queryInfo);
 
   /// Modifies the properties of a group. Properties that are not specified in
   /// `updateProperties` are not modified.
   external JSPromise update(
     int groupId,
-    JSObject updateProperties,
+    UpdateProperties updateProperties,
   );
 
   /// Moves the group and all its tabs within its window, or to a new window.
   external JSPromise move(
     int groupId,
-    JSObject moveProperties,
+    MoveProperties moveProperties,
   );
 
   /// Fired when a group is created.
@@ -73,4 +73,47 @@ class TabGroup {
 
   /// The ID of the window that contains the group.
   external int get windowId;
+}
+
+@JS()
+@staticInterop
+class QueryInfo {
+  /// Whether the groups are collapsed.
+  external bool? get collapsed;
+
+  /// The color of the groups.
+  external Color? get color;
+
+  /// Match group titles against a pattern.
+  external String? get title;
+
+  /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
+  /// <a href='windows#current-window'>current window</a>.
+  external int? get windowId;
+}
+
+@JS()
+@staticInterop
+class UpdateProperties {
+  /// Whether the group should be collapsed.
+  external bool? get collapsed;
+
+  /// The color of the group.
+  external Color? get color;
+
+  /// The title of the group.
+  external String? get title;
+}
+
+@JS()
+@staticInterop
+class MoveProperties {
+  /// The window to move the group to. Defaults to the window the group is
+  /// currently in. Note that groups can only be moved to and from windows with
+  /// $(ref:windows.WindowType) type `"normal"`.
+  external int? get windowId;
+
+  /// The position to move the group to. Use `-1` to place the group at the end
+  /// of the window.
+  external int get index;
 }

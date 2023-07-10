@@ -41,7 +41,7 @@ extension JSBookmarksExtension on JSBookmarks {
   /// Moves the specified BookmarkTreeNode to the provided location.
   external JSPromise move(
     String id,
-    JSObject destination,
+    MoveDestination destination,
   );
 
   /// Updates the properties of a bookmark or folder. Specify only the
@@ -49,7 +49,7 @@ extension JSBookmarksExtension on JSBookmarks {
   /// unchanged.  **Note:** Currently, only 'title' and 'url' are supported.
   external JSPromise update(
     String id,
-    JSObject changes,
+    UpdateChanges changes,
   );
 
   /// Removes a bookmark or an empty bookmark folder.
@@ -140,6 +140,22 @@ class CreateDetails {
 
   external int? get index;
 
+  external String? get title;
+
+  external String? get url;
+}
+
+@JS()
+@staticInterop
+class MoveDestination {
+  external String? get parentId;
+
+  external int? get index;
+}
+
+@JS()
+@staticInterop
+class UpdateChanges {
   external String? get title;
 
   external String? get url;

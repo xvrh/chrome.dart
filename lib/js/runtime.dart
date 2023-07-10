@@ -86,7 +86,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// via $(ref:tabs.connect).
   external Port connect(
     String extensionId,
-    JSObject connectInfo,
+    ConnectInfo connectInfo,
   );
 
   /// Connects to a native application in the host machine. See <a
@@ -104,7 +104,7 @@ extension JSRuntimeExtension on JSRuntime {
   external JSPromise sendMessage(
     String extensionId,
     JSAny message,
-    JSObject options,
+    SendMessageOptions options,
   );
 
   /// Send a single message to a native application.
@@ -357,4 +357,24 @@ class ContextFilter {
   external JSArray? get documentOrigins;
 
   external bool? get incognito;
+}
+
+@JS()
+@staticInterop
+class ConnectInfo {
+  /// Will be passed into onConnect for processes that are listening for the
+  /// connection event.
+  external String? get name;
+
+  /// Whether the TLS channel ID will be passed into onConnectExternal for
+  /// processes that are listening for the connection event.
+  external bool? get includeTlsChannelId;
+}
+
+@JS()
+@staticInterop
+class SendMessageOptions {
+  /// Whether the TLS channel ID will be passed into onMessageExternal for
+  /// processes that are listening for the connection event.
+  external bool? get includeTlsChannelId;
 }

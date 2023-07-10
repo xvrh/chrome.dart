@@ -4,6 +4,7 @@ import 'package:path/path.dart' as p;
 import '../apis.dart';
 import 'chrome_model.dart';
 import 'code_generator.dart';
+import 'json_convert.dart';
 import 'json_model.dart' as json;
 import 'idl_convert.dart' as idl;
 
@@ -22,7 +23,7 @@ void generateApi(String apiName) {
 
   ChromeApi model;
   if (idlFile.path.endsWith('.json')) {
-    model = json.loadJsonModel(content);
+    model = JsonModelConverter(json.JsonNamespace.parse(content)).convert();
   } else {
     model = idl.loadIdlModel(content);
   }

@@ -15,10 +15,10 @@ class JSWebNavigation {}
 extension JSWebNavigationExtension on JSWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
-  external JSPromise getFrame(JSObject details);
+  external JSPromise getFrame(GetFrameDetails details);
 
   /// Retrieves information about all frames of a given tab.
-  external JSPromise getAllFrames(JSObject details);
+  external JSPromise getAllFrames(GetAllFramesDetails details);
 
   /// Fired when a navigation is about to occur.
   external ChromeEvent get onBeforeNavigate;
@@ -65,3 +65,27 @@ extension JSWebNavigationExtension on JSWebNavigation {
 typedef TransitionType = JSString;
 
 typedef TransitionQualifier = JSString;
+
+@JS()
+@staticInterop
+class GetFrameDetails {
+  /// The ID of the tab in which the frame is.
+  external int? get tabId;
+
+  /// The ID of the process that runs the renderer for this tab.
+  external int? get processId;
+
+  /// The ID of the frame in the given tab.
+  external int? get frameId;
+
+  /// The UUID of the document. If the frameId and/or tabId are provided they
+  /// will be validated to match the document found by provided document ID.
+  external String? get documentId;
+}
+
+@JS()
+@staticInterop
+class GetAllFramesDetails {
+  /// The ID of the tab.
+  external int get tabId;
+}

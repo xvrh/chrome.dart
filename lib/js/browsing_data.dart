@@ -83,7 +83,7 @@ class RemovalOptions {
   /// If this object isn't specified, it defaults to clearing only "unprotected"
   /// origins. Please ensure that you <em>really</em> want to remove application
   /// data before adding 'protectedWeb' or 'extensions'.
-  external JSObject? get originTypes;
+  external RemovalOptionsOriginTypes? get originTypes;
 
   /// When present, only data for origins in this list is deleted. Only
   /// supported for cookies, storage and cache. Cookies are cleared for the
@@ -143,4 +143,18 @@ class DataTypeSet {
 
   /// Websites' WebSQL data.
   external bool? get webSQL;
+}
+
+@JS()
+@staticInterop
+class RemovalOptionsOriginTypes {
+  /// Normal websites.
+  external bool? get unprotectedWeb;
+
+  /// Websites that have been installed as hosted applications (be careful!).
+  external bool? get protectedWeb;
+
+  /// Extensions and packaged applications a user has installed (be _really_
+  /// careful!).
+  external bool? get extension;
 }

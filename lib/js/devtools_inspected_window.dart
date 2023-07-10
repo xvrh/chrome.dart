@@ -26,12 +26,12 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   /// true and `value` is set to the string value of thrown object.
   external void eval(
     String expression,
-    JSObject options,
+    EvalOptions options,
     JSFunction callback,
   );
 
   /// Reloads the inspected page.
-  external void reload(JSObject reloadOptions);
+  external void reload(ReloadOptions reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
   external void getResources(JSFunction callback);
@@ -49,4 +49,47 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
 class Resource {
   /// The URL of the resource.
   external String get url;
+}
+
+@JS()
+@staticInterop
+class EvalOptions {
+  /// If specified, the expression is evaluated on the iframe whose URL matches
+  /// the one specified. By default, the expression is evaluated in the top
+  /// frame of the inspected page.
+  external String? get frameURL;
+
+  /// Evaluate the expression in the context of the content script of the
+  /// calling extension, provided that the content script is already injected
+  /// into the inspected page. If not, the expression is not evaluated and the
+  /// callback is invoked with the exception parameter set to an object that has
+  /// the `isError` field set to true and the `code` field set to `E_NOTFOUND`.
+  external bool? get useContentScriptContext;
+
+  /// Evaluate the expression in the context of a content script of an extension
+  /// that matches the specified origin. If given, scriptExecutionContext
+  /// overrides the 'true' setting on useContentScriptContext.
+  external String? get scriptExecutionContext;
+}
+
+@JS()
+@staticInterop
+class ReloadOptions {
+  /// When true, the loader will bypass the cache for all inspected page
+  /// resources loaded before the `load` event is fired. The effect is similar
+  /// to pressing Ctrl+Shift+R in the inspected window or within the Developer
+  /// Tools window.
+  external bool? get ignoreCache;
+
+  /// If specified, the string will override the value of the `User-Agent` HTTP
+  /// header that's sent while loading the resources of the inspected page. The
+  /// string will also override the value of the `navigator.userAgent` property
+  /// that's returned to any scripts that are running within the inspected page.
+  external String? get userAgent;
+
+  /// If specified, the script will be injected into every frame of the
+  /// inspected page immediately upon load, before any of the frame's scripts.
+  /// The script will not be injected after subsequent reloads&mdash;for
+  /// example, if the user presses Ctrl+R.
+  external String? get injectedScript;
 }

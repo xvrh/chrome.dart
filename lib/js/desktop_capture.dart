@@ -18,7 +18,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
   external int chooseDesktopMedia(
     JSArray sources,
     Tab targetTab,
-    JSObject options,
+    ChooseDesktopMediaOptions options,
     JSFunction callback,
   );
 
@@ -37,3 +37,20 @@ typedef SystemAudioPreferenceEnum = JSString;
 /// Mirrors <a
 /// href="https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum">SelfCapturePreferenceEnum</a>.
 typedef SelfCapturePreferenceEnum = JSString;
+
+@JS()
+@staticInterop
+class ChooseDesktopMediaOptions {
+  /// Mirrors <a
+  /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio">systemAudio</a>.
+  external SystemAudioPreferenceEnum? get systemAudio;
+
+  /// Mirrors <a
+  /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface">selfBrowserSurface</a>.
+  external SelfCapturePreferenceEnum? get selfBrowserSurface;
+
+  /// Indicates that the caller intends to perform local audio suppression, and
+  /// that the media picker shown to the user should therefore reflect that with
+  /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
+  external bool? get suppressLocalAudioPlaybackIntended;
+}

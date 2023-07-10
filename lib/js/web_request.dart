@@ -135,7 +135,7 @@ class BlockingResponse {
 
   /// Only used as a response to the onAuthRequired event. If set, the request
   /// is made using the supplied credentials.
-  external JSObject? get authCredentials;
+  external BlockingResponseAuthCredentials? get authCredentials;
 }
 
 @JS()
@@ -151,3 +151,11 @@ class UploadData {
 @JS()
 @staticInterop
 class FormDataItem {}
+
+@JS()
+@staticInterop
+class BlockingResponseAuthCredentials {
+  external String get username;
+
+  external String get password;
+}

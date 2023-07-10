@@ -49,12 +49,12 @@ JsonFunction _$JsonFunctionFromJson(Map<String, dynamic> json) => JsonFunction(
 JsonDeclaredType _$JsonDeclaredTypeFromJson(Map<String, dynamic> json) =>
     JsonDeclaredType(
       json['id'] as String,
-      json['type'] as String?,
       json['description'] as String? ?? '',
-      (json['enum'] as List<dynamic>?)
+      type: json['type'] as String?,
+      enums: (json['enum'] as List<dynamic>?)
           ?.map((e) => const _JsonEnumConverter().fromJson(e as Object))
           .toList(),
-      (json['properties'] as Map<String, dynamic>?)?.map(
+      properties: (json['properties'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, JsonProperty.fromJson(e as Map<String, dynamic>)),
       ),
     );

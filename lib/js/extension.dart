@@ -30,7 +30,7 @@ extension JSExtensionExtension on JSExtension {
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
-  external JSArray getViews(JSObject fetchProperties);
+  external JSArray getViews(GetViewsFetchProperties fetchProperties);
 
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
@@ -67,3 +67,18 @@ extension JSExtensionExtension on JSExtension {
 
 /// The type of extension view.
 typedef ViewType = JSString;
+
+@JS()
+@staticInterop
+class GetViewsFetchProperties {
+  /// The type of view to get. If omitted, returns all views (including
+  /// background pages and tabs).
+  external ViewType? get type;
+
+  /// The window to restrict the search to. If omitted, returns all views.
+  external int? get windowId;
+
+  /// Find a view according to a tab id. If this field is omitted, returns all
+  /// views.
+  external int? get tabId;
+}

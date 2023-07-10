@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'chrome_model.dart';
+import 'utils/string_helpers.dart';
 
 part 'json_model.g.dart';
 
@@ -100,8 +101,11 @@ class JsonDeclaredType {
 
   final Map<String, JsonProperty>? properties;
 
-  JsonDeclaredType(
-      this.id, this.type, this.description, this.enums, this.properties);
+  @JsonKey(includeFromJson: false)
+  bool isAnonymous = false;
+
+  JsonDeclaredType(this.id, this.description,
+      {this.type, this.enums, this.properties});
 
   factory JsonDeclaredType.fromJson(Map<String, dynamic> json) =>
       _$JsonDeclaredTypeFromJson(json);
@@ -210,97 +214,4 @@ class _JsonEnumConverter extends JsonConverter<JsonEnumValue, Object> {
   Object toJson(JsonEnumValue object) {
     throw UnimplementedError();
   }
-}
-
-ChromeApi loadJsonModel(String content) {
-  var jsonModel = JsonNamespace.parse(content);
-
-  var events = <Event>[];
-  for (var e in jsonModel.events) {
-    events.add(Event(e.name, e.description));
-  }
-
-  var enumerations = <Enumeration>[];
-  for (var e in jsonModel.types.where((e) => e.enums != null)) {
-    var values = e.enums!
-        .map(
-            (v) => EnumerationValue(name: v.name, documentation: v.description))
-        .toList();
-    enumerations
-        .add(Enumeration(e.id, documentation: e.description, values: values));
-  }
-
-  var dictionaries = <Dictionary>[];
-  for (var t in jsonModel.types.where((e) => e.enums == null)) {
-    var properties = t.properties?.entries
-        .map((e) => _dictionaryProperty(e.key, e.value))
-        .toList();
-    var dic = Dictionary(
-      t.id,
-      properties: properties ?? [],
-      documentation: t.description,
-      methods: [],
-    );
-    dictionaries.add(dic);
-  }
-
-  var functions = <Method>[];
-  for (var f in jsonModel.functions) {
-    var jsonReturns = f.returnsAsync ?? f.returns;
-    var returns = MethodReturn(
-        type: TypeRef.void$, isAsync: false, supportPromise: false);
-    if (jsonReturns != null) {
-      var supportsPromises = f.returnsAsync != null;
-      var isAsync = jsonReturns.parameters != null;
-
-      returns = MethodReturn(
-        type: _propertyType(jsonReturns),
-        isAsync: isAsync,
-        supportPromise: supportsPromises,
-        name: jsonReturns.name,
-      );
-    }
-
-    var method = Method(
-      f.name,
-      returns: returns,
-      parameters: f.parameters.map(_methodParameter).toList(),
-      documentation: f.description,
-    );
-    functions.add(method);
-  }
-
-  return ChromeApi(
-    name: jsonModel.namespace,
-    events: events,
-    documentation: jsonModel.description,
-    properties: {},
-    functions: functions,
-    dictionaries: dictionaries,
-    enumerations: enumerations,
-  );
-}
-
-Property _dictionaryProperty(String name, JsonProperty prop) {
-  return Property(
-    name,
-    type: _propertyType(prop),
-    optional: prop.optional ?? false,
-    documentation: prop.description,
-  );
-}
-
-Property _methodParameter(JsonProperty prop) {
-  return Property(
-    prop.name!,
-    type: _propertyType(prop),
-    optional: prop.optional ?? false,
-    documentation: prop.description,
-  );
-}
-
-TypeRef _propertyType(JsonProperty prop) {
-  var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref ?? 'object';
-  var isArray = prop.items != null;
-  return TypeRef(typeName, isArray: isArray);
 }

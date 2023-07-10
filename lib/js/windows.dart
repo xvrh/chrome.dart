@@ -31,13 +31,13 @@ extension JSWindowsExtension on JSWindows {
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  external JSPromise create(JSObject createData);
+  external JSPromise create(CreateData createData);
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
   external JSPromise update(
     int windowId,
-    JSObject updateInfo,
+    UpdateInfo updateInfo,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
@@ -139,4 +139,92 @@ class QueryOptions {
   /// If set, the $(ref:windows.Window) returned is filtered based on its type.
   /// If unset, the default filter is set to `['normal', 'popup']`.
   external JSArray? get windowTypes;
+}
+
+@JS()
+@staticInterop
+class CreateData {
+  /// A URL or array of URLs to open as tabs in the window. Fully-qualified URLs
+  /// must include a scheme, e.g., 'http://www.google.com', not
+  /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
+  /// the extension. Defaults to the New Tab Page.
+  external JSObject? get url;
+
+  /// The ID of the tab to add to the new window.
+  external int? get tabId;
+
+  /// The number of pixels to position the new window from the left edge of the
+  /// screen. If not specified, the new window is offset naturally from the last
+  /// focused window. This value is ignored for panels.
+  external int? get left;
+
+  /// The number of pixels to position the new window from the top edge of the
+  /// screen. If not specified, the new window is offset naturally from the last
+  /// focused window. This value is ignored for panels.
+  external int? get top;
+
+  /// The width in pixels of the new window, including the frame. If not
+  /// specified, defaults to a natural width.
+  external int? get width;
+
+  /// The height in pixels of the new window, including the frame. If not
+  /// specified, defaults to a natural height.
+  external int? get height;
+
+  /// If `true`, opens an active window. If `false`, opens an inactive window.
+  external bool? get focused;
+
+  /// Whether the new window should be an incognito window.
+  external bool? get incognito;
+
+  /// Specifies what type of browser window to create.
+  external CreateType? get type;
+
+  /// The initial state of the window. The `minimized`, `maximized`, and
+  /// `fullscreen` states cannot be combined with `left`, `top`, `width`, or
+  /// `height`.
+  external WindowState? get state;
+
+  /// If `true`, the newly-created window's 'window.opener' is set to the caller
+  /// and is in the same <a
+  /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
+  /// of related browsing contexts</a> as the caller.
+  external bool? get setSelfAsOpener;
+}
+
+@JS()
+@staticInterop
+class UpdateInfo {
+  /// The offset from the left edge of the screen to move the window to in
+  /// pixels. This value is ignored for panels.
+  external int? get left;
+
+  /// The offset from the top edge of the screen to move the window to in
+  /// pixels. This value is ignored for panels.
+  external int? get top;
+
+  /// The width to resize the window to in pixels. This value is ignored for
+  /// panels.
+  external int? get width;
+
+  /// The height to resize the window to in pixels. This value is ignored for
+  /// panels.
+  external int? get height;
+
+  /// If `true`, brings the window to the front; cannot be combined with the
+  /// state 'minimized'. If `false`, brings the next window in the z-order to
+  /// the front; cannot be combined with the state 'fullscreen' or 'maximized'.
+  external bool? get focused;
+
+  /// If `true`, causes the window to be displayed in a manner that draws the
+  /// user's attention to the window, without changing the focused window. The
+  /// effect lasts until the user changes focus to the window. This option has
+  /// no effect if the window already has focus. Set to `false` to cancel a
+  /// previous `drawAttention` request.
+  external bool? get drawAttention;
+
+  /// The new state of the window. The 'minimized', 'maximized', and
+  /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or
+  /// 'height'.
+  external WindowState? get state;
 }

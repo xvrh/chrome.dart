@@ -184,6 +184,48 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |info|: The rule that has been matched along with information about the
   ///  associated request.
   external ChromeEvent get onRuleMatchedDebug;
+
+  ///  The minimum number of static rules guaranteed to an extension across its
+  ///  enabled static rulesets. Any rules above this limit will count towards
+  ///  the <a href="#global-static-rule-limit">global static rule limit</a>.
+  external int get GUARANTEED_MINIMUM_STATIC_RULES;
+
+  ///  The maximum number of dynamic rules that an extension can add.
+  external int get MAX_NUMBER_OF_DYNAMIC_RULES;
+
+  ///  The maximum number of combined dynamic and session scoped rules an
+  ///  extension can add.
+  external int get MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES;
+
+  ///  Time interval within which `MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
+  ///  getMatchedRules` calls can be made, specified in minutes.
+  ///  Additional calls will fail immediately and set $(ref:runtime.lastError).
+  ///  Note: `getMatchedRules` calls associated with a user gesture
+  ///  are exempt from the quota.
+  external int get GETMATCHEDRULES_QUOTA_INTERVAL;
+
+  ///  The number of times `getMatchedRules` can be called within a
+  ///  period of `GETMATCHEDRULES_QUOTA_INTERVAL`.
+  external int get MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+
+  ///  The maximum number of regular expression rules that an extension can
+  ///  add. This limit is evaluated separately for the set of dynamic rules and
+  ///  those specified in the rule resources file.
+  external int get MAX_NUMBER_OF_REGEX_RULES;
+
+  ///  The maximum number of static `Rulesets` an extension can
+  ///  specify as part of the `"rule_resources"` manifest key.
+  external int get MAX_NUMBER_OF_STATIC_RULESETS;
+
+  ///  The maximum number of static `Rulesets` an extension can
+  ///  enable at any one time.
+  external int get MAX_NUMBER_OF_ENABLED_STATIC_RULESETS;
+
+  ///  Ruleset ID for the dynamic rules added by the extension.
+  external String get DYNAMIC_RULESET_ID;
+
+  ///  Ruleset ID for the session-scoped rules added by the extension.
+  external String get SESSION_RULESET_ID;
 }
 
 ///  This describes the resource type of the network request.

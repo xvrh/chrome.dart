@@ -47,6 +47,14 @@ extension JSPrintingExtension on JSPrinting {
   ///  Event fired when the status of the job is changed.
   ///  This is only fired for the jobs created by this extension.
   external ChromeEvent get onJobStatusChanged;
+
+  ///  The maximum number of times that $(ref:submitJob) can be called per
+  ///  minute.
+  external int get MAX_SUBMIT_JOB_CALLS_PER_MINUTE;
+
+  ///  The maximum number of times that $(ref:getPrinterInfo) can be called per
+  ///  minute.
+  external int get MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE;
 }
 
 ///  The status of $(ref:submitJob) request.

@@ -18,7 +18,7 @@ class JsonModelConverter {
       documentation: model.description,
       events: _convertEvents().toList(),
       functions: _convertFunctions().toList(),
-      properties: {},
+      properties: [],
       dictionaries: _convertDictionaries().toList(),
       enumerations: _convertEnums().toList(),
     );

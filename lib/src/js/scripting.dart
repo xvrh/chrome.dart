@@ -14,12 +14,90 @@ extension JSChromeJSScriptingExtension on JSChrome {
 class JSScripting {}
 
 extension JSScriptingExtension on JSScripting {
+  ///  Injects a script into a target context. The script will be run at
+  ///  `document_idle`. If the script evaluates to a promise,
+  ///  the browser will wait for the promise to settle and return the
+  ///  resulting value.
+  ///  |injection|: The details of the script which to inject.
+  ///  |callback|: Invoked upon completion of the injection. The resulting
+  ///  array contains the result of execution for each frame where the
+  ///  injection succeeded.
+  external void executeScript(
+    ScriptInjection injection,
+    JSFunction callback,
+  );
+
+  ///  Inserts a CSS stylesheet into a target context.
+  ///  If multiple frames are specified, unsuccessful injections are ignored.
+  ///  |injection|: The details of the styles to insert.
+  ///  |callback|: Invoked upon completion of the insertion.
+  external void insertCSS(
+    CSSInjection injection,
+    JSFunction callback,
+  );
+
+  ///  Removes a CSS stylesheet that was previously inserted by this extension
+  ///  from a target context.
+  ///  |injection|: The details of the styles to remove. Note that the
+  ///  `css`, `files`, and `origin` properties
+  ///  must exactly match the stylesheet inserted through $(ref:insertCSS).
+  ///  Attempting to remove a non-existent stylesheet is a no-op.
+  ///  |callback|: A callback to be invoked upon the completion of the removal.
+  external void removeCSS(
+    CSSInjection injection,
+    JSFunction callback,
+  );
+
+  ///  Registers one or more content scripts for this extension.
+  ///  |scripts|: Contains a list of scripts to be registered. If there are
+  ///  errors during script parsing/file validation, or if the IDs specified
+  ///  already exist, then no scripts are registered.
+  ///  |callback|: A callback to be invoked once scripts have been fully
+  ///  registered or if an error has occurred.
+  external void registerContentScripts(
+    JSArray scripts,
+    JSFunction callback,
+  );
+
+  ///  Returns all dynamically registered content scripts for this extension
+  ///  that match the given filter.
+  ///  |filter|: An object to filter the extension's dynamically registered
+  ///  scripts.
+  external void getRegisteredContentScripts(
+    ContentScriptFilter? filter,
+    JSFunction callback,
+  );
+
+  ///  Unregisters content scripts for this extension.
+  ///  |filter|: If specified, only unregisters dynamic content scripts which
+  ///  match the filter. Otherwise, all of the extension's dynamic content
+  ///  scripts are unregistered.
+  ///  |callback|: A callback to be invoked once scripts have been unregistered
+  ///  or if an error has occurred.
+  external void unregisterContentScripts(
+    ContentScriptFilter? filter,
+    JSFunction callback,
+  );
+
+  ///  Updates one or more content scripts for this extension.
+  ///  |scripts|: Contains a list of scripts to be updated. A property is only
+  ///  updated for the existing script if it is specified in this object. If
+  ///  there are errors during script parsing/file validation, or if the IDs
+  ///  specified do not correspond to a fully registered script, then no scripts
+  ///  are updated.
+  ///  |callback|: A callback to be invoked once scripts have been updated or
+  ///  if an error has occurred.
+  external void updateContentScripts(
+    JSArray scripts,
+    JSFunction callback,
+  );
+
   ///  An object available for content scripts running in isolated worlds to use
   ///  and modify as a JS object. One instance exists per frame and is shared
   ///  between all content scripts for a given extension. This object is
   ///  initialized when the frame is created, before document_start.
   ///  TODO(crbug.com/1054624): Enable this once implementation is complete.
-  external void globalParams();
+  external int get globalParams;
 }
 
 ///  The origin for a style change.

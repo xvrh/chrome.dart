@@ -45,6 +45,8 @@ class ChromeIDLGrammar extends GrammarDefinition {
                   body.whereType<IDLCallbackDeclaration>().toList(),
               functionDeclaration:
                   body.whereType<IDLFunctionDeclaration>().firstOrNull,
+              propertiesDeclaration:
+                  body.whereType<IDLPropertiesDeclaration>().firstOrNull,
               enumDeclarations: body.whereType<IDLEnumDeclaration>().toList(),
               typeDeclarations: body.whereType<IDLTypeDeclaration>().toList(),
               eventDeclaration:
@@ -84,7 +86,7 @@ class ChromeIDLGrammar extends GrammarDefinition {
       ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
           IDLFunctionDeclaration(methods, documentation: doc, attribute: attr));
 
-  Parser<IDLFunctionDeclaration> propertiesDeclaration() => (
+  Parser<IDLPropertiesDeclaration> propertiesDeclaration() => (
         ref0(docString),
         ref0(attributeDeclaration).optional(),
         ref1(token, 'interface'),
@@ -92,7 +94,8 @@ class ChromeIDLGrammar extends GrammarDefinition {
         bracket('{}', ref0(methods)),
         ref1(token, ';'),
       ).toSequenceParser().map6((doc, attr, _, __, methods, ___) =>
-          IDLFunctionDeclaration(methods, documentation: doc, attribute: attr));
+          IDLPropertiesDeclaration(methods,
+              documentation: doc, attribute: attr));
 
   Parser<List<IDLMethod>> methods() => ref0(method).star();
 

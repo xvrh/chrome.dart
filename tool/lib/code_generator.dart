@@ -38,7 +38,8 @@ class CodeGenerator {
           ..name = '${bindingClassName}Extension'
           ..on = refer(bindingClassName)
           ..methods.addAll(api.functions.map(_bindingFunction))
-          ..methods.addAll(api.events.map(_bindingEvent))),
+          ..methods.addAll(api.events.map(_bindingEvent))
+          ..methods.addAll(api.properties.map(_bindingProperty))),
         for (var type in api.enumerations)
           TypeDef((b) => b
             ..name = type.name
@@ -86,6 +87,15 @@ class CodeGenerator {
       ..docs.add(documentationComment(event.documentation, indent: 2))
       ..external = true
       ..returns = refer('ChromeEvent', _sharedCodeUrl)
+      ..type = MethodType.getter);
+  }
+
+  Method _bindingProperty(model.Property prop) {
+    return Method((b) => b
+      ..name = prop.name
+      ..returns = refer(prop.type.bindingName, prop.type.bindingUrl)
+      ..docs.add(documentationComment(prop.documentation, indent: 2))
+      ..external = true
       ..type = MethodType.getter);
   }
 

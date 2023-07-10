@@ -25,7 +25,7 @@ void generateApi(String apiName) {
   if (idlFile.path.endsWith('.json')) {
     model = JsonModelConverter(json.JsonNamespace.parse(content)).convert();
   } else {
-    model = idl.loadIdlModel(content);
+    model = idl.IdlModelConverter.fromString(content).convert();
   }
 
   var output = CodeGenerator(model);

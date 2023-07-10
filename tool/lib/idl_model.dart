@@ -7,6 +7,7 @@ class IDLNamespaceDeclaration {
 
   final IDLAttributeDeclaration? attribute;
   final IDLFunctionDeclaration? functionDeclaration;
+  final IDLPropertiesDeclaration? propertiesDeclaration;
   final List<IDLTypeDeclaration> typeDeclarations;
   final IDLEventDeclaration? eventDeclaration;
   final List<IDLCallbackDeclaration> callbackDeclarations;
@@ -18,6 +19,7 @@ class IDLNamespaceDeclaration {
 
   IDLNamespaceDeclaration(this.name,
       {this.functionDeclaration,
+      this.propertiesDeclaration,
       required this.typeDeclarations,
       this.eventDeclaration,
       required this.callbackDeclarations,
@@ -36,10 +38,25 @@ class IDLFunctionDeclaration {
   final IDLAttributeDeclaration? attribute;
   final List<IDLMethod> methods;
   final List<String> documentation;
+
   IDLFunctionDeclaration(this.methods,
       {this.attribute, required this.documentation});
+
   String toString() =>
       "IDLFunctionDeclaration($name, $attribute, $methods, $documentation)";
+}
+
+class IDLPropertiesDeclaration {
+  final String name = "Properties";
+  final IDLAttributeDeclaration? attribute;
+  final List<IDLMethod> methods;
+  final List<String> documentation;
+
+  IDLPropertiesDeclaration(this.methods,
+      {this.attribute, required this.documentation});
+
+  String toString() =>
+      "IDLPropertiesDeclaration($name, $attribute, $methods, $documentation)";
 }
 
 /// This class provides a model for IDL-specified type definitions.

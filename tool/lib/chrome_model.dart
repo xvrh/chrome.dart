@@ -6,7 +6,7 @@ class ChromeApi {
   final String documentation;
   final List<Event> events;
   final List<Method> functions;
-  final Map<String, Property> properties;
+  final List<Property> properties;
   final List<Dictionary> dictionaries;
   final List<Enumeration> enumerations;
 

@@ -32,28 +32,32 @@ class JsonModelConverter {
 
   Iterable<Method> _convertFunctions() sync* {
     for (var f in model.functions) {
-      var jsonReturns = f.returnsAsync ?? f.returns;
-      var returns = MethodReturn(
-          type: TypeRef.void$, isAsync: false, supportPromise: false);
-      if (jsonReturns != null) {
-        var supportsPromises = f.returnsAsync != null;
-        var isAsync = jsonReturns.parameters != null;
+      yield _convertFunction(f);
+    }
+  }
 
-        returns = MethodReturn(
-          type: _propertyType(jsonReturns),
-          isAsync: isAsync,
-          supportPromise: supportsPromises,
-          name: jsonReturns.name,
-        );
-      }
+  Method _convertFunction(JsonFunction f) {
+    var jsonReturns = f.returnsAsync ?? f.returns;
+    var returns = MethodReturn(
+        type: TypeRef.void$, isAsync: false, supportPromise: false);
+    if (jsonReturns != null) {
+      var supportsPromises = f.returnsAsync != null;
+      var isAsync = jsonReturns.parameters != null;
 
-      yield Method(
-        f.name,
-        returns: returns,
-        parameters: _functionParameters(f).toList(),
-        documentation: f.description,
+      returns = MethodReturn(
+        type: _propertyType(jsonReturns),
+        isAsync: isAsync,
+        supportPromise: supportsPromises,
+        name: jsonReturns.name,
       );
     }
+
+    return Method(
+      f.name,
+      returns: returns,
+      parameters: _functionParameters(f).toList(),
+      documentation: f.description,
+    );
   }
 
   Iterable<Property> _functionParameters(JsonFunction function) sync* {
@@ -127,9 +131,17 @@ class JsonModelConverter {
         }
       }
 
+      var methods = <Method>[];
+      if (t.functions != null) {
+        for (var f in t.functions!) {
+          methods.add(_convertFunction(f));
+        }
+      }
+
       yield Dictionary(
         t.id,
         properties: properties,
+        methods: methods,
         documentation: t.description,
         isAnonymous: t.isAnonymous,
       );

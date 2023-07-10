@@ -28,4 +28,7 @@ extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
 @staticInterop
 class Request {}
 
-extension RequestExtension on Request {}
+extension RequestExtension on Request {
+  /// Returns content of the response body.
+  external void getContent(JSFunction callback);
+}

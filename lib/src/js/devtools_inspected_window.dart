@@ -55,6 +55,16 @@ class Resource {}
 extension ResourceExtension on Resource {
   /// The URL of the resource.
   external JSString get url;
+
+  /// Gets the content of the resource.
+  external void getContent(JSFunction callback);
+
+  /// Sets the content of the resource.
+  external void setContent(
+    JSString content,
+    JSBoolean commit,
+    JSFunction? callback,
+  );
 }
 
 @JS()

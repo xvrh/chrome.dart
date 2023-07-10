@@ -87,13 +87,16 @@ class JsonFunction {
       _$JsonFunctionFromJson(json);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class JsonDeclaredType {
   final String id;
   final String? type;
 
   @JsonKey(defaultValue: '')
   final String description;
+  final String? decription;
+
+  final String? name;
 
   @JsonKey(name: 'enum')
   @_JsonEnumConverter()
@@ -101,11 +104,62 @@ class JsonDeclaredType {
 
   final Map<String, JsonProperty>? properties;
 
+  final List<JsonFunction>? functions;
+
+  final List<JsonProperty>? events;
+
+  final JsonProperty? additionalProperties;
+
+  final bool? nodoc, nocompile;
+
+  @JsonKey(name: 'js_module')
+  final Object? jsModule;
+
+  @JsonKey(name: 'inline_doc')
+  final Object? inlineDoc;
+
+  final Object? customBindings;
+
+  final List<JsonProperty>? choices;
+
+  final JsonProperty? items;
+
+  final int? maxItems, minItems;
+
+  final String? deprecated;
+  final bool? optional;
+  final List<String>? required;
+
+  final String? isInstanceOf;
+
   @JsonKey(includeFromJson: false)
   bool isAnonymous = false;
 
-  JsonDeclaredType(this.id, this.description,
-      {this.type, this.enums, this.properties});
+  JsonDeclaredType(
+    this.id,
+    this.description, {
+    this.name,
+    this.type,
+    this.enums,
+    this.properties,
+    this.functions,
+    this.events,
+    this.nodoc,
+    this.nocompile,
+    this.additionalProperties,
+    this.choices,
+    this.jsModule,
+    this.inlineDoc,
+    this.customBindings,
+    this.items,
+    this.maxItems,
+    this.minItems,
+    this.deprecated,
+    this.optional,
+    this.required,
+    this.isInstanceOf,
+    this.decription,
+  });
 
   factory JsonDeclaredType.fromJson(Map<String, dynamic> json) =>
       _$JsonDeclaredTypeFromJson(json);
@@ -156,33 +210,37 @@ class JsonProperty {
   @JsonKey(name: 'min_version')
   final String? minVersion;
 
+  final bool? nocompile;
+
   JsonProperty(
-      this.name,
-      this.type,
-      this.minimum,
-      this.maximum,
-      this.minLength,
-      this.maxLength,
-      this.optional,
-      this.description,
-      this.deprecated,
-      this.$ref,
-      this.properties,
-      this.value,
-      this.isInstanceOf,
-      this.additionalProperties,
-      this.parameters,
-      this.items,
-      this.extensionTypes,
-      this.nodoc,
-      this.choices,
-      this.maxItems,
-      this.minItems,
-      this.enums,
-      this.platforms,
-      this.preserveNull,
-      this.serializedType,
-      this.minVersion);
+    this.name,
+    this.type,
+    this.minimum,
+    this.maximum,
+    this.minLength,
+    this.maxLength,
+    this.optional,
+    this.description,
+    this.deprecated,
+    this.$ref,
+    this.properties,
+    this.value,
+    this.isInstanceOf,
+    this.additionalProperties,
+    this.parameters,
+    this.items,
+    this.extensionTypes,
+    this.nodoc,
+    this.choices,
+    this.maxItems,
+    this.minItems,
+    this.enums,
+    this.platforms,
+    this.preserveNull,
+    this.serializedType,
+    this.minVersion,
+    this.nocompile,
+  );
 
   factory JsonProperty.fromJson(Map<String, dynamic> json) =>
       _$JsonPropertyFromJson(json);

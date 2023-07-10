@@ -32,10 +32,24 @@ extension JSDevtoolsRecorderExtension on JSDevtoolsRecorder {
 @staticInterop
 class RecorderExtensionPlugin {}
 
-extension RecorderExtensionPluginExtension on RecorderExtensionPlugin {}
+extension RecorderExtensionPluginExtension on RecorderExtensionPlugin {
+  /// Converts a recording from the Recorder panel format into a string.
+  external void stringify(JSObject recording);
+
+  /// Converts a step of the recording from the Recorder panel format into a
+  /// string.
+  external void stringifyStep(JSObject step);
+
+  /// Allows the extension to implement custom replay functionality.
+  external void replay(JSObject recording);
+}
 
 @JS()
 @staticInterop
 class RecorderView {}
 
-extension RecorderViewExtension on RecorderView {}
+extension RecorderViewExtension on RecorderView {
+  /// Indicates that the extension wants to show this view in the Recorder
+  /// panel.
+  external void show();
+}

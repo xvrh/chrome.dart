@@ -181,4 +181,75 @@ extension ResourceIdentifierExtension on ResourceIdentifier {
 @staticInterop
 class ContentSetting {}
 
-extension ContentSettingExtension on ContentSetting {}
+extension ContentSettingExtension on ContentSetting {
+  /// Clear all content setting rules set by this extension.
+  external JSPromise clear(ClearDetails details);
+
+  /// Gets the current content setting for a given pair of URLs.
+  external JSPromise get(GetDetails details);
+
+  /// Applies a new content setting rule.
+  external JSPromise set(SetDetails details);
+
+  external JSPromise getResourceIdentifiers();
+}
+
+@JS()
+@staticInterop
+@anonymous
+class ClearDetails {
+  external factory ClearDetails(
+
+      /// Where to clear the setting (default: regular).
+      Scope? scope);
+}
+
+@JS()
+@staticInterop
+@anonymous
+class GetDetails {
+  external factory GetDetails(
+    /// The primary URL for which the content setting should be retrieved. Note
+    /// that the meaning of a primary URL depends on the content type.
+    JSString primaryUrl,
+
+    /// The secondary URL for which the content setting should be retrieved.
+    /// Defaults to the primary URL. Note that the meaning of a secondary URL
+    /// depends on the content type, and not all content types use secondary URLs.
+    JSString? secondaryUrl,
+
+    /// A more specific identifier of the type of content for which the settings
+    /// should be retrieved.
+    ResourceIdentifier? resourceIdentifier,
+
+    /// Whether to check the content settings for an incognito session. (default
+    /// false)
+    JSBoolean? incognito,
+  );
+}
+
+@JS()
+@staticInterop
+@anonymous
+class SetDetails {
+  external factory SetDetails(
+    /// The pattern for the primary URL. For details on the format of a pattern,
+    /// see <a href='contentSettings#patterns'>Content Setting Patterns</a>.
+    JSString primaryPattern,
+
+    /// The pattern for the secondary URL. Defaults to matching all URLs. For
+    /// details on the format of a pattern, see <a
+    /// href='contentSettings#patterns'>Content Setting Patterns</a>.
+    JSString? secondaryPattern,
+
+    /// The resource identifier for the content type.
+    ResourceIdentifier? resourceIdentifier,
+
+    /// The setting applied by this rule. See the description of the individual
+    /// ContentSetting objects for the possible values.
+    JSAny setting,
+
+    /// Where to set the setting (default: regular).
+    Scope? scope,
+  );
+}

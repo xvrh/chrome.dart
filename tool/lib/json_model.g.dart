@@ -46,18 +46,77 @@ JsonFunction _$JsonFunctionFromJson(Map<String, dynamic> json) => JsonFunction(
               json['returns_async'] as Map<String, dynamic>),
     );
 
-JsonDeclaredType _$JsonDeclaredTypeFromJson(Map<String, dynamic> json) =>
-    JsonDeclaredType(
-      json['id'] as String,
-      json['description'] as String? ?? '',
-      type: json['type'] as String?,
-      enums: (json['enum'] as List<dynamic>?)
-          ?.map((e) => const _JsonEnumConverter().fromJson(e as Object))
-          .toList(),
-      properties: (json['properties'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, JsonProperty.fromJson(e as Map<String, dynamic>)),
-      ),
-    );
+JsonDeclaredType _$JsonDeclaredTypeFromJson(Map<String, dynamic> json) {
+  $checkKeys(
+    json,
+    allowedKeys: const [
+      'id',
+      'type',
+      'description',
+      'decription',
+      'name',
+      'enum',
+      'properties',
+      'functions',
+      'events',
+      'additionalProperties',
+      'nodoc',
+      'nocompile',
+      'js_module',
+      'inline_doc',
+      'customBindings',
+      'choices',
+      'items',
+      'maxItems',
+      'minItems',
+      'deprecated',
+      'optional',
+      'required',
+      'isInstanceOf'
+    ],
+  );
+  return JsonDeclaredType(
+    json['id'] as String,
+    json['description'] as String? ?? '',
+    name: json['name'] as String?,
+    type: json['type'] as String?,
+    enums: (json['enum'] as List<dynamic>?)
+        ?.map((e) => const _JsonEnumConverter().fromJson(e as Object))
+        .toList(),
+    properties: (json['properties'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, JsonProperty.fromJson(e as Map<String, dynamic>)),
+    ),
+    functions: (json['functions'] as List<dynamic>?)
+        ?.map((e) => JsonFunction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    events: (json['events'] as List<dynamic>?)
+        ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nodoc: json['nodoc'] as bool?,
+    nocompile: json['nocompile'] as bool?,
+    additionalProperties: json['additionalProperties'] == null
+        ? null
+        : JsonProperty.fromJson(
+            json['additionalProperties'] as Map<String, dynamic>),
+    choices: (json['choices'] as List<dynamic>?)
+        ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    jsModule: json['js_module'],
+    inlineDoc: json['inline_doc'],
+    customBindings: json['customBindings'],
+    items: json['items'] == null
+        ? null
+        : JsonProperty.fromJson(json['items'] as Map<String, dynamic>),
+    maxItems: json['maxItems'] as int?,
+    minItems: json['minItems'] as int?,
+    deprecated: json['deprecated'] as String?,
+    optional: json['optional'] as bool?,
+    required:
+        (json['required'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    isInstanceOf: json['isInstanceOf'] as String?,
+    decription: json['decription'] as String?,
+  );
+}
 
 JsonProperty _$JsonPropertyFromJson(Map<String, dynamic> json) {
   $checkKeys(
@@ -88,7 +147,8 @@ JsonProperty _$JsonPropertyFromJson(Map<String, dynamic> json) {
       'platforms',
       'preserveNull',
       'serialized_type',
-      'min_version'
+      'min_version',
+      'nocompile'
     ],
   );
   return JsonProperty(
@@ -133,5 +193,6 @@ JsonProperty _$JsonPropertyFromJson(Map<String, dynamic> json) {
     json['preserveNull'] as bool?,
     json['serialized_type'] as String?,
     json['min_version'] as String?,
+    json['nocompile'] as bool?,
   );
 }

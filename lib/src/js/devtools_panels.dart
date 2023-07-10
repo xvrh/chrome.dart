@@ -50,28 +50,76 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 @staticInterop
 class ElementsPanel {}
 
-extension ElementsPanelExtension on ElementsPanel {}
+extension ElementsPanelExtension on ElementsPanel {
+  /// Creates a pane within panel's sidebar.
+  external void createSidebarPane(
+    JSString title,
+    JSFunction? callback,
+  );
+}
 
 @JS()
 @staticInterop
 class SourcesPanel {}
 
-extension SourcesPanelExtension on SourcesPanel {}
+extension SourcesPanelExtension on SourcesPanel {
+  /// Creates a pane within panel's sidebar.
+  external void createSidebarPane(
+    JSString title,
+    JSFunction? callback,
+  );
+}
 
 @JS()
 @staticInterop
 class ExtensionPanel {}
 
-extension ExtensionPanelExtension on ExtensionPanel {}
+extension ExtensionPanelExtension on ExtensionPanel {
+  /// Appends a button to the status bar of the panel.
+  external Button createStatusBarButton(
+    JSString iconPath,
+    JSString tooltipText,
+    JSBoolean disabled,
+  );
+}
 
 @JS()
 @staticInterop
 class ExtensionSidebarPane {}
 
-extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {}
+extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
+  /// Sets the height of the sidebar.
+  external void setHeight(JSString height);
+
+  /// Sets an expression that is evaluated within the inspected page. The result
+  /// is displayed in the sidebar pane.
+  external void setExpression(
+    JSString expression,
+    JSString? rootTitle,
+    JSFunction? callback,
+  );
+
+  /// Sets a JSON-compliant object to be displayed in the sidebar pane.
+  external void setObject(
+    JSString jsonObject,
+    JSString? rootTitle,
+    JSFunction? callback,
+  );
+
+  /// Sets an HTML page to be displayed in the sidebar pane.
+  external void setPage(JSString path);
+}
 
 @JS()
 @staticInterop
 class Button {}
 
-extension ButtonExtension on Button {}
+extension ButtonExtension on Button {
+  /// Updates the attributes of the button. If some of the arguments are omitted
+  /// or `null`, the corresponding attributes are not updated.
+  external void update(
+    JSString? iconPath,
+    JSString? tooltipText,
+    JSBoolean? disabled,
+  );
+}

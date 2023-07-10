@@ -127,7 +127,8 @@ class CodeGenerator {
       yield Extension((b) => b
         ..name = '${type.name}Extension'
         ..on = refer(type.name)
-        ..methods.addAll(type.properties.map(_bindingTypeProperty)));
+        ..methods.addAll(type.properties.map(_bindingTypeProperty))
+        ..methods.addAll(type.methods.map(_bindingFunction)));
     }
   }
 

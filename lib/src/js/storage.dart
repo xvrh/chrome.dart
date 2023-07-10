@@ -51,4 +51,33 @@ extension StorageChangeExtension on StorageChange {
 @staticInterop
 class StorageArea {}
 
-extension StorageAreaExtension on StorageArea {}
+extension StorageAreaExtension on StorageArea {
+  /// Gets one or more items from storage.
+  external JSPromise get(JSObject? keys);
+
+  /// Gets the amount of space (in bytes) being used by one or more items.
+  external JSPromise getBytesInUse(JSObject? keys);
+
+  /// Sets multiple items.
+  external JSPromise set(JSObject items);
+
+  /// Removes one or more items from storage.
+  external JSPromise remove(JSObject keys);
+
+  /// Removes all items from storage.
+  external JSPromise clear();
+
+  /// Sets the desired access level for the storage area. The default will be
+  /// only trusted contexts.
+  external JSPromise setAccessLevel(SetAccessLevelAccessOptions accessOptions);
+}
+
+@JS()
+@staticInterop
+@anonymous
+class SetAccessLevelAccessOptions {
+  external factory SetAccessLevelAccessOptions(
+
+      /// The access level of the storage area.
+      AccessLevel accessLevel);
+}

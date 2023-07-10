@@ -126,12 +126,14 @@ class EnumerationValue {
 class Dictionary {
   final String name;
   final List<Property> properties;
+  final List<Method> methods;
   final String documentation;
   final bool isAnonymous;
 
   Dictionary(
     this.name, {
     required this.properties,
+    required this.methods,
     required this.documentation,
     required this.isAnonymous,
   });

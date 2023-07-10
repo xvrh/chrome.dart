@@ -36,4 +36,49 @@ typedef LevelOfControl = JSString;
 @staticInterop
 class ChromeSetting {}
 
-extension ChromeSettingExtension on ChromeSetting {}
+extension ChromeSettingExtension on ChromeSetting {
+  /// Gets the value of a setting.
+  external JSPromise get(GetDetails details);
+
+  /// Sets the value of a setting.
+  external JSPromise set(SetDetails details);
+
+  /// Clears the setting, restoring any default value.
+  external JSPromise clear(ClearDetails details);
+}
+
+@JS()
+@staticInterop
+@anonymous
+class GetDetails {
+  external factory GetDetails(
+
+      /// Whether to return the value that applies to the incognito session (default
+      /// false).
+      JSBoolean? incognito);
+}
+
+@JS()
+@staticInterop
+@anonymous
+class SetDetails {
+  external factory SetDetails(
+    /// The value of the setting. <br/>Note that every setting has a specific
+    /// value type, which is described together with the setting. An extension
+    /// should <em>not</em> set a value of a different type.
+    JSAny value,
+
+    /// Where to set the setting (default: regular).
+    ChromeSettingScope? scope,
+  );
+}
+
+@JS()
+@staticInterop
+@anonymous
+class ClearDetails {
+  external factory ClearDetails(
+
+      /// Where to clear the setting (default: regular).
+      ChromeSettingScope? scope);
+}

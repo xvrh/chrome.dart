@@ -40,7 +40,41 @@ extension RuleExtension on Rule {
 @staticInterop
 class Event {}
 
-extension EventExtension on Event {}
+extension EventExtension on Event {
+  /// Registers an event listener <em>callback</em> to an event.
+  external void addListener(JSFunction callback);
+
+  /// Deregisters an event listener <em>callback</em> from an event.
+  external void removeListener(JSFunction callback);
+
+  external JSBoolean hasListener(JSFunction callback);
+
+  external JSBoolean hasListeners();
+
+  /// Registers rules to handle events.
+  external void addRules(
+    JSString eventName,
+    JSNumber webViewInstanceId,
+    JSArray rules,
+    JSFunction? callback,
+  );
+
+  /// Returns currently registered rules.
+  external void getRules(
+    JSString eventName,
+    JSNumber webViewInstanceId,
+    JSArray? ruleIdentifiers,
+    JSFunction callback,
+  );
+
+  /// Unregisters currently registered rules.
+  external void removeRules(
+    JSString eventName,
+    JSNumber webViewInstanceId,
+    JSArray? ruleIdentifiers,
+    JSFunction? callback,
+  );
+}
 
 @JS()
 @staticInterop

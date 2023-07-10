@@ -64,6 +64,7 @@ class IdlModelConverter {
       yield Dictionary(
         t.name,
         properties: properties,
+        methods: [],
         documentation: _toDocumentation(t.documentation),
         //TODO: make it anonymous if this is a "input" only type?
         isAnonymous: false,

@@ -22,7 +22,9 @@ typedef AccessLevel = JSString;
 
 @JS()
 @staticInterop
-class StorageChange {
+class StorageChange {}
+
+extension StorageChangeExtension on StorageChange {
   /// The old value of the item, if there was an old value.
   external JSAny? get oldValue;
 
@@ -33,3 +35,5 @@ class StorageChange {
 @JS()
 @staticInterop
 class StorageArea {}
+
+extension StorageAreaExtension on StorageArea {}

@@ -40,17 +40,20 @@ typedef SelfCapturePreferenceEnum = JSString;
 
 @JS()
 @staticInterop
+@anonymous
 class ChooseDesktopMediaOptions {
-  /// Mirrors <a
-  /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio">systemAudio</a>.
-  external SystemAudioPreferenceEnum? get systemAudio;
+  external factory ChooseDesktopMediaOptions(
+    /// Mirrors <a
+    /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio">systemAudio</a>.
+    SystemAudioPreferenceEnum? systemAudio,
 
-  /// Mirrors <a
-  /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface">selfBrowserSurface</a>.
-  external SelfCapturePreferenceEnum? get selfBrowserSurface;
+    /// Mirrors <a
+    /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface">selfBrowserSurface</a>.
+    SelfCapturePreferenceEnum? selfBrowserSurface,
 
-  /// Indicates that the caller intends to perform local audio suppression, and
-  /// that the media picker shown to the user should therefore reflect that with
-  /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
-  external bool? get suppressLocalAudioPlaybackIntended;
+    /// Indicates that the caller intends to perform local audio suppression, and
+    /// that the media picker shown to the user should therefore reflect that with
+    /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
+    bool? suppressLocalAudioPlaybackIntended,
+  );
 }

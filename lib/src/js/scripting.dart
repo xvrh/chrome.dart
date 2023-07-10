@@ -34,7 +34,9 @@ typedef ExecutionWorld = JSString;
 
 @JS()
 @staticInterop
-class InjectionTarget {
+class InjectionTarget {}
+
+extension InjectionTargetExtension on InjectionTarget {
   ///  The ID of the tab into which to inject.
   external int get tabId;
 
@@ -57,7 +59,9 @@ class InjectionTarget {
 
 @JS()
 @staticInterop
-class ScriptInjection {
+class ScriptInjection {}
+
+extension ScriptInjectionExtension on ScriptInjection {
   ///  A JavaScript function to inject. This function will be serialized, and
   ///  then deserialized for injection. This means that any bound parameters
   ///  and execution context will be lost.
@@ -99,7 +103,9 @@ class ScriptInjection {
 
 @JS()
 @staticInterop
-class CSSInjection {
+class CSSInjection {}
+
+extension CSSInjectionExtension on CSSInjection {
   ///  Details specifying the target into which to insert the CSS.
   external InjectionTarget get target;
 
@@ -120,7 +126,9 @@ class CSSInjection {
 
 @JS()
 @staticInterop
-class InjectionResult {
+class InjectionResult {}
+
+extension InjectionResultExtension on InjectionResult {
   ///  The result of the script execution.
   external JSAny? get result;
 
@@ -133,7 +141,9 @@ class InjectionResult {
 
 @JS()
 @staticInterop
-class RegisteredContentScript {
+class RegisteredContentScript {}
+
+extension RegisteredContentScriptExtension on RegisteredContentScript {
   ///  The id of the content script, specified in the API call. Must not start
   ///  with a '_' as it's reserved as a prefix for generated script IDs.
   external String get id;
@@ -184,7 +194,9 @@ class RegisteredContentScript {
 
 @JS()
 @staticInterop
-class ContentScriptFilter {
+class ContentScriptFilter {}
+
+extension ContentScriptFilterExtension on ContentScriptFilter {
   ///  If specified, $(ref:getRegisteredContentScripts) will only return scripts
   ///  with an id specified in this list.
   external JSArray? get ids;

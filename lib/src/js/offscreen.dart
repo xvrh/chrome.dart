@@ -39,7 +39,9 @@ typedef Reason = JSString;
 
 @JS()
 @staticInterop
-class CreateParameters {
+class CreateParameters {}
+
+extension CreateParametersExtension on CreateParameters {
   ///  The reason(s) the extension is creating the offscreen document.
   external JSArray get reasons;
 

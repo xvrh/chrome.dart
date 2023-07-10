@@ -21,10 +21,13 @@ ChromeApi loadIdlModel(String content) {
       throw UnimplementedError('${namespace.name} / ${t.name} has methods');
     }
 
-    var dict = Dictionary(t.name,
-        properties: properties,
-        methods: [],
-        documentation: _toDocumentation(t.documentation));
+    var dict = Dictionary(
+      t.name,
+      properties: properties,
+      documentation: _toDocumentation(t.documentation),
+      //TODO: make it anonymous if this is a "input" only type?
+      isAnonymous: false,
+    );
     dictionaries.add(dict);
   }
 

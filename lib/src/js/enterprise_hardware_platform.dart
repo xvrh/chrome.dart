@@ -24,7 +24,9 @@ extension JSEnterpriseHardwarePlatformExtension
 
 @JS()
 @staticInterop
-class HardwarePlatformInfo {
+class HardwarePlatformInfo {}
+
+extension HardwarePlatformInfoExtension on HardwarePlatformInfo {
   external String get model;
 
   external String get manufacturer;

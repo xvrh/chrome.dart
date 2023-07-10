@@ -29,7 +29,7 @@ void generateApi(String apiName) {
   }
 
   var output = CodeGenerator(model);
-  File(p.join('lib', 'js', '$fileName.dart'))
+  File(p.join('lib', 'src', 'js', '$fileName.dart'))
       .writeAsStringSync(output.jsBinding());
   File(p.join('lib', '$fileName.dart'))
       .writeAsStringSync(output.highLevelApi());

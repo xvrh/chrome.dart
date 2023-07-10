@@ -86,7 +86,9 @@ typedef IgnoredActionType = JSString;
 
 @JS()
 @staticInterop
-class RequestFilter {
+class RequestFilter {}
+
+extension RequestFilterExtension on RequestFilter {
   /// A list of URLs or URL patterns. Requests that cannot match any of the URLs
   /// will be filtered out.
   external JSArray get urls;
@@ -104,9 +106,13 @@ class RequestFilter {
 @staticInterop
 class HttpHeaders {}
 
+extension HttpHeadersExtension on HttpHeaders {}
+
 @JS()
 @staticInterop
-class BlockingResponse {
+class BlockingResponse {}
+
+extension BlockingResponseExtension on BlockingResponse {
   /// If true, the request is cancelled. This prevents the request from being
   /// sent. This can be used as a response to the onBeforeRequest,
   /// onBeforeSendHeaders, onHeadersReceived and onAuthRequired events.
@@ -140,7 +146,9 @@ class BlockingResponse {
 
 @JS()
 @staticInterop
-class UploadData {
+class UploadData {}
+
+extension UploadDataExtension on UploadData {
   /// An ArrayBuffer with a copy of the data.
   external JSAny? get bytes;
 
@@ -152,9 +160,14 @@ class UploadData {
 @staticInterop
 class FormDataItem {}
 
+extension FormDataItemExtension on FormDataItem {}
+
 @JS()
 @staticInterop
-class BlockingResponseAuthCredentials {
+class BlockingResponseAuthCredentials {}
+
+extension BlockingResponseAuthCredentialsExtension
+    on BlockingResponseAuthCredentials {
   external String get username;
 
   external String get password;

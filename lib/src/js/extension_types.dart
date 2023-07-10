@@ -38,7 +38,9 @@ typedef ExecutionWorld = JSString;
 
 @JS()
 @staticInterop
-class ImageDetails {
+class ImageDetails {}
+
+extension ImageDetailsExtension on ImageDetails {
   /// The format of the resulting image.  Default is `"jpeg"`.
   external ImageFormat? get format;
 
@@ -51,7 +53,9 @@ class ImageDetails {
 
 @JS()
 @staticInterop
-class InjectDetails {
+class InjectDetails {}
+
+extension InjectDetailsExtension on InjectDetails {
   /// JavaScript or CSS code to inject.
   ///
   /// **Warning:**
@@ -93,7 +97,9 @@ class InjectDetails {
 
 @JS()
 @staticInterop
-class DeleteInjectionDetails {
+class DeleteInjectionDetails {}
+
+extension DeleteInjectionDetailsExtension on DeleteInjectionDetails {
   /// CSS code to remove.
   external String? get code;
 

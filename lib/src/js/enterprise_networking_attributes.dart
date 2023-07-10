@@ -27,7 +27,9 @@ extension JSEnterpriseNetworkingAttributesExtension
 
 @JS()
 @staticInterop
-class NetworkDetails {
+class NetworkDetails {}
+
+extension NetworkDetailsExtension on NetworkDetails {
   ///  The device's MAC address.
   external String get macAddress;
 

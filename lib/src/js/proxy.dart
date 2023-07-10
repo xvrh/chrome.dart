@@ -24,7 +24,9 @@ typedef Mode = JSString;
 
 @JS()
 @staticInterop
-class ProxyServer {
+class ProxyServer {}
+
+extension ProxyServerExtension on ProxyServer {
   /// The scheme (protocol) of the proxy server itself. Defaults to 'http'.
   external Scheme? get scheme;
 
@@ -39,7 +41,9 @@ class ProxyServer {
 
 @JS()
 @staticInterop
-class ProxyRules {
+class ProxyRules {}
+
+extension ProxyRulesExtension on ProxyRules {
   /// The proxy server to be used for all per-URL requests (that is http, https,
   /// and ftp).
   external ProxyServer? get singleProxy;
@@ -63,7 +67,9 @@ class ProxyRules {
 
 @JS()
 @staticInterop
-class PacScript {
+class PacScript {}
+
+extension PacScriptExtension on PacScript {
   /// URL of the PAC file to be used.
   external String? get url;
 
@@ -77,7 +83,9 @@ class PacScript {
 
 @JS()
 @staticInterop
-class ProxyConfig {
+class ProxyConfig {}
+
+extension ProxyConfigExtension on ProxyConfig {
   /// The proxy rules describing this configuration. Use this for
   /// 'fixed_servers' mode.
   external ProxyRules? get rules;

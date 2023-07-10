@@ -25,7 +25,9 @@ extension JSDocumentScanExtension on JSDocumentScan {
 
 @JS()
 @staticInterop
-class ScanOptions {
+class ScanOptions {}
+
+extension ScanOptionsExtension on ScanOptions {
   ///  The MIME types that are accepted by the caller.
   external JSArray? get mimeTypes;
 
@@ -35,7 +37,9 @@ class ScanOptions {
 
 @JS()
 @staticInterop
-class ScanResults {
+class ScanResults {}
+
+extension ScanResultsExtension on ScanResults {
   ///  The data image URLs in a form that can be passed as the "src" value to
   ///  an image tag.
   external JSArray get dataUrls;

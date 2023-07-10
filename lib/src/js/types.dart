@@ -35,3 +35,5 @@ typedef LevelOfControl = JSString;
 @JS()
 @staticInterop
 class ChromeSetting {}
+
+extension ChromeSettingExtension on ChromeSetting {}

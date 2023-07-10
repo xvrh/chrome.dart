@@ -208,7 +208,9 @@ typedef UnsupportedRegexReason = JSString;
 
 @JS()
 @staticInterop
-class Ruleset {
+class Ruleset {}
+
+extension RulesetExtension on Ruleset {
   ///  A non-empty string uniquely identifying the ruleset. IDs beginning with
   ///  '_' are reserved for internal use.
   external String get id;
@@ -222,7 +224,9 @@ class Ruleset {
 
 @JS()
 @staticInterop
-class QueryKeyValue {
+class QueryKeyValue {}
+
+extension QueryKeyValueExtension on QueryKeyValue {
   external String get key;
 
   external String get value;
@@ -234,7 +238,9 @@ class QueryKeyValue {
 
 @JS()
 @staticInterop
-class QueryTransform {
+class QueryTransform {}
+
+extension QueryTransformExtension on QueryTransform {
   ///  The list of query keys to be removed.
   external JSArray? get removeParams;
 
@@ -244,7 +250,9 @@ class QueryTransform {
 
 @JS()
 @staticInterop
-class URLTransform {
+class URLTransform {}
+
+extension URLTransformExtension on URLTransform {
   ///  The new scheme for the request. Allowed values are "http", "https",
   ///  "ftp" and "chrome-extension".
   external String? get scheme;
@@ -278,7 +286,9 @@ class URLTransform {
 
 @JS()
 @staticInterop
-class Redirect {
+class Redirect {}
+
+extension RedirectExtension on Redirect {
   ///  Path relative to the extension directory. Should start with '/'.
   external String? get extensionPath;
 
@@ -298,7 +308,9 @@ class Redirect {
 
 @JS()
 @staticInterop
-class RuleCondition {
+class RuleCondition {}
+
+extension RuleConditionExtension on RuleCondition {
   ///  The pattern which is matched against the network request url.
   ///  Supported constructs:
   ///
@@ -467,7 +479,9 @@ class RuleCondition {
 
 @JS()
 @staticInterop
-class ModifyHeaderInfo {
+class ModifyHeaderInfo {}
+
+extension ModifyHeaderInfoExtension on ModifyHeaderInfo {
   ///  The name of the header to be modified.
   external String get header;
 
@@ -481,7 +495,9 @@ class ModifyHeaderInfo {
 
 @JS()
 @staticInterop
-class RuleAction {
+class RuleAction {}
+
+extension RuleActionExtension on RuleAction {
   ///  The type of action to perform.
   external RuleActionType get type;
 
@@ -500,7 +516,9 @@ class RuleAction {
 
 @JS()
 @staticInterop
-class Rule {
+class Rule {}
+
+extension RuleExtension on Rule {
   ///  An id which uniquely identifies a rule. Mandatory and should be >= 1.
   external int get id;
 
@@ -516,7 +534,9 @@ class Rule {
 
 @JS()
 @staticInterop
-class MatchedRule {
+class MatchedRule {}
+
+extension MatchedRuleExtension on MatchedRule {
   ///  A matching rule's ID.
   external int get ruleId;
 
@@ -528,14 +548,18 @@ class MatchedRule {
 
 @JS()
 @staticInterop
-class GetRulesFilter {
+class GetRulesFilter {}
+
+extension GetRulesFilterExtension on GetRulesFilter {
   ///  If specified, only rules with matching IDs are included.
   external JSArray? get ruleIds;
 }
 
 @JS()
 @staticInterop
-class MatchedRuleInfo {
+class MatchedRuleInfo {}
+
+extension MatchedRuleInfoExtension on MatchedRuleInfo {
   external MatchedRule get rule;
 
   ///  The time the rule was matched. Timestamps will correspond to the
@@ -550,7 +574,9 @@ class MatchedRuleInfo {
 
 @JS()
 @staticInterop
-class MatchedRulesFilter {
+class MatchedRulesFilter {}
+
+extension MatchedRulesFilterExtension on MatchedRulesFilter {
   ///  If specified, only matches rules for the given tab. Matches rules not
   ///  associated with any active tab if set to -1.
   external int? get tabId;
@@ -561,14 +587,18 @@ class MatchedRulesFilter {
 
 @JS()
 @staticInterop
-class RulesMatchedDetails {
+class RulesMatchedDetails {}
+
+extension RulesMatchedDetailsExtension on RulesMatchedDetails {
   ///  Rules matching the given filter.
   external JSArray get rulesMatchedInfo;
 }
 
 @JS()
 @staticInterop
-class RequestDetails {
+class RequestDetails {}
+
+extension RequestDetailsExtension on RequestDetails {
   ///  The ID of the request. Request IDs are unique within a browser session.
   external String get requestId;
 
@@ -619,7 +649,9 @@ class RequestDetails {
 
 @JS()
 @staticInterop
-class TestMatchRequestDetails {
+class TestMatchRequestDetails {}
+
+extension TestMatchRequestDetailsExtension on TestMatchRequestDetails {
   ///  The URL of the hypothetical request.
   external String get url;
 
@@ -641,7 +673,9 @@ class TestMatchRequestDetails {
 
 @JS()
 @staticInterop
-class MatchedRuleInfoDebug {
+class MatchedRuleInfoDebug {}
+
+extension MatchedRuleInfoDebugExtension on MatchedRuleInfoDebug {
   external MatchedRule get rule;
 
   ///  Details about the request for which the rule was matched.
@@ -650,19 +684,25 @@ class MatchedRuleInfoDebug {
 
 @JS()
 @staticInterop
-class DNRInfo {
+class DNRInfo {}
+
+extension DNRInfoExtension on DNRInfo {
   external JSArray get rule_resources;
 }
 
 @JS()
 @staticInterop
-class ManifestKeys {
+class ManifestKeys {}
+
+extension ManifestKeysExtension on ManifestKeys {
   external DNRInfo get declarative_net_request;
 }
 
 @JS()
 @staticInterop
-class RegexOptions {
+class RegexOptions {}
+
+extension RegexOptionsExtension on RegexOptions {
   ///  The regular expresson to check.
   external String get regex;
 
@@ -678,7 +718,9 @@ class RegexOptions {
 
 @JS()
 @staticInterop
-class IsRegexSupportedResult {
+class IsRegexSupportedResult {}
+
+extension IsRegexSupportedResultExtension on IsRegexSupportedResult {
   external bool get isSupported;
 
   ///  Specifies the reason why the regular expression is not supported. Only
@@ -688,14 +730,18 @@ class IsRegexSupportedResult {
 
 @JS()
 @staticInterop
-class TestMatchOutcomeResult {
+class TestMatchOutcomeResult {}
+
+extension TestMatchOutcomeResultExtension on TestMatchOutcomeResult {
   ///  The rules (if any) that match the hypothetical request.
   external JSArray get matchedRules;
 }
 
 @JS()
 @staticInterop
-class UpdateRuleOptions {
+class UpdateRuleOptions {}
+
+extension UpdateRuleOptionsExtension on UpdateRuleOptions {
   ///  IDs of the rules to remove. Any invalid IDs will be ignored.
   external JSArray? get removeRuleIds;
 
@@ -705,7 +751,9 @@ class UpdateRuleOptions {
 
 @JS()
 @staticInterop
-class UpdateRulesetOptions {
+class UpdateRulesetOptions {}
+
+extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
   ///  The set of ids corresponding to a static $(ref:Ruleset) that should be
   ///  disabled.
   external JSArray? get disableRulesetIds;
@@ -717,7 +765,9 @@ class UpdateRulesetOptions {
 
 @JS()
 @staticInterop
-class UpdateStaticRulesOptions {
+class UpdateStaticRulesOptions {}
+
+extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
   ///  The id corresponding to a static $(ref:Ruleset).
   external String get rulesetId;
 
@@ -730,14 +780,18 @@ class UpdateStaticRulesOptions {
 
 @JS()
 @staticInterop
-class GetDisabledRuleIdsOptions {
+class GetDisabledRuleIdsOptions {}
+
+extension GetDisabledRuleIdsOptionsExtension on GetDisabledRuleIdsOptions {
   ///  The id corresponding to a static $(ref:Ruleset).
   external String get rulesetId;
 }
 
 @JS()
 @staticInterop
-class TabActionCountUpdate {
+class TabActionCountUpdate {}
+
+extension TabActionCountUpdateExtension on TabActionCountUpdate {
   ///  The tab for which to update the action count.
   external int get tabId;
 
@@ -748,7 +802,9 @@ class TabActionCountUpdate {
 
 @JS()
 @staticInterop
-class ExtensionActionOptions {
+class ExtensionActionOptions {}
+
+extension ExtensionActionOptionsExtension on ExtensionActionOptions {
   ///  Whether to automatically display the action count for a page as the
   ///  extension's badge text. This preference is persisted across sessions.
   external bool? get displayActionCountAsBadgeText;

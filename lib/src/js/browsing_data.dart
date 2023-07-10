@@ -72,7 +72,9 @@ extension JSBrowsingDataExtension on JSBrowsingData {
 
 @JS()
 @staticInterop
-class RemovalOptions {
+class RemovalOptions {}
+
+extension RemovalOptionsExtension on RemovalOptions {
   /// Remove data accumulated on or after this date, represented in milliseconds
   /// since the epoch (accessible via the `getTime` method of the JavaScript
   /// `Date` object). If absent, defaults to 0 (which would remove all browsing
@@ -98,7 +100,9 @@ class RemovalOptions {
 
 @JS()
 @staticInterop
-class DataTypeSet {
+class DataTypeSet {}
+
+extension DataTypeSetExtension on DataTypeSet {
   /// Websites' appcaches.
   external bool? get appcache;
 
@@ -147,7 +151,9 @@ class DataTypeSet {
 
 @JS()
 @staticInterop
-class RemovalOptionsOriginTypes {
+class RemovalOptionsOriginTypes {}
+
+extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
   /// Normal websites.
   external bool? get unprotectedWeb;
 

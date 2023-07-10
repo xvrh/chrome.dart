@@ -55,7 +55,9 @@ typedef ItemType = JSString;
 
 @JS()
 @staticInterop
-class OnClickData {
+class OnClickData {}
+
+extension OnClickDataExtension on OnClickData {
   /// The ID of the menu item that was clicked.
   external JSObject get menuItemId;
 
@@ -103,77 +105,76 @@ class OnClickData {
 
 @JS()
 @staticInterop
+@anonymous
 class CreateProperties {
-  /// The type of menu item. Defaults to `normal`.
-  external ItemType? get type;
+  external factory CreateProperties(
+    /// The type of menu item. Defaults to `normal`.
+    ItemType? type,
 
-  /// The unique ID to assign to this item. Mandatory for event pages. Cannot be
-  /// the same as another ID for this extension.
-  external String? get id;
+    /// The unique ID to assign to this item. Mandatory for event pages. Cannot be
+    /// the same as another ID for this extension.
+    String? id,
 
-  /// The text to display in the item; this is <em>required</em> unless `type`
-  /// is `separator`. When the context is `selection`, use `%s` within the
-  /// string to show the selected text. For example, if this parameter's value
-  /// is "Translate '%s' to Pig Latin" and the user selects the word "cool", the
-  /// context menu item for the selection is "Translate 'cool' to Pig Latin".
-  external String? get title;
+    /// The text to display in the item; this is <em>required</em> unless `type`
+    /// is `separator`. When the context is `selection`, use `%s` within the
+    /// string to show the selected text. For example, if this parameter's value
+    /// is "Translate '%s' to Pig Latin" and the user selects the word "cool", the
+    /// context menu item for the selection is "Translate 'cool' to Pig Latin".
+    String? title,
 
-  /// The initial state of a checkbox or radio button: `true` for selected,
-  /// `false` for unselected. Only one radio button can be selected at a time in
-  /// a given group.
-  external bool? get checked;
+    /// The initial state of a checkbox or radio button: `true` for selected,
+    /// `false` for unselected. Only one radio button can be selected at a time in
+    /// a given group.
+    bool? checked,
 
-  /// List of contexts this menu item will appear in. Defaults to `['page']`.
-  external JSArray? get contexts;
+    /// List of contexts this menu item will appear in. Defaults to `['page']`.
+    JSArray? contexts,
 
-  /// Whether the item is visible in the menu.
-  external bool? get visible;
+    /// Whether the item is visible in the menu.
+    bool? visible,
 
-  /// A function that is called back when the menu item is clicked. Event pages
-  /// cannot use this; instead, they should register a listener for
-  /// $(ref:contextMenus.onClicked).
-  external JSFunction? get onclick;
+    /// A function that is called back when the menu item is clicked. Event pages
+    /// cannot use this; instead, they should register a listener for
+    /// $(ref:contextMenus.onClicked).
+    JSFunction? onclick,
 
-  /// The ID of a parent menu item; this makes the item a child of a previously
-  /// added item.
-  external JSObject? get parentId;
+    /// The ID of a parent menu item; this makes the item a child of a previously
+    /// added item.
+    JSObject? parentId,
 
-  /// Restricts the item to apply only to documents or frames whose URL matches
-  /// one of the given patterns. For details on pattern formats, see <a
-  /// href='match_patterns'>Match Patterns</a>.
-  external JSArray? get documentUrlPatterns;
+    /// Restricts the item to apply only to documents or frames whose URL matches
+    /// one of the given patterns. For details on pattern formats, see <a
+    /// href='match_patterns'>Match Patterns</a>.
+    JSArray? documentUrlPatterns,
 
-  /// Similar to `documentUrlPatterns`, filters based on the `src` attribute of
-  /// `img`, `audio`, and `video` tags and the `href` attribute of `a` tags.
-  external JSArray? get targetUrlPatterns;
+    /// Similar to `documentUrlPatterns`, filters based on the `src` attribute of
+    /// `img`, `audio`, and `video` tags and the `href` attribute of `a` tags.
+    JSArray? targetUrlPatterns,
 
-  /// Whether this context menu item is enabled or disabled. Defaults to `true`.
-  external bool? get enabled;
+    /// Whether this context menu item is enabled or disabled. Defaults to `true`.
+    bool? enabled,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class UpdateProperties {
-  external ItemType? get type;
+  external factory UpdateProperties(
+    ItemType? type,
+    String? title,
+    bool? checked,
+    JSArray? contexts,
 
-  external String? get title;
+    /// Whether the item is visible in the menu.
+    bool? visible,
+    JSFunction? onclick,
 
-  external bool? get checked;
-
-  external JSArray? get contexts;
-
-  /// Whether the item is visible in the menu.
-  external bool? get visible;
-
-  external JSFunction? get onclick;
-
-  /// The ID of the item to be made this item's parent. Note: You cannot set an
-  /// item to become a child of its own descendant.
-  external JSObject? get parentId;
-
-  external JSArray? get documentUrlPatterns;
-
-  external JSArray? get targetUrlPatterns;
-
-  external bool? get enabled;
+    /// The ID of the item to be made this item's parent. Note: You cannot set an
+    /// item to become a child of its own descendant.
+    JSObject? parentId,
+    JSArray? documentUrlPatterns,
+    JSArray? targetUrlPatterns,
+    bool? enabled,
+  );
 }

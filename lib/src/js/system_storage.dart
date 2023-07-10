@@ -45,7 +45,9 @@ typedef EjectDeviceResultCode = JSString;
 
 @JS()
 @staticInterop
-class StorageUnitInfo {
+class StorageUnitInfo {}
+
+extension StorageUnitInfoExtension on StorageUnitInfo {
   ///  The transient ID that uniquely identifies the storage device.
   ///  This ID will be persistent within the same run of a single application.
   ///  It will not be a persistent identifier between different runs of an
@@ -64,7 +66,10 @@ class StorageUnitInfo {
 
 @JS()
 @staticInterop
-class StorageAvailableCapacityInfo {
+class StorageAvailableCapacityInfo {}
+
+extension StorageAvailableCapacityInfoExtension
+    on StorageAvailableCapacityInfo {
   ///  A copied |id| of getAvailableCapacity function parameter |id|.
   external String get id;
 

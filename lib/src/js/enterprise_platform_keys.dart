@@ -171,7 +171,9 @@ typedef Algorithm = JSString;
 
 @JS()
 @staticInterop
-class Token {
+class Token {}
+
+extension TokenExtension on Token {
   ///  Uniquely identifies this `Token`.
   ///  <p>Static IDs are `"user"` and `"system"`,
   ///  referring to the platform's user-specific and the system-wide hardware
@@ -215,14 +217,18 @@ class Token {
 
 @JS()
 @staticInterop
-class RegisterKeyOptions {
+class RegisterKeyOptions {}
+
+extension RegisterKeyOptionsExtension on RegisterKeyOptions {
   ///  Which algorithm the registered key should use.
   external Algorithm get algorithm;
 }
 
 @JS()
 @staticInterop
-class ChallengeKeyOptions {
+class ChallengeKeyOptions {}
+
+extension ChallengeKeyOptionsExtension on ChallengeKeyOptions {
   ///  A challenge as emitted by the Verified Access Web API.
   external JSArrayBuffer get challenge;
 

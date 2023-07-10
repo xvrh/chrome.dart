@@ -157,7 +157,9 @@ typedef MirrorMode = JSString;
 
 @JS()
 @staticInterop
-class Bounds {
+class Bounds {}
+
+extension BoundsExtension on Bounds {
   ///  The x-coordinate of the upper-left corner.
   external int get left;
 
@@ -173,7 +175,9 @@ class Bounds {
 
 @JS()
 @staticInterop
-class Insets {
+class Insets {}
+
+extension InsetsExtension on Insets {
   ///  The x-axis distance from the left bound.
   external int get left;
 
@@ -189,7 +193,9 @@ class Insets {
 
 @JS()
 @staticInterop
-class Point {
+class Point {}
+
+extension PointExtension on Point {
   ///  The x-coordinate of the point.
   external int get x;
 
@@ -199,7 +205,9 @@ class Point {
 
 @JS()
 @staticInterop
-class TouchCalibrationPair {
+class TouchCalibrationPair {}
+
+extension TouchCalibrationPairExtension on TouchCalibrationPair {
   ///  The coordinates of the display point.
   external Point get displayPoint;
 
@@ -209,7 +217,9 @@ class TouchCalibrationPair {
 
 @JS()
 @staticInterop
-class TouchCalibrationPairQuad {
+class TouchCalibrationPairQuad {}
+
+extension TouchCalibrationPairQuadExtension on TouchCalibrationPairQuad {
   ///  First pair of touch and display point required for touch calibration.
   external TouchCalibrationPair get pair1;
 
@@ -225,7 +235,9 @@ class TouchCalibrationPairQuad {
 
 @JS()
 @staticInterop
-class DisplayMode {
+class DisplayMode {}
+
+extension DisplayModeExtension on DisplayMode {
   ///  The display mode width in device independent (user visible) pixels.
   external int get width;
 
@@ -259,7 +271,9 @@ class DisplayMode {
 
 @JS()
 @staticInterop
-class DisplayLayout {
+class DisplayLayout {}
+
+extension DisplayLayoutExtension on DisplayLayout {
   ///  The unique identifier of the display.
   external String get id;
 
@@ -277,7 +291,9 @@ class DisplayLayout {
 
 @JS()
 @staticInterop
-class Edid {
+class Edid {}
+
+extension EdidExtension on Edid {
   ///  3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
   external String get manufacturerId;
 
@@ -290,7 +306,9 @@ class Edid {
 
 @JS()
 @staticInterop
-class DisplayUnitInfo {
+class DisplayUnitInfo {}
+
+extension DisplayUnitInfoExtension on DisplayUnitInfo {
   ///  The unique identifier of the display.
   external String get id;
 
@@ -380,7 +398,9 @@ class DisplayUnitInfo {
 
 @JS()
 @staticInterop
-class DisplayProperties {
+class DisplayProperties {}
+
+extension DisplayPropertiesExtension on DisplayProperties {
   ///  Chrome OS only. If set to true, changes the display mode to unified
   ///  desktop (see $(ref:enableUnifiedDesktop) for details). If set to false,
   ///  unified desktop mode will be disabled. This is only valid for the
@@ -437,7 +457,9 @@ class DisplayProperties {
 
 @JS()
 @staticInterop
-class GetInfoFlags {
+class GetInfoFlags {}
+
+extension GetInfoFlagsExtension on GetInfoFlags {
   ///  If set to true, only a single $(ref:DisplayUnitInfo) will be returned
   ///  by $(ref:getInfo) when in unified desktop mode (see
   ///  $(ref:enableUnifiedDesktop)). Defaults to false.
@@ -446,7 +468,9 @@ class GetInfoFlags {
 
 @JS()
 @staticInterop
-class MirrorModeInfo {
+class MirrorModeInfo {}
+
+extension MirrorModeInfoExtension on MirrorModeInfo {
   ///  The mirror mode that should be set.
   external MirrorMode get mode;
 

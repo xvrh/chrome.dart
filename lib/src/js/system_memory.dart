@@ -18,7 +18,9 @@ extension JSSystemMemoryExtension on JSSystemMemory {
 
 @JS()
 @staticInterop
-class MemoryInfo {
+class MemoryInfo {}
+
+extension MemoryInfoExtension on MemoryInfo {
   ///  The total amount of physical memory capacity, in bytes.
   external double get capacity;
 

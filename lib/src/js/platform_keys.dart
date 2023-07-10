@@ -107,7 +107,9 @@ typedef ClientCertificateType = JSString;
 
 @JS()
 @staticInterop
-class Match {
+class Match {}
+
+extension MatchExtension on Match {
   ///  The DER encoding of a X.509 certificate.
   external JSArrayBuffer get certificate;
 
@@ -122,7 +124,9 @@ class Match {
 
 @JS()
 @staticInterop
-class ClientCertificateRequest {
+class ClientCertificateRequest {}
+
+extension ClientCertificateRequestExtension on ClientCertificateRequest {
   ///  This field is a list of the types of certificates requested, sorted in
   ///  order of the server's preference. Only certificates of a type contained
   ///  in this list will be retrieved. If `certificateTypes` is the
@@ -136,7 +140,9 @@ class ClientCertificateRequest {
 
 @JS()
 @staticInterop
-class SelectDetails {
+class SelectDetails {}
+
+extension SelectDetailsExtension on SelectDetails {
   ///  Only certificates that match this request will be returned.
   external ClientCertificateRequest get request;
 
@@ -157,7 +163,9 @@ class SelectDetails {
 
 @JS()
 @staticInterop
-class VerificationDetails {
+class VerificationDetails {}
+
+extension VerificationDetailsExtension on VerificationDetails {
   ///  Each chain entry must be the DER encoding of a X.509 certificate, the
   ///  first entry must be the server certificate and each entry must certify
   ///  the entry preceding it.
@@ -170,7 +178,9 @@ class VerificationDetails {
 
 @JS()
 @staticInterop
-class VerificationResult {
+class VerificationResult {}
+
+extension VerificationResultExtension on VerificationResult {
   ///  The result of the trust verification: true if trust for the given
   ///  verification details could be established and false if trust is rejected
   ///  for any reason.

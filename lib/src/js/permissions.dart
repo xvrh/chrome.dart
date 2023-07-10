@@ -44,7 +44,9 @@ extension JSPermissionsExtension on JSPermissions {
 
 @JS()
 @staticInterop
-class Permissions {
+class Permissions {}
+
+extension PermissionsExtension on Permissions {
   /// List of named permissions (does not include hosts or origins).
   external JSArray? get permissions;
 

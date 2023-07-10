@@ -41,12 +41,17 @@ extension JSI18nExtension on JSI18n {
 @staticInterop
 class LanguageCode {}
 
+extension LanguageCodeExtension on LanguageCode {}
+
 @JS()
 @staticInterop
+@anonymous
 class GetMessageOptions {
-  /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
-  /// itself, not to the placeholders. Developers might want to use this if the
-  /// translation is used in an HTML context. Closure Templates used with
-  /// Closure Compiler generate this automatically.
-  external bool? get escapeLt;
+  external factory GetMessageOptions(
+
+      /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
+      /// itself, not to the placeholders. Developers might want to use this if the
+      /// translation is used in an HTML context. Closure Templates used with
+      /// Closure Compiler generate this automatically.
+      bool? escapeLt);
 }

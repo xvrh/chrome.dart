@@ -52,7 +52,9 @@ typedef TransitionType = JSString;
 
 @JS()
 @staticInterop
-class HistoryItem {
+class HistoryItem {}
+
+extension HistoryItemExtension on HistoryItem {
   /// The unique identifier for the item.
   external String get id;
 
@@ -76,7 +78,9 @@ class HistoryItem {
 
 @JS()
 @staticInterop
-class VisitItem {
+class VisitItem {}
+
+extension VisitItemExtension on VisitItem {
   /// The unique identifier for the item.
   external String get id;
 
@@ -96,7 +100,9 @@ class VisitItem {
 
 @JS()
 @staticInterop
-class UrlDetails {
+class UrlDetails {}
+
+extension UrlDetailsExtension on UrlDetails {
   /// The URL for the operation. It must be in the format as returned from a
   /// call to history.search.
   external String get url;
@@ -104,32 +110,38 @@ class UrlDetails {
 
 @JS()
 @staticInterop
+@anonymous
 class SearchQuery {
-  /// A free-text query to the history service.  Leave empty to retrieve all
-  /// pages.
-  external String get text;
+  external factory SearchQuery(
+    /// A free-text query to the history service.  Leave empty to retrieve all
+    /// pages.
+    String text,
 
-  /// Limit results to those visited after this date, represented in
-  /// milliseconds since the epoch. If not specified, this defaults to 24 hours
-  /// in the past.
-  external num? get startTime;
+    /// Limit results to those visited after this date, represented in
+    /// milliseconds since the epoch. If not specified, this defaults to 24 hours
+    /// in the past.
+    num? startTime,
 
-  /// Limit results to those visited before this date, represented in
-  /// milliseconds since the epoch.
-  external num? get endTime;
+    /// Limit results to those visited before this date, represented in
+    /// milliseconds since the epoch.
+    num? endTime,
 
-  /// The maximum number of results to retrieve.  Defaults to 100.
-  external int? get maxResults;
+    /// The maximum number of results to retrieve.  Defaults to 100.
+    int? maxResults,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class DeleteRangeRange {
-  /// Items added to history after this date, represented in milliseconds since
-  /// the epoch.
-  external num get startTime;
+  external factory DeleteRangeRange(
+    /// Items added to history after this date, represented in milliseconds since
+    /// the epoch.
+    num startTime,
 
-  /// Items added to history before this date, represented in milliseconds since
-  /// the epoch.
-  external num get endTime;
+    /// Items added to history before this date, represented in milliseconds since
+    /// the epoch.
+    num endTime,
+  );
 }

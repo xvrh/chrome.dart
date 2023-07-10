@@ -65,7 +65,9 @@ typedef TabCaptureState = JSString;
 
 @JS()
 @staticInterop
-class CaptureInfo {
+class CaptureInfo {}
+
+extension CaptureInfoExtension on CaptureInfo {
   ///  The id of the tab whose status changed.
   external int get tabId;
 
@@ -78,7 +80,9 @@ class CaptureInfo {
 
 @JS()
 @staticInterop
-class MediaStreamConstraint {
+class MediaStreamConstraint {}
+
+extension MediaStreamConstraintExtension on MediaStreamConstraint {
   external JSObject get mandatory;
 
   external JSObject? get _optional;
@@ -86,7 +90,9 @@ class MediaStreamConstraint {
 
 @JS()
 @staticInterop
-class CaptureOptions {
+class CaptureOptions {}
+
+extension CaptureOptionsExtension on CaptureOptions {
   external bool? get audio;
 
   external bool? get video;
@@ -100,7 +106,9 @@ class CaptureOptions {
 
 @JS()
 @staticInterop
-class GetMediaStreamOptions {
+class GetMediaStreamOptions {}
+
+extension GetMediaStreamOptionsExtension on GetMediaStreamOptions {
   ///  Optional tab id of the tab which will later invoke
   ///  `getUserMedia()` to consume the stream. If not specified
   ///  then the resulting stream can be used only by the calling extension.

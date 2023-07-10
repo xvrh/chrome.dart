@@ -76,7 +76,9 @@ typedef CreateType = JSString;
 
 @JS()
 @staticInterop
-class Window {
+class Window {}
+
+extension WindowExtension on Window {
   /// The ID of the window. Window IDs are unique within a browser session. In
   /// some circumstances a window may not be assigned an `ID` property; for
   /// example, when querying windows using the $(ref:sessions) API, in which
@@ -129,7 +131,9 @@ class Window {
 
 @JS()
 @staticInterop
-class QueryOptions {
+class QueryOptions {}
+
+extension QueryOptionsExtension on QueryOptions {
   /// If true, the $(ref:windows.Window) object has a `tabs` property that
   /// contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects only
   /// contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties if
@@ -143,88 +147,94 @@ class QueryOptions {
 
 @JS()
 @staticInterop
+@anonymous
 class CreateData {
-  /// A URL or array of URLs to open as tabs in the window. Fully-qualified URLs
-  /// must include a scheme, e.g., 'http://www.google.com', not
-  /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
-  /// the extension. Defaults to the New Tab Page.
-  external JSObject? get url;
+  external factory CreateData(
+    /// A URL or array of URLs to open as tabs in the window. Fully-qualified URLs
+    /// must include a scheme, e.g., 'http://www.google.com', not
+    /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
+    /// the extension. Defaults to the New Tab Page.
+    JSObject? url,
 
-  /// The ID of the tab to add to the new window.
-  external int? get tabId;
+    /// The ID of the tab to add to the new window.
+    int? tabId,
 
-  /// The number of pixels to position the new window from the left edge of the
-  /// screen. If not specified, the new window is offset naturally from the last
-  /// focused window. This value is ignored for panels.
-  external int? get left;
+    /// The number of pixels to position the new window from the left edge of the
+    /// screen. If not specified, the new window is offset naturally from the last
+    /// focused window. This value is ignored for panels.
+    int? left,
 
-  /// The number of pixels to position the new window from the top edge of the
-  /// screen. If not specified, the new window is offset naturally from the last
-  /// focused window. This value is ignored for panels.
-  external int? get top;
+    /// The number of pixels to position the new window from the top edge of the
+    /// screen. If not specified, the new window is offset naturally from the last
+    /// focused window. This value is ignored for panels.
+    int? top,
 
-  /// The width in pixels of the new window, including the frame. If not
-  /// specified, defaults to a natural width.
-  external int? get width;
+    /// The width in pixels of the new window, including the frame. If not
+    /// specified, defaults to a natural width.
+    int? width,
 
-  /// The height in pixels of the new window, including the frame. If not
-  /// specified, defaults to a natural height.
-  external int? get height;
+    /// The height in pixels of the new window, including the frame. If not
+    /// specified, defaults to a natural height.
+    int? height,
 
-  /// If `true`, opens an active window. If `false`, opens an inactive window.
-  external bool? get focused;
+    /// If `true`, opens an active window. If `false`, opens an inactive window.
+    bool? focused,
 
-  /// Whether the new window should be an incognito window.
-  external bool? get incognito;
+    /// Whether the new window should be an incognito window.
+    bool? incognito,
 
-  /// Specifies what type of browser window to create.
-  external CreateType? get type;
+    /// Specifies what type of browser window to create.
+    CreateType? type,
 
-  /// The initial state of the window. The `minimized`, `maximized`, and
-  /// `fullscreen` states cannot be combined with `left`, `top`, `width`, or
-  /// `height`.
-  external WindowState? get state;
+    /// The initial state of the window. The `minimized`, `maximized`, and
+    /// `fullscreen` states cannot be combined with `left`, `top`, `width`, or
+    /// `height`.
+    WindowState? state,
 
-  /// If `true`, the newly-created window's 'window.opener' is set to the caller
-  /// and is in the same <a
-  /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
-  /// of related browsing contexts</a> as the caller.
-  external bool? get setSelfAsOpener;
+    /// If `true`, the newly-created window's 'window.opener' is set to the caller
+    /// and is in the same <a
+    /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
+    /// of related browsing contexts</a> as the caller.
+    bool? setSelfAsOpener,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class UpdateInfo {
-  /// The offset from the left edge of the screen to move the window to in
-  /// pixels. This value is ignored for panels.
-  external int? get left;
+  external factory UpdateInfo(
+    /// The offset from the left edge of the screen to move the window to in
+    /// pixels. This value is ignored for panels.
+    int? left,
 
-  /// The offset from the top edge of the screen to move the window to in
-  /// pixels. This value is ignored for panels.
-  external int? get top;
+    /// The offset from the top edge of the screen to move the window to in
+    /// pixels. This value is ignored for panels.
+    int? top,
 
-  /// The width to resize the window to in pixels. This value is ignored for
-  /// panels.
-  external int? get width;
+    /// The width to resize the window to in pixels. This value is ignored for
+    /// panels.
+    int? width,
 
-  /// The height to resize the window to in pixels. This value is ignored for
-  /// panels.
-  external int? get height;
+    /// The height to resize the window to in pixels. This value is ignored for
+    /// panels.
+    int? height,
 
-  /// If `true`, brings the window to the front; cannot be combined with the
-  /// state 'minimized'. If `false`, brings the next window in the z-order to
-  /// the front; cannot be combined with the state 'fullscreen' or 'maximized'.
-  external bool? get focused;
+    /// If `true`, brings the window to the front; cannot be combined with the
+    /// state 'minimized'. If `false`, brings the next window in the z-order to
+    /// the front; cannot be combined with the state 'fullscreen' or 'maximized'.
+    bool? focused,
 
-  /// If `true`, causes the window to be displayed in a manner that draws the
-  /// user's attention to the window, without changing the focused window. The
-  /// effect lasts until the user changes focus to the window. This option has
-  /// no effect if the window already has focus. Set to `false` to cancel a
-  /// previous `drawAttention` request.
-  external bool? get drawAttention;
+    /// If `true`, causes the window to be displayed in a manner that draws the
+    /// user's attention to the window, without changing the focused window. The
+    /// effect lasts until the user changes focus to the window. This option has
+    /// no effect if the window already has focus. Set to `false` to cancel a
+    /// previous `drawAttention` request.
+    bool? drawAttention,
 
-  /// The new state of the window. The 'minimized', 'maximized', and
-  /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or
-  /// 'height'.
-  external WindowState? get state;
+    /// The new state of the window. The 'minimized', 'maximized', and
+    /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or
+    /// 'height'.
+    WindowState? state,
+  );
 }

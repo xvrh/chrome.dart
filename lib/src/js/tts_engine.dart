@@ -66,7 +66,9 @@ typedef VoiceGender = JSString;
 
 @JS()
 @staticInterop
-class SpeakOptions {
+class SpeakOptions {}
+
+extension SpeakOptionsExtension on SpeakOptions {
   /// The name of the voice to use for synthesis.
   external String? get voiceName;
 
@@ -97,7 +99,9 @@ class SpeakOptions {
 
 @JS()
 @staticInterop
-class AudioStreamOptions {
+class AudioStreamOptions {}
+
+extension AudioStreamOptionsExtension on AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
   external int get sampleRate;
 
@@ -107,7 +111,9 @@ class AudioStreamOptions {
 
 @JS()
 @staticInterop
-class AudioBuffer {
+class AudioBuffer {}
+
+extension AudioBufferExtension on AudioBuffer {
   /// The audio buffer from the text-to-speech engine. It should have length
   /// exactly audioStreamOptions.bufferSize and encoded as mono, at
   /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.

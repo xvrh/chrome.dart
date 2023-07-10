@@ -247,7 +247,9 @@ typedef WindowType = JSString;
 
 @JS()
 @staticInterop
-class MutedInfo {
+class MutedInfo {}
+
+extension MutedInfoExtension on MutedInfo {
   /// Whether the tab is muted (prevented from playing sound). The tab may be
   /// muted even if it has not played or is not currently playing sound.
   /// Equivalent to whether the 'muted' audio indicator is showing.
@@ -264,7 +266,9 @@ class MutedInfo {
 
 @JS()
 @staticInterop
-class Tab {
+class Tab {}
+
+extension TabExtension on Tab {
   /// The ID of the tab. Tab IDs are unique within a browser session. Under some
   /// circumstances a tab may not be assigned an ID; for example, when querying
   /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
@@ -354,7 +358,9 @@ class Tab {
 
 @JS()
 @staticInterop
-class ZoomSettings {
+class ZoomSettings {}
+
+extension ZoomSettingsExtension on ZoomSettings {
   /// Defines how zoom changes are handled, i.e., which entity is responsible
   /// for the actual scaling of the page; defaults to `automatic`.
   external ZoomSettingsMode? get mode;
@@ -371,207 +377,237 @@ class ZoomSettings {
 
 @JS()
 @staticInterop
+@anonymous
 class ConnectInfo {
-  /// Is passed into onConnect for content scripts that are listening for the
-  /// connection event.
-  external String? get name;
+  external factory ConnectInfo(
+    /// Is passed into onConnect for content scripts that are listening for the
+    /// connection event.
+    String? name,
 
-  /// Open a port to a specific <a href='webNavigation#frame_ids'>frame</a>
-  /// identified by `frameId` instead of all frames in the tab.
-  external int? get frameId;
+    /// Open a port to a specific <a href='webNavigation#frame_ids'>frame</a>
+    /// identified by `frameId` instead of all frames in the tab.
+    int? frameId,
 
-  /// Open a port to a specific <a
-  /// href='webNavigation#document_ids'>document</a> identified by `documentId`
-  /// instead of all frames in the tab.
-  external String? get documentId;
+    /// Open a port to a specific <a
+    /// href='webNavigation#document_ids'>document</a> identified by `documentId`
+    /// instead of all frames in the tab.
+    String? documentId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SendMessageOptions {
-  /// Send a message to a specific <a href='webNavigation#frame_ids'>frame</a>
-  /// identified by `frameId` instead of all frames in the tab.
-  external int? get frameId;
+  external factory SendMessageOptions(
+    /// Send a message to a specific <a href='webNavigation#frame_ids'>frame</a>
+    /// identified by `frameId` instead of all frames in the tab.
+    int? frameId,
 
-  /// Send a message to a specific <a
-  /// href='webNavigation#document_ids'>document</a> identified by `documentId`
-  /// instead of all frames in the tab.
-  external String? get documentId;
+    /// Send a message to a specific <a
+    /// href='webNavigation#document_ids'>document</a> identified by `documentId`
+    /// instead of all frames in the tab.
+    String? documentId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class CreateProperties {
-  /// The window in which to create the new tab. Defaults to the <a
-  /// href='windows#current-window'>current window</a>.
-  external int? get windowId;
+  external factory CreateProperties(
+    /// The window in which to create the new tab. Defaults to the <a
+    /// href='windows#current-window'>current window</a>.
+    int? windowId,
 
-  /// The position the tab should take in the window. The provided value is
-  /// clamped to between zero and the number of tabs in the window.
-  external int? get index;
+    /// The position the tab should take in the window. The provided value is
+    /// clamped to between zero and the number of tabs in the window.
+    int? index,
 
-  /// The URL to initially navigate the tab to. Fully-qualified URLs must
-  /// include a scheme (i.e., 'http://www.google.com', not 'www.google.com').
-  /// Relative URLs are relative to the current page within the extension.
-  /// Defaults to the New Tab Page.
-  external String? get url;
+    /// The URL to initially navigate the tab to. Fully-qualified URLs must
+    /// include a scheme (i.e., 'http://www.google.com', not 'www.google.com').
+    /// Relative URLs are relative to the current page within the extension.
+    /// Defaults to the New Tab Page.
+    String? url,
 
-  /// Whether the tab should become the active tab in the window. Does not
-  /// affect whether the window is focused (see $(ref:windows.update)). Defaults
-  /// to `true`.
-  external bool? get active;
+    /// Whether the tab should become the active tab in the window. Does not
+    /// affect whether the window is focused (see $(ref:windows.update)). Defaults
+    /// to `true`.
+    bool? active,
 
-  /// Whether the tab should become the selected tab in the window. Defaults to
-  /// `true`
-  external bool? get selected;
+    /// Whether the tab should become the selected tab in the window. Defaults to
+    /// `true`
+    bool? selected,
 
-  /// Whether the tab should be pinned. Defaults to `false`
-  external bool? get pinned;
+    /// Whether the tab should be pinned. Defaults to `false`
+    bool? pinned,
 
-  /// The ID of the tab that opened this tab. If specified, the opener tab must
-  /// be in the same window as the newly created tab.
-  external int? get openerTabId;
+    /// The ID of the tab that opened this tab. If specified, the opener tab must
+    /// be in the same window as the newly created tab.
+    int? openerTabId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class QueryInfo {
-  /// Whether the tabs are active in their windows.
-  external bool? get active;
+  external factory QueryInfo(
+    /// Whether the tabs are active in their windows.
+    bool? active,
 
-  /// Whether the tabs are pinned.
-  external bool? get pinned;
+    /// Whether the tabs are pinned.
+    bool? pinned,
 
-  /// Whether the tabs are audible.
-  external bool? get audible;
+    /// Whether the tabs are audible.
+    bool? audible,
 
-  /// Whether the tabs are muted.
-  external bool? get muted;
+    /// Whether the tabs are muted.
+    bool? muted,
 
-  /// Whether the tabs are highlighted.
-  external bool? get highlighted;
+    /// Whether the tabs are highlighted.
+    bool? highlighted,
 
-  /// Whether the tabs are discarded. A discarded tab is one whose content has
-  /// been unloaded from memory, but is still visible in the tab strip. Its
-  /// content is reloaded the next time it is activated.
-  external bool? get discarded;
+    /// Whether the tabs are discarded. A discarded tab is one whose content has
+    /// been unloaded from memory, but is still visible in the tab strip. Its
+    /// content is reloaded the next time it is activated.
+    bool? discarded,
 
-  /// Whether the tabs can be discarded automatically by the browser when
-  /// resources are low.
-  external bool? get autoDiscardable;
+    /// Whether the tabs can be discarded automatically by the browser when
+    /// resources are low.
+    bool? autoDiscardable,
 
-  /// Whether the tabs are in the <a href='windows#current-window'>current
-  /// window</a>.
-  external bool? get currentWindow;
+    /// Whether the tabs are in the <a href='windows#current-window'>current
+    /// window</a>.
+    bool? currentWindow,
 
-  /// Whether the tabs are in the last focused window.
-  external bool? get lastFocusedWindow;
+    /// Whether the tabs are in the last focused window.
+    bool? lastFocusedWindow,
 
-  /// The tab loading status.
-  external TabStatus? get status;
+    /// The tab loading status.
+    TabStatus? status,
 
-  /// Match page titles against a pattern. This property is ignored if the
-  /// extension does not have the `"tabs"` permission.
-  external String? get title;
+    /// Match page titles against a pattern. This property is ignored if the
+    /// extension does not have the `"tabs"` permission.
+    String? title,
 
-  /// Match tabs against one or more <a href='match_patterns'>URL patterns</a>.
-  /// Fragment identifiers are not matched. This property is ignored if the
-  /// extension does not have the `"tabs"` permission.
-  external JSObject? get url;
+    /// Match tabs against one or more <a href='match_patterns'>URL patterns</a>.
+    /// Fragment identifiers are not matched. This property is ignored if the
+    /// extension does not have the `"tabs"` permission.
+    JSObject? url,
 
-  /// The ID of the group that the tabs are in, or
-  /// $(ref:tabGroups.TAB_GROUP_ID_NONE) for ungrouped tabs.
-  external int? get groupId;
+    /// The ID of the group that the tabs are in, or
+    /// $(ref:tabGroups.TAB_GROUP_ID_NONE) for ungrouped tabs.
+    int? groupId,
 
-  /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
-  /// <a href='windows#current-window'>current window</a>.
-  external int? get windowId;
+    /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
+    /// <a href='windows#current-window'>current window</a>.
+    int? windowId,
 
-  /// The type of window the tabs are in.
-  external WindowType? get windowType;
+    /// The type of window the tabs are in.
+    WindowType? windowType,
 
-  /// The position of the tabs within their windows.
-  external int? get index;
+    /// The position of the tabs within their windows.
+    int? index,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class HighlightInfo {
-  /// The window that contains the tabs.
-  external int? get windowId;
+  external factory HighlightInfo(
+    /// The window that contains the tabs.
+    int? windowId,
 
-  /// One or more tab indices to highlight.
-  external JSObject get tabs;
+    /// One or more tab indices to highlight.
+    JSObject tabs,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class UpdateProperties {
-  /// A URL to navigate the tab to. JavaScript URLs are not supported; use
-  /// $(ref:scripting.executeScript) instead.
-  external String? get url;
+  external factory UpdateProperties(
+    /// A URL to navigate the tab to. JavaScript URLs are not supported; use
+    /// $(ref:scripting.executeScript) instead.
+    String? url,
 
-  /// Whether the tab should be active. Does not affect whether the window is
-  /// focused (see $(ref:windows.update)).
-  external bool? get active;
+    /// Whether the tab should be active. Does not affect whether the window is
+    /// focused (see $(ref:windows.update)).
+    bool? active,
 
-  /// Adds or removes the tab from the current selection.
-  external bool? get highlighted;
+    /// Adds or removes the tab from the current selection.
+    bool? highlighted,
 
-  /// Whether the tab should be selected.
-  external bool? get selected;
+    /// Whether the tab should be selected.
+    bool? selected,
 
-  /// Whether the tab should be pinned.
-  external bool? get pinned;
+    /// Whether the tab should be pinned.
+    bool? pinned,
 
-  /// Whether the tab should be muted.
-  external bool? get muted;
+    /// Whether the tab should be muted.
+    bool? muted,
 
-  /// The ID of the tab that opened this tab. If specified, the opener tab must
-  /// be in the same window as this tab.
-  external int? get openerTabId;
+    /// The ID of the tab that opened this tab. If specified, the opener tab must
+    /// be in the same window as this tab.
+    int? openerTabId,
 
-  /// Whether the tab should be discarded automatically by the browser when
-  /// resources are low.
-  external bool? get autoDiscardable;
+    /// Whether the tab should be discarded automatically by the browser when
+    /// resources are low.
+    bool? autoDiscardable,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class MoveProperties {
-  /// Defaults to the window the tab is currently in.
-  external int? get windowId;
+  external factory MoveProperties(
+    /// Defaults to the window the tab is currently in.
+    int? windowId,
 
-  /// The position to move the window to. Use `-1` to place the tab at the end
-  /// of the window.
-  external int get index;
+    /// The position to move the window to. Use `-1` to place the tab at the end
+    /// of the window.
+    int index,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class ReloadProperties {
-  /// Whether to bypass local caching. Defaults to `false`.
-  external bool? get bypassCache;
+  external factory ReloadProperties(
+
+      /// Whether to bypass local caching. Defaults to `false`.
+      bool? bypassCache);
 }
 
 @JS()
 @staticInterop
+@anonymous
 class GroupOptions {
-  /// The tab ID or list of tab IDs to add to the specified group.
-  external JSObject get tabIds;
+  external factory GroupOptions(
+    /// The tab ID or list of tab IDs to add to the specified group.
+    JSObject tabIds,
 
-  /// The ID of the group to add the tabs to. If not specified, a new group will
-  /// be created.
-  external int? get groupId;
+    /// The ID of the group to add the tabs to. If not specified, a new group will
+    /// be created.
+    int? groupId,
 
-  /// Configurations for creating a group. Cannot be used if groupId is already
-  /// specified.
-  external GroupOptionsCreateProperties? get createProperties;
+    /// Configurations for creating a group. Cannot be used if groupId is already
+    /// specified.
+    GroupOptionsCreateProperties? createProperties,
+  );
 }
 
 @JS()
 @staticInterop
-class GroupOptionsCreateProperties {
+class GroupOptionsCreateProperties {}
+
+extension GroupOptionsCreatePropertiesExtension
+    on GroupOptionsCreateProperties {
   /// The window of the new group. Defaults to the current window.
   external int? get windowId;
 }

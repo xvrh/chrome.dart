@@ -84,7 +84,9 @@ typedef DeviceType = JSString;
 
 @JS()
 @staticInterop
-class AudioDeviceInfo {
+class AudioDeviceInfo {}
+
+extension AudioDeviceInfoExtension on AudioDeviceInfo {
   ///  The unique identifier of the audio device.
   external String get id;
 
@@ -112,7 +114,9 @@ class AudioDeviceInfo {
 
 @JS()
 @staticInterop
-class DeviceFilter {
+class DeviceFilter {}
+
+extension DeviceFilterExtension on DeviceFilter {
   ///  If set, only audio devices whose stream type is included in this list
   ///  will satisfy the filter.
   external JSArray? get streamTypes;
@@ -124,7 +128,9 @@ class DeviceFilter {
 
 @JS()
 @staticInterop
-class DeviceProperties {
+class DeviceProperties {}
+
+extension DevicePropertiesExtension on DeviceProperties {
   ///  <p>
   ///    The audio device's desired sound level. Defaults to the device's
   ///    current sound level.
@@ -136,7 +142,9 @@ class DeviceProperties {
 
 @JS()
 @staticInterop
-class DeviceIdLists {
+class DeviceIdLists {}
+
+extension DeviceIdListsExtension on DeviceIdLists {
   ///  <p>List of input devices specified by their ID.</p>
   ///  <p>To indicate input devices should be unaffected, leave this property
   ///    unset.</p>
@@ -150,7 +158,9 @@ class DeviceIdLists {
 
 @JS()
 @staticInterop
-class MuteChangedEvent {
+class MuteChangedEvent {}
+
+extension MuteChangedEventExtension on MuteChangedEvent {
   ///  The type of the stream for which the mute value changed. The updated mute
   ///  value applies to all devices with this stream type.
   external StreamType get streamType;
@@ -161,7 +171,9 @@ class MuteChangedEvent {
 
 @JS()
 @staticInterop
-class LevelChangedEvent {
+class LevelChangedEvent {}
+
+extension LevelChangedEventExtension on LevelChangedEvent {
   ///  ID of device whose sound level has changed.
   external String get deviceId;
 

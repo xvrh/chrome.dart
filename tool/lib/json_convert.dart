@@ -121,7 +121,7 @@ class JsonModelConverter {
         t.id,
         properties: properties,
         documentation: t.description,
-        methods: [],
+        isAnonymous: t.isAnonymous,
       );
     }
   }

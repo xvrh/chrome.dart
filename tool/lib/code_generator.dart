@@ -44,12 +44,7 @@ class CodeGenerator {
             ..name = type.name
             ..docs.add(documentationComment(type.documentation, indent: 0))
             ..definition = refer('JSString')),
-        for (var type in api.dictionaries)
-          Class((b) => b
-            ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
-            ..name = type.name
-            ..methods.addAll(type.properties.map(_bindingTypeProperty))
-            ..methods.addAll(type.methods.map(_bindingTypeMethod))),
+        for (var type in api.dictionaries) ..._bindingDictionary(type),
       ]));
 
     final emitter = DartEmitter(allocator: Allocator());
@@ -99,6 +94,31 @@ class CodeGenerator {
     ..name = _apiNameCamelCase
     ..type = MethodType.getter);
 
+  Iterable<Spec> _bindingDictionary(model.Dictionary type) sync* {
+    if (type.isAnonymous) {
+      yield Class((b) => b
+        ..annotations.addAll([
+          _jsAnnotation(),
+          _staticInteropAnnotation(),
+          _anonymousAnnotation()
+        ])
+        ..name = type.name
+        ..constructors.add(Constructor((b) => b
+          ..external = true
+          ..factory = true
+          ..requiredParameters
+              .addAll(type.properties.map(_bindingTypePropertyAsParameter)))));
+    } else {
+      yield Class((b) => b
+        ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
+        ..name = type.name);
+      yield Extension((b) => b
+        ..name = '${type.name}Extension'
+        ..on = refer(type.name)
+        ..methods.addAll(type.properties.map(_bindingTypeProperty)));
+    }
+  }
+
   Method _bindingTypeProperty(model.Property property) {
     return Method((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
@@ -110,12 +130,13 @@ class CodeGenerator {
       ..type = MethodType.getter);
   }
 
-  Method _bindingTypeMethod(model.Method method) {
-    return Method((b) => b
-      ..docs.add(documentationComment(method.documentation, indent: 2))
-      ..name = method.name
-      ..external = true
-      ..returns = refer('Object'));
+  Parameter _bindingTypePropertyAsParameter(model.Property property) {
+    return Parameter((b) => b
+      ..docs.add(documentationComment(property.documentation, indent: 2))
+      ..name = property.name
+      ..type = refer(
+          '${property.type.bindingName}${property.optional ? '?' : ''}',
+          property.type.url));
   }
 
   String highLevelApi() {

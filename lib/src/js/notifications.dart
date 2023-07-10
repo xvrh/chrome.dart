@@ -90,7 +90,9 @@ typedef PermissionLevel = JSString;
 
 @JS()
 @staticInterop
-class NotificationItem {
+class NotificationItem {}
+
+extension NotificationItemExtension on NotificationItem {
   ///  Title of one item of a list notification.
   external String get title;
 
@@ -100,7 +102,9 @@ class NotificationItem {
 
 @JS()
 @staticInterop
-class NotificationBitmap {
+class NotificationBitmap {}
+
+extension NotificationBitmapExtension on NotificationBitmap {
   external int get width;
 
   external int get height;
@@ -110,7 +114,9 @@ class NotificationBitmap {
 
 @JS()
 @staticInterop
-class NotificationButton {
+class NotificationButton {}
+
+extension NotificationButtonExtension on NotificationButton {
   external String get title;
 
   external String? get iconUrl;
@@ -120,7 +126,9 @@ class NotificationButton {
 
 @JS()
 @staticInterop
-class NotificationOptions {
+class NotificationOptions {}
+
+extension NotificationOptionsExtension on NotificationOptions {
   ///  Which type of notification to display.
   ///  <em>Required for $(ref:notifications.create)</em> method.
   external TemplateType? get type;

@@ -20,7 +20,9 @@ extension JSTopSitesExtension on JSTopSites {
 
 @JS()
 @staticInterop
-class MostVisitedURL {
+class MostVisitedURL {}
+
+extension MostVisitedURLExtension on MostVisitedURL {
   /// The most visited URL.
   external String get url;
 

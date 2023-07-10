@@ -16,7 +16,9 @@ extension JSEventsExtension on JSEvents {}
 
 @JS()
 @staticInterop
-class Rule {
+class Rule {}
+
+extension RuleExtension on Rule {
   /// Optional identifier that allows referencing this rule.
   external String? get id;
 
@@ -38,9 +40,13 @@ class Rule {
 @staticInterop
 class Event {}
 
+extension EventExtension on Event {}
+
 @JS()
 @staticInterop
-class UrlFilter {
+class UrlFilter {}
+
+extension UrlFilterExtension on UrlFilter {
   /// Matches if the host name of the URL contains a specified string. To test
   /// whether a host name component has a prefix 'foo', use hostContains:
   /// '.foo'. This matches 'www.foobar.com' and 'foo.com', because an implicit

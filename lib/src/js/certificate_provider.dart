@@ -107,7 +107,9 @@ typedef PinRequestErrorType = JSString;
 
 @JS()
 @staticInterop
-class ClientCertificateInfo {
+class ClientCertificateInfo {}
+
+extension ClientCertificateInfoExtension on ClientCertificateInfo {
   ///  The array must contain the DER encoding of the X.509 client certificate
   ///  as its first element.
   ///  <p>This must include exactly one certificate.</p>
@@ -120,7 +122,9 @@ class ClientCertificateInfo {
 
 @JS()
 @staticInterop
-class SetCertificatesDetails {
+class SetCertificatesDetails {}
+
+extension SetCertificatesDetailsExtension on SetCertificatesDetails {
   ///  When called in response to $(ref:onCertificatesUpdateRequested), should
   ///  contain the received `certificatesRequestId` value. Otherwise,
   ///  should be unset.
@@ -136,14 +140,18 @@ class SetCertificatesDetails {
 
 @JS()
 @staticInterop
-class CertificatesUpdateRequest {
+class CertificatesUpdateRequest {}
+
+extension CertificatesUpdateRequestExtension on CertificatesUpdateRequest {
   ///  Request identifier to be passed to $(ref:setCertificates).
   external int get certificatesRequestId;
 }
 
 @JS()
 @staticInterop
-class SignatureRequest {
+class SignatureRequest {}
+
+extension SignatureRequestExtension on SignatureRequest {
   ///  Request identifier to be passed to $(ref:reportSignature).
   external int get signRequestId;
 
@@ -160,7 +168,9 @@ class SignatureRequest {
 
 @JS()
 @staticInterop
-class ReportSignatureDetails {
+class ReportSignatureDetails {}
+
+extension ReportSignatureDetailsExtension on ReportSignatureDetails {
   ///  Request identifier that was received via the $(ref:onSignatureRequested)
   ///  event.
   external int get signRequestId;
@@ -174,7 +184,9 @@ class ReportSignatureDetails {
 
 @JS()
 @staticInterop
-class CertificateInfo {
+class CertificateInfo {}
+
+extension CertificateInfoExtension on CertificateInfo {
   ///  Must be the DER encoding of a X.509 certificate. Currently, only
   ///  certificates of RSA keys are supported.
   external JSArrayBuffer get certificate;
@@ -187,7 +199,9 @@ class CertificateInfo {
 
 @JS()
 @staticInterop
-class SignRequest {
+class SignRequest {}
+
+extension SignRequestExtension on SignRequest {
   ///  The unique ID to be used by the extension should it need to call a method
   ///  that requires it, e.g. requestPin.
   external int get signRequestId;
@@ -205,7 +219,9 @@ class SignRequest {
 
 @JS()
 @staticInterop
-class RequestPinDetails {
+class RequestPinDetails {}
+
+extension RequestPinDetailsExtension on RequestPinDetails {
   ///  The ID given by Chrome in SignRequest.
   external int get signRequestId;
 
@@ -226,7 +242,9 @@ class RequestPinDetails {
 
 @JS()
 @staticInterop
-class StopPinRequestDetails {
+class StopPinRequestDetails {}
+
+extension StopPinRequestDetailsExtension on StopPinRequestDetails {
   ///  The ID given by Chrome in SignRequest.
   external int get signRequestId;
 
@@ -238,7 +256,9 @@ class StopPinRequestDetails {
 
 @JS()
 @staticInterop
-class PinResponseDetails {
+class PinResponseDetails {}
+
+extension PinResponseDetailsExtension on PinResponseDetails {
   ///  The code provided by the user. Empty if user closed the dialog or some
   ///  other error occurred.
   external String? get userInput;

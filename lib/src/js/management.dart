@@ -126,7 +126,9 @@ typedef ExtensionInstallType = JSString;
 
 @JS()
 @staticInterop
-class IconInfo {
+class IconInfo {}
+
+extension IconInfoExtension on IconInfo {
   /// A number representing the width and height of the icon. Likely values
   /// include (but are not limited to) 128, 48, 24, and 16.
   external int get size;
@@ -139,7 +141,9 @@ class IconInfo {
 
 @JS()
 @staticInterop
-class ExtensionInfo {
+class ExtensionInfo {}
+
+extension ExtensionInfoExtension on ExtensionInfo {
   /// The extension's unique identifier.
   external String get id;
 
@@ -220,7 +224,9 @@ class ExtensionInfo {
 
 @JS()
 @staticInterop
-class UninstallOptions {
+class UninstallOptions {}
+
+extension UninstallOptionsExtension on UninstallOptions {
   /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
   /// to false for self uninstalls. If an extension uninstalls another
   /// extension, this parameter is ignored and the dialog is always shown.

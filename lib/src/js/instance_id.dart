@@ -38,31 +38,39 @@ extension JSInstanceIDExtension on JSInstanceID {
 
 @JS()
 @staticInterop
+@anonymous
 class GetTokenParams {
-  /// Identifies the entity that is authorized to access resources associated
-  /// with this Instance ID. It can be a project ID from <a
-  /// href='https://code.google.com/apis/console'>Google developer console</a>.
-  external String get authorizedEntity;
+  external factory GetTokenParams(
+    /// Identifies the entity that is authorized to access resources associated
+    /// with this Instance ID. It can be a project ID from <a
+    /// href='https://code.google.com/apis/console'>Google developer console</a>.
+    String authorizedEntity,
 
-  /// Identifies authorized actions that the authorized entity can take. E.g.
-  /// for sending GCM messages, `GCM` scope should be used.
-  external String get scope;
+    /// Identifies authorized actions that the authorized entity can take. E.g.
+    /// for sending GCM messages, `GCM` scope should be used.
+    String scope,
 
-  /// Allows including a small number of string key/value pairs that will be
-  /// associated with the token and may be used in processing the request.
-  external GetTokenParamsOptions? get options;
+    /// Allows including a small number of string key/value pairs that will be
+    /// associated with the token and may be used in processing the request.
+    GetTokenParamsOptions? options,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class DeleteTokenParams {
-  /// The authorized entity that is used to obtain the token.
-  external String get authorizedEntity;
+  external factory DeleteTokenParams(
+    /// The authorized entity that is used to obtain the token.
+    String authorizedEntity,
 
-  /// The scope that is used to obtain the token.
-  external String get scope;
+    /// The scope that is used to obtain the token.
+    String scope,
+  );
 }
 
 @JS()
 @staticInterop
 class GetTokenParamsOptions {}
+
+extension GetTokenParamsOptionsExtension on GetTokenParamsOptions {}

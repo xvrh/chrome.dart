@@ -214,7 +214,9 @@ typedef ContextType = JSString;
 
 @JS()
 @staticInterop
-class Port {
+class Port {}
+
+extension PortExtension on Port {
   /// The name of the port, as specified in the call to $(ref:runtime.connect).
   external String get name;
 
@@ -236,7 +238,9 @@ class Port {
 
 @JS()
 @staticInterop
-class MessageSender {
+class MessageSender {}
+
+extension MessageSenderExtension on MessageSender {
   /// The $(ref:tabs.Tab) which opened the connection, if any. This property
   /// will <strong>only</strong> be present when the connection was opened from
   /// a tab (including content scripts), and <strong>only</strong> if the
@@ -288,7 +292,9 @@ class MessageSender {
 
 @JS()
 @staticInterop
-class PlatformInfo {
+class PlatformInfo {}
+
+extension PlatformInfoExtension on PlatformInfo {
   /// The operating system Chrome is running on.
   external PlatformOs get os;
 
@@ -302,7 +308,9 @@ class PlatformInfo {
 
 @JS()
 @staticInterop
-class ExtensionContext {
+class ExtensionContext {}
+
+extension ExtensionContextExtension on ExtensionContext {
   /// The type of context this corresponds to.
   external ContextType get contextType;
 
@@ -339,7 +347,9 @@ class ExtensionContext {
 
 @JS()
 @staticInterop
-class ContextFilter {
+class ContextFilter {}
+
+extension ContextFilterExtension on ContextFilter {
   external JSArray? get contextTypes;
 
   external JSArray? get contextIds;
@@ -361,20 +371,26 @@ class ContextFilter {
 
 @JS()
 @staticInterop
+@anonymous
 class ConnectInfo {
-  /// Will be passed into onConnect for processes that are listening for the
-  /// connection event.
-  external String? get name;
+  external factory ConnectInfo(
+    /// Will be passed into onConnect for processes that are listening for the
+    /// connection event.
+    String? name,
 
-  /// Whether the TLS channel ID will be passed into onConnectExternal for
-  /// processes that are listening for the connection event.
-  external bool? get includeTlsChannelId;
+    /// Whether the TLS channel ID will be passed into onConnectExternal for
+    /// processes that are listening for the connection event.
+    bool? includeTlsChannelId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SendMessageOptions {
-  /// Whether the TLS channel ID will be passed into onMessageExternal for
-  /// processes that are listening for the connection event.
-  external bool? get includeTlsChannelId;
+  external factory SendMessageOptions(
+
+      /// Whether the TLS channel ID will be passed into onMessageExternal for
+      /// processes that are listening for the connection event.
+      bool? includeTlsChannelId);
 }

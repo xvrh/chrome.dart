@@ -25,7 +25,9 @@ typedef Disposition = JSString;
 
 @JS()
 @staticInterop
-class QueryInfo {
+class QueryInfo {}
+
+extension QueryInfoExtension on QueryInfo {
   ///  String to query with the default search provider.
   external String get text;
 

@@ -217,7 +217,9 @@ typedef CommonActionId = JSString;
 
 @JS()
 @staticInterop
-class EntryMetadata {
+class EntryMetadata {}
+
+extension EntryMetadataExtension on EntryMetadata {
   ///  True if it is a directory. Must be provided if requested in
   ///  `options`.
   external bool? get isDirectory;
@@ -246,7 +248,9 @@ class EntryMetadata {
 
 @JS()
 @staticInterop
-class Watcher {
+class Watcher {}
+
+extension WatcherExtension on Watcher {
   ///  The path of the entry being observed.
   external String get entryPath;
 
@@ -260,7 +264,9 @@ class Watcher {
 
 @JS()
 @staticInterop
-class OpenedFile {
+class OpenedFile {}
+
+extension OpenedFileExtension on OpenedFile {
   ///  A request ID to be be used by consecutive read/write and close requests.
   external int get openRequestId;
 
@@ -273,7 +279,9 @@ class OpenedFile {
 
 @JS()
 @staticInterop
-class FileSystemInfo {
+class FileSystemInfo {}
+
+extension FileSystemInfoExtension on FileSystemInfo {
   ///  The identifier of the file system.
   external String get fileSystemId;
 
@@ -301,7 +309,9 @@ class FileSystemInfo {
 
 @JS()
 @staticInterop
-class MountOptions {
+class MountOptions {}
+
+extension MountOptionsExtension on MountOptions {
   ///  The string indentifier of the file system. Must be unique per each
   ///  extension.
   external String get fileSystemId;
@@ -328,14 +338,18 @@ class MountOptions {
 
 @JS()
 @staticInterop
-class UnmountOptions {
+class UnmountOptions {}
+
+extension UnmountOptionsExtension on UnmountOptions {
   ///  The identifier of the file system to be unmounted.
   external String get fileSystemId;
 }
 
 @JS()
 @staticInterop
-class UnmountRequestedOptions {
+class UnmountRequestedOptions {}
+
+extension UnmountRequestedOptionsExtension on UnmountRequestedOptions {
   ///  The identifier of the file system to be unmounted.
   external String get fileSystemId;
 
@@ -345,7 +359,9 @@ class UnmountRequestedOptions {
 
 @JS()
 @staticInterop
-class GetMetadataRequestedOptions {
+class GetMetadataRequestedOptions {}
+
+extension GetMetadataRequestedOptionsExtension on GetMetadataRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -377,7 +393,9 @@ class GetMetadataRequestedOptions {
 
 @JS()
 @staticInterop
-class GetActionsRequestedOptions {
+class GetActionsRequestedOptions {}
+
+extension GetActionsRequestedOptionsExtension on GetActionsRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -390,7 +408,10 @@ class GetActionsRequestedOptions {
 
 @JS()
 @staticInterop
-class ReadDirectoryRequestedOptions {
+class ReadDirectoryRequestedOptions {}
+
+extension ReadDirectoryRequestedOptionsExtension
+    on ReadDirectoryRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -422,7 +443,9 @@ class ReadDirectoryRequestedOptions {
 
 @JS()
 @staticInterop
-class OpenFileRequestedOptions {
+class OpenFileRequestedOptions {}
+
+extension OpenFileRequestedOptionsExtension on OpenFileRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -439,7 +462,9 @@ class OpenFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CloseFileRequestedOptions {
+class CloseFileRequestedOptions {}
+
+extension CloseFileRequestedOptionsExtension on CloseFileRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -452,7 +477,9 @@ class CloseFileRequestedOptions {
 
 @JS()
 @staticInterop
-class ReadFileRequestedOptions {
+class ReadFileRequestedOptions {}
+
+extension ReadFileRequestedOptionsExtension on ReadFileRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -471,7 +498,10 @@ class ReadFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CreateDirectoryRequestedOptions {
+class CreateDirectoryRequestedOptions {}
+
+extension CreateDirectoryRequestedOptionsExtension
+    on CreateDirectoryRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -487,7 +517,9 @@ class CreateDirectoryRequestedOptions {
 
 @JS()
 @staticInterop
-class DeleteEntryRequestedOptions {
+class DeleteEntryRequestedOptions {}
+
+extension DeleteEntryRequestedOptionsExtension on DeleteEntryRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -503,7 +535,9 @@ class DeleteEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class CreateFileRequestedOptions {
+class CreateFileRequestedOptions {}
+
+extension CreateFileRequestedOptionsExtension on CreateFileRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -516,7 +550,9 @@ class CreateFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CopyEntryRequestedOptions {
+class CopyEntryRequestedOptions {}
+
+extension CopyEntryRequestedOptionsExtension on CopyEntryRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -532,7 +568,9 @@ class CopyEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class MoveEntryRequestedOptions {
+class MoveEntryRequestedOptions {}
+
+extension MoveEntryRequestedOptionsExtension on MoveEntryRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -548,7 +586,9 @@ class MoveEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class TruncateRequestedOptions {
+class TruncateRequestedOptions {}
+
+extension TruncateRequestedOptionsExtension on TruncateRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -564,7 +604,9 @@ class TruncateRequestedOptions {
 
 @JS()
 @staticInterop
-class WriteFileRequestedOptions {
+class WriteFileRequestedOptions {}
+
+extension WriteFileRequestedOptionsExtension on WriteFileRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -583,7 +625,9 @@ class WriteFileRequestedOptions {
 
 @JS()
 @staticInterop
-class AbortRequestedOptions {
+class AbortRequestedOptions {}
+
+extension AbortRequestedOptionsExtension on AbortRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -596,7 +640,9 @@ class AbortRequestedOptions {
 
 @JS()
 @staticInterop
-class AddWatcherRequestedOptions {
+class AddWatcherRequestedOptions {}
+
+extension AddWatcherRequestedOptionsExtension on AddWatcherRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -613,7 +659,10 @@ class AddWatcherRequestedOptions {
 
 @JS()
 @staticInterop
-class RemoveWatcherRequestedOptions {
+class RemoveWatcherRequestedOptions {}
+
+extension RemoveWatcherRequestedOptionsExtension
+    on RemoveWatcherRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -629,7 +678,9 @@ class RemoveWatcherRequestedOptions {
 
 @JS()
 @staticInterop
-class Action {
+class Action {}
+
+extension ActionExtension on Action {
   ///  The identifier of the action. Any string or $(ref:CommonActionId) for
   ///  common actions.
   external String get id;
@@ -640,7 +691,10 @@ class Action {
 
 @JS()
 @staticInterop
-class ExecuteActionRequestedOptions {
+class ExecuteActionRequestedOptions {}
+
+extension ExecuteActionRequestedOptionsExtension
+    on ExecuteActionRequestedOptions {
   ///  The identifier of the file system related to this operation.
   external String get fileSystemId;
 
@@ -656,7 +710,9 @@ class ExecuteActionRequestedOptions {
 
 @JS()
 @staticInterop
-class Change {
+class Change {}
+
+extension ChangeExtension on Change {
   ///  The path of the changed entry.
   external String get entryPath;
 
@@ -666,7 +722,9 @@ class Change {
 
 @JS()
 @staticInterop
-class NotifyOptions {
+class NotifyOptions {}
+
+extension NotifyOptionsExtension on NotifyOptions {
   ///  The identifier of the file system related to this change.
   external String get fileSystemId;
 
@@ -694,7 +752,9 @@ class NotifyOptions {
 
 @JS()
 @staticInterop
-class ConfigureRequestedOptions {
+class ConfigureRequestedOptions {}
+
+extension ConfigureRequestedOptionsExtension on ConfigureRequestedOptions {
   ///  The identifier of the file system to be configured.
   external String get fileSystemId;
 

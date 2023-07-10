@@ -24,7 +24,9 @@ extension JSCommandsExtension on JSCommands {
 
 @JS()
 @staticInterop
-class Command {
+class Command {}
+
+extension CommandExtension on Command {
   /// The name of the Extension Command
   external String? get name;
 

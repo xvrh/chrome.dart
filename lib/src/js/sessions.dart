@@ -32,7 +32,9 @@ extension JSSessionsExtension on JSSessions {
 
 @JS()
 @staticInterop
-class Filter {
+class Filter {}
+
+extension FilterExtension on Filter {
   /// The maximum number of entries to be fetched in the requested list. Omit
   /// this parameter to fetch the maximum number of entries
   /// ($(ref:sessions.MAX_SESSION_RESULTS)).
@@ -41,7 +43,9 @@ class Filter {
 
 @JS()
 @staticInterop
-class Session {
+class Session {}
+
+extension SessionExtension on Session {
   /// The time when the window or tab was closed or modified, represented in
   /// milliseconds since the epoch.
   external int get lastModified;
@@ -57,7 +61,9 @@ class Session {
 
 @JS()
 @staticInterop
-class Device {
+class Device {}
+
+extension DeviceExtension on Device {
   external String get info;
 
   /// The name of the foreign device.

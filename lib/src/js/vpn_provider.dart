@@ -110,7 +110,9 @@ typedef UIEvent = JSString;
 
 @JS()
 @staticInterop
-class Parameters {
+class Parameters {}
+
+extension ParametersExtension on Parameters {
   ///  IP address for the VPN interface in CIDR notation.
   ///  IPv4 is currently the only supported mode.
   external String get address;

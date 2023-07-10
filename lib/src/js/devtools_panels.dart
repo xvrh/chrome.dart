@@ -40,18 +40,28 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 @staticInterop
 class ElementsPanel {}
 
+extension ElementsPanelExtension on ElementsPanel {}
+
 @JS()
 @staticInterop
 class SourcesPanel {}
+
+extension SourcesPanelExtension on SourcesPanel {}
 
 @JS()
 @staticInterop
 class ExtensionPanel {}
 
+extension ExtensionPanelExtension on ExtensionPanel {}
+
 @JS()
 @staticInterop
 class ExtensionSidebarPane {}
 
+extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {}
+
 @JS()
 @staticInterop
 class Button {}
+
+extension ButtonExtension on Button {}

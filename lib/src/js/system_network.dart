@@ -19,7 +19,9 @@ extension JSSystemNetworkExtension on JSSystemNetwork {
 
 @JS()
 @staticInterop
-class NetworkInterface {
+class NetworkInterface {}
+
+extension NetworkInterfaceExtension on NetworkInterface {
   ///  The underlying name of the adapter. On *nix, this will typically be
   ///  "eth0", "wlan0", etc.
   external String get name;

@@ -20,7 +20,10 @@ extension JSFileBrowserHandlerExtension on JSFileBrowserHandler {
 
 @JS()
 @staticInterop
-class FileHandlerExecuteEventDetails {
+class FileHandlerExecuteEventDetails {}
+
+extension FileHandlerExecuteEventDetailsExtension
+    on FileHandlerExecuteEventDetails {
   /// Array of Entry instances representing files that are targets of this
   /// action (selected in ChromeOS file browser).
   external JSArray get entries;

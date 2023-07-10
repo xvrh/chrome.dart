@@ -52,9 +52,13 @@ extension JSPageActionExtension on JSPageAction {
 @staticInterop
 class ImageDataType {}
 
+extension ImageDataTypeExtension on ImageDataType {}
+
 @JS()
 @staticInterop
-class TabDetails {
+class TabDetails {}
+
+extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
   external int? get tabId;
@@ -62,50 +66,59 @@ class TabDetails {
 
 @JS()
 @staticInterop
+@anonymous
 class SetTitleDetails {
-  /// The id of the tab for which you want to modify the page action.
-  external int get tabId;
+  external factory SetTitleDetails(
+    /// The id of the tab for which you want to modify the page action.
+    int tabId,
 
-  /// The tooltip string.
-  external String get title;
+    /// The tooltip string.
+    String title,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetIconDetails {
-  /// The id of the tab for which you want to modify the page action.
-  external int get tabId;
+  external factory SetIconDetails(
+    /// The id of the tab for which you want to modify the page action.
+    int tabId,
 
-  /// Either an ImageData object or a dictionary {size -> ImageData}
-  /// representing icon to be set. If the icon is specified as a dictionary, the
-  /// actual image to be used is chosen depending on screen's pixel density. If
-  /// the number of image pixels that fit into one screen space unit equals
-  /// `scale`, then image with size `scale` * n will be selected, where n is the
-  /// size of the icon in the UI. At least one image must be specified. Note
-  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
-  /// {'16': foo}'
-  external JSObject? get imageData;
+    /// Either an ImageData object or a dictionary {size -> ImageData}
+    /// representing icon to be set. If the icon is specified as a dictionary, the
+    /// actual image to be used is chosen depending on screen's pixel density. If
+    /// the number of image pixels that fit into one screen space unit equals
+    /// `scale`, then image with size `scale` * n will be selected, where n is the
+    /// size of the icon in the UI. At least one image must be specified. Note
+    /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+    /// {'16': foo}'
+    JSObject? imageData,
 
-  /// Either a relative image path or a dictionary {size -> relative image path}
-  /// pointing to icon to be set. If the icon is specified as a dictionary, the
-  /// actual image to be used is chosen depending on screen's pixel density. If
-  /// the number of image pixels that fit into one screen space unit equals
-  /// `scale`, then image with size `scale` * n will be selected, where n is the
-  /// size of the icon in the UI. At least one image must be specified. Note
-  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
-  external JSObject? get path;
+    /// Either a relative image path or a dictionary {size -> relative image path}
+    /// pointing to icon to be set. If the icon is specified as a dictionary, the
+    /// actual image to be used is chosen depending on screen's pixel density. If
+    /// the number of image pixels that fit into one screen space unit equals
+    /// `scale`, then image with size `scale` * n will be selected, where n is the
+    /// size of the icon in the UI. At least one image must be specified. Note
+    /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+    JSObject? path,
 
-  /// **Deprecated.** This argument is ignored.
-  external int? get iconIndex;
+    /// **Deprecated.** This argument is ignored.
+    int? iconIndex,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetPopupDetails {
-  /// The id of the tab for which you want to modify the page action.
-  external int get tabId;
+  external factory SetPopupDetails(
+    /// The id of the tab for which you want to modify the page action.
+    int tabId,
 
-  /// The relative path to the HTML file to show in a popup. If set to the empty
-  /// string (`''`), no popup is shown.
-  external String get popup;
+    /// The relative path to the HTML file to show in a popup. If set to the empty
+    /// string (`''`), no popup is shown.
+    String popup,
+  );
 }

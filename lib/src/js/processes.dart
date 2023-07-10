@@ -88,7 +88,9 @@ typedef ProcessType = JSString;
 
 @JS()
 @staticInterop
-class TaskInfo {
+class TaskInfo {}
+
+extension TaskInfoExtension on TaskInfo {
   ///  The title of the task.
   external String get title;
 
@@ -99,7 +101,9 @@ class TaskInfo {
 
 @JS()
 @staticInterop
-class Cache {
+class Cache {}
+
+extension CacheExtension on Cache {
   ///  The size of the cache, in bytes.
   external double get size;
 
@@ -109,7 +113,9 @@ class Cache {
 
 @JS()
 @staticInterop
-class Process {
+class Process {}
+
+extension ProcessExtension on Process {
   ///  Unique ID of the process provided by the browser.
   external int get id;
 

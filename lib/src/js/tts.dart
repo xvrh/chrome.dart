@@ -51,7 +51,9 @@ typedef VoiceGender = JSString;
 
 @JS()
 @staticInterop
-class TtsOptions {
+class TtsOptions {}
+
+extension TtsOptionsExtension on TtsOptions {
   /// If true, enqueues this utterance if TTS is already in progress. If false
   /// (the default), interrupts any current speech and flushes the speech queue
   /// before speaking this new utterance.
@@ -102,7 +104,9 @@ class TtsOptions {
 
 @JS()
 @staticInterop
-class TtsEvent {
+class TtsEvent {}
+
+extension TtsEventExtension on TtsEvent {
   /// The type can be `start` as soon as speech has started, `word` when a word
   /// boundary is reached, `sentence` when a sentence boundary is reached,
   /// `marker` when an SSML mark element is reached, `end` when the end of the
@@ -139,7 +143,9 @@ class TtsEvent {
 
 @JS()
 @staticInterop
-class TtsVoice {
+class TtsVoice {}
+
+extension TtsVoiceExtension on TtsVoice {
   /// The name of the voice.
   external String? get voiceName;
 

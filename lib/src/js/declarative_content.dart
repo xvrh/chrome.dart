@@ -32,9 +32,13 @@ typedef RequestContentScriptInstanceType = JSString;
 @staticInterop
 class ImageDataType {}
 
+extension ImageDataTypeExtension on ImageDataType {}
+
 @JS()
 @staticInterop
-class PageStateMatcher {
+class PageStateMatcher {}
+
+extension PageStateMatcherExtension on PageStateMatcher {
   /// Matches if the conditions of the `UrlFilter` are fulfilled for the
   /// top-level URL of the page.
   external UrlFilter? get pageUrl;
@@ -56,19 +60,25 @@ class PageStateMatcher {
 
 @JS()
 @staticInterop
-class ShowPageAction {
+class ShowPageAction {}
+
+extension ShowPageActionExtension on ShowPageAction {
   external ShowPageActionInstanceType get instanceType;
 }
 
 @JS()
 @staticInterop
-class ShowAction {
+class ShowAction {}
+
+extension ShowActionExtension on ShowAction {
   external ShowActionInstanceType get instanceType;
 }
 
 @JS()
 @staticInterop
-class SetIcon {
+class SetIcon {}
+
+extension SetIconExtension on SetIcon {
   external SetIconInstanceType get instanceType;
 
   /// Either an `ImageData` object or a dictionary {size -> ImageData}
@@ -84,7 +94,9 @@ class SetIcon {
 
 @JS()
 @staticInterop
-class RequestContentScript {
+class RequestContentScript {}
+
+extension RequestContentScriptExtension on RequestContentScript {
   /// Names of CSS files to be injected as a part of the content script.
   external JSArray? get css;
 

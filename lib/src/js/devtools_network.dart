@@ -27,3 +27,5 @@ extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
 @JS()
 @staticInterop
 class Request {}
+
+extension RequestExtension on Request {}

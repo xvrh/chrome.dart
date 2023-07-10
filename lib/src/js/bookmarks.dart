@@ -93,7 +93,9 @@ typedef BookmarkTreeNodeUnmodifiable = JSString;
 
 @JS()
 @staticInterop
-class BookmarkTreeNode {
+class BookmarkTreeNode {}
+
+extension BookmarkTreeNodeExtension on BookmarkTreeNode {
   /// The unique identifier for the node. IDs are unique within the current
   /// profile, and they remain valid even after the browser is restarted.
   external String get id;
@@ -134,7 +136,9 @@ class BookmarkTreeNode {
 
 @JS()
 @staticInterop
-class CreateDetails {
+class CreateDetails {}
+
+extension CreateDetailsExtension on CreateDetails {
   /// Defaults to the Other Bookmarks folder.
   external String? get parentId;
 
@@ -147,16 +151,20 @@ class CreateDetails {
 
 @JS()
 @staticInterop
+@anonymous
 class MoveDestination {
-  external String? get parentId;
-
-  external int? get index;
+  external factory MoveDestination(
+    String? parentId,
+    int? index,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class UpdateChanges {
-  external String? get title;
-
-  external String? get url;
+  external factory UpdateChanges(
+    String? title,
+    String? url,
+  );
 }

@@ -63,7 +63,9 @@ typedef JobStatus = JSString;
 
 @JS()
 @staticInterop
-class SubmitJobRequest {
+class SubmitJobRequest {}
+
+extension SubmitJobRequestExtension on SubmitJobRequest {
   ///  The print job to be submitted.
   ///  The only supported content type is "application/pdf", and the CJT ticket
   ///  shouldn't include FitToPageTicketItem, PageRangeTicketItem,
@@ -78,7 +80,9 @@ class SubmitJobRequest {
 
 @JS()
 @staticInterop
-class SubmitJobResponse {
+class SubmitJobResponse {}
+
+extension SubmitJobResponseExtension on SubmitJobResponse {
   ///  The status of the request.
   external SubmitJobStatus get status;
 
@@ -89,7 +93,9 @@ class SubmitJobResponse {
 
 @JS()
 @staticInterop
-class Printer {
+class Printer {}
+
+extension PrinterExtension on Printer {
   ///  The printer's identifier; guaranteed to be unique among printers on the
   ///  device.
   external String get id;
@@ -123,7 +129,9 @@ class Printer {
 
 @JS()
 @staticInterop
-class GetPrinterInfoResponse {
+class GetPrinterInfoResponse {}
+
+extension GetPrinterInfoResponseExtension on GetPrinterInfoResponse {
   ///  Printer capabilities in
   ///  <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   ///  CDD format</a>.

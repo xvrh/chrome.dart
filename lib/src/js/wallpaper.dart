@@ -22,20 +22,23 @@ typedef WallpaperLayout = JSString;
 
 @JS()
 @staticInterop
+@anonymous
 class SetWallpaperDetails {
-  /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
-  external JSAny? get data;
+  external factory SetWallpaperDetails(
+    /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
+    JSAny? data,
 
-  /// The URL of the wallpaper to be set (can be relative).
-  external String? get url;
+    /// The URL of the wallpaper to be set (can be relative).
+    String? url,
 
-  /// The supported wallpaper layouts.
-  external WallpaperLayout get layout;
+    /// The supported wallpaper layouts.
+    WallpaperLayout layout,
 
-  /// The file name of the saved wallpaper.
-  external String get filename;
+    /// The file name of the saved wallpaper.
+    String filename,
 
-  /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
-  /// supported yet.
-  external bool? get thumbnail;
+    /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
+    /// supported yet.
+    bool? thumbnail,
+  );
 }

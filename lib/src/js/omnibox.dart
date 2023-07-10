@@ -54,7 +54,9 @@ typedef OnInputEnteredDisposition = JSString;
 
 @JS()
 @staticInterop
-class MatchClassification {
+class MatchClassification {}
+
+extension MatchClassificationExtension on MatchClassification {
   external int get offset;
 
   /// The style type
@@ -65,7 +67,9 @@ class MatchClassification {
 
 @JS()
 @staticInterop
-class SuggestResult {
+class SuggestResult {}
+
+extension SuggestResultExtension on SuggestResult {
   /// The text that is put into the URL bar, and that is sent to the extension
   /// when the user chooses this entry.
   external String get content;
@@ -89,7 +93,9 @@ class SuggestResult {
 
 @JS()
 @staticInterop
-class DefaultSuggestResult {
+class DefaultSuggestResult {}
+
+extension DefaultSuggestResultExtension on DefaultSuggestResult {
   /// The text that is displayed in the URL dropdown. Can contain XML-style
   /// markup for styling. The supported tags are 'url' (for a literal URL),
   /// 'match' (for highlighting text that matched what the user's query), and

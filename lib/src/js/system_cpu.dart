@@ -18,7 +18,9 @@ extension JSSystemCpuExtension on JSSystemCpu {
 
 @JS()
 @staticInterop
-class CpuTime {
+class CpuTime {}
+
+extension CpuTimeExtension on CpuTime {
   ///  The cumulative time used by userspace programs on this processor.
   external double get user;
 
@@ -35,14 +37,18 @@ class CpuTime {
 
 @JS()
 @staticInterop
-class ProcessorInfo {
+class ProcessorInfo {}
+
+extension ProcessorInfoExtension on ProcessorInfo {
   ///  Cumulative usage info for this logical processor.
   external CpuTime get usage;
 }
 
 @JS()
 @staticInterop
-class CpuInfo {
+class CpuInfo {}
+
+extension CpuInfoExtension on CpuInfo {
   ///  The number of logical processors.
   external int get numOfProcessors;
 

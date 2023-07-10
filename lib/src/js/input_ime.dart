@@ -153,7 +153,9 @@ typedef AssistiveWindowButton = JSString;
 
 @JS()
 @staticInterop
-class KeyboardEvent {
+class KeyboardEvent {}
+
+extension KeyboardEventExtension on KeyboardEvent {
   /// One of keyup or keydown.
   external KeyboardEventType get type;
 
@@ -194,7 +196,9 @@ class KeyboardEvent {
 
 @JS()
 @staticInterop
-class InputContext {
+class InputContext {}
+
+extension InputContextExtension on InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
   external int get contextID;
@@ -221,7 +225,9 @@ class InputContext {
 
 @JS()
 @staticInterop
-class MenuItem {
+class MenuItem {}
+
+extension MenuItemExtension on MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
   external String get id;
 
@@ -243,7 +249,9 @@ class MenuItem {
 
 @JS()
 @staticInterop
-class AssistiveWindowProperties {
+class AssistiveWindowProperties {}
+
+extension AssistiveWindowPropertiesExtension on AssistiveWindowProperties {
   external AssistiveWindowType get type;
 
   /// Sets true to show AssistiveWindow, sets false to hide.
@@ -255,7 +263,9 @@ class AssistiveWindowProperties {
 
 @JS()
 @staticInterop
-class MenuParameters {
+class MenuParameters {}
+
+extension MenuParametersExtension on MenuParameters {
   /// ID of the engine to use.
   external String get engineID;
 
@@ -266,132 +276,164 @@ class MenuParameters {
 
 @JS()
 @staticInterop
+@anonymous
 class SetCompositionParameters {
-  /// ID of the context where the composition text will be set
-  external int get contextID;
+  external factory SetCompositionParameters(
+    /// ID of the context where the composition text will be set
+    int contextID,
 
-  /// Text to set
-  external String get text;
+    /// Text to set
+    String text,
 
-  /// Position in the text that the selection starts at.
-  external int? get selectionStart;
+    /// Position in the text that the selection starts at.
+    int? selectionStart,
 
-  /// Position in the text that the selection ends at.
-  external int? get selectionEnd;
+    /// Position in the text that the selection ends at.
+    int? selectionEnd,
 
-  /// Position in the text of the cursor.
-  external int get cursor;
+    /// Position in the text of the cursor.
+    int cursor,
 
-  /// List of segments and their associated types.
-  external JSArray? get segments;
+    /// List of segments and their associated types.
+    JSArray? segments,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class ClearCompositionParameters {
-  /// ID of the context where the composition will be cleared
-  external int get contextID;
+  external factory ClearCompositionParameters(
+
+      /// ID of the context where the composition will be cleared
+      int contextID);
 }
 
 @JS()
 @staticInterop
+@anonymous
 class CommitTextParameters {
-  /// ID of the context where the text will be committed
-  external int get contextID;
+  external factory CommitTextParameters(
+    /// ID of the context where the text will be committed
+    int contextID,
 
-  /// The text to commit
-  external String get text;
+    /// The text to commit
+    String text,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SendKeyEventsParameters {
-  /// ID of the context where the key events will be sent, or zero to send key
-  /// events to non-input field.
-  external int get contextID;
+  external factory SendKeyEventsParameters(
+    /// ID of the context where the key events will be sent, or zero to send key
+    /// events to non-input field.
+    int contextID,
 
-  /// Data on the key event.
-  external JSArray get keyData;
+    /// Data on the key event.
+    JSArray keyData,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetCandidateWindowPropertiesParameters {
-  /// ID of the engine to set properties on.
-  external String get engineID;
-
-  external SetCandidateWindowPropertiesParametersProperties get properties;
+  external factory SetCandidateWindowPropertiesParameters(
+    /// ID of the engine to set properties on.
+    String engineID,
+    SetCandidateWindowPropertiesParametersProperties properties,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetCandidatesParameters {
-  /// ID of the context that owns the candidate window.
-  external int get contextID;
+  external factory SetCandidatesParameters(
+    /// ID of the context that owns the candidate window.
+    int contextID,
 
-  /// List of candidates to show in the candidate window
-  external JSArray get candidates;
+    /// List of candidates to show in the candidate window
+    JSArray candidates,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetCursorPositionParameters {
-  /// ID of the context that owns the candidate window.
-  external int get contextID;
+  external factory SetCursorPositionParameters(
+    /// ID of the context that owns the candidate window.
+    int contextID,
 
-  /// ID of the candidate to select.
-  external int get candidateID;
+    /// ID of the candidate to select.
+    int candidateID,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetAssistiveWindowPropertiesParameters {
-  /// ID of the context owning the assistive window.
-  external int get contextID;
+  external factory SetAssistiveWindowPropertiesParameters(
+    /// ID of the context owning the assistive window.
+    int contextID,
 
-  /// Properties of the assistive window.
-  external AssistiveWindowProperties get properties;
+    /// Properties of the assistive window.
+    AssistiveWindowProperties properties,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetAssistiveWindowButtonHighlightedParameters {
-  /// ID of the context owning the assistive window.
-  external int get contextID;
+  external factory SetAssistiveWindowButtonHighlightedParameters(
+    /// ID of the context owning the assistive window.
+    int contextID,
 
-  /// The ID of the button
-  external AssistiveWindowButton get buttonID;
+    /// The ID of the button
+    AssistiveWindowButton buttonID,
 
-  /// The window type the button belongs to.
-  external AssistiveWindowType get windowType;
+    /// The window type the button belongs to.
+    AssistiveWindowType windowType,
 
-  /// The text for the screenreader to announce.
-  external String? get announceString;
+    /// The text for the screenreader to announce.
+    String? announceString,
 
-  /// Whether the button should be highlighted.
-  external bool get highlighted;
+    /// Whether the button should be highlighted.
+    bool highlighted,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class DeleteSurroundingTextParameters {
-  /// ID of the engine receiving the event.
-  external String get engineID;
+  external factory DeleteSurroundingTextParameters(
+    /// ID of the engine receiving the event.
+    String engineID,
 
-  /// ID of the context where the surrounding text will be deleted.
-  external int get contextID;
+    /// ID of the context where the surrounding text will be deleted.
+    int contextID,
 
-  /// The offset from the caret position where deletion will start. This value
-  /// can be negative.
-  external int get offset;
+    /// The offset from the caret position where deletion will start. This value
+    /// can be negative.
+    int offset,
 
-  /// The number of characters to be deleted
-  external int get length;
+    /// The number of characters to be deleted
+    int length,
+  );
 }
 
 @JS()
 @staticInterop
-class SetCandidateWindowPropertiesParametersProperties {
+class SetCandidateWindowPropertiesParametersProperties {}
+
+extension SetCandidateWindowPropertiesParametersPropertiesExtension
+    on SetCandidateWindowPropertiesParametersProperties {
   /// True to show the Candidate window, false to hide it.
   external bool? get visible;
 

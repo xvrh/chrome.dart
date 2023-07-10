@@ -57,7 +57,9 @@ typedef Color = JSString;
 
 @JS()
 @staticInterop
-class TabGroup {
+class TabGroup {}
+
+extension TabGroupExtension on TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
   external int get id;
 
@@ -77,43 +79,52 @@ class TabGroup {
 
 @JS()
 @staticInterop
+@anonymous
 class QueryInfo {
-  /// Whether the groups are collapsed.
-  external bool? get collapsed;
+  external factory QueryInfo(
+    /// Whether the groups are collapsed.
+    bool? collapsed,
 
-  /// The color of the groups.
-  external Color? get color;
+    /// The color of the groups.
+    Color? color,
 
-  /// Match group titles against a pattern.
-  external String? get title;
+    /// Match group titles against a pattern.
+    String? title,
 
-  /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
-  /// <a href='windows#current-window'>current window</a>.
-  external int? get windowId;
+    /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
+    /// <a href='windows#current-window'>current window</a>.
+    int? windowId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class UpdateProperties {
-  /// Whether the group should be collapsed.
-  external bool? get collapsed;
+  external factory UpdateProperties(
+    /// Whether the group should be collapsed.
+    bool? collapsed,
 
-  /// The color of the group.
-  external Color? get color;
+    /// The color of the group.
+    Color? color,
 
-  /// The title of the group.
-  external String? get title;
+    /// The title of the group.
+    String? title,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class MoveProperties {
-  /// The window to move the group to. Defaults to the window the group is
-  /// currently in. Note that groups can only be moved to and from windows with
-  /// $(ref:windows.WindowType) type `"normal"`.
-  external int? get windowId;
+  external factory MoveProperties(
+    /// The window to move the group to. Defaults to the window the group is
+    /// currently in. Note that groups can only be moved to and from windows with
+    /// $(ref:windows.WindowType) type `"normal"`.
+    int? windowId,
 
-  /// The position to move the group to. Use `-1` to place the group at the end
-  /// of the window.
-  external int get index;
+    /// The position to move the group to. Use `-1` to place the group at the end
+    /// of the window.
+    int index,
+  );
 }

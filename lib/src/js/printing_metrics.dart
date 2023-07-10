@@ -37,7 +37,9 @@ typedef DuplexMode = JSString;
 
 @JS()
 @staticInterop
-class MediaSize {
+class MediaSize {}
+
+extension MediaSizeExtension on MediaSize {
   ///  Width (in micrometers) of the media used for printing.
   external int get width;
 
@@ -54,7 +56,9 @@ class MediaSize {
 
 @JS()
 @staticInterop
-class PrintSettings {
+class PrintSettings {}
+
+extension PrintSettingsExtension on PrintSettings {
   ///  The requested color mode.
   external ColorMode get color;
 
@@ -70,7 +74,9 @@ class PrintSettings {
 
 @JS()
 @staticInterop
-class Printer {
+class Printer {}
+
+extension PrinterExtension on Printer {
   ///  Displayed name of the printer.
   external String get name;
 
@@ -84,7 +90,9 @@ class Printer {
 
 @JS()
 @staticInterop
-class PrintJobInfo {
+class PrintJobInfo {}
+
+extension PrintJobInfoExtension on PrintJobInfo {
   ///  The ID of the job.
   external String get id;
 

@@ -131,7 +131,9 @@ typedef AccountStatus = JSString;
 
 @JS()
 @staticInterop
-class AccountInfo {
+class AccountInfo {}
+
+extension AccountInfoExtension on AccountInfo {
   ///  A unique identifier for the account. This ID will not change
   ///  for the lifetime of the account.
   external String get id;
@@ -139,7 +141,9 @@ class AccountInfo {
 
 @JS()
 @staticInterop
-class ProfileDetails {
+class ProfileDetails {}
+
+extension ProfileDetailsExtension on ProfileDetails {
   ///  A status of the primary account signed into a profile whose
   ///  `ProfileUserInfo` should be returned. Defaults to
   ///  `SYNC` account status.
@@ -148,7 +152,9 @@ class ProfileDetails {
 
 @JS()
 @staticInterop
-class ProfileUserInfo {
+class ProfileUserInfo {}
+
+extension ProfileUserInfoExtension on ProfileUserInfo {
   ///  An email address for the user account signed into the current
   ///  profile. Empty if the user is not signed in or the
   ///  `identity.email` manifest permission is not
@@ -164,7 +170,9 @@ class ProfileUserInfo {
 
 @JS()
 @staticInterop
-class TokenDetails {
+class TokenDetails {}
+
+extension TokenDetailsExtension on TokenDetails {
   ///  Fetching a token may require the user to sign-in to Chrome, or
   ///  approve the application's requested scopes. If the interactive
   ///  flag is `true`, `getAuthToken` will
@@ -192,14 +200,18 @@ class TokenDetails {
 
 @JS()
 @staticInterop
-class InvalidTokenDetails {
+class InvalidTokenDetails {}
+
+extension InvalidTokenDetailsExtension on InvalidTokenDetails {
   ///  The specific token that should be removed from the cache.
   external String get token;
 }
 
 @JS()
 @staticInterop
-class WebAuthFlowDetails {
+class WebAuthFlowDetails {}
+
+extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   ///  The URL that initiates the auth flow.
   external String get url;
 
@@ -242,7 +254,9 @@ class WebAuthFlowDetails {
 
 @JS()
 @staticInterop
-class GetAuthTokenResult {
+class GetAuthTokenResult {}
+
+extension GetAuthTokenResultExtension on GetAuthTokenResult {
   ///  The specific token associated with the request.
   external String? get token;
 

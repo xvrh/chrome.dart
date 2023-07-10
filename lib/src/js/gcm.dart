@@ -47,31 +47,36 @@ extension JSGcmExtension on JSGcm {
 
 @JS()
 @staticInterop
+@anonymous
 class SendMessage {
-  /// The ID of the server to send the message to as assigned by <a
-  /// href='https://console.cloud.google.com/apis/dashboard'>Google API
-  /// Console</a>.
-  external String get destinationId;
+  external factory SendMessage(
+    /// The ID of the server to send the message to as assigned by <a
+    /// href='https://console.cloud.google.com/apis/dashboard'>Google API
+    /// Console</a>.
+    String destinationId,
 
-  /// The ID of the message. It must be unique for each message in scope of the
-  /// applications. See the <a
-  /// href='https://firebase.google.com/docs/cloud-messaging/js/client'>Cloud
-  /// Messaging documentation</a> for advice for picking and handling an ID.
-  external String get messageId;
+    /// The ID of the message. It must be unique for each message in scope of the
+    /// applications. See the <a
+    /// href='https://firebase.google.com/docs/cloud-messaging/js/client'>Cloud
+    /// Messaging documentation</a> for advice for picking and handling an ID.
+    String messageId,
 
-  /// Time-to-live of the message in seconds. If it is not possible to send the
-  /// message within that time, an onSendError event will be raised. A
-  /// time-to-live of 0 indicates that the message should be sent immediately or
-  /// fail if it's not possible. The default value of time-to-live is 86,400
-  /// seconds (1 day) and the maximum value is 2,419,200 seconds (28 days).
-  external int? get timeToLive;
+    /// Time-to-live of the message in seconds. If it is not possible to send the
+    /// message within that time, an onSendError event will be raised. A
+    /// time-to-live of 0 indicates that the message should be sent immediately or
+    /// fail if it's not possible. The default value of time-to-live is 86,400
+    /// seconds (1 day) and the maximum value is 2,419,200 seconds (28 days).
+    int? timeToLive,
 
-  /// Message data to send to the server. Case-insensitive `goog.` and `google`,
-  /// as well as case-sensitive `collapse_key` are disallowed as key prefixes.
-  /// Sum of all key/value pairs should not exceed $(ref:gcm.MAX_MESSAGE_SIZE).
-  external SendMessageData get data;
+    /// Message data to send to the server. Case-insensitive `goog.` and `google`,
+    /// as well as case-sensitive `collapse_key` are disallowed as key prefixes.
+    /// Sum of all key/value pairs should not exceed $(ref:gcm.MAX_MESSAGE_SIZE).
+    SendMessageData data,
+  );
 }
 
 @JS()
 @staticInterop
 class SendMessageData {}
+
+extension SendMessageDataExtension on SendMessageData {}

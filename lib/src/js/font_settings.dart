@@ -84,7 +84,9 @@ typedef LevelOfControl = JSString;
 
 @JS()
 @staticInterop
-class FontName {
+class FontName {}
+
+extension FontNameExtension on FontName {
   /// The font ID.
   external String get fontId;
 
@@ -94,82 +96,118 @@ class FontName {
 
 @JS()
 @staticInterop
+@anonymous
 class ClearFontDetails {
-  /// The script for which the font should be cleared. If omitted, the global
-  /// script font setting is cleared.
-  external ScriptCode? get script;
+  external factory ClearFontDetails(
+    /// The script for which the font should be cleared. If omitted, the global
+    /// script font setting is cleared.
+    ScriptCode? script,
 
-  /// The generic font family for which the font should be cleared.
-  external GenericFamily get genericFamily;
+    /// The generic font family for which the font should be cleared.
+    GenericFamily genericFamily,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class GetFontDetails {
-  /// The script for which the font should be retrieved. If omitted, the font
-  /// setting for the global script (script code "Zyyy") is retrieved.
-  external ScriptCode? get script;
+  external factory GetFontDetails(
+    /// The script for which the font should be retrieved. If omitted, the font
+    /// setting for the global script (script code "Zyyy") is retrieved.
+    ScriptCode? script,
 
-  /// The generic font family for which the font should be retrieved.
-  external GenericFamily get genericFamily;
+    /// The generic font family for which the font should be retrieved.
+    GenericFamily genericFamily,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetFontDetails {
-  /// The script code which the font should be set. If omitted, the font setting
-  /// for the global script (script code "Zyyy") is set.
-  external ScriptCode? get script;
+  external factory SetFontDetails(
+    /// The script code which the font should be set. If omitted, the font setting
+    /// for the global script (script code "Zyyy") is set.
+    ScriptCode? script,
 
-  /// The generic font family for which the font should be set.
-  external GenericFamily get genericFamily;
+    /// The generic font family for which the font should be set.
+    GenericFamily genericFamily,
 
-  /// The font ID. The empty string means to fallback to the global script font
-  /// setting.
-  external String get fontId;
+    /// The font ID. The empty string means to fallback to the global script font
+    /// setting.
+    String fontId,
+  );
 }
 
 @JS()
 @staticInterop
-class ClearDefaultFontSizeDetails {}
+@anonymous
+class ClearDefaultFontSizeDetails {
+  external factory ClearDefaultFontSizeDetails();
+}
 
 @JS()
 @staticInterop
-class GetDefaultFontSizeDetails {}
+@anonymous
+class GetDefaultFontSizeDetails {
+  external factory GetDefaultFontSizeDetails();
+}
 
 @JS()
 @staticInterop
+@anonymous
 class SetDefaultFontSizeDetails {
-  /// The font size in pixels.
-  external int get pixelSize;
+  external factory SetDefaultFontSizeDetails(
+
+      /// The font size in pixels.
+      int pixelSize);
 }
 
 @JS()
 @staticInterop
-class ClearDefaultFixedFontSizeDetails {}
+@anonymous
+class ClearDefaultFixedFontSizeDetails {
+  external factory ClearDefaultFixedFontSizeDetails();
+}
 
 @JS()
 @staticInterop
-class GetDefaultFixedFontSizeDetails {}
+@anonymous
+class GetDefaultFixedFontSizeDetails {
+  external factory GetDefaultFixedFontSizeDetails();
+}
 
 @JS()
 @staticInterop
+@anonymous
 class SetDefaultFixedFontSizeDetails {
-  /// The font size in pixels.
-  external int get pixelSize;
+  external factory SetDefaultFixedFontSizeDetails(
+
+      /// The font size in pixels.
+      int pixelSize);
 }
 
 @JS()
 @staticInterop
-class ClearMinimumFontSizeDetails {}
+@anonymous
+class ClearMinimumFontSizeDetails {
+  external factory ClearMinimumFontSizeDetails();
+}
 
 @JS()
 @staticInterop
-class GetMinimumFontSizeDetails {}
+@anonymous
+class GetMinimumFontSizeDetails {
+  external factory GetMinimumFontSizeDetails();
+}
 
 @JS()
 @staticInterop
+@anonymous
 class SetMinimumFontSizeDetails {
-  /// The font size in pixels.
-  external int get pixelSize;
+  external factory SetMinimumFontSizeDetails(
+
+      /// The font size in pixels.
+      int pixelSize);
 }

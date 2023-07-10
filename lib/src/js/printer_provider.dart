@@ -51,7 +51,9 @@ typedef PrintError = JSString;
 
 @JS()
 @staticInterop
-class PrinterInfo {
+class PrinterInfo {}
+
+extension PrinterInfoExtension on PrinterInfo {
   ///  Unique printer ID.
   external String get id;
 
@@ -64,7 +66,9 @@ class PrinterInfo {
 
 @JS()
 @staticInterop
-class PrintJob {
+class PrintJob {}
+
+extension PrintJobExtension on PrintJob {
   ///  ID of the printer which should handle the job.
   external String get printerId;
 

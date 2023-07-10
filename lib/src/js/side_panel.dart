@@ -44,20 +44,26 @@ extension JSSidePanelExtension on JSSidePanel {
 
 @JS()
 @staticInterop
-class SidePanel {
+class SidePanel {}
+
+extension SidePanelExtension on SidePanel {
   ///  Developer specified path for side panel display.
   external String get default_path;
 }
 
 @JS()
 @staticInterop
-class ManifestKeys {
+class ManifestKeys {}
+
+extension ManifestKeysExtension on ManifestKeys {
   external SidePanel get side_panel;
 }
 
 @JS()
 @staticInterop
-class PanelOptions {
+class PanelOptions {}
+
+extension PanelOptionsExtension on PanelOptions {
   ///  If specified, the side panel options will only apply to the tab with
   ///  this id. If omitted, these options set the default behavior (used for any
   ///  tab that doesn't have specific settings). Note: if the same path is set
@@ -76,7 +82,9 @@ class PanelOptions {
 
 @JS()
 @staticInterop
-class PanelBehavior {
+class PanelBehavior {}
+
+extension PanelBehaviorExtension on PanelBehavior {
   ///  Whether clicking the extension's icon will toggle showing the extension's
   ///  entry in the side panel. Defaults to false.
   external bool? get openPanelOnActionClick;
@@ -84,7 +92,9 @@ class PanelBehavior {
 
 @JS()
 @staticInterop
-class GetPanelOptions {
+class GetPanelOptions {}
+
+extension GetPanelOptionsExtension on GetPanelOptions {
   ///  If specified, the side panel options for the given tab will be returned.
   ///  Otherwise, returns the default side panel options (used for any tab that
   ///  doesn't have specific settings).

@@ -125,14 +125,18 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
 
 @JS()
 @staticInterop
-class IsUvpaaRequest {
+class IsUvpaaRequest {}
+
+extension IsUvpaaRequestExtension on IsUvpaaRequest {
   ///  An opaque identifier for the request.
   external int get requestId;
 }
 
 @JS()
 @staticInterop
-class CreateRequest {
+class CreateRequest {}
+
+extension CreateRequestExtension on CreateRequest {
   ///  An opaque identifier for the request.
   external int get requestId;
 
@@ -146,7 +150,9 @@ class CreateRequest {
 
 @JS()
 @staticInterop
-class GetRequest {
+class GetRequest {}
+
+extension GetRequestExtension on GetRequest {
   ///  An opaque identifier for the request.
   external int get requestId;
 
@@ -160,7 +166,9 @@ class GetRequest {
 
 @JS()
 @staticInterop
-class DOMExceptionDetails {
+class DOMExceptionDetails {}
+
+extension DOMExceptionDetailsExtension on DOMExceptionDetails {
   external String get name;
 
   external String get message;
@@ -168,7 +176,9 @@ class DOMExceptionDetails {
 
 @JS()
 @staticInterop
-class CreateResponseDetails {
+class CreateResponseDetails {}
+
+extension CreateResponseDetailsExtension on CreateResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
   external int get requestId;
 
@@ -184,7 +194,9 @@ class CreateResponseDetails {
 
 @JS()
 @staticInterop
-class GetResponseDetails {
+class GetResponseDetails {}
+
+extension GetResponseDetailsExtension on GetResponseDetails {
   ///  The `requestId` of the `CreateRequest`.
   external int get requestId;
 
@@ -200,7 +212,9 @@ class GetResponseDetails {
 
 @JS()
 @staticInterop
-class IsUvpaaResponseDetails {
+class IsUvpaaResponseDetails {}
+
+extension IsUvpaaResponseDetailsExtension on IsUvpaaResponseDetails {
   external int get requestId;
 
   external bool get isUvpaa;

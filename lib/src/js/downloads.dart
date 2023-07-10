@@ -246,7 +246,9 @@ typedef State = JSString;
 
 @JS()
 @staticInterop
-class HeaderNameValuePair {
+class HeaderNameValuePair {}
+
+extension HeaderNameValuePairExtension on HeaderNameValuePair {
   ///  Name of the HTTP header.
   external String get name;
 
@@ -256,7 +258,9 @@ class HeaderNameValuePair {
 
 @JS()
 @staticInterop
-class FilenameSuggestion {
+class FilenameSuggestion {}
+
+extension FilenameSuggestionExtension on FilenameSuggestion {
   ///  The $(ref:DownloadItem)'s new target $(ref:DownloadItem.filename), as a
   /// path
   ///  relative to the user's default Downloads directory, possibly containing
@@ -272,7 +276,9 @@ class FilenameSuggestion {
 
 @JS()
 @staticInterop
-class DownloadOptions {
+class DownloadOptions {}
+
+extension DownloadOptionsExtension on DownloadOptions {
   ///  The URL to download.
   external String get url;
 
@@ -306,7 +312,9 @@ class DownloadOptions {
 
 @JS()
 @staticInterop
-class DownloadItem {
+class DownloadItem {}
+
+extension DownloadItemExtension on DownloadItem {
   ///  An identifier that is persistent across browser sessions.
   external int get id;
 
@@ -409,7 +417,9 @@ class DownloadItem {
 
 @JS()
 @staticInterop
-class DownloadQuery {
+class DownloadQuery {}
+
+extension DownloadQueryExtension on DownloadQuery {
   ///  This array of search terms limits results to $(ref:DownloadItem) whose
   ///  `filename` or `url` or `finalUrl`
   ///  contain all of the search terms that do not begin with a dash '-' and
@@ -520,7 +530,9 @@ class DownloadQuery {
 
 @JS()
 @staticInterop
-class StringDelta {
+class StringDelta {}
+
+extension StringDeltaExtension on StringDelta {
   external String? get previous;
 
   external String? get current;
@@ -528,7 +540,9 @@ class StringDelta {
 
 @JS()
 @staticInterop
-class DoubleDelta {
+class DoubleDelta {}
+
+extension DoubleDeltaExtension on DoubleDelta {
   external double? get previous;
 
   external double? get current;
@@ -536,7 +550,9 @@ class DoubleDelta {
 
 @JS()
 @staticInterop
-class BooleanDelta {
+class BooleanDelta {}
+
+extension BooleanDeltaExtension on BooleanDelta {
   external bool? get previous;
 
   external bool? get current;
@@ -544,7 +560,9 @@ class BooleanDelta {
 
 @JS()
 @staticInterop
-class DownloadDelta {
+class DownloadDelta {}
+
+extension DownloadDeltaExtension on DownloadDelta {
   ///  The `id` of the $(ref:DownloadItem)
   ///  that changed.
   external int get id;
@@ -594,7 +612,9 @@ class DownloadDelta {
 
 @JS()
 @staticInterop
-class GetFileIconOptions {
+class GetFileIconOptions {}
+
+extension GetFileIconOptionsExtension on GetFileIconOptions {
   ///  The size of the returned icon. The icon will be square with dimensions
   ///  size * size pixels. The default and largest size for the icon is 32x32
   ///  pixels. The only supported sizes are 16 and 32. It is an error to specify
@@ -604,7 +624,9 @@ class GetFileIconOptions {
 
 @JS()
 @staticInterop
-class UiOptions {
+class UiOptions {}
+
+extension UiOptionsExtension on UiOptions {
   ///  Enable or disable the download UI.
   external bool get enabled;
 }

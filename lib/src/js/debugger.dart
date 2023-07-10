@@ -53,7 +53,9 @@ typedef DetachReason = JSString;
 
 @JS()
 @staticInterop
-class Debuggee {
+class Debuggee {}
+
+extension DebuggeeExtension on Debuggee {
   /// The id of the tab which you intend to debug.
   external int? get tabId;
 
@@ -68,7 +70,9 @@ class Debuggee {
 
 @JS()
 @staticInterop
-class TargetInfo {
+class TargetInfo {}
+
+extension TargetInfoExtension on TargetInfo {
   /// Target type.
   external TargetInfoType get type;
 

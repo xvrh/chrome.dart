@@ -32,6 +32,10 @@ extension JSDevtoolsRecorderExtension on JSDevtoolsRecorder {
 @staticInterop
 class RecorderExtensionPlugin {}
 
+extension RecorderExtensionPluginExtension on RecorderExtensionPlugin {}
+
 @JS()
 @staticInterop
 class RecorderView {}
+
+extension RecorderViewExtension on RecorderView {}

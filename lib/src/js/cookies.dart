@@ -64,7 +64,9 @@ typedef OnChangedCause = JSString;
 
 @JS()
 @staticInterop
-class Cookie {
+class Cookie {}
+
+extension CookieExtension on Cookie {
   /// The name of the cookie.
   external String get name;
 
@@ -108,7 +110,9 @@ class Cookie {
 
 @JS()
 @staticInterop
-class CookieStore {
+class CookieStore {}
+
+extension CookieStoreExtension on CookieStore {
   /// The unique identifier for the cookie store.
   external String get id;
 
@@ -118,7 +122,9 @@ class CookieStore {
 
 @JS()
 @staticInterop
-class CookieDetails {
+class CookieDetails {}
+
+extension CookieDetailsExtension on CookieDetails {
   /// The URL with which the cookie to access is associated. This argument may
   /// be a full URL, in which case any data following the URL path (e.g. the
   /// query string) is simply ignored. If host permissions for this URL are not
@@ -135,69 +141,75 @@ class CookieDetails {
 
 @JS()
 @staticInterop
+@anonymous
 class GetAllDetails {
-  /// Restricts the retrieved cookies to those that would match the given URL.
-  external String? get url;
+  external factory GetAllDetails(
+    /// Restricts the retrieved cookies to those that would match the given URL.
+    String? url,
 
-  /// Filters the cookies by name.
-  external String? get name;
+    /// Filters the cookies by name.
+    String? name,
 
-  /// Restricts the retrieved cookies to those whose domains match or are
-  /// subdomains of this one.
-  external String? get domain;
+    /// Restricts the retrieved cookies to those whose domains match or are
+    /// subdomains of this one.
+    String? domain,
 
-  /// Restricts the retrieved cookies to those whose path exactly matches this
-  /// string.
-  external String? get path;
+    /// Restricts the retrieved cookies to those whose path exactly matches this
+    /// string.
+    String? path,
 
-  /// Filters the cookies by their Secure property.
-  external bool? get secure;
+    /// Filters the cookies by their Secure property.
+    bool? secure,
 
-  /// Filters out session vs. persistent cookies.
-  external bool? get session;
+    /// Filters out session vs. persistent cookies.
+    bool? session,
 
-  /// The cookie store to retrieve cookies from. If omitted, the current
-  /// execution context's cookie store will be used.
-  external String? get storeId;
+    /// The cookie store to retrieve cookies from. If omitted, the current
+    /// execution context's cookie store will be used.
+    String? storeId,
+  );
 }
 
 @JS()
 @staticInterop
+@anonymous
 class SetDetails {
-  /// The request-URI to associate with the setting of the cookie. This value
-  /// can affect the default domain and path values of the created cookie. If
-  /// host permissions for this URL are not specified in the manifest file, the
-  /// API call will fail.
-  external String get url;
+  external factory SetDetails(
+    /// The request-URI to associate with the setting of the cookie. This value
+    /// can affect the default domain and path values of the created cookie. If
+    /// host permissions for this URL are not specified in the manifest file, the
+    /// API call will fail.
+    String url,
 
-  /// The name of the cookie. Empty by default if omitted.
-  external String? get name;
+    /// The name of the cookie. Empty by default if omitted.
+    String? name,
 
-  /// The value of the cookie. Empty by default if omitted.
-  external String? get value;
+    /// The value of the cookie. Empty by default if omitted.
+    String? value,
 
-  /// The domain of the cookie. If omitted, the cookie becomes a host-only
-  /// cookie.
-  external String? get domain;
+    /// The domain of the cookie. If omitted, the cookie becomes a host-only
+    /// cookie.
+    String? domain,
 
-  /// The path of the cookie. Defaults to the path portion of the url parameter.
-  external String? get path;
+    /// The path of the cookie. Defaults to the path portion of the url parameter.
+    String? path,
 
-  /// Whether the cookie should be marked as Secure. Defaults to false.
-  external bool? get secure;
+    /// Whether the cookie should be marked as Secure. Defaults to false.
+    bool? secure,
 
-  /// Whether the cookie should be marked as HttpOnly. Defaults to false.
-  external bool? get httpOnly;
+    /// Whether the cookie should be marked as HttpOnly. Defaults to false.
+    bool? httpOnly,
 
-  /// The cookie's same-site status. Defaults to "unspecified", i.e., if
-  /// omitted, the cookie is set without specifying a SameSite attribute.
-  external SameSiteStatus? get sameSite;
+    /// The cookie's same-site status. Defaults to "unspecified", i.e., if
+    /// omitted, the cookie is set without specifying a SameSite attribute.
+    SameSiteStatus? sameSite,
 
-  /// The expiration date of the cookie as the number of seconds since the UNIX
-  /// epoch. If omitted, the cookie becomes a session cookie.
-  external num? get expirationDate;
+    /// The expiration date of the cookie as the number of seconds since the UNIX
+    /// epoch. If omitted, the cookie becomes a session cookie.
+    num? expirationDate,
 
-  /// The ID of the cookie store in which to set the cookie. By default, the
-  /// cookie is set in the current execution context's cookie store.
-  external String? get storeId;
+    /// The ID of the cookie store in which to set the cookie. By default, the
+    /// cookie is set in the current execution context's cookie store.
+    String? storeId,
+  );
 }

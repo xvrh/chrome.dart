@@ -72,7 +72,9 @@ extension JSAlarmsExtension on JSAlarms {
 
 @JS()
 @staticInterop
-class Alarm {
+class Alarm {}
+
+extension AlarmExtension on Alarm {
   ///  Name of this alarm.
   external String get name;
 
@@ -88,7 +90,9 @@ class Alarm {
 
 @JS()
 @staticInterop
-class AlarmCreateInfo {
+class AlarmCreateInfo {}
+
+extension AlarmCreateInfoExtension on AlarmCreateInfo {
   ///  Time at which the alarm should fire, in milliseconds past the epoch
   ///  (e.g. `Date.now() + n`).
   external double? get when;

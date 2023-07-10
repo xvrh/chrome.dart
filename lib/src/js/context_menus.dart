@@ -44,7 +44,7 @@ extension JSContextMenusExtension on JSContextMenus {
   /// The maximum number of top level extension items that can be added to an
   /// extension action context menu. Any items beyond this limit will be
   /// ignored.
-  external JSObject get ACTION_MENU_TOP_LEVEL_LIMIT;
+  external int get ACTION_MENU_TOP_LEVEL_LIMIT;
 }
 
 /// The different contexts a menu can appear in. Specifying 'all' is equivalent

@@ -202,8 +202,14 @@ class JsonModelConverter {
         prop.items?.name ??
         prop.items?.$ref ??
         prop.type ??
-        prop.$ref ??
-        'object';
+        prop.$ref;
+    if (typeName == null) {
+      if (prop.value is int) {
+        typeName = 'integer';
+      }
+    }
+    typeName ??= 'object';
+
     var isArray = prop.items != null;
     return TypeRef(typeName, isArray: isArray);
   }

@@ -229,10 +229,10 @@ extension JSTabsExtension on JSTabs {
   /// The maximum number of times that $(ref:captureVisibleTab) can be called
   /// per second. $(ref:captureVisibleTab) is expensive and should not be called
   /// too often.
-  external JSObject get MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND;
+  external int get MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND;
 
   /// An ID that represents the absence of a browser tab.
-  external JSObject get TAB_ID_NONE;
+  external int get TAB_ID_NONE;
 }
 
 /// The tab's loading status.

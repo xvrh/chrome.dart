@@ -31,7 +31,7 @@ extension JSSessionsExtension on JSSessions {
 
   /// The maximum number of $(ref:sessions.Session) that will be included in a
   /// requested list.
-  external JSObject get MAX_SESSION_RESULTS;
+  external int get MAX_SESSION_RESULTS;
 }
 
 @JS()

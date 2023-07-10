@@ -45,7 +45,7 @@ extension JSGcmExtension on JSGcm {
   external ChromeEvent get onSendError;
 
   /// The maximum size (in bytes) of all key/value pairs in a message.
-  external JSObject get MAX_MESSAGE_SIZE;
+  external int get MAX_MESSAGE_SIZE;
 }
 
 @JS()

@@ -89,7 +89,7 @@ class Tab {
   final String? title;
   final bool active;
   final int? id;
-  final TabStatus status;
+  final TabStatus? status;
 
   Tab({
     required this.title,
@@ -104,7 +104,7 @@ extension on binding.Tab {
         title: title,
         active: active,
         id: id,
-        status: TabStatus._fromJS(status),
+        status: status != null ? TabStatus._fromJS(status!) : null,
       );
 }
 
@@ -121,7 +121,7 @@ enum TabStatus {
   static TabStatus _fromJS(binding.TabStatus status) =>
       TabStatus.values.firstWhere((e) => e.value == status);
 
-  binding.TabStatus get toJS => value.toJS;
+  binding.TabStatus get toJS => value;
 }
 
 class OnMoveEvent {

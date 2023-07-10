@@ -1,5 +1,6 @@
 import 'package:extension_flutter/tabs/tabs.dart' as chrome;
 import 'package:flutter/material.dart';
+import 'package:chrome/src/js/tabs.dart' as binding;
 
 void main() async {
   runApp(const MyApp());
@@ -50,31 +51,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _tabs = chrome.tabs
-                    .query(queryInfo: chrome.QueryInfo(currentWindow: true));
-              });
-            },
-            child: Text('Refresh Here'),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _tabs = chrome.tabs.query(
+                        queryInfo: chrome.QueryInfo(currentWindow: false));
+                  });
+                },
+                child: Text('List all Here'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _tabs = chrome.tabs.query(
+                        queryInfo: chrome.QueryInfo(currentWindow: true));
+                  });
+                },
+                child: Text('Current window'),
+              ),
+            ],
           ),
           ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _tabs = chrome.tabs.query(queryInfo: chrome.QueryInfo());
-              });
+            onPressed: () async {
+              var newTab = await chrome.tabs.create(active: false);
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('New tab ${newTab.id}')));
+              }
             },
-            child: Text('Refresh all'),
+            child: Text('Create'),
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _tabs = chrome.tabs.query();
-              });
-            },
-            child: Text('Refresh all empty'),
-          ),
+          Text(
+              '${binding.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND}'),
           Expanded(
             child: FutureBuilder<List<chrome.Tab>>(
               future: _tabs,
@@ -95,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ListTile(
                         leading: Text(tab.id.toString()),
                         title: Text(tab.title ?? '<not-available>'),
-                        subtitle: Text(tab.status.name),
+                        subtitle: Text(tab.status?.name ?? 'no-status'),
                       ),
                   ],
                 );

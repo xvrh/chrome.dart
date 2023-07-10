@@ -52,7 +52,7 @@ extension JSTabGroupsExtension on JSTabGroups {
   external ChromeEvent get onRemoved;
 
   /// An ID that represents the absence of a group.
-  external JSObject get TAB_GROUP_ID_NONE;
+  external int get TAB_GROUP_ID_NONE;
 }
 
 /// The group's color.

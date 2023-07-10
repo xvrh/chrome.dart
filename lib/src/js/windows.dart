@@ -60,11 +60,11 @@ extension JSWindowsExtension on JSWindows {
   external ChromeEvent get onBoundsChanged;
 
   /// The windowId value that represents the absence of a Chrome browser window.
-  external JSObject get WINDOW_ID_NONE;
+  external int get WINDOW_ID_NONE;
 
   /// The windowId value that represents the <a
   /// href='windows#current-window'>current window</a>.
-  external JSObject get WINDOW_ID_CURRENT;
+  external int get WINDOW_ID_CURRENT;
 }
 
 /// The type of browser window this is. In some circumstances a window may not

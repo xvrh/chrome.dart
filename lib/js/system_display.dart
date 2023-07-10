@@ -16,14 +16,14 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  |flags|: Options affecting how the information is returned.
   ///  |callback|: The callback to invoke with the results.
   external void getInfo(
-    flags,
-    callback,
+    GetInfoFlags flags,
+    JSFunction callback,
   );
 
   ///  Requests the layout info for all displays.
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   ///  |callback|: The callback to invoke with the results.
-  external void getDisplayLayout(callback);
+  external void getDisplayLayout(JSFunction callback);
 
   ///  Updates the properties for the display specified by |id|, according to
   ///  the information provided in |info|. On failure, $(ref:runtime.lastError)
@@ -37,9 +37,9 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
   external void setDisplayProperties(
-    id,
-    info,
-    callback,
+    String id,
+    DisplayProperties info,
+    JSFunction callback,
   );
 
   ///  Set the layout for all displays. Any display not included will use the
@@ -53,8 +53,8 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
   external void setDisplayLayout(
-    layouts,
-    callback,
+    JSArray layouts,
+    JSFunction callback,
   );
 
   ///  Enables/disables the unified desktop feature. If enabled while mirroring
@@ -62,13 +62,13 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  off. Otherwise, the desktop mode will switch to unified immediately.
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   ///  |enabled|: True if unified desktop should be enabled.
-  external void enableUnifiedDesktop(enabled);
+  external void enableUnifiedDesktop(bool enabled);
 
   ///  Starts overscan calibration for a display. This will show an overlay
   ///  on the screen indicating the current overscan insets. If overscan
   ///  calibration for display |id| is in progress this will reset calibration.
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationStart(id);
+  external void overscanCalibrationStart(String id);
 
   ///  Adjusts the current overscan insets for a display. Typically this should
   ///  either move the display along an axis (e.g. left+right have the same
@@ -77,19 +77,19 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  |id|: The display's unique identifier.
   ///  |delta|: The amount to change the overscan insets.
   external void overscanCalibrationAdjust(
-    id,
-    delta,
+    String id,
+    Insets delta,
   );
 
   ///  Resets the overscan insets for a display to the last saved value (i.e
   ///  before Start was called).
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationReset(id);
+  external void overscanCalibrationReset(String id);
 
   ///  Complete overscan adjustments for a display  by saving the current values
   ///  and hiding the overlay.
   ///  |id|: The display's unique identifier.
-  external void overscanCalibrationComplete(id);
+  external void overscanCalibrationComplete(String id);
 
   ///  Displays the native touch calibration UX for the display with |id| as
   ///  display id. This will show an overlay on the screen with required
@@ -101,15 +101,15 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///       calibration has ended. The argument of the callback informs if the
   ///       calibration was a success or not.
   external void showNativeTouchCalibration(
-    id,
-    callback,
+    String id,
+    JSFunction callback,
   );
 
   ///  Starts custom touch calibration for a display. This should be called when
   ///  using a custom UX for collecting calibration data. If another touch
   ///  calibration is already in progress this will throw an error.
   ///  |id|: The display's unique identifier.
-  external void startCustomTouchCalibration(id);
+  external void startCustomTouchCalibration(String id);
 
   ///  Sets the touch calibration pairs for a display. These |pairs| would be
   ///  used to calibrate the touch screen for display with |id| called in
@@ -120,15 +120,15 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///  |bounds|: Bounds of the display when the touch calibration was performed.
   ///      |bounds.left| and |bounds.top| values are ignored.
   external void completeCustomTouchCalibration(
-    pairs,
-    bounds,
+    TouchCalibrationPairQuad pairs,
+    Bounds bounds,
   );
 
   ///  Resets the touch calibration for the display and brings it back to its
   ///  default state by clearing any touch calibration data associated with the
   ///  display.
   ///  |id|: The display's unique identifier.
-  external void clearTouchCalibration(id);
+  external void clearTouchCalibration(String id);
 
   ///  Sets the display mode to the specified mirror mode. Each call resets the
   ///  state from previous calls. Calling setDisplayProperties() will fail for
@@ -140,8 +140,8 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
   external void setMirrorMode(
-    info,
-    callback,
+    MirrorModeInfo info,
+    JSFunction callback,
   );
 
   ///  Fired when anything changes to the display configuration.

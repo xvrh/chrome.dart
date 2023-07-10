@@ -46,18 +46,18 @@ class ChromeRuntime {
   void reload() => throw UnimplementedError();
 
   /// <p>Requests an immediate update check be done for this app/extension.</p>
-  /// <p><b>Important</b>: Most extensions/apps should <b>not</b> use this
-  /// method, since Chrome already does automatic checks every few hours, and
-  /// you can listen for the $(ref:runtime.onUpdateAvailable) event without
-  /// needing to call requestUpdateCheck.</p><p>This method is only appropriate
-  /// to call in very limited circumstances, such as if your extension/app talks
-  /// to a backend service, and the backend service has determined that the
-  /// client extension/app version is very far out of date and you'd like to
-  /// prompt a user to update. Most other uses of requestUpdateCheck, such as
-  /// calling it unconditionally based on a repeating timer, probably only serve
-  /// to waste client, network, and server resources.</p><p>Note: When called
-  /// with a callback, instead of returning an object this function will return
-  /// the two properties as separate arguments passed to the callback.</p>
+  /// <p>**Important**: Most extensions/apps should **not** use this method,
+  /// since Chrome already does automatic checks every few hours, and you can
+  /// listen for the $(ref:runtime.onUpdateAvailable) event without needing to
+  /// call requestUpdateCheck.</p><p>This method is only appropriate to call in
+  /// very limited circumstances, such as if your extension/app talks to a
+  /// backend service, and the backend service has determined that the client
+  /// extension/app version is very far out of date and you'd like to prompt a
+  /// user to update. Most other uses of requestUpdateCheck, such as calling it
+  /// unconditionally based on a repeating timer, probably only serve to waste
+  /// client, network, and server resources.</p><p>Note: When called with a
+  /// callback, instead of returning an object this function will return the two
+  /// properties as separate arguments passed to the callback.</p>
   void requestUpdateCheck() => throw UnimplementedError();
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,

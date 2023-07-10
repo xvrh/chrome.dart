@@ -18,23 +18,23 @@ class JSDebugger {}
 
 extension JSDebuggerExtension on JSDebugger {
   /// Attaches debugger to the given target.
-  external void attach(
-    target,
-    requiredVersion,
+  external JSPromise attach(
+    Debuggee target,
+    String requiredVersion,
   );
 
   /// Detaches debugger from the given target.
-  external void detach(target);
+  external JSPromise detach(Debuggee target);
 
   /// Sends given command to the debugging target.
-  external void sendCommand(
-    target,
-    method,
-    commandParams,
+  external JSPromise sendCommand(
+    Debuggee target,
+    String method,
+    JSObject commandParams,
   );
 
   /// Returns the list of available debug targets.
-  external void getTargets();
+  external JSPromise getTargets();
 
   /// Fired whenever debugging target issues instrumentation event.
   external ChromeEvent get onEvent;

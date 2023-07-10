@@ -14,7 +14,7 @@ class ChromeIdentity {
   ///  present on the profile.
   ///
   ///  `getAccounts` is only supported on dev channel.
-  void getAccounts(callback) => throw UnimplementedError();
+  void getAccounts() => throw UnimplementedError();
 
   ///  Gets an OAuth2 access token using the client ID and scopes
   ///  specified in the <a
@@ -42,11 +42,7 @@ class ChromeIdentity {
   ///  `grantedScopes` parameter is populated since Chrome 87. When
   ///  available, this parameter contains the list of granted scopes
   ///  corresponding with the returned token.
-  void getAuthToken(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getAuthToken(details) => throw UnimplementedError();
 
   ///  Retrieves email address and obfuscated gaia id of the user
   ///  signed into a profile.
@@ -62,11 +58,7 @@ class ChromeIdentity {
   ///  |callback|: Called with the `ProfileUserInfo` of the primary
   ///  Chrome account, of an empty `ProfileUserInfo` if the account
   ///  with given `details` doesn't exist.
-  void getProfileUserInfo(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getProfileUserInfo(details) => throw UnimplementedError();
 
   ///  Removes an OAuth2 access token from the Identity API's token cache.
   ///
@@ -77,11 +69,7 @@ class ChromeIdentity {
   ///
   ///  |details| : Token information.
   ///  |callback| : Called when the token has been removed from the cache.
-  void removeCachedAuthToken(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void removeCachedAuthToken(details) => throw UnimplementedError();
 
   ///  Resets the state of the Identity API:
   ///  <ul>
@@ -91,7 +79,7 @@ class ChromeIdentity {
   ///  </ul>
   ///
   ///  |callback| : Called when the state has been cleared.
-  void clearAllCachedAuthTokens(callback) => throw UnimplementedError();
+  void clearAllCachedAuthTokens() => throw UnimplementedError();
 
   ///  Starts an auth flow at the specified URL.
   ///
@@ -101,7 +89,7 @@ class ChromeIdentity {
   ///  redirects to a URL matching the pattern
   ///  `https://<app-id>.chromiumapp.org/*`, the
   ///  window will close, and the final redirect URL will be passed to
-  ///  the <var>callback</var> function.
+  ///  the `callback` function.
   ///
   ///  For a good user experience it is important interactive auth flows are
   ///  initiated by UI in your app explaining what the authorization is for.
@@ -111,11 +99,7 @@ class ChromeIdentity {
   ///
   ///  |details| : WebAuth flow options.
   ///  |callback| : Called with the URL redirected back to your application.
-  void launchWebAuthFlow(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void launchWebAuthFlow(details) => throw UnimplementedError();
 
   ///  Generates a redirect URL to be used in |launchWebAuthFlow|.
   ///

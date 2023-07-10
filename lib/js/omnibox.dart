@@ -16,14 +16,14 @@ extension JSOmniboxExtension on JSOmnibox {
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
   external void sendSuggestions(
-    requestId,
-    suggestResults,
+    int requestId,
+    JSArray suggestResults,
   );
 
   /// Sets the description and styling for the default suggestion. The default
   /// suggestion is the text that is displayed in the first suggestion row
   /// underneath the URL bar.
-  external void setDefaultSuggestion(suggestion);
+  external JSPromise setDefaultSuggestion(DefaultSuggestResult suggestion);
 
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and

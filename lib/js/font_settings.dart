@@ -13,43 +13,43 @@ class JSFontSettings {}
 
 extension JSFontSettingsExtension on JSFontSettings {
   /// Clears the font set by this extension, if any.
-  external void clearFont(details);
+  external JSPromise clearFont(JSObject details);
 
   /// Gets the font for a given script and generic font family.
-  external void getFont(details);
+  external JSPromise getFont(JSObject details);
 
   /// Sets the font for a given script and generic font family.
-  external void setFont(details);
+  external JSPromise setFont(JSObject details);
 
   /// Gets a list of fonts on the system.
-  external void getFontList();
+  external JSPromise getFontList();
 
   /// Clears the default font size set by this extension, if any.
-  external void clearDefaultFontSize(details);
+  external JSPromise clearDefaultFontSize(JSObject details);
 
   /// Gets the default font size.
-  external void getDefaultFontSize(details);
+  external JSPromise getDefaultFontSize(JSObject details);
 
   /// Sets the default font size.
-  external void setDefaultFontSize(details);
+  external JSPromise setDefaultFontSize(JSObject details);
 
   /// Clears the default fixed font size set by this extension, if any.
-  external void clearDefaultFixedFontSize(details);
+  external JSPromise clearDefaultFixedFontSize(JSObject details);
 
   /// Gets the default size for fixed width fonts.
-  external void getDefaultFixedFontSize(details);
+  external JSPromise getDefaultFixedFontSize(JSObject details);
 
   /// Sets the default size for fixed width fonts.
-  external void setDefaultFixedFontSize(details);
+  external JSPromise setDefaultFixedFontSize(JSObject details);
 
   /// Clears the minimum font size set by this extension, if any.
-  external void clearMinimumFontSize(details);
+  external JSPromise clearMinimumFontSize(JSObject details);
 
   /// Gets the minimum font size.
-  external void getMinimumFontSize(details);
+  external JSPromise getMinimumFontSize(JSObject details);
 
   /// Sets the minimum font size.
-  external void setMinimumFontSize(details);
+  external JSPromise setMinimumFontSize(JSObject details);
 
   /// Fired when a font setting changes.
   external ChromeEvent get onFontChanged;
@@ -71,12 +71,12 @@ typedef ScriptCode = JSString;
 /// A CSS generic font family.
 typedef GenericFamily = JSString;
 
-/// One of<br><var>not_controllable</var>: cannot be controlled by any
-/// extension<br><var>controlled_by_other_extensions</var>: controlled by
-/// extensions with higher
-/// precedence<br><var>controllable_by_this_extension</var>: can be controlled
-/// by this extension<br><var>controlled_by_this_extension</var>: controlled by
-/// this extension
+/// One of
+/// `not_controllable`: cannot be controlled by any extension
+/// `controlled_by_other_extensions`: controlled by extensions with higher
+/// precedence
+/// `controllable_by_this_extension`: can be controlled by this extension
+/// `controlled_by_this_extension`: controlled by this extension
 typedef LevelOfControl = JSString;
 
 @JS()

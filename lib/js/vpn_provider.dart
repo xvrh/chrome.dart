@@ -19,8 +19,8 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |callback|: Called when the configuration is created or if there is an
   ///  error.
   external void createConfig(
-    name,
-    callback,
+    String name,
+    JSFunction callback,
   );
 
   ///  Destroys a VPN configuration created by the extension.
@@ -28,8 +28,8 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |callback|: Called when the configuration is destroyed or if there is an
   ///  error.
   external void destroyConfig(
-    id,
-    callback,
+    String id,
+    JSFunction callback,
   );
 
   ///  Sets the parameters for the VPN session. This should be called
@@ -38,8 +38,8 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |parameters|: The parameters for the VPN session.
   ///  |callback|: Called when the parameters are set or if there is an error.
   external void setParameters(
-    parameters,
-    callback,
+    Parameters parameters,
+    JSFunction callback,
   );
 
   ///  Sends an IP packet through the tunnel created for the VPN session.
@@ -47,8 +47,8 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |data|: The IP packet to be sent to the platform.
   ///  |callback|: Called when the packet is sent or if there is an error.
   external void sendPacket(
-    data,
-    callback,
+    JSArrayBuffer data,
+    JSFunction callback,
   );
 
   ///  Notifies the VPN session state to the platform.
@@ -57,8 +57,8 @@ extension JSVpnProviderExtension on JSVpnProvider {
   ///  |callback|: Called when the notification is complete or if there is an
   ///  error.
   external void notifyConnectionStateChanged(
-    state,
-    callback,
+    VpnConnectionState state,
+    JSFunction callback,
   );
 
   ///  Triggered when a message is received from the platform for a

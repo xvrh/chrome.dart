@@ -50,8 +50,8 @@ class ChromeWindows {
 
   /// Fired when the currently focused window changes. Returns
   /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
-  /// <b>Note:</b> On some Linux window managers, `WINDOW_ID_NONE` is always
-  /// sent immediately preceding a switch from one Chrome window to another.
+  /// **Note:** On some Linux window managers, `WINDOW_ID_NONE` is always sent
+  /// immediately preceding a switch from one Chrome window to another.
   Stream get onFocusChanged => throw UnimplementedError();
 
   /// Fired when a window has been resized; this event is only dispatched when

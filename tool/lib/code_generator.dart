@@ -57,13 +57,30 @@ class CodeGenerator {
   }
 
   Method _bindingFunction(model.Method method) {
+    var parameters = method.parameters
+        .map((p) => Parameter((b) => b
+          ..name = p.name
+          ..type = refer(p.type.bindingName, p.type.url)))
+        .toList();
+
+    Reference returns;
+    if (method.returns.isAsync && method.returns.supportPromise) {
+      returns = refer('JSPromise', _dartInteropUrl);
+    } else if (!method.returns.isAsync) {
+      returns = refer(method.returns.type.bindingName, method.returns.type.url);
+    } else {
+      returns = refer('void');
+      parameters.add(Parameter((b) => b
+        ..name = method.returns.name ?? 'callback'
+        ..type = refer('JSFunction')));
+    }
+
     return Method((b) => b
       ..docs.add(documentationComment(method.documentation, indent: 2))
       ..name = method.name
       ..external = true
-      ..returns = refer('void')
-      ..requiredParameters.addAll(
-          method.parameters.map((p) => Parameter((b) => b..name = p.name))));
+      ..returns = returns
+      ..requiredParameters.addAll(parameters));
   }
 
   Method _bindingEvent(model.Event event) {

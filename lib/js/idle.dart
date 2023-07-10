@@ -16,18 +16,18 @@ extension JSIdleExtension on JSIdle {
   /// generated any input for a specified number of seconds, or "active"
   /// otherwise.
   external void queryState(
-    detectionIntervalInSeconds,
-    callback,
+    int detectionIntervalInSeconds,
+    JSFunction callback,
   );
 
   /// Sets the interval, in seconds, used to determine when the system is in an
   /// idle state for onStateChanged events. The default interval is 60 seconds.
-  external void setDetectionInterval(intervalInSeconds);
+  external void setDetectionInterval(int intervalInSeconds);
 
   /// Gets the time, in seconds, it takes until the screen is locked
   /// automatically while idle. Returns a zero duration if the screen is never
   /// locked automatically. Currently supported on Chrome OS only.
-  external void getAutoLockDelay(callback);
+  external void getAutoLockDelay(JSFunction callback);
 
   /// Fired when the system changes to an active, idle or locked state. The
   /// event fires with "locked" if the screen is locked or the screensaver

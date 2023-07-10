@@ -27,8 +27,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |options|: What to download and how.
   ///  |callback|: Called with the id of the new $(ref:DownloadItem).
   external void download(
-    options,
-    callback,
+    DownloadOptions options,
+    JSFunction callback,
   );
 
   ///  Find $(ref:DownloadItem). Set `query` to the empty object to get
@@ -39,8 +39,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  number of items per page, and set `startedAfter` to the
   ///  `startTime` of the last item from the last page.
   external void search(
-    query,
-    callback,
+    DownloadQuery query,
+    JSFunction callback,
   );
 
   ///  Pause the download. If the request was successful the download is in a
@@ -50,8 +50,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |downloadId|: The id of the download to pause.
   ///  |callback|: Called when the pause request is completed.
   external void pause(
-    downloadId,
-    callback,
+    int downloadId,
+    JSFunction callback,
   );
 
   ///  Resume a paused download. If the request was successful the download is
@@ -60,8 +60,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |downloadId|: The id of the download to resume.
   ///  |callback|: Called when the resume request is completed.
   external void resume(
-    downloadId,
-    callback,
+    int downloadId,
+    JSFunction callback,
   );
 
   ///  Cancel a download. When `callback` is run, the download is
@@ -69,8 +69,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |downloadId|: The id of the download to cancel.
   ///  |callback|: Called when the cancel request is completed.
   external void cancel(
-    downloadId,
-    callback,
+    int downloadId,
+    JSFunction callback,
   );
 
   ///  Retrieve an icon for the specified download. For new downloads, file
@@ -86,9 +86,9 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |downloadId|: The identifier for the download.
   ///  |callback|: A URL to an image that represents the download.
   external void getFileIcon(
-    downloadId,
-    options,
-    callback,
+    int downloadId,
+    GetFileIconOptions options,
+    JSFunction callback,
   );
 
   ///  Open the downloaded file now if the $(ref:DownloadItem) is complete;
@@ -97,11 +97,11 @@ extension JSDownloadsExtension on JSDownloads {
   ///  `"downloads"` permission. An $(ref:onChanged) event will fire
   ///  when the item is opened for the first time.
   ///  |downloadId|: The identifier for the downloaded file.
-  external void open(downloadId);
+  external void open(int downloadId);
 
   ///  Show the downloaded file in its folder in a file manager.
   ///  |downloadId|: The identifier for the downloaded file.
-  external void show(downloadId);
+  external void show(int downloadId);
 
   ///  Show the default Downloads folder in a file manager.
   external void showDefaultFolder();
@@ -111,15 +111,15 @@ extension JSDownloadsExtension on JSDownloads {
   ///  $(ref:DownloadItem) that matches `query`, then
   ///  `callback` will be called.
   external void erase(
-    query,
-    callback,
+    DownloadQuery query,
+    JSFunction callback,
   );
 
   ///  Remove the downloaded file if it exists and the $(ref:DownloadItem) is
   ///  complete; otherwise return an error through $(ref:runtime.lastError).
   external void removeFile(
-    downloadId,
-    callback,
+    int downloadId,
+    JSFunction callback,
   );
 
   ///  Prompt the user to accept a dangerous download. Can only be called from a
@@ -133,8 +133,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |downloadId|: The identifier for the $(ref:DownloadItem).
   ///  |callback|: Called when the danger prompt dialog closes.
   external void acceptDanger(
-    downloadId,
-    callback,
+    int downloadId,
+    JSFunction callback,
   );
 
   ///  Enable or disable the gray shelf at the bottom of every window associated
@@ -143,7 +143,7 @@ extension JSDownloadsExtension on JSDownloads {
   ///  one other extension has disabled it will return an error through
   ///  $(ref:runtime.lastError). Requires the `"downloads.shelf"`
   ///  permission in addition to the `"downloads"` permission.
-  external void setShelfEnabled(enabled);
+  external void setShelfEnabled(bool enabled);
 
   ///  Change the download UI of every window associated with the current
   ///  browser profile. As long as at least one extension has set
@@ -155,8 +155,8 @@ extension JSDownloadsExtension on JSDownloads {
   ///  |options|: Encapsulate a change to the download UI.
   ///  |callback|: Called when the UI update is completed.
   external void setUiOptions(
-    options,
-    callback,
+    UiOptions options,
+    JSFunction callback,
   );
 
   ///  This event fires with the $(ref:DownloadItem) object when a download

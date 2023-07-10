@@ -11,5 +11,5 @@ class ChromeSystemMemory {
   ChromeSystemMemory._();
 
   ///  Get physical memory information.
-  void getInfo(callback) => throw UnimplementedError();
+  void getInfo() => throw UnimplementedError();
 }

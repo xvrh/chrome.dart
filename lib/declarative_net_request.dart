@@ -30,11 +30,7 @@ class ChromeDeclarativeNetRequest {
   ///  to the rule set. This can happen for multiple reasons, such as invalid
   ///  rule format, duplicate rule ID, rule count limit exceeded, internal
   ///  errors, and others.
-  void updateDynamicRules(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void updateDynamicRules(options) => throw UnimplementedError();
 
   ///  Returns the current set of dynamic rules for the extension. Callers can
   ///  optionally filter the list of fetched rules by specifying a
@@ -42,11 +38,7 @@ class ChromeDeclarativeNetRequest {
   ///  |filter|: An object to filter the list of fetched rules.
   ///  |callback|: Called with the set of dynamic rules. An error might be
   ///  raised in case of transient internal errors.
-  void getDynamicRules(
-    filter,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getDynamicRules(filter) => throw UnimplementedError();
 
   ///  Modifies the current set of session scoped rules for the extension.
   ///  The rules with IDs listed in `options.removeRuleIds` are first
@@ -64,22 +56,14 @@ class ChromeDeclarativeNetRequest {
   ///  an error, $(ref:runtime.lastError) will be set and no change will be made
   ///  to the rule set. This can happen for multiple reasons, such as invalid
   ///  rule format, duplicate rule ID, rule count limit exceeded, and others.
-  void updateSessionRules(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void updateSessionRules(options) => throw UnimplementedError();
 
   ///  Returns the current set of session scoped rules for the extension.
   ///  Callers can optionally filter the list of fetched rules by specifying a
   ///  `filter`.
   ///  |filter|: An object to filter the list of fetched rules.
   ///  |callback|: Called with the set of session scoped rules.
-  void getSessionRules(
-    filter,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getSessionRules(filter) => throw UnimplementedError();
 
   ///  Updates the set of enabled static rulesets for the extension. The
   ///  rulesets with IDs listed in `options.disableRulesetIds` are
@@ -93,16 +77,12 @@ class ChromeDeclarativeNetRequest {
   ///  $(ref:runtime.lastError) will be set and no change will be made to set of
   ///  enabled rulesets. This can happen for multiple reasons, such as invalid
   ///  ruleset IDs, rule count limit exceeded, or internal errors.
-  void updateEnabledRulesets(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void updateEnabledRulesets(options) => throw UnimplementedError();
 
   ///  Returns the ids for the current set of enabled static rulesets.
   ///  |callback|: Called with a list of ids, where each id corresponds to an
   ///  enabled static $(ref:Ruleset).
-  void getEnabledRulesets(callback) => throw UnimplementedError();
+  void getEnabledRulesets() => throw UnimplementedError();
 
   ///  Disables and enables individual static rules in a $(ref:Ruleset).
   ///  Changes to rules belonging to a disabled $(ref:Ruleset) will take
@@ -110,22 +90,14 @@ class ChromeDeclarativeNetRequest {
   ///  |callback|: Called once the update is complete. In case of an error,
   ///  $(ref:runtime.lastError) will be set and no change will be made to the
   ///  enabled static rules.
-  void updateStaticRules(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void updateStaticRules(options) => throw UnimplementedError();
 
   ///  Returns the list of static rules in the given $(ref:Ruleset) that are
   ///  currently disabled.
   ///  |options|: Specifies the ruleset to query.
   ///  |callback|: Called with a list of ids that correspond to the disabled
   ///  rules in that ruleset.
-  void getDisabledRuleIds(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getDisabledRuleIds(options) => throw UnimplementedError();
 
   ///  Returns all rules matched for the extension. Callers can optionally
   ///  filter the list of matched rules by specifying a `filter`.
@@ -140,36 +112,24 @@ class ChromeDeclarativeNetRequest {
   ///  case of an error, $(ref:runtime.lastError) will be set and no rules will
   ///  be returned. This can happen for multiple reasons, such as insufficient
   ///  permissions, or exceeding the quota.
-  void getMatchedRules(
-    filter,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getMatchedRules(filter) => throw UnimplementedError();
 
   ///  Configures if the action count for tabs should be displayed as the
   ///  extension action's badge text and provides a way for that action count to
   ///  be incremented.
-  void setExtensionActionOptions(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setExtensionActionOptions(options) => throw UnimplementedError();
 
   ///  Checks if the given regular expression will be supported as a
   ///  `regexFilter` rule condition.
   ///  |regexOptions|: The regular expression to check.
   ///  |callback|: Called with details consisting of whether the regular
   ///  expression is supported and the reason if not.
-  void isRegexSupported(
-    regexOptions,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void isRegexSupported(regexOptions) => throw UnimplementedError();
 
   ///  Returns the number of static rules an extension can enable before the
   ///  <a href="#global-static-rule-limit">global static rule limit</a> is
   ///  reached.
-  void getAvailableStaticRuleCount(callback) => throw UnimplementedError();
+  void getAvailableStaticRuleCount() => throw UnimplementedError();
 
   ///  Checks if any of the extension's declarativeNetRequest rules would match
   ///  a hypothetical request.
@@ -177,11 +137,7 @@ class ChromeDeclarativeNetRequest {
   ///  be used during extension development.
   ///  |requestDetails|: The request details to test.
   ///  |callback|: Called with the details of matched rules.
-  void testMatchOutcome(
-    request,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void testMatchOutcome(request) => throw UnimplementedError();
 
   ///  Fired when a rule is matched with a request. Only available for unpacked
   ///  extensions with the `declarativeNetRequestFeedback` permission

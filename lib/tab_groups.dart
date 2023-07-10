@@ -18,7 +18,7 @@ class ChromeTabGroups {
   void query(queryInfo) => throw UnimplementedError();
 
   /// Modifies the properties of a group. Properties that are not specified in
-  /// <var>updateProperties</var> are not modified.
+  /// `updateProperties` are not modified.
   void update(
     groupId,
     updateProperties,

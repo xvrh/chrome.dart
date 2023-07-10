@@ -11,11 +11,12 @@ class ChromeContentSettings {
   ChromeContentSettings._();
 }
 
-/// The scope of the ContentSetting. One of<br><var>regular</var>: setting for
-/// regular profile (which is inherited by the incognito profile if not
-/// overridden elsewhere),<br><var>incognito_session_only</var>: setting for
-/// incognito profile that can only be set during an incognito session and is
-/// deleted when the incognito session ends (overrides regular settings).
+/// The scope of the ContentSetting. One of
+/// `regular`: setting for regular profile (which is inherited by the incognito
+/// profile if not overridden elsewhere),
+/// `incognito_session_only`: setting for incognito profile that can only be set
+/// during an incognito session and is deleted when the incognito session ends
+/// (overrides regular settings).
 enum Scope {
   regular('regular'),
   incognitoSessionOnly('incognito_session_only');

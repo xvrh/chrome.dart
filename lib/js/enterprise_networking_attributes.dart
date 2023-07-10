@@ -22,7 +22,7 @@ extension JSEnterpriseNetworkingAttributesExtension
   ///  network, $(ref:runtime.lastError) will be set with a failure reason.
   ///  |callback| : Called with the device's default network's
   ///  $(ref:NetworkDetails).
-  external void getNetworkDetails(callback);
+  external void getNetworkDetails(JSFunction callback);
 }
 
 @JS()

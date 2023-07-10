@@ -17,13 +17,13 @@ extension JSOffscreenExtension on JSOffscreen {
   ///  |callback|: Invoked when the offscreen document is created and has
   ///  completed its initial page load.
   external void createDocument(
-    parameters,
-    callback,
+    CreateParameters parameters,
+    JSFunction callback,
   );
 
   ///  Closes the currently-open offscreen document for the extension.
   ///  |callback|: Invoked when the offscreen document has been closed.
-  external void closeDocument(callback);
+  external void closeDocument(JSFunction callback);
 
   ///  Determines whether the extension has an active document.
   ///  TODO(https://crbug.com/1339382): This probably isn't something we want to
@@ -32,7 +32,7 @@ extension JSOffscreenExtension on JSOffscreen {
   ///  alternative. But this is pretty useful in testing environments.
   ///  |callback|: Invoked with the result of whether the extension has an
   ///  active offscreen document.
-  external void hasDocument(callback);
+  external void hasDocument(JSFunction callback);
 }
 
 typedef Reason = JSString;

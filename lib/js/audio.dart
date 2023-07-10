@@ -21,8 +21,8 @@ extension JSAudioExtension on JSAudio {
   ///      returned device list will contain all available audio devices.
   ///  |callback|: Reports the requested list of audio devices.
   external void getDevices(
-    filter,
-    callback,
+    DeviceFilter filter,
+    JSFunction callback,
   );
 
   ///  Sets lists of active input and/or output devices.
@@ -32,15 +32,15 @@ extension JSAudioExtension on JSAudio {
   ///      </p>
   ///      <p>It is an error to pass in a non-existent device ID.</p>
   external void setActiveDevices(
-    ids,
-    callback,
+    DeviceIdLists ids,
+    JSFunction callback,
   );
 
   ///  Sets the properties for the input or output device.
   external void setProperties(
-    id,
-    properties,
-    callback,
+    String id,
+    DeviceProperties properties,
+    JSFunction callback,
   );
 
   ///  Gets the system-wide mute state for the specified stream type.
@@ -48,8 +48,8 @@ extension JSAudioExtension on JSAudio {
   ///  |callback|: Callback reporting whether mute is set or not for specified
   ///  stream type.
   external void getMute(
-    streamType,
-    callback,
+    StreamType streamType,
+    JSFunction callback,
   );
 
   ///  Sets mute state for a stream type. The mute state will apply to all audio
@@ -57,9 +57,9 @@ extension JSAudioExtension on JSAudio {
   ///  |streamType|: Stream type for which mute state should be set.
   ///  |isMuted|: New mute value.
   external void setMute(
-    streamType,
-    isMuted,
-    callback,
+    StreamType streamType,
+    bool isMuted,
+    JSFunction callback,
   );
 
   ///  Fired when sound level changes for an active audio device.

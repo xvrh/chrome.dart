@@ -11,7 +11,7 @@ class ChromePrintingMetrics {
   ChromePrintingMetrics._();
 
   ///  Returns the list of the finished print jobs.
-  void getPrintJobs(callback) => throw UnimplementedError();
+  void getPrintJobs() => throw UnimplementedError();
 
   ///  Event fired when the print job is finished.
   ///  This includes any of termination statuses: FAILED, CANCELED and PRINTED.

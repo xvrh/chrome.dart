@@ -26,7 +26,7 @@ extension JSEnterpriseDeviceAttributesExtension
   ///  If the current user is not affiliated, returns an empty string.
   ///  |callback| : Called with the device identifier of the directory API when
   ///  received.
-  external void getDirectoryDeviceId(callback);
+  external void getDirectoryDeviceId(JSFunction callback);
 
   ///  Fetches the device's serial number. Please note the purpose of this API
   ///  is to administrate the device (e.g. generating Certificate Sign Requests
@@ -34,23 +34,23 @@ extension JSEnterpriseDeviceAttributesExtension
   ///  devices without the consent of the device's administrator.
   ///  If the current user is not affiliated, returns an empty string.
   ///  |callback| : Called with the serial number of the device.
-  external void getDeviceSerialNumber(callback);
+  external void getDeviceSerialNumber(JSFunction callback);
 
   ///  Fetches the administrator-annotated Asset Id.
   ///  If the current user is not affiliated or no Asset Id has been set by the
   ///  administrator, returns an empty string.
   ///  |callback| : Called with the Asset ID of the device.
-  external void getDeviceAssetId(callback);
+  external void getDeviceAssetId(JSFunction callback);
 
   ///  Fetches the administrator-annotated Location.
   ///  If the current user is not affiliated or no Annotated Location has been
   ///  set by the administrator, returns an empty string.
   ///  |callback| : Called with the Annotated Location of the device.
-  external void getDeviceAnnotatedLocation(callback);
+  external void getDeviceAnnotatedLocation(JSFunction callback);
 
   ///  Fetches the device's hostname as set by DeviceHostnameTemplate policy.
   ///  If the current user is not affiliated or no hostname has been set by the
   ///  enterprise policy, returns an empty string.
   ///  |callback| : Called with hostname of the device.
-  external void getDeviceHostname(callback);
+  external void getDeviceHostname(JSFunction callback);
 }

@@ -16,23 +16,23 @@ class JSDevtoolsPanels {}
 extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
   /// Creates an extension panel.
   external void create(
-    title,
-    iconPath,
-    pagePath,
-    callback,
+    String title,
+    String iconPath,
+    String pagePath,
+    JSFunction callback,
   );
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  external void setOpenResourceHandler(callback);
+  external void setOpenResourceHandler(JSFunction callback);
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   external void openResource(
-    url,
-    lineNumber,
-    columnNumber,
-    callback,
+    String url,
+    int lineNumber,
+    int columnNumber,
+    JSFunction callback,
   );
 }
 

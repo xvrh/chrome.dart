@@ -20,7 +20,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  external void getBackgroundPage();
+  external JSPromise getBackgroundPage();
 
   /// <p>Open your Extension's options page, if possible.</p><p>The precise
   /// behavior may depend on your manifest's `<a
@@ -31,40 +31,40 @@ extension JSRuntimeExtension on JSRuntime {
   /// page to reload.</p><p>If your Extension does not declare an options page,
   /// or Chrome failed to create one for some other reason, the callback will
   /// set $(ref:lastError).</p>
-  external void openOptionsPage();
+  external JSPromise openOptionsPage();
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full <a href="manifest.html">manifest
   /// file</a>.
-  external void getManifest();
+  external JSObject getManifest();
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  external void getURL(path);
+  external String getURL(String path);
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  external void setUninstallURL(url);
+  external JSPromise setUninstallURL(String url);
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
   external void reload();
 
   /// <p>Requests an immediate update check be done for this app/extension.</p>
-  /// <p><b>Important</b>: Most extensions/apps should <b>not</b> use this
-  /// method, since Chrome already does automatic checks every few hours, and
-  /// you can listen for the $(ref:runtime.onUpdateAvailable) event without
-  /// needing to call requestUpdateCheck.</p><p>This method is only appropriate
-  /// to call in very limited circumstances, such as if your extension/app talks
-  /// to a backend service, and the backend service has determined that the
-  /// client extension/app version is very far out of date and you'd like to
-  /// prompt a user to update. Most other uses of requestUpdateCheck, such as
-  /// calling it unconditionally based on a repeating timer, probably only serve
-  /// to waste client, network, and server resources.</p><p>Note: When called
-  /// with a callback, instead of returning an object this function will return
-  /// the two properties as separate arguments passed to the callback.</p>
-  external void requestUpdateCheck();
+  /// <p>**Important**: Most extensions/apps should **not** use this method,
+  /// since Chrome already does automatic checks every few hours, and you can
+  /// listen for the $(ref:runtime.onUpdateAvailable) event without needing to
+  /// call requestUpdateCheck.</p><p>This method is only appropriate to call in
+  /// very limited circumstances, such as if your extension/app talks to a
+  /// backend service, and the backend service has determined that the client
+  /// extension/app version is very far out of date and you'd like to prompt a
+  /// user to update. Most other uses of requestUpdateCheck, such as calling it
+  /// unconditionally based on a repeating timer, probably only serve to waste
+  /// client, network, and server resources.</p><p>Note: When called with a
+  /// callback, instead of returning an object this function will return the two
+  /// properties as separate arguments passed to the callback.</p>
+  external JSPromise requestUpdateCheck();
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
   /// it's no-op.
@@ -75,7 +75,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  external void restartAfterDelay(seconds);
+  external JSPromise restartAfterDelay(int seconds);
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
@@ -84,14 +84,14 @@ extension JSRuntimeExtension on JSRuntime {
   /// messaging</a>. Note that this does not connect to any listeners in a
   /// content script. Extensions may connect to content scripts embedded in tabs
   /// via $(ref:tabs.connect).
-  external void connect(
-    extensionId,
-    connectInfo,
+  external Port connect(
+    String extensionId,
+    JSObject connectInfo,
   );
 
   /// Connects to a native application in the host machine. See <a
   /// href="nativeMessaging">Native Messaging</a> for more information.
-  external void connectNative(application);
+  external Port connectNative(String application);
 
   /// Sends a single message to event listeners within your extension/app or a
   /// different extension/app. Similar to $(ref:runtime.connect) but only sends
@@ -101,26 +101,26 @@ extension JSRuntimeExtension on JSRuntime {
   /// $(ref:runtime.onMessageExternal), if a different extension. Note that
   /// extensions cannot send messages to content scripts using this method. To
   /// send messages to content scripts, use $(ref:tabs.sendMessage).
-  external void sendMessage(
-    extensionId,
-    message,
-    options,
+  external JSPromise sendMessage(
+    String extensionId,
+    JSAny message,
+    JSObject options,
   );
 
   /// Send a single message to a native application.
-  external void sendNativeMessage(
-    application,
-    message,
+  external JSPromise sendNativeMessage(
+    String application,
+    JSObject message,
   );
 
   /// Returns information about the current platform.
-  external void getPlatformInfo();
+  external JSPromise getPlatformInfo();
 
   /// Returns a DirectoryEntry for the package directory.
-  external void getPackageDirectoryEntry(callback);
+  external void getPackageDirectoryEntry(JSFunction callback);
 
   /// Fetches information about active contexts associated with this extension
-  external void getContexts(filter);
+  external JSPromise getContexts(ContextFilter filter);
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
@@ -227,7 +227,7 @@ class Port {
   /// an error is thrown.
   external JSFunction get postMessage;
 
-  /// This property will <b>only</b> be present on ports passed to
+  /// This property will **only** be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
   /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
   /// listeners.

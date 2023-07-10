@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'tts.dart';
 export 'chrome.dart';
 
 extension JSChromeJSTtsEngineExtension on JSChrome {
@@ -20,18 +21,18 @@ class JSTtsEngine {}
 extension JSTtsEngineExtension on JSTtsEngine {
   /// Called by an engine to update its list of voices. This list overrides any
   /// voices declared in this extension's manifest.
-  external void updateVoices(voices);
+  external void updateVoices(JSArray voices);
 
   /// Routes a TTS event from a speech engine to a client.
   external void sendTtsEvent(
-    requestId,
-    event,
+    int requestId,
+    TtsEvent event,
   );
 
   /// Routes TTS audio from a speech engine to a client.
   external void sendTtsAudio(
-    requestId,
-    audio,
+    int requestId,
+    AudioBuffer audio,
   );
 
   /// Called when the user makes a call to tts.speak() and one of the voices

@@ -16,9 +16,9 @@ class JSTts {}
 
 extension JSTtsExtension on JSTts {
   /// Speaks text using a text-to-speech engine.
-  external void speak(
-    utterance,
-    options,
+  external JSPromise speak(
+    String utterance,
+    TtsOptions options,
   );
 
   /// Stops any current speech and flushes the queue of any pending utterances.
@@ -36,10 +36,10 @@ extension JSTtsExtension on JSTts {
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  external void isSpeaking();
+  external JSPromise isSpeaking();
 
   /// Gets an array of all available voices.
-  external void getVoices();
+  external JSPromise getVoices();
 
   /// Used to pass events back to the function calling speak().
   external ChromeEvent get onEvent;

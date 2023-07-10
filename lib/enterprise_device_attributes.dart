@@ -20,7 +20,7 @@ class ChromeEnterpriseDeviceAttributes {
   ///  If the current user is not affiliated, returns an empty string.
   ///  |callback| : Called with the device identifier of the directory API when
   ///  received.
-  void getDirectoryDeviceId(callback) => throw UnimplementedError();
+  void getDirectoryDeviceId() => throw UnimplementedError();
 
   ///  Fetches the device's serial number. Please note the purpose of this API
   ///  is to administrate the device (e.g. generating Certificate Sign Requests
@@ -28,23 +28,23 @@ class ChromeEnterpriseDeviceAttributes {
   ///  devices without the consent of the device's administrator.
   ///  If the current user is not affiliated, returns an empty string.
   ///  |callback| : Called with the serial number of the device.
-  void getDeviceSerialNumber(callback) => throw UnimplementedError();
+  void getDeviceSerialNumber() => throw UnimplementedError();
 
   ///  Fetches the administrator-annotated Asset Id.
   ///  If the current user is not affiliated or no Asset Id has been set by the
   ///  administrator, returns an empty string.
   ///  |callback| : Called with the Asset ID of the device.
-  void getDeviceAssetId(callback) => throw UnimplementedError();
+  void getDeviceAssetId() => throw UnimplementedError();
 
   ///  Fetches the administrator-annotated Location.
   ///  If the current user is not affiliated or no Annotated Location has been
   ///  set by the administrator, returns an empty string.
   ///  |callback| : Called with the Annotated Location of the device.
-  void getDeviceAnnotatedLocation(callback) => throw UnimplementedError();
+  void getDeviceAnnotatedLocation() => throw UnimplementedError();
 
   ///  Fetches the device's hostname as set by DeviceHostnameTemplate policy.
   ///  If the current user is not affiliated or no hostname has been set by the
   ///  enterprise policy, returns an empty string.
   ///  |callback| : Called with hostname of the device.
-  void getDeviceHostname(callback) => throw UnimplementedError();
+  void getDeviceHostname() => throw UnimplementedError();
 }

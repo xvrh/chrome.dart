@@ -22,11 +22,7 @@ class ChromeFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
-  void mount(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void mount(options) => throw UnimplementedError();
 
   ///  Unmounts a file system with the given `fileSystemId`. It
   ///  must be called after $(ref:onUnmountRequested) is invoked. Also,
@@ -35,22 +31,14 @@ class ChromeFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
-  void unmount(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void unmount(options) => throw UnimplementedError();
 
   ///  Returns all file systems mounted by the extension.
-  void getAll(callback) => throw UnimplementedError();
+  void getAll() => throw UnimplementedError();
 
   ///  Returns information about a file system with the passed
   ///  `fileSystemId`.
-  void get(
-    fileSystemId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void get(fileSystemId) => throw UnimplementedError();
 
   ///  Notifies about changes in the watched directory at
   ///  `observedPath` in `recursive` mode. If the file
@@ -81,11 +69,7 @@ class ChromeFileSystemProvider {
   ///
   ///  In case of an error, $(ref:runtime.lastError) will be set
   ///  will a corresponding error code.
-  void notify(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void notify(options) => throw UnimplementedError();
 
   ///  Raised when unmounting for the file system with the
   ///  `fileSystemId` identifier is requested. In the response, the

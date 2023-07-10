@@ -27,8 +27,8 @@ extension JSTabCaptureExtension on JSTabCapture {
   ///    and the client may query $(ref:runtime.lastError) to access the error
   ///    details.
   external void capture(
-    options,
-    callback,
+    CaptureOptions options,
+    JSFunction callback,
   );
 
   ///  Returns a list of tabs that have requested capture or are being
@@ -37,7 +37,7 @@ extension JSTabCaptureExtension on JSTabCapture {
   ///  tab capture that would prevent a new tab capture from succeeding (or
   ///  to prevent redundant requests for the same tab).
   ///  |callback| : Callback invoked with CaptureInfo[] for captured tabs.
-  external void getCapturedTabs(callback);
+  external void getCapturedTabs(JSFunction callback);
 
   ///  Creates a stream ID to capture the target tab.
   ///  Similar to chrome.tabCapture.capture() method, but returns a media
@@ -50,8 +50,8 @@ extension JSTabCaptureExtension on JSTabCapture {
   ///  corresponds to the target tab. The created `streamId` can
   ///  only be used once and expires after a few seconds if it is not used.
   external void getMediaStreamId(
-    options,
-    callback,
+    GetMediaStreamOptions options,
+    JSFunction callback,
   );
 
   ///  Event fired when the capture status of a tab changes.

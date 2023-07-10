@@ -16,7 +16,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  present on the profile.
   ///
   ///  `getAccounts` is only supported on dev channel.
-  external void getAccounts(callback);
+  external void getAccounts(JSFunction callback);
 
   ///  Gets an OAuth2 access token using the client ID and scopes
   ///  specified in the <a
@@ -45,8 +45,8 @@ extension JSIdentityExtension on JSIdentity {
   ///  available, this parameter contains the list of granted scopes
   ///  corresponding with the returned token.
   external void getAuthToken(
-    details,
-    callback,
+    TokenDetails details,
+    JSFunction callback,
   );
 
   ///  Retrieves email address and obfuscated gaia id of the user
@@ -64,8 +64,8 @@ extension JSIdentityExtension on JSIdentity {
   ///  Chrome account, of an empty `ProfileUserInfo` if the account
   ///  with given `details` doesn't exist.
   external void getProfileUserInfo(
-    details,
-    callback,
+    ProfileDetails details,
+    JSFunction callback,
   );
 
   ///  Removes an OAuth2 access token from the Identity API's token cache.
@@ -78,8 +78,8 @@ extension JSIdentityExtension on JSIdentity {
   ///  |details| : Token information.
   ///  |callback| : Called when the token has been removed from the cache.
   external void removeCachedAuthToken(
-    details,
-    callback,
+    InvalidTokenDetails details,
+    JSFunction callback,
   );
 
   ///  Resets the state of the Identity API:
@@ -90,7 +90,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  </ul>
   ///
   ///  |callback| : Called when the state has been cleared.
-  external void clearAllCachedAuthTokens(callback);
+  external void clearAllCachedAuthTokens(JSFunction callback);
 
   ///  Starts an auth flow at the specified URL.
   ///
@@ -100,7 +100,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  redirects to a URL matching the pattern
   ///  `https://<app-id>.chromiumapp.org/*`, the
   ///  window will close, and the final redirect URL will be passed to
-  ///  the <var>callback</var> function.
+  ///  the `callback` function.
   ///
   ///  For a good user experience it is important interactive auth flows are
   ///  initiated by UI in your app explaining what the authorization is for.
@@ -111,8 +111,8 @@ extension JSIdentityExtension on JSIdentity {
   ///  |details| : WebAuth flow options.
   ///  |callback| : Called with the URL redirected back to your application.
   external void launchWebAuthFlow(
-    details,
-    callback,
+    WebAuthFlowDetails details,
+    JSFunction callback,
   );
 
   ///  Generates a redirect URL to be used in |launchWebAuthFlow|.
@@ -121,7 +121,7 @@ extension JSIdentityExtension on JSIdentity {
   ///  `https://<app-id>.chromiumapp.org/*`.
   ///
   ///  |path| : The path appended to the end of the generated URL.
-  external void getRedirectURL(path);
+  external void getRedirectURL(String path);
 
   ///  Fired when signin state changes for an account on the user's profile.
   external ChromeEvent get onSignInChanged;

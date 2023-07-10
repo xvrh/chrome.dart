@@ -15,7 +15,7 @@ class OmahaVersionExtractor {
   final SimpleHttpClient _client;
 
   OmahaVersionExtractor({SimpleHttpClient? client})
-      : this._client = client ?? new SimpleHttpClient();
+      : _client = client ?? SimpleHttpClient();
 
   Future<String> get stableVersion async {
     var omahaData = await _client.getHtmlAtUri(Uri.parse(_omahaDataUrl));

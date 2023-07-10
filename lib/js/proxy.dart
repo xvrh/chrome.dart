@@ -86,8 +86,10 @@ class ProxyConfig {
   /// 'pac_script' mode.
   external PacScript? get pacScript;
 
-  /// 'direct' = Never use a proxy<br>'auto_detect' = Auto detect proxy
-  /// settings<br>'pac_script' = Use specified PAC script<br>'fixed_servers' =
-  /// Manually specify proxy servers<br>'system' = Use system proxy settings
+  /// 'direct' = Never use a proxy
+  /// 'auto_detect' = Auto detect proxy settings
+  /// 'pac_script' = Use specified PAC script
+  /// 'fixed_servers' = Manually specify proxy servers
+  /// 'system' = Use system proxy settings
   external Mode get mode;
 }

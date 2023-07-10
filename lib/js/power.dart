@@ -17,7 +17,7 @@ extension JSPowerExtension on JSPower {
   ///  describes the degree to which power management should be disabled.
   ///  If a request previously made by the same app is still active, it
   ///  will be replaced by the new request.
-  external void requestKeepAwake(level);
+  external void requestKeepAwake(Level level);
 
   ///  Releases a request previously made via requestKeepAwake().
   external void releaseKeepAwake();
@@ -25,7 +25,7 @@ extension JSPowerExtension on JSPower {
   ///  Reports a user activity in order to awake the screen from a dimmed or
   ///  turned off state or from a screensaver. Exits the screensaver if it is
   ///  currently active.
-  external void reportActivity(callback);
+  external void reportActivity(JSFunction callback);
 }
 
 typedef Level = JSString;

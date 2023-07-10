@@ -16,8 +16,8 @@ extension JSSearchExtension on JSSearch {
   ///  In case of an error,
   ///  $(ref:runtime.lastError) will be set.
   external void query(
-    queryInfo,
-    callback,
+    QueryInfo queryInfo,
+    JSFunction callback,
   );
 }
 

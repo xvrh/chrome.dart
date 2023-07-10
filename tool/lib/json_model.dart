@@ -246,8 +246,24 @@ ChromeApi loadJsonModel(String content) {
 
   var functions = <Method>[];
   for (var f in jsonModel.functions) {
+    var jsonReturns = f.returnsAsync ?? f.returns;
+    var returns = MethodReturn(
+        type: TypeRef.void$, isAsync: false, supportPromise: false);
+    if (jsonReturns != null) {
+      var supportsPromises = f.returnsAsync != null;
+      var isAsync = jsonReturns.parameters != null;
+
+      returns = MethodReturn(
+        type: _propertyType(jsonReturns),
+        isAsync: isAsync,
+        supportPromise: supportsPromises,
+        name: jsonReturns.name,
+      );
+    }
+
     var method = Method(
       f.name,
+      returns: returns,
       parameters: f.parameters.map(_methodParameter).toList(),
       documentation: f.description,
     );

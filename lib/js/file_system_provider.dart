@@ -26,8 +26,8 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
   external void mount(
-    options,
-    callback,
+    MountOptions options,
+    JSFunction callback,
   );
 
   ///  Unmounts a file system with the given `fileSystemId`. It
@@ -38,18 +38,18 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///  In case of an error, $(ref:runtime.lastError) will be set with a
   ///  corresponding error code.
   external void unmount(
-    options,
-    callback,
+    UnmountOptions options,
+    JSFunction callback,
   );
 
   ///  Returns all file systems mounted by the extension.
-  external void getAll(callback);
+  external void getAll(JSFunction callback);
 
   ///  Returns information about a file system with the passed
   ///  `fileSystemId`.
   external void get(
-    fileSystemId,
-    callback,
+    String fileSystemId,
+    JSFunction callback,
   );
 
   ///  Notifies about changes in the watched directory at
@@ -82,8 +82,8 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///  In case of an error, $(ref:runtime.lastError) will be set
   ///  will a corresponding error code.
   external void notify(
-    options,
-    callback,
+    NotifyOptions options,
+    JSFunction callback,
   );
 
   ///  Raised when unmounting for the file system with the

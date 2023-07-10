@@ -10,17 +10,19 @@ String documentationComment(String documentation,
   return _toComment(documentation, indent: indent);
 }
 
-final _bracketExtractor = RegExp(r'\[[^\]]+\]');
 final _nonBreakingSpace = '\u00A0';
 String _toComment(String? comment, {int indent = 0, int lineLength = 80}) {
   if (comment != null && comment.isNotEmpty) {
     var commentLines = <String>[];
 
     comment = comment
-        .replaceAllMapped(_bracketExtractor,
-            (match) => match.group(0)!.replaceAll(' ', _nonBreakingSpace))
+        .replaceAll('<br>', '\n')
+        .replaceAll('<var>', '`')
+        .replaceAll('</var>', '`')
         .replaceAll('<code>', '`')
-        .replaceAll('</code>', '`');
+        .replaceAll('</code>', '`')
+        .replaceAll('<b>', '**')
+        .replaceAll('</b>', '**');
 
     const docStarter = '/// ';
     var maxLineLength = lineLength - indent - docStarter.length;

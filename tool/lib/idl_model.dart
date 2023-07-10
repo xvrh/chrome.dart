@@ -150,6 +150,11 @@ class IDLParameter {
   IDLParameter(this.name, this.type,
       {this.attribute, this.isOptional = false, this.isCallback = false});
 
+  bool get supportsPromises =>
+      attribute?.attributes.any(
+          (e) => e.attributeType == IDLAttributeTypeEnum.SUPPORTS_PROMISES) ??
+      false;
+
   String toString() =>
       "IDLParameter($name, $type, $attribute, $isOptional, $isCallback)";
 }

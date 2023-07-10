@@ -16,7 +16,7 @@ extension JSWebRequestExtension on JSWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  external void handlerBehaviorChanged(callback);
+  external void handlerBehaviorChanged(JSFunction callback);
 
   /// Fired when a request is about to occur.
   external ChromeEvent get onBeforeRequest;
@@ -119,7 +119,7 @@ class BlockingResponse {
   /// redirect action use the original request method for the redirect, with one
   /// exception: If the redirect is initiated at the onHeadersReceived stage,
   /// then the redirect will be issued using the GET method. Redirects from URLs
-  /// with `ws://` and `wss://` schemes are <b>ignored</b>.
+  /// with `ws://` and `wss://` schemes are **ignored**.
   external String? get redirectUrl;
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the

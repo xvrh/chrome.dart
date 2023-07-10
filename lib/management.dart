@@ -143,13 +143,12 @@ enum ExtensionType {
   final String value;
 }
 
-/// How the extension was installed. One of<br><var>admin</var>: The extension
-/// was installed because of an administrative
-/// policy,<br><var>development</var>: The extension was loaded unpacked in
-/// developer mode,<br><var>normal</var>: The extension was installed normally
-/// via a .crx file,<br><var>sideload</var>: The extension was installed by
-/// other software on the machine,<br><var>other</var>: The extension was
-/// installed by other means.
+/// How the extension was installed. One of
+/// `admin`: The extension was installed because of an administrative policy,
+/// `development`: The extension was loaded unpacked in developer mode,
+/// `normal`: The extension was installed normally via a .crx file,
+/// `sideload`: The extension was installed by other software on the machine,
+/// `other`: The extension was installed by other means.
 enum ExtensionInstallType {
   admin('admin'),
   development('development'),

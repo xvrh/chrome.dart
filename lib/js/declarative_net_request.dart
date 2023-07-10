@@ -37,8 +37,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  rule format, duplicate rule ID, rule count limit exceeded, internal
   ///  errors, and others.
   external void updateDynamicRules(
-    options,
-    callback,
+    UpdateRuleOptions options,
+    JSFunction callback,
   );
 
   ///  Returns the current set of dynamic rules for the extension. Callers can
@@ -48,8 +48,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |callback|: Called with the set of dynamic rules. An error might be
   ///  raised in case of transient internal errors.
   external void getDynamicRules(
-    filter,
-    callback,
+    GetRulesFilter filter,
+    JSFunction callback,
   );
 
   ///  Modifies the current set of session scoped rules for the extension.
@@ -69,8 +69,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  to the rule set. This can happen for multiple reasons, such as invalid
   ///  rule format, duplicate rule ID, rule count limit exceeded, and others.
   external void updateSessionRules(
-    options,
-    callback,
+    UpdateRuleOptions options,
+    JSFunction callback,
   );
 
   ///  Returns the current set of session scoped rules for the extension.
@@ -79,8 +79,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |filter|: An object to filter the list of fetched rules.
   ///  |callback|: Called with the set of session scoped rules.
   external void getSessionRules(
-    filter,
-    callback,
+    GetRulesFilter filter,
+    JSFunction callback,
   );
 
   ///  Updates the set of enabled static rulesets for the extension. The
@@ -96,14 +96,14 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  enabled rulesets. This can happen for multiple reasons, such as invalid
   ///  ruleset IDs, rule count limit exceeded, or internal errors.
   external void updateEnabledRulesets(
-    options,
-    callback,
+    UpdateRulesetOptions options,
+    JSFunction callback,
   );
 
   ///  Returns the ids for the current set of enabled static rulesets.
   ///  |callback|: Called with a list of ids, where each id corresponds to an
   ///  enabled static $(ref:Ruleset).
-  external void getEnabledRulesets(callback);
+  external void getEnabledRulesets(JSFunction callback);
 
   ///  Disables and enables individual static rules in a $(ref:Ruleset).
   ///  Changes to rules belonging to a disabled $(ref:Ruleset) will take
@@ -112,8 +112,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  $(ref:runtime.lastError) will be set and no change will be made to the
   ///  enabled static rules.
   external void updateStaticRules(
-    options,
-    callback,
+    UpdateStaticRulesOptions options,
+    JSFunction callback,
   );
 
   ///  Returns the list of static rules in the given $(ref:Ruleset) that are
@@ -122,8 +122,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |callback|: Called with a list of ids that correspond to the disabled
   ///  rules in that ruleset.
   external void getDisabledRuleIds(
-    options,
-    callback,
+    GetDisabledRuleIdsOptions options,
+    JSFunction callback,
   );
 
   ///  Returns all rules matched for the extension. Callers can optionally
@@ -140,16 +140,16 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  be returned. This can happen for multiple reasons, such as insufficient
   ///  permissions, or exceeding the quota.
   external void getMatchedRules(
-    filter,
-    callback,
+    MatchedRulesFilter filter,
+    JSFunction callback,
   );
 
   ///  Configures if the action count for tabs should be displayed as the
   ///  extension action's badge text and provides a way for that action count to
   ///  be incremented.
   external void setExtensionActionOptions(
-    options,
-    callback,
+    ExtensionActionOptions options,
+    JSFunction callback,
   );
 
   ///  Checks if the given regular expression will be supported as a
@@ -158,14 +158,14 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |callback|: Called with details consisting of whether the regular
   ///  expression is supported and the reason if not.
   external void isRegexSupported(
-    regexOptions,
-    callback,
+    RegexOptions regexOptions,
+    JSFunction callback,
   );
 
   ///  Returns the number of static rules an extension can enable before the
   ///  <a href="#global-static-rule-limit">global static rule limit</a> is
   ///  reached.
-  external void getAvailableStaticRuleCount(callback);
+  external void getAvailableStaticRuleCount(JSFunction callback);
 
   ///  Checks if any of the extension's declarativeNetRequest rules would match
   ///  a hypothetical request.
@@ -174,8 +174,8 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   ///  |requestDetails|: The request details to test.
   ///  |callback|: Called with the details of matched rules.
   external void testMatchOutcome(
-    request,
-    callback,
+    TestMatchRequestDetails request,
+    JSFunction callback,
   );
 
   ///  Fired when a rule is matched with a request. Only available for unpacked
@@ -302,17 +302,15 @@ class RuleCondition {
   ///  The pattern which is matched against the network request url.
   ///  Supported constructs:
   ///
-  ///  <b>'*'</b>  : Wildcard: Matches any number of characters.
+  ///  **'*'**  : Wildcard: Matches any number of characters.
   ///
-  ///  <b>'|'</b>  : Left/right anchor: If used at either end of the pattern,
+  ///  **'|'**  : Left/right anchor: If used at either end of the pattern,
   ///                specifies the beginning/end of the url respectively.
   ///
-  ///  <b>'||'</b> : Domain name anchor: If used at the beginning of the
-  /// pattern,
+  ///  **'||'** : Domain name anchor: If used at the beginning of the pattern,
   ///                specifies the start of a (sub-)domain of the URL.
   ///
-  ///  <b>'^'</b>  : Separator character: This matches anything except a letter,
-  /// a
+  ///  **'^'**  : Separator character: This matches anything except a letter, a
   ///                digit or one of the following: _ - . %. This can also match
   ///                the end of the URL.
   ///

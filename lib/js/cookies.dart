@@ -17,23 +17,23 @@ extension JSCookiesExtension on JSCookies {
   /// the same name exists for the given URL, the one with the longest path will
   /// be returned. For cookies with the same path length, the cookie with the
   /// earliest creation time will be returned.
-  external void get(details);
+  external JSPromise get(CookieDetails details);
 
   /// Retrieves all cookies from a single cookie store that match the given
   /// information.  The cookies returned will be sorted, with those with the
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
-  external void getAll(details);
+  external JSPromise getAll(JSObject details);
 
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
-  external void set(details);
+  external JSPromise set(JSObject details);
 
   /// Deletes a cookie by name.
-  external void remove(details);
+  external JSPromise remove(CookieDetails details);
 
   /// Lists all existing cookie stores.
-  external void getAllCookieStores();
+  external JSPromise getAllCookieStores();
 
   /// Fired when a cookie is set or removed. As a special case, note that
   /// updating a cookie's properties is implemented as a two step process: the

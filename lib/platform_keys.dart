@@ -18,11 +18,7 @@ class ChromePlatformKeys {
   ///  to the certificate.
   ///  The selected/filtered client certificates will be passed to
   ///  `callback`.
-  void selectClientCertificates(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void selectClientCertificates(details) => throw UnimplementedError();
 
   ///  Passes the key pair of `certificate` for usage with
   ///  $(ref:platformKeys.subtleCrypto) to `callback`.
@@ -45,7 +41,6 @@ class ChromePlatformKeys {
   void getKeyPair(
     certificate,
     parameters,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -72,7 +67,6 @@ class ChromePlatformKeys {
   void getKeyPairBySpki(
     publicKeySpkiDer,
     parameters,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -92,11 +86,7 @@ class ChromePlatformKeys {
   ///  certification path and checks trust by a known CA.
   ///  The implementation is supposed to respect the EKU serverAuth and to
   ///  support subject alternative names.
-  void verifyTLSServerCertificate(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void verifyTLSServerCertificate(details) => throw UnimplementedError();
 }
 
 enum ClientCertificateType {

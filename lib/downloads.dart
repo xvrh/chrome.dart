@@ -23,11 +23,7 @@ class ChromeDownloads {
   ///  backwards compatible between releases. Extensions must not parse it.
   ///  |options|: What to download and how.
   ///  |callback|: Called with the id of the new $(ref:DownloadItem).
-  void download(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void download(options) => throw UnimplementedError();
 
   ///  Find $(ref:DownloadItem). Set `query` to the empty object to get
   ///  all $(ref:DownloadItem). To get a specific $(ref:DownloadItem), set only
@@ -36,11 +32,7 @@ class ChromeDownloads {
   ///  `orderBy: ['-startTime']`, set `limit` to the
   ///  number of items per page, and set `startedAfter` to the
   ///  `startTime` of the last item from the last page.
-  void search(
-    query,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void search(query) => throw UnimplementedError();
 
   ///  Pause the download. If the request was successful the download is in a
   ///  paused state. Otherwise $(ref:runtime.lastError) contains an error
@@ -48,32 +40,20 @@ class ChromeDownloads {
   ///  The request will fail if the download is not active.
   ///  |downloadId|: The id of the download to pause.
   ///  |callback|: Called when the pause request is completed.
-  void pause(
-    downloadId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void pause(downloadId) => throw UnimplementedError();
 
   ///  Resume a paused download. If the request was successful the download is
   ///  in progress and unpaused. Otherwise $(ref:runtime.lastError) contains an
   ///  error message. The request will fail if the download is not active.
   ///  |downloadId|: The id of the download to resume.
   ///  |callback|: Called when the resume request is completed.
-  void resume(
-    downloadId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void resume(downloadId) => throw UnimplementedError();
 
   ///  Cancel a download. When `callback` is run, the download is
   ///  cancelled, completed, interrupted or doesn't exist anymore.
   ///  |downloadId|: The id of the download to cancel.
   ///  |callback|: Called when the cancel request is completed.
-  void cancel(
-    downloadId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void cancel(downloadId) => throw UnimplementedError();
 
   ///  Retrieve an icon for the specified download. For new downloads, file
   ///  icons are available after the $(ref:onCreated) event has been received.
@@ -90,7 +70,6 @@ class ChromeDownloads {
   void getFileIcon(
     downloadId,
     options,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -113,19 +92,11 @@ class ChromeDownloads {
   ///  downloaded file. An $(ref:onErased) event will fire for each
   ///  $(ref:DownloadItem) that matches `query`, then
   ///  `callback` will be called.
-  void erase(
-    query,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void erase(query) => throw UnimplementedError();
 
   ///  Remove the downloaded file if it exists and the $(ref:DownloadItem) is
   ///  complete; otherwise return an error through $(ref:runtime.lastError).
-  void removeFile(
-    downloadId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void removeFile(downloadId) => throw UnimplementedError();
 
   ///  Prompt the user to accept a dangerous download. Can only be called from a
   ///  visible context (tab, window, or page/browser action popup). Does not
@@ -137,11 +108,7 @@ class ChromeDownloads {
   ///  'complete', and $(ref:onChanged) fires.
   ///  |downloadId|: The identifier for the $(ref:DownloadItem).
   ///  |callback|: Called when the danger prompt dialog closes.
-  void acceptDanger(
-    downloadId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void acceptDanger(downloadId) => throw UnimplementedError();
 
   ///  Enable or disable the gray shelf at the bottom of every window associated
   ///  with the current browser profile. The shelf will be disabled as long as
@@ -160,11 +127,7 @@ class ChromeDownloads {
   ///  permission in addition to the `"downloads"` permission.
   ///  |options|: Encapsulate a change to the download UI.
   ///  |callback|: Called when the UI update is completed.
-  void setUiOptions(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setUiOptions(options) => throw UnimplementedError();
 
   ///  This event fires with the $(ref:DownloadItem) object when a download
   ///  begins.

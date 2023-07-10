@@ -1,5 +1,7 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'runtime.dart';
+import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSTabsExtension on JSChrome {
@@ -14,95 +16,95 @@ class JSTabs {}
 
 extension JSTabsExtension on JSTabs {
   /// Retrieves details about the specified tab.
-  external void get(tabId);
+  external JSPromise get(int tabId);
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
   /// view).
-  external void getCurrent();
+  external JSPromise getCurrent();
 
   /// Connects to the content script(s) in the specified tab. The
   /// $(ref:runtime.onConnect) event is fired in each content script running in
   /// the specified tab for the current extension. For more details, see <a
   /// href='messaging'>Content Script Messaging</a>.
-  external void connect(
-    tabId,
-    connectInfo,
+  external Port connect(
+    int tabId,
+    JSObject connectInfo,
   );
 
   /// Sends a single request to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
   /// $(ref:extension.onRequest) event is fired in each content script running
   /// in the specified tab for the current extension.
-  external void sendRequest(
-    tabId,
-    request,
+  external JSPromise sendRequest(
+    int tabId,
+    JSAny request,
   );
 
   /// Sends a single message to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
   /// $(ref:runtime.onMessage) event is fired in each content script running in
   /// the specified tab for the current extension.
-  external void sendMessage(
-    tabId,
-    message,
-    options,
+  external JSPromise sendMessage(
+    int tabId,
+    JSAny message,
+    JSObject options,
   );
 
   /// Gets the tab that is selected in the specified window.
-  external void getSelected(windowId);
+  external JSPromise getSelected(int windowId);
 
   /// Gets details about all tabs in the specified window.
-  external void getAllInWindow(windowId);
+  external JSPromise getAllInWindow(int windowId);
 
   /// Creates a new tab.
-  external void create(createProperties);
+  external JSPromise create(JSObject createProperties);
 
   /// Duplicates a tab.
-  external void duplicate(tabId);
+  external JSPromise duplicate(int tabId);
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
-  external void query(queryInfo);
+  external JSPromise query(JSObject queryInfo);
 
   /// Highlights the given tabs and focuses on the first of group. Will appear
   /// to do nothing if the specified tab is currently active.
-  external void highlight(highlightInfo);
+  external JSPromise highlight(JSObject highlightInfo);
 
   /// Modifies the properties of a tab. Properties that are not specified in
-  /// <var>updateProperties</var> are not modified.
-  external void update(
-    tabId,
-    updateProperties,
+  /// `updateProperties` are not modified.
+  external JSPromise update(
+    int tabId,
+    JSObject updateProperties,
   );
 
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
   /// === "normal") windows.
-  external void move(
-    tabIds,
-    moveProperties,
+  external JSPromise move(
+    JSObject tabIds,
+    JSObject moveProperties,
   );
 
   /// Reload a tab.
-  external void reload(
-    tabId,
-    reloadProperties,
+  external JSPromise reload(
+    int tabId,
+    JSObject reloadProperties,
   );
 
   /// Closes one or more tabs.
-  external void remove(tabIds);
+  external JSPromise remove(JSObject tabIds);
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
-  external void group(options);
+  external JSPromise group(JSObject options);
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
-  external void ungroup(tabIds);
+  external JSPromise ungroup(JSObject tabIds);
 
   /// Detects the primary language of the content in a tab.
-  external void detectLanguage(tabId);
+  external JSPromise detectLanguage(int tabId);
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
@@ -113,63 +115,63 @@ extension JSTabsExtension on JSTabs {
   /// pages, other extensions' pages, and data: URLs. These sensitive sites can
   /// only be captured with the activeTab permission. File URLs may be captured
   /// only if the extension has been granted file access.
-  external void captureVisibleTab(
-    windowId,
-    options,
+  external JSPromise captureVisibleTab(
+    int windowId,
+    ImageDetails options,
   );
 
   /// Injects JavaScript code into a page. For details, see the <a
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
-  external void executeScript(
-    tabId,
-    details,
+  external JSPromise executeScript(
+    int tabId,
+    InjectDetails details,
   );
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with $(ref:scripting.removeCSS). For details, see the <a
   /// href='content_scripts#pi'>programmatic injection</a> section of the
   /// content scripts doc.
-  external void insertCSS(
-    tabId,
-    details,
+  external JSPromise insertCSS(
+    int tabId,
+    InjectDetails details,
   );
 
   /// Removes from a page CSS that was previously injected by a call to
   /// $(ref:scripting.insertCSS).
-  external void removeCSS(
-    tabId,
-    details,
+  external JSPromise removeCSS(
+    int tabId,
+    DeleteInjectionDetails details,
   );
 
   /// Zooms a specified tab.
-  external void setZoom(
-    tabId,
-    zoomFactor,
+  external JSPromise setZoom(
+    int tabId,
+    num zoomFactor,
   );
 
   /// Gets the current zoom factor of a specified tab.
-  external void getZoom(tabId);
+  external JSPromise getZoom(int tabId);
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
-  external void setZoomSettings(
-    tabId,
-    zoomSettings,
+  external JSPromise setZoomSettings(
+    int tabId,
+    ZoomSettings zoomSettings,
   );
 
   /// Gets the current zoom settings of a specified tab.
-  external void getZoomSettings(tabId);
+  external JSPromise getZoomSettings(int tabId);
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  external void discard(tabId);
+  external JSPromise discard(int tabId);
 
   /// Go foward to the next page, if one is available.
-  external void goForward(tabId);
+  external JSPromise goForward(int tabId);
 
   /// Go back to the previous page, if one is available.
-  external void goBack(tabId);
+  external JSPromise goBack(int tabId);
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can

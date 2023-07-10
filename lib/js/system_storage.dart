@@ -17,19 +17,19 @@ class JSSystemStorage {}
 extension JSSystemStorageExtension on JSSystemStorage {
   ///  Get the storage information from the system. The argument passed to the
   ///  callback is an array of StorageUnitInfo objects.
-  external void getInfo(callback);
+  external void getInfo(JSFunction callback);
 
   ///  Ejects a removable storage device.
   external void ejectDevice(
-    id,
-    callback,
+    String id,
+    JSFunction callback,
   );
 
   ///  Get the available capacity of a specified |id| storage device.
   ///  The |id| is the transient device ID from StorageUnitInfo.
   external void getAvailableCapacity(
-    id,
-    callback,
+    String id,
+    JSFunction callback,
   );
 
   ///  Fired when a new removable storage is attached to the system.

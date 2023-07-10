@@ -43,7 +43,7 @@ class ChromeBookmarks {
 
   /// Updates the properties of a bookmark or folder. Specify only the
   /// properties that you want to change; unspecified properties will be left
-  /// unchanged.  <b>Note:</b> Currently, only 'title' and 'url' are supported.
+  /// unchanged.  **Note:** Currently, only 'title' and 'url' are supported.
   void update(
     id,
     changes,
@@ -64,8 +64,8 @@ class ChromeBookmarks {
   /// its contents.
   Stream get onRemoved => throw UnimplementedError();
 
-  /// Fired when a bookmark or folder changes.  <b>Note:</b> Currently, only
-  /// title and url changes trigger this.
+  /// Fired when a bookmark or folder changes.  **Note:** Currently, only title
+  /// and url changes trigger this.
   Stream get onChanged => throw UnimplementedError();
 
   /// Fired when a bookmark or folder is moved to a different parent folder.
@@ -84,9 +84,9 @@ class ChromeBookmarks {
   Stream get onImportEnded => throw UnimplementedError();
 }
 
-/// Indicates the reason why this node is unmodifiable. The <var>managed</var>
-/// value indicates that this node was configured by the system administrator.
-/// Omitted if the node can be modified by the user and the extension (default).
+/// Indicates the reason why this node is unmodifiable. The `managed` value
+/// indicates that this node was configured by the system administrator. Omitted
+/// if the node can be modified by the user and the extension (default).
 enum BookmarkTreeNodeUnmodifiable {
   managed('managed');
 

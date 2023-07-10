@@ -27,8 +27,8 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  The selected/filtered client certificates will be passed to
   ///  `callback`.
   external void selectClientCertificates(
-    details,
-    callback,
+    SelectDetails details,
+    JSFunction callback,
   );
 
   ///  Passes the key pair of `certificate` for usage with
@@ -50,9 +50,9 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  <p>Currently, this method only supports the "RSASSA-PKCS1-v1_5" and
   ///  "ECDSA" algorithms.</p>
   external void getKeyPair(
-    certificate,
-    parameters,
-    callback,
+    JSArrayBuffer certificate,
+    JSObject parameters,
+    JSFunction callback,
   );
 
   ///  Passes the key pair identified by `publicKeySpkiDer` for
@@ -76,9 +76,9 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  hashing algorithms "none", "SHA-1", "SHA-256", "SHA-384", and
   ///  "SHA-512".</p>
   external void getKeyPairBySpki(
-    publicKeySpkiDer,
-    parameters,
-    callback,
+    JSArrayBuffer publicKeySpkiDer,
+    JSObject parameters,
+    JSFunction callback,
   );
 
   ///  An implementation of WebCrypto's
@@ -98,8 +98,8 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   ///  The implementation is supposed to respect the EKU serverAuth and to
   ///  support subject alternative names.
   external void verifyTLSServerCertificate(
-    details,
-    callback,
+    VerificationDetails details,
+    JSFunction callback,
   );
 }
 

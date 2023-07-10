@@ -22,8 +22,8 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   ///  when the dialog request finishes unsuccessfully (e.g. the dialog was
   ///  canceled by the user or was not allowed to be shown).
   external void requestPin(
-    details,
-    callback,
+    RequestPinDetails details,
+    JSFunction callback,
   );
 
   ///  Stops the pin request started by the $(ref:requestPin) function.
@@ -32,8 +32,8 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   ///  |callback|: To be used by Chrome to send to the extension the status from
   ///  their request to close PIN dialog for user.
   external void stopPinRequest(
-    details,
-    callback,
+    StopPinRequestDetails details,
+    JSFunction callback,
   );
 
   ///  Sets a list of certificates to use in the browser.
@@ -45,8 +45,8 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   ///  |details|: The certificates to set. Invalid certificates will be ignored.
   ///  |callback|: Called upon completion.
   external void setCertificates(
-    details,
-    callback,
+    SetCertificatesDetails details,
+    JSFunction callback,
   );
 
   ///  Should be called as a response to $(ref:onSignatureRequested).
@@ -55,8 +55,8 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   ///  waiting for this call after some time and respond with a timeout
   ///  error when this function is called.</p>
   external void reportSignature(
-    details,
-    callback,
+    ReportSignatureDetails details,
+    JSFunction callback,
   );
 
   ///  This event fires if the certificates set via $(ref:setCertificates)

@@ -17,26 +17,26 @@ extension JSContextMenusExtension on JSContextMenus {
   /// Creates a new context menu item. If an error occurs during creation, it
   /// may not be detected until the creation callback fires; details will be in
   /// $(ref:runtime.lastError).
-  external void create(
-    createProperties,
-    callback,
+  external JSObject create(
+    JSObject createProperties,
+    JSFunction callback,
   );
 
   /// Updates a previously created context menu item.
   external void update(
-    id,
-    updateProperties,
-    callback,
+    JSObject id,
+    JSObject updateProperties,
+    JSFunction callback,
   );
 
   /// Removes a context menu item.
   external void remove(
-    menuItemId,
-    callback,
+    JSObject menuItemId,
+    JSFunction callback,
   );
 
   /// Removes all context menu items added by this extension.
-  external void removeAll(callback);
+  external void removeAll(JSFunction callback);
 
   /// Fired when a context menu item is clicked.
   external ChromeEvent get onClicked;

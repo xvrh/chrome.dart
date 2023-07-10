@@ -17,5 +17,5 @@ class ChromeEnterpriseNetworkingAttributes {
   ///  network, $(ref:runtime.lastError) will be set with a failure reason.
   ///  |callback| : Called with the device's default network's
   ///  $(ref:NetworkDetails).
-  void getNetworkDetails(callback) => throw UnimplementedError();
+  void getNetworkDetails() => throw UnimplementedError();
 }

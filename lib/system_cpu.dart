@@ -11,5 +11,5 @@ class ChromeSystemCpu {
   ChromeSystemCpu._();
 
   ///  Queries basic CPU information of the system.
-  void getInfo(callback) => throw UnimplementedError();
+  void getInfo() => throw UnimplementedError();
 }

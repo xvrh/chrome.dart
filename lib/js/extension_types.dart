@@ -52,9 +52,12 @@ class ImageDetails {
 @JS()
 @staticInterop
 class InjectDetails {
-  /// JavaScript or CSS code to inject.<br><br><b>Warning:</b><br>Be careful
-  /// using the `code` parameter. Incorrect use of it may open your extension to
-  /// <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross site
+  /// JavaScript or CSS code to inject.
+  ///
+  /// **Warning:**
+  /// Be careful using the `code` parameter. Incorrect use of it may open your
+  /// extension to <a
+  /// href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross site
   /// scripting</a> attacks.
   external String? get code;
 

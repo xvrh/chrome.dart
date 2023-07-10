@@ -15,10 +15,10 @@ class JSWebNavigation {}
 extension JSWebNavigationExtension on JSWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
-  external void getFrame(details);
+  external JSPromise getFrame(JSObject details);
 
   /// Retrieves information about all frames of a given tab.
-  external void getAllFrames(details);
+  external JSPromise getAllFrames(JSObject details);
 
   /// Fired when a navigation is about to occur.
   external ChromeEvent get onBeforeNavigate;

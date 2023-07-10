@@ -238,12 +238,12 @@ enum GenericFamily {
   final String value;
 }
 
-/// One of<br><var>not_controllable</var>: cannot be controlled by any
-/// extension<br><var>controlled_by_other_extensions</var>: controlled by
-/// extensions with higher
-/// precedence<br><var>controllable_by_this_extension</var>: can be controlled
-/// by this extension<br><var>controlled_by_this_extension</var>: controlled by
-/// this extension
+/// One of
+/// `not_controllable`: cannot be controlled by any extension
+/// `controlled_by_other_extensions`: controlled by extensions with higher
+/// precedence
+/// `controllable_by_this_extension`: can be controlled by this extension
+/// `controlled_by_this_extension`: controlled by this extension
 enum LevelOfControl {
   notControllable('not_controllable'),
   controlledByOtherExtensions('controlled_by_other_extensions'),

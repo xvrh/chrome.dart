@@ -15,7 +15,7 @@ class JSPrintingMetrics {}
 
 extension JSPrintingMetricsExtension on JSPrintingMetrics {
   ///  Returns the list of the finished print jobs.
-  external void getPrintJobs(callback);
+  external void getPrintJobs(JSFunction callback);
 
   ///  Event fired when the print job is finished.
   ///  This includes any of termination statuses: FAILED, CANCELED and PRINTED.

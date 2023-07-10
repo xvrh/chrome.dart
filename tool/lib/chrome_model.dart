@@ -22,6 +22,8 @@ class ChromeApi {
 }
 
 class TypeRef {
+  static final void$ = TypeRef('void');
+
   String rawName;
   final bool isArray;
   String? url;
@@ -61,6 +63,8 @@ class TypeRef {
           'Date': 'JSObject', //TODO(xha): convert to a dart DateTime?
           'binary': 'JSAny', //TODO: JSArrayBuffer ??
           //TODO(xha): link to "package:web"?
+          'HTMLElement': 'JSObject',
+          'Window': 'JSObject',
           'SubtleCrypto': 'JSObject',
           'Blob': 'JSObject',
         }[type] ??
@@ -79,8 +83,28 @@ class Method {
   final String name;
   final String documentation;
   final List<Property> parameters;
+  final MethodReturn returns;
 
-  Method(this.name, {required this.parameters, required this.documentation});
+  Method(
+    this.name, {
+    required this.parameters,
+    required this.documentation,
+    required this.returns,
+  });
+}
+
+class MethodReturn {
+  final TypeRef type;
+  final bool isAsync;
+  final bool supportPromise;
+  final String? name;
+
+  MethodReturn({
+    required this.type,
+    required this.isAsync,
+    required this.supportPromise,
+    this.name,
+  });
 }
 
 class Enumeration {

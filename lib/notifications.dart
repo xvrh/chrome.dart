@@ -26,7 +26,6 @@ class ChromeNotifications {
   void create(
     notificationId,
     options,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -40,7 +39,6 @@ class ChromeNotifications {
   void update(
     notificationId,
     options,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -50,20 +48,16 @@ class ChromeNotifications {
   ///  |callback|: Called to indicate whether a matching notification existed.
   ///
   ///  The callback is required before Chrome 42.
-  void clear(
-    notificationId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void clear(notificationId) => throw UnimplementedError();
 
   ///  Retrieves all the notifications of this app or extension.
   ///  |callback|: Returns the set of notification_ids currently in the system.
-  void getAll(callback) => throw UnimplementedError();
+  void getAll() => throw UnimplementedError();
 
   ///  Retrieves whether the user has enabled notifications from this app
   ///  or extension.
   ///  |callback|: Returns the current permission level.
-  void getPermissionLevel(callback) => throw UnimplementedError();
+  void getPermissionLevel() => throw UnimplementedError();
 
   ///  The notification closed, either by the system or by user action.
   Stream get onClosed => throw UnimplementedError();

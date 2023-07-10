@@ -13,7 +13,7 @@ extension JSChromeJSAlarmsExtension on JSChrome {
 class JSAlarms {}
 
 extension JSAlarmsExtension on JSAlarms {
-  ///  Creates an alarm.  Near the time(s) specified by <var>alarmInfo</var>,
+  ///  Creates an alarm.  Near the time(s) specified by `alarmInfo`,
   ///  the `onAlarm` event is fired. If there is another alarm with
   ///  the same name (or no name if none is specified), it will be cancelled and
   ///  replaced by this alarm.
@@ -32,38 +32,38 @@ extension JSAlarmsExtension on JSAlarms {
   ///  |name|: Optional name to identify this alarm. Defaults to the empty
   ///  string.
   ///  |alarmInfo|: Describes when the alarm should fire.  The initial time must
-  ///  be specified by either <var>when</var> or <var>delayInMinutes</var> (but
-  ///  not both).  If <var>periodInMinutes</var> is set, the alarm will repeat
-  ///  every <var>periodInMinutes</var> minutes after the initial event.  If
-  ///  neither <var>when</var> or <var>delayInMinutes</var> is set for a
-  ///  repeating alarm, <var>periodInMinutes</var> is used as the default for
-  ///  <var>delayInMinutes</var>.
+  ///  be specified by either `when` or `delayInMinutes` (but
+  ///  not both).  If `periodInMinutes` is set, the alarm will repeat
+  ///  every `periodInMinutes` minutes after the initial event.  If
+  ///  neither `when` or `delayInMinutes` is set for a
+  ///  repeating alarm, `periodInMinutes` is used as the default for
+  ///  `delayInMinutes`.
   ///  |callback|: Invoked when the alarm has been created.
   external void create(
-    name,
-    alarmInfo,
-    callback,
+    String name,
+    AlarmCreateInfo alarmInfo,
+    JSFunction callback,
   );
 
   ///  Retrieves details about the specified alarm.
   ///  |name|: The name of the alarm to get. Defaults to the empty string.
   external void get(
-    name,
-    callback,
+    String name,
+    JSFunction callback,
   );
 
   ///  Gets an array of all the alarms.
-  external void getAll(callback);
+  external void getAll(JSFunction callback);
 
   ///  Clears the alarm with the given name.
   ///  |name|: The name of the alarm to clear. Defaults to the empty string.
   external void clear(
-    name,
-    callback,
+    String name,
+    JSFunction callback,
   );
 
   ///  Clears all alarms.
-  external void clearAll(callback);
+  external void clearAll(JSFunction callback);
 
   ///  Fired when an alarm has elapsed. Useful for event pages.
   ///  |alarm|: The alarm that has elapsed.
@@ -82,7 +82,7 @@ class Alarm {
   external double get scheduledTime;
 
   ///  If not null, the alarm is a repeating alarm and will fire again in
-  ///  <var>periodInMinutes</var> minutes.
+  ///  `periodInMinutes` minutes.
   external double? get periodInMinutes;
 }
 
@@ -99,9 +99,9 @@ class AlarmCreateInfo {
   ///  <!-- TODO: need minimum=0 -->
   external double? get delayInMinutes;
 
-  ///  If set, the onAlarm event should fire every <var>periodInMinutes</var>
-  ///  minutes after the initial event specified by <var>when</var> or
-  ///  <var>delayInMinutes</var>.  If not set, the alarm will only fire once.
+  ///  If set, the onAlarm event should fire every `periodInMinutes`
+  ///  minutes after the initial event specified by `when` or
+  ///  `delayInMinutes`.  If not set, the alarm will only fire once.
   ///
   ///  <!-- TODO: need minimum=0 -->
   external double? get periodInMinutes;

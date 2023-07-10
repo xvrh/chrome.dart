@@ -13,16 +13,12 @@ class ChromeSystemDisplay {
   ///  Requests the information for all attached display devices.
   ///  |flags|: Options affecting how the information is returned.
   ///  |callback|: The callback to invoke with the results.
-  void getInfo(
-    flags,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getInfo(flags) => throw UnimplementedError();
 
   ///  Requests the layout info for all displays.
   ///  NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   ///  |callback|: The callback to invoke with the results.
-  void getDisplayLayout(callback) => throw UnimplementedError();
+  void getDisplayLayout() => throw UnimplementedError();
 
   ///  Updates the properties for the display specified by |id|, according to
   ///  the information provided in |info|. On failure, $(ref:runtime.lastError)
@@ -38,7 +34,6 @@ class ChromeSystemDisplay {
   void setDisplayProperties(
     id,
     info,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -52,11 +47,7 @@ class ChromeSystemDisplay {
   ///  |callback|: Empty function called when the function finishes. To find out
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
-  void setDisplayLayout(
-    layouts,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setDisplayLayout(layouts) => throw UnimplementedError();
 
   ///  Enables/disables the unified desktop feature. If enabled while mirroring
   ///  is active, the desktop mode will not change until mirroring is turned
@@ -102,11 +93,7 @@ class ChromeSystemDisplay {
   ///  |callback|: Optional callback to inform the caller that the touch
   ///       calibration has ended. The argument of the callback informs if the
   ///       calibration was a success or not.
-  void showNativeTouchCalibration(
-    id,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void showNativeTouchCalibration(id) => throw UnimplementedError();
 
   ///  Starts custom touch calibration for a display. This should be called when
   ///  using a custom UX for collecting calibration data. If another touch
@@ -143,11 +130,7 @@ class ChromeSystemDisplay {
   ///  |callback|: Empty function called when the function finishes. To find out
   ///      whether the function succeeded, $(ref:runtime.lastError) should be
   ///      queried.
-  void setMirrorMode(
-    info,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setMirrorMode(info) => throw UnimplementedError();
 
   ///  Fired when anything changes to the display configuration.
   Stream get onDisplayChanged => throw UnimplementedError();

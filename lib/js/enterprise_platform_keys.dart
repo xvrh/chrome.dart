@@ -23,7 +23,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  contain the system-wide token with `id` `"system"`.
   ///  The system-wide token will be the same for all sessions on this device
   ///  (device in the sense of e.g. a Chromebook).
-  external void getTokens(callback);
+  external void getTokens(JSFunction callback);
 
   ///  Returns the list of all client certificates available from the given
   ///  token. Can be used to check for the existence and expiration of client
@@ -31,8 +31,8 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |tokenId|: The id of a Token returned by `getTokens`.
   ///  |callback|: Called back with the list of the available certificates.
   external void getCertificates(
-    tokenId,
-    callback,
+    String tokenId,
+    JSFunction callback,
   );
 
   ///  Imports `certificate` to the given token if the certified key
@@ -44,9 +44,9 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |certificate|: The DER encoding of a X.509 certificate.
   ///  |callback|: Called back when this operation is finished.
   external void importCertificate(
-    tokenId,
-    certificate,
-    callback,
+    String tokenId,
+    JSArrayBuffer certificate,
+    JSFunction callback,
   );
 
   ///  Removes `certificate` from the given token if present.
@@ -57,9 +57,9 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///  |certificate|: The DER encoding of a X.509 certificate.
   ///  |callback|: Called back when this operation is finished.
   external void removeCertificate(
-    tokenId,
-    certificate,
-    callback,
+    String tokenId,
+    JSArrayBuffer certificate,
+    JSFunction callback,
   );
 
   ///  Similar to `challengeMachineKey` and
@@ -89,8 +89,8 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///             $(ref:ChallengeKeyOptions).
   ///  |callback|: Called back with the challenge response.
   external void challengeKey(
-    options,
-    callback,
+    ChallengeKeyOptions options,
+    JSFunction callback,
   );
 
   ///  Challenges a hardware-backed Enterprise Machine Key and emits the
@@ -123,9 +123,9 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///                 Machine Key.
   ///  |callback|: Called back with the challenge response.
   external void challengeMachineKey(
-    challenge,
-    registerKey,
-    callback,
+    JSArrayBuffer challenge,
+    bool registerKey,
+    JSFunction callback,
   );
 
   ///  Challenges a hardware-backed Enterprise User Key and emits the response
@@ -157,9 +157,9 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   ///                 function will then generate a new Enterprise User Key.
   ///  |callback|: Called back with the challenge response.
   external void challengeUserKey(
-    challenge,
-    registerKey,
-    callback,
+    JSArrayBuffer challenge,
+    bool registerKey,
+    JSFunction callback,
   );
 }
 

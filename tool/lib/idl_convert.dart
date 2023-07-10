@@ -11,30 +11,58 @@ ChromeApi loadIdlModel(String content) {
     var properties = <Property>[];
     for (var m in t.members) {
       var p = Property(m.name,
-          type: _propertyType(m.type),
+          type: _toTypeRef(m.type),
           optional: m.isOptional,
           documentation: _toDocumentation(m.documentation));
       properties.add(p);
     }
 
-    var methods = <Method>[];
-    for (var m in t.methods) {
-      var method = Method(m.name,
-          parameters: m.parameters
-              .map((p) => Property(p.name,
-                  type: _propertyType(p.type),
-                  optional: p.isOptional,
-                  documentation: ''))
-              .toList(),
-          documentation: _toDocumentation(m.documentation));
-      methods.add(method);
+    if (t.methods.isNotEmpty) {
+      throw UnimplementedError('${namespace.name} / ${t.name} has methods');
     }
 
     var dict = Dictionary(t.name,
         properties: properties,
-        methods: methods,
+        methods: [],
         documentation: _toDocumentation(t.documentation));
     dictionaries.add(dict);
+  }
+
+  var methods = <Method>[];
+  for (var f in namespace.functionDeclaration?.methods ?? <IDLMethod>[]) {
+    var parameters = <Property>[];
+    MethodReturn? returns;
+    for (var p in f.parameters) {
+      if (!p.isCallback) {
+        var property = Property(
+          p.name,
+          type: _toTypeRef(p.type),
+          optional: p.isOptional,
+          documentation: '',
+        );
+        parameters.add(property);
+      } else {
+        returns = MethodReturn(
+          type: _toTypeRef(p.type),
+          isAsync: p.isCallback,
+          supportPromise: p.supportsPromises,
+          name: p.name,
+        );
+      }
+    }
+
+    var method = Method(
+      f.name,
+      parameters: parameters,
+      documentation: _toDocumentation(f.documentation),
+      returns: returns ??
+          MethodReturn(
+            type: TypeRef.void$,
+            isAsync: false,
+            supportPromise: false,
+          ),
+    );
+    methods.add(method);
   }
 
   return ChromeApi(
@@ -45,19 +73,7 @@ ChromeApi loadIdlModel(String content) {
         [],
     documentation: _toDocumentation(namespace.documentation),
     properties: {},
-    functions: namespace.functionDeclaration?.methods
-            .map((f) => Method(f.name,
-                parameters: f.parameters
-                    .map((p) => Property(
-                          p.name,
-                          type: _propertyType(p.type),
-                          optional: p.isOptional,
-                          documentation: '',
-                        ))
-                    .toList(),
-                documentation: _toDocumentation(f.documentation)))
-            .toList() ??
-        [],
+    functions: methods,
     dictionaries: dictionaries,
     enumerations: namespace.enumDeclarations
         .map((e) => Enumeration(
@@ -73,7 +89,7 @@ ChromeApi loadIdlModel(String content) {
   );
 }
 
-TypeRef _propertyType(IDLType type) {
+TypeRef _toTypeRef(IDLType type) {
   var typeName = type.name;
   return TypeRef(typeName, isArray: type.isArray);
 }

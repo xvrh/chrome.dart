@@ -18,22 +18,14 @@ class ChromeCertificateProvider {
   ///  |callback|: Is called when the dialog is resolved with the user input, or
   ///  when the dialog request finishes unsuccessfully (e.g. the dialog was
   ///  canceled by the user or was not allowed to be shown).
-  void requestPin(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void requestPin(details) => throw UnimplementedError();
 
   ///  Stops the pin request started by the $(ref:requestPin) function.
   ///  |details|: Contains the details about the reason for stopping the
   ///  request flow.
   ///  |callback|: To be used by Chrome to send to the extension the status from
   ///  their request to close PIN dialog for user.
-  void stopPinRequest(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void stopPinRequest(details) => throw UnimplementedError();
 
   ///  Sets a list of certificates to use in the browser.
   ///  <p>The extension should call this function after initialization and on
@@ -43,22 +35,14 @@ class ChromeCertificateProvider {
   ///  received.</p>
   ///  |details|: The certificates to set. Invalid certificates will be ignored.
   ///  |callback|: Called upon completion.
-  void setCertificates(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setCertificates(details) => throw UnimplementedError();
 
   ///  Should be called as a response to $(ref:onSignatureRequested).
   ///  <p>The extension must eventually call this function for every
   ///  $(ref:onSignatureRequested) event; the API implementation will stop
   ///  waiting for this call after some time and respond with a timeout
   ///  error when this function is called.</p>
-  void reportSignature(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void reportSignature(details) => throw UnimplementedError();
 
   ///  This event fires if the certificates set via $(ref:setCertificates)
   ///  are insufficient or the browser requests updated information. The

@@ -70,7 +70,7 @@ class ChromeTabs {
   void highlight(highlightInfo) => throw UnimplementedError();
 
   /// Modifies the properties of a tab. Properties that are not specified in
-  /// <var>updateProperties</var> are not modified.
+  /// `updateProperties` are not modified.
   void update(
     tabId,
     updateProperties,

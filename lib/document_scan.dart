@@ -14,9 +14,5 @@ class ChromeDocumentScan {
   ///  sent to the callback.
   ///  |options| : Object containing scan parameters.
   ///  |callback| : Called with the result and data from the scan.
-  void scan(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void scan(options) => throw UnimplementedError();
 }

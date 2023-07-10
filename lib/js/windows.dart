@@ -14,34 +14,34 @@ class JSWindows {}
 
 extension JSWindowsExtension on JSWindows {
   /// Gets details about a window.
-  external void get(
-    windowId,
-    queryOptions,
+  external JSPromise get(
+    int windowId,
+    QueryOptions queryOptions,
   );
 
   /// Gets the <a href='#current-window'>current window</a>.
-  external void getCurrent(queryOptions);
+  external JSPromise getCurrent(QueryOptions queryOptions);
 
   /// Gets the window that was most recently focused &mdash; typically the
   /// window 'on top'.
-  external void getLastFocused(queryOptions);
+  external JSPromise getLastFocused(QueryOptions queryOptions);
 
   /// Gets all windows.
-  external void getAll(queryOptions);
+  external JSPromise getAll(QueryOptions queryOptions);
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  external void create(createData);
+  external JSPromise create(JSObject createData);
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
-  external void update(
-    windowId,
-    updateInfo,
+  external JSPromise update(
+    int windowId,
+    JSObject updateInfo,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
-  external void remove(windowId);
+  external JSPromise remove(int windowId);
 
   /// Fired when a window is created.
   external ChromeEvent get onCreated;
@@ -51,8 +51,8 @@ extension JSWindowsExtension on JSWindows {
 
   /// Fired when the currently focused window changes. Returns
   /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
-  /// <b>Note:</b> On some Linux window managers, `WINDOW_ID_NONE` is always
-  /// sent immediately preceding a switch from one Chrome window to another.
+  /// **Note:** On some Linux window managers, `WINDOW_ID_NONE` is always sent
+  /// immediately preceding a switch from one Chrome window to another.
   external ChromeEvent get onFocusChanged;
 
   /// Fired when a window has been resized; this event is only dispatched when
@@ -130,10 +130,10 @@ class Window {
 @JS()
 @staticInterop
 class QueryOptions {
-  /// If true, the $(ref:windows.Window) object has a <var>tabs</var> property
-  /// that contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects
-  /// only contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties
-  /// if the extension's manifest file includes the `"tabs"` permission.
+  /// If true, the $(ref:windows.Window) object has a `tabs` property that
+  /// contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects only
+  /// contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties if
+  /// the extension's manifest file includes the `"tabs"` permission.
   external bool? get populate;
 
   /// If set, the $(ref:windows.Window) returned is filtered based on its type.

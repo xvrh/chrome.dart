@@ -19,43 +19,43 @@ extension JSExtensionExtension on JSExtension {
   /// $(ref:runtime.connect), but only sends a single request with an optional
   /// response. The $(ref:extension.onRequest) event is fired in each page of
   /// the extension.
-  external void sendRequest(
-    extensionId,
-    request,
+  external JSPromise sendRequest(
+    String extensionId,
+    JSAny request,
   );
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
-  external void getURL(path);
+  external String getURL(String path);
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
-  external void getViews(fetchProperties);
+  external JSArray getViews(JSObject fetchProperties);
 
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
   /// background page.
-  external void getBackgroundPage();
+  external JSObject getBackgroundPage();
 
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
-  external void getExtensionTabs(windowId);
+  external JSArray getExtensionTabs(int windowId);
 
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
   /// setting accessible via the chrome://extensions page.
-  external void isAllowedIncognitoAccess();
+  external JSPromise isAllowedIncognitoAccess();
 
   /// Retrieves the state of the extension's access to the 'file://' scheme.
   /// This corresponds to the user-controlled per-extension 'Allow access to
   /// File URLs' setting accessible via the chrome://extensions page.
-  external void isAllowedFileSchemeAccess();
+  external JSPromise isAllowedFileSchemeAccess();
 
   /// Sets the value of the ap CGI parameter used in the extension's update URL.
   ///  This value is ignored for extensions that are hosted in the Chrome
   /// Extension Gallery.
-  external void setUpdateUrlData(data);
+  external void setUpdateUrlData(String data);
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.

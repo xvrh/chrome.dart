@@ -15,11 +15,7 @@ class ChromeAudio {
   ///      audio devices. If the filter is not set or set to `{}`,
   ///      returned device list will contain all available audio devices.
   ///  |callback|: Reports the requested list of audio devices.
-  void getDevices(
-    filter,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getDevices(filter) => throw UnimplementedError();
 
   ///  Sets lists of active input and/or output devices.
   ///  |ids|: <p>Specifies IDs of devices that should be active. If either the
@@ -27,17 +23,12 @@ class ChromeAudio {
   ///      unaffected.
   ///      </p>
   ///      <p>It is an error to pass in a non-existent device ID.</p>
-  void setActiveDevices(
-    ids,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setActiveDevices(ids) => throw UnimplementedError();
 
   ///  Sets the properties for the input or output device.
   void setProperties(
     id,
     properties,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -45,11 +36,7 @@ class ChromeAudio {
   ///  |streamType|: Stream type for which mute state should be fetched.
   ///  |callback|: Callback reporting whether mute is set or not for specified
   ///  stream type.
-  void getMute(
-    streamType,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getMute(streamType) => throw UnimplementedError();
 
   ///  Sets mute state for a stream type. The mute state will apply to all audio
   ///  devices with the specified audio stream type.
@@ -58,7 +45,6 @@ class ChromeAudio {
   void setMute(
     streamType,
     isMuted,
-    callback,
   ) =>
       throw UnimplementedError();
 

@@ -14,27 +14,27 @@ class JSAction {}
 
 extension JSActionExtension on JSAction {
   /// Sets the title of the action. This shows up in the tooltip.
-  external void setTitle(details);
+  external JSPromise setTitle(JSObject details);
 
   /// Gets the title of the action.
-  external void getTitle(details);
+  external JSPromise getTitle(TabDetails details);
 
   /// Sets the icon for the action. The icon can be specified either as the path
   /// to an image file or as the pixel data from a canvas element, or as
-  /// dictionary of either one of those. Either the <b>path</b> or the
-  /// <b>imageData</b> property must be specified.
-  external void setIcon(details);
+  /// dictionary of either one of those. Either the **path** or the
+  /// **imageData** property must be specified.
+  external JSPromise setIcon(JSObject details);
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// action's icon.
-  external void setPopup(details);
+  external JSPromise setPopup(JSObject details);
 
   /// Gets the html document set as the popup for this action.
-  external void getPopup(details);
+  external JSPromise getPopup(TabDetails details);
 
   /// Sets the badge text for the action. The badge is displayed on top of the
   /// icon.
-  external void setBadgeText(details);
+  external JSPromise setBadgeText(JSObject details);
 
   /// Gets the badge text of the action. If no tab is specified, the
   /// non-tab-specific badge text is returned. If <a
@@ -42,36 +42,36 @@ extension JSActionExtension on JSAction {
   /// is enabled, a placeholder text will be returned unless the <a
   /// href='declare_permissions#declarativeNetRequestFeedback'>declarativeNetRequestFeedback</a>
   /// permission is present or tab-specific badge text was provided.
-  external void getBadgeText(details);
+  external JSPromise getBadgeText(TabDetails details);
 
   /// Sets the background color for the badge.
-  external void setBadgeBackgroundColor(details);
+  external JSPromise setBadgeBackgroundColor(JSObject details);
 
   /// Gets the background color of the action.
-  external void getBadgeBackgroundColor(details);
+  external JSPromise getBadgeBackgroundColor(TabDetails details);
 
   /// Sets the text color for the badge.
-  external void setBadgeTextColor(details);
+  external JSPromise setBadgeTextColor(JSObject details);
 
   /// Gets the text color of the action.
-  external void getBadgeTextColor(details);
+  external JSPromise getBadgeTextColor(TabDetails details);
 
   /// Enables the action for a tab. By default, actions are enabled.
-  external void enable(tabId);
+  external JSPromise enable(int tabId);
 
   /// Disables the action for a tab.
-  external void disable(tabId);
+  external JSPromise disable(int tabId);
 
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// $(ref:declarativeContent) always return false.
-  external void isEnabled(tabId);
+  external JSPromise isEnabled(int tabId);
 
   /// Returns the user-specified settings relating to an extension's action.
-  external void getUserSettings();
+  external JSPromise getUserSettings();
 
   /// Opens the extension's popup.
-  external void openPopup(options);
+  external JSPromise openPopup(OpenPopupOptions options);
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.

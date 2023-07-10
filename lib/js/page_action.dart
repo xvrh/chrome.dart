@@ -17,31 +17,31 @@ class JSPageAction {}
 extension JSPageActionExtension on JSPageAction {
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
-  external void show(tabId);
+  external JSPromise show(int tabId);
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
-  external void hide(tabId);
+  external JSPromise hide(int tabId);
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
-  external void setTitle(details);
+  external JSPromise setTitle(JSObject details);
 
   /// Gets the title of the page action.
-  external void getTitle(details);
+  external JSPromise getTitle(TabDetails details);
 
   /// Sets the icon for the page action. The icon can be specified either as the
   /// path to an image file or as the pixel data from a canvas element, or as
-  /// dictionary of either one of those. Either the <b>path</b> or the
-  /// <b>imageData</b> property must be specified.
-  external void setIcon(details);
+  /// dictionary of either one of those. Either the **path** or the
+  /// **imageData** property must be specified.
+  external JSPromise setIcon(JSObject details);
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// page action's icon.
-  external void setPopup(details);
+  external JSPromise setPopup(JSObject details);
 
   /// Gets the html document set as the popup for this page action.
-  external void getPopup(details);
+  external JSPromise getPopup(TabDetails details);
 
   /// Fired when a page action icon is clicked.  This event will not fire if the
   /// page action has a popup.

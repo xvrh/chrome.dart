@@ -25,16 +25,16 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   /// error code. In the case of a JavaScript error, `isException` is set to
   /// true and `value` is set to the string value of thrown object.
   external void eval(
-    expression,
-    options,
-    callback,
+    String expression,
+    JSObject options,
+    JSFunction callback,
   );
 
   /// Reloads the inspected page.
-  external void reload(reloadOptions);
+  external void reload(JSObject reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
-  external void getResources(callback);
+  external void getResources(JSFunction callback);
 
   /// Fired when a new resource is added to the inspected page.
   external ChromeEvent get onResourceAdded;

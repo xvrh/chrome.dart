@@ -17,57 +17,57 @@ extension JSBrowsingDataExtension on JSBrowsingData {
   /// data' settings UI.  Note: some of the data types included in this API are
   /// not available in the settings UI, and some UI settings control more than
   /// one data type listed here.
-  external void settings();
+  external JSPromise settings();
 
   /// Clears various types of browsing data stored in a user's profile.
-  external void remove(
-    options,
-    dataToRemove,
+  external JSPromise remove(
+    RemovalOptions options,
+    DataTypeSet dataToRemove,
   );
 
   /// Clears websites' appcache data.
-  external void removeAppcache(options);
+  external JSPromise removeAppcache(RemovalOptions options);
 
   /// Clears the browser's cache.
-  external void removeCache(options);
+  external JSPromise removeCache(RemovalOptions options);
 
   /// Clears websites' cache storage data.
-  external void removeCacheStorage(options);
+  external JSPromise removeCacheStorage(RemovalOptions options);
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
-  external void removeCookies(options);
+  external JSPromise removeCookies(RemovalOptions options);
 
   /// Clears the browser's list of downloaded files (<em>not</em> the downloaded
   /// files themselves).
-  external void removeDownloads(options);
+  external JSPromise removeDownloads(RemovalOptions options);
 
   /// Clears websites' file system data.
-  external void removeFileSystems(options);
+  external JSPromise removeFileSystems(RemovalOptions options);
 
   /// Clears the browser's stored form data (autofill).
-  external void removeFormData(options);
+  external JSPromise removeFormData(RemovalOptions options);
 
   /// Clears the browser's history.
-  external void removeHistory(options);
+  external JSPromise removeHistory(RemovalOptions options);
 
   /// Clears websites' IndexedDB data.
-  external void removeIndexedDB(options);
+  external JSPromise removeIndexedDB(RemovalOptions options);
 
   /// Clears websites' local storage data.
-  external void removeLocalStorage(options);
+  external JSPromise removeLocalStorage(RemovalOptions options);
 
   /// Clears plugins' data.
-  external void removePluginData(options);
+  external JSPromise removePluginData(RemovalOptions options);
 
   /// Clears the browser's stored passwords.
-  external void removePasswords(options);
+  external JSPromise removePasswords(RemovalOptions options);
 
   /// Clears websites' service workers.
-  external void removeServiceWorkers(options);
+  external JSPromise removeServiceWorkers(RemovalOptions options);
 
   /// Clears websites' WebSQL data.
-  external void removeWebSQL(options);
+  external JSPromise removeWebSQL(RemovalOptions options);
 }
 
 @JS()

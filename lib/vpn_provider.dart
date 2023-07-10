@@ -15,53 +15,33 @@ class ChromeVpnProvider {
   ///  |name|: The name of the VPN configuration.
   ///  |callback|: Called when the configuration is created or if there is an
   ///  error.
-  void createConfig(
-    name,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void createConfig(name) => throw UnimplementedError();
 
   ///  Destroys a VPN configuration created by the extension.
   ///  |id|: ID of the VPN configuration to destroy.
   ///  |callback|: Called when the configuration is destroyed or if there is an
   ///  error.
-  void destroyConfig(
-    id,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void destroyConfig(id) => throw UnimplementedError();
 
   ///  Sets the parameters for the VPN session. This should be called
   ///  immediately after `"connected"` is received from the platform.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |parameters|: The parameters for the VPN session.
   ///  |callback|: Called when the parameters are set or if there is an error.
-  void setParameters(
-    parameters,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void setParameters(parameters) => throw UnimplementedError();
 
   ///  Sends an IP packet through the tunnel created for the VPN session.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |data|: The IP packet to be sent to the platform.
   ///  |callback|: Called when the packet is sent or if there is an error.
-  void sendPacket(
-    data,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void sendPacket(data) => throw UnimplementedError();
 
   ///  Notifies the VPN session state to the platform.
   ///  This will succeed only when the VPN session is owned by the extension.
   ///  |state|: The VPN session state of the VPN client.
   ///  |callback|: Called when the notification is complete or if there is an
   ///  error.
-  void notifyConnectionStateChanged(
-    state,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void notifyConnectionStateChanged(state) => throw UnimplementedError();
 
   ///  Triggered when a message is received from the platform for a
   ///  VPN configuration owned by the extension.

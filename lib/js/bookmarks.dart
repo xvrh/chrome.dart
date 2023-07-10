@@ -15,48 +15,48 @@ class JSBookmarks {}
 
 extension JSBookmarksExtension on JSBookmarks {
   /// Retrieves the specified BookmarkTreeNode(s).
-  external void get(idOrIdList);
+  external JSPromise get(JSObject idOrIdList);
 
   /// Retrieves the children of the specified BookmarkTreeNode id.
-  external void getChildren(id);
+  external JSPromise getChildren(String id);
 
   /// Retrieves the recently added bookmarks.
-  external void getRecent(numberOfItems);
+  external JSPromise getRecent(int numberOfItems);
 
   /// Retrieves the entire Bookmarks hierarchy.
-  external void getTree();
+  external JSPromise getTree();
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
-  external void getSubTree(id);
+  external JSPromise getSubTree(String id);
 
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
   /// with an object produce BookmarkTreeNodes matching all specified
   /// properties.
-  external void search(query);
+  external JSPromise search(JSObject query);
 
   /// Creates a bookmark or folder under the specified parentId.  If url is NULL
   /// or missing, it will be a folder.
-  external void create(bookmark);
+  external JSPromise create(CreateDetails bookmark);
 
   /// Moves the specified BookmarkTreeNode to the provided location.
-  external void move(
-    id,
-    destination,
+  external JSPromise move(
+    String id,
+    JSObject destination,
   );
 
   /// Updates the properties of a bookmark or folder. Specify only the
   /// properties that you want to change; unspecified properties will be left
-  /// unchanged.  <b>Note:</b> Currently, only 'title' and 'url' are supported.
-  external void update(
-    id,
-    changes,
+  /// unchanged.  **Note:** Currently, only 'title' and 'url' are supported.
+  external JSPromise update(
+    String id,
+    JSObject changes,
   );
 
   /// Removes a bookmark or an empty bookmark folder.
-  external void remove(id);
+  external JSPromise remove(String id);
 
   /// Recursively removes a bookmark folder.
-  external void removeTree(id);
+  external JSPromise removeTree(String id);
 
   /// Fired when a bookmark or folder is created.
   external ChromeEvent get onCreated;
@@ -66,8 +66,8 @@ extension JSBookmarksExtension on JSBookmarks {
   /// its contents.
   external ChromeEvent get onRemoved;
 
-  /// Fired when a bookmark or folder changes.  <b>Note:</b> Currently, only
-  /// title and url changes trigger this.
+  /// Fired when a bookmark or folder changes.  **Note:** Currently, only title
+  /// and url changes trigger this.
   external ChromeEvent get onChanged;
 
   /// Fired when a bookmark or folder is moved to a different parent folder.
@@ -86,9 +86,9 @@ extension JSBookmarksExtension on JSBookmarks {
   external ChromeEvent get onImportEnded;
 }
 
-/// Indicates the reason why this node is unmodifiable. The <var>managed</var>
-/// value indicates that this node was configured by the system administrator.
-/// Omitted if the node can be modified by the user and the extension (default).
+/// Indicates the reason why this node is unmodifiable. The `managed` value
+/// indicates that this node was configured by the system administrator. Omitted
+/// if the node can be modified by the user and the extension (default).
 typedef BookmarkTreeNodeUnmodifiable = JSString;
 
 @JS()
@@ -122,10 +122,10 @@ class BookmarkTreeNode {
   /// epoch.
   external num? get dateGroupModified;
 
-  /// Indicates the reason why this node is unmodifiable. The <var>managed</var>
-  /// value indicates that this node was configured by the system administrator
-  /// or by the custodian of a supervised user. Omitted if the node can be
-  /// modified by the user and the extension (default).
+  /// Indicates the reason why this node is unmodifiable. The `managed` value
+  /// indicates that this node was configured by the system administrator or by
+  /// the custodian of a supervised user. Omitted if the node can be modified by
+  /// the user and the extension (default).
   external BookmarkTreeNodeUnmodifiable? get unmodifiable;
 
   /// An ordered list of children of this node.

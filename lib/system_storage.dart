@@ -12,22 +12,14 @@ class ChromeSystemStorage {
 
   ///  Get the storage information from the system. The argument passed to the
   ///  callback is an array of StorageUnitInfo objects.
-  void getInfo(callback) => throw UnimplementedError();
+  void getInfo() => throw UnimplementedError();
 
   ///  Ejects a removable storage device.
-  void ejectDevice(
-    id,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void ejectDevice(id) => throw UnimplementedError();
 
   ///  Get the available capacity of a specified |id| storage device.
   ///  The |id| is the transient device ID from StorageUnitInfo.
-  void getAvailableCapacity(
-    id,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getAvailableCapacity(id) => throw UnimplementedError();
 
   ///  Fired when a new removable storage is attached to the system.
   Stream get onAttached => throw UnimplementedError();

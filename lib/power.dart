@@ -22,7 +22,7 @@ class ChromePower {
   ///  Reports a user activity in order to awake the screen from a dimmed or
   ///  turned off state or from a screensaver. Exits the screensaver if it is
   ///  currently active.
-  void reportActivity(callback) => throw UnimplementedError();
+  void reportActivity() => throw UnimplementedError();
 }
 
 enum Level {

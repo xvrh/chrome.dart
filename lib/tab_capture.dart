@@ -23,11 +23,7 @@ class ChromeTabCapture {
   ///    `null`.  `null` indicates an error has occurred
   ///    and the client may query $(ref:runtime.lastError) to access the error
   ///    details.
-  void capture(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void capture(options) => throw UnimplementedError();
 
   ///  Returns a list of tabs that have requested capture or are being
   ///  captured, i.e. status != stopped and status != error.
@@ -35,7 +31,7 @@ class ChromeTabCapture {
   ///  tab capture that would prevent a new tab capture from succeeding (or
   ///  to prevent redundant requests for the same tab).
   ///  |callback| : Callback invoked with CaptureInfo[] for captured tabs.
-  void getCapturedTabs(callback) => throw UnimplementedError();
+  void getCapturedTabs() => throw UnimplementedError();
 
   ///  Creates a stream ID to capture the target tab.
   ///  Similar to chrome.tabCapture.capture() method, but returns a media
@@ -47,11 +43,7 @@ class ChromeTabCapture {
   ///  `getUserMedia()` API to generate a media stream that
   ///  corresponds to the target tab. The created `streamId` can
   ///  only be used once and expires after a few seconds if it is not used.
-  void getMediaStreamId(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getMediaStreamId(options) => throw UnimplementedError();
 
   ///  Event fired when the capture status of a tab changes.
   ///  This allows extension authors to keep track of the capture status of

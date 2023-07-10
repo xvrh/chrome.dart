@@ -17,18 +17,14 @@ class ChromeEnterprisePlatformKeys {
   ///  contain the system-wide token with `id` `"system"`.
   ///  The system-wide token will be the same for all sessions on this device
   ///  (device in the sense of e.g. a Chromebook).
-  void getTokens(callback) => throw UnimplementedError();
+  void getTokens() => throw UnimplementedError();
 
   ///  Returns the list of all client certificates available from the given
   ///  token. Can be used to check for the existence and expiration of client
   ///  certificates that are usable for a certain authentication.
   ///  |tokenId|: The id of a Token returned by `getTokens`.
   ///  |callback|: Called back with the list of the available certificates.
-  void getCertificates(
-    tokenId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getCertificates(tokenId) => throw UnimplementedError();
 
   ///  Imports `certificate` to the given token if the certified key
   ///  is already stored in this token.
@@ -41,7 +37,6 @@ class ChromeEnterprisePlatformKeys {
   void importCertificate(
     tokenId,
     certificate,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -55,7 +50,6 @@ class ChromeEnterprisePlatformKeys {
   void removeCertificate(
     tokenId,
     certificate,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -85,11 +79,7 @@ class ChromeEnterprisePlatformKeys {
   ///  |options|: Object containing the fields defined in
   ///             $(ref:ChallengeKeyOptions).
   ///  |callback|: Called back with the challenge response.
-  void challengeKey(
-    options,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void challengeKey(options) => throw UnimplementedError();
 
   ///  Challenges a hardware-backed Enterprise Machine Key and emits the
   ///  response as part of a remote attestation protocol. Only useful on Chrome
@@ -123,7 +113,6 @@ class ChromeEnterprisePlatformKeys {
   void challengeMachineKey(
     challenge,
     registerKey,
-    callback,
   ) =>
       throw UnimplementedError();
 
@@ -158,7 +147,6 @@ class ChromeEnterprisePlatformKeys {
   void challengeUserKey(
     challenge,
     registerKey,
-    callback,
   ) =>
       throw UnimplementedError();
 }

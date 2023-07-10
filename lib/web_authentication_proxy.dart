@@ -16,31 +16,19 @@ class ChromeWebAuthenticationProxy {
   ///  `onCreateRequest` event it has received, unless the request
   ///  was canceled (in which case, an `onRequestCanceled` event is
   ///  fired).
-  void completeCreateRequest(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void completeCreateRequest(details) => throw UnimplementedError();
 
   ///  Reports the result of a `navigator.credentials.get()` call.
   ///  The extension must call this for every `onGetRequest` event
   ///  it has received, unless the request was canceled (in which case, an
   ///  `onRequestCanceled` event is fired).
-  void completeGetRequest(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void completeGetRequest(details) => throw UnimplementedError();
 
   ///  Reports the result of a
   ///  `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   ///  call. The extension must call this for every
   ///  `onIsUvpaaRequest` event it has received.
-  void completeIsUvpaaRequest(
-    details,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void completeIsUvpaaRequest(details) => throw UnimplementedError();
 
   ///  Makes this extension the active Web Authentication API request proxy.
   ///
@@ -60,7 +48,7 @@ class ChromeWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  void attach(callback) => throw UnimplementedError();
+  void attach() => throw UnimplementedError();
 
   ///  Removes this extension from being the active Web Authentication API
   ///  request proxy.
@@ -72,7 +60,7 @@ class ChromeWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  void detach(callback) => throw UnimplementedError();
+  void detach() => throw UnimplementedError();
 
   ///  A native application associated with this extension can cause this
   ///  event to be fired by writing to a file with a name equal to the

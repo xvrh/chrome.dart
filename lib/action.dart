@@ -18,8 +18,8 @@ class ChromeAction {
 
   /// Sets the icon for the action. The icon can be specified either as the path
   /// to an image file or as the pixel data from a canvas element, or as
-  /// dictionary of either one of those. Either the <b>path</b> or the
-  /// <b>imageData</b> property must be specified.
+  /// dictionary of either one of those. Either the **path** or the
+  /// **imageData** property must be specified.
   void setIcon(details) => throw UnimplementedError();
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the

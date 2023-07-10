@@ -1,5 +1,6 @@
 import 'chrome.dart';
 import 'dart:js_interop';
+import 'tabs.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDesktopCaptureExtension on JSChrome {
@@ -14,15 +15,15 @@ class JSDesktopCapture {}
 
 extension JSDesktopCaptureExtension on JSDesktopCapture {
   /// Shows desktop media picker UI with the specified set of sources.
-  external void chooseDesktopMedia(
-    sources,
-    targetTab,
-    options,
-    callback,
+  external int chooseDesktopMedia(
+    JSArray sources,
+    Tab targetTab,
+    JSObject options,
+    JSFunction callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
-  external void cancelChooseDesktopMedia(desktopMediaRequestId);
+  external void cancelChooseDesktopMedia(int desktopMediaRequestId);
 }
 
 /// Enum used to define set of desktop media sources used in

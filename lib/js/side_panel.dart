@@ -16,16 +16,16 @@ extension JSSidePanelExtension on JSSidePanel {
   ///  |options|: The configuration options to apply to the panel.
   ///  |callback|: Invoked when the options have been set.
   external void setOptions(
-    options,
-    callback,
+    PanelOptions options,
+    JSFunction callback,
   );
 
   ///  Returns the active panel configuration.
   ///  |options|: Specifies the context to return the configuration for.
   ///  |callback|: Called with the active panel configuration.
   external void getOptions(
-    options,
-    callback,
+    GetPanelOptions options,
+    JSFunction callback,
   );
 
   ///  Configures the extension's side panel behavior. This is an upsert
@@ -33,13 +33,13 @@ extension JSSidePanelExtension on JSSidePanel {
   ///  |behavior|: The new behavior to be set.
   ///  |callback|: Called when the new behavior has been set.
   external void setPanelBehavior(
-    behavior,
-    callback,
+    PanelBehavior behavior,
+    JSFunction callback,
   );
 
   ///  Returns the extension's current side panel behavior.
   ///  |callback|: Called with the extension's side panel behavior.
-  external void getPanelBehavior(callback);
+  external void getPanelBehavior(JSFunction callback);
 }
 
 @JS()

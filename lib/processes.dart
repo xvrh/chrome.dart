@@ -13,20 +13,12 @@ class ChromeProcesses {
   ///  Returns the ID of the renderer process for the specified tab.
   ///  |tabId|: The ID of the tab for which the renderer process ID is to be
   ///  returned.
-  void getProcessIdForTab(
-    tabId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void getProcessIdForTab(tabId) => throw UnimplementedError();
 
   ///  Terminates the specified renderer process. Equivalent to visiting
   ///  about:crash, but without changing the tab's URL.
   ///  |processId|: The ID of the process to be terminated.
-  void terminate(
-    processId,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void terminate(processId) => throw UnimplementedError();
 
   ///  Retrieves the process information for each process ID specified.
   ///  |processIds|: The list of process IDs or single process ID for which
@@ -38,7 +30,6 @@ class ChromeProcesses {
   void getProcessInfo(
     processIds,
     includeMemory,
-    callback,
   ) =>
       throw UnimplementedError();
 

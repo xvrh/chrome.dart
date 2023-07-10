@@ -13,7 +13,7 @@ class JSSystemCpu {}
 
 extension JSSystemCpuExtension on JSSystemCpu {
   ///  Queries basic CPU information of the system.
-  external void getInfo(callback);
+  external void getInfo(JSFunction callback);
 }
 
 @JS()
@@ -63,6 +63,6 @@ class CpuInfo {
   ///  List of CPU temperature readings from each thermal zone of the CPU.
   ///  Temperatures are in degrees Celsius.
   ///
-  ///  <b>Currently supported on Chrome OS only.</b>
+  ///  **Currently supported on Chrome OS only.**
   external JSArray get temperatures;
 }

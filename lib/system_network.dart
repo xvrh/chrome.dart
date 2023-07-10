@@ -12,5 +12,5 @@ class ChromeSystemNetwork {
 
   ///  Retrieves information about local adapters on this system.
   ///  |callback| : Called when local adapter information is available.
-  void getNetworkInterfaces(callback) => throw UnimplementedError();
+  void getNetworkInterfaces() => throw UnimplementedError();
 }

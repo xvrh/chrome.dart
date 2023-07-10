@@ -17,16 +17,16 @@ extension JSProcessesExtension on JSProcesses {
   ///  |tabId|: The ID of the tab for which the renderer process ID is to be
   ///  returned.
   external void getProcessIdForTab(
-    tabId,
-    callback,
+    int tabId,
+    JSFunction callback,
   );
 
   ///  Terminates the specified renderer process. Equivalent to visiting
   ///  about:crash, but without changing the tab's URL.
   ///  |processId|: The ID of the process to be terminated.
   external void terminate(
-    processId,
-    callback,
+    int processId,
+    JSFunction callback,
   );
 
   ///  Retrieves the process information for each process ID specified.
@@ -37,9 +37,9 @@ extension JSProcessesExtension on JSProcesses {
   ///  collecting memory usage information incurs extra CPU usage and should
   ///  only be queried for when needed.
   external void getProcessInfo(
-    processIds,
-    includeMemory,
-    callback,
+    JSObject processIds,
+    bool includeMemory,
+    JSFunction callback,
   );
 
   ///  Fired each time the Task Manager updates its process statistics,

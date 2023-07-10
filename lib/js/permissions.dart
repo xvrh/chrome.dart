@@ -16,10 +16,10 @@ class JSPermissions {}
 
 extension JSPermissionsExtension on JSPermissions {
   /// Gets the extension's current set of permissions.
-  external void getAll();
+  external JSPromise getAll();
 
   /// Checks if the extension has the specified permissions.
-  external void contains(permissions);
+  external JSPromise contains(Permissions permissions);
 
   /// Requests access to the specified permissions, displaying a prompt to the
   /// user if necessary. These permissions must either be defined in the
@@ -29,11 +29,11 @@ extension JSPermissionsExtension on JSPermissions {
   /// you specify `*://*/*` in the `optional_permissions` section of the
   /// manifest, you can request `http://example.com/`. If there are any problems
   /// requesting the permissions, $(ref:runtime.lastError) will be set.
-  external void request(permissions);
+  external JSPromise request(Permissions permissions);
 
   /// Removes access to the specified permissions. If there are any problems
   /// removing the permissions, $(ref:runtime.lastError) will be set.
-  external void remove(permissions);
+  external JSPromise remove(Permissions permissions);
 
   /// Fired when the extension acquires new permissions.
   external ChromeEvent get onAdded;

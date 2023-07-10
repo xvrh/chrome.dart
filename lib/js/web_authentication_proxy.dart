@@ -20,8 +20,8 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  was canceled (in which case, an `onRequestCanceled` event is
   ///  fired).
   external void completeCreateRequest(
-    details,
-    callback,
+    CreateResponseDetails details,
+    JSFunction callback,
   );
 
   ///  Reports the result of a `navigator.credentials.get()` call.
@@ -29,8 +29,8 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  it has received, unless the request was canceled (in which case, an
   ///  `onRequestCanceled` event is fired).
   external void completeGetRequest(
-    details,
-    callback,
+    GetResponseDetails details,
+    JSFunction callback,
   );
 
   ///  Reports the result of a
@@ -38,8 +38,8 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  call. The extension must call this for every
   ///  `onIsUvpaaRequest` event it has received.
   external void completeIsUvpaaRequest(
-    details,
-    callback,
+    IsUvpaaResponseDetails details,
+    JSFunction callback,
   );
 
   ///  Makes this extension the active Web Authentication API request proxy.
@@ -60,7 +60,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  external void attach(callback);
+  external void attach(JSFunction callback);
 
   ///  Removes this extension from being the active Web Authentication API
   ///  request proxy.
@@ -72,7 +72,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   ///  Refer to the `onRemoteSessionStateChange` event for signaling
   ///  a change of remote session attachment from a native application to to
   ///  the (possibly suspended) extension.
-  external void detach(callback);
+  external void detach(JSFunction callback);
 
   ///  A native application associated with this extension can cause this
   ///  event to be fired by writing to a file with a name equal to the

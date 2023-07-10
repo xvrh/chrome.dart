@@ -13,11 +13,7 @@ class ChromeSearch {
   ///  Used to query the default search provider.
   ///  In case of an error,
   ///  $(ref:runtime.lastError) will be set.
-  void query(
-    queryInfo,
-    callback,
-  ) =>
-      throw UnimplementedError();
+  void query(queryInfo) => throw UnimplementedError();
 }
 
 enum Disposition {

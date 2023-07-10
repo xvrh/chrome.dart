@@ -70,6 +70,9 @@ extension StorageAreaExtension on StorageArea {
   /// Sets the desired access level for the storage area. The default will be
   /// only trusted contexts.
   external JSPromise setAccessLevel(SetAccessLevelAccessOptions accessOptions);
+
+  /// Fired when one or more items change.
+  external ChromeEvent get onChanged;
 }
 
 @JS()

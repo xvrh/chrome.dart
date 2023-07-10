@@ -138,10 +138,18 @@ class JsonModelConverter {
         }
       }
 
+      var events = <Event>[];
+      if (t.events != null) {
+        for (var event in t.events!) {
+          events.add(Event(event.name!, event.description));
+        }
+      }
+
       yield Dictionary(
         t.id,
         properties: properties,
         methods: methods,
+        events: events,
         documentation: t.description,
         isAnonymous: t.isAnonymous,
       );

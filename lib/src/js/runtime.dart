@@ -240,6 +240,17 @@ extension PortExtension on Port {
   /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
   /// listeners.
   external MessageSender? get sender;
+
+  /// Fired when the port is disconnected from the other end(s).
+  /// $(ref:runtime.lastError) may be set if the port was disconnected by an
+  /// error. If the port is closed via $(ref:Port.disconnect disconnect), then
+  /// this event is <em>only</em> fired on the other end. This event is fired at
+  /// most once (see also <a href="messaging#port-lifetime">Port lifetime</a>).
+  external ChromeEvent get onDisconnect;
+
+  /// This event is fired when $(ref:Port.postMessage postMessage) is called by
+  /// the other end of the port.
+  external ChromeEvent get onMessage;
 }
 
 @JS()

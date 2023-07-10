@@ -60,11 +60,15 @@ class IdlModelConverter {
       if (t.methods.isNotEmpty) {
         throw UnimplementedError('${model.name} / ${t.name} has methods');
       }
+      if (t.methods.isNotEmpty) {
+        throw UnimplementedError('${model.name} / ${t.name} has methods');
+      }
 
       yield Dictionary(
         t.name,
         properties: properties,
         methods: [],
+        events: [],
         documentation: _toDocumentation(t.documentation),
         //TODO: make it anonymous if this is a "input" only type?
         isAnonymous: false,

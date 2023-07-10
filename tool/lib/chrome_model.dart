@@ -127,6 +127,7 @@ class Dictionary {
   final String name;
   final List<Property> properties;
   final List<Method> methods;
+  final List<Event> events;
   final String documentation;
   final bool isAnonymous;
 
@@ -134,6 +135,7 @@ class Dictionary {
     this.name, {
     required this.properties,
     required this.methods,
+    required this.events,
     required this.documentation,
     required this.isAnonymous,
   });

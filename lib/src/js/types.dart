@@ -45,6 +45,9 @@ extension ChromeSettingExtension on ChromeSetting {
 
   /// Clears the setting, restoring any default value.
   external JSPromise clear(ClearDetails details);
+
+  /// Fired after the setting changes.
+  external ChromeEvent get onChange;
 }
 
 @JS()

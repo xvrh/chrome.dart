@@ -56,6 +56,9 @@ extension ElementsPanelExtension on ElementsPanel {
     JSString title,
     JSFunction? callback,
   );
+
+  /// Fired when an object is selected in the panel.
+  external ChromeEvent get onSelectionChanged;
 }
 
 @JS()
@@ -68,6 +71,9 @@ extension SourcesPanelExtension on SourcesPanel {
     JSString title,
     JSFunction? callback,
   );
+
+  /// Fired when an object is selected in the panel.
+  external ChromeEvent get onSelectionChanged;
 }
 
 @JS()
@@ -81,6 +87,16 @@ extension ExtensionPanelExtension on ExtensionPanel {
     JSString tooltipText,
     JSBoolean disabled,
   );
+
+  /// Fired upon a search action (start of a new search, search result
+  /// navigation, or search being canceled).
+  external ChromeEvent get onSearch;
+
+  /// Fired when the user switches to the panel.
+  external ChromeEvent get onShown;
+
+  /// Fired when the user switches away from the panel.
+  external ChromeEvent get onHidden;
 }
 
 @JS()
@@ -108,6 +124,14 @@ extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
 
   /// Sets an HTML page to be displayed in the sidebar pane.
   external void setPage(JSString path);
+
+  /// Fired when the sidebar pane becomes visible as a result of user switching
+  /// to the panel that hosts it.
+  external ChromeEvent get onShown;
+
+  /// Fired when the sidebar pane becomes hidden as a result of the user
+  /// switching away from the panel that hosts the sidebar pane.
+  external ChromeEvent get onHidden;
 }
 
 @JS()
@@ -122,4 +146,7 @@ extension ButtonExtension on Button {
     JSString? tooltipText,
     JSBoolean? disabled,
   );
+
+  /// Fired when the button is clicked.
+  external ChromeEvent get onClicked;
 }

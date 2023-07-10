@@ -52,4 +52,10 @@ extension RecorderViewExtension on RecorderView {
   /// Indicates that the extension wants to show this view in the Recorder
   /// panel.
   external void show();
+
+  /// Fired when the view is shown.
+  external ChromeEvent get onShown;
+
+  /// Fired when the view is hidden.
+  external ChromeEvent get onHidden;
 }

@@ -128,7 +128,8 @@ class CodeGenerator {
         ..name = '${type.name}Extension'
         ..on = refer(type.name)
         ..methods.addAll(type.properties.map(_bindingTypeProperty))
-        ..methods.addAll(type.methods.map(_bindingFunction)));
+        ..methods.addAll(type.methods.map(_bindingFunction))
+        ..methods.addAll(type.events.map(_bindingEvent)));
     }
   }
 

@@ -22,17 +22,17 @@ class CpuTime {}
 
 extension CpuTimeExtension on CpuTime {
   /// The cumulative time used by userspace programs on this processor.
-  external double get user;
+  external double user;
 
   /// The cumulative time used by kernel programs on this processor.
-  external double get kernel;
+  external double kernel;
 
   /// The cumulative time spent idle by this processor.
-  external double get idle;
+  external double idle;
 
   /// The total cumulative time for this processor.  This value is equal to
   /// user + kernel + idle.
-  external double get total;
+  external double total;
 }
 
 @JS()
@@ -41,7 +41,7 @@ class ProcessorInfo {}
 
 extension ProcessorInfoExtension on ProcessorInfo {
   /// Cumulative usage info for this logical processor.
-  external CpuTime get usage;
+  external CpuTime usage;
 }
 
 @JS()
@@ -50,25 +50,25 @@ class CpuInfo {}
 
 extension CpuInfoExtension on CpuInfo {
   /// The number of logical processors.
-  external int get numOfProcessors;
+  external int numOfProcessors;
 
   /// The architecture name of the processors.
-  external String get archName;
+  external String archName;
 
   /// The model name of the processors.
-  external String get modelName;
+  external String modelName;
 
   /// A set of feature codes indicating some of the processor's capabilities.
   /// The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",
   /// "sse4_1", "sse4_2", and "avx".
-  external JSArray get features;
+  external JSArray features;
 
   /// Information about each logical processor.
-  external JSArray get processors;
+  external JSArray processors;
 
   /// List of CPU temperature readings from each thermal zone of the CPU.
   /// Temperatures are in degrees Celsius.
   ///
   /// **Currently supported on Chrome OS only.**
-  external JSArray get temperatures;
+  external JSArray temperatures;
 }

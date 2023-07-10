@@ -70,15 +70,15 @@ class SpeakOptions {}
 
 extension SpeakOptionsExtension on SpeakOptions {
   /// The name of the voice to use for synthesis.
-  external String? get voiceName;
+  external String? voiceName;
 
   /// The language to be used for synthesis, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external String? get lang;
+  external String? lang;
 
   /// Gender of voice for synthesized speech.
-  external VoiceGender? get gender;
+  external VoiceGender? gender;
 
   /// Speaking rate relative to the default rate for this voice. 1.0 is the
   /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
@@ -86,15 +86,15 @@ extension SpeakOptionsExtension on SpeakOptions {
   /// and 10.0, inclusive. When a voice does not support this full range of
   /// rates, don't return an error. Instead, clip the rate to the range the
   /// voice supports.
-  external num? get rate;
+  external num? rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to this voice's default pitch.
-  external num? get pitch;
+  external num? pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external num? get volume;
+  external num? volume;
 }
 
 @JS()
@@ -103,10 +103,10 @@ class AudioStreamOptions {}
 
 extension AudioStreamOptionsExtension on AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
-  external int get sampleRate;
+  external int sampleRate;
 
   /// The number of samples within an audio buffer.
-  external int get bufferSize;
+  external int bufferSize;
 }
 
 @JS()
@@ -118,11 +118,11 @@ extension AudioBufferExtension on AudioBuffer {
   /// exactly audioStreamOptions.bufferSize and encoded as mono, at
   /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
   /// the Float32Array type in javascript.
-  external JSAny get audioBuffer;
+  external JSAny audioBuffer;
 
   /// The character index associated with this audio buffer.
-  external int? get charIndex;
+  external int? charIndex;
 
   /// True if this audio buffer is the last for the text being spoken.
-  external bool? get isLastBuffer;
+  external bool? isLastBuffer;
 }

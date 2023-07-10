@@ -86,7 +86,7 @@ class TabDetails {}
 extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external int? get tabId;
+  external int? tabId;
 }
 
 @JS()
@@ -97,7 +97,7 @@ extension UserSettingsExtension on UserSettings {
   /// Whether the extension's action icon is visible on browser windows'
   /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
   /// user).
-  external bool get isOnToolbar;
+  external bool isOnToolbar;
 }
 
 @JS()
@@ -107,7 +107,7 @@ class OpenPopupOptions {}
 extension OpenPopupOptionsExtension on OpenPopupOptions {
   /// The id of the window to open the action popup in. Defaults to the
   /// currently-active window if unspecified.
-  external int? get windowId;
+  external int? windowId;
 }
 
 @JS()

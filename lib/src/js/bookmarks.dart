@@ -102,40 +102,40 @@ class BookmarkTreeNode {}
 extension BookmarkTreeNodeExtension on BookmarkTreeNode {
   /// The unique identifier for the node. IDs are unique within the current
   /// profile, and they remain valid even after the browser is restarted.
-  external String get id;
+  external String id;
 
   /// The `id` of the parent folder.  Omitted for the root node.
-  external String? get parentId;
+  external String? parentId;
 
   /// The 0-based position of this node within its parent folder.
-  external int? get index;
+  external int? index;
 
   /// The URL navigated to when a user clicks the bookmark. Omitted for folders.
-  external String? get url;
+  external String? url;
 
   /// The text displayed for the node.
-  external String get title;
+  external String title;
 
   /// When this node was created, in milliseconds since the epoch (`new
   /// Date(dateAdded)`).
-  external num? get dateAdded;
+  external num? dateAdded;
 
   /// When this node was last opened, in milliseconds since the epoch. Not set
   /// for folders.
-  external num? get dateLastUsed;
+  external num? dateLastUsed;
 
   /// When the contents of this folder last changed, in milliseconds since the
   /// epoch.
-  external num? get dateGroupModified;
+  external num? dateGroupModified;
 
   /// Indicates the reason why this node is unmodifiable. The `managed` value
   /// indicates that this node was configured by the system administrator or by
   /// the custodian of a supervised user. Omitted if the node can be modified by
   /// the user and the extension (default).
-  external BookmarkTreeNodeUnmodifiable? get unmodifiable;
+  external BookmarkTreeNodeUnmodifiable? unmodifiable;
 
   /// An ordered list of children of this node.
-  external JSArray? get children;
+  external JSArray? children;
 }
 
 @JS()
@@ -144,13 +144,13 @@ class CreateDetails {}
 
 extension CreateDetailsExtension on CreateDetails {
   /// Defaults to the Other Bookmarks folder.
-  external String? get parentId;
+  external String? parentId;
 
-  external int? get index;
+  external int? index;
 
-  external String? get title;
+  external String? title;
 
-  external String? get url;
+  external String? url;
 }
 
 @JS()
@@ -158,11 +158,11 @@ extension CreateDetailsExtension on CreateDetails {
 class OnRemovedRemoveInfo {}
 
 extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
-  external String get parentId;
+  external String parentId;
 
-  external int get index;
+  external int index;
 
-  external BookmarkTreeNode get node;
+  external BookmarkTreeNode node;
 }
 
 @JS()
@@ -170,9 +170,9 @@ extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
 class OnChangedChangeInfo {}
 
 extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
-  external String get title;
+  external String title;
 
-  external String? get url;
+  external String? url;
 }
 
 @JS()
@@ -180,13 +180,13 @@ extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
 class OnMovedMoveInfo {}
 
 extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
-  external String get parentId;
+  external String parentId;
 
-  external int get index;
+  external int index;
 
-  external String get oldParentId;
+  external String oldParentId;
 
-  external int get oldIndex;
+  external int oldIndex;
 }
 
 @JS()
@@ -195,7 +195,7 @@ class OnChildrenReorderedReorderInfo {}
 
 extension OnChildrenReorderedReorderInfoExtension
     on OnChildrenReorderedReorderInfo {
-  external JSArray get childIds;
+  external JSArray childIds;
 }
 
 @JS()

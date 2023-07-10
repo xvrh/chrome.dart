@@ -41,17 +41,17 @@ class MediaSize {}
 
 extension MediaSizeExtension on MediaSize {
   /// Width (in micrometers) of the media used for printing.
-  external int get width;
+  external int width;
 
   /// Height (in micrometers) of the media used for printing.
-  external int get height;
+  external int height;
 
   /// Vendor-provided ID, e.g. "iso_a3_297x420mm" or "na_index-3x5_3x5in".
   /// Possible values are values of "media" IPP attribute and can be found on
   /// <a
   /// href="https://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml">
   /// IANA page</a> .
-  external String get vendorId;
+  external String vendorId;
 }
 
 @JS()
@@ -60,16 +60,16 @@ class PrintSettings {}
 
 extension PrintSettingsExtension on PrintSettings {
   /// The requested color mode.
-  external ColorMode get color;
+  external ColorMode color;
 
   /// The requested duplex mode.
-  external DuplexMode get duplex;
+  external DuplexMode duplex;
 
   /// The requested media size.
-  external MediaSize get mediaSize;
+  external MediaSize mediaSize;
 
   /// The requested number of copies.
-  external int get copies;
+  external int copies;
 }
 
 @JS()
@@ -78,14 +78,14 @@ class Printer {}
 
 extension PrinterExtension on Printer {
   /// Displayed name of the printer.
-  external String get name;
+  external String name;
 
   /// The full path for the printer.
   /// Contains protocol, hostname, port, and queue.
-  external String get uri;
+  external String uri;
 
   /// The source of the printer.
-  external PrinterSource get source;
+  external PrinterSource source;
 }
 
 @JS()
@@ -94,35 +94,35 @@ class PrintJobInfo {}
 
 extension PrintJobInfoExtension on PrintJobInfo {
   /// The ID of the job.
-  external String get id;
+  external String id;
 
   /// The title of the document which was printed.
-  external String get title;
+  external String title;
 
   /// Source showing who initiated the print job.
-  external PrintJobSource get source;
+  external PrintJobSource source;
 
   /// ID of source. Null if source is PRINT_PREVIEW or ANDROID_APP.
-  external String? get sourceId;
+  external String? sourceId;
 
   /// The final status of the job.
-  external PrintJobStatus get status;
+  external PrintJobStatus status;
 
   /// The job creation time (in milliseconds past the Unix epoch).
-  external double get creationTime;
+  external double creationTime;
 
   /// The job completion time (in milliseconds past the Unix epoch).
-  external double get completionTime;
+  external double completionTime;
 
   /// The info about the printer which printed the document.
-  external Printer get printer;
+  external Printer printer;
 
   /// The settings of the print job.
-  external PrintSettings get settings;
+  external PrintSettings settings;
 
   /// The number of pages in the document.
-  external int get numberOfPages;
+  external int numberOfPages;
 
   /// The status of the printer.
-  external PrinterStatus get printer_status;
+  external PrinterStatus printer_status;
 }

@@ -69,13 +69,13 @@ class CaptureInfo {}
 
 extension CaptureInfoExtension on CaptureInfo {
   /// The id of the tab whose status changed.
-  external int get tabId;
+  external int tabId;
 
   /// The new capture status of the tab.
-  external TabCaptureState get status;
+  external TabCaptureState status;
 
   /// Whether an element in the tab being captured is in fullscreen mode.
-  external bool get fullscreen;
+  external bool fullscreen;
 }
 
 @JS()
@@ -83,9 +83,9 @@ extension CaptureInfoExtension on CaptureInfo {
 class MediaStreamConstraint {}
 
 extension MediaStreamConstraintExtension on MediaStreamConstraint {
-  external JSObject get mandatory;
+  external JSObject mandatory;
 
-  external JSObject? get _optional;
+  external JSObject? _optional;
 }
 
 @JS()
@@ -93,15 +93,15 @@ extension MediaStreamConstraintExtension on MediaStreamConstraint {
 class CaptureOptions {}
 
 extension CaptureOptionsExtension on CaptureOptions {
-  external bool? get audio;
+  external bool? audio;
 
-  external bool? get video;
+  external bool? video;
 
-  external MediaStreamConstraint? get audioConstraints;
+  external MediaStreamConstraint? audioConstraints;
 
-  external MediaStreamConstraint? get videoConstraints;
+  external MediaStreamConstraint? videoConstraints;
 
-  external String? get presentationId;
+  external String? presentationId;
 }
 
 @JS()
@@ -115,11 +115,11 @@ extension GetMediaStreamOptionsExtension on GetMediaStreamOptions {
   /// The stream can only be used by frames in the given tab whose security
   /// origin matches the consumber tab's origin. The tab's origin must be a
   /// secure origin, e.g. HTTPS.
-  external int? get consumerTabId;
+  external int? consumerTabId;
 
   /// Optional tab id of the tab which will be captured. If not specified
   /// then the current active tab will be selected. Only tabs for which the
   /// extension has been granted the `activeTab` permission can be
   /// used as the target tab.
-  external int? get targetTabId;
+  external int? targetTabId;
 }

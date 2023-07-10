@@ -92,11 +92,11 @@ class TaskInfo {}
 
 extension TaskInfoExtension on TaskInfo {
   /// The title of the task.
-  external String get title;
+  external String title;
 
   /// Optional tab ID, if this task represents a tab running on a renderer
   /// process.
-  external int? get tabId;
+  external int? tabId;
 }
 
 @JS()
@@ -105,10 +105,10 @@ class Cache {}
 
 extension CacheExtension on Cache {
   /// The size of the cache, in bytes.
-  external double get size;
+  external double size;
 
   /// The part of the cache that is utilized, in bytes.
-  external double get liveSize;
+  external double liveSize;
 }
 
 @JS()
@@ -117,23 +117,23 @@ class Process {}
 
 extension ProcessExtension on Process {
   /// Unique ID of the process provided by the browser.
-  external int get id;
+  external int id;
 
   /// The ID of the process, as provided by the OS.
-  external int get osProcessId;
+  external int osProcessId;
 
   /// The type of process.
-  external ProcessType get type;
+  external ProcessType type;
 
   /// The profile which the process is associated with.
-  external String get profile;
+  external String profile;
 
   /// The debugging port for Native Client processes. Zero for other process
   /// types and for NaCl processes that do not have debugging enabled.
-  external int get naclDebugPort;
+  external int naclDebugPort;
 
   /// Array of TaskInfos representing the tasks running on this process.
-  external JSArray get tasks;
+  external JSArray tasks;
 
   /// The most recent measurement of the process's CPU usage, expressed as the
   /// percentage of a single CPU core used in total, by all of the process's
@@ -141,45 +141,45 @@ extension ProcessExtension on Process {
   /// which can exceed 100% in multi-threaded processes.
   /// Only available when receiving the object as part of a callback from
   /// onUpdated or onUpdatedWithMemory.
-  external double? get cpu;
+  external double? cpu;
 
   /// The most recent measurement of the process network usage, in bytes per
   /// second. Only available when receiving the object as part of a callback
   /// from onUpdated or onUpdatedWithMemory.
-  external double? get network;
+  external double? network;
 
   /// The most recent measurement of the process private memory usage, in
   /// bytes. Only available when receiving the object as part of a callback
   /// from onUpdatedWithMemory or getProcessInfo with the includeMemory flag.
-  external double? get privateMemory;
+  external double? privateMemory;
 
   /// The most recent measurement of the process JavaScript allocated memory,
   /// in bytes. Only available when receiving the object as part of a callback
   /// from onUpdated or onUpdatedWithMemory.
-  external double? get jsMemoryAllocated;
+  external double? jsMemoryAllocated;
 
   /// The most recent measurement of the process JavaScript memory used, in
   /// bytes. Only available when receiving the object as part of a callback
   /// from onUpdated or onUpdatedWithMemory.
-  external double? get jsMemoryUsed;
+  external double? jsMemoryUsed;
 
   /// The most recent measurement of the process's SQLite memory usage, in
   /// bytes. Only available when receiving the object as part of a callback
   /// from onUpdated or onUpdatedWithMemory.
-  external double? get sqliteMemory;
+  external double? sqliteMemory;
 
   /// The most recent information about the image cache for the process. Only
   /// available when receiving the object as part of a callback from onUpdated
   /// or onUpdatedWithMemory.
-  external Cache? get imageCache;
+  external Cache? imageCache;
 
   /// The most recent information about the script cache for the process. Only
   /// available when receiving the object as part of a callback from onUpdated
   /// or onUpdatedWithMemory.
-  external Cache? get scriptCache;
+  external Cache? scriptCache;
 
   /// The most recent information about the CSS cache for the process. Only
   /// available when receiving the object as part of a callback from onUpdated
   /// or onUpdatedWithMemory.
-  external Cache? get cssCache;
+  external Cache? cssCache;
 }

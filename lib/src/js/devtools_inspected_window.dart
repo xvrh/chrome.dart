@@ -54,7 +54,7 @@ class Resource {}
 
 extension ResourceExtension on Resource {
   /// The URL of the resource.
-  external String get url;
+  external String url;
 
   /// Gets the content of the resource.
   external void getContent(JSFunction callback);

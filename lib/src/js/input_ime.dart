@@ -157,41 +157,41 @@ class KeyboardEvent {}
 
 extension KeyboardEventExtension on KeyboardEvent {
   /// One of keyup or keydown.
-  external KeyboardEventType get type;
+  external KeyboardEventType type;
 
   /// (Deprecated) The ID of the request. Use the `requestId` param from the
   /// `onKeyEvent` event instead.
-  external String? get requestId;
+  external String? requestId;
 
   /// The extension ID of the sender of this keyevent.
-  external String? get extensionId;
+  external String? extensionId;
 
   /// Value of the key being pressed
-  external String get key;
+  external String key;
 
   /// Value of the physical key being pressed. The value is not affected by
   /// current keyboard layout or modifier state.
-  external String get code;
+  external String code;
 
   /// The deprecated HTML keyCode, which is system- and implementation-dependent
   /// numerical code signifying the unmodified identifier associated with the
   /// key pressed.
-  external int? get keyCode;
+  external int? keyCode;
 
   /// Whether or not the ALT key is pressed.
-  external bool? get altKey;
+  external bool? altKey;
 
   /// Whether or not the ALTGR key is pressed.
-  external bool? get altgrKey;
+  external bool? altgrKey;
 
   /// Whether or not the CTRL key is pressed.
-  external bool? get ctrlKey;
+  external bool? ctrlKey;
 
   /// Whether or not the SHIFT key is pressed.
-  external bool? get shiftKey;
+  external bool? shiftKey;
 
   /// Whether or not the CAPS_LOCK is enabled.
-  external bool? get capsLock;
+  external bool? capsLock;
 }
 
 @JS()
@@ -201,26 +201,26 @@ class InputContext {}
 extension InputContextExtension on InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
-  external int get contextID;
+  external int contextID;
 
   /// Type of value this text field edits, (Text, Number, URL, etc)
-  external InputContextType get type;
+  external InputContextType type;
 
   /// Whether the text field wants auto-correct.
-  external bool get autoCorrect;
+  external bool autoCorrect;
 
   /// Whether the text field wants auto-complete.
-  external bool get autoComplete;
+  external bool autoComplete;
 
   /// The auto-capitalize type of the text field.
-  external AutoCapitalizeType get autoCapitalize;
+  external AutoCapitalizeType autoCapitalize;
 
   /// Whether the text field wants spell-check.
-  external bool get spellCheck;
+  external bool spellCheck;
 
   /// Whether text entered into the text field should be used to improve typing
   /// suggestions for the user.
-  external bool get shouldDoLearning;
+  external bool shouldDoLearning;
 }
 
 @JS()
@@ -229,22 +229,22 @@ class MenuItem {}
 
 extension MenuItemExtension on MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
-  external String get id;
+  external String id;
 
   /// Text displayed in the menu for this item.
-  external String? get label;
+  external String? label;
 
   /// The type of menu item.
-  external MenuItemStyle? get style;
+  external MenuItemStyle? style;
 
   /// Indicates this item is visible.
-  external bool? get visible;
+  external bool? visible;
 
   /// Indicates this item should be drawn with a check.
-  external bool? get checked;
+  external bool? checked;
 
   /// Indicates this item is enabled.
-  external bool? get enabled;
+  external bool? enabled;
 }
 
 @JS()
@@ -252,13 +252,13 @@ extension MenuItemExtension on MenuItem {
 class AssistiveWindowProperties {}
 
 extension AssistiveWindowPropertiesExtension on AssistiveWindowProperties {
-  external AssistiveWindowType get type;
+  external AssistiveWindowType type;
 
   /// Sets true to show AssistiveWindow, sets false to hide.
-  external bool get visible;
+  external bool visible;
 
   /// Strings for ChromeVox to announce.
-  external String? get announceString;
+  external String? announceString;
 }
 
 @JS()
@@ -267,11 +267,11 @@ class MenuParameters {}
 
 extension MenuParametersExtension on MenuParameters {
   /// ID of the engine to use.
-  external String get engineID;
+  external String engineID;
 
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.
-  external JSArray get items;
+  external JSArray items;
 }
 
 @JS()
@@ -282,20 +282,20 @@ extension OnSurroundingTextChangedSurroundingInfoExtension
     on OnSurroundingTextChangedSurroundingInfo {
   /// The text around the cursor. This is only a subset of all text in the input
   /// field.
-  external String get text;
+  external String text;
 
   /// The ending position of the selection. This value indicates caret position
   /// if there is no selection.
-  external int get focus;
+  external int focus;
 
   /// The beginning position of the selection. This value indicates caret
   /// position if there is no selection.
-  external int get anchor;
+  external int anchor;
 
   /// The offset position of `text`. Since `text` only includes a subset of text
   /// around the cursor, offset indicates the absolute position of the first
   /// character of `text`.
-  external int get offset;
+  external int offset;
 }
 
 @JS()
@@ -305,10 +305,10 @@ class OnAssistiveWindowButtonClickedDetails {}
 extension OnAssistiveWindowButtonClickedDetailsExtension
     on OnAssistiveWindowButtonClickedDetails {
   /// The ID of the button clicked.
-  external AssistiveWindowButton get buttonID;
+  external AssistiveWindowButton buttonID;
 
   /// The type of the assistive window.
-  external AssistiveWindowType get windowType;
+  external AssistiveWindowType windowType;
 }
 
 @JS()

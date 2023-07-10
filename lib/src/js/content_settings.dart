@@ -171,10 +171,10 @@ class ResourceIdentifier {}
 
 extension ResourceIdentifierExtension on ResourceIdentifier {
   /// The resource identifier for the given content type.
-  external String get id;
+  external String id;
 
   /// A human readable description of the resource.
-  external String? get description;
+  external String? description;
 }
 
 @JS()

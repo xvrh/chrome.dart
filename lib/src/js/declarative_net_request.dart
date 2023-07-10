@@ -255,13 +255,13 @@ class Ruleset {}
 extension RulesetExtension on Ruleset {
   /// A non-empty string uniquely identifying the ruleset. IDs beginning with
   /// '_' are reserved for internal use.
-  external String get id;
+  external String id;
 
   /// The path of the JSON ruleset relative to the extension directory.
-  external String get path;
+  external String path;
 
   /// Whether the ruleset is enabled by default.
-  external bool get enabled;
+  external bool enabled;
 }
 
 @JS()
@@ -269,13 +269,13 @@ extension RulesetExtension on Ruleset {
 class QueryKeyValue {}
 
 extension QueryKeyValueExtension on QueryKeyValue {
-  external String get key;
+  external String key;
 
-  external String get value;
+  external String value;
 
   /// If true, the query key is replaced only if it's already present.
   /// Otherwise, the key is also added if it's missing. Defaults to false.
-  external bool? get replaceOnly;
+  external bool? replaceOnly;
 }
 
 @JS()
@@ -284,10 +284,10 @@ class QueryTransform {}
 
 extension QueryTransformExtension on QueryTransform {
   /// The list of query keys to be removed.
-  external JSArray? get removeParams;
+  external JSArray? removeParams;
 
   /// The list of query key-value pairs to be added or replaced.
-  external JSArray? get addOrReplaceParams;
+  external JSArray? addOrReplaceParams;
 }
 
 @JS()
@@ -297,33 +297,33 @@ class URLTransform {}
 extension URLTransformExtension on URLTransform {
   /// The new scheme for the request. Allowed values are "http", "https",
   /// "ftp" and "chrome-extension".
-  external String? get scheme;
+  external String? scheme;
 
   /// The new host for the request.
-  external String? get host;
+  external String? host;
 
   /// The new port for the request. If empty, the existing port is cleared.
-  external String? get port;
+  external String? port;
 
   /// The new path for the request. If empty, the existing path is cleared.
-  external String? get path;
+  external String? path;
 
   /// The new query for the request. Should be either empty, in which case the
   /// existing query is cleared; or should begin with '?'.
-  external String? get query;
+  external String? query;
 
   /// Add, remove or replace query key-value pairs.
-  external QueryTransform? get queryTransform;
+  external QueryTransform? queryTransform;
 
   /// The new fragment for the request. Should be either empty, in which case
   /// the existing fragment is cleared; or should begin with '#'.
-  external String? get fragment;
+  external String? fragment;
 
   /// The new username for the request.
-  external String? get username;
+  external String? username;
 
   /// The new password for the request.
-  external String? get password;
+  external String? password;
 }
 
 @JS()
@@ -332,20 +332,20 @@ class Redirect {}
 
 extension RedirectExtension on Redirect {
   /// Path relative to the extension directory. Should start with '/'.
-  external String? get extensionPath;
+  external String? extensionPath;
 
   /// Url transformations to perform.
-  external URLTransform? get transform;
+  external URLTransform? transform;
 
   /// The redirect url. Redirects to JavaScript urls are not allowed.
-  external String? get url;
+  external String? url;
 
   /// Substitution pattern for rules which specify a `regexFilter`.
   /// The first match of `regexFilter` within the url will be
   /// replaced with this pattern. Within `regexSubstitution`,
   /// backslash-escaped digits (\1 to \9) can be used to insert the
   /// corresponding capture groups. \0 refers to the entire matching text.
-  external String? get regexSubstitution;
+  external String? regexSubstitution;
 }
 
 @JS()
@@ -387,7 +387,7 @@ extension RuleConditionExtension on RuleCondition {
   /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
   /// `urlFilter` will be matched against the url
   /// http://abc.xn--p1ai/?q=%D1%84.
-  external String? get urlFilter;
+  external String? urlFilter;
 
   /// Regular expression to match against the network request url. This follows
   /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
@@ -399,11 +399,11 @@ extension RuleConditionExtension on RuleCondition {
   /// characters. This is matched against a url where the host is encoded in
   /// the punycode format (in case of internationalized domains) and any other
   /// non-ascii characters are url encoded in utf-8.
-  external String? get regexFilter;
+  external String? regexFilter;
 
   /// Whether the `urlFilter` or `regexFilter`
   /// (whichever is specified) is case sensitive. Default is true.
-  external bool? get isUrlFilterCaseSensitive;
+  external bool? isUrlFilterCaseSensitive;
 
   /// The rule will only match network requests originating from the list of
   /// `initiatorDomains`. If the list is omitted, the rule is
@@ -419,7 +419,7 @@ extension RuleConditionExtension on RuleCondition {
   ///  </li>
   ///  <li>Sub-domains of the listed domains are also matched.</li>
   /// </ul>
-  external JSArray? get initiatorDomains;
+  external JSArray? initiatorDomains;
 
   /// The rule will not match network requests originating from the list of
   /// `excludedInitiatorDomains`. If the list is empty or omitted,
@@ -436,7 +436,7 @@ extension RuleConditionExtension on RuleCondition {
   ///  </li>
   ///  <li>Sub-domains of the listed domains are also excluded.</li>
   /// </ul>
-  external JSArray? get excludedInitiatorDomains;
+  external JSArray? excludedInitiatorDomains;
 
   /// The rule will only match network requests when the domain matches one
   /// from the list of `requestDomains`. If the list is omitted,
@@ -450,7 +450,7 @@ extension RuleConditionExtension on RuleCondition {
   ///  <li>Use punycode encoding for internationalized domains.</li>
   ///  <li>Sub-domains of the listed domains are also matched.</li>
   /// </ul>
-  external JSArray? get requestDomains;
+  external JSArray? requestDomains;
 
   /// The rule will not match network requests when the domains matches one
   /// from the list of `excludedRequestDomains`. If the list is
@@ -464,15 +464,15 @@ extension RuleConditionExtension on RuleCondition {
   ///  <li>Use punycode encoding for internationalized domains.</li>
   ///  <li>Sub-domains of the listed domains are also excluded.</li>
   /// </ul>
-  external JSArray? get excludedRequestDomains;
+  external JSArray? excludedRequestDomains;
 
   /// The rule will only match network requests originating from the list of
   /// `domains`.
-  external JSArray? get domains;
+  external JSArray? domains;
 
   /// The rule will not match network requests originating from the list of
   /// `excludedDomains`.
-  external JSArray? get excludedDomains;
+  external JSArray? excludedDomains;
 
   /// List of resource types which the rule can match. An empty list is not
   /// allowed.
@@ -480,13 +480,13 @@ extension RuleConditionExtension on RuleCondition {
   /// Note: this must be specified for `allowAllRequests` rules and
   /// may only include the `sub_frame` and `main_frame`
   /// resource types.
-  external JSArray? get resourceTypes;
+  external JSArray? resourceTypes;
 
   /// List of resource types which the rule won't match. Only one of
   /// `resourceTypes` and `excludedResourceTypes` should
   /// be specified. If neither of them is specified, all resource types except
   /// "main_frame" are blocked.
-  external JSArray? get excludedResourceTypes;
+  external JSArray? excludedResourceTypes;
 
   /// List of HTTP request methods which the rule can match. An empty list is
   /// not allowed.
@@ -494,29 +494,29 @@ extension RuleConditionExtension on RuleCondition {
   /// Note: Specifying a `requestMethods` rule condition will also
   /// exclude non-HTTP(s) requests, whereas specifying
   /// `excludedRequestMethods` will not.
-  external JSArray? get requestMethods;
+  external JSArray? requestMethods;
 
   /// List of request methods which the rule won't match. Only one of
   /// `requestMethods` and `excludedRequestMethods`
   /// should be specified. If neither of them is specified, all request methods
   /// are matched.
-  external JSArray? get excludedRequestMethods;
+  external JSArray? excludedRequestMethods;
 
   /// Specifies whether the network request is first-party or third-party to
   /// the domain from which it originated. If omitted, all requests are
   /// accepted.
-  external DomainType? get domainType;
+  external DomainType? domainType;
 
   /// List of $(ref:tabs.Tab.id) which the rule should match. An ID of
   /// $(ref:tabs.TAB_ID_NONE) matches requests which don't originate from a
   /// tab. An empty list is not allowed. Only supported for session-scoped
   /// rules.
-  external JSArray? get tabIds;
+  external JSArray? tabIds;
 
   /// List of $(ref:tabs.Tab.id) which the rule should not match. An ID of
   /// $(ref:tabs.TAB_ID_NONE) excludes requests which don't originate from a
   /// tab. Only supported for session-scoped rules.
-  external JSArray? get excludedTabIds;
+  external JSArray? excludedTabIds;
 }
 
 @JS()
@@ -525,14 +525,14 @@ class ModifyHeaderInfo {}
 
 extension ModifyHeaderInfoExtension on ModifyHeaderInfo {
   /// The name of the header to be modified.
-  external String get header;
+  external String header;
 
   /// The operation to be performed on a header.
-  external HeaderOperation get operation;
+  external HeaderOperation operation;
 
   /// The new value for the header. Must be specified for `append`
   /// and `set` operations.
-  external String? get value;
+  external String? value;
 }
 
 @JS()
@@ -541,19 +541,19 @@ class RuleAction {}
 
 extension RuleActionExtension on RuleAction {
   /// The type of action to perform.
-  external RuleActionType get type;
+  external RuleActionType type;
 
   /// Describes how the redirect should be performed. Only valid for redirect
   /// rules.
-  external Redirect? get redirect;
+  external Redirect? redirect;
 
   /// The request headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
-  external JSArray? get requestHeaders;
+  external JSArray? requestHeaders;
 
   /// The response headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
-  external JSArray? get responseHeaders;
+  external JSArray? responseHeaders;
 }
 
 @JS()
@@ -562,16 +562,16 @@ class Rule {}
 
 extension RuleExtension on Rule {
   /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
-  external int get id;
+  external int id;
 
   /// Rule priority. Defaults to 1. When specified, should be >= 1.
-  external int? get priority;
+  external int? priority;
 
   /// The condition under which this rule is triggered.
-  external RuleCondition get condition;
+  external RuleCondition condition;
 
   /// The action to take if this rule is matched.
-  external RuleAction get action;
+  external RuleAction action;
 }
 
 @JS()
@@ -580,12 +580,12 @@ class MatchedRule {}
 
 extension MatchedRuleExtension on MatchedRule {
   /// A matching rule's ID.
-  external int get ruleId;
+  external int ruleId;
 
   /// ID of the $(ref:Ruleset) this rule belongs to. For a rule originating
   /// from the set of dynamic rules, this will be equal to
   /// $(ref:DYNAMIC_RULESET_ID).
-  external String get rulesetId;
+  external String rulesetId;
 }
 
 @JS()
@@ -594,7 +594,7 @@ class GetRulesFilter {}
 
 extension GetRulesFilterExtension on GetRulesFilter {
   /// If specified, only rules with matching IDs are included.
-  external JSArray? get ruleIds;
+  external JSArray? ruleIds;
 }
 
 @JS()
@@ -602,16 +602,16 @@ extension GetRulesFilterExtension on GetRulesFilter {
 class MatchedRuleInfo {}
 
 extension MatchedRuleInfoExtension on MatchedRuleInfo {
-  external MatchedRule get rule;
+  external MatchedRule rule;
 
   /// The time the rule was matched. Timestamps will correspond to the
   /// Javascript convention for times, i.e. number of milliseconds since the
   /// epoch.
-  external double get timeStamp;
+  external double timeStamp;
 
   /// The tabId of the tab from which the request originated if the tab is
   /// still active. Else -1.
-  external int get tabId;
+  external int tabId;
 }
 
 @JS()
@@ -621,10 +621,10 @@ class MatchedRulesFilter {}
 extension MatchedRulesFilterExtension on MatchedRulesFilter {
   /// If specified, only matches rules for the given tab. Matches rules not
   /// associated with any active tab if set to -1.
-  external int? get tabId;
+  external int? tabId;
 
   /// If specified, only matches rules after the given timestamp.
-  external double? get minTimeStamp;
+  external double? minTimeStamp;
 }
 
 @JS()
@@ -633,7 +633,7 @@ class RulesMatchedDetails {}
 
 extension RulesMatchedDetailsExtension on RulesMatchedDetails {
   /// Rules matching the given filter.
-  external JSArray get rulesMatchedInfo;
+  external JSArray rulesMatchedInfo;
 }
 
 @JS()
@@ -642,17 +642,17 @@ class RequestDetails {}
 
 extension RequestDetailsExtension on RequestDetails {
   /// The ID of the request. Request IDs are unique within a browser session.
-  external String get requestId;
+  external String requestId;
 
   /// The URL of the request.
-  external String get url;
+  external String url;
 
   /// The origin where the request was initiated. This does not change through
   /// redirects. If this is an opaque origin, the string 'null' will be used.
-  external String? get initiator;
+  external String? initiator;
 
   /// Standard HTTP method.
-  external String get method;
+  external String method;
 
   /// The value 0 indicates that the request happens in the main frame; a
   /// positive value indicates the ID of a subframe in which the request
@@ -660,33 +660,33 @@ extension RequestDetailsExtension on RequestDetails {
   /// `main_frame` or `sub_frame`), `frameId`
   /// indicates the ID of this frame, not the ID of the outer frame. Frame IDs
   /// are unique within a tab.
-  external int get frameId;
+  external int frameId;
 
   /// The unique identifier for the frame's document, if this request is for a
   /// frame.
-  external String? get documentId;
+  external String? documentId;
 
   /// The type of the frame, if this request is for a frame.
-  external FrameType? get frameType;
+  external FrameType? frameType;
 
   /// The lifecycle of the frame's document, if this request is for a
   /// frame.
-  external DocumentLifecycle? get documentLifecycle;
+  external DocumentLifecycle? documentLifecycle;
 
   /// ID of frame that wraps the frame which sent the request. Set to -1 if no
   /// parent frame exists.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// The unique identifier for the frame's parent document, if this request
   /// is for a frame and has a parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The ID of the tab in which the request takes place. Set to -1 if the
   /// request isn't related to a tab.
-  external int get tabId;
+  external int tabId;
 
   /// The resource type of the request.
-  external ResourceType get type;
+  external ResourceType type;
 }
 
 @JS()
@@ -695,22 +695,22 @@ class TestMatchRequestDetails {}
 
 extension TestMatchRequestDetailsExtension on TestMatchRequestDetails {
   /// The URL of the hypothetical request.
-  external String get url;
+  external String url;
 
   /// The initiator URL (if any) for the hypothetical request.
-  external String? get initiator;
+  external String? initiator;
 
   /// Standard HTTP method of the hypothetical request. Defaults to "get" for
   /// HTTP requests and is ignored for non-HTTP requests.
-  external RequestMethod? get method;
+  external RequestMethod? method;
 
   /// The resource type of the hypothetical request.
-  external ResourceType get type;
+  external ResourceType type;
 
   /// The ID of the tab in which the hypothetical request takes place. Does
   /// not need to correspond to a real tab ID. Default is -1, meaning that
   /// the request isn't related to a tab.
-  external int? get tabId;
+  external int? tabId;
 }
 
 @JS()
@@ -718,10 +718,10 @@ extension TestMatchRequestDetailsExtension on TestMatchRequestDetails {
 class MatchedRuleInfoDebug {}
 
 extension MatchedRuleInfoDebugExtension on MatchedRuleInfoDebug {
-  external MatchedRule get rule;
+  external MatchedRule rule;
 
   /// Details about the request for which the rule was matched.
-  external RequestDetails get request;
+  external RequestDetails request;
 }
 
 @JS()
@@ -729,7 +729,7 @@ extension MatchedRuleInfoDebugExtension on MatchedRuleInfoDebug {
 class DNRInfo {}
 
 extension DNRInfoExtension on DNRInfo {
-  external JSArray get rule_resources;
+  external JSArray rule_resources;
 }
 
 @JS()
@@ -737,7 +737,7 @@ extension DNRInfoExtension on DNRInfo {
 class ManifestKeys {}
 
 extension ManifestKeysExtension on ManifestKeys {
-  external DNRInfo get declarative_net_request;
+  external DNRInfo declarative_net_request;
 }
 
 @JS()
@@ -746,16 +746,16 @@ class RegexOptions {}
 
 extension RegexOptionsExtension on RegexOptions {
   /// The regular expresson to check.
-  external String get regex;
+  external String regex;
 
   /// Whether the `regex` specified is case sensitive. Default is
   /// true.
-  external bool? get isCaseSensitive;
+  external bool? isCaseSensitive;
 
   /// Whether the `regex` specified requires capturing. Capturing is
   /// only required for redirect rules which specify a
   /// `regexSubstition` action. The default is false.
-  external bool? get requireCapturing;
+  external bool? requireCapturing;
 }
 
 @JS()
@@ -763,11 +763,11 @@ extension RegexOptionsExtension on RegexOptions {
 class IsRegexSupportedResult {}
 
 extension IsRegexSupportedResultExtension on IsRegexSupportedResult {
-  external bool get isSupported;
+  external bool isSupported;
 
   /// Specifies the reason why the regular expression is not supported. Only
   /// provided if `isSupported` is false.
-  external UnsupportedRegexReason? get reason;
+  external UnsupportedRegexReason? reason;
 }
 
 @JS()
@@ -776,7 +776,7 @@ class TestMatchOutcomeResult {}
 
 extension TestMatchOutcomeResultExtension on TestMatchOutcomeResult {
   /// The rules (if any) that match the hypothetical request.
-  external JSArray get matchedRules;
+  external JSArray matchedRules;
 }
 
 @JS()
@@ -785,10 +785,10 @@ class UpdateRuleOptions {}
 
 extension UpdateRuleOptionsExtension on UpdateRuleOptions {
   /// IDs of the rules to remove. Any invalid IDs will be ignored.
-  external JSArray? get removeRuleIds;
+  external JSArray? removeRuleIds;
 
   /// Rules to add.
-  external JSArray? get addRules;
+  external JSArray? addRules;
 }
 
 @JS()
@@ -798,11 +798,11 @@ class UpdateRulesetOptions {}
 extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
   /// The set of ids corresponding to a static $(ref:Ruleset) that should be
   /// disabled.
-  external JSArray? get disableRulesetIds;
+  external JSArray? disableRulesetIds;
 
   /// The set of ids corresponding to a static $(ref:Ruleset) that should be
   /// enabled.
-  external JSArray? get enableRulesetIds;
+  external JSArray? enableRulesetIds;
 }
 
 @JS()
@@ -811,13 +811,13 @@ class UpdateStaticRulesOptions {}
 
 extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
   /// The id corresponding to a static $(ref:Ruleset).
-  external String get rulesetId;
+  external String rulesetId;
 
   /// Set of ids corresponding to rules in the $(ref:Ruleset) to disable.
-  external JSArray? get disableRuleIds;
+  external JSArray? disableRuleIds;
 
   /// Set of ids corresponding to rules in the $(ref:Ruleset) to enable.
-  external JSArray? get enableRuleIds;
+  external JSArray? enableRuleIds;
 }
 
 @JS()
@@ -826,7 +826,7 @@ class GetDisabledRuleIdsOptions {}
 
 extension GetDisabledRuleIdsOptionsExtension on GetDisabledRuleIdsOptions {
   /// The id corresponding to a static $(ref:Ruleset).
-  external String get rulesetId;
+  external String rulesetId;
 }
 
 @JS()
@@ -835,11 +835,11 @@ class TabActionCountUpdate {}
 
 extension TabActionCountUpdateExtension on TabActionCountUpdate {
   /// The tab for which to update the action count.
-  external int get tabId;
+  external int tabId;
 
   /// The amount to increment the tab's action count by. Negative values will
   /// decrement the count.
-  external int get increment;
+  external int increment;
 }
 
 @JS()
@@ -849,8 +849,8 @@ class ExtensionActionOptions {}
 extension ExtensionActionOptionsExtension on ExtensionActionOptions {
   /// Whether to automatically display the action count for a page as the
   /// extension's badge text. This preference is persisted across sessions.
-  external bool? get displayActionCountAsBadgeText;
+  external bool? displayActionCountAsBadgeText;
 
   /// Details of how the tab's action count should be adjusted.
-  external TabActionCountUpdate? get tabUpdate;
+  external TabActionCountUpdate? tabUpdate;
 }

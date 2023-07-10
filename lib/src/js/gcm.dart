@@ -54,15 +54,15 @@ class OnMessageMessage {}
 
 extension OnMessageMessageExtension on OnMessageMessage {
   /// The message data.
-  external OnMessageMessageData get data;
+  external OnMessageMessageData data;
 
   /// The sender who issued the message.
-  external String? get from;
+  external String? from;
 
   /// The collapse key of a message. See the <a
   /// href='https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages'>Non-collapsible
   /// and collapsible messages</a> for details.
-  external String? get collapseKey;
+  external String? collapseKey;
 }
 
 @JS()
@@ -71,14 +71,14 @@ class OnSendErrorError {}
 
 extension OnSendErrorErrorExtension on OnSendErrorError {
   /// The error message describing the problem.
-  external String get errorMessage;
+  external String errorMessage;
 
   /// The ID of the message with this error, if error is related to a specific
   /// message.
-  external String? get messageId;
+  external String? messageId;
 
   /// Additional details related to the error, when available.
-  external OnSendErrorErrorDetails get details;
+  external OnSendErrorErrorDetails details;
 }
 
 @JS()

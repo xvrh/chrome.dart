@@ -26,9 +26,9 @@ extension FileHandlerExecuteEventDetailsExtension
     on FileHandlerExecuteEventDetails {
   /// Array of Entry instances representing files that are targets of this
   /// action (selected in ChromeOS file browser).
-  external JSArray get entries;
+  external JSArray entries;
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a
   /// browser session.
-  external int? get tab_id;
+  external int? tab_id;
 }

@@ -52,16 +52,16 @@ extension StorageUnitInfoExtension on StorageUnitInfo {
   /// This ID will be persistent within the same run of a single application.
   /// It will not be a persistent identifier between different runs of an
   /// application, or between different applications.
-  external String get id;
+  external String id;
 
   /// The name of the storage unit.
-  external String get name;
+  external String name;
 
   /// The media type of the storage unit.
-  external StorageUnitType get type;
+  external StorageUnitType type;
 
   /// The total amount of the storage space, in bytes.
-  external double get capacity;
+  external double capacity;
 }
 
 @JS()
@@ -71,8 +71,8 @@ class StorageAvailableCapacityInfo {}
 extension StorageAvailableCapacityInfoExtension
     on StorageAvailableCapacityInfo {
   /// A copied |id| of getAvailableCapacity function parameter |id|.
-  external String get id;
+  external String id;
 
   /// The available capacity of the storage device, in bytes.
-  external double get availableCapacity;
+  external double availableCapacity;
 }

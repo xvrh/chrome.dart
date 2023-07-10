@@ -88,7 +88,7 @@ class TabDetails {}
 extension TabDetailsExtension on TabDetails {
   /// The ID of the tab to query state for. If no tab is specified, the
   /// non-tab-specific state is returned.
-  external int? get tabId;
+  external int? tabId;
 }
 
 @JS()

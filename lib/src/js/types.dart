@@ -92,13 +92,13 @@ class OnChangeDetails {}
 
 extension OnChangeDetailsExtension on OnChangeDetails {
   /// The value of the setting after the change.
-  external JSAny get value;
+  external JSAny value;
 
   /// The level of control of the setting.
-  external LevelOfControl get levelOfControl;
+  external LevelOfControl levelOfControl;
 
   /// Whether the value that has changed is specific to the incognito
   /// session.<br/>This property will <em>only</em> be present if the user has
   /// enabled the extension in incognito mode.
-  external bool? get incognitoSpecific;
+  external bool? incognitoSpecific;
 }

@@ -73,34 +73,34 @@ class OnBeforeNavigateDetails {}
 
 extension OnBeforeNavigateDetailsExtension on OnBeforeNavigateDetails {
   /// The ID of the tab in which the navigation is about to occur.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The value of -1.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique for a given
   /// tab and process.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// The time when the browser was about to start the navigation, in
   /// milliseconds since the epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -109,43 +109,43 @@ class OnCommittedDetails {}
 
 extension OnCommittedDetailsExtension on OnCommittedDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The ID of the process that runs the renderer for this frame.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// Cause of the navigation.
-  external TransitionType get transitionType;
+  external TransitionType transitionType;
 
   /// A list of transition qualifiers.
-  external JSArray get transitionQualifiers;
+  external JSArray transitionQualifiers;
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -154,37 +154,37 @@ class OnDOMContentLoadedDetails {}
 
 extension OnDOMContentLoadedDetailsExtension on OnDOMContentLoadedDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The ID of the process that runs the renderer for this frame.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// The time when the page's DOM was fully constructed, in milliseconds since
   /// the epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -193,37 +193,37 @@ class OnCompletedDetails {}
 
 extension OnCompletedDetailsExtension on OnCompletedDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The ID of the process that runs the renderer for this frame.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// The time when the document finished loading, in milliseconds since the
   /// epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -232,39 +232,39 @@ class OnErrorOccurredDetails {}
 
 extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The value of -1.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// The error description.
-  external String get error;
+  external String error;
 
   /// The time when the error occurred, in milliseconds since the epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -274,24 +274,24 @@ class OnCreatedNavigationTargetDetails {}
 extension OnCreatedNavigationTargetDetailsExtension
     on OnCreatedNavigationTargetDetails {
   /// The ID of the tab in which the navigation is triggered.
-  external int get sourceTabId;
+  external int sourceTabId;
 
   /// The ID of the process that runs the renderer for the source frame.
-  external int get sourceProcessId;
+  external int sourceProcessId;
 
   /// The ID of the frame with sourceTabId in which the navigation is triggered.
   /// 0 indicates the main frame.
-  external int get sourceFrameId;
+  external int sourceFrameId;
 
   /// The URL to be opened in the new window.
-  external String get url;
+  external String url;
 
   /// The ID of the tab in which the url is opened
-  external int get tabId;
+  external int tabId;
 
   /// The time when the browser was about to create a new view, in milliseconds
   /// since the epoch.
-  external num get timeStamp;
+  external num timeStamp;
 }
 
 @JS()
@@ -301,43 +301,43 @@ class OnReferenceFragmentUpdatedDetails {}
 extension OnReferenceFragmentUpdatedDetailsExtension
     on OnReferenceFragmentUpdatedDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The ID of the process that runs the renderer for this frame.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// Cause of the navigation.
-  external TransitionType get transitionType;
+  external TransitionType transitionType;
 
   /// A list of transition qualifiers.
-  external JSArray get transitionQualifiers;
+  external JSArray transitionQualifiers;
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()
@@ -346,13 +346,13 @@ class OnTabReplacedDetails {}
 
 extension OnTabReplacedDetailsExtension on OnTabReplacedDetails {
   /// The ID of the tab that was replaced.
-  external int get replacedTabId;
+  external int replacedTabId;
 
   /// The ID of the tab that replaced the old tab.
-  external int get tabId;
+  external int tabId;
 
   /// The time when the replacement happened, in milliseconds since the epoch.
-  external num get timeStamp;
+  external num timeStamp;
 }
 
 @JS()
@@ -362,43 +362,43 @@ class OnHistoryStateUpdatedDetails {}
 extension OnHistoryStateUpdatedDetailsExtension
     on OnHistoryStateUpdatedDetails {
   /// The ID of the tab in which the navigation occurs.
-  external int get tabId;
+  external int tabId;
 
-  external String get url;
+  external String url;
 
   /// The ID of the process that runs the renderer for this frame.
-  external int get processId;
+  external int processId;
 
   /// 0 indicates the navigation happens in the tab content window; a positive
   /// value indicates navigation in a subframe. Frame IDs are unique within a
   /// tab.
-  external int get frameId;
+  external int frameId;
 
   /// The ID of the parent frame, or `-1` if this is the main frame.
-  external int get parentFrameId;
+  external int parentFrameId;
 
   /// Cause of the navigation.
-  external TransitionType get transitionType;
+  external TransitionType transitionType;
 
   /// A list of transition qualifiers.
-  external JSArray get transitionQualifiers;
+  external JSArray transitionQualifiers;
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num get timeStamp;
+  external num timeStamp;
 
   /// A UUID of the document loaded.
-  external String get documentId;
+  external String documentId;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
-  external String? get parentDocumentId;
+  external String? parentDocumentId;
 
   /// The lifecycle the document is in.
-  external DocumentLifecycle get documentLifecycle;
+  external DocumentLifecycle documentLifecycle;
 
   /// The type of frame the navigation occurred in.
-  external FrameType get frameType;
+  external FrameType frameType;
 }
 
 @JS()

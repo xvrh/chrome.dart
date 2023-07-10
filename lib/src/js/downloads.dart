@@ -250,10 +250,10 @@ class HeaderNameValuePair {}
 
 extension HeaderNameValuePairExtension on HeaderNameValuePair {
   /// Name of the HTTP header.
-  external String get name;
+  external String name;
 
   /// Value of the HTTP header.
-  external String get value;
+  external String value;
 }
 
 @JS()
@@ -268,10 +268,10 @@ extension FilenameSuggestionExtension on FilenameSuggestion {
   /// back-references ".." will be ignored. `filename` is ignored if
   /// there are any $(ref:onDeterminingFilename) listeners registered by any
   /// extensions.
-  external String get filename;
+  external String filename;
 
   /// The action to take if `filename` already exists.
-  external FilenameConflictAction? get conflictAction;
+  external FilenameConflictAction? conflictAction;
 }
 
 @JS()
@@ -280,33 +280,33 @@ class DownloadOptions {}
 
 extension DownloadOptionsExtension on DownloadOptions {
   /// The URL to download.
-  external String get url;
+  external String url;
 
   /// A file path relative to the Downloads directory to contain the downloaded
   /// file, possibly containing subdirectories. Absolute paths, empty paths,
   /// and paths containing back-references ".." will cause an error.
   /// $(ref:onDeterminingFilename) allows suggesting a filename after the file's
   /// MIME type and a tentative filename have been determined.
-  external String? get filename;
+  external String? filename;
 
   /// The action to take if `filename` already exists.
-  external FilenameConflictAction? get conflictAction;
+  external FilenameConflictAction? conflictAction;
 
   /// Use a file-chooser to allow the user to select a filename regardless of
   /// whether `filename` is set or already exists.
-  external bool? get saveAs;
+  external bool? saveAs;
 
   /// The HTTP method to use if the URL uses the HTTP[S] protocol.
-  external HttpMethod? get method;
+  external HttpMethod? method;
 
   /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
   /// protocol. Each header is represented as a dictionary containing the keys
   /// `name` and either `value` or
   /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
-  external JSArray? get headers;
+  external JSArray? headers;
 
   /// Post body.
-  external String? get body;
+  external String? body;
 }
 
 @JS()
@@ -315,62 +315,62 @@ class DownloadItem {}
 
 extension DownloadItemExtension on DownloadItem {
   /// An identifier that is persistent across browser sessions.
-  external int get id;
+  external int id;
 
   /// The absolute URL that this download initiated from, before any
   /// redirects.
-  external String get url;
+  external String url;
 
   /// The absolute URL that this download is being made from, after all
   /// redirects.
-  external String get finalUrl;
+  external String finalUrl;
 
   /// Absolute URL.
-  external String get referrer;
+  external String referrer;
 
   /// Absolute local path.
-  external String get filename;
+  external String filename;
 
   /// False if this download is recorded in the history, true if it is not
   /// recorded.
-  external bool get incognito;
+  external bool incognito;
 
   /// Indication of whether this download is thought to be safe or known to be
   /// suspicious.
-  external DangerType get danger;
+  external DangerType danger;
 
   /// The file's MIME type.
-  external String get mime;
+  external String mime;
 
   /// The time when the download began in ISO 8601 format. May be passed
   /// directly to the Date constructor: `chrome.downloads.search({},
   /// function(items){items.forEach(function(item){console.log(new
   /// Date(item.startTime))})})`
-  external String get startTime;
+  external String startTime;
 
   /// The time when the download ended in ISO 8601 format. May be passed
   /// directly to the Date constructor: `chrome.downloads.search({},
   /// function(items){items.forEach(function(item){if (item.endTime)
   /// console.log(new Date(item.endTime))})})`
-  external String? get endTime;
+  external String? endTime;
 
   /// Estimated time when the download will complete in ISO 8601 format. May be
   /// passed directly to the Date constructor:
   /// `chrome.downloads.search({},
   /// function(items){items.forEach(function(item){if (item.estimatedEndTime)
   /// console.log(new Date(item.estimatedEndTime))})})`
-  external String? get estimatedEndTime;
+  external String? estimatedEndTime;
 
   /// Indicates whether the download is progressing, interrupted, or complete.
-  external State get state;
+  external State state;
 
   /// True if the download has stopped reading data from the host, but kept the
   /// connection open.
-  external bool get paused;
+  external bool paused;
 
   /// True if the download is in progress and paused, or else if it is
   /// interrupted and can be resumed starting from where it was interrupted.
-  external bool get canResume;
+  external bool canResume;
 
   /// Why the download was interrupted. Several kinds of HTTP errors may be
   /// grouped under one of the errors beginning with `SERVER_`.
@@ -378,18 +378,18 @@ extension DownloadItemExtension on DownloadItem {
   /// relating to the process of writing the file to the file system begin with
   /// `FILE_`, and interruptions initiated by the user begin with
   /// `USER_`.
-  external InterruptReason? get error;
+  external InterruptReason? error;
 
   /// Number of bytes received so far from the host, without considering file
   /// compression.
-  external double get bytesReceived;
+  external double bytesReceived;
 
   /// Number of bytes in the whole file, without considering file compression,
   /// or -1 if unknown.
-  external double get totalBytes;
+  external double totalBytes;
 
   /// Number of bytes in the whole file post-decompression, or -1 if unknown.
-  external double get fileSize;
+  external double fileSize;
 
   /// Whether the downloaded file still exists. This information may be out of
   /// date because Chrome does not automatically watch for file removal. Call
@@ -401,16 +401,16 @@ extension DownloadItemExtension on DownloadItem {
   /// $(ref:search)() may be called as often as necessary, but will not check
   /// for
   /// file existence any more frequently than once every 10 seconds.
-  external bool get exists;
+  external bool exists;
 
   /// The identifier for the extension that initiated this download if this
   /// download was initiated by an extension. Does not change once it is set.
-  external String? get byExtensionId;
+  external String? byExtensionId;
 
   /// The localized name of the extension that initiated this download if this
   /// download was initiated by an extension. May change if the extension
   /// changes its name or if the user changes their locale.
-  external String? get byExtensionName;
+  external String? byExtensionName;
 }
 
 @JS()
@@ -422,108 +422,108 @@ extension DownloadQueryExtension on DownloadQuery {
   /// `filename` or `url` or `finalUrl`
   /// contain all of the search terms that do not begin with a dash '-' and
   /// none of the search terms that do begin with a dash.
-  external JSArray? get query;
+  external JSArray? query;
 
   /// Limits results to $(ref:DownloadItem) that
   /// started before the given ms since the epoch.
-  external String? get startedBefore;
+  external String? startedBefore;
 
   /// Limits results to $(ref:DownloadItem) that
   /// started after the given ms since the epoch.
-  external String? get startedAfter;
+  external String? startedAfter;
 
   /// Limits results to $(ref:DownloadItem) that ended before the given ms since
   /// the
   /// epoch.
-  external String? get endedBefore;
+  external String? endedBefore;
 
   /// Limits results to $(ref:DownloadItem) that ended after the given ms since
   /// the
   /// epoch.
-  external String? get endedAfter;
+  external String? endedAfter;
 
   /// Limits results to $(ref:DownloadItem) whose
   /// `totalBytes` is greater than the given integer.
-  external double? get totalBytesGreater;
+  external double? totalBytesGreater;
 
   /// Limits results to $(ref:DownloadItem) whose
   /// `totalBytes` is less than the given integer.
-  external double? get totalBytesLess;
+  external double? totalBytesLess;
 
   /// Limits results to $(ref:DownloadItem) whose
   /// `filename` matches the given regular expression.
-  external String? get filenameRegex;
+  external String? filenameRegex;
 
   /// Limits results to $(ref:DownloadItem) whose
   /// `url` matches the given regular expression.
-  external String? get urlRegex;
+  external String? urlRegex;
 
   /// Limits results to $(ref:DownloadItem) whose
   /// `finalUrl` matches the given regular expression.
-  external String? get finalUrlRegex;
+  external String? finalUrlRegex;
 
   /// The maximum number of matching $(ref:DownloadItem) returned. Defaults to
   /// 1000. Set to 0 in order to return all matching $(ref:DownloadItem). See
   /// $(ref:search) for how to page through results.
-  external int? get limit;
+  external int? limit;
 
   /// Set elements of this array to $(ref:DownloadItem) properties in order to
   /// sort search results. For example, setting
   /// `orderBy=['startTime']` sorts the $(ref:DownloadItem) by their
   /// start time in ascending order. To specify descending order, prefix with a
   /// hyphen: '-startTime'.
-  external JSArray? get orderBy;
+  external JSArray? orderBy;
 
   /// The `id` of the $(ref:DownloadItem) to query.
-  external int? get id;
+  external int? id;
 
   /// The absolute URL that this download initiated from, before any
   /// redirects.
-  external String? get url;
+  external String? url;
 
   /// The absolute URL that this download is being made from, after all
   /// redirects.
-  external String? get finalUrl;
+  external String? finalUrl;
 
   /// Absolute local path.
-  external String? get filename;
+  external String? filename;
 
   /// Indication of whether this download is thought to be safe or known to be
   /// suspicious.
-  external DangerType? get danger;
+  external DangerType? danger;
 
   /// The file's MIME type.
-  external String? get mime;
+  external String? mime;
 
   /// The time when the download began in ISO 8601 format.
-  external String? get startTime;
+  external String? startTime;
 
   /// The time when the download ended in ISO 8601 format.
-  external String? get endTime;
+  external String? endTime;
 
   /// Indicates whether the download is progressing, interrupted, or complete.
-  external State? get state;
+  external State? state;
 
   /// True if the download has stopped reading data from the host, but kept the
   /// connection open.
-  external bool? get paused;
+  external bool? paused;
 
   /// Why a download was interrupted.
-  external InterruptReason? get error;
+  external InterruptReason? error;
 
   /// Number of bytes received so far from the host, without considering file
   /// compression.
-  external double? get bytesReceived;
+  external double? bytesReceived;
 
   /// Number of bytes in the whole file, without considering file compression,
   /// or -1 if unknown.
-  external double? get totalBytes;
+  external double? totalBytes;
 
   /// Number of bytes in the whole file post-decompression, or -1 if unknown.
-  external double? get fileSize;
+  external double? fileSize;
 
   /// Whether the downloaded file exists;
-  external bool? get exists;
+  external bool? exists;
 }
 
 @JS()
@@ -531,9 +531,9 @@ extension DownloadQueryExtension on DownloadQuery {
 class StringDelta {}
 
 extension StringDeltaExtension on StringDelta {
-  external String? get previous;
+  external String? previous;
 
-  external String? get current;
+  external String? current;
 }
 
 @JS()
@@ -541,9 +541,9 @@ extension StringDeltaExtension on StringDelta {
 class DoubleDelta {}
 
 extension DoubleDeltaExtension on DoubleDelta {
-  external double? get previous;
+  external double? previous;
 
-  external double? get current;
+  external double? current;
 }
 
 @JS()
@@ -551,9 +551,9 @@ extension DoubleDeltaExtension on DoubleDelta {
 class BooleanDelta {}
 
 extension BooleanDeltaExtension on BooleanDelta {
-  external bool? get previous;
+  external bool? previous;
 
-  external bool? get current;
+  external bool? current;
 }
 
 @JS()
@@ -563,49 +563,49 @@ class DownloadDelta {}
 extension DownloadDeltaExtension on DownloadDelta {
   /// The `id` of the $(ref:DownloadItem)
   /// that changed.
-  external int get id;
+  external int id;
 
   /// The change in `url`, if any.
-  external StringDelta? get url;
+  external StringDelta? url;
 
   /// The change in `finalUrl`, if any.
-  external StringDelta? get finalUrl;
+  external StringDelta? finalUrl;
 
   /// The change in `filename`, if any.
-  external StringDelta? get filename;
+  external StringDelta? filename;
 
   /// The change in `danger`, if any.
-  external StringDelta? get danger;
+  external StringDelta? danger;
 
   /// The change in `mime`, if any.
-  external StringDelta? get mime;
+  external StringDelta? mime;
 
   /// The change in `startTime`, if any.
-  external StringDelta? get startTime;
+  external StringDelta? startTime;
 
   /// The change in `endTime`, if any.
-  external StringDelta? get endTime;
+  external StringDelta? endTime;
 
   /// The change in `state`, if any.
-  external StringDelta? get state;
+  external StringDelta? state;
 
   /// The change in `canResume`, if any.
-  external BooleanDelta? get canResume;
+  external BooleanDelta? canResume;
 
   /// The change in `paused`, if any.
-  external BooleanDelta? get paused;
+  external BooleanDelta? paused;
 
   /// The change in `error`, if any.
-  external StringDelta? get error;
+  external StringDelta? error;
 
   /// The change in `totalBytes`, if any.
-  external DoubleDelta? get totalBytes;
+  external DoubleDelta? totalBytes;
 
   /// The change in `fileSize`, if any.
-  external DoubleDelta? get fileSize;
+  external DoubleDelta? fileSize;
 
   /// The change in `exists`, if any.
-  external BooleanDelta? get exists;
+  external BooleanDelta? exists;
 }
 
 @JS()
@@ -617,7 +617,7 @@ extension GetFileIconOptionsExtension on GetFileIconOptions {
   /// size * size pixels. The default and largest size for the icon is 32x32
   /// pixels. The only supported sizes are 16 and 32. It is an error to specify
   /// any other size.
-  external int? get size;
+  external int? size;
 }
 
 @JS()
@@ -626,5 +626,5 @@ class UiOptions {}
 
 extension UiOptionsExtension on UiOptions {
   /// Enable or disable the download UI.
-  external bool get enabled;
+  external bool enabled;
 }

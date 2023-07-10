@@ -88,28 +88,28 @@ class AudioDeviceInfo {}
 
 extension AudioDeviceInfoExtension on AudioDeviceInfo {
   /// The unique identifier of the audio device.
-  external String get id;
+  external String id;
 
   /// Stream type associated with this device.
-  external StreamType get streamType;
+  external StreamType streamType;
 
   /// Type of the device.
-  external DeviceType get deviceType;
+  external DeviceType deviceType;
 
   /// The user-friendly name (e.g. "USB Microphone").
-  external String get displayName;
+  external String displayName;
 
   /// Device name.
-  external String get deviceName;
+  external String deviceName;
 
   /// True if this is the current active device.
-  external bool get isActive;
+  external bool isActive;
 
   /// The sound level of the device, volume for output, gain for input.
-  external int get level;
+  external int level;
 
   /// The stable/persisted device id string when available.
-  external String? get stableDeviceId;
+  external String? stableDeviceId;
 }
 
 @JS()
@@ -119,11 +119,11 @@ class DeviceFilter {}
 extension DeviceFilterExtension on DeviceFilter {
   /// If set, only audio devices whose stream type is included in this list
   /// will satisfy the filter.
-  external JSArray? get streamTypes;
+  external JSArray? streamTypes;
 
   /// If set, only audio devices whose active state matches this value will
   /// satisfy the filter.
-  external bool? get isActive;
+  external bool? isActive;
 }
 
 @JS()
@@ -137,7 +137,7 @@ extension DevicePropertiesExtension on DeviceProperties {
   /// </p>
   /// <p>If used with audio input device, represents audio device gain.</p>
   /// <p>If used with audio output device, represents audio device volume.</p>
-  external int? get level;
+  external int? level;
 }
 
 @JS()
@@ -148,12 +148,12 @@ extension DeviceIdListsExtension on DeviceIdLists {
   /// <p>List of input devices specified by their ID.</p>
   /// <p>To indicate input devices should be unaffected, leave this property
   ///   unset.</p>
-  external JSArray? get input;
+  external JSArray? input;
 
   /// <p>List of output devices specified by their ID.</p>
   /// <p>To indicate output devices should be unaffected, leave this property
   ///   unset.</p>
-  external JSArray? get output;
+  external JSArray? output;
 }
 
 @JS()
@@ -163,10 +163,10 @@ class MuteChangedEvent {}
 extension MuteChangedEventExtension on MuteChangedEvent {
   /// The type of the stream for which the mute value changed. The updated mute
   /// value applies to all devices with this stream type.
-  external StreamType get streamType;
+  external StreamType streamType;
 
   /// Whether or not the stream is now muted.
-  external bool get isMuted;
+  external bool isMuted;
 }
 
 @JS()
@@ -175,8 +175,8 @@ class LevelChangedEvent {}
 
 extension LevelChangedEventExtension on LevelChangedEvent {
   /// ID of device whose sound level has changed.
-  external String get deviceId;
+  external String deviceId;
 
   /// The device's new sound level.
-  external int get level;
+  external int level;
 }

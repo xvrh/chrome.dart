@@ -90,50 +90,50 @@ extension WindowExtension on Window {
   /// some circumstances a window may not be assigned an `ID` property; for
   /// example, when querying windows using the $(ref:sessions) API, in which
   /// case a session ID may be present.
-  external int? get id;
+  external int? id;
 
   /// Whether the window is currently the focused window.
-  external bool get focused;
+  external bool focused;
 
   /// The offset of the window from the top edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `top` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external int? get top;
+  external int? top;
 
   /// The offset of the window from the left edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `left` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external int? get left;
+  external int? left;
 
   /// The width of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `width` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external int? get width;
+  external int? width;
 
   /// The height of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `height` property; for
   /// example, when querying closed windows from the $(ref:sessions) API.
-  external int? get height;
+  external int? height;
 
   /// Array of $(ref:tabs.Tab) objects representing the current tabs in the
   /// window.
-  external JSArray? get tabs;
+  external JSArray? tabs;
 
   /// Whether the window is incognito.
-  external bool get incognito;
+  external bool incognito;
 
   /// The type of browser window this is.
-  external WindowType? get type;
+  external WindowType? type;
 
   /// The state of this browser window.
-  external WindowState? get state;
+  external WindowState? state;
 
   /// Whether the window is set to be always on top.
-  external bool get alwaysOnTop;
+  external bool alwaysOnTop;
 
   /// The session ID used to uniquely identify a window, obtained from the
   /// $(ref:sessions) API.
-  external String? get sessionId;
+  external String? sessionId;
 }
 
 @JS()
@@ -145,11 +145,11 @@ extension QueryOptionsExtension on QueryOptions {
   /// contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects only
   /// contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties if
   /// the extension's manifest file includes the `"tabs"` permission.
-  external bool? get populate;
+  external bool? populate;
 
   /// If set, the $(ref:windows.Window) returned is filtered based on its type.
   /// If unset, the default filter is set to `['normal', 'popup']`.
-  external JSArray? get windowTypes;
+  external JSArray? windowTypes;
 }
 
 @JS()

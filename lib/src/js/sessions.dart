@@ -42,7 +42,7 @@ extension FilterExtension on Filter {
   /// The maximum number of entries to be fetched in the requested list. Omit
   /// this parameter to fetch the maximum number of entries
   /// ($(ref:sessions.MAX_SESSION_RESULTS)).
-  external int? get maxResults;
+  external int? maxResults;
 }
 
 @JS()
@@ -52,15 +52,15 @@ class Session {}
 extension SessionExtension on Session {
   /// The time when the window or tab was closed or modified, represented in
   /// milliseconds since the epoch.
-  external int get lastModified;
+  external int lastModified;
 
   /// The $(ref:tabs.Tab), if this entry describes a tab. Either this or
   /// $(ref:sessions.Session.window) will be set.
-  external Tab? get tab;
+  external Tab? tab;
 
   /// The $(ref:windows.Window), if this entry describes a window. Either this
   /// or $(ref:sessions.Session.tab) will be set.
-  external JSObject? get window;
+  external JSObject? window;
 }
 
 @JS()
@@ -68,12 +68,12 @@ extension SessionExtension on Session {
 class Device {}
 
 extension DeviceExtension on Device {
-  external String get info;
+  external String info;
 
   /// The name of the foreign device.
-  external String get deviceName;
+  external String deviceName;
 
   /// A list of open window sessions for the foreign device, sorted from most
   /// recently to least recently modified session.
-  external JSArray get sessions;
+  external JSArray sessions;
 }

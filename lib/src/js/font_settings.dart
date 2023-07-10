@@ -88,10 +88,10 @@ class FontName {}
 
 extension FontNameExtension on FontName {
   /// The font ID.
-  external String get fontId;
+  external String fontId;
 
   /// The display name of the font.
-  external String get displayName;
+  external String displayName;
 }
 
 @JS()
@@ -100,16 +100,16 @@ class OnFontChangedDetails {}
 
 extension OnFontChangedDetailsExtension on OnFontChangedDetails {
   /// The font ID. See the description in `getFont`.
-  external String get fontId;
+  external String fontId;
 
   /// The script code for which the font setting has changed.
-  external ScriptCode? get script;
+  external ScriptCode? script;
 
   /// The generic font family for which the font setting has changed.
-  external GenericFamily get genericFamily;
+  external GenericFamily genericFamily;
 
   /// The level of control this extension has over the setting.
-  external LevelOfControl get levelOfControl;
+  external LevelOfControl levelOfControl;
 }
 
 @JS()
@@ -119,10 +119,10 @@ class OnDefaultFontSizeChangedDetails {}
 extension OnDefaultFontSizeChangedDetailsExtension
     on OnDefaultFontSizeChangedDetails {
   /// The font size in pixels.
-  external int get pixelSize;
+  external int pixelSize;
 
   /// The level of control this extension has over the setting.
-  external LevelOfControl get levelOfControl;
+  external LevelOfControl levelOfControl;
 }
 
 @JS()
@@ -132,10 +132,10 @@ class OnDefaultFixedFontSizeChangedDetails {}
 extension OnDefaultFixedFontSizeChangedDetailsExtension
     on OnDefaultFixedFontSizeChangedDetails {
   /// The font size in pixels.
-  external int get pixelSize;
+  external int pixelSize;
 
   /// The level of control this extension has over the setting.
-  external LevelOfControl get levelOfControl;
+  external LevelOfControl levelOfControl;
 }
 
 @JS()
@@ -145,10 +145,10 @@ class OnMinimumFontSizeChangedDetails {}
 extension OnMinimumFontSizeChangedDetailsExtension
     on OnMinimumFontSizeChangedDetails {
   /// The font size in pixels.
-  external int get pixelSize;
+  external int pixelSize;
 
   /// The level of control this extension has over the setting.
-  external LevelOfControl get levelOfControl;
+  external LevelOfControl levelOfControl;
 }
 
 @JS()

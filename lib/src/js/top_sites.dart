@@ -24,8 +24,8 @@ class MostVisitedURL {}
 
 extension MostVisitedURLExtension on MostVisitedURL {
   /// The most visited URL.
-  external String get url;
+  external String url;
 
   /// The title of the page
-  external String get title;
+  external String title;
 }

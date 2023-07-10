@@ -56,24 +56,24 @@ class HistoryItem {}
 
 extension HistoryItemExtension on HistoryItem {
   /// The unique identifier for the item.
-  external String get id;
+  external String id;
 
   /// The URL navigated to by a user.
-  external String? get url;
+  external String? url;
 
   /// The title of the page when it was last loaded.
-  external String? get title;
+  external String? title;
 
   /// When this page was last loaded, represented in milliseconds since the
   /// epoch.
-  external num? get lastVisitTime;
+  external num? lastVisitTime;
 
   /// The number of times the user has navigated to this page.
-  external int? get visitCount;
+  external int? visitCount;
 
   /// The number of times the user has navigated to this page by typing in the
   /// address.
-  external int? get typedCount;
+  external int? typedCount;
 }
 
 @JS()
@@ -82,20 +82,20 @@ class VisitItem {}
 
 extension VisitItemExtension on VisitItem {
   /// The unique identifier for the item.
-  external String get id;
+  external String id;
 
   /// The unique identifier for this visit.
-  external String get visitId;
+  external String visitId;
 
   /// When this visit occurred, represented in milliseconds since the epoch.
-  external num? get visitTime;
+  external num? visitTime;
 
   /// The visit ID of the referrer.
-  external String get referringVisitId;
+  external String referringVisitId;
 
   /// The <a href='#transition_types'>transition type</a> for this visit from
   /// its referrer.
-  external TransitionType get transition;
+  external TransitionType transition;
 }
 
 @JS()
@@ -105,7 +105,7 @@ class UrlDetails {}
 extension UrlDetailsExtension on UrlDetails {
   /// The URL for the operation. It must be in the format as returned from a
   /// call to history.search.
-  external String get url;
+  external String url;
 }
 
 @JS()
@@ -114,9 +114,9 @@ class OnVisitRemovedRemoved {}
 
 extension OnVisitRemovedRemovedExtension on OnVisitRemovedRemoved {
   /// True if all history was removed.  If true, then urls will be empty.
-  external bool get allHistory;
+  external bool allHistory;
 
-  external JSArray? get urls;
+  external JSArray? urls;
 }
 
 @JS()

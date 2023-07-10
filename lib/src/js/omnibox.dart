@@ -57,12 +57,12 @@ typedef OnInputEnteredDisposition = JSString;
 class MatchClassification {}
 
 extension MatchClassificationExtension on MatchClassification {
-  external int get offset;
+  external int offset;
 
   /// The style type
-  external DescriptionStyleType get type;
+  external DescriptionStyleType type;
 
-  external int? get length;
+  external int? length;
 }
 
 @JS()
@@ -72,7 +72,7 @@ class SuggestResult {}
 extension SuggestResultExtension on SuggestResult {
   /// The text that is put into the URL bar, and that is sent to the extension
   /// when the user chooses this entry.
-  external String get content;
+  external String content;
 
   /// The text that is displayed in the URL dropdown. Can contain XML-style
   /// markup for styling. The supported tags are 'url' (for a literal URL),
@@ -81,14 +81,14 @@ extension SuggestResultExtension on SuggestResult {
   /// <dim><match>dimmed match</match></dim>. You must escape the five
   /// predefined entities to display them as text:
   /// stackoverflow.com/a/1091953/89484
-  external String get description;
+  external String description;
 
   /// Whether the suggest result can be deleted by the user.
-  external bool? get deletable;
+  external bool? deletable;
 
   /// An array of style ranges for the description, as provided by the
   /// extension.
-  external JSArray? get descriptionStyles;
+  external JSArray? descriptionStyles;
 }
 
 @JS()
@@ -101,9 +101,9 @@ extension DefaultSuggestResultExtension on DefaultSuggestResult {
   /// 'match' (for highlighting text that matched what the user's query), and
   /// 'dim' (for dim helper text). The styles can be nested, eg.
   /// <dim><match>dimmed match</match></dim>.
-  external String get description;
+  external String description;
 
   /// An array of style ranges for the description, as provided by the
   /// extension.
-  external JSArray? get descriptionStyles;
+  external JSArray? descriptionStyles;
 }

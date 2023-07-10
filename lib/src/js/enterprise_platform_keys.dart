@@ -179,7 +179,7 @@ extension TokenExtension on Token {
   /// referring to the platform's user-specific and the system-wide hardware
   /// token, respectively. Any other tokens (with other identifiers) might be
   /// returned by $(ref:enterprise.platformKeys.getTokens).</p>
-  external String get id;
+  external String id;
 
   /// Implements the WebCrypto's
   /// <a
@@ -195,7 +195,7 @@ extension TokenExtension on Token {
   /// `window.crypto.subtle`. Equally, `Key` objects
   /// created with `window.crypto.subtle` cannot be used with this
   /// interface.</p>
-  external JSObject get subtleCrypto;
+  external JSObject subtleCrypto;
 
   /// Implements the WebCrypto's
   /// <a
@@ -212,7 +212,7 @@ extension TokenExtension on Token {
   /// `window.crypto.subtle`. Equally, `Key` objects
   /// created with `window.crypto.subtle` cannot be used with this
   /// interface.</p>
-  external JSObject get softwareBackedSubtleCrypto;
+  external JSObject softwareBackedSubtleCrypto;
 }
 
 @JS()
@@ -221,7 +221,7 @@ class RegisterKeyOptions {}
 
 extension RegisterKeyOptionsExtension on RegisterKeyOptions {
   /// Which algorithm the registered key should use.
-  external Algorithm get algorithm;
+  external Algorithm algorithm;
 }
 
 @JS()
@@ -230,15 +230,15 @@ class ChallengeKeyOptions {}
 
 extension ChallengeKeyOptionsExtension on ChallengeKeyOptions {
   /// A challenge as emitted by the Verified Access Web API.
-  external JSArrayBuffer get challenge;
+  external JSArrayBuffer challenge;
 
   /// If present, registers the challenged key with the specified
   /// `scope`'s token.  The key can then be associated with a
   /// certificate and used like any other signing key.  Subsequent calls to
   /// this function will then generate a new Enterprise Key in the specified
   /// `scope`.
-  external RegisterKeyOptions? get registerKey;
+  external RegisterKeyOptions? registerKey;
 
   /// Which Enterprise Key to challenge.
-  external Scope get scope;
+  external Scope scope;
 }

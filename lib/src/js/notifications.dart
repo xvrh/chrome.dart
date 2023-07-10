@@ -94,10 +94,10 @@ class NotificationItem {}
 
 extension NotificationItemExtension on NotificationItem {
   /// Title of one item of a list notification.
-  external String get title;
+  external String title;
 
   /// Additional details about this item.
-  external String get message;
+  external String message;
 }
 
 @JS()
@@ -105,11 +105,11 @@ extension NotificationItemExtension on NotificationItem {
 class NotificationBitmap {}
 
 extension NotificationBitmapExtension on NotificationBitmap {
-  external int get width;
+  external int width;
 
-  external int get height;
+  external int height;
 
-  external JSArrayBuffer? get data;
+  external JSArrayBuffer? data;
 }
 
 @JS()
@@ -117,11 +117,11 @@ extension NotificationBitmapExtension on NotificationBitmap {
 class NotificationButton {}
 
 extension NotificationButtonExtension on NotificationButton {
-  external String get title;
+  external String title;
 
-  external String? get iconUrl;
+  external String? iconUrl;
 
-  external NotificationBitmap? get iconBitmap;
+  external NotificationBitmap? iconBitmap;
 }
 
 @JS()
@@ -131,7 +131,7 @@ class NotificationOptions {}
 extension NotificationOptionsExtension on NotificationOptions {
   /// Which type of notification to display.
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external TemplateType? get type;
+  external TemplateType? type;
 
   /// A URL to the sender's avatar, app icon, or a thumbnail for image
   /// notifications.
@@ -139,67 +139,67 @@ extension NotificationOptionsExtension on NotificationOptions {
   /// URLs can be a data URL, a blob URL, or a URL relative to a resource
   /// within this extension's .crx file
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external String? get iconUrl;
+  external String? iconUrl;
 
-  external NotificationBitmap? get iconBitmap;
+  external NotificationBitmap? iconBitmap;
 
   /// A URL to the app icon mask. URLs have the same restrictions as
   /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
   ///
   /// The app icon mask should be in alpha channel, as only the alpha channel
   /// of the image will be considered.
-  external String? get appIconMaskUrl;
+  external String? appIconMaskUrl;
 
-  external NotificationBitmap? get appIconMaskBitmap;
+  external NotificationBitmap? appIconMaskBitmap;
 
   /// Title of the notification (e.g. sender name for email).
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external String? get title;
+  external String? title;
 
   /// Main notification content.
   /// <em>Required for $(ref:notifications.create)</em> method.
-  external String? get message;
+  external String? message;
 
   /// Alternate notification content with a lower-weight font.
-  external String? get contextMessage;
+  external String? contextMessage;
 
   /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
   /// is default.  On platforms that don't support a notification center
   /// (Windows, Linux & Mac), -2 and -1 result in an error as notifications
   /// with those priorities will not be shown at all.
-  external int? get priority;
+  external int? priority;
 
   /// A timestamp associated with the notification, in milliseconds past the
   /// epoch (e.g. `Date.now() + n`).
-  external double? get eventTime;
+  external double? eventTime;
 
   /// Text and icons for up to two notification action buttons.
-  external JSArray? get buttons;
+  external JSArray? buttons;
 
   /// Secondary notification content.
-  external String? get expandedMessage;
+  external String? expandedMessage;
 
   /// A URL to the image thumbnail for image-type notifications.
   /// URLs have the same restrictions as
   /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
-  external String? get imageUrl;
+  external String? imageUrl;
 
-  external NotificationBitmap? get imageBitmap;
+  external NotificationBitmap? imageBitmap;
 
   /// Items for multi-item notifications. Users on Mac OS X only see the first
   /// item.
-  external JSArray? get items;
+  external JSArray? items;
 
   /// Current progress ranges from 0 to 100.
-  external int? get progress;
+  external int? progress;
 
-  external bool? get isClickable;
+  external bool? isClickable;
 
   /// Indicates that the notification should remain visible on screen until the
   /// user activates or dismisses the notification. This defaults to false.
-  external bool? get requireInteraction;
+  external bool? requireInteraction;
 
   /// Indicates that no sounds or vibrations should be made when the
   /// notification is being shown. This defaults to false.
-  external bool? get silent;
+  external bool? silent;
 }

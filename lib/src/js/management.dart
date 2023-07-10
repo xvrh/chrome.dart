@@ -131,12 +131,12 @@ class IconInfo {}
 extension IconInfoExtension on IconInfo {
   /// A number representing the width and height of the icon. Likely values
   /// include (but are not limited to) 128, 48, 24, and 16.
-  external int get size;
+  external int size;
 
   /// The URL for this icon image. To display a grayscale version of the icon
   /// (to indicate that an extension is disabled, for example), append
   /// `?grayscale=true` to the URL.
-  external String get url;
+  external String url;
 }
 
 @JS()
@@ -145,58 +145,58 @@ class ExtensionInfo {}
 
 extension ExtensionInfoExtension on ExtensionInfo {
   /// The extension's unique identifier.
-  external String get id;
+  external String id;
 
   /// The name of this extension, app, or theme.
-  external String get name;
+  external String name;
 
   /// A short version of the name of this extension, app, or theme.
-  external String get shortName;
+  external String shortName;
 
   /// The description of this extension, app, or theme.
-  external String get description;
+  external String description;
 
   /// The <a href='manifest/version'>version</a> of this extension, app, or
   /// theme.
-  external String get version;
+  external String version;
 
   /// The <a href='manifest/version#version_name'>version name</a> of this
   /// extension, app, or theme if the manifest specified one.
-  external String? get versionName;
+  external String? versionName;
 
   /// Whether this extension can be disabled or uninstalled by the user.
-  external bool get mayDisable;
+  external bool mayDisable;
 
   /// Whether this extension can be enabled by the user. This is only returned
   /// for extensions which are not enabled.
-  external bool? get mayEnable;
+  external bool? mayEnable;
 
   /// Whether it is currently enabled or disabled.
-  external bool get enabled;
+  external bool enabled;
 
   /// A reason the item is disabled.
-  external ExtensionDisabledReason? get disabledReason;
+  external ExtensionDisabledReason? disabledReason;
 
   /// True if this is an app.
-  external bool get isApp;
+  external bool isApp;
 
   /// The type of this extension, app, or theme.
-  external ExtensionType get type;
+  external ExtensionType type;
 
   /// The launch url (only present for apps).
-  external String? get appLaunchUrl;
+  external String? appLaunchUrl;
 
   /// The URL of the homepage of this extension, app, or theme.
-  external String? get homepageUrl;
+  external String? homepageUrl;
 
   /// The update URL of this extension, app, or theme.
-  external String? get updateUrl;
+  external String? updateUrl;
 
   /// Whether the extension, app, or theme declares that it supports offline.
-  external bool get offlineEnabled;
+  external bool offlineEnabled;
 
   /// The url for the item's options page, if it has one.
-  external String get optionsUrl;
+  external String optionsUrl;
 
   /// A list of icon information. Note that this just reflects what was declared
   /// in the manifest, and the actual image at that url may be larger or smaller
@@ -204,22 +204,22 @@ extension ExtensionInfoExtension on ExtensionInfo {
   /// height attributes on img tags referencing these images. See the <a
   /// href='manifest/icons'>manifest documentation on icons</a> for more
   /// details.
-  external JSArray? get icons;
+  external JSArray? icons;
 
   /// Returns a list of API based permissions.
-  external JSArray get permissions;
+  external JSArray permissions;
 
   /// Returns a list of host based permissions.
-  external JSArray get hostPermissions;
+  external JSArray hostPermissions;
 
   /// How the extension was installed.
-  external ExtensionInstallType get installType;
+  external ExtensionInstallType installType;
 
   /// The app launch type (only present for apps).
-  external LaunchType? get launchType;
+  external LaunchType? launchType;
 
   /// The currently available launch types (only present for apps).
-  external JSArray? get availableLaunchTypes;
+  external JSArray? availableLaunchTypes;
 }
 
 @JS()
@@ -230,5 +230,5 @@ extension UninstallOptionsExtension on UninstallOptions {
   /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
   /// to false for self uninstalls. If an extension uninstalls another
   /// extension, this parameter is ignored and the dialog is always shown.
-  external bool? get showConfirmDialog;
+  external bool? showConfirmDialog;
 }

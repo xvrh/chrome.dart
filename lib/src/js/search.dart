@@ -29,13 +29,13 @@ class QueryInfo {}
 
 extension QueryInfoExtension on QueryInfo {
   /// String to query with the default search provider.
-  external String get text;
+  external String text;
 
   /// Location where search results should be displayed.
   /// `CURRENT_TAB` is the default.
-  external Disposition? get disposition;
+  external Disposition? disposition;
 
   /// Location where search results should be displayed.
   /// `tabId` cannot be used with `disposition`.
-  external int? get tabId;
+  external int? tabId;
 }

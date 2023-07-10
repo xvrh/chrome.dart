@@ -127,21 +127,20 @@ class CodeGenerator {
       yield Extension((b) => b
         ..name = '${type.name}Extension'
         ..on = refer(type.name)
-        ..methods.addAll(type.properties.map(_bindingTypeProperty))
+        ..fields.addAll(type.properties.map(_bindingTypeProperty))
         ..methods.addAll(type.methods.map(_bindingFunction))
         ..methods.addAll(type.events.map(_bindingEvent)));
     }
   }
 
-  Method _bindingTypeProperty(model.Property property) {
-    return Method((b) => b
+  Field _bindingTypeProperty(model.Property property) {
+    return Field((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
       ..name = property.name
       ..external = true
-      ..returns = refer(
+      ..type = refer(
           '${property.type.bindingName}${property.optional ? '?' : ''}',
-          property.type.bindingUrl)
-      ..type = MethodType.getter);
+          property.type.bindingUrl));
   }
 
   Parameter _bindingTypePropertyAsParameter(model.Property property) {

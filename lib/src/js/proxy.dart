@@ -33,15 +33,15 @@ class ProxyServer {}
 
 extension ProxyServerExtension on ProxyServer {
   /// The scheme (protocol) of the proxy server itself. Defaults to 'http'.
-  external Scheme? get scheme;
+  external Scheme? scheme;
 
   /// The hostname or IP address of the proxy server. Hostnames must be in ASCII
   /// (in Punycode format). IDNA is not supported, yet.
-  external String get host;
+  external String host;
 
   /// The port of the proxy server. Defaults to a port that depends on the
   /// scheme.
-  external int? get port;
+  external int? port;
 }
 
 @JS()
@@ -51,23 +51,23 @@ class ProxyRules {}
 extension ProxyRulesExtension on ProxyRules {
   /// The proxy server to be used for all per-URL requests (that is http, https,
   /// and ftp).
-  external ProxyServer? get singleProxy;
+  external ProxyServer? singleProxy;
 
   /// The proxy server to be used for HTTP requests.
-  external ProxyServer? get proxyForHttp;
+  external ProxyServer? proxyForHttp;
 
   /// The proxy server to be used for HTTPS requests.
-  external ProxyServer? get proxyForHttps;
+  external ProxyServer? proxyForHttps;
 
   /// The proxy server to be used for FTP requests.
-  external ProxyServer? get proxyForFtp;
+  external ProxyServer? proxyForFtp;
 
   /// The proxy server to be used for everthing else or if any of the specific
   /// proxyFor... is not specified.
-  external ProxyServer? get fallbackProxy;
+  external ProxyServer? fallbackProxy;
 
   /// List of servers to connect to without a proxy server.
-  external JSArray? get bypassList;
+  external JSArray? bypassList;
 }
 
 @JS()
@@ -76,14 +76,14 @@ class PacScript {}
 
 extension PacScriptExtension on PacScript {
   /// URL of the PAC file to be used.
-  external String? get url;
+  external String? url;
 
   /// A PAC script.
-  external String? get data;
+  external String? data;
 
   /// If true, an invalid PAC script will prevent the network stack from falling
   /// back to direct connections. Defaults to false.
-  external bool? get mandatory;
+  external bool? mandatory;
 }
 
 @JS()
@@ -93,18 +93,18 @@ class ProxyConfig {}
 extension ProxyConfigExtension on ProxyConfig {
   /// The proxy rules describing this configuration. Use this for
   /// 'fixed_servers' mode.
-  external ProxyRules? get rules;
+  external ProxyRules? rules;
 
   /// The proxy auto-config (PAC) script for this configuration. Use this for
   /// 'pac_script' mode.
-  external PacScript? get pacScript;
+  external PacScript? pacScript;
 
   /// 'direct' = Never use a proxy
   /// 'auto_detect' = Auto detect proxy settings
   /// 'pac_script' = Use specified PAC script
   /// 'fixed_servers' = Manually specify proxy servers
   /// 'system' = Use system proxy settings
-  external Mode get mode;
+  external Mode mode;
 }
 
 @JS()
@@ -114,11 +114,11 @@ class OnProxyErrorDetails {}
 extension OnProxyErrorDetailsExtension on OnProxyErrorDetails {
   /// If true, the error was fatal and the network transaction was aborted.
   /// Otherwise, a direct connection is used instead.
-  external bool get fatal;
+  external bool fatal;
 
   /// The error description.
-  external String get error;
+  external String error;
 
   /// Additional details about the error such as a JavaScript runtime error.
-  external String get details;
+  external String details;
 }

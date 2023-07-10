@@ -224,22 +224,22 @@ class Port {}
 
 extension PortExtension on Port {
   /// The name of the port, as specified in the call to $(ref:runtime.connect).
-  external String get name;
+  external String name;
 
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  external JSFunction get disconnect;
+  external JSFunction disconnect;
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  external JSFunction get postMessage;
+  external JSFunction postMessage;
 
   /// This property will **only** be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
   /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
   /// listeners.
-  external MessageSender? get sender;
+  external MessageSender? sender;
 
   /// Fired when the port is disconnected from the other end(s).
   /// $(ref:runtime.lastError) may be set if the port was disconnected by an
@@ -262,49 +262,49 @@ extension MessageSenderExtension on MessageSender {
   /// will <strong>only</strong> be present when the connection was opened from
   /// a tab (including content scripts), and <strong>only</strong> if the
   /// receiver is an extension, not an app.
-  external Tab? get tab;
+  external Tab? tab;
 
   /// The <a href='webNavigation#frame_ids'>frame</a> that opened the
   /// connection. 0 for top-level frames, positive for child frames. This will
   /// only be set when `tab` is set.
-  external int? get frameId;
+  external int? frameId;
 
   /// The guest process id of the requesting webview, if available. Only
   /// available for component extensions.
-  external int? get guestProcessId;
+  external int? guestProcessId;
 
   /// The guest render frame routing id of the requesting webview, if available.
   /// Only available for component extensions.
-  external int? get guestRenderFrameRoutingId;
+  external int? guestRenderFrameRoutingId;
 
   /// The ID of the extension or app that opened the connection, if any.
-  external String? get id;
+  external String? id;
 
   /// The URL of the page or frame that opened the connection. If the sender is
   /// in an iframe, it will be iframe's URL not the URL of the page which hosts
   /// it.
-  external String? get url;
+  external String? url;
 
   /// The name of the native application that opened the connection, if any.
-  external String? get nativeApplication;
+  external String? nativeApplication;
 
   /// The TLS channel ID of the page or frame that opened the connection, if
   /// requested by the extension or app, and if available.
-  external String? get tlsChannelId;
+  external String? tlsChannelId;
 
   /// The origin of the page or frame that opened the connection. It can vary
   /// from the url property (e.g., about:blank) or can be opaque (e.g.,
   /// sandboxed iframes). This is useful for identifying if the origin can be
   /// trusted if we can't immediately tell from the URL.
-  external String? get origin;
+  external String? origin;
 
   /// A UUID of the document that opened the connection.
-  external String? get documentId;
+  external String? documentId;
 
   /// The lifecycle the document that opened the connection is in at the time
   /// the port was created. Note that the lifecycle state of the document may
   /// have changed since port creation.
-  external String? get documentLifecycle;
+  external String? documentLifecycle;
 }
 
 @JS()
@@ -313,14 +313,14 @@ class PlatformInfo {}
 
 extension PlatformInfoExtension on PlatformInfo {
   /// The operating system Chrome is running on.
-  external PlatformOs get os;
+  external PlatformOs os;
 
   /// The machine's processor architecture.
-  external PlatformArch get arch;
+  external PlatformArch arch;
 
   /// The native client architecture. This may be different from arch on some
   /// platforms.
-  external PlatformNaclArch get nacl_arch;
+  external PlatformNaclArch nacl_arch;
 }
 
 @JS()
@@ -329,37 +329,37 @@ class ExtensionContext {}
 
 extension ExtensionContextExtension on ExtensionContext {
   /// The type of context this corresponds to.
-  external ContextType get contextType;
+  external ContextType contextType;
 
   /// A unique identifier for this context
-  external String get contextId;
+  external String contextId;
 
   /// The ID of the tab for this context, or -1 if this context is not hosted in
   /// a tab.
-  external int get tabId;
+  external int tabId;
 
   /// The ID of the window for this context, or -1 if this context is not hosted
   /// in a window.
-  external int get windowId;
+  external int windowId;
 
   /// A UUID for the document associated with this context, or undefined if this
   /// context is hosted not in a document.
-  external String? get documentId;
+  external String? documentId;
 
   /// The ID of the frame for this context, or -1 if this context is not hosted
   /// in a frame.
-  external int get frameId;
+  external int frameId;
 
   /// The URL of the document associated with this context, or undefined if the
   /// context is not hosted in a document.
-  external String? get documentUrl;
+  external String? documentUrl;
 
   /// The origin of the document associated with this context, or undefined if
   /// the context is not hosted in a document.
-  external String? get documentOrigin;
+  external String? documentOrigin;
 
   /// Whether the context is associated with an incognito profile.
-  external bool get incognito;
+  external bool incognito;
 }
 
 @JS()
@@ -367,23 +367,23 @@ extension ExtensionContextExtension on ExtensionContext {
 class ContextFilter {}
 
 extension ContextFilterExtension on ContextFilter {
-  external JSArray? get contextTypes;
+  external JSArray? contextTypes;
 
-  external JSArray? get contextIds;
+  external JSArray? contextIds;
 
-  external JSArray? get tabIds;
+  external JSArray? tabIds;
 
-  external JSArray? get windowIds;
+  external JSArray? windowIds;
 
-  external JSArray? get documentIds;
+  external JSArray? documentIds;
 
-  external JSArray? get frameIds;
+  external JSArray? frameIds;
 
-  external JSArray? get documentUrls;
+  external JSArray? documentUrls;
 
-  external JSArray? get documentOrigins;
+  external JSArray? documentOrigins;
 
-  external bool? get incognito;
+  external bool? incognito;
 }
 
 @JS()
@@ -392,15 +392,15 @@ class OnInstalledDetails {}
 
 extension OnInstalledDetailsExtension on OnInstalledDetails {
   /// The reason that this event is being dispatched.
-  external OnInstalledReason get reason;
+  external OnInstalledReason reason;
 
   /// Indicates the previous version of the extension, which has just been
   /// updated. This is present only if 'reason' is 'update'.
-  external String? get previousVersion;
+  external String? previousVersion;
 
   /// Indicates the ID of the imported shared module extension which updated.
   /// This is present only if 'reason' is 'shared_module_update'.
-  external String? get id;
+  external String? id;
 }
 
 @JS()
@@ -409,7 +409,7 @@ class OnUpdateAvailableDetails {}
 
 extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
   /// The version number of the available update.
-  external String get version;
+  external String version;
 }
 
 @JS()

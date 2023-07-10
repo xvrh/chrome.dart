@@ -48,10 +48,10 @@ class Permissions {}
 
 extension PermissionsExtension on Permissions {
   /// List of named permissions (does not include hosts or origins).
-  external JSArray? get permissions;
+  external JSArray? permissions;
 
   /// The list of host permissions, including those specified in the
   /// `optional_permissions` or `permissions` keys in the manifest, and those
   /// associated with <a href='content_scripts'>Content Scripts</a>.
-  external JSArray? get origins;
+  external JSArray? origins;
 }

@@ -68,44 +68,44 @@ class Cookie {}
 
 extension CookieExtension on Cookie {
   /// The name of the cookie.
-  external String get name;
+  external String name;
 
   /// The value of the cookie.
-  external String get value;
+  external String value;
 
   /// The domain of the cookie (e.g. "www.google.com", "example.com").
-  external String get domain;
+  external String domain;
 
   /// True if the cookie is a host-only cookie (i.e. a request's host must
   /// exactly match the domain of the cookie).
-  external bool get hostOnly;
+  external bool hostOnly;
 
   /// The path of the cookie.
-  external String get path;
+  external String path;
 
   /// True if the cookie is marked as Secure (i.e. its scope is limited to
   /// secure channels, typically HTTPS).
-  external bool get secure;
+  external bool secure;
 
   /// True if the cookie is marked as HttpOnly (i.e. the cookie is inaccessible
   /// to client-side scripts).
-  external bool get httpOnly;
+  external bool httpOnly;
 
   /// The cookie's same-site status (i.e. whether the cookie is sent with
   /// cross-site requests).
-  external SameSiteStatus get sameSite;
+  external SameSiteStatus sameSite;
 
   /// True if the cookie is a session cookie, as opposed to a persistent cookie
   /// with an expiration date.
-  external bool get session;
+  external bool session;
 
   /// The expiration date of the cookie as the number of seconds since the UNIX
   /// epoch. Not provided for session cookies.
-  external num? get expirationDate;
+  external num? expirationDate;
 
   /// The ID of the cookie store containing this cookie, as provided in
   /// getAllCookieStores().
-  external String get storeId;
+  external String storeId;
 }
 
 @JS()
@@ -114,10 +114,10 @@ class CookieStore {}
 
 extension CookieStoreExtension on CookieStore {
   /// The unique identifier for the cookie store.
-  external String get id;
+  external String id;
 
   /// Identifiers of all the browser tabs that share this cookie store.
-  external JSArray get tabIds;
+  external JSArray tabIds;
 }
 
 @JS()
@@ -129,14 +129,14 @@ extension CookieDetailsExtension on CookieDetails {
   /// be a full URL, in which case any data following the URL path (e.g. the
   /// query string) is simply ignored. If host permissions for this URL are not
   /// specified in the manifest file, the API call will fail.
-  external String get url;
+  external String url;
 
   /// The name of the cookie to access.
-  external String get name;
+  external String name;
 
   /// The ID of the cookie store in which to look for the cookie. By default,
   /// the current execution context's cookie store will be used.
-  external String? get storeId;
+  external String? storeId;
 }
 
 @JS()
@@ -145,13 +145,13 @@ class OnChangedChangeInfo {}
 
 extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
   /// True if a cookie was removed.
-  external bool get removed;
+  external bool removed;
 
   /// Information about the cookie that was set or removed.
-  external Cookie get cookie;
+  external Cookie cookie;
 
   /// The underlying reason behind the cookie's change.
-  external OnChangedCause get cause;
+  external OnChangedCause cause;
 }
 
 @JS()

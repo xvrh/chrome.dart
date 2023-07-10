@@ -64,20 +64,20 @@ class TabGroup {}
 
 extension TabGroupExtension on TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
-  external int get id;
+  external int id;
 
   /// Whether the group is collapsed. A collapsed group is one whose tabs are
   /// hidden.
-  external bool get collapsed;
+  external bool collapsed;
 
   /// The group's color.
-  external Color get color;
+  external Color color;
 
   /// The title of the group.
-  external String? get title;
+  external String? title;
 
   /// The ID of the window that contains the group.
-  external int get windowId;
+  external int windowId;
 }
 
 @JS()

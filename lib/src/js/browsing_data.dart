@@ -79,23 +79,23 @@ extension RemovalOptionsExtension on RemovalOptions {
   /// since the epoch (accessible via the `getTime` method of the JavaScript
   /// `Date` object). If absent, defaults to 0 (which would remove all browsing
   /// data).
-  external num? get since;
+  external num? since;
 
   /// An object whose properties specify which origin types ought to be cleared.
   /// If this object isn't specified, it defaults to clearing only "unprotected"
   /// origins. Please ensure that you <em>really</em> want to remove application
   /// data before adding 'protectedWeb' or 'extensions'.
-  external RemovalOptionsOriginTypes? get originTypes;
+  external RemovalOptionsOriginTypes? originTypes;
 
   /// When present, only data for origins in this list is deleted. Only
   /// supported for cookies, storage and cache. Cookies are cleared for the
   /// whole registrable domain.
-  external JSArray? get origins;
+  external JSArray? origins;
 
   /// When present, data for origins in this list is excluded from deletion.
   /// Can't be used together with `origins`. Only supported for cookies, storage
   /// and cache.  Cookies are excluded for the whole registrable domain.
-  external JSArray? get excludeOrigins;
+  external JSArray? excludeOrigins;
 }
 
 @JS()
@@ -104,49 +104,49 @@ class DataTypeSet {}
 
 extension DataTypeSetExtension on DataTypeSet {
   /// Websites' appcaches.
-  external bool? get appcache;
+  external bool? appcache;
 
   /// The browser's cache.
-  external bool? get cache;
+  external bool? cache;
 
   /// Cache storage
-  external bool? get cacheStorage;
+  external bool? cacheStorage;
 
   /// The browser's cookies.
-  external bool? get cookies;
+  external bool? cookies;
 
   /// The browser's download list.
-  external bool? get downloads;
+  external bool? downloads;
 
   /// Websites' file systems.
-  external bool? get fileSystems;
+  external bool? fileSystems;
 
   /// The browser's stored form data.
-  external bool? get formData;
+  external bool? formData;
 
   /// The browser's history.
-  external bool? get history;
+  external bool? history;
 
   /// Websites' IndexedDB data.
-  external bool? get indexedDB;
+  external bool? indexedDB;
 
   /// Websites' local storage data.
-  external bool? get localStorage;
+  external bool? localStorage;
 
   /// Server-bound certificates.
-  external bool? get serverBoundCertificates;
+  external bool? serverBoundCertificates;
 
   /// Stored passwords.
-  external bool? get passwords;
+  external bool? passwords;
 
   /// Plugins' data.
-  external bool? get pluginData;
+  external bool? pluginData;
 
   /// Service Workers.
-  external bool? get serviceWorkers;
+  external bool? serviceWorkers;
 
   /// Websites' WebSQL data.
-  external bool? get webSQL;
+  external bool? webSQL;
 }
 
 @JS()
@@ -155,12 +155,12 @@ class RemovalOptionsOriginTypes {}
 
 extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
   /// Normal websites.
-  external bool? get unprotectedWeb;
+  external bool? unprotectedWeb;
 
   /// Websites that have been installed as hosted applications (be careful!).
-  external bool? get protectedWeb;
+  external bool? protectedWeb;
 
   /// Extensions and packaged applications a user has installed (be _really_
   /// careful!).
-  external bool? get extension;
+  external bool? extension;
 }

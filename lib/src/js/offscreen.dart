@@ -43,13 +43,13 @@ class CreateParameters {}
 
 extension CreateParametersExtension on CreateParameters {
   /// The reason(s) the extension is creating the offscreen document.
-  external JSArray get reasons;
+  external JSArray reasons;
 
   /// The (relative) URL to load in the document.
-  external String get url;
+  external String url;
 
   /// A developer-provided string that explains, in more detail, the need for
   /// the background context. The user agent _may_ use this in display to the
   /// user.
-  external String get justification;
+  external String justification;
 }

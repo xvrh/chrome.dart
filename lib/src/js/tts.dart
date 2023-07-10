@@ -57,22 +57,22 @@ extension TtsOptionsExtension on TtsOptions {
   /// If true, enqueues this utterance if TTS is already in progress. If false
   /// (the default), interrupts any current speech and flushes the speech queue
   /// before speaking this new utterance.
-  external bool? get enqueue;
+  external bool? enqueue;
 
   /// The name of the voice to use for synthesis. If empty, uses any available
   /// voice.
-  external String? get voiceName;
+  external String? voiceName;
 
   /// The extension ID of the speech engine to use, if known.
-  external String? get extensionId;
+  external String? extensionId;
 
   /// The language to be used for synthesis, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external String? get lang;
+  external String? lang;
 
   /// Gender of voice for synthesized speech.
-  external VoiceGender? get gender;
+  external VoiceGender? gender;
 
   /// Speaking rate relative to the default rate for this voice. 1.0 is the
   /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
@@ -80,26 +80,26 @@ extension TtsOptionsExtension on TtsOptions {
   /// disallowed, but many voices will constrain the minimum and maximum rates
   /// further&mdash;for example a particular voice may not actually speak faster
   /// than 3 times normal even if you specify a value larger than 3.0.
-  external num? get rate;
+  external num? rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to a voice's default pitch.
-  external num? get pitch;
+  external num? pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external num? get volume;
+  external num? volume;
 
   /// The TTS event types the voice must support.
-  external JSArray? get requiredEventTypes;
+  external JSArray? requiredEventTypes;
 
   /// The TTS event types that you are interested in listening to. If missing,
   /// all event types may be sent.
-  external JSArray? get desiredEventTypes;
+  external JSArray? desiredEventTypes;
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  external JSFunction? get onEvent;
+  external JSFunction? onEvent;
 }
 
 @JS()
@@ -117,28 +117,28 @@ extension TtsEventExtension on TtsEvent {
   /// utterance is paused in the middle, and `resume` if an utterance resumes
   /// speech. Note that pause and resume events may not fire if speech is paused
   /// in-between utterances.
-  external EventType get type;
+  external EventType type;
 
   /// The index of the current character in the utterance. For word events, the
   /// event fires at the end of one word and before the beginning of the next.
   /// The `charIndex` represents a point in the text at the beginning of the
   /// next word to be spoken.
-  external int? get charIndex;
+  external int? charIndex;
 
   /// The error description, if the event type is `error`.
-  external String? get errorMessage;
+  external String? errorMessage;
 
   /// An ID unique to the calling function's context so that events can get
   /// routed back to the correct tts.speak call.
-  external num? get srcId;
+  external num? srcId;
 
   /// True if this is the final event that will be sent to this handler.
-  external bool? get isFinalEvent;
+  external bool? isFinalEvent;
 
   /// The length of the next part of the utterance. For example, in a `word`
   /// event, this is the length of the word which will be spoken next. It will
   /// be set to -1 if not set by the speech engine.
-  external int? get length;
+  external int? length;
 }
 
 @JS()
@@ -147,23 +147,23 @@ class TtsVoice {}
 
 extension TtsVoiceExtension on TtsVoice {
   /// The name of the voice.
-  external String? get voiceName;
+  external String? voiceName;
 
   /// The language that this voice supports, in the form
   /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
   /// 'zh-CN'.
-  external String? get lang;
+  external String? lang;
 
   /// This voice's gender.
-  external VoiceGender? get gender;
+  external VoiceGender? gender;
 
   /// If true, the synthesis engine is a remote network resource. It may be
   /// higher latency and may incur bandwidth costs.
-  external bool? get remote;
+  external bool? remote;
 
   /// The ID of the extension providing this voice.
-  external String? get extensionId;
+  external String? extensionId;
 
   /// All of the callback event types that this voice is capable of sending.
-  external JSArray? get eventTypes;
+  external JSArray? eventTypes;
 }

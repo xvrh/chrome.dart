@@ -29,10 +29,10 @@ class ScanOptions {}
 
 extension ScanOptionsExtension on ScanOptions {
   /// The MIME types that are accepted by the caller.
-  external JSArray? get mimeTypes;
+  external JSArray? mimeTypes;
 
   /// The number of scanned images allowed (defaults to 1).
-  external int? get maxImages;
+  external int? maxImages;
 }
 
 @JS()
@@ -42,8 +42,8 @@ class ScanResults {}
 extension ScanResultsExtension on ScanResults {
   /// The data image URLs in a form that can be passed as the "src" value to
   /// an image tag.
-  external JSArray get dataUrls;
+  external JSArray dataUrls;
 
   /// The MIME type of `dataUrls`.
-  external String get mimeType;
+  external String mimeType;
 }

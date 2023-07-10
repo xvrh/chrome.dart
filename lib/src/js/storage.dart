@@ -41,10 +41,10 @@ class StorageChange {}
 
 extension StorageChangeExtension on StorageChange {
   /// The old value of the item, if there was an old value.
-  external JSAny? get oldValue;
+  external JSAny? oldValue;
 
   /// The new value of the item, if there is a new value.
-  external JSAny? get newValue;
+  external JSAny? newValue;
 }
 
 @JS()

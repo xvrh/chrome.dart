@@ -27,7 +27,7 @@ extension JSEnterpriseHardwarePlatformExtension
 class HardwarePlatformInfo {}
 
 extension HardwarePlatformInfoExtension on HardwarePlatformInfo {
-  external String get model;
+  external String model;
 
-  external String get manufacturer;
+  external String manufacturer;
 }

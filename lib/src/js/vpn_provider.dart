@@ -115,14 +115,14 @@ class Parameters {}
 extension ParametersExtension on Parameters {
   /// IP address for the VPN interface in CIDR notation.
   /// IPv4 is currently the only supported mode.
-  external String get address;
+  external String address;
 
   /// Broadcast address for the VPN interface. (default: deduced
   /// from IP address and mask)
-  external String? get broadcastAddress;
+  external String? broadcastAddress;
 
   /// MTU setting for the VPN interface. (default: 1500 bytes)
-  external String? get mtu;
+  external String? mtu;
 
   /// Exclude network traffic to the list of IP blocks in CIDR notation from
   /// the tunnel. This can be used to bypass traffic to and from the VPN
@@ -133,7 +133,7 @@ extension ParametersExtension on Parameters {
   /// Such duplicates in the collated (exclusionList + inclusionList) list are
   /// eliminated and the exact duplicate entry that will be eliminated is
   /// undefined.
-  external JSArray get exclusionList;
+  external JSArray exclusionList;
 
   /// Include network traffic to the list of IP blocks in CIDR notation to the
   /// tunnel. This parameter can be used to set up a split tunnel. By default
@@ -145,13 +145,13 @@ extension ParametersExtension on Parameters {
   /// Such duplicates in the collated (exclusionList + inclusionList) list are
   /// eliminated and the exact duplicate entry that will be eliminated is
   /// undefined.
-  external JSArray get inclusionList;
+  external JSArray inclusionList;
 
   /// A list of search domains. (default: no search domain)
-  external JSArray? get domainSearch;
+  external JSArray? domainSearch;
 
   /// A list of IPs for the DNS servers.
-  external JSArray get dnsServers;
+  external JSArray dnsServers;
 
   /// Whether or not the VPN extension implements auto-reconnection.
   ///
@@ -165,5 +165,5 @@ extension ParametersExtension on Parameters {
   /// This property is new in Chrome 51; it will generate an exception in
   /// earlier versions. try/catch can be used to conditionally enable the
   /// feature based on browser support.
-  external String? get reconnect;
+  external String? reconnect;
 }

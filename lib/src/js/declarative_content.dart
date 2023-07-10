@@ -41,7 +41,7 @@ class PageStateMatcher {}
 extension PageStateMatcherExtension on PageStateMatcher {
   /// Matches if the conditions of the `UrlFilter` are fulfilled for the
   /// top-level URL of the page.
-  external UrlFilter? get pageUrl;
+  external UrlFilter? pageUrl;
 
   /// Matches if all of the CSS selectors in the array match displayed elements
   /// in a frame with the same origin as the page's main frame. All selectors in
@@ -49,13 +49,13 @@ extension PageStateMatcherExtension on PageStateMatcher {
   /// href="http://www.w3.org/TR/selectors4/#compound">compound selectors</a> to
   /// speed up matching. Note: Listing hundreds of CSS selectors or listing CSS
   /// selectors that match hundreds of times per page can slow down web sites.
-  external JSArray? get css;
+  external JSArray? css;
 
   /// Matches if the bookmarked state of the page is equal to the specified
   /// value. Requres the <a href='declare_permissions'>bookmarks permission</a>.
-  external bool? get isBookmarked;
+  external bool? isBookmarked;
 
-  external PageStateMatcherInstanceType get instanceType;
+  external PageStateMatcherInstanceType instanceType;
 }
 
 @JS()
@@ -63,7 +63,7 @@ extension PageStateMatcherExtension on PageStateMatcher {
 class ShowPageAction {}
 
 extension ShowPageActionExtension on ShowPageAction {
-  external ShowPageActionInstanceType get instanceType;
+  external ShowPageActionInstanceType instanceType;
 }
 
 @JS()
@@ -71,7 +71,7 @@ extension ShowPageActionExtension on ShowPageAction {
 class ShowAction {}
 
 extension ShowActionExtension on ShowAction {
-  external ShowActionInstanceType get instanceType;
+  external ShowActionInstanceType instanceType;
 }
 
 @JS()
@@ -79,7 +79,7 @@ extension ShowActionExtension on ShowAction {
 class SetIcon {}
 
 extension SetIconExtension on SetIcon {
-  external SetIconInstanceType get instanceType;
+  external SetIconInstanceType instanceType;
 
   /// Either an `ImageData` object or a dictionary {size -> ImageData}
   /// representing an icon to be set. If the icon is specified as a dictionary,
@@ -89,7 +89,7 @@ extension SetIconExtension on SetIcon {
   /// size of the icon in the UI. At least one image must be specified. Note
   /// that `details.imageData = foo` is equivalent to `details.imageData =
   /// {'16': foo}`.
-  external JSObject? get imageData;
+  external JSObject? imageData;
 }
 
 @JS()
@@ -98,18 +98,18 @@ class RequestContentScript {}
 
 extension RequestContentScriptExtension on RequestContentScript {
   /// Names of CSS files to be injected as a part of the content script.
-  external JSArray? get css;
+  external JSArray? css;
 
   /// Names of JavaScript files to be injected as a part of the content script.
-  external JSArray? get js;
+  external JSArray? js;
 
   /// Whether the content script runs in all frames of the matching page, or in
   /// only the top frame. Default is `false`.
-  external bool? get allFrames;
+  external bool? allFrames;
 
   /// Whether to insert the content script on `about:blank` and `about:srcdoc`.
   /// Default is `false`.
-  external bool? get matchAboutBlank;
+  external bool? matchAboutBlank;
 
-  external RequestContentScriptInstanceType get instanceType;
+  external RequestContentScriptInstanceType instanceType;
 }

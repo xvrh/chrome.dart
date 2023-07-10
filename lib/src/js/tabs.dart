@@ -261,15 +261,15 @@ extension MutedInfoExtension on MutedInfo {
   /// Whether the tab is muted (prevented from playing sound). The tab may be
   /// muted even if it has not played or is not currently playing sound.
   /// Equivalent to whether the 'muted' audio indicator is showing.
-  external bool get muted;
+  external bool muted;
 
   /// The reason the tab was muted or unmuted. Not set if the tab's mute state
   /// has never been changed.
-  external MutedInfoReason? get reason;
+  external MutedInfoReason? reason;
 
   /// The ID of the extension that changed the muted state. Not set if an
   /// extension was not the reason the muted state last changed.
-  external String? get extensionId;
+  external String? extensionId;
 }
 
 @JS()
@@ -282,86 +282,86 @@ extension TabExtension on Tab {
   /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
   /// be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps
   /// and devtools windows.
-  external int? get id;
+  external int? id;
 
   /// The zero-based index of the tab within its window.
-  external int get index;
+  external int index;
 
   /// The ID of the group that the tab belongs to.
-  external int get groupId;
+  external int groupId;
 
   /// The ID of the window that contains the tab.
-  external int get windowId;
+  external int windowId;
 
   /// The ID of the tab that opened this tab, if any. This property is only
   /// present if the opener tab still exists.
-  external int? get openerTabId;
+  external int? openerTabId;
 
   /// Whether the tab is selected.
-  external bool get selected;
+  external bool selected;
 
   /// Whether the tab is highlighted.
-  external bool get highlighted;
+  external bool highlighted;
 
   /// Whether the tab is active in its window. Does not necessarily mean the
   /// window is focused.
-  external bool get active;
+  external bool active;
 
   /// Whether the tab is pinned.
-  external bool get pinned;
+  external bool pinned;
 
   /// Whether the tab has produced sound over the past couple of seconds (but it
   /// might not be heard if also muted). Equivalent to whether the 'speaker
   /// audio' indicator is showing.
-  external bool? get audible;
+  external bool? audible;
 
   /// Whether the tab is discarded. A discarded tab is one whose content has
   /// been unloaded from memory, but is still visible in the tab strip. Its
   /// content is reloaded the next time it is activated.
-  external bool get discarded;
+  external bool discarded;
 
   /// Whether the tab can be discarded automatically by the browser when
   /// resources are low.
-  external bool get autoDiscardable;
+  external bool autoDiscardable;
 
   /// The tab's muted state and the reason for the last state change.
-  external MutedInfo? get mutedInfo;
+  external MutedInfo? mutedInfo;
 
   /// The last committed URL of the main frame of the tab. This property is only
   /// present if the extension's manifest includes the `"tabs"` permission and
   /// may be an empty string if the tab has not yet committed. See also
   /// $(ref:Tab.pendingUrl).
-  external String? get url;
+  external String? url;
 
   /// The URL the tab is navigating to, before it has committed. This property
   /// is only present if the extension's manifest includes the `"tabs"`
   /// permission and there is a pending navigation.
-  external String? get pendingUrl;
+  external String? pendingUrl;
 
   /// The title of the tab. This property is only present if the extension's
   /// manifest includes the `"tabs"` permission.
-  external String? get title;
+  external String? title;
 
   /// The URL of the tab's favicon. This property is only present if the
   /// extension's manifest includes the `"tabs"` permission. It may also be an
   /// empty string if the tab is loading.
-  external String? get favIconUrl;
+  external String? favIconUrl;
 
   /// The tab's loading status.
-  external TabStatus? get status;
+  external TabStatus? status;
 
   /// Whether the tab is in an incognito window.
-  external bool get incognito;
+  external bool incognito;
 
   /// The width of the tab in pixels.
-  external int? get width;
+  external int? width;
 
   /// The height of the tab in pixels.
-  external int? get height;
+  external int? height;
 
   /// The session ID used to uniquely identify a tab obtained from the
   /// $(ref:sessions) API.
-  external String? get sessionId;
+  external String? sessionId;
 }
 
 @JS()
@@ -371,16 +371,16 @@ class ZoomSettings {}
 extension ZoomSettingsExtension on ZoomSettings {
   /// Defines how zoom changes are handled, i.e., which entity is responsible
   /// for the actual scaling of the page; defaults to `automatic`.
-  external ZoomSettingsMode? get mode;
+  external ZoomSettingsMode? mode;
 
   /// Defines whether zoom changes persist for the page's origin, or only take
   /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
   /// `per-tab` otherwise.
-  external ZoomSettingsScope? get scope;
+  external ZoomSettingsScope? scope;
 
   /// Used to return the default zoom level for the current tab in calls to
   /// tabs.getZoomSettings.
-  external num? get defaultZoomFactor;
+  external num? defaultZoomFactor;
 }
 
 @JS()
@@ -389,34 +389,34 @@ class OnUpdatedChangeInfo {}
 
 extension OnUpdatedChangeInfoExtension on OnUpdatedChangeInfo {
   /// The tab's loading status.
-  external TabStatus? get status;
+  external TabStatus? status;
 
   /// The tab's URL if it has changed.
-  external String? get url;
+  external String? url;
 
   /// The tab's new group.
-  external int? get groupId;
+  external int? groupId;
 
   /// The tab's new pinned state.
-  external bool? get pinned;
+  external bool? pinned;
 
   /// The tab's new audible state.
-  external bool? get audible;
+  external bool? audible;
 
   /// The tab's new discarded state.
-  external bool? get discarded;
+  external bool? discarded;
 
   /// The tab's new auto-discardable state.
-  external bool? get autoDiscardable;
+  external bool? autoDiscardable;
 
   /// The tab's new muted state and the reason for the change.
-  external MutedInfo? get mutedInfo;
+  external MutedInfo? mutedInfo;
 
   /// The tab's new favicon URL.
-  external String? get favIconUrl;
+  external String? favIconUrl;
 
   /// The tab's new title.
-  external String? get title;
+  external String? title;
 }
 
 @JS()
@@ -424,11 +424,11 @@ extension OnUpdatedChangeInfoExtension on OnUpdatedChangeInfo {
 class OnMovedMoveInfo {}
 
 extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
-  external int get windowId;
+  external int windowId;
 
-  external int get fromIndex;
+  external int fromIndex;
 
-  external int get toIndex;
+  external int toIndex;
 }
 
 @JS()
@@ -438,7 +438,7 @@ class OnSelectionChangedSelectInfo {}
 extension OnSelectionChangedSelectInfoExtension
     on OnSelectionChangedSelectInfo {
   /// The ID of the window the selected tab changed inside of.
-  external int get windowId;
+  external int windowId;
 }
 
 @JS()
@@ -447,7 +447,7 @@ class OnActiveChangedSelectInfo {}
 
 extension OnActiveChangedSelectInfoExtension on OnActiveChangedSelectInfo {
   /// The ID of the window the selected tab changed inside of.
-  external int get windowId;
+  external int windowId;
 }
 
 @JS()
@@ -456,10 +456,10 @@ class OnActivatedActiveInfo {}
 
 extension OnActivatedActiveInfoExtension on OnActivatedActiveInfo {
   /// The ID of the tab that has become active.
-  external int get tabId;
+  external int tabId;
 
   /// The ID of the window the active tab changed inside of.
-  external int get windowId;
+  external int windowId;
 }
 
 @JS()
@@ -469,10 +469,10 @@ class OnHighlightChangedSelectInfo {}
 extension OnHighlightChangedSelectInfoExtension
     on OnHighlightChangedSelectInfo {
   /// The window whose tabs changed.
-  external int get windowId;
+  external int windowId;
 
   /// All highlighted tabs in the window.
-  external JSArray get tabIds;
+  external JSArray tabIds;
 }
 
 @JS()
@@ -481,10 +481,10 @@ class OnHighlightedHighlightInfo {}
 
 extension OnHighlightedHighlightInfoExtension on OnHighlightedHighlightInfo {
   /// The window whose tabs changed.
-  external int get windowId;
+  external int windowId;
 
   /// All highlighted tabs in the window.
-  external JSArray get tabIds;
+  external JSArray tabIds;
 }
 
 @JS()
@@ -492,9 +492,9 @@ extension OnHighlightedHighlightInfoExtension on OnHighlightedHighlightInfo {
 class OnDetachedDetachInfo {}
 
 extension OnDetachedDetachInfoExtension on OnDetachedDetachInfo {
-  external int get oldWindowId;
+  external int oldWindowId;
 
-  external int get oldPosition;
+  external int oldPosition;
 }
 
 @JS()
@@ -502,9 +502,9 @@ extension OnDetachedDetachInfoExtension on OnDetachedDetachInfo {
 class OnAttachedAttachInfo {}
 
 extension OnAttachedAttachInfoExtension on OnAttachedAttachInfo {
-  external int get newWindowId;
+  external int newWindowId;
 
-  external int get newPosition;
+  external int newPosition;
 }
 
 @JS()
@@ -513,10 +513,10 @@ class OnRemovedRemoveInfo {}
 
 extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
   /// The window whose tab is closed.
-  external int get windowId;
+  external int windowId;
 
   /// True when the tab was closed because its parent window was closed.
-  external bool get isWindowClosing;
+  external bool isWindowClosing;
 }
 
 @JS()
@@ -524,13 +524,13 @@ extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
 class OnZoomChangeZoomChangeInfo {}
 
 extension OnZoomChangeZoomChangeInfoExtension on OnZoomChangeZoomChangeInfo {
-  external int get tabId;
+  external int tabId;
 
-  external num get oldZoomFactor;
+  external num oldZoomFactor;
 
-  external num get newZoomFactor;
+  external num newZoomFactor;
 
-  external ZoomSettings get zoomSettings;
+  external ZoomSettings zoomSettings;
 }
 
 @JS()

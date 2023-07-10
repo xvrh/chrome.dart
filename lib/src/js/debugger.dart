@@ -57,15 +57,15 @@ class Debuggee {}
 
 extension DebuggeeExtension on Debuggee {
   /// The id of the tab which you intend to debug.
-  external int? get tabId;
+  external int? tabId;
 
   /// The id of the extension which you intend to debug. Attaching to an
   /// extension background page is only possible when the
   /// `--silent-debugger-extension-api` command-line switch is used.
-  external String? get extensionId;
+  external String? extensionId;
 
   /// The opaque id of the debug target.
-  external String? get targetId;
+  external String? targetId;
 }
 
 @JS()
@@ -74,26 +74,26 @@ class TargetInfo {}
 
 extension TargetInfoExtension on TargetInfo {
   /// Target type.
-  external TargetInfoType get type;
+  external TargetInfoType type;
 
   /// Target id.
-  external String get id;
+  external String id;
 
   /// The tab id, defined if type == 'page'.
-  external int? get tabId;
+  external int? tabId;
 
   /// The extension id, defined if type = 'background_page'.
-  external String? get extensionId;
+  external String? extensionId;
 
   /// True if debugger is already attached.
-  external bool get attached;
+  external bool attached;
 
   /// Target page title.
-  external String get title;
+  external String title;
 
   /// Target URL.
-  external String get url;
+  external String url;
 
   /// Target favicon URL.
-  external String? get faviconUrl;
+  external String? faviconUrl;
 }

@@ -136,7 +136,7 @@ class AccountInfo {}
 extension AccountInfoExtension on AccountInfo {
   /// A unique identifier for the account. This ID will not change
   /// for the lifetime of the account.
-  external String get id;
+  external String id;
 }
 
 @JS()
@@ -147,7 +147,7 @@ extension ProfileDetailsExtension on ProfileDetails {
   /// A status of the primary account signed into a profile whose
   /// `ProfileUserInfo` should be returned. Defaults to
   /// `SYNC` account status.
-  external AccountStatus? get accountStatus;
+  external AccountStatus? accountStatus;
 }
 
 @JS()
@@ -159,13 +159,13 @@ extension ProfileUserInfoExtension on ProfileUserInfo {
   /// profile. Empty if the user is not signed in or the
   /// `identity.email` manifest permission is not
   /// specified.
-  external String get email;
+  external String email;
 
   /// A unique identifier for the account. This ID will not change
   /// for the lifetime of the account. Empty if the user is not
   /// signed in or (in M41+) the `identity.email`
   /// manifest permission is not specified.
-  external String get id;
+  external String id;
 }
 
 @JS()
@@ -179,23 +179,23 @@ extension TokenDetailsExtension on TokenDetails {
   /// prompt the user as necessary. When the flag is
   /// `false` or omitted, `getAuthToken` will
   /// return failure any time a prompt would be required.
-  external bool? get interactive;
+  external bool? interactive;
 
   /// The account ID whose token should be returned. If not specified, the
   /// function will use an account from the Chrome profile: the Sync account if
   /// there is one, or otherwise the first Google web account.
-  external AccountInfo? get account;
+  external AccountInfo? account;
 
   /// A list of OAuth2 scopes to request.
   ///
   /// When the `scopes` field is present, it overrides the
   /// list of scopes specified in manifest.json.
-  external JSArray? get scopes;
+  external JSArray? scopes;
 
   /// The `enableGranularPermissions` flag allows extensions to
   /// opt-in early to the granular permissions consent screen, in which
   /// requested permissions are granted or denied individually.
-  external bool? get enableGranularPermissions;
+  external bool? enableGranularPermissions;
 }
 
 @JS()
@@ -204,7 +204,7 @@ class InvalidTokenDetails {}
 
 extension InvalidTokenDetailsExtension on InvalidTokenDetails {
   /// The specific token that should be removed from the cache.
-  external String get token;
+  external String token;
 }
 
 @JS()
@@ -213,7 +213,7 @@ class WebAuthFlowDetails {}
 
 extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// The URL that initiates the auth flow.
-  external String get url;
+  external String url;
 
   /// Whether to launch auth flow in interactive mode.
   ///
@@ -231,7 +231,7 @@ extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// `abortOnLoadForNonInteractive` can be set to `false`
   /// in combination with setting `timeoutMsForNonInteractive` to give
   /// the page a chance to perform any redirects.
-  external bool? get interactive;
+  external bool? interactive;
 
   /// Whether to terminate `launchWebAuthFlow` for non-interactive
   /// requests after the page loads. This parameter does not affect interactive
@@ -243,13 +243,13 @@ extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
   /// `timeoutMsForNonInteractive` passes. This is useful for
   /// identity providers that use JavaScript to perform redirections after the
   /// page loads.
-  external bool? get abortOnLoadForNonInteractive;
+  external bool? abortOnLoadForNonInteractive;
 
   /// The maximum amount of time, in miliseconds,
   /// `launchWebAuthFlow` is allowed to run in non-interactive mode
   /// in total. Only has an effect if `interactive` is
   /// `false`.
-  external int? get timeoutMsForNonInteractive;
+  external int? timeoutMsForNonInteractive;
 }
 
 @JS()
@@ -258,8 +258,8 @@ class GetAuthTokenResult {}
 
 extension GetAuthTokenResultExtension on GetAuthTokenResult {
   /// The specific token associated with the request.
-  external String? get token;
+  external String? token;
 
   /// A list of OAuth2 scopes granted to the extension.
-  external JSArray? get grantedScopes;
+  external JSArray? grantedScopes;
 }

@@ -68,6 +68,12 @@ class JsonModelConverter {
             typeName, param.description,
             properties: param.properties)
           ..isAnonymous = true);
+      } else if (param.enums != null) {
+        var typeName = upperCamel(splitWords(
+            '${name.startsWith(function.name) ? '' : function.name} $name'));
+        parameterType = TypeRef(typeName);
+        _dictionariesToGenerate.add(
+            JsonDeclaredType(typeName, param.description, enums: param.enums));
       }
 
       yield Property(

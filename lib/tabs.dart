@@ -188,11 +188,11 @@ class ChromeTabs {
   /// The maximum number of times that [captureVisibleTab] can be called per
   /// second. [captureVisibleTab] is expensive and should not be called too
   /// often.
-  int get maxCAPTUREVISIBLETABCALLSPERSECOND =>
+  int get maxCaptureVisibleTabCallsPerSecond =>
       $js.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND as dynamic;
 
   /// An ID that represents the absence of a browser tab.
-  int get tabIDNONE => $js.chrome.tabs.TAB_ID_NONE as dynamic;
+  int get tabIdNone => $js.chrome.tabs.TAB_ID_NONE as dynamic;
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can

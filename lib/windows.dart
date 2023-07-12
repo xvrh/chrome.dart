@@ -49,11 +49,11 @@ class ChromeWindows {
   Future<void> remove(int windowId) => throw UnimplementedError();
 
   /// The windowId value that represents the absence of a Chrome browser window.
-  int get windowIDNONE => $js.chrome.windows.WINDOW_ID_NONE as dynamic;
+  int get windowIdNone => $js.chrome.windows.WINDOW_ID_NONE as dynamic;
 
   /// The windowId value that represents the [current
   /// window](windows#current-window).
-  int get windowIDCURRENT => $js.chrome.windows.WINDOW_ID_CURRENT as dynamic;
+  int get windowIdCurrent => $js.chrome.windows.WINDOW_ID_CURRENT as dynamic;
 
   /// Fired when a window is created.
   Stream<JSObject> get onCreated => throw UnimplementedError();

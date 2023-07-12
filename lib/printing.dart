@@ -37,12 +37,12 @@ class ChromePrinting {
 
   /// The maximum number of times that [submitJob] can be called per
   /// minute.
-  int get maxSUBMITJOBCALLSPERMINUTE =>
+  int get maxSubmitJobCallsPerMinute =>
       $js.chrome.printing.MAX_SUBMIT_JOB_CALLS_PER_MINUTE as dynamic;
 
   /// The maximum number of times that [getPrinterInfo] can be called per
   /// minute.
-  int get maxGETPRINTERINFOCALLSPERMINUTE =>
+  int get maxGetPrinterInfoCallsPerMinute =>
       $js.chrome.printing.MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE as dynamic;
 
   /// Event fired when the status of the job is changed.

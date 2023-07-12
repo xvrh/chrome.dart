@@ -80,7 +80,7 @@ class ChromeVpnProvider {
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  Stream<OnUIEventEvent> get onUIEvent => throw UnimplementedError();
+  Stream<OnUiEventEvent> get onUIEvent => throw UnimplementedError();
 }
 
 /// The enum is used by the platform to notify the client of the VPN session
@@ -275,8 +275,8 @@ class OnConfigCreatedEvent {
   final JSAny data;
 }
 
-class OnUIEventEvent {
-  OnUIEventEvent({
+class OnUiEventEvent {
+  OnUiEventEvent({
     required this.event,
     required this.id,
   });

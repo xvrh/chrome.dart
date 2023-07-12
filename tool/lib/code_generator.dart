@@ -245,7 +245,7 @@ class DartApiGenerator extends _GeneratorBase {
 
   Method _property(model.Property prop) {
     return Method((b) => b
-      ..name = lowerCamel(splitWords(prop.name))
+      ..name = stringToLowerCamel(prop.name)
       ..returns = prop.type.dartType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..type = MethodType.getter
@@ -386,7 +386,7 @@ class _PrefixedAllocator implements Allocator {
 }
 
 String _toEnumValue(String input) {
-  input = lowerCamel(splitWords(input).map((e) => e.toLowerCase()));
+  input = stringToLowerCamel(input);
 
   return enumValueIdentifier(input);
 }

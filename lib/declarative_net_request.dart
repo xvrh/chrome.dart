@@ -156,17 +156,17 @@ class ChromeDeclarativeNetRequest {
   /// The minimum number of static rules guaranteed to an extension across its
   /// enabled static rulesets. Any rules above this limit will count towards
   /// the [global static rule limit](#global-static-rule-limit).
-  int get guaranteedMINIMUMSTATICRULES =>
+  int get guaranteedMinimumStaticRules =>
       $js.chrome.declarativeNetRequest.GUARANTEED_MINIMUM_STATIC_RULES
           as dynamic;
 
   /// The maximum number of dynamic rules that an extension can add.
-  int get maxNUMBEROFDYNAMICRULES =>
+  int get maxNumberOfDynamicRules =>
       $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_RULES as dynamic;
 
   /// The maximum number of combined dynamic and session scoped rules an
   /// extension can add.
-  int get maxNUMBEROFDYNAMICANDSESSIONRULES =>
+  int get maxNumberOfDynamicAndSessionRules =>
       $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES
           as dynamic;
 
@@ -175,39 +175,39 @@ class ChromeDeclarativeNetRequest {
   /// Additional calls will fail immediately and set [runtime.lastError].
   /// Note: `getMatchedRules` calls associated with a user gesture
   /// are exempt from the quota.
-  int get getmatchedrulesQUOTAINTERVAL =>
+  int get getmatchedrulesQuotaInterval =>
       $js.chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL
           as dynamic;
 
   /// The number of times `getMatchedRules` can be called within a
   /// period of `GETMATCHEDRULES_QUOTA_INTERVAL`.
-  int get maxGETMATCHEDRULESCALLSPERINTERVAL =>
+  int get maxGetmatchedrulesCallsPerInterval =>
       $js.chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
           as dynamic;
 
   /// The maximum number of regular expression rules that an extension can
   /// add. This limit is evaluated separately for the set of dynamic rules and
   /// those specified in the rule resources file.
-  int get maxNUMBEROFREGEXRULES =>
+  int get maxNumberOfRegexRules =>
       $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_REGEX_RULES as dynamic;
 
   /// The maximum number of static `Rulesets` an extension can
   /// specify as part of the `"rule_resources"` manifest key.
-  int get maxNUMBEROFSTATICRULESETS =>
+  int get maxNumberOfStaticRulesets =>
       $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_STATIC_RULESETS as dynamic;
 
   /// The maximum number of static `Rulesets` an extension can
   /// enable at any one time.
-  int get maxNUMBEROFENABLEDSTATICRULESETS =>
+  int get maxNumberOfEnabledStaticRulesets =>
       $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_ENABLED_STATIC_RULESETS
           as dynamic;
 
   /// Ruleset ID for the dynamic rules added by the extension.
-  String get dynamicRULESETID =>
+  String get dynamicRulesetId =>
       $js.chrome.declarativeNetRequest.DYNAMIC_RULESET_ID as dynamic;
 
   /// Ruleset ID for the session-scoped rules added by the extension.
-  String get sessionRULESETID =>
+  String get sessionRulesetId =>
       $js.chrome.declarativeNetRequest.SESSION_RULESET_ID as dynamic;
 
   /// Fired when a rule is matched with a request. Only available for unpacked

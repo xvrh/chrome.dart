@@ -45,6 +45,8 @@ Iterable<T> _mapWithIndex<E, T>(
   }
 }
 
-String stringToLowerCamel(String input) => lowerCamel(splitWords(input));
-String stringToUpperCamel(String input) => upperCamel(splitWords(input));
-String stringToSnakeCase(String input) => snakeCase(splitWords(input));
+Iterable<String> _splitLower(String input) =>
+    splitWords(input).map((e) => e.toLowerCase());
+String stringToLowerCamel(String input) => lowerCamel(_splitLower(input));
+String stringToUpperCamel(String input) => upperCamel(_splitLower(input));
+String stringToSnakeCase(String input) => snakeCase(_splitLower(input));

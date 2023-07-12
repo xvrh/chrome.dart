@@ -26,7 +26,7 @@ class ChromeSessions {
 
   /// The maximum number of [sessions.Session] that will be included in a
   /// requested list.
-  int get maxSESSIONRESULTS =>
+  int get maxSessionResults =>
       $js.chrome.sessions.MAX_SESSION_RESULTS as dynamic;
 
   /// Fired when recently closed tabs and/or windows are changed. This event

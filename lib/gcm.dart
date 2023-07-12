@@ -31,7 +31,7 @@ class ChromeGcm {
       throw UnimplementedError();
 
   /// The maximum size (in bytes) of all key/value pairs in a message.
-  int get maxMESSAGESIZE => $js.chrome.gcm.MAX_MESSAGE_SIZE as dynamic;
+  int get maxMessageSize => $js.chrome.gcm.MAX_MESSAGE_SIZE as dynamic;
 
   /// Fired when a message is received through FCM.
   Stream<OnMessageMessage> get onMessage => throw UnimplementedError();

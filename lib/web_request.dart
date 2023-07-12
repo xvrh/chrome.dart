@@ -20,7 +20,7 @@ class ChromeWebRequest {
   /// The maximum number of times that `handlerBehaviorChanged` can be called
   /// per 10 minute sustained interval. `handlerBehaviorChanged` is an expensive
   /// function call that shouldn't be called often.
-  int get maxHANDLERBEHAVIORCHANGEDCALLSPER10MINUTES =>
+  int get maxHandlerBehaviorChangedCallsPer10Minutes =>
       $js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES
           as dynamic;
 

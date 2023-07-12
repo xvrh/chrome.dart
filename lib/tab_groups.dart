@@ -35,7 +35,7 @@ class ChromeTabGroups {
       throw UnimplementedError();
 
   /// An ID that represents the absence of a group.
-  int get tabGROUPIDNONE => $js.chrome.tabGroups.TAB_GROUP_ID_NONE as dynamic;
+  int get tabGroupIdNone => $js.chrome.tabGroups.TAB_GROUP_ID_NONE as dynamic;
 
   /// Fired when a group is created.
   Stream<TabGroup> get onCreated => throw UnimplementedError();

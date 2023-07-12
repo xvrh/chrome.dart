@@ -63,10 +63,10 @@ class ChromeBookmarks {
   /// Recursively removes a bookmark folder.
   Future<void> removeTree(String id) => throw UnimplementedError();
 
-  int get maxWRITEOPERATIONSPERHOUR =>
+  int get maxWriteOperationsPerHour =>
       $js.chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR as dynamic;
 
-  int get maxSUSTAINEDWRITEOPERATIONSPERMINUTE =>
+  int get maxSustainedWriteOperationsPerMinute =>
       $js.chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE as dynamic;
 
   /// Fired when a bookmark or folder is created.

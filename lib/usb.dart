@@ -464,7 +464,10 @@ class InterfaceDescriptor {
   }
 
   /// Available endpoints.
-  List<EndpointDescriptor> get endpoints => throw UnimplementedError();
+  List<EndpointDescriptor> get endpoints => _wrapped.endpoints.toDart
+      .cast<$js.EndpointDescriptor>()
+      .map((e) => EndpointDescriptor.fromJS(e))
+      .toList();
   set endpoints(List<EndpointDescriptor> v) {
     _wrapped.endpoints = throw UnimplementedError();
   }
@@ -520,7 +523,10 @@ class ConfigDescriptor {
   }
 
   /// Available interfaces.
-  List<InterfaceDescriptor> get interfaces => throw UnimplementedError();
+  List<InterfaceDescriptor> get interfaces => _wrapped.interfaces.toDart
+      .cast<$js.InterfaceDescriptor>()
+      .map((e) => InterfaceDescriptor.fromJS(e))
+      .toList();
   set interfaces(List<InterfaceDescriptor> v) {
     _wrapped.interfaces = throw UnimplementedError();
   }
@@ -747,7 +753,10 @@ class EnumerateDevicesOptions {
 
   /// A device matching any given filter will be returned. An empty filter list
   /// will return all devices the app has permission for.
-  List<DeviceFilter>? get filters => throw UnimplementedError();
+  List<DeviceFilter>? get filters => _wrapped.filters?.toDart
+      .cast<$js.DeviceFilter>()
+      .map((e) => DeviceFilter.fromJS(e))
+      .toList();
   set filters(List<DeviceFilter>? v) {
     _wrapped.filters = throw UnimplementedError();
   }
@@ -795,7 +804,10 @@ class DevicePromptOptions {
 
   /// Filter the list of devices presented to the user. If multiple filters are
   /// provided devices matching any filter will be displayed.
-  List<DeviceFilter>? get filters => throw UnimplementedError();
+  List<DeviceFilter>? get filters => _wrapped.filters?.toDart
+      .cast<$js.DeviceFilter>()
+      .map((e) => DeviceFilter.fromJS(e))
+      .toList();
   set filters(List<DeviceFilter>? v) {
     _wrapped.filters = throw UnimplementedError();
   }

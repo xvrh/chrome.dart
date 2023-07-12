@@ -220,7 +220,10 @@ class OnCommittedDetails {
 
   /// A list of transition qualifiers.
   List<TransitionQualifier> get transitionQualifiers =>
-      throw UnimplementedError();
+      _wrapped.transitionQualifiers.toDart
+          .cast<$js.TransitionQualifier>()
+          .map((e) => TransitionQualifier.fromJS(e))
+          .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
     _wrapped.transitionQualifiers = throw UnimplementedError();
   }
@@ -573,7 +576,10 @@ class OnReferenceFragmentUpdatedDetails {
 
   /// A list of transition qualifiers.
   List<TransitionQualifier> get transitionQualifiers =>
-      throw UnimplementedError();
+      _wrapped.transitionQualifiers.toDart
+          .cast<$js.TransitionQualifier>()
+          .map((e) => TransitionQualifier.fromJS(e))
+          .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
     _wrapped.transitionQualifiers = throw UnimplementedError();
   }
@@ -685,7 +691,10 @@ class OnHistoryStateUpdatedDetails {
 
   /// A list of transition qualifiers.
   List<TransitionQualifier> get transitionQualifiers =>
-      throw UnimplementedError();
+      _wrapped.transitionQualifiers.toDart
+          .cast<$js.TransitionQualifier>()
+          .map((e) => TransitionQualifier.fromJS(e))
+          .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
     _wrapped.transitionQualifiers = throw UnimplementedError();
   }

@@ -143,14 +143,16 @@ class TtsOptions {
   }
 
   /// The TTS event types the voice must support.
-  List<String>? get requiredEventTypes => throw UnimplementedError();
+  List<String>? get requiredEventTypes =>
+      _wrapped.requiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
   set requiredEventTypes(List<String>? v) {
     _wrapped.requiredEventTypes = throw UnimplementedError();
   }
 
   /// The TTS event types that you are interested in listening to. If missing,
   /// all event types may be sent.
-  List<String>? get desiredEventTypes => throw UnimplementedError();
+  List<String>? get desiredEventTypes =>
+      _wrapped.desiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
   set desiredEventTypes(List<String>? v) {
     _wrapped.desiredEventTypes = throw UnimplementedError();
   }
@@ -262,7 +264,10 @@ class TtsVoice {
   }
 
   /// All of the callback event types that this voice is capable of sending.
-  List<EventType>? get eventTypes => throw UnimplementedError();
+  List<EventType>? get eventTypes => _wrapped.eventTypes?.toDart
+      .cast<$js.EventType>()
+      .map((e) => EventType.fromJS(e))
+      .toList();
   set eventTypes(List<EventType>? v) {
     _wrapped.eventTypes = throw UnimplementedError();
   }

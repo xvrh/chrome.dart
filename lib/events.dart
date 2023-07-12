@@ -27,19 +27,22 @@ class Rule {
 
   /// Tags can be used to annotate rules and perform operations on sets of
   /// rules.
-  List<String>? get tags => throw UnimplementedError();
+  List<String>? get tags =>
+      _wrapped.tags?.toDart.cast<String>().map((e) => e).toList();
   set tags(List<String>? v) {
     _wrapped.tags = throw UnimplementedError();
   }
 
   /// List of conditions that can trigger the actions.
-  List<JSAny> get conditions => throw UnimplementedError();
+  List<JSAny> get conditions =>
+      _wrapped.conditions.toDart.cast<JSAny>().map((e) => e).toList();
   set conditions(List<JSAny> v) {
     _wrapped.conditions = throw UnimplementedError();
   }
 
   /// List of actions that are triggered if one of the conditions is fulfilled.
-  List<JSAny> get actions => throw UnimplementedError();
+  List<JSAny> get actions =>
+      _wrapped.actions.toDart.cast<JSAny>().map((e) => e).toList();
   set actions(List<JSAny> v) {
     _wrapped.actions = throw UnimplementedError();
   }
@@ -234,7 +237,8 @@ class UrlFilter {
 
   /// Matches if the scheme of the URL is equal to any of the schemes specified
   /// in the array.
-  List<String>? get schemes => throw UnimplementedError();
+  List<String>? get schemes =>
+      _wrapped.schemes?.toDart.cast<String>().map((e) => e).toList();
   set schemes(List<String>? v) {
     _wrapped.schemes = throw UnimplementedError();
   }
@@ -242,7 +246,8 @@ class UrlFilter {
   /// Matches if the port of the URL is contained in any of the specified port
   /// lists. For example `[80, 443, [1000, 1200]]` matches all requests on port
   /// 80, 443 and in the range 1000-1200.
-  List<JSAny>? get ports => throw UnimplementedError();
+  List<JSAny>? get ports =>
+      _wrapped.ports?.toDart.cast<JSAny>().map((e) => e).toList();
   set ports(List<JSAny>? v) {
     _wrapped.ports = throw UnimplementedError();
   }

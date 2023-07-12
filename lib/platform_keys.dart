@@ -142,14 +142,21 @@ class ClientCertificateRequest {
   /// in this list will be retrieved. If `certificateTypes` is the
   /// empty list, however, certificates of any type will be returned.
   List<ClientCertificateType> get certificateTypes =>
-      throw UnimplementedError();
+      _wrapped.certificateTypes.toDart
+          .cast<$js.ClientCertificateType>()
+          .map((e) => ClientCertificateType.fromJS(e))
+          .toList();
   set certificateTypes(List<ClientCertificateType> v) {
     _wrapped.certificateTypes = throw UnimplementedError();
   }
 
   /// List of distinguished names of certificate authorities allowed by the
   /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
-  List<ByteBuffer> get certificateAuthorities => throw UnimplementedError();
+  List<ByteBuffer> get certificateAuthorities =>
+      _wrapped.certificateAuthorities.toDart
+          .cast<JSArrayBuffer>()
+          .map((e) => e.toDart)
+          .toList();
   set certificateAuthorities(List<ByteBuffer> v) {
     _wrapped.certificateAuthorities = throw UnimplementedError();
   }
@@ -174,7 +181,10 @@ class SelectDetails {
   /// certificate stores that are available to this extensions.
   /// Entries that the extension doesn't have permission for or which doesn't
   /// match the request, are removed.
-  List<ByteBuffer>? get clientCerts => throw UnimplementedError();
+  List<ByteBuffer>? get clientCerts => _wrapped.clientCerts?.toDart
+      .cast<JSArrayBuffer>()
+      .map((e) => e.toDart)
+      .toList();
   set clientCerts(List<ByteBuffer>? v) {
     _wrapped.clientCerts = throw UnimplementedError();
   }
@@ -200,7 +210,11 @@ class VerificationDetails {
   /// Each chain entry must be the DER encoding of a X.509 certificate, the
   /// first entry must be the server certificate and each entry must certify
   /// the entry preceding it.
-  List<ByteBuffer> get serverCertificateChain => throw UnimplementedError();
+  List<ByteBuffer> get serverCertificateChain =>
+      _wrapped.serverCertificateChain.toDart
+          .cast<JSArrayBuffer>()
+          .map((e) => e.toDart)
+          .toList();
   set serverCertificateChain(List<ByteBuffer> v) {
     _wrapped.serverCertificateChain = throw UnimplementedError();
   }
@@ -235,7 +249,8 @@ class VerificationResult {
   /// contain all relevant errors. The errors returned may change in future
   /// revisions of this API, and are not guaranteed to be forwards or backwards
   /// compatible.
-  List<String> get debug_errors => throw UnimplementedError();
+  List<String> get debug_errors =>
+      _wrapped.debug_errors.toDart.cast<String>().map((e) => e).toList();
   set debug_errors(List<String> v) {
     _wrapped.debug_errors = throw UnimplementedError();
   }

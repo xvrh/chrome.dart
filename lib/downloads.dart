@@ -410,7 +410,10 @@ class DownloadOptions {
   /// protocol. Each header is represented as a dictionary containing the keys
   /// `name` and either `value` or
   /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
-  List<HeaderNameValuePair>? get headers => throw UnimplementedError();
+  List<HeaderNameValuePair>? get headers => _wrapped.headers?.toDart
+      .cast<$js.HeaderNameValuePair>()
+      .map((e) => HeaderNameValuePair.fromJS(e))
+      .toList();
   set headers(List<HeaderNameValuePair>? v) {
     _wrapped.headers = throw UnimplementedError();
   }
@@ -601,7 +604,8 @@ class DownloadQuery {
   /// `filename` or `url` or `finalUrl`
   /// contain all of the search terms that do not begin with a dash '-' and
   /// none of the search terms that do begin with a dash.
-  List<String>? get query => throw UnimplementedError();
+  List<String>? get query =>
+      _wrapped.query?.toDart.cast<String>().map((e) => e).toList();
   set query(List<String>? v) {
     _wrapped.query = throw UnimplementedError();
   }
@@ -682,7 +686,8 @@ class DownloadQuery {
   /// `orderBy=['startTime']` sorts the [DownloadItem] by their
   /// start time in ascending order. To specify descending order, prefix with a
   /// hyphen: '-startTime'.
-  List<String>? get orderBy => throw UnimplementedError();
+  List<String>? get orderBy =>
+      _wrapped.orderBy?.toDart.cast<String>().map((e) => e).toList();
   set orderBy(List<String>? v) {
     _wrapped.orderBy = throw UnimplementedError();
   }

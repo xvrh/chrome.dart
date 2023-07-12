@@ -46,7 +46,8 @@ class Permissions {
   $js.Permissions get toJS => _wrapped;
 
   /// List of named permissions (does not include hosts or origins).
-  List<String>? get permissions => throw UnimplementedError();
+  List<String>? get permissions =>
+      _wrapped.permissions?.toDart.cast<String>().map((e) => e).toList();
   set permissions(List<String>? v) {
     _wrapped.permissions = throw UnimplementedError();
   }
@@ -54,7 +55,8 @@ class Permissions {
   /// The list of host permissions, including those specified in the
   /// `optional_permissions` or `permissions` keys in the manifest, and those
   /// associated with [Content Scripts](content_scripts).
-  List<String>? get origins => throw UnimplementedError();
+  List<String>? get origins =>
+      _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
   set origins(List<String>? v) {
     _wrapped.origins = throw UnimplementedError();
   }

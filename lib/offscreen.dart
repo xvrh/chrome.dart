@@ -93,7 +93,10 @@ class CreateParameters {
   $js.CreateParameters get toJS => _wrapped;
 
   /// The reason(s) the extension is creating the offscreen document.
-  List<Reason> get reasons => throw UnimplementedError();
+  List<Reason> get reasons => _wrapped.reasons.toDart
+      .cast<$js.Reason>()
+      .map((e) => Reason.fromJS(e))
+      .toList();
   set reasons(List<Reason> v) {
     _wrapped.reasons = throw UnimplementedError();
   }

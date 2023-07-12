@@ -24,7 +24,8 @@ class FileHandlerExecuteEventDetails {
 
   /// Array of Entry instances representing files that are targets of this
   /// action (selected in ChromeOS file browser).
-  List<JSAny> get entries => throw UnimplementedError();
+  List<JSAny> get entries =>
+      _wrapped.entries.toDart.cast<JSAny>().map((e) => e).toList();
   set entries(List<JSAny> v) {
     _wrapped.entries = throw UnimplementedError();
   }

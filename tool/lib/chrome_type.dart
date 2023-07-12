@@ -299,8 +299,19 @@ class ListType extends ChromeType {
 
   @override
   String toDart(String accessor) {
-    // '$accessor${isNullable ? '?' : ''}.toDart.map((JSAny? e) => e! as $elementType).toList()';
-    return 'throw UnimplementedError()';
+    var emitter = code.DartEmitter(useNullSafetySyntax: true);
+    var jsType = item.jsType;
+    var jsTypeName = jsType.accept(emitter).toString();
+
+    ""
+    // TODO: remove this uggly hack
+    // remove map((e) => e)
+    // try to tear-off result (when end with (e))
+    // check if cast<int>() is correct or need cast<JSNumber>()
+    if (item is LocalType) {
+      jsTypeName = '\$js.$jsTypeName';
+    }
+    return '$accessor$questionMark.toDart.cast<$jsTypeName>().map((e) => ${item.toDart('e')}).toList()';
   }
 
   @override

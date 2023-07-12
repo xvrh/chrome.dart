@@ -90,13 +90,17 @@ class CpuInfo {
   /// A set of feature codes indicating some of the processor's capabilities.
   /// The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",
   /// "sse4_1", "sse4_2", and "avx".
-  List<String> get features => throw UnimplementedError();
+  List<String> get features =>
+      _wrapped.features.toDart.cast<String>().map((e) => e).toList();
   set features(List<String> v) {
     _wrapped.features = throw UnimplementedError();
   }
 
   /// Information about each logical processor.
-  List<ProcessorInfo> get processors => throw UnimplementedError();
+  List<ProcessorInfo> get processors => _wrapped.processors.toDart
+      .cast<$js.ProcessorInfo>()
+      .map((e) => ProcessorInfo.fromJS(e))
+      .toList();
   set processors(List<ProcessorInfo> v) {
     _wrapped.processors = throw UnimplementedError();
   }
@@ -105,7 +109,8 @@ class CpuInfo {
   /// Temperatures are in degrees Celsius.
   ///
   /// **Currently supported on Chrome OS only.**
-  List<double> get temperatures => throw UnimplementedError();
+  List<double> get temperatures =>
+      _wrapped.temperatures.toDart.cast<double>().map((e) => e).toList();
   set temperatures(List<double> v) {
     _wrapped.temperatures = throw UnimplementedError();
   }

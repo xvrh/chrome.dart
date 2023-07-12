@@ -184,7 +184,8 @@ class CookieStore {
   }
 
   /// Identifiers of all the browser tabs that share this cookie store.
-  List<int> get tabIds => throw UnimplementedError();
+  List<int> get tabIds =>
+      _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
     _wrapped.tabIds = throw UnimplementedError();
   }

@@ -123,7 +123,8 @@ class ProxyRules {
   }
 
   /// List of servers to connect to without a proxy server.
-  List<String>? get bypassList => throw UnimplementedError();
+  List<String>? get bypassList =>
+      _wrapped.bypassList?.toDart.cast<String>().map((e) => e).toList();
   set bypassList(List<String>? v) {
     _wrapped.bypassList = throw UnimplementedError();
   }

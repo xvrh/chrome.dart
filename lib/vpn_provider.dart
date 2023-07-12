@@ -197,7 +197,8 @@ class Parameters {
   /// Such duplicates in the collated (exclusionList + inclusionList) list are
   /// eliminated and the exact duplicate entry that will be eliminated is
   /// undefined.
-  List<String> get exclusionList => throw UnimplementedError();
+  List<String> get exclusionList =>
+      _wrapped.exclusionList.toDart.cast<String>().map((e) => e).toList();
   set exclusionList(List<String> v) {
     _wrapped.exclusionList = throw UnimplementedError();
   }
@@ -212,19 +213,22 @@ class Parameters {
   /// Such duplicates in the collated (exclusionList + inclusionList) list are
   /// eliminated and the exact duplicate entry that will be eliminated is
   /// undefined.
-  List<String> get inclusionList => throw UnimplementedError();
+  List<String> get inclusionList =>
+      _wrapped.inclusionList.toDart.cast<String>().map((e) => e).toList();
   set inclusionList(List<String> v) {
     _wrapped.inclusionList = throw UnimplementedError();
   }
 
   /// A list of search domains. (default: no search domain)
-  List<String>? get domainSearch => throw UnimplementedError();
+  List<String>? get domainSearch =>
+      _wrapped.domainSearch?.toDart.cast<String>().map((e) => e).toList();
   set domainSearch(List<String>? v) {
     _wrapped.domainSearch = throw UnimplementedError();
   }
 
   /// A list of IPs for the DNS servers.
-  List<String> get dnsServers => throw UnimplementedError();
+  List<String> get dnsServers =>
+      _wrapped.dnsServers.toDart.cast<String>().map((e) => e).toList();
   set dnsServers(List<String> v) {
     _wrapped.dnsServers = throw UnimplementedError();
   }

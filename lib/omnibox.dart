@@ -135,7 +135,10 @@ class SuggestResult {
   /// An array of style ranges for the description, as provided by the
   /// extension.
   List<MatchClassification>? get descriptionStyles =>
-      throw UnimplementedError();
+      _wrapped.descriptionStyles?.toDart
+          .cast<$js.MatchClassification>()
+          .map((e) => MatchClassification.fromJS(e))
+          .toList();
   set descriptionStyles(List<MatchClassification>? v) {
     _wrapped.descriptionStyles = throw UnimplementedError();
   }
@@ -161,7 +164,10 @@ class DefaultSuggestResult {
   /// An array of style ranges for the description, as provided by the
   /// extension.
   List<MatchClassification>? get descriptionStyles =>
-      throw UnimplementedError();
+      _wrapped.descriptionStyles?.toDart
+          .cast<$js.MatchClassification>()
+          .map((e) => MatchClassification.fromJS(e))
+          .toList();
   set descriptionStyles(List<MatchClassification>? v) {
     _wrapped.descriptionStyles = throw UnimplementedError();
   }

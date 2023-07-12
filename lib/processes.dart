@@ -178,7 +178,10 @@ class Process {
   }
 
   /// Array of TaskInfos representing the tasks running on this process.
-  List<TaskInfo> get tasks => throw UnimplementedError();
+  List<TaskInfo> get tasks => _wrapped.tasks.toDart
+      .cast<$js.TaskInfo>()
+      .map((e) => TaskInfo.fromJS(e))
+      .toList();
   set tasks(List<TaskInfo> v) {
     _wrapped.tasks = throw UnimplementedError();
   }

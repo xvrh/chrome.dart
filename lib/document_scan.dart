@@ -26,7 +26,8 @@ class ScanOptions {
   $js.ScanOptions get toJS => _wrapped;
 
   /// The MIME types that are accepted by the caller.
-  List<String>? get mimeTypes => throw UnimplementedError();
+  List<String>? get mimeTypes =>
+      _wrapped.mimeTypes?.toDart.cast<String>().map((e) => e).toList();
   set mimeTypes(List<String>? v) {
     _wrapped.mimeTypes = throw UnimplementedError();
   }
@@ -47,7 +48,8 @@ class ScanResults {
 
   /// The data image URLs in a form that can be passed as the "src" value to
   /// an image tag.
-  List<String> get dataUrls => throw UnimplementedError();
+  List<String> get dataUrls =>
+      _wrapped.dataUrls.toDart.cast<String>().map((e) => e).toList();
   set dataUrls(List<String> v) {
     _wrapped.dataUrls = throw UnimplementedError();
   }

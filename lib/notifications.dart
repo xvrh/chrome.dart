@@ -273,7 +273,10 @@ class NotificationOptions {
   }
 
   /// Text and icons for up to two notification action buttons.
-  List<NotificationButton>? get buttons => throw UnimplementedError();
+  List<NotificationButton>? get buttons => _wrapped.buttons?.toDart
+      .cast<$js.NotificationButton>()
+      .map((e) => NotificationButton.fromJS(e))
+      .toList();
   set buttons(List<NotificationButton>? v) {
     _wrapped.buttons = throw UnimplementedError();
   }
@@ -300,7 +303,10 @@ class NotificationOptions {
 
   /// Items for multi-item notifications. Users on Mac OS X only see the first
   /// item.
-  List<NotificationItem>? get items => throw UnimplementedError();
+  List<NotificationItem>? get items => _wrapped.items?.toDart
+      .cast<$js.NotificationItem>()
+      .map((e) => NotificationItem.fromJS(e))
+      .toList();
   set items(List<NotificationItem>? v) {
     _wrapped.items = throw UnimplementedError();
   }

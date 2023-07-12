@@ -202,7 +202,8 @@ class Window {
   }
 
   /// Array of [tabs.Tab] objects representing the current tabs in the window.
-  List<Tab>? get tabs => throw UnimplementedError();
+  List<Tab>? get tabs =>
+      _wrapped.tabs?.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList();
   set tabs(List<Tab>? v) {
     _wrapped.tabs = throw UnimplementedError();
   }
@@ -257,7 +258,10 @@ class QueryOptions {
 
   /// If set, the [windows.Window] returned is filtered based on its type. If
   /// unset, the default filter is set to `['normal', 'popup']`.
-  List<WindowType>? get windowTypes => throw UnimplementedError();
+  List<WindowType>? get windowTypes => _wrapped.windowTypes?.toDart
+      .cast<$js.WindowType>()
+      .map((e) => WindowType.fromJS(e))
+      .toList();
   set windowTypes(List<WindowType>? v) {
     _wrapped.windowTypes = throw UnimplementedError();
   }

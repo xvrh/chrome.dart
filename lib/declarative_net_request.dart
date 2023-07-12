@@ -419,13 +419,18 @@ class QueryTransform {
   $js.QueryTransform get toJS => _wrapped;
 
   /// The list of query keys to be removed.
-  List<String>? get removeParams => throw UnimplementedError();
+  List<String>? get removeParams =>
+      _wrapped.removeParams?.toDart.cast<String>().map((e) => e).toList();
   set removeParams(List<String>? v) {
     _wrapped.removeParams = throw UnimplementedError();
   }
 
   /// The list of query key-value pairs to be added or replaced.
-  List<QueryKeyValue>? get addOrReplaceParams => throw UnimplementedError();
+  List<QueryKeyValue>? get addOrReplaceParams =>
+      _wrapped.addOrReplaceParams?.toDart
+          .cast<$js.QueryKeyValue>()
+          .map((e) => QueryKeyValue.fromJS(e))
+          .toList();
   set addOrReplaceParams(List<QueryKeyValue>? v) {
     _wrapped.addOrReplaceParams = throw UnimplementedError();
   }
@@ -615,7 +620,8 @@ class RuleCondition {
   ///  </li>
   ///  <li>Sub-domains of the listed domains are also matched.</li>
   /// </ul>
-  List<String>? get initiatorDomains => throw UnimplementedError();
+  List<String>? get initiatorDomains =>
+      _wrapped.initiatorDomains?.toDart.cast<String>().map((e) => e).toList();
   set initiatorDomains(List<String>? v) {
     _wrapped.initiatorDomains = throw UnimplementedError();
   }
@@ -635,7 +641,11 @@ class RuleCondition {
   ///  </li>
   ///  <li>Sub-domains of the listed domains are also excluded.</li>
   /// </ul>
-  List<String>? get excludedInitiatorDomains => throw UnimplementedError();
+  List<String>? get excludedInitiatorDomains =>
+      _wrapped.excludedInitiatorDomains?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
   set excludedInitiatorDomains(List<String>? v) {
     _wrapped.excludedInitiatorDomains = throw UnimplementedError();
   }
@@ -652,7 +662,8 @@ class RuleCondition {
   ///  <li>Use punycode encoding for internationalized domains.</li>
   ///  <li>Sub-domains of the listed domains are also matched.</li>
   /// </ul>
-  List<String>? get requestDomains => throw UnimplementedError();
+  List<String>? get requestDomains =>
+      _wrapped.requestDomains?.toDart.cast<String>().map((e) => e).toList();
   set requestDomains(List<String>? v) {
     _wrapped.requestDomains = throw UnimplementedError();
   }
@@ -669,21 +680,27 @@ class RuleCondition {
   ///  <li>Use punycode encoding for internationalized domains.</li>
   ///  <li>Sub-domains of the listed domains are also excluded.</li>
   /// </ul>
-  List<String>? get excludedRequestDomains => throw UnimplementedError();
+  List<String>? get excludedRequestDomains =>
+      _wrapped.excludedRequestDomains?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
   set excludedRequestDomains(List<String>? v) {
     _wrapped.excludedRequestDomains = throw UnimplementedError();
   }
 
   /// The rule will only match network requests originating from the list of
   /// `domains`.
-  List<String>? get domains => throw UnimplementedError();
+  List<String>? get domains =>
+      _wrapped.domains?.toDart.cast<String>().map((e) => e).toList();
   set domains(List<String>? v) {
     _wrapped.domains = throw UnimplementedError();
   }
 
   /// The rule will not match network requests originating from the list of
   /// `excludedDomains`.
-  List<String>? get excludedDomains => throw UnimplementedError();
+  List<String>? get excludedDomains =>
+      _wrapped.excludedDomains?.toDart.cast<String>().map((e) => e).toList();
   set excludedDomains(List<String>? v) {
     _wrapped.excludedDomains = throw UnimplementedError();
   }
@@ -694,7 +711,10 @@ class RuleCondition {
   /// Note: this must be specified for `allowAllRequests` rules and
   /// may only include the `sub_frame` and `main_frame`
   /// resource types.
-  List<ResourceType>? get resourceTypes => throw UnimplementedError();
+  List<ResourceType>? get resourceTypes => _wrapped.resourceTypes?.toDart
+      .cast<$js.ResourceType>()
+      .map((e) => ResourceType.fromJS(e))
+      .toList();
   set resourceTypes(List<ResourceType>? v) {
     _wrapped.resourceTypes = throw UnimplementedError();
   }
@@ -703,7 +723,11 @@ class RuleCondition {
   /// `resourceTypes` and `excludedResourceTypes` should
   /// be specified. If neither of them is specified, all resource types except
   /// "main_frame" are blocked.
-  List<ResourceType>? get excludedResourceTypes => throw UnimplementedError();
+  List<ResourceType>? get excludedResourceTypes =>
+      _wrapped.excludedResourceTypes?.toDart
+          .cast<$js.ResourceType>()
+          .map((e) => ResourceType.fromJS(e))
+          .toList();
   set excludedResourceTypes(List<ResourceType>? v) {
     _wrapped.excludedResourceTypes = throw UnimplementedError();
   }
@@ -714,7 +738,10 @@ class RuleCondition {
   /// Note: Specifying a `requestMethods` rule condition will also
   /// exclude non-HTTP(s) requests, whereas specifying
   /// `excludedRequestMethods` will not.
-  List<RequestMethod>? get requestMethods => throw UnimplementedError();
+  List<RequestMethod>? get requestMethods => _wrapped.requestMethods?.toDart
+      .cast<$js.RequestMethod>()
+      .map((e) => RequestMethod.fromJS(e))
+      .toList();
   set requestMethods(List<RequestMethod>? v) {
     _wrapped.requestMethods = throw UnimplementedError();
   }
@@ -723,7 +750,11 @@ class RuleCondition {
   /// `requestMethods` and `excludedRequestMethods`
   /// should be specified. If neither of them is specified, all request methods
   /// are matched.
-  List<RequestMethod>? get excludedRequestMethods => throw UnimplementedError();
+  List<RequestMethod>? get excludedRequestMethods =>
+      _wrapped.excludedRequestMethods?.toDart
+          .cast<$js.RequestMethod>()
+          .map((e) => RequestMethod.fromJS(e))
+          .toList();
   set excludedRequestMethods(List<RequestMethod>? v) {
     _wrapped.excludedRequestMethods = throw UnimplementedError();
   }
@@ -740,7 +771,8 @@ class RuleCondition {
   /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
   /// tab. An empty list is not allowed. Only supported for session-scoped
   /// rules.
-  List<int>? get tabIds => throw UnimplementedError();
+  List<int>? get tabIds =>
+      _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int>? v) {
     _wrapped.tabIds = throw UnimplementedError();
   }
@@ -748,7 +780,8 @@ class RuleCondition {
   /// List of [tabs.Tab.id] which the rule should not match. An ID of
   /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
   /// tab. Only supported for session-scoped rules.
-  List<int>? get excludedTabIds => throw UnimplementedError();
+  List<int>? get excludedTabIds =>
+      _wrapped.excludedTabIds?.toDart.cast<int>().map((e) => e).toList();
   set excludedTabIds(List<int>? v) {
     _wrapped.excludedTabIds = throw UnimplementedError();
   }
@@ -803,14 +836,21 @@ class RuleAction {
 
   /// The request headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
-  List<ModifyHeaderInfo>? get requestHeaders => throw UnimplementedError();
+  List<ModifyHeaderInfo>? get requestHeaders => _wrapped.requestHeaders?.toDart
+      .cast<$js.ModifyHeaderInfo>()
+      .map((e) => ModifyHeaderInfo.fromJS(e))
+      .toList();
   set requestHeaders(List<ModifyHeaderInfo>? v) {
     _wrapped.requestHeaders = throw UnimplementedError();
   }
 
   /// The response headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
-  List<ModifyHeaderInfo>? get responseHeaders => throw UnimplementedError();
+  List<ModifyHeaderInfo>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.ModifyHeaderInfo>()
+          .map((e) => ModifyHeaderInfo.fromJS(e))
+          .toList();
   set responseHeaders(List<ModifyHeaderInfo>? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -878,7 +918,8 @@ class GetRulesFilter {
   $js.GetRulesFilter get toJS => _wrapped;
 
   /// If specified, only rules with matching IDs are included.
-  List<int>? get ruleIds => throw UnimplementedError();
+  List<int>? get ruleIds =>
+      _wrapped.ruleIds?.toDart.cast<int>().map((e) => e).toList();
   set ruleIds(List<int>? v) {
     _wrapped.ruleIds = throw UnimplementedError();
   }
@@ -941,7 +982,10 @@ class RulesMatchedDetails {
   $js.RulesMatchedDetails get toJS => _wrapped;
 
   /// Rules matching the given filter.
-  List<MatchedRuleInfo> get rulesMatchedInfo => throw UnimplementedError();
+  List<MatchedRuleInfo> get rulesMatchedInfo => _wrapped.rulesMatchedInfo.toDart
+      .cast<$js.MatchedRuleInfo>()
+      .map((e) => MatchedRuleInfo.fromJS(e))
+      .toList();
   set rulesMatchedInfo(List<MatchedRuleInfo> v) {
     _wrapped.rulesMatchedInfo = throw UnimplementedError();
   }
@@ -1106,7 +1150,10 @@ class DNRInfo {
 
   $js.DNRInfo get toJS => _wrapped;
 
-  List<Ruleset> get rule_resources => throw UnimplementedError();
+  List<Ruleset> get rule_resources => _wrapped.rule_resources.toDart
+      .cast<$js.Ruleset>()
+      .map((e) => Ruleset.fromJS(e))
+      .toList();
   set rule_resources(List<Ruleset> v) {
     _wrapped.rule_resources = throw UnimplementedError();
   }
@@ -1184,7 +1231,10 @@ class TestMatchOutcomeResult {
   $js.TestMatchOutcomeResult get toJS => _wrapped;
 
   /// The rules (if any) that match the hypothetical request.
-  List<MatchedRule> get matchedRules => throw UnimplementedError();
+  List<MatchedRule> get matchedRules => _wrapped.matchedRules.toDart
+      .cast<$js.MatchedRule>()
+      .map((e) => MatchedRule.fromJS(e))
+      .toList();
   set matchedRules(List<MatchedRule> v) {
     _wrapped.matchedRules = throw UnimplementedError();
   }
@@ -1198,13 +1248,17 @@ class UpdateRuleOptions {
   $js.UpdateRuleOptions get toJS => _wrapped;
 
   /// IDs of the rules to remove. Any invalid IDs will be ignored.
-  List<int>? get removeRuleIds => throw UnimplementedError();
+  List<int>? get removeRuleIds =>
+      _wrapped.removeRuleIds?.toDart.cast<int>().map((e) => e).toList();
   set removeRuleIds(List<int>? v) {
     _wrapped.removeRuleIds = throw UnimplementedError();
   }
 
   /// Rules to add.
-  List<Rule>? get addRules => throw UnimplementedError();
+  List<Rule>? get addRules => _wrapped.addRules?.toDart
+      .cast<$js.Rule>()
+      .map((e) => Rule.fromJS(e))
+      .toList();
   set addRules(List<Rule>? v) {
     _wrapped.addRules = throw UnimplementedError();
   }
@@ -1219,14 +1273,16 @@ class UpdateRulesetOptions {
 
   /// The set of ids corresponding to a static [Ruleset] that should be
   /// disabled.
-  List<String>? get disableRulesetIds => throw UnimplementedError();
+  List<String>? get disableRulesetIds =>
+      _wrapped.disableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
   set disableRulesetIds(List<String>? v) {
     _wrapped.disableRulesetIds = throw UnimplementedError();
   }
 
   /// The set of ids corresponding to a static [Ruleset] that should be
   /// enabled.
-  List<String>? get enableRulesetIds => throw UnimplementedError();
+  List<String>? get enableRulesetIds =>
+      _wrapped.enableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
   set enableRulesetIds(List<String>? v) {
     _wrapped.enableRulesetIds = throw UnimplementedError();
   }
@@ -1246,13 +1302,15 @@ class UpdateStaticRulesOptions {
   }
 
   /// Set of ids corresponding to rules in the [Ruleset] to disable.
-  List<int>? get disableRuleIds => throw UnimplementedError();
+  List<int>? get disableRuleIds =>
+      _wrapped.disableRuleIds?.toDart.cast<int>().map((e) => e).toList();
   set disableRuleIds(List<int>? v) {
     _wrapped.disableRuleIds = throw UnimplementedError();
   }
 
   /// Set of ids corresponding to rules in the [Ruleset] to enable.
-  List<int>? get enableRuleIds => throw UnimplementedError();
+  List<int>? get enableRuleIds =>
+      _wrapped.enableRuleIds?.toDart.cast<int>().map((e) => e).toList();
   set enableRuleIds(List<int>? v) {
     _wrapped.enableRuleIds = throw UnimplementedError();
   }

@@ -224,14 +224,20 @@ class ClientCertificateInfo {
   /// The array must contain the DER encoding of the X.509 client certificate
   /// as its first element.
   /// This must include exactly one certificate.
-  List<ByteBuffer> get certificateChain => throw UnimplementedError();
+  List<ByteBuffer> get certificateChain => _wrapped.certificateChain.toDart
+      .cast<JSArrayBuffer>()
+      .map((e) => e.toDart)
+      .toList();
   set certificateChain(List<ByteBuffer> v) {
     _wrapped.certificateChain = throw UnimplementedError();
   }
 
   /// All algorithms supported for this certificate. The extension will only be
   /// asked for signatures using one of these algorithms.
-  List<Algorithm> get supportedAlgorithms => throw UnimplementedError();
+  List<Algorithm> get supportedAlgorithms => _wrapped.supportedAlgorithms.toDart
+      .cast<$js.Algorithm>()
+      .map((e) => Algorithm.fromJS(e))
+      .toList();
   set supportedAlgorithms(List<Algorithm> v) {
     _wrapped.supportedAlgorithms = throw UnimplementedError();
   }
@@ -261,7 +267,10 @@ class SetCertificatesDetails {
 
   /// List of currently available client certificates.
   List<ClientCertificateInfo> get clientCertificates =>
-      throw UnimplementedError();
+      _wrapped.clientCertificates.toDart
+          .cast<$js.ClientCertificateInfo>()
+          .map((e) => ClientCertificateInfo.fromJS(e))
+          .toList();
   set clientCertificates(List<ClientCertificateInfo> v) {
     _wrapped.clientCertificates = throw UnimplementedError();
   }
@@ -358,7 +367,10 @@ class CertificateInfo {
   /// Must be set to all hashes supported for this certificate. This extension
   /// will only be asked for signatures of digests calculated with one of these
   /// hash algorithms. This should be in order of decreasing hash preference.
-  List<Hash> get supportedHashes => throw UnimplementedError();
+  List<Hash> get supportedHashes => _wrapped.supportedHashes.toDart
+      .cast<$js.Hash>()
+      .map((e) => Hash.fromJS(e))
+      .toList();
   set supportedHashes(List<Hash> v) {
     _wrapped.supportedHashes = throw UnimplementedError();
   }

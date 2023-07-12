@@ -730,7 +730,8 @@ class OnHighlightChangedSelectInfo {
   }
 
   /// All highlighted tabs in the window.
-  List<int> get tabIds => throw UnimplementedError();
+  List<int> get tabIds =>
+      _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
     _wrapped.tabIds = throw UnimplementedError();
   }
@@ -750,7 +751,8 @@ class OnHighlightedHighlightInfo {
   }
 
   /// All highlighted tabs in the window.
-  List<int> get tabIds => throw UnimplementedError();
+  List<int> get tabIds =>
+      _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
     _wrapped.tabIds = throw UnimplementedError();
   }

@@ -451,7 +451,10 @@ class FileSystemInfo {
   }
 
   /// List of currently opened files.
-  List<OpenedFile> get openedFiles => throw UnimplementedError();
+  List<OpenedFile> get openedFiles => _wrapped.openedFiles.toDart
+      .cast<$js.OpenedFile>()
+      .map((e) => OpenedFile.fromJS(e))
+      .toList();
   set openedFiles(List<OpenedFile> v) {
     _wrapped.openedFiles = throw UnimplementedError();
   }
@@ -464,7 +467,10 @@ class FileSystemInfo {
   }
 
   /// List of watchers.
-  List<Watcher> get watchers => throw UnimplementedError();
+  List<Watcher> get watchers => _wrapped.watchers.toDart
+      .cast<$js.Watcher>()
+      .map((e) => Watcher.fromJS(e))
+      .toList();
   set watchers(List<Watcher> v) {
     _wrapped.watchers = throw UnimplementedError();
   }
@@ -636,7 +642,8 @@ class GetActionsRequestedOptions {
   }
 
   /// List of paths of entries for the list of actions.
-  List<String> get entryPaths => throw UnimplementedError();
+  List<String> get entryPaths =>
+      _wrapped.entryPaths.toDart.cast<String>().map((e) => e).toList();
   set entryPaths(List<String> v) {
     _wrapped.entryPaths = throw UnimplementedError();
   }
@@ -1158,7 +1165,8 @@ class ExecuteActionRequestedOptions {
   }
 
   /// The set of paths of the entries to be used for the action.
-  List<String> get entryPaths => throw UnimplementedError();
+  List<String> get entryPaths =>
+      _wrapped.entryPaths.toDart.cast<String>().map((e) => e).toList();
   set entryPaths(List<String> v) {
     _wrapped.entryPaths = throw UnimplementedError();
   }
@@ -1225,7 +1233,10 @@ class NotifyOptions {
 
   /// List of changes to entries within the observed directory (including the
   /// entry itself)
-  List<Change>? get changes => throw UnimplementedError();
+  List<Change>? get changes => _wrapped.changes?.toDart
+      .cast<$js.Change>()
+      .map((e) => Change.fromJS(e))
+      .toList();
   set changes(List<Change>? v) {
     _wrapped.changes = throw UnimplementedError();
   }

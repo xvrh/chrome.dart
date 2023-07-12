@@ -112,7 +112,8 @@ class RemovalOptions {
   /// When present, only data for origins in this list is deleted. Only
   /// supported for cookies, storage and cache. Cookies are cleared for the
   /// whole registrable domain.
-  List<String>? get origins => throw UnimplementedError();
+  List<String>? get origins =>
+      _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
   set origins(List<String>? v) {
     _wrapped.origins = throw UnimplementedError();
   }
@@ -120,7 +121,8 @@ class RemovalOptions {
   /// When present, data for origins in this list is excluded from deletion.
   /// Can't be used together with `origins`. Only supported for cookies, storage
   /// and cache.  Cookies are excluded for the whole registrable domain.
-  List<String>? get excludeOrigins => throw UnimplementedError();
+  List<String>? get excludeOrigins =>
+      _wrapped.excludeOrigins?.toDart.cast<String>().map((e) => e).toList();
   set excludeOrigins(List<String>? v) {
     _wrapped.excludeOrigins = throw UnimplementedError();
   }

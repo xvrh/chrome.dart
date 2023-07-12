@@ -501,7 +501,10 @@ class MenuParameters {
 
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.
-  List<MenuItem> get items => throw UnimplementedError();
+  List<MenuItem> get items => _wrapped.items.toDart
+      .cast<$js.MenuItem>()
+      .map((e) => MenuItem.fromJS(e))
+      .toList();
   set items(List<MenuItem> v) {
     _wrapped.items = throw UnimplementedError();
   }

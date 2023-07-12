@@ -559,42 +559,52 @@ class ContextFilter {
 
   $js.ContextFilter get toJS => _wrapped;
 
-  List<ContextType>? get contextTypes => throw UnimplementedError();
+  List<ContextType>? get contextTypes => _wrapped.contextTypes?.toDart
+      .cast<$js.ContextType>()
+      .map((e) => ContextType.fromJS(e))
+      .toList();
   set contextTypes(List<ContextType>? v) {
     _wrapped.contextTypes = throw UnimplementedError();
   }
 
-  List<String>? get contextIds => throw UnimplementedError();
+  List<String>? get contextIds =>
+      _wrapped.contextIds?.toDart.cast<String>().map((e) => e).toList();
   set contextIds(List<String>? v) {
     _wrapped.contextIds = throw UnimplementedError();
   }
 
-  List<int>? get tabIds => throw UnimplementedError();
+  List<int>? get tabIds =>
+      _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int>? v) {
     _wrapped.tabIds = throw UnimplementedError();
   }
 
-  List<int>? get windowIds => throw UnimplementedError();
+  List<int>? get windowIds =>
+      _wrapped.windowIds?.toDart.cast<int>().map((e) => e).toList();
   set windowIds(List<int>? v) {
     _wrapped.windowIds = throw UnimplementedError();
   }
 
-  List<String>? get documentIds => throw UnimplementedError();
+  List<String>? get documentIds =>
+      _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
   set documentIds(List<String>? v) {
     _wrapped.documentIds = throw UnimplementedError();
   }
 
-  List<int>? get frameIds => throw UnimplementedError();
+  List<int>? get frameIds =>
+      _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
   set frameIds(List<int>? v) {
     _wrapped.frameIds = throw UnimplementedError();
   }
 
-  List<String>? get documentUrls => throw UnimplementedError();
+  List<String>? get documentUrls =>
+      _wrapped.documentUrls?.toDart.cast<String>().map((e) => e).toList();
   set documentUrls(List<String>? v) {
     _wrapped.documentUrls = throw UnimplementedError();
   }
 
-  List<String>? get documentOrigins => throw UnimplementedError();
+  List<String>? get documentOrigins =>
+      _wrapped.documentOrigins?.toDart.cast<String>().map((e) => e).toList();
   set documentOrigins(List<String>? v) {
     _wrapped.documentOrigins = throw UnimplementedError();
   }

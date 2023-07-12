@@ -181,7 +181,8 @@ class OnVisitRemovedRemoved {
     _wrapped.allHistory = v;
   }
 
-  List<String>? get urls => throw UnimplementedError();
+  List<String>? get urls =>
+      _wrapped.urls?.toDart.cast<String>().map((e) => e).toList();
   set urls(List<String>? v) {
     _wrapped.urls = throw UnimplementedError();
   }

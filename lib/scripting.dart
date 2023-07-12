@@ -132,7 +132,8 @@ class InjectionTarget {
 
   /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
   /// of specific frames to inject into.
-  List<int>? get frameIds => throw UnimplementedError();
+  List<int>? get frameIds =>
+      _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
   set frameIds(List<int>? v) {
     _wrapped.frameIds = throw UnimplementedError();
   }
@@ -141,7 +142,8 @@ class InjectionTarget {
   /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
   /// of specific documentIds to inject into. This must not be set if
   /// `frameIds` is set.
-  List<String>? get documentIds => throw UnimplementedError();
+  List<String>? get documentIds =>
+      _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
   set documentIds(List<String>? v) {
     _wrapped.documentIds = throw UnimplementedError();
   }
@@ -175,7 +177,8 @@ class ScriptInjection {
   /// The arguments to curry into a provided function. This is only valid if
   /// the `func` parameter is specified. These arguments must be
   /// JSON-serializable.
-  List<JSAny>? get args => throw UnimplementedError();
+  List<JSAny>? get args =>
+      _wrapped.args?.toDart.cast<JSAny>().map((e) => e).toList();
   set args(List<JSAny>? v) {
     _wrapped.args = throw UnimplementedError();
   }
@@ -194,7 +197,8 @@ class ScriptInjection {
   /// root directory.
   /// Exactly one of `files` and `func` must be
   /// specified.
-  List<String>? get files => throw UnimplementedError();
+  List<String>? get files =>
+      _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
   set files(List<String>? v) {
     _wrapped.files = throw UnimplementedError();
   }
@@ -247,7 +251,8 @@ class CSSInjection {
   /// directory.
   /// Exactly one of `files` and `css` must be
   /// specified.
-  List<String>? get files => throw UnimplementedError();
+  List<String>? get files =>
+      _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
   set files(List<String>? v) {
     _wrapped.files = throw UnimplementedError();
   }
@@ -303,7 +308,8 @@ class RegisteredContentScript {
   /// [Match Patterns](match_patterns) for more details on the
   /// syntax of these strings. Must be specified for
   /// [registerContentScripts].
-  List<String>? get matches => throw UnimplementedError();
+  List<String>? get matches =>
+      _wrapped.matches?.toDart.cast<String>().map((e) => e).toList();
   set matches(List<String>? v) {
     _wrapped.matches = throw UnimplementedError();
   }
@@ -311,7 +317,8 @@ class RegisteredContentScript {
   /// Excludes pages that this content script would otherwise be injected into.
   /// See [Match Patterns](match_patterns) for more details on the
   /// syntax of these strings.
-  List<String>? get excludeMatches => throw UnimplementedError();
+  List<String>? get excludeMatches =>
+      _wrapped.excludeMatches?.toDart.cast<String>().map((e) => e).toList();
   set excludeMatches(List<String>? v) {
     _wrapped.excludeMatches = throw UnimplementedError();
   }
@@ -319,14 +326,16 @@ class RegisteredContentScript {
   /// The list of CSS files to be injected into matching pages. These are
   /// injected in the order they appear in this array, before any DOM is
   /// constructed or displayed for the page.
-  List<String>? get css => throw UnimplementedError();
+  List<String>? get css =>
+      _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
     _wrapped.css = throw UnimplementedError();
   }
 
   /// The list of JavaScript files to be injected into matching pages. These
   /// are injected in the order they appear in this array.
-  List<String>? get js => throw UnimplementedError();
+  List<String>? get js =>
+      _wrapped.js?.toDart.cast<String>().map((e) => e).toList();
   set js(List<String>? v) {
     _wrapped.js = throw UnimplementedError();
   }
@@ -379,7 +388,8 @@ class ContentScriptFilter {
 
   /// If specified, [getRegisteredContentScripts] will only return scripts
   /// with an id specified in this list.
-  List<String>? get ids => throw UnimplementedError();
+  List<String>? get ids =>
+      _wrapped.ids?.toDart.cast<String>().map((e) => e).toList();
   set ids(List<String>? v) {
     _wrapped.ids = throw UnimplementedError();
   }

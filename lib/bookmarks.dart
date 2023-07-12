@@ -183,7 +183,10 @@ class BookmarkTreeNode {
   }
 
   /// An ordered list of children of this node.
-  List<BookmarkTreeNode>? get children => throw UnimplementedError();
+  List<BookmarkTreeNode>? get children => _wrapped.children?.toDart
+      .cast<$js.BookmarkTreeNode>()
+      .map((e) => BookmarkTreeNode.fromJS(e))
+      .toList();
   set children(List<BookmarkTreeNode>? v) {
     _wrapped.children = throw UnimplementedError();
   }
@@ -294,7 +297,8 @@ class OnChildrenReorderedReorderInfo {
 
   $js.OnChildrenReorderedReorderInfo get toJS => _wrapped;
 
-  List<String> get childIds => throw UnimplementedError();
+  List<String> get childIds =>
+      _wrapped.childIds.toDart.cast<String>().map((e) => e).toList();
   set childIds(List<String> v) {
     _wrapped.childIds = throw UnimplementedError();
   }

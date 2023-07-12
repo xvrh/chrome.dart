@@ -173,7 +173,10 @@ class DeviceFilter {
 
   /// If set, only audio devices whose stream type is included in this list
   /// will satisfy the filter.
-  List<StreamType>? get streamTypes => throw UnimplementedError();
+  List<StreamType>? get streamTypes => _wrapped.streamTypes?.toDart
+      .cast<$js.StreamType>()
+      .map((e) => StreamType.fromJS(e))
+      .toList();
   set streamTypes(List<StreamType>? v) {
     _wrapped.streamTypes = throw UnimplementedError();
   }
@@ -215,7 +218,8 @@ class DeviceIdLists {
   /// List of input devices specified by their ID.
   /// To indicate input devices should be unaffected, leave this property
   ///   unset.
-  List<String>? get input => throw UnimplementedError();
+  List<String>? get input =>
+      _wrapped.input?.toDart.cast<String>().map((e) => e).toList();
   set input(List<String>? v) {
     _wrapped.input = throw UnimplementedError();
   }
@@ -223,7 +227,8 @@ class DeviceIdLists {
   /// List of output devices specified by their ID.
   /// To indicate output devices should be unaffected, leave this property
   ///   unset.
-  List<String>? get output => throw UnimplementedError();
+  List<String>? get output =>
+      _wrapped.output?.toDart.cast<String>().map((e) => e).toList();
   set output(List<String>? v) {
     _wrapped.output = throw UnimplementedError();
   }

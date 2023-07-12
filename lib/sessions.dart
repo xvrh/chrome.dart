@@ -99,7 +99,10 @@ class Device {
 
   /// A list of open window sessions for the foreign device, sorted from most
   /// recently to least recently modified session.
-  List<Session> get sessions => throw UnimplementedError();
+  List<Session> get sessions => _wrapped.sessions.toDart
+      .cast<$js.Session>()
+      .map((e) => Session.fromJS(e))
+      .toList();
   set sessions(List<Session> v) {
     _wrapped.sessions = throw UnimplementedError();
   }

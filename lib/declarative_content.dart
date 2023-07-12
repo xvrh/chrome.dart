@@ -100,7 +100,8 @@ class PageStateMatcher {
   /// selectors](http://www.w3.org/TR/selectors4/#compound) to speed up
   /// matching. Note: Listing hundreds of CSS selectors or listing CSS selectors
   /// that match hundreds of times per page can slow down web sites.
-  List<String>? get css => throw UnimplementedError();
+  List<String>? get css =>
+      _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
     _wrapped.css = throw UnimplementedError();
   }
@@ -182,13 +183,15 @@ class RequestContentScript {
   $js.RequestContentScript get toJS => _wrapped;
 
   /// Names of CSS files to be injected as a part of the content script.
-  List<String>? get css => throw UnimplementedError();
+  List<String>? get css =>
+      _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
     _wrapped.css = throw UnimplementedError();
   }
 
   /// Names of JavaScript files to be injected as a part of the content script.
-  List<String>? get js => throw UnimplementedError();
+  List<String>? get js =>
+      _wrapped.js?.toDart.cast<String>().map((e) => e).toList();
   set js(List<String>? v) {
     _wrapped.js = throw UnimplementedError();
   }

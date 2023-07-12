@@ -223,7 +223,8 @@ class TokenDetails {
   ///
   /// When the `scopes` field is present, it overrides the
   /// list of scopes specified in manifest.json.
-  List<String>? get scopes => throw UnimplementedError();
+  List<String>? get scopes =>
+      _wrapped.scopes?.toDart.cast<String>().map((e) => e).toList();
   set scopes(List<String>? v) {
     _wrapped.scopes = throw UnimplementedError();
   }
@@ -325,7 +326,8 @@ class GetAuthTokenResult {
   }
 
   /// A list of OAuth2 scopes granted to the extension.
-  List<String>? get grantedScopes => throw UnimplementedError();
+  List<String>? get grantedScopes =>
+      _wrapped.grantedScopes?.toDart.cast<String>().map((e) => e).toList();
   set grantedScopes(List<String>? v) {
     _wrapped.grantedScopes = throw UnimplementedError();
   }

@@ -255,14 +255,18 @@ class RequestFilter {
 
   /// A list of URLs or URL patterns. Requests that cannot match any of the URLs
   /// will be filtered out.
-  List<String> get urls => throw UnimplementedError();
+  List<String> get urls =>
+      _wrapped.urls.toDart.cast<String>().map((e) => e).toList();
   set urls(List<String> v) {
     _wrapped.urls = throw UnimplementedError();
   }
 
   /// A list of request types. Requests that cannot match any of the types will
   /// be filtered out.
-  List<ResourceType>? get types => throw UnimplementedError();
+  List<ResourceType>? get types => _wrapped.types?.toDart
+      .cast<$js.ResourceType>()
+      .map((e) => ResourceType.fromJS(e))
+      .toList();
   set types(List<ResourceType>? v) {
     _wrapped.types = throw UnimplementedError();
   }
@@ -308,7 +312,10 @@ class BlockingResponse {
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the
   /// request is made with these request headers instead.
-  HttpHeaders? get requestHeaders => throw UnimplementedError();
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set requestHeaders(HttpHeaders? v) {
     _wrapped.requestHeaders = throw UnimplementedError();
   }
@@ -318,7 +325,10 @@ class BlockingResponse {
   /// return `responseHeaders` if you really want to modify the headers in order
   /// to limit the number of conflicts (only one extension may modify
   /// `responseHeaders` for each request).
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -373,7 +383,8 @@ class HttpHeadersItems {
 
   /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
   /// individual byte values (0..255).
-  List<int>? get binaryValue => throw UnimplementedError();
+  List<int>? get binaryValue =>
+      _wrapped.binaryValue?.toDart.cast<int>().map((e) => e).toList();
   set binaryValue(List<int>? v) {
     _wrapped.binaryValue = throw UnimplementedError();
   }
@@ -579,7 +590,10 @@ class OnBeforeSendHeadersDetails {
   }
 
   /// The HTTP request headers that are going to be sent out with this request.
-  HttpHeaders? get requestHeaders => throw UnimplementedError();
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set requestHeaders(HttpHeaders? v) {
     _wrapped.requestHeaders = throw UnimplementedError();
   }
@@ -681,7 +695,10 @@ class OnSendHeadersDetails {
   }
 
   /// The HTTP request headers that have been sent out with this request.
-  HttpHeaders? get requestHeaders => throw UnimplementedError();
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set requestHeaders(HttpHeaders? v) {
     _wrapped.requestHeaders = throw UnimplementedError();
   }
@@ -790,7 +807,10 @@ class OnHeadersReceivedDetails {
   }
 
   /// The HTTP response headers that have been received with this response.
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -923,7 +943,10 @@ class OnAuthRequiredDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -1058,7 +1081,10 @@ class OnResponseStartedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -1193,7 +1219,10 @@ class OnBeforeRedirectDetails {
   }
 
   /// The HTTP response headers that were received along with this redirect.
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -1322,7 +1351,10 @@ class OnCompletedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => throw UnimplementedError();
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+      .cast<$js.HttpHeadersItems>()
+      .map((e) => HttpHeadersItems.fromJS(e))
+      .toList();
   set responseHeaders(HttpHeaders? v) {
     _wrapped.responseHeaders = throw UnimplementedError();
   }
@@ -1522,7 +1554,10 @@ class OnBeforeRequestDetailsRequestBody {
   /// If the request method is PUT or POST, and the body is not already parsed
   /// in formData, then the unparsed request body elements are contained in this
   /// array.
-  List<UploadData>? get raw => throw UnimplementedError();
+  List<UploadData>? get raw => _wrapped.raw?.toDart
+      .cast<$js.UploadData>()
+      .map((e) => UploadData.fromJS(e))
+      .toList();
   set raw(List<UploadData>? v) {
     _wrapped.raw = throw UnimplementedError();
   }

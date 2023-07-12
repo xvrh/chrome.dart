@@ -479,7 +479,11 @@ class DisplayUnitInfo {
   /// is being mirrored. Empty if no displays are being mirrored. This will be
   /// set to the same value for all displays. This must not include
   /// |mirroringSourceId|.
-  List<String> get mirroringDestinationIds => throw UnimplementedError();
+  List<String> get mirroringDestinationIds =>
+      _wrapped.mirroringDestinationIds.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
   set mirroringDestinationIds(List<String> v) {
     _wrapped.mirroringDestinationIds = throw UnimplementedError();
   }
@@ -565,7 +569,10 @@ class DisplayUnitInfo {
   /// The list of available display modes. The current mode will have
   /// isSelected=true. Only available on Chrome OS. Will be set to an empty
   /// array on other platforms.
-  List<DisplayMode> get modes => throw UnimplementedError();
+  List<DisplayMode> get modes => _wrapped.modes.toDart
+      .cast<$js.DisplayMode>()
+      .map((e) => DisplayMode.fromJS(e))
+      .toList();
   set modes(List<DisplayMode> v) {
     _wrapped.modes = throw UnimplementedError();
   }
@@ -585,7 +592,11 @@ class DisplayUnitInfo {
   }
 
   /// A list of zoom factor values that can be set for the display.
-  List<double> get availableDisplayZoomFactors => throw UnimplementedError();
+  List<double> get availableDisplayZoomFactors =>
+      _wrapped.availableDisplayZoomFactors.toDart
+          .cast<double>()
+          .map((e) => e)
+          .toList();
   set availableDisplayZoomFactors(List<double> v) {
     _wrapped.availableDisplayZoomFactors = throw UnimplementedError();
   }
@@ -724,7 +735,11 @@ class MirrorModeInfo {
 
   /// The ids of the mirroring destination displays. This is only valid for
   /// 'mixed'.
-  List<String>? get mirroringDestinationIds => throw UnimplementedError();
+  List<String>? get mirroringDestinationIds =>
+      _wrapped.mirroringDestinationIds?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
   set mirroringDestinationIds(List<String>? v) {
     _wrapped.mirroringDestinationIds = throw UnimplementedError();
   }

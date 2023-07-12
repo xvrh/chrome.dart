@@ -320,19 +320,24 @@ class ExtensionInfo {
   /// than what was declared, so you might consider using explicit width and
   /// height attributes on img tags referencing these images. See the [manifest
   /// documentation on icons](manifest/icons) for more details.
-  List<IconInfo>? get icons => throw UnimplementedError();
+  List<IconInfo>? get icons => _wrapped.icons?.toDart
+      .cast<$js.IconInfo>()
+      .map((e) => IconInfo.fromJS(e))
+      .toList();
   set icons(List<IconInfo>? v) {
     _wrapped.icons = throw UnimplementedError();
   }
 
   /// Returns a list of API based permissions.
-  List<String> get permissions => throw UnimplementedError();
+  List<String> get permissions =>
+      _wrapped.permissions.toDart.cast<String>().map((e) => e).toList();
   set permissions(List<String> v) {
     _wrapped.permissions = throw UnimplementedError();
   }
 
   /// Returns a list of host based permissions.
-  List<String> get hostPermissions => throw UnimplementedError();
+  List<String> get hostPermissions =>
+      _wrapped.hostPermissions.toDart.cast<String>().map((e) => e).toList();
   set hostPermissions(List<String> v) {
     _wrapped.hostPermissions = throw UnimplementedError();
   }
@@ -351,7 +356,11 @@ class ExtensionInfo {
   }
 
   /// The currently available launch types (only present for apps).
-  List<LaunchType>? get availableLaunchTypes => throw UnimplementedError();
+  List<LaunchType>? get availableLaunchTypes =>
+      _wrapped.availableLaunchTypes?.toDart
+          .cast<$js.LaunchType>()
+          .map((e) => LaunchType.fromJS(e))
+          .toList();
   set availableLaunchTypes(List<LaunchType>? v) {
     _wrapped.availableLaunchTypes = throw UnimplementedError();
   }

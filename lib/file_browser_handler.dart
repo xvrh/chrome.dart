@@ -26,14 +26,14 @@ class FileHandlerExecuteEventDetails {
   /// action (selected in ChromeOS file browser).
   List<JSAny> get entries => throw UnimplementedError();
   set entries(List<JSAny> v) {
-    throw UnimplementedError();
+    _wrapped.entries = throw UnimplementedError();
   }
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a
   /// browser session.
   int? get tab_id => _wrapped.tab_id;
   set tab_id(int? v) {
-    throw UnimplementedError();
+    _wrapped.tab_id = v;
   }
 }
 

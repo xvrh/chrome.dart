@@ -160,13 +160,13 @@ class Window {
   /// session ID may be present.
   int? get id => _wrapped.id;
   set id(int? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Whether the window is currently the focused window.
   bool get focused => _wrapped.focused;
   set focused(bool v) {
-    throw UnimplementedError();
+    _wrapped.focused = v;
   }
 
   /// The offset of the window from the top edge of the screen in pixels. In
@@ -174,7 +174,7 @@ class Window {
   /// example, when querying closed windows from the [sessions] API.
   int? get top => _wrapped.top;
   set top(int? v) {
-    throw UnimplementedError();
+    _wrapped.top = v;
   }
 
   /// The offset of the window from the left edge of the screen in pixels. In
@@ -182,7 +182,7 @@ class Window {
   /// example, when querying closed windows from the [sessions] API.
   int? get left => _wrapped.left;
   set left(int? v) {
-    throw UnimplementedError();
+    _wrapped.left = v;
   }
 
   /// The width of the window, including the frame, in pixels. In some
@@ -190,7 +190,7 @@ class Window {
   /// example, when querying closed windows from the [sessions] API.
   int? get width => _wrapped.width;
   set width(int? v) {
-    throw UnimplementedError();
+    _wrapped.width = v;
   }
 
   /// The height of the window, including the frame, in pixels. In some
@@ -198,44 +198,44 @@ class Window {
   /// example, when querying closed windows from the [sessions] API.
   int? get height => _wrapped.height;
   set height(int? v) {
-    throw UnimplementedError();
+    _wrapped.height = v;
   }
 
   /// Array of [tabs.Tab] objects representing the current tabs in the window.
   List<Tab>? get tabs => throw UnimplementedError();
   set tabs(List<Tab>? v) {
-    throw UnimplementedError();
+    _wrapped.tabs = throw UnimplementedError();
   }
 
   /// Whether the window is incognito.
   bool get incognito => _wrapped.incognito;
   set incognito(bool v) {
-    throw UnimplementedError();
+    _wrapped.incognito = v;
   }
 
   /// The type of browser window this is.
   WindowType? get type => _wrapped.type?.let(WindowType.fromJS);
   set type(WindowType? v) {
-    throw UnimplementedError();
+    _wrapped.type = v?.toJS;
   }
 
   /// The state of this browser window.
   WindowState? get state => _wrapped.state?.let(WindowState.fromJS);
   set state(WindowState? v) {
-    throw UnimplementedError();
+    _wrapped.state = v?.toJS;
   }
 
   /// Whether the window is set to be always on top.
   bool get alwaysOnTop => _wrapped.alwaysOnTop;
   set alwaysOnTop(bool v) {
-    throw UnimplementedError();
+    _wrapped.alwaysOnTop = v;
   }
 
   /// The session ID used to uniquely identify a window, obtained from the
   /// [sessions] API.
   String? get sessionId => _wrapped.sessionId;
   set sessionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.sessionId = v;
   }
 }
 
@@ -252,14 +252,14 @@ class QueryOptions {
   /// manifest file includes the `"tabs"` permission.
   bool? get populate => _wrapped.populate;
   set populate(bool? v) {
-    throw UnimplementedError();
+    _wrapped.populate = v;
   }
 
   /// If set, the [windows.Window] returned is filtered based on its type. If
   /// unset, the default filter is set to `['normal', 'popup']`.
   List<WindowType>? get windowTypes => throw UnimplementedError();
   set windowTypes(List<WindowType>? v) {
-    throw UnimplementedError();
+    _wrapped.windowTypes = throw UnimplementedError();
   }
 }
 

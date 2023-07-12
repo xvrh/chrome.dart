@@ -96,7 +96,7 @@ class TabDetails {
   /// non-tab-specific state is returned.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }
 
@@ -112,7 +112,7 @@ class UserSettings {
   /// user).
   bool get isOnToolbar => _wrapped.isOnToolbar;
   set isOnToolbar(bool v) {
-    throw UnimplementedError();
+    _wrapped.isOnToolbar = v;
   }
 }
 
@@ -127,7 +127,7 @@ class OpenPopupOptions {
   /// currently-active window if unspecified.
   int? get windowId => _wrapped.windowId;
   set windowId(int? v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 }
 

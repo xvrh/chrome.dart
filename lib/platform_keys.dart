@@ -115,7 +115,7 @@ class Match {
   /// The DER encoding of a X.509 certificate.
   ByteBuffer get certificate => _wrapped.certificate.toDart;
   set certificate(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.certificate = v.toJS;
   }
 
   /// The
@@ -126,7 +126,7 @@ class Match {
   /// function are not included.
   JSAny get keyAlgorithm => _wrapped.keyAlgorithm;
   set keyAlgorithm(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.keyAlgorithm = v;
   }
 }
 
@@ -144,14 +144,14 @@ class ClientCertificateRequest {
   List<ClientCertificateType> get certificateTypes =>
       throw UnimplementedError();
   set certificateTypes(List<ClientCertificateType> v) {
-    throw UnimplementedError();
+    _wrapped.certificateTypes = throw UnimplementedError();
   }
 
   /// List of distinguished names of certificate authorities allowed by the
   /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
   List<ByteBuffer> get certificateAuthorities => throw UnimplementedError();
   set certificateAuthorities(List<ByteBuffer> v) {
-    throw UnimplementedError();
+    _wrapped.certificateAuthorities = throw UnimplementedError();
   }
 }
 
@@ -166,7 +166,7 @@ class SelectDetails {
   ClientCertificateRequest get request =>
       ClientCertificateRequest.fromJS(_wrapped.request);
   set request(ClientCertificateRequest v) {
-    throw UnimplementedError();
+    _wrapped.request = v.toJS;
   }
 
   /// If given, the `selectClientCertificates` operates on this
@@ -176,7 +176,7 @@ class SelectDetails {
   /// match the request, are removed.
   List<ByteBuffer>? get clientCerts => throw UnimplementedError();
   set clientCerts(List<ByteBuffer>? v) {
-    throw UnimplementedError();
+    _wrapped.clientCerts = throw UnimplementedError();
   }
 
   /// If true, the filtered list is presented to the user to manually select a
@@ -186,7 +186,7 @@ class SelectDetails {
   /// extension has been granted access to (automatically or manually).
   bool get interactive => _wrapped.interactive;
   set interactive(bool v) {
-    throw UnimplementedError();
+    _wrapped.interactive = v;
   }
 }
 
@@ -202,14 +202,14 @@ class VerificationDetails {
   /// the entry preceding it.
   List<ByteBuffer> get serverCertificateChain => throw UnimplementedError();
   set serverCertificateChain(List<ByteBuffer> v) {
-    throw UnimplementedError();
+    _wrapped.serverCertificateChain = throw UnimplementedError();
   }
 
   /// The hostname of the server to verify the certificate for, e.g. the server
   /// that presented the `serverCertificateChain`.
   String get hostname => _wrapped.hostname;
   set hostname(String v) {
-    throw UnimplementedError();
+    _wrapped.hostname = v;
   }
 }
 
@@ -225,7 +225,7 @@ class VerificationResult {
   /// for any reason.
   bool get trusted => _wrapped.trusted;
   set trusted(bool v) {
-    throw UnimplementedError();
+    _wrapped.trusted = v;
   }
 
   /// If the trust verification failed, this array contains the errors reported
@@ -237,7 +237,7 @@ class VerificationResult {
   /// compatible.
   List<String> get debug_errors => throw UnimplementedError();
   set debug_errors(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.debug_errors = throw UnimplementedError();
   }
 }
 

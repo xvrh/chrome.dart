@@ -57,7 +57,7 @@ class Resource {
   /// The URL of the resource.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// Gets the content of the resource.

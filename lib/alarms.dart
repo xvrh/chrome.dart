@@ -72,7 +72,7 @@ class Alarm {
   /// Name of this alarm.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// Time at which this alarm was scheduled to fire, in milliseconds past the
@@ -80,14 +80,14 @@ class Alarm {
   /// alarm may have been delayed an arbitrary amount beyond this.
   double get scheduledTime => _wrapped.scheduledTime;
   set scheduledTime(double v) {
-    throw UnimplementedError();
+    _wrapped.scheduledTime = v;
   }
 
   /// If not null, the alarm is a repeating alarm and will fire again in
   /// [periodInMinutes] minutes.
   double? get periodInMinutes => _wrapped.periodInMinutes;
   set periodInMinutes(double? v) {
-    throw UnimplementedError();
+    _wrapped.periodInMinutes = v;
   }
 }
 
@@ -102,7 +102,7 @@ class AlarmCreateInfo {
   /// (e.g. `Date.now() + n`).
   double? get when => _wrapped.when;
   set when(double? v) {
-    throw UnimplementedError();
+    _wrapped.when = v;
   }
 
   /// Length of time in minutes after which the `onAlarm` event
@@ -111,7 +111,7 @@ class AlarmCreateInfo {
   /// <!-- TODO: need minimum=0 -->
   double? get delayInMinutes => _wrapped.delayInMinutes;
   set delayInMinutes(double? v) {
-    throw UnimplementedError();
+    _wrapped.delayInMinutes = v;
   }
 
   /// If set, the onAlarm event should fire every [periodInMinutes]
@@ -121,6 +121,6 @@ class AlarmCreateInfo {
   /// <!-- TODO: need minimum=0 -->
   double? get periodInMinutes => _wrapped.periodInMinutes;
   set periodInMinutes(double? v) {
-    throw UnimplementedError();
+    _wrapped.periodInMinutes = v;
   }
 }

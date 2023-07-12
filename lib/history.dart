@@ -79,39 +79,39 @@ class HistoryItem {
   /// The unique identifier for the item.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The URL navigated to by a user.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The title of the page when it was last loaded.
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// When this page was last loaded, represented in milliseconds since the
   /// epoch.
   double? get lastVisitTime => _wrapped.lastVisitTime;
   set lastVisitTime(double? v) {
-    throw UnimplementedError();
+    _wrapped.lastVisitTime = v;
   }
 
   /// The number of times the user has navigated to this page.
   int? get visitCount => _wrapped.visitCount;
   set visitCount(int? v) {
-    throw UnimplementedError();
+    _wrapped.visitCount = v;
   }
 
   /// The number of times the user has navigated to this page by typing in the
   /// address.
   int? get typedCount => _wrapped.typedCount;
   set typedCount(int? v) {
-    throw UnimplementedError();
+    _wrapped.typedCount = v;
   }
 }
 
@@ -125,31 +125,31 @@ class VisitItem {
   /// The unique identifier for the item.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The unique identifier for this visit.
   String get visitId => _wrapped.visitId;
   set visitId(String v) {
-    throw UnimplementedError();
+    _wrapped.visitId = v;
   }
 
   /// When this visit occurred, represented in milliseconds since the epoch.
   double? get visitTime => _wrapped.visitTime;
   set visitTime(double? v) {
-    throw UnimplementedError();
+    _wrapped.visitTime = v;
   }
 
   /// The visit ID of the referrer.
   String get referringVisitId => _wrapped.referringVisitId;
   set referringVisitId(String v) {
-    throw UnimplementedError();
+    _wrapped.referringVisitId = v;
   }
 
   /// The [transition type](#transition_types) for this visit from its referrer.
   TransitionType get transition => TransitionType.fromJS(_wrapped.transition);
   set transition(TransitionType v) {
-    throw UnimplementedError();
+    _wrapped.transition = v.toJS;
   }
 }
 
@@ -164,7 +164,7 @@ class UrlDetails {
   /// call to history.search.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 }
 
@@ -178,12 +178,12 @@ class OnVisitRemovedRemoved {
   /// True if all history was removed.  If true, then urls will be empty.
   bool get allHistory => _wrapped.allHistory;
   set allHistory(bool v) {
-    throw UnimplementedError();
+    _wrapped.allHistory = v;
   }
 
   List<String>? get urls => throw UnimplementedError();
   set urls(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.urls = throw UnimplementedError();
   }
 }
 

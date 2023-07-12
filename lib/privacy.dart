@@ -57,7 +57,7 @@ class PrivacyNetwork {
   ChromeSetting get networkPredictionEnabled =>
       ChromeSetting.fromJS(_wrapped.networkPredictionEnabled);
   set networkPredictionEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.networkPredictionEnabled = v.toJS;
   }
 
   /// Allow users to specify the media performance/privacy tradeoffs which
@@ -67,7 +67,7 @@ class PrivacyNetwork {
   ChromeSetting get webRTCIPHandlingPolicy =>
       ChromeSetting.fromJS(_wrapped.webRTCIPHandlingPolicy);
   set webRTCIPHandlingPolicy(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.webRTCIPHandlingPolicy = v.toJS;
   }
 }
 
@@ -83,7 +83,7 @@ class PrivacyServices {
   ChromeSetting get alternateErrorPagesEnabled =>
       ChromeSetting.fromJS(_wrapped.alternateErrorPagesEnabled);
   set alternateErrorPagesEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.alternateErrorPagesEnabled = v.toJS;
   }
 
   /// If enabled, Chrome offers to automatically fill in forms. This
@@ -91,7 +91,7 @@ class PrivacyServices {
   ChromeSetting get autofillEnabled =>
       ChromeSetting.fromJS(_wrapped.autofillEnabled);
   set autofillEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.autofillEnabled = v.toJS;
   }
 
   /// If enabled, Chrome offers to automatically fill in addresses and other
@@ -99,7 +99,7 @@ class PrivacyServices {
   ChromeSetting get autofillAddressEnabled =>
       ChromeSetting.fromJS(_wrapped.autofillAddressEnabled);
   set autofillAddressEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.autofillAddressEnabled = v.toJS;
   }
 
   /// If enabled, Chrome offers to automatically fill in credit card forms. This
@@ -107,7 +107,7 @@ class PrivacyServices {
   ChromeSetting get autofillCreditCardEnabled =>
       ChromeSetting.fromJS(_wrapped.autofillCreditCardEnabled);
   set autofillCreditCardEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.autofillCreditCardEnabled = v.toJS;
   }
 
   /// If enabled, the password manager will ask if you want to save passwords.
@@ -115,7 +115,7 @@ class PrivacyServices {
   ChromeSetting get passwordSavingEnabled =>
       ChromeSetting.fromJS(_wrapped.passwordSavingEnabled);
   set passwordSavingEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.passwordSavingEnabled = v.toJS;
   }
 
   /// If enabled, Chrome does its best to protect you from phishing and malware.
@@ -123,7 +123,7 @@ class PrivacyServices {
   ChromeSetting get safeBrowsingEnabled =>
       ChromeSetting.fromJS(_wrapped.safeBrowsingEnabled);
   set safeBrowsingEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.safeBrowsingEnabled = v.toJS;
   }
 
   /// If enabled, Chrome will send additional information to Google when
@@ -132,7 +132,7 @@ class PrivacyServices {
   ChromeSetting get safeBrowsingExtendedReportingEnabled =>
       ChromeSetting.fromJS(_wrapped.safeBrowsingExtendedReportingEnabled);
   set safeBrowsingExtendedReportingEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.safeBrowsingExtendedReportingEnabled = v.toJS;
   }
 
   /// If enabled, Chrome sends the text you type into the Omnibox to your
@@ -142,7 +142,7 @@ class PrivacyServices {
   ChromeSetting get searchSuggestEnabled =>
       ChromeSetting.fromJS(_wrapped.searchSuggestEnabled);
   set searchSuggestEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.searchSuggestEnabled = v.toJS;
   }
 
   /// If enabled, Chrome uses a web service to help correct spelling errors.
@@ -150,7 +150,7 @@ class PrivacyServices {
   ChromeSetting get spellingServiceEnabled =>
       ChromeSetting.fromJS(_wrapped.spellingServiceEnabled);
   set spellingServiceEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.spellingServiceEnabled = v.toJS;
   }
 
   /// If enabled, Chrome offers to translate pages that aren't in a language you
@@ -158,7 +158,7 @@ class PrivacyServices {
   ChromeSetting get translationServiceEnabled =>
       ChromeSetting.fromJS(_wrapped.translationServiceEnabled);
   set translationServiceEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.translationServiceEnabled = v.toJS;
   }
 }
 
@@ -175,7 +175,7 @@ class PrivacyWebsites {
   ChromeSetting get thirdPartyCookiesAllowed =>
       ChromeSetting.fromJS(_wrapped.thirdPartyCookiesAllowed);
   set thirdPartyCookiesAllowed(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.thirdPartyCookiesAllowed = v.toJS;
   }
 
   /// If enabled, the experimental [Privacy
@@ -185,7 +185,7 @@ class PrivacyWebsites {
   ChromeSetting get privacySandboxEnabled =>
       ChromeSetting.fromJS(_wrapped.privacySandboxEnabled);
   set privacySandboxEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.privacySandboxEnabled = v.toJS;
   }
 
   /// If disabled, the [Topics
@@ -197,7 +197,7 @@ class PrivacyWebsites {
   ChromeSetting get topicsEnabled =>
       ChromeSetting.fromJS(_wrapped.topicsEnabled);
   set topicsEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.topicsEnabled = v.toJS;
   }
 
   /// If disabled, the [Fledge
@@ -209,7 +209,7 @@ class PrivacyWebsites {
   ChromeSetting get fledgeEnabled =>
       ChromeSetting.fromJS(_wrapped.fledgeEnabled);
   set fledgeEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.fledgeEnabled = v.toJS;
   }
 
   /// If disabled, the [Attribution Reporting
@@ -223,7 +223,7 @@ class PrivacyWebsites {
   ChromeSetting get adMeasurementEnabled =>
       ChromeSetting.fromJS(_wrapped.adMeasurementEnabled);
   set adMeasurementEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.adMeasurementEnabled = v.toJS;
   }
 
   /// If enabled, Chrome sends auditing pings when requested by a website (`<a
@@ -232,7 +232,7 @@ class PrivacyWebsites {
   ChromeSetting get hyperlinkAuditingEnabled =>
       ChromeSetting.fromJS(_wrapped.hyperlinkAuditingEnabled);
   set hyperlinkAuditingEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.hyperlinkAuditingEnabled = v.toJS;
   }
 
   /// If enabled, Chrome sends `referer` headers with your requests. Yes, the
@@ -242,7 +242,7 @@ class PrivacyWebsites {
   ChromeSetting get referrersEnabled =>
       ChromeSetting.fromJS(_wrapped.referrersEnabled);
   set referrersEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.referrersEnabled = v.toJS;
   }
 
   /// If enabled, Chrome sends 'Do Not Track' (`DNT: 1`) header with your
@@ -251,7 +251,7 @@ class PrivacyWebsites {
   ChromeSetting get doNotTrackEnabled =>
       ChromeSetting.fromJS(_wrapped.doNotTrackEnabled);
   set doNotTrackEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.doNotTrackEnabled = v.toJS;
   }
 
   /// *Available on Windows and ChromeOS only*: If enabled, Chrome provides a
@@ -260,6 +260,6 @@ class PrivacyWebsites {
   ChromeSetting get protectedContentEnabled =>
       ChromeSetting.fromJS(_wrapped.protectedContentEnabled);
   set protectedContentEnabled(ChromeSetting v) {
-    throw UnimplementedError();
+    _wrapped.protectedContentEnabled = v.toJS;
   }
 }

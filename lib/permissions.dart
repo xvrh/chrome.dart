@@ -48,7 +48,7 @@ class Permissions {
   /// List of named permissions (does not include hosts or origins).
   List<String>? get permissions => throw UnimplementedError();
   set permissions(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.permissions = throw UnimplementedError();
   }
 
   /// The list of host permissions, including those specified in the
@@ -56,6 +56,6 @@ class Permissions {
   /// associated with [Content Scripts](content_scripts).
   List<String>? get origins => throw UnimplementedError();
   set origins(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.origins = throw UnimplementedError();
   }
 }

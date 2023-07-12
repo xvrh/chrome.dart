@@ -44,7 +44,7 @@ class SidePanel {
   /// Developer specified path for side panel display.
   String get default_path => _wrapped.default_path;
   set default_path(String v) {
-    throw UnimplementedError();
+    _wrapped.default_path = v;
   }
 }
 
@@ -57,7 +57,7 @@ class ManifestKeys {
 
   SidePanel get side_panel => SidePanel.fromJS(_wrapped.side_panel);
   set side_panel(SidePanel v) {
-    throw UnimplementedError();
+    _wrapped.side_panel = v.toJS;
   }
 }
 
@@ -75,21 +75,21 @@ class PanelOptions {
   /// be a different instance than the panel for the default tabId.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The path to the side panel HTML file to use. This must be a local
   /// resource within the extension package.
   String? get path => _wrapped.path;
   set path(String? v) {
-    throw UnimplementedError();
+    _wrapped.path = v;
   }
 
   /// Whether the side panel should be enabled. This is optional. The default
   /// value is true.
   bool? get enabled => _wrapped.enabled;
   set enabled(bool? v) {
-    throw UnimplementedError();
+    _wrapped.enabled = v;
   }
 }
 
@@ -104,7 +104,7 @@ class PanelBehavior {
   /// entry in the side panel. Defaults to false.
   bool? get openPanelOnActionClick => _wrapped.openPanelOnActionClick;
   set openPanelOnActionClick(bool? v) {
-    throw UnimplementedError();
+    _wrapped.openPanelOnActionClick = v;
   }
 }
 
@@ -120,6 +120,6 @@ class GetPanelOptions {
   /// doesn't have specific settings).
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }

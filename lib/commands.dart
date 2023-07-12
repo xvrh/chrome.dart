@@ -30,19 +30,19 @@ class Command {
   /// The name of the Extension Command
   String? get name => _wrapped.name;
   set name(String? v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The Extension Command description
   String? get description => _wrapped.description;
   set description(String? v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// The shortcut active for this command, or blank if not active.
   String? get shortcut => _wrapped.shortcut;
   set shortcut(String? v) {
-    throw UnimplementedError();
+    _wrapped.shortcut = v;
   }
 }
 

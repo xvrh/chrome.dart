@@ -56,13 +56,13 @@ class OnMessageMessage {
   /// The message data.
   OnMessageMessageData get data => OnMessageMessageData.fromJS(_wrapped.data);
   set data(OnMessageMessageData v) {
-    throw UnimplementedError();
+    _wrapped.data = v.toJS;
   }
 
   /// The sender who issued the message.
   String? get from => _wrapped.from;
   set from(String? v) {
-    throw UnimplementedError();
+    _wrapped.from = v;
   }
 
   /// The collapse key of a message. See the <a
@@ -70,7 +70,7 @@ class OnMessageMessage {
   /// and collapsible messages</a> for details.
   String? get collapseKey => _wrapped.collapseKey;
   set collapseKey(String? v) {
-    throw UnimplementedError();
+    _wrapped.collapseKey = v;
   }
 }
 
@@ -84,21 +84,21 @@ class OnSendErrorError {
   /// The error message describing the problem.
   String get errorMessage => _wrapped.errorMessage;
   set errorMessage(String v) {
-    throw UnimplementedError();
+    _wrapped.errorMessage = v;
   }
 
   /// The ID of the message with this error, if error is related to a specific
   /// message.
   String? get messageId => _wrapped.messageId;
   set messageId(String? v) {
-    throw UnimplementedError();
+    _wrapped.messageId = v;
   }
 
   /// Additional details related to the error, when available.
   OnSendErrorErrorDetails get details =>
       OnSendErrorErrorDetails.fromJS(_wrapped.details);
   set details(OnSendErrorErrorDetails v) {
-    throw UnimplementedError();
+    _wrapped.details = v.toJS;
   }
 }
 

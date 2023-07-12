@@ -46,7 +46,7 @@ class Filter {
   /// ([sessions.MAX_SESSION_RESULTS]).
   int? get maxResults => _wrapped.maxResults;
   set maxResults(int? v) {
-    throw UnimplementedError();
+    _wrapped.maxResults = v;
   }
 }
 
@@ -61,21 +61,21 @@ class Session {
   /// milliseconds since the epoch.
   int get lastModified => _wrapped.lastModified;
   set lastModified(int v) {
-    throw UnimplementedError();
+    _wrapped.lastModified = v;
   }
 
   /// The [tabs.Tab], if this entry describes a tab. Either this or
   /// [sessions.Session.window] will be set.
   Tab? get tab => _wrapped.tab?.let(Tab.fromJS);
   set tab(Tab? v) {
-    throw UnimplementedError();
+    _wrapped.tab = v?.toJS;
   }
 
   /// The [windows.Window], if this entry describes a window. Either this or
   /// [sessions.Session.tab] will be set.
   Window? get window => _wrapped.window?.let(Window.fromJS);
   set window(Window? v) {
-    throw UnimplementedError();
+    _wrapped.window = v?.toJS;
   }
 }
 
@@ -88,19 +88,19 @@ class Device {
 
   String get info => _wrapped.info;
   set info(String v) {
-    throw UnimplementedError();
+    _wrapped.info = v;
   }
 
   /// The name of the foreign device.
   String get deviceName => _wrapped.deviceName;
   set deviceName(String v) {
-    throw UnimplementedError();
+    _wrapped.deviceName = v;
   }
 
   /// A list of open window sessions for the foreign device, sorted from most
   /// recently to least recently modified session.
   List<Session> get sessions => throw UnimplementedError();
   set sessions(List<Session> v) {
-    throw UnimplementedError();
+    _wrapped.sessions = throw UnimplementedError();
   }
 }

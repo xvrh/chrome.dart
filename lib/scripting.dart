@@ -127,14 +127,14 @@ class InjectionTarget {
   /// The ID of the tab into which to inject.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
   /// of specific frames to inject into.
   List<int>? get frameIds => throw UnimplementedError();
   set frameIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.frameIds = throw UnimplementedError();
   }
 
   /// The
@@ -143,7 +143,7 @@ class InjectionTarget {
   /// `frameIds` is set.
   List<String>? get documentIds => throw UnimplementedError();
   set documentIds(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.documentIds = throw UnimplementedError();
   }
 
   /// Whether the script should inject into all frames within the tab. Defaults
@@ -151,7 +151,7 @@ class InjectionTarget {
   /// This must not be true if `frameIds` is specified.
   bool? get allFrames => _wrapped.allFrames;
   set allFrames(bool? v) {
-    throw UnimplementedError();
+    _wrapped.allFrames = v;
   }
 }
 
@@ -169,7 +169,7 @@ class ScriptInjection {
   /// specified.
   JSAny? get func => _wrapped.func;
   set func(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.func = v;
   }
 
   /// The arguments to curry into a provided function. This is only valid if
@@ -177,7 +177,7 @@ class ScriptInjection {
   /// JSON-serializable.
   List<JSAny>? get args => throw UnimplementedError();
   set args(List<JSAny>? v) {
-    throw UnimplementedError();
+    _wrapped.args = throw UnimplementedError();
   }
 
   /// We used to call the injected function `function`, but this is
@@ -187,7 +187,7 @@ class ScriptInjection {
   /// TODO(devlin): Remove this in M95.
   JSAny? get function => _wrapped.function;
   set function(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.function = v;
   }
 
   /// The path of the JS or CSS files to inject, relative to the extension's
@@ -196,20 +196,20 @@ class ScriptInjection {
   /// specified.
   List<String>? get files => throw UnimplementedError();
   set files(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.files = throw UnimplementedError();
   }
 
   /// Details specifying the target into which to inject the script.
   InjectionTarget get target => InjectionTarget.fromJS(_wrapped.target);
   set target(InjectionTarget v) {
-    throw UnimplementedError();
+    _wrapped.target = v.toJS;
   }
 
   /// The JavaScript "world" to run the script in. Defaults to
   /// `ISOLATED`.
   ExecutionWorld? get world => _wrapped.world?.let(ExecutionWorld.fromJS);
   set world(ExecutionWorld? v) {
-    throw UnimplementedError();
+    _wrapped.world = v?.toJS;
   }
 
   /// Whether the injection should be triggered in the target as soon as
@@ -218,7 +218,7 @@ class ScriptInjection {
   /// script reaches the target.
   bool? get injectImmediately => _wrapped.injectImmediately;
   set injectImmediately(bool? v) {
-    throw UnimplementedError();
+    _wrapped.injectImmediately = v;
   }
 }
 
@@ -232,7 +232,7 @@ class CSSInjection {
   /// Details specifying the target into which to insert the CSS.
   InjectionTarget get target => InjectionTarget.fromJS(_wrapped.target);
   set target(InjectionTarget v) {
-    throw UnimplementedError();
+    _wrapped.target = v.toJS;
   }
 
   /// A string containing the CSS to inject.
@@ -240,7 +240,7 @@ class CSSInjection {
   /// specified.
   String? get css => _wrapped.css;
   set css(String? v) {
-    throw UnimplementedError();
+    _wrapped.css = v;
   }
 
   /// The path of the CSS files to inject, relative to the extension's root
@@ -249,13 +249,13 @@ class CSSInjection {
   /// specified.
   List<String>? get files => throw UnimplementedError();
   set files(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.files = throw UnimplementedError();
   }
 
   /// The style origin for the injection. Defaults to `'AUTHOR'`.
   StyleOrigin? get origin => _wrapped.origin?.let(StyleOrigin.fromJS);
   set origin(StyleOrigin? v) {
-    throw UnimplementedError();
+    _wrapped.origin = v?.toJS;
   }
 }
 
@@ -269,19 +269,19 @@ class InjectionResult {
   /// The result of the script execution.
   JSAny? get result => _wrapped.result;
   set result(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.result = v;
   }
 
   /// The frame associated with the injection.
   int get frameId => _wrapped.frameId;
   set frameId(int v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// The document associated with the injection.
   String get documentId => _wrapped.documentId;
   set documentId(String v) {
-    throw UnimplementedError();
+    _wrapped.documentId = v;
   }
 }
 
@@ -296,7 +296,7 @@ class RegisteredContentScript {
   /// with a '_' as it's reserved as a prefix for generated script IDs.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Specifies which pages this content script will be injected into. See
@@ -305,7 +305,7 @@ class RegisteredContentScript {
   /// [registerContentScripts].
   List<String>? get matches => throw UnimplementedError();
   set matches(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.matches = throw UnimplementedError();
   }
 
   /// Excludes pages that this content script would otherwise be injected into.
@@ -313,7 +313,7 @@ class RegisteredContentScript {
   /// syntax of these strings.
   List<String>? get excludeMatches => throw UnimplementedError();
   set excludeMatches(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.excludeMatches = throw UnimplementedError();
   }
 
   /// The list of CSS files to be injected into matching pages. These are
@@ -321,14 +321,14 @@ class RegisteredContentScript {
   /// constructed or displayed for the page.
   List<String>? get css => throw UnimplementedError();
   set css(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.css = throw UnimplementedError();
   }
 
   /// The list of JavaScript files to be injected into matching pages. These
   /// are injected in the order they appear in this array.
   List<String>? get js => throw UnimplementedError();
   set js(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.js = throw UnimplementedError();
   }
 
   /// If specified true, it will inject into all frames, even if the frame is
@@ -338,35 +338,35 @@ class RegisteredContentScript {
   /// frame is matched.
   bool? get allFrames => _wrapped.allFrames;
   set allFrames(bool? v) {
-    throw UnimplementedError();
+    _wrapped.allFrames = v;
   }
 
   /// TODO(devlin): Add documentation once the implementation is complete. See
   /// crbug.com/55084.
   bool? get matchOriginAsFallback => _wrapped.matchOriginAsFallback;
   set matchOriginAsFallback(bool? v) {
-    throw UnimplementedError();
+    _wrapped.matchOriginAsFallback = v;
   }
 
   /// Specifies when JavaScript files are injected into the web page. The
   /// preferred and default value is `document_idle`.
   RunAt? get runAt => _wrapped.runAt?.let(RunAt.fromJS);
   set runAt(RunAt? v) {
-    throw UnimplementedError();
+    _wrapped.runAt = v?.toJS;
   }
 
   /// Specifies if this content script will persist into future sessions. The
   /// default is true.
   bool? get persistAcrossSessions => _wrapped.persistAcrossSessions;
   set persistAcrossSessions(bool? v) {
-    throw UnimplementedError();
+    _wrapped.persistAcrossSessions = v;
   }
 
   /// The JavaScript "world" to run the script in. Defaults to
   /// `ISOLATED`.
   ExecutionWorld? get world => _wrapped.world?.let(ExecutionWorld.fromJS);
   set world(ExecutionWorld? v) {
-    throw UnimplementedError();
+    _wrapped.world = v?.toJS;
   }
 }
 
@@ -381,6 +381,6 @@ class ContentScriptFilter {
   /// with an id specified in this list.
   List<String>? get ids => throw UnimplementedError();
   set ids(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.ids = throw UnimplementedError();
   }
 }

@@ -327,13 +327,13 @@ class HeaderNameValuePair {
   /// Name of the HTTP header.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// Value of the HTTP header.
   String get value => _wrapped.value;
   set value(String v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 }
 
@@ -352,14 +352,14 @@ class FilenameSuggestion {
   /// extensions.
   String get filename => _wrapped.filename;
   set filename(String v) {
-    throw UnimplementedError();
+    _wrapped.filename = v;
   }
 
   /// The action to take if `filename` already exists.
   FilenameConflictAction? get conflictAction =>
       _wrapped.conflictAction?.let(FilenameConflictAction.fromJS);
   set conflictAction(FilenameConflictAction? v) {
-    throw UnimplementedError();
+    _wrapped.conflictAction = v?.toJS;
   }
 }
 
@@ -373,7 +373,7 @@ class DownloadOptions {
   /// The URL to download.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// A file path relative to the Downloads directory to contain the downloaded
@@ -383,27 +383,27 @@ class DownloadOptions {
   /// MIME type and a tentative filename have been determined.
   String? get filename => _wrapped.filename;
   set filename(String? v) {
-    throw UnimplementedError();
+    _wrapped.filename = v;
   }
 
   /// The action to take if `filename` already exists.
   FilenameConflictAction? get conflictAction =>
       _wrapped.conflictAction?.let(FilenameConflictAction.fromJS);
   set conflictAction(FilenameConflictAction? v) {
-    throw UnimplementedError();
+    _wrapped.conflictAction = v?.toJS;
   }
 
   /// Use a file-chooser to allow the user to select a filename regardless of
   /// whether `filename` is set or already exists.
   bool? get saveAs => _wrapped.saveAs;
   set saveAs(bool? v) {
-    throw UnimplementedError();
+    _wrapped.saveAs = v;
   }
 
   /// The HTTP method to use if the URL uses the HTTP[S] protocol.
   HttpMethod? get method => _wrapped.method?.let(HttpMethod.fromJS);
   set method(HttpMethod? v) {
-    throw UnimplementedError();
+    _wrapped.method = v?.toJS;
   }
 
   /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
@@ -412,13 +412,13 @@ class DownloadOptions {
   /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
   List<HeaderNameValuePair>? get headers => throw UnimplementedError();
   set headers(List<HeaderNameValuePair>? v) {
-    throw UnimplementedError();
+    _wrapped.headers = throw UnimplementedError();
   }
 
   /// Post body.
   String? get body => _wrapped.body;
   set body(String? v) {
-    throw UnimplementedError();
+    _wrapped.body = v;
   }
 }
 
@@ -432,53 +432,53 @@ class DownloadItem {
   /// An identifier that is persistent across browser sessions.
   int get id => _wrapped.id;
   set id(int v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The absolute URL that this download initiated from, before any
   /// redirects.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The absolute URL that this download is being made from, after all
   /// redirects.
   String get finalUrl => _wrapped.finalUrl;
   set finalUrl(String v) {
-    throw UnimplementedError();
+    _wrapped.finalUrl = v;
   }
 
   /// Absolute URL.
   String get referrer => _wrapped.referrer;
   set referrer(String v) {
-    throw UnimplementedError();
+    _wrapped.referrer = v;
   }
 
   /// Absolute local path.
   String get filename => _wrapped.filename;
   set filename(String v) {
-    throw UnimplementedError();
+    _wrapped.filename = v;
   }
 
   /// False if this download is recorded in the history, true if it is not
   /// recorded.
   bool get incognito => _wrapped.incognito;
   set incognito(bool v) {
-    throw UnimplementedError();
+    _wrapped.incognito = v;
   }
 
   /// Indication of whether this download is thought to be safe or known to be
   /// suspicious.
   DangerType get danger => DangerType.fromJS(_wrapped.danger);
   set danger(DangerType v) {
-    throw UnimplementedError();
+    _wrapped.danger = v.toJS;
   }
 
   /// The file's MIME type.
   String get mime => _wrapped.mime;
   set mime(String v) {
-    throw UnimplementedError();
+    _wrapped.mime = v;
   }
 
   /// The time when the download began in ISO 8601 format. May be passed
@@ -487,7 +487,7 @@ class DownloadItem {
   /// Date(item.startTime))})})`
   String get startTime => _wrapped.startTime;
   set startTime(String v) {
-    throw UnimplementedError();
+    _wrapped.startTime = v;
   }
 
   /// The time when the download ended in ISO 8601 format. May be passed
@@ -496,7 +496,7 @@ class DownloadItem {
   /// console.log(new Date(item.endTime))})})`
   String? get endTime => _wrapped.endTime;
   set endTime(String? v) {
-    throw UnimplementedError();
+    _wrapped.endTime = v;
   }
 
   /// Estimated time when the download will complete in ISO 8601 format. May be
@@ -506,27 +506,27 @@ class DownloadItem {
   /// console.log(new Date(item.estimatedEndTime))})})`
   String? get estimatedEndTime => _wrapped.estimatedEndTime;
   set estimatedEndTime(String? v) {
-    throw UnimplementedError();
+    _wrapped.estimatedEndTime = v;
   }
 
   /// Indicates whether the download is progressing, interrupted, or complete.
   State get state => State.fromJS(_wrapped.state);
   set state(State v) {
-    throw UnimplementedError();
+    _wrapped.state = v.toJS;
   }
 
   /// True if the download has stopped reading data from the host, but kept the
   /// connection open.
   bool get paused => _wrapped.paused;
   set paused(bool v) {
-    throw UnimplementedError();
+    _wrapped.paused = v;
   }
 
   /// True if the download is in progress and paused, or else if it is
   /// interrupted and can be resumed starting from where it was interrupted.
   bool get canResume => _wrapped.canResume;
   set canResume(bool v) {
-    throw UnimplementedError();
+    _wrapped.canResume = v;
   }
 
   /// Why the download was interrupted. Several kinds of HTTP errors may be
@@ -537,27 +537,27 @@ class DownloadItem {
   /// `USER_`.
   InterruptReason? get error => _wrapped.error?.let(InterruptReason.fromJS);
   set error(InterruptReason? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// Number of bytes received so far from the host, without considering file
   /// compression.
   double get bytesReceived => _wrapped.bytesReceived;
   set bytesReceived(double v) {
-    throw UnimplementedError();
+    _wrapped.bytesReceived = v;
   }
 
   /// Number of bytes in the whole file, without considering file compression,
   /// or -1 if unknown.
   double get totalBytes => _wrapped.totalBytes;
   set totalBytes(double v) {
-    throw UnimplementedError();
+    _wrapped.totalBytes = v;
   }
 
   /// Number of bytes in the whole file post-decompression, or -1 if unknown.
   double get fileSize => _wrapped.fileSize;
   set fileSize(double v) {
-    throw UnimplementedError();
+    _wrapped.fileSize = v;
   }
 
   /// Whether the downloaded file still exists. This information may be out of
@@ -571,14 +571,14 @@ class DownloadItem {
   /// file existence any more frequently than once every 10 seconds.
   bool get exists => _wrapped.exists;
   set exists(bool v) {
-    throw UnimplementedError();
+    _wrapped.exists = v;
   }
 
   /// The identifier for the extension that initiated this download if this
   /// download was initiated by an extension. Does not change once it is set.
   String? get byExtensionId => _wrapped.byExtensionId;
   set byExtensionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.byExtensionId = v;
   }
 
   /// The localized name of the extension that initiated this download if this
@@ -586,7 +586,7 @@ class DownloadItem {
   /// changes its name or if the user changes their locale.
   String? get byExtensionName => _wrapped.byExtensionName;
   set byExtensionName(String? v) {
-    throw UnimplementedError();
+    _wrapped.byExtensionName = v;
   }
 }
 
@@ -603,70 +603,70 @@ class DownloadQuery {
   /// none of the search terms that do begin with a dash.
   List<String>? get query => throw UnimplementedError();
   set query(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.query = throw UnimplementedError();
   }
 
   /// Limits results to [DownloadItem] that
   /// started before the given ms since the epoch.
   String? get startedBefore => _wrapped.startedBefore;
   set startedBefore(String? v) {
-    throw UnimplementedError();
+    _wrapped.startedBefore = v;
   }
 
   /// Limits results to [DownloadItem] that
   /// started after the given ms since the epoch.
   String? get startedAfter => _wrapped.startedAfter;
   set startedAfter(String? v) {
-    throw UnimplementedError();
+    _wrapped.startedAfter = v;
   }
 
   /// Limits results to [DownloadItem] that ended before the given ms since the
   /// epoch.
   String? get endedBefore => _wrapped.endedBefore;
   set endedBefore(String? v) {
-    throw UnimplementedError();
+    _wrapped.endedBefore = v;
   }
 
   /// Limits results to [DownloadItem] that ended after the given ms since the
   /// epoch.
   String? get endedAfter => _wrapped.endedAfter;
   set endedAfter(String? v) {
-    throw UnimplementedError();
+    _wrapped.endedAfter = v;
   }
 
   /// Limits results to [DownloadItem] whose
   /// `totalBytes` is greater than the given integer.
   double? get totalBytesGreater => _wrapped.totalBytesGreater;
   set totalBytesGreater(double? v) {
-    throw UnimplementedError();
+    _wrapped.totalBytesGreater = v;
   }
 
   /// Limits results to [DownloadItem] whose
   /// `totalBytes` is less than the given integer.
   double? get totalBytesLess => _wrapped.totalBytesLess;
   set totalBytesLess(double? v) {
-    throw UnimplementedError();
+    _wrapped.totalBytesLess = v;
   }
 
   /// Limits results to [DownloadItem] whose
   /// `filename` matches the given regular expression.
   String? get filenameRegex => _wrapped.filenameRegex;
   set filenameRegex(String? v) {
-    throw UnimplementedError();
+    _wrapped.filenameRegex = v;
   }
 
   /// Limits results to [DownloadItem] whose
   /// `url` matches the given regular expression.
   String? get urlRegex => _wrapped.urlRegex;
   set urlRegex(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlRegex = v;
   }
 
   /// Limits results to [DownloadItem] whose
   /// `finalUrl` matches the given regular expression.
   String? get finalUrlRegex => _wrapped.finalUrlRegex;
   set finalUrlRegex(String? v) {
-    throw UnimplementedError();
+    _wrapped.finalUrlRegex = v;
   }
 
   /// The maximum number of matching [DownloadItem] returned. Defaults to
@@ -674,7 +674,7 @@ class DownloadQuery {
   /// [search] for how to page through results.
   int? get limit => _wrapped.limit;
   set limit(int? v) {
-    throw UnimplementedError();
+    _wrapped.limit = v;
   }
 
   /// Set elements of this array to [DownloadItem] properties in order to
@@ -684,103 +684,103 @@ class DownloadQuery {
   /// hyphen: '-startTime'.
   List<String>? get orderBy => throw UnimplementedError();
   set orderBy(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.orderBy = throw UnimplementedError();
   }
 
   /// The `id` of the [DownloadItem] to query.
   int? get id => _wrapped.id;
   set id(int? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The absolute URL that this download initiated from, before any
   /// redirects.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The absolute URL that this download is being made from, after all
   /// redirects.
   String? get finalUrl => _wrapped.finalUrl;
   set finalUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.finalUrl = v;
   }
 
   /// Absolute local path.
   String? get filename => _wrapped.filename;
   set filename(String? v) {
-    throw UnimplementedError();
+    _wrapped.filename = v;
   }
 
   /// Indication of whether this download is thought to be safe or known to be
   /// suspicious.
   DangerType? get danger => _wrapped.danger?.let(DangerType.fromJS);
   set danger(DangerType? v) {
-    throw UnimplementedError();
+    _wrapped.danger = v?.toJS;
   }
 
   /// The file's MIME type.
   String? get mime => _wrapped.mime;
   set mime(String? v) {
-    throw UnimplementedError();
+    _wrapped.mime = v;
   }
 
   /// The time when the download began in ISO 8601 format.
   String? get startTime => _wrapped.startTime;
   set startTime(String? v) {
-    throw UnimplementedError();
+    _wrapped.startTime = v;
   }
 
   /// The time when the download ended in ISO 8601 format.
   String? get endTime => _wrapped.endTime;
   set endTime(String? v) {
-    throw UnimplementedError();
+    _wrapped.endTime = v;
   }
 
   /// Indicates whether the download is progressing, interrupted, or complete.
   State? get state => _wrapped.state?.let(State.fromJS);
   set state(State? v) {
-    throw UnimplementedError();
+    _wrapped.state = v?.toJS;
   }
 
   /// True if the download has stopped reading data from the host, but kept the
   /// connection open.
   bool? get paused => _wrapped.paused;
   set paused(bool? v) {
-    throw UnimplementedError();
+    _wrapped.paused = v;
   }
 
   /// Why a download was interrupted.
   InterruptReason? get error => _wrapped.error?.let(InterruptReason.fromJS);
   set error(InterruptReason? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// Number of bytes received so far from the host, without considering file
   /// compression.
   double? get bytesReceived => _wrapped.bytesReceived;
   set bytesReceived(double? v) {
-    throw UnimplementedError();
+    _wrapped.bytesReceived = v;
   }
 
   /// Number of bytes in the whole file, without considering file compression,
   /// or -1 if unknown.
   double? get totalBytes => _wrapped.totalBytes;
   set totalBytes(double? v) {
-    throw UnimplementedError();
+    _wrapped.totalBytes = v;
   }
 
   /// Number of bytes in the whole file post-decompression, or -1 if unknown.
   double? get fileSize => _wrapped.fileSize;
   set fileSize(double? v) {
-    throw UnimplementedError();
+    _wrapped.fileSize = v;
   }
 
   /// Whether the downloaded file exists;
   bool? get exists => _wrapped.exists;
   set exists(bool? v) {
-    throw UnimplementedError();
+    _wrapped.exists = v;
   }
 }
 
@@ -793,12 +793,12 @@ class StringDelta {
 
   String? get previous => _wrapped.previous;
   set previous(String? v) {
-    throw UnimplementedError();
+    _wrapped.previous = v;
   }
 
   String? get current => _wrapped.current;
   set current(String? v) {
-    throw UnimplementedError();
+    _wrapped.current = v;
   }
 }
 
@@ -811,12 +811,12 @@ class DoubleDelta {
 
   double? get previous => _wrapped.previous;
   set previous(double? v) {
-    throw UnimplementedError();
+    _wrapped.previous = v;
   }
 
   double? get current => _wrapped.current;
   set current(double? v) {
-    throw UnimplementedError();
+    _wrapped.current = v;
   }
 }
 
@@ -829,12 +829,12 @@ class BooleanDelta {
 
   bool? get previous => _wrapped.previous;
   set previous(bool? v) {
-    throw UnimplementedError();
+    _wrapped.previous = v;
   }
 
   bool? get current => _wrapped.current;
   set current(bool? v) {
-    throw UnimplementedError();
+    _wrapped.current = v;
   }
 }
 
@@ -849,91 +849,91 @@ class DownloadDelta {
   /// that changed.
   int get id => _wrapped.id;
   set id(int v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The change in `url`, if any.
   StringDelta? get url => _wrapped.url?.let(StringDelta.fromJS);
   set url(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.url = v?.toJS;
   }
 
   /// The change in `finalUrl`, if any.
   StringDelta? get finalUrl => _wrapped.finalUrl?.let(StringDelta.fromJS);
   set finalUrl(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.finalUrl = v?.toJS;
   }
 
   /// The change in `filename`, if any.
   StringDelta? get filename => _wrapped.filename?.let(StringDelta.fromJS);
   set filename(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.filename = v?.toJS;
   }
 
   /// The change in `danger`, if any.
   StringDelta? get danger => _wrapped.danger?.let(StringDelta.fromJS);
   set danger(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.danger = v?.toJS;
   }
 
   /// The change in `mime`, if any.
   StringDelta? get mime => _wrapped.mime?.let(StringDelta.fromJS);
   set mime(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.mime = v?.toJS;
   }
 
   /// The change in `startTime`, if any.
   StringDelta? get startTime => _wrapped.startTime?.let(StringDelta.fromJS);
   set startTime(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.startTime = v?.toJS;
   }
 
   /// The change in `endTime`, if any.
   StringDelta? get endTime => _wrapped.endTime?.let(StringDelta.fromJS);
   set endTime(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.endTime = v?.toJS;
   }
 
   /// The change in `state`, if any.
   StringDelta? get state => _wrapped.state?.let(StringDelta.fromJS);
   set state(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.state = v?.toJS;
   }
 
   /// The change in `canResume`, if any.
   BooleanDelta? get canResume => _wrapped.canResume?.let(BooleanDelta.fromJS);
   set canResume(BooleanDelta? v) {
-    throw UnimplementedError();
+    _wrapped.canResume = v?.toJS;
   }
 
   /// The change in `paused`, if any.
   BooleanDelta? get paused => _wrapped.paused?.let(BooleanDelta.fromJS);
   set paused(BooleanDelta? v) {
-    throw UnimplementedError();
+    _wrapped.paused = v?.toJS;
   }
 
   /// The change in `error`, if any.
   StringDelta? get error => _wrapped.error?.let(StringDelta.fromJS);
   set error(StringDelta? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// The change in `totalBytes`, if any.
   DoubleDelta? get totalBytes => _wrapped.totalBytes?.let(DoubleDelta.fromJS);
   set totalBytes(DoubleDelta? v) {
-    throw UnimplementedError();
+    _wrapped.totalBytes = v?.toJS;
   }
 
   /// The change in `fileSize`, if any.
   DoubleDelta? get fileSize => _wrapped.fileSize?.let(DoubleDelta.fromJS);
   set fileSize(DoubleDelta? v) {
-    throw UnimplementedError();
+    _wrapped.fileSize = v?.toJS;
   }
 
   /// The change in `exists`, if any.
   BooleanDelta? get exists => _wrapped.exists?.let(BooleanDelta.fromJS);
   set exists(BooleanDelta? v) {
-    throw UnimplementedError();
+    _wrapped.exists = v?.toJS;
   }
 }
 
@@ -950,7 +950,7 @@ class GetFileIconOptions {
   /// any other size.
   int? get size => _wrapped.size;
   set size(int? v) {
-    throw UnimplementedError();
+    _wrapped.size = v;
   }
 }
 
@@ -964,7 +964,7 @@ class UiOptions {
   /// Enable or disable the download UI.
   bool get enabled => _wrapped.enabled;
   set enabled(bool v) {
-    throw UnimplementedError();
+    _wrapped.enabled = v;
   }
 }
 

@@ -108,14 +108,14 @@ class TaskInfo {
   /// The title of the task.
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// Optional tab ID, if this task represents a tab running on a renderer
   /// process.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }
 
@@ -129,13 +129,13 @@ class Cache {
   /// The size of the cache, in bytes.
   double get size => _wrapped.size;
   set size(double v) {
-    throw UnimplementedError();
+    _wrapped.size = v;
   }
 
   /// The part of the cache that is utilized, in bytes.
   double get liveSize => _wrapped.liveSize;
   set liveSize(double v) {
-    throw UnimplementedError();
+    _wrapped.liveSize = v;
   }
 }
 
@@ -149,38 +149,38 @@ class Process {
   /// Unique ID of the process provided by the browser.
   int get id => _wrapped.id;
   set id(int v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The ID of the process, as provided by the OS.
   int get osProcessId => _wrapped.osProcessId;
   set osProcessId(int v) {
-    throw UnimplementedError();
+    _wrapped.osProcessId = v;
   }
 
   /// The type of process.
   ProcessType get type => ProcessType.fromJS(_wrapped.type);
   set type(ProcessType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// The profile which the process is associated with.
   String get profile => _wrapped.profile;
   set profile(String v) {
-    throw UnimplementedError();
+    _wrapped.profile = v;
   }
 
   /// The debugging port for Native Client processes. Zero for other process
   /// types and for NaCl processes that do not have debugging enabled.
   int get naclDebugPort => _wrapped.naclDebugPort;
   set naclDebugPort(int v) {
-    throw UnimplementedError();
+    _wrapped.naclDebugPort = v;
   }
 
   /// Array of TaskInfos representing the tasks running on this process.
   List<TaskInfo> get tasks => throw UnimplementedError();
   set tasks(List<TaskInfo> v) {
-    throw UnimplementedError();
+    _wrapped.tasks = throw UnimplementedError();
   }
 
   /// The most recent measurement of the process's CPU usage, expressed as the
@@ -191,7 +191,7 @@ class Process {
   /// onUpdated or onUpdatedWithMemory.
   double? get cpu => _wrapped.cpu;
   set cpu(double? v) {
-    throw UnimplementedError();
+    _wrapped.cpu = v;
   }
 
   /// The most recent measurement of the process network usage, in bytes per
@@ -199,7 +199,7 @@ class Process {
   /// from onUpdated or onUpdatedWithMemory.
   double? get network => _wrapped.network;
   set network(double? v) {
-    throw UnimplementedError();
+    _wrapped.network = v;
   }
 
   /// The most recent measurement of the process private memory usage, in
@@ -207,7 +207,7 @@ class Process {
   /// from onUpdatedWithMemory or getProcessInfo with the includeMemory flag.
   double? get privateMemory => _wrapped.privateMemory;
   set privateMemory(double? v) {
-    throw UnimplementedError();
+    _wrapped.privateMemory = v;
   }
 
   /// The most recent measurement of the process JavaScript allocated memory,
@@ -215,7 +215,7 @@ class Process {
   /// from onUpdated or onUpdatedWithMemory.
   double? get jsMemoryAllocated => _wrapped.jsMemoryAllocated;
   set jsMemoryAllocated(double? v) {
-    throw UnimplementedError();
+    _wrapped.jsMemoryAllocated = v;
   }
 
   /// The most recent measurement of the process JavaScript memory used, in
@@ -223,7 +223,7 @@ class Process {
   /// from onUpdated or onUpdatedWithMemory.
   double? get jsMemoryUsed => _wrapped.jsMemoryUsed;
   set jsMemoryUsed(double? v) {
-    throw UnimplementedError();
+    _wrapped.jsMemoryUsed = v;
   }
 
   /// The most recent measurement of the process's SQLite memory usage, in
@@ -231,7 +231,7 @@ class Process {
   /// from onUpdated or onUpdatedWithMemory.
   double? get sqliteMemory => _wrapped.sqliteMemory;
   set sqliteMemory(double? v) {
-    throw UnimplementedError();
+    _wrapped.sqliteMemory = v;
   }
 
   /// The most recent information about the image cache for the process. Only
@@ -239,7 +239,7 @@ class Process {
   /// or onUpdatedWithMemory.
   Cache? get imageCache => _wrapped.imageCache?.let(Cache.fromJS);
   set imageCache(Cache? v) {
-    throw UnimplementedError();
+    _wrapped.imageCache = v?.toJS;
   }
 
   /// The most recent information about the script cache for the process. Only
@@ -247,7 +247,7 @@ class Process {
   /// or onUpdatedWithMemory.
   Cache? get scriptCache => _wrapped.scriptCache?.let(Cache.fromJS);
   set scriptCache(Cache? v) {
-    throw UnimplementedError();
+    _wrapped.scriptCache = v?.toJS;
   }
 
   /// The most recent information about the CSS cache for the process. Only
@@ -255,7 +255,7 @@ class Process {
   /// or onUpdatedWithMemory.
   Cache? get cssCache => _wrapped.cssCache?.let(Cache.fromJS);
   set cssCache(Cache? v) {
-    throw UnimplementedError();
+    _wrapped.cssCache = v?.toJS;
   }
 }
 

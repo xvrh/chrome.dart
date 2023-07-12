@@ -122,13 +122,13 @@ class MediaSize {
   /// Width (in micrometers) of the media used for printing.
   int get width => _wrapped.width;
   set width(int v) {
-    throw UnimplementedError();
+    _wrapped.width = v;
   }
 
   /// Height (in micrometers) of the media used for printing.
   int get height => _wrapped.height;
   set height(int v) {
-    throw UnimplementedError();
+    _wrapped.height = v;
   }
 
   /// Vendor-provided ID, e.g. "iso_a3_297x420mm" or "na_index-3x5_3x5in".
@@ -138,7 +138,7 @@ class MediaSize {
   /// IANA page</a> .
   String get vendorId => _wrapped.vendorId;
   set vendorId(String v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 }
 
@@ -152,25 +152,25 @@ class PrintSettings {
   /// The requested color mode.
   ColorMode get color => ColorMode.fromJS(_wrapped.color);
   set color(ColorMode v) {
-    throw UnimplementedError();
+    _wrapped.color = v.toJS;
   }
 
   /// The requested duplex mode.
   DuplexMode get duplex => DuplexMode.fromJS(_wrapped.duplex);
   set duplex(DuplexMode v) {
-    throw UnimplementedError();
+    _wrapped.duplex = v.toJS;
   }
 
   /// The requested media size.
   MediaSize get mediaSize => MediaSize.fromJS(_wrapped.mediaSize);
   set mediaSize(MediaSize v) {
-    throw UnimplementedError();
+    _wrapped.mediaSize = v.toJS;
   }
 
   /// The requested number of copies.
   int get copies => _wrapped.copies;
   set copies(int v) {
-    throw UnimplementedError();
+    _wrapped.copies = v;
   }
 }
 
@@ -184,20 +184,20 @@ class Printer {
   /// Displayed name of the printer.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The full path for the printer.
   /// Contains protocol, hostname, port, and queue.
   String get uri => _wrapped.uri;
   set uri(String v) {
-    throw UnimplementedError();
+    _wrapped.uri = v;
   }
 
   /// The source of the printer.
   PrinterSource get source => PrinterSource.fromJS(_wrapped.source);
   set source(PrinterSource v) {
-    throw UnimplementedError();
+    _wrapped.source = v.toJS;
   }
 }
 
@@ -211,67 +211,67 @@ class PrintJobInfo {
   /// The ID of the job.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The title of the document which was printed.
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// Source showing who initiated the print job.
   PrintJobSource get source => PrintJobSource.fromJS(_wrapped.source);
   set source(PrintJobSource v) {
-    throw UnimplementedError();
+    _wrapped.source = v.toJS;
   }
 
   /// ID of source. Null if source is PRINT_PREVIEW or ANDROID_APP.
   String? get sourceId => _wrapped.sourceId;
   set sourceId(String? v) {
-    throw UnimplementedError();
+    _wrapped.sourceId = v;
   }
 
   /// The final status of the job.
   PrintJobStatus get status => PrintJobStatus.fromJS(_wrapped.status);
   set status(PrintJobStatus v) {
-    throw UnimplementedError();
+    _wrapped.status = v.toJS;
   }
 
   /// The job creation time (in milliseconds past the Unix epoch).
   double get creationTime => _wrapped.creationTime;
   set creationTime(double v) {
-    throw UnimplementedError();
+    _wrapped.creationTime = v;
   }
 
   /// The job completion time (in milliseconds past the Unix epoch).
   double get completionTime => _wrapped.completionTime;
   set completionTime(double v) {
-    throw UnimplementedError();
+    _wrapped.completionTime = v;
   }
 
   /// The info about the printer which printed the document.
   Printer get printer => Printer.fromJS(_wrapped.printer);
   set printer(Printer v) {
-    throw UnimplementedError();
+    _wrapped.printer = v.toJS;
   }
 
   /// The settings of the print job.
   PrintSettings get settings => PrintSettings.fromJS(_wrapped.settings);
   set settings(PrintSettings v) {
-    throw UnimplementedError();
+    _wrapped.settings = v.toJS;
   }
 
   /// The number of pages in the document.
   int get numberOfPages => _wrapped.numberOfPages;
   set numberOfPages(int v) {
-    throw UnimplementedError();
+    _wrapped.numberOfPages = v;
   }
 
   /// The status of the printer.
   PrinterStatus get printer_status =>
       PrinterStatus.fromJS(_wrapped.printer_status);
   set printer_status(PrinterStatus v) {
-    throw UnimplementedError();
+    _wrapped.printer_status = v.toJS;
   }
 }

@@ -96,7 +96,7 @@ class RemovalOptions {
   /// data).
   double? get since => _wrapped.since;
   set since(double? v) {
-    throw UnimplementedError();
+    _wrapped.since = v;
   }
 
   /// An object whose properties specify which origin types ought to be cleared.
@@ -106,7 +106,7 @@ class RemovalOptions {
   RemovalOptionsOriginTypes? get originTypes =>
       _wrapped.originTypes?.let(RemovalOptionsOriginTypes.fromJS);
   set originTypes(RemovalOptionsOriginTypes? v) {
-    throw UnimplementedError();
+    _wrapped.originTypes = v?.toJS;
   }
 
   /// When present, only data for origins in this list is deleted. Only
@@ -114,7 +114,7 @@ class RemovalOptions {
   /// whole registrable domain.
   List<String>? get origins => throw UnimplementedError();
   set origins(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.origins = throw UnimplementedError();
   }
 
   /// When present, data for origins in this list is excluded from deletion.
@@ -122,7 +122,7 @@ class RemovalOptions {
   /// and cache.  Cookies are excluded for the whole registrable domain.
   List<String>? get excludeOrigins => throw UnimplementedError();
   set excludeOrigins(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.excludeOrigins = throw UnimplementedError();
   }
 }
 
@@ -136,91 +136,91 @@ class DataTypeSet {
   /// Websites' appcaches.
   bool? get appcache => _wrapped.appcache;
   set appcache(bool? v) {
-    throw UnimplementedError();
+    _wrapped.appcache = v;
   }
 
   /// The browser's cache.
   bool? get cache => _wrapped.cache;
   set cache(bool? v) {
-    throw UnimplementedError();
+    _wrapped.cache = v;
   }
 
   /// Cache storage
   bool? get cacheStorage => _wrapped.cacheStorage;
   set cacheStorage(bool? v) {
-    throw UnimplementedError();
+    _wrapped.cacheStorage = v;
   }
 
   /// The browser's cookies.
   bool? get cookies => _wrapped.cookies;
   set cookies(bool? v) {
-    throw UnimplementedError();
+    _wrapped.cookies = v;
   }
 
   /// The browser's download list.
   bool? get downloads => _wrapped.downloads;
   set downloads(bool? v) {
-    throw UnimplementedError();
+    _wrapped.downloads = v;
   }
 
   /// Websites' file systems.
   bool? get fileSystems => _wrapped.fileSystems;
   set fileSystems(bool? v) {
-    throw UnimplementedError();
+    _wrapped.fileSystems = v;
   }
 
   /// The browser's stored form data.
   bool? get formData => _wrapped.formData;
   set formData(bool? v) {
-    throw UnimplementedError();
+    _wrapped.formData = v;
   }
 
   /// The browser's history.
   bool? get history => _wrapped.history;
   set history(bool? v) {
-    throw UnimplementedError();
+    _wrapped.history = v;
   }
 
   /// Websites' IndexedDB data.
   bool? get indexedDB => _wrapped.indexedDB;
   set indexedDB(bool? v) {
-    throw UnimplementedError();
+    _wrapped.indexedDB = v;
   }
 
   /// Websites' local storage data.
   bool? get localStorage => _wrapped.localStorage;
   set localStorage(bool? v) {
-    throw UnimplementedError();
+    _wrapped.localStorage = v;
   }
 
   /// Server-bound certificates.
   bool? get serverBoundCertificates => _wrapped.serverBoundCertificates;
   set serverBoundCertificates(bool? v) {
-    throw UnimplementedError();
+    _wrapped.serverBoundCertificates = v;
   }
 
   /// Stored passwords.
   bool? get passwords => _wrapped.passwords;
   set passwords(bool? v) {
-    throw UnimplementedError();
+    _wrapped.passwords = v;
   }
 
   /// Plugins' data.
   bool? get pluginData => _wrapped.pluginData;
   set pluginData(bool? v) {
-    throw UnimplementedError();
+    _wrapped.pluginData = v;
   }
 
   /// Service Workers.
   bool? get serviceWorkers => _wrapped.serviceWorkers;
   set serviceWorkers(bool? v) {
-    throw UnimplementedError();
+    _wrapped.serviceWorkers = v;
   }
 
   /// Websites' WebSQL data.
   bool? get webSQL => _wrapped.webSQL;
   set webSQL(bool? v) {
-    throw UnimplementedError();
+    _wrapped.webSQL = v;
   }
 }
 
@@ -233,7 +233,7 @@ class SettingsCallbackResult {
 
   RemovalOptions get options => RemovalOptions.fromJS(_wrapped.options);
   set options(RemovalOptions v) {
-    throw UnimplementedError();
+    _wrapped.options = v.toJS;
   }
 
   /// All of the types will be present in the result, with values of `true` if
@@ -241,7 +241,7 @@ class SettingsCallbackResult {
   /// otherwise `false`.
   DataTypeSet get dataToRemove => DataTypeSet.fromJS(_wrapped.dataToRemove);
   set dataToRemove(DataTypeSet v) {
-    throw UnimplementedError();
+    _wrapped.dataToRemove = v.toJS;
   }
 
   /// All of the types will be present in the result, with values of `true` if
@@ -250,7 +250,7 @@ class SettingsCallbackResult {
   DataTypeSet get dataRemovalPermitted =>
       DataTypeSet.fromJS(_wrapped.dataRemovalPermitted);
   set dataRemovalPermitted(DataTypeSet v) {
-    throw UnimplementedError();
+    _wrapped.dataRemovalPermitted = v.toJS;
   }
 }
 
@@ -264,19 +264,19 @@ class RemovalOptionsOriginTypes {
   /// Normal websites.
   bool? get unprotectedWeb => _wrapped.unprotectedWeb;
   set unprotectedWeb(bool? v) {
-    throw UnimplementedError();
+    _wrapped.unprotectedWeb = v;
   }
 
   /// Websites that have been installed as hosted applications (be careful!).
   bool? get protectedWeb => _wrapped.protectedWeb;
   set protectedWeb(bool? v) {
-    throw UnimplementedError();
+    _wrapped.protectedWeb = v;
   }
 
   /// Extensions and packaged applications a user has installed (be _really_
   /// careful!).
   bool? get extension => _wrapped.extension;
   set extension(bool? v) {
-    throw UnimplementedError();
+    _wrapped.extension = v;
   }
 }

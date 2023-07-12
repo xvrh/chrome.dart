@@ -296,33 +296,33 @@ class KeyboardEvent {
   /// One of keyup or keydown.
   KeyboardEventType get type => KeyboardEventType.fromJS(_wrapped.type);
   set type(KeyboardEventType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// (Deprecated) The ID of the request. Use the `requestId` param from the
   /// `onKeyEvent` event instead.
   String? get requestId => _wrapped.requestId;
   set requestId(String? v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The extension ID of the sender of this keyevent.
   String? get extensionId => _wrapped.extensionId;
   set extensionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.extensionId = v;
   }
 
   /// Value of the key being pressed
   String get key => _wrapped.key;
   set key(String v) {
-    throw UnimplementedError();
+    _wrapped.key = v;
   }
 
   /// Value of the physical key being pressed. The value is not affected by
   /// current keyboard layout or modifier state.
   String get code => _wrapped.code;
   set code(String v) {
-    throw UnimplementedError();
+    _wrapped.code = v;
   }
 
   /// The deprecated HTML keyCode, which is system- and implementation-dependent
@@ -330,37 +330,37 @@ class KeyboardEvent {
   /// key pressed.
   int? get keyCode => _wrapped.keyCode;
   set keyCode(int? v) {
-    throw UnimplementedError();
+    _wrapped.keyCode = v;
   }
 
   /// Whether or not the ALT key is pressed.
   bool? get altKey => _wrapped.altKey;
   set altKey(bool? v) {
-    throw UnimplementedError();
+    _wrapped.altKey = v;
   }
 
   /// Whether or not the ALTGR key is pressed.
   bool? get altgrKey => _wrapped.altgrKey;
   set altgrKey(bool? v) {
-    throw UnimplementedError();
+    _wrapped.altgrKey = v;
   }
 
   /// Whether or not the CTRL key is pressed.
   bool? get ctrlKey => _wrapped.ctrlKey;
   set ctrlKey(bool? v) {
-    throw UnimplementedError();
+    _wrapped.ctrlKey = v;
   }
 
   /// Whether or not the SHIFT key is pressed.
   bool? get shiftKey => _wrapped.shiftKey;
   set shiftKey(bool? v) {
-    throw UnimplementedError();
+    _wrapped.shiftKey = v;
   }
 
   /// Whether or not the CAPS_LOCK is enabled.
   bool? get capsLock => _wrapped.capsLock;
   set capsLock(bool? v) {
-    throw UnimplementedError();
+    _wrapped.capsLock = v;
   }
 }
 
@@ -375,45 +375,45 @@ class InputContext {
   /// invalid as soon as onBlur is called.
   int get contextID => _wrapped.contextID;
   set contextID(int v) {
-    throw UnimplementedError();
+    _wrapped.contextID = v;
   }
 
   /// Type of value this text field edits, (Text, Number, URL, etc)
   InputContextType get type => InputContextType.fromJS(_wrapped.type);
   set type(InputContextType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// Whether the text field wants auto-correct.
   bool get autoCorrect => _wrapped.autoCorrect;
   set autoCorrect(bool v) {
-    throw UnimplementedError();
+    _wrapped.autoCorrect = v;
   }
 
   /// Whether the text field wants auto-complete.
   bool get autoComplete => _wrapped.autoComplete;
   set autoComplete(bool v) {
-    throw UnimplementedError();
+    _wrapped.autoComplete = v;
   }
 
   /// The auto-capitalize type of the text field.
   AutoCapitalizeType get autoCapitalize =>
       AutoCapitalizeType.fromJS(_wrapped.autoCapitalize);
   set autoCapitalize(AutoCapitalizeType v) {
-    throw UnimplementedError();
+    _wrapped.autoCapitalize = v.toJS;
   }
 
   /// Whether the text field wants spell-check.
   bool get spellCheck => _wrapped.spellCheck;
   set spellCheck(bool v) {
-    throw UnimplementedError();
+    _wrapped.spellCheck = v;
   }
 
   /// Whether text entered into the text field should be used to improve typing
   /// suggestions for the user.
   bool get shouldDoLearning => _wrapped.shouldDoLearning;
   set shouldDoLearning(bool v) {
-    throw UnimplementedError();
+    _wrapped.shouldDoLearning = v;
   }
 }
 
@@ -427,37 +427,37 @@ class MenuItem {
   /// String that will be passed to callbacks referencing this MenuItem.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Text displayed in the menu for this item.
   String? get label => _wrapped.label;
   set label(String? v) {
-    throw UnimplementedError();
+    _wrapped.label = v;
   }
 
   /// The type of menu item.
   MenuItemStyle? get style => _wrapped.style?.let(MenuItemStyle.fromJS);
   set style(MenuItemStyle? v) {
-    throw UnimplementedError();
+    _wrapped.style = v?.toJS;
   }
 
   /// Indicates this item is visible.
   bool? get visible => _wrapped.visible;
   set visible(bool? v) {
-    throw UnimplementedError();
+    _wrapped.visible = v;
   }
 
   /// Indicates this item should be drawn with a check.
   bool? get checked => _wrapped.checked;
   set checked(bool? v) {
-    throw UnimplementedError();
+    _wrapped.checked = v;
   }
 
   /// Indicates this item is enabled.
   bool? get enabled => _wrapped.enabled;
   set enabled(bool? v) {
-    throw UnimplementedError();
+    _wrapped.enabled = v;
   }
 }
 
@@ -470,19 +470,19 @@ class AssistiveWindowProperties {
 
   AssistiveWindowType get type => AssistiveWindowType.fromJS(_wrapped.type);
   set type(AssistiveWindowType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// Sets true to show AssistiveWindow, sets false to hide.
   bool get visible => _wrapped.visible;
   set visible(bool v) {
-    throw UnimplementedError();
+    _wrapped.visible = v;
   }
 
   /// Strings for ChromeVox to announce.
   String? get announceString => _wrapped.announceString;
   set announceString(String? v) {
-    throw UnimplementedError();
+    _wrapped.announceString = v;
   }
 }
 
@@ -496,14 +496,14 @@ class MenuParameters {
   /// ID of the engine to use.
   String get engineID => _wrapped.engineID;
   set engineID(String v) {
-    throw UnimplementedError();
+    _wrapped.engineID = v;
   }
 
   /// MenuItems to add or update. They will be added in the order they exist in
   /// the array.
   List<MenuItem> get items => throw UnimplementedError();
   set items(List<MenuItem> v) {
-    throw UnimplementedError();
+    _wrapped.items = throw UnimplementedError();
   }
 }
 
@@ -518,21 +518,21 @@ class OnSurroundingTextChangedSurroundingInfo {
   /// field.
   String get text => _wrapped.text;
   set text(String v) {
-    throw UnimplementedError();
+    _wrapped.text = v;
   }
 
   /// The ending position of the selection. This value indicates caret position
   /// if there is no selection.
   int get focus => _wrapped.focus;
   set focus(int v) {
-    throw UnimplementedError();
+    _wrapped.focus = v;
   }
 
   /// The beginning position of the selection. This value indicates caret
   /// position if there is no selection.
   int get anchor => _wrapped.anchor;
   set anchor(int v) {
-    throw UnimplementedError();
+    _wrapped.anchor = v;
   }
 
   /// The offset position of `text`. Since `text` only includes a subset of text
@@ -540,7 +540,7 @@ class OnSurroundingTextChangedSurroundingInfo {
   /// character of `text`.
   int get offset => _wrapped.offset;
   set offset(int v) {
-    throw UnimplementedError();
+    _wrapped.offset = v;
   }
 }
 
@@ -555,14 +555,14 @@ class OnAssistiveWindowButtonClickedDetails {
   AssistiveWindowButton get buttonID =>
       AssistiveWindowButton.fromJS(_wrapped.buttonID);
   set buttonID(AssistiveWindowButton v) {
-    throw UnimplementedError();
+    _wrapped.buttonID = v.toJS;
   }
 
   /// The type of the assistive window.
   AssistiveWindowType get windowType =>
       AssistiveWindowType.fromJS(_wrapped.windowType);
   set windowType(AssistiveWindowType v) {
-    throw UnimplementedError();
+    _wrapped.windowType = v.toJS;
   }
 }
 

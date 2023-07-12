@@ -370,19 +370,19 @@ class Ruleset {
   /// '_' are reserved for internal use.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The path of the JSON ruleset relative to the extension directory.
   String get path => _wrapped.path;
   set path(String v) {
-    throw UnimplementedError();
+    _wrapped.path = v;
   }
 
   /// Whether the ruleset is enabled by default.
   bool get enabled => _wrapped.enabled;
   set enabled(bool v) {
-    throw UnimplementedError();
+    _wrapped.enabled = v;
   }
 }
 
@@ -395,19 +395,19 @@ class QueryKeyValue {
 
   String get key => _wrapped.key;
   set key(String v) {
-    throw UnimplementedError();
+    _wrapped.key = v;
   }
 
   String get value => _wrapped.value;
   set value(String v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 
   /// If true, the query key is replaced only if it's already present.
   /// Otherwise, the key is also added if it's missing. Defaults to false.
   bool? get replaceOnly => _wrapped.replaceOnly;
   set replaceOnly(bool? v) {
-    throw UnimplementedError();
+    _wrapped.replaceOnly = v;
   }
 }
 
@@ -421,13 +421,13 @@ class QueryTransform {
   /// The list of query keys to be removed.
   List<String>? get removeParams => throw UnimplementedError();
   set removeParams(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.removeParams = throw UnimplementedError();
   }
 
   /// The list of query key-value pairs to be added or replaced.
   List<QueryKeyValue>? get addOrReplaceParams => throw UnimplementedError();
   set addOrReplaceParams(List<QueryKeyValue>? v) {
-    throw UnimplementedError();
+    _wrapped.addOrReplaceParams = throw UnimplementedError();
   }
 }
 
@@ -442,58 +442,58 @@ class URLTransform {
   /// "ftp" and "chrome-extension".
   String? get scheme => _wrapped.scheme;
   set scheme(String? v) {
-    throw UnimplementedError();
+    _wrapped.scheme = v;
   }
 
   /// The new host for the request.
   String? get host => _wrapped.host;
   set host(String? v) {
-    throw UnimplementedError();
+    _wrapped.host = v;
   }
 
   /// The new port for the request. If empty, the existing port is cleared.
   String? get port => _wrapped.port;
   set port(String? v) {
-    throw UnimplementedError();
+    _wrapped.port = v;
   }
 
   /// The new path for the request. If empty, the existing path is cleared.
   String? get path => _wrapped.path;
   set path(String? v) {
-    throw UnimplementedError();
+    _wrapped.path = v;
   }
 
   /// The new query for the request. Should be either empty, in which case the
   /// existing query is cleared; or should begin with '?'.
   String? get query => _wrapped.query;
   set query(String? v) {
-    throw UnimplementedError();
+    _wrapped.query = v;
   }
 
   /// Add, remove or replace query key-value pairs.
   QueryTransform? get queryTransform =>
       _wrapped.queryTransform?.let(QueryTransform.fromJS);
   set queryTransform(QueryTransform? v) {
-    throw UnimplementedError();
+    _wrapped.queryTransform = v?.toJS;
   }
 
   /// The new fragment for the request. Should be either empty, in which case
   /// the existing fragment is cleared; or should begin with '#'.
   String? get fragment => _wrapped.fragment;
   set fragment(String? v) {
-    throw UnimplementedError();
+    _wrapped.fragment = v;
   }
 
   /// The new username for the request.
   String? get username => _wrapped.username;
   set username(String? v) {
-    throw UnimplementedError();
+    _wrapped.username = v;
   }
 
   /// The new password for the request.
   String? get password => _wrapped.password;
   set password(String? v) {
-    throw UnimplementedError();
+    _wrapped.password = v;
   }
 }
 
@@ -507,19 +507,19 @@ class Redirect {
   /// Path relative to the extension directory. Should start with '/'.
   String? get extensionPath => _wrapped.extensionPath;
   set extensionPath(String? v) {
-    throw UnimplementedError();
+    _wrapped.extensionPath = v;
   }
 
   /// Url transformations to perform.
   URLTransform? get transform => _wrapped.transform?.let(URLTransform.fromJS);
   set transform(URLTransform? v) {
-    throw UnimplementedError();
+    _wrapped.transform = v?.toJS;
   }
 
   /// The redirect url. Redirects to JavaScript urls are not allowed.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// Substitution pattern for rules which specify a `regexFilter`.
@@ -529,7 +529,7 @@ class Redirect {
   /// corresponding capture groups. \0 refers to the entire matching text.
   String? get regexSubstitution => _wrapped.regexSubstitution;
   set regexSubstitution(String? v) {
-    throw UnimplementedError();
+    _wrapped.regexSubstitution = v;
   }
 }
 
@@ -576,7 +576,7 @@ class RuleCondition {
   /// http://abc.xn--p1ai/?q=%D1%84.
   String? get urlFilter => _wrapped.urlFilter;
   set urlFilter(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlFilter = v;
   }
 
   /// Regular expression to match against the network request url. This follows
@@ -591,14 +591,14 @@ class RuleCondition {
   /// non-ascii characters are url encoded in utf-8.
   String? get regexFilter => _wrapped.regexFilter;
   set regexFilter(String? v) {
-    throw UnimplementedError();
+    _wrapped.regexFilter = v;
   }
 
   /// Whether the `urlFilter` or `regexFilter`
   /// (whichever is specified) is case sensitive. Default is true.
   bool? get isUrlFilterCaseSensitive => _wrapped.isUrlFilterCaseSensitive;
   set isUrlFilterCaseSensitive(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isUrlFilterCaseSensitive = v;
   }
 
   /// The rule will only match network requests originating from the list of
@@ -617,7 +617,7 @@ class RuleCondition {
   /// </ul>
   List<String>? get initiatorDomains => throw UnimplementedError();
   set initiatorDomains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.initiatorDomains = throw UnimplementedError();
   }
 
   /// The rule will not match network requests originating from the list of
@@ -637,7 +637,7 @@ class RuleCondition {
   /// </ul>
   List<String>? get excludedInitiatorDomains => throw UnimplementedError();
   set excludedInitiatorDomains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedInitiatorDomains = throw UnimplementedError();
   }
 
   /// The rule will only match network requests when the domain matches one
@@ -654,7 +654,7 @@ class RuleCondition {
   /// </ul>
   List<String>? get requestDomains => throw UnimplementedError();
   set requestDomains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.requestDomains = throw UnimplementedError();
   }
 
   /// The rule will not match network requests when the domains matches one
@@ -671,21 +671,21 @@ class RuleCondition {
   /// </ul>
   List<String>? get excludedRequestDomains => throw UnimplementedError();
   set excludedRequestDomains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedRequestDomains = throw UnimplementedError();
   }
 
   /// The rule will only match network requests originating from the list of
   /// `domains`.
   List<String>? get domains => throw UnimplementedError();
   set domains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.domains = throw UnimplementedError();
   }
 
   /// The rule will not match network requests originating from the list of
   /// `excludedDomains`.
   List<String>? get excludedDomains => throw UnimplementedError();
   set excludedDomains(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedDomains = throw UnimplementedError();
   }
 
   /// List of resource types which the rule can match. An empty list is not
@@ -696,7 +696,7 @@ class RuleCondition {
   /// resource types.
   List<ResourceType>? get resourceTypes => throw UnimplementedError();
   set resourceTypes(List<ResourceType>? v) {
-    throw UnimplementedError();
+    _wrapped.resourceTypes = throw UnimplementedError();
   }
 
   /// List of resource types which the rule won't match. Only one of
@@ -705,7 +705,7 @@ class RuleCondition {
   /// "main_frame" are blocked.
   List<ResourceType>? get excludedResourceTypes => throw UnimplementedError();
   set excludedResourceTypes(List<ResourceType>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedResourceTypes = throw UnimplementedError();
   }
 
   /// List of HTTP request methods which the rule can match. An empty list is
@@ -716,7 +716,7 @@ class RuleCondition {
   /// `excludedRequestMethods` will not.
   List<RequestMethod>? get requestMethods => throw UnimplementedError();
   set requestMethods(List<RequestMethod>? v) {
-    throw UnimplementedError();
+    _wrapped.requestMethods = throw UnimplementedError();
   }
 
   /// List of request methods which the rule won't match. Only one of
@@ -725,7 +725,7 @@ class RuleCondition {
   /// are matched.
   List<RequestMethod>? get excludedRequestMethods => throw UnimplementedError();
   set excludedRequestMethods(List<RequestMethod>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedRequestMethods = throw UnimplementedError();
   }
 
   /// Specifies whether the network request is first-party or third-party to
@@ -733,7 +733,7 @@ class RuleCondition {
   /// accepted.
   DomainType? get domainType => _wrapped.domainType?.let(DomainType.fromJS);
   set domainType(DomainType? v) {
-    throw UnimplementedError();
+    _wrapped.domainType = v?.toJS;
   }
 
   /// List of [tabs.Tab.id] which the rule should match. An ID of
@@ -742,7 +742,7 @@ class RuleCondition {
   /// rules.
   List<int>? get tabIds => throw UnimplementedError();
   set tabIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.tabIds = throw UnimplementedError();
   }
 
   /// List of [tabs.Tab.id] which the rule should not match. An ID of
@@ -750,7 +750,7 @@ class RuleCondition {
   /// tab. Only supported for session-scoped rules.
   List<int>? get excludedTabIds => throw UnimplementedError();
   set excludedTabIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.excludedTabIds = throw UnimplementedError();
   }
 }
 
@@ -764,20 +764,20 @@ class ModifyHeaderInfo {
   /// The name of the header to be modified.
   String get header => _wrapped.header;
   set header(String v) {
-    throw UnimplementedError();
+    _wrapped.header = v;
   }
 
   /// The operation to be performed on a header.
   HeaderOperation get operation => HeaderOperation.fromJS(_wrapped.operation);
   set operation(HeaderOperation v) {
-    throw UnimplementedError();
+    _wrapped.operation = v.toJS;
   }
 
   /// The new value for the header. Must be specified for `append`
   /// and `set` operations.
   String? get value => _wrapped.value;
   set value(String? v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 }
 
@@ -791,28 +791,28 @@ class RuleAction {
   /// The type of action to perform.
   RuleActionType get type => RuleActionType.fromJS(_wrapped.type);
   set type(RuleActionType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// Describes how the redirect should be performed. Only valid for redirect
   /// rules.
   Redirect? get redirect => _wrapped.redirect?.let(Redirect.fromJS);
   set redirect(Redirect? v) {
-    throw UnimplementedError();
+    _wrapped.redirect = v?.toJS;
   }
 
   /// The request headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
   List<ModifyHeaderInfo>? get requestHeaders => throw UnimplementedError();
   set requestHeaders(List<ModifyHeaderInfo>? v) {
-    throw UnimplementedError();
+    _wrapped.requestHeaders = throw UnimplementedError();
   }
 
   /// The response headers to modify for the request. Only valid if
   /// RuleActionType is "modifyHeaders".
   List<ModifyHeaderInfo>? get responseHeaders => throw UnimplementedError();
   set responseHeaders(List<ModifyHeaderInfo>? v) {
-    throw UnimplementedError();
+    _wrapped.responseHeaders = throw UnimplementedError();
   }
 }
 
@@ -826,25 +826,25 @@ class Rule {
   /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
   int get id => _wrapped.id;
   set id(int v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Rule priority. Defaults to 1. When specified, should be >= 1.
   int? get priority => _wrapped.priority;
   set priority(int? v) {
-    throw UnimplementedError();
+    _wrapped.priority = v;
   }
 
   /// The condition under which this rule is triggered.
   RuleCondition get condition => RuleCondition.fromJS(_wrapped.condition);
   set condition(RuleCondition v) {
-    throw UnimplementedError();
+    _wrapped.condition = v.toJS;
   }
 
   /// The action to take if this rule is matched.
   RuleAction get action => RuleAction.fromJS(_wrapped.action);
   set action(RuleAction v) {
-    throw UnimplementedError();
+    _wrapped.action = v.toJS;
   }
 }
 
@@ -858,7 +858,7 @@ class MatchedRule {
   /// A matching rule's ID.
   int get ruleId => _wrapped.ruleId;
   set ruleId(int v) {
-    throw UnimplementedError();
+    _wrapped.ruleId = v;
   }
 
   /// ID of the [Ruleset] this rule belongs to. For a rule originating
@@ -866,7 +866,7 @@ class MatchedRule {
   /// [DYNAMIC_RULESET_ID].
   String get rulesetId => _wrapped.rulesetId;
   set rulesetId(String v) {
-    throw UnimplementedError();
+    _wrapped.rulesetId = v;
   }
 }
 
@@ -880,7 +880,7 @@ class GetRulesFilter {
   /// If specified, only rules with matching IDs are included.
   List<int>? get ruleIds => throw UnimplementedError();
   set ruleIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.ruleIds = throw UnimplementedError();
   }
 }
 
@@ -893,7 +893,7 @@ class MatchedRuleInfo {
 
   MatchedRule get rule => MatchedRule.fromJS(_wrapped.rule);
   set rule(MatchedRule v) {
-    throw UnimplementedError();
+    _wrapped.rule = v.toJS;
   }
 
   /// The time the rule was matched. Timestamps will correspond to the
@@ -901,14 +901,14 @@ class MatchedRuleInfo {
   /// epoch.
   double get timeStamp => _wrapped.timeStamp;
   set timeStamp(double v) {
-    throw UnimplementedError();
+    _wrapped.timeStamp = v;
   }
 
   /// The tabId of the tab from which the request originated if the tab is
   /// still active. Else -1.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }
 
@@ -923,13 +923,13 @@ class MatchedRulesFilter {
   /// associated with any active tab if set to -1.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// If specified, only matches rules after the given timestamp.
   double? get minTimeStamp => _wrapped.minTimeStamp;
   set minTimeStamp(double? v) {
-    throw UnimplementedError();
+    _wrapped.minTimeStamp = v;
   }
 }
 
@@ -943,7 +943,7 @@ class RulesMatchedDetails {
   /// Rules matching the given filter.
   List<MatchedRuleInfo> get rulesMatchedInfo => throw UnimplementedError();
   set rulesMatchedInfo(List<MatchedRuleInfo> v) {
-    throw UnimplementedError();
+    _wrapped.rulesMatchedInfo = throw UnimplementedError();
   }
 }
 
@@ -957,26 +957,26 @@ class RequestDetails {
   /// The ID of the request. Request IDs are unique within a browser session.
   String get requestId => _wrapped.requestId;
   set requestId(String v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The URL of the request.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The origin where the request was initiated. This does not change through
   /// redirects. If this is an opaque origin, the string 'null' will be used.
   String? get initiator => _wrapped.initiator;
   set initiator(String? v) {
-    throw UnimplementedError();
+    _wrapped.initiator = v;
   }
 
   /// Standard HTTP method.
   String get method => _wrapped.method;
   set method(String v) {
-    throw UnimplementedError();
+    _wrapped.method = v;
   }
 
   /// The value 0 indicates that the request happens in the main frame; a
@@ -987,20 +987,20 @@ class RequestDetails {
   /// are unique within a tab.
   int get frameId => _wrapped.frameId;
   set frameId(int v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// The unique identifier for the frame's document, if this request is for a
   /// frame.
   String? get documentId => _wrapped.documentId;
   set documentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentId = v;
   }
 
   /// The type of the frame, if this request is for a frame.
   FrameType? get frameType => _wrapped.frameType?.let(FrameType.fromJS);
   set frameType(FrameType? v) {
-    throw UnimplementedError();
+    _wrapped.frameType = v?.toJS;
   }
 
   /// The lifecycle of the frame's document, if this request is for a
@@ -1008,34 +1008,34 @@ class RequestDetails {
   DocumentLifecycle? get documentLifecycle =>
       _wrapped.documentLifecycle?.let(DocumentLifecycle.fromJS);
   set documentLifecycle(DocumentLifecycle? v) {
-    throw UnimplementedError();
+    _wrapped.documentLifecycle = v?.toJS;
   }
 
   /// ID of frame that wraps the frame which sent the request. Set to -1 if no
   /// parent frame exists.
   int get parentFrameId => _wrapped.parentFrameId;
   set parentFrameId(int v) {
-    throw UnimplementedError();
+    _wrapped.parentFrameId = v;
   }
 
   /// The unique identifier for the frame's parent document, if this request
   /// is for a frame and has a parent.
   String? get parentDocumentId => _wrapped.parentDocumentId;
   set parentDocumentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.parentDocumentId = v;
   }
 
   /// The ID of the tab in which the request takes place. Set to -1 if the
   /// request isn't related to a tab.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The resource type of the request.
   ResourceType get type => ResourceType.fromJS(_wrapped.type);
   set type(ResourceType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 }
 
@@ -1049,26 +1049,26 @@ class TestMatchRequestDetails {
   /// The URL of the hypothetical request.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The initiator URL (if any) for the hypothetical request.
   String? get initiator => _wrapped.initiator;
   set initiator(String? v) {
-    throw UnimplementedError();
+    _wrapped.initiator = v;
   }
 
   /// Standard HTTP method of the hypothetical request. Defaults to "get" for
   /// HTTP requests and is ignored for non-HTTP requests.
   RequestMethod? get method => _wrapped.method?.let(RequestMethod.fromJS);
   set method(RequestMethod? v) {
-    throw UnimplementedError();
+    _wrapped.method = v?.toJS;
   }
 
   /// The resource type of the hypothetical request.
   ResourceType get type => ResourceType.fromJS(_wrapped.type);
   set type(ResourceType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// The ID of the tab in which the hypothetical request takes place. Does
@@ -1076,7 +1076,7 @@ class TestMatchRequestDetails {
   /// the request isn't related to a tab.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }
 
@@ -1089,13 +1089,13 @@ class MatchedRuleInfoDebug {
 
   MatchedRule get rule => MatchedRule.fromJS(_wrapped.rule);
   set rule(MatchedRule v) {
-    throw UnimplementedError();
+    _wrapped.rule = v.toJS;
   }
 
   /// Details about the request for which the rule was matched.
   RequestDetails get request => RequestDetails.fromJS(_wrapped.request);
   set request(RequestDetails v) {
-    throw UnimplementedError();
+    _wrapped.request = v.toJS;
   }
 }
 
@@ -1108,7 +1108,7 @@ class DNRInfo {
 
   List<Ruleset> get rule_resources => throw UnimplementedError();
   set rule_resources(List<Ruleset> v) {
-    throw UnimplementedError();
+    _wrapped.rule_resources = throw UnimplementedError();
   }
 }
 
@@ -1122,7 +1122,7 @@ class ManifestKeys {
   DNRInfo get declarative_net_request =>
       DNRInfo.fromJS(_wrapped.declarative_net_request);
   set declarative_net_request(DNRInfo v) {
-    throw UnimplementedError();
+    _wrapped.declarative_net_request = v.toJS;
   }
 }
 
@@ -1136,14 +1136,14 @@ class RegexOptions {
   /// The regular expresson to check.
   String get regex => _wrapped.regex;
   set regex(String v) {
-    throw UnimplementedError();
+    _wrapped.regex = v;
   }
 
   /// Whether the `regex` specified is case sensitive. Default is
   /// true.
   bool? get isCaseSensitive => _wrapped.isCaseSensitive;
   set isCaseSensitive(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isCaseSensitive = v;
   }
 
   /// Whether the `regex` specified requires capturing. Capturing is
@@ -1151,7 +1151,7 @@ class RegexOptions {
   /// `regexSubstition` action. The default is false.
   bool? get requireCapturing => _wrapped.requireCapturing;
   set requireCapturing(bool? v) {
-    throw UnimplementedError();
+    _wrapped.requireCapturing = v;
   }
 }
 
@@ -1164,7 +1164,7 @@ class IsRegexSupportedResult {
 
   bool get isSupported => _wrapped.isSupported;
   set isSupported(bool v) {
-    throw UnimplementedError();
+    _wrapped.isSupported = v;
   }
 
   /// Specifies the reason why the regular expression is not supported. Only
@@ -1172,7 +1172,7 @@ class IsRegexSupportedResult {
   UnsupportedRegexReason? get reason =>
       _wrapped.reason?.let(UnsupportedRegexReason.fromJS);
   set reason(UnsupportedRegexReason? v) {
-    throw UnimplementedError();
+    _wrapped.reason = v?.toJS;
   }
 }
 
@@ -1186,7 +1186,7 @@ class TestMatchOutcomeResult {
   /// The rules (if any) that match the hypothetical request.
   List<MatchedRule> get matchedRules => throw UnimplementedError();
   set matchedRules(List<MatchedRule> v) {
-    throw UnimplementedError();
+    _wrapped.matchedRules = throw UnimplementedError();
   }
 }
 
@@ -1200,13 +1200,13 @@ class UpdateRuleOptions {
   /// IDs of the rules to remove. Any invalid IDs will be ignored.
   List<int>? get removeRuleIds => throw UnimplementedError();
   set removeRuleIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.removeRuleIds = throw UnimplementedError();
   }
 
   /// Rules to add.
   List<Rule>? get addRules => throw UnimplementedError();
   set addRules(List<Rule>? v) {
-    throw UnimplementedError();
+    _wrapped.addRules = throw UnimplementedError();
   }
 }
 
@@ -1221,14 +1221,14 @@ class UpdateRulesetOptions {
   /// disabled.
   List<String>? get disableRulesetIds => throw UnimplementedError();
   set disableRulesetIds(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.disableRulesetIds = throw UnimplementedError();
   }
 
   /// The set of ids corresponding to a static [Ruleset] that should be
   /// enabled.
   List<String>? get enableRulesetIds => throw UnimplementedError();
   set enableRulesetIds(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.enableRulesetIds = throw UnimplementedError();
   }
 }
 
@@ -1242,19 +1242,19 @@ class UpdateStaticRulesOptions {
   /// The id corresponding to a static [Ruleset].
   String get rulesetId => _wrapped.rulesetId;
   set rulesetId(String v) {
-    throw UnimplementedError();
+    _wrapped.rulesetId = v;
   }
 
   /// Set of ids corresponding to rules in the [Ruleset] to disable.
   List<int>? get disableRuleIds => throw UnimplementedError();
   set disableRuleIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.disableRuleIds = throw UnimplementedError();
   }
 
   /// Set of ids corresponding to rules in the [Ruleset] to enable.
   List<int>? get enableRuleIds => throw UnimplementedError();
   set enableRuleIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.enableRuleIds = throw UnimplementedError();
   }
 }
 
@@ -1268,7 +1268,7 @@ class GetDisabledRuleIdsOptions {
   /// The id corresponding to a static [Ruleset].
   String get rulesetId => _wrapped.rulesetId;
   set rulesetId(String v) {
-    throw UnimplementedError();
+    _wrapped.rulesetId = v;
   }
 }
 
@@ -1282,14 +1282,14 @@ class TabActionCountUpdate {
   /// The tab for which to update the action count.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The amount to increment the tab's action count by. Negative values will
   /// decrement the count.
   int get increment => _wrapped.increment;
   set increment(int v) {
-    throw UnimplementedError();
+    _wrapped.increment = v;
   }
 }
 
@@ -1305,13 +1305,13 @@ class ExtensionActionOptions {
   bool? get displayActionCountAsBadgeText =>
       _wrapped.displayActionCountAsBadgeText;
   set displayActionCountAsBadgeText(bool? v) {
-    throw UnimplementedError();
+    _wrapped.displayActionCountAsBadgeText = v;
   }
 
   /// Details of how the tab's action count should be adjusted.
   TabActionCountUpdate? get tabUpdate =>
       _wrapped.tabUpdate?.let(TabActionCountUpdate.fromJS);
   set tabUpdate(TabActionCountUpdate? v) {
-    throw UnimplementedError();
+    _wrapped.tabUpdate = v?.toJS;
   }
 }

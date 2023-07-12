@@ -226,14 +226,14 @@ class ClientCertificateInfo {
   /// This must include exactly one certificate.
   List<ByteBuffer> get certificateChain => throw UnimplementedError();
   set certificateChain(List<ByteBuffer> v) {
-    throw UnimplementedError();
+    _wrapped.certificateChain = throw UnimplementedError();
   }
 
   /// All algorithms supported for this certificate. The extension will only be
   /// asked for signatures using one of these algorithms.
   List<Algorithm> get supportedAlgorithms => throw UnimplementedError();
   set supportedAlgorithms(List<Algorithm> v) {
-    throw UnimplementedError();
+    _wrapped.supportedAlgorithms = throw UnimplementedError();
   }
 }
 
@@ -249,21 +249,21 @@ class SetCertificatesDetails {
   /// should be unset.
   int? get certificatesRequestId => _wrapped.certificatesRequestId;
   set certificatesRequestId(int? v) {
-    throw UnimplementedError();
+    _wrapped.certificatesRequestId = v;
   }
 
   /// Error that occurred while extracting the certificates, if any. This error
   /// will be surfaced to the user when appropriate.
   Error? get error => _wrapped.error?.let(Error.fromJS);
   set error(Error? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// List of currently available client certificates.
   List<ClientCertificateInfo> get clientCertificates =>
       throw UnimplementedError();
   set clientCertificates(List<ClientCertificateInfo> v) {
-    throw UnimplementedError();
+    _wrapped.clientCertificates = throw UnimplementedError();
   }
 }
 
@@ -277,7 +277,7 @@ class CertificatesUpdateRequest {
   /// Request identifier to be passed to [setCertificates].
   int get certificatesRequestId => _wrapped.certificatesRequestId;
   set certificatesRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.certificatesRequestId = v;
   }
 }
 
@@ -291,26 +291,26 @@ class SignatureRequest {
   /// Request identifier to be passed to [reportSignature].
   int get signRequestId => _wrapped.signRequestId;
   set signRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.signRequestId = v;
   }
 
   /// Data to be signed. Note that the data is not hashed.
   ByteBuffer get input => _wrapped.input.toDart;
   set input(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.input = v.toJS;
   }
 
   /// Signature algorithm to be used.
   Algorithm get algorithm => Algorithm.fromJS(_wrapped.algorithm);
   set algorithm(Algorithm v) {
-    throw UnimplementedError();
+    _wrapped.algorithm = v.toJS;
   }
 
   /// The DER encoding of a X.509 certificate. The extension must sign
   /// `input` using the associated private key.
   ByteBuffer get certificate => _wrapped.certificate.toDart;
   set certificate(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.certificate = v.toJS;
   }
 }
 
@@ -325,19 +325,19 @@ class ReportSignatureDetails {
   /// event.
   int get signRequestId => _wrapped.signRequestId;
   set signRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.signRequestId = v;
   }
 
   /// Error that occurred while generating the signature, if any.
   Error? get error => _wrapped.error?.let(Error.fromJS);
   set error(Error? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// The signature, if successfully generated.
   ByteBuffer? get signature => _wrapped.signature?.toDart;
   set signature(ByteBuffer? v) {
-    throw UnimplementedError();
+    _wrapped.signature = v?.toJS;
   }
 }
 
@@ -352,7 +352,7 @@ class CertificateInfo {
   /// certificates of RSA keys are supported.
   ByteBuffer get certificate => _wrapped.certificate.toDart;
   set certificate(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.certificate = v.toJS;
   }
 
   /// Must be set to all hashes supported for this certificate. This extension
@@ -360,7 +360,7 @@ class CertificateInfo {
   /// hash algorithms. This should be in order of decreasing hash preference.
   List<Hash> get supportedHashes => throw UnimplementedError();
   set supportedHashes(List<Hash> v) {
-    throw UnimplementedError();
+    _wrapped.supportedHashes = throw UnimplementedError();
   }
 }
 
@@ -375,26 +375,26 @@ class SignRequest {
   /// that requires it, e.g. requestPin.
   int get signRequestId => _wrapped.signRequestId;
   set signRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.signRequestId = v;
   }
 
   /// The digest that must be signed.
   ByteBuffer get digest => _wrapped.digest.toDart;
   set digest(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.digest = v.toJS;
   }
 
   /// Refers to the hash algorithm that was used to create `digest`.
   Hash get hash => Hash.fromJS(_wrapped.hash);
   set hash(Hash v) {
-    throw UnimplementedError();
+    _wrapped.hash = v.toJS;
   }
 
   /// The DER encoding of a X.509 certificate. The extension must sign
   /// `digest` using the associated private key.
   ByteBuffer get certificate => _wrapped.certificate.toDart;
   set certificate(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.certificate = v.toJS;
   }
 }
 
@@ -408,14 +408,14 @@ class RequestPinDetails {
   /// The ID given by Chrome in SignRequest.
   int get signRequestId => _wrapped.signRequestId;
   set signRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.signRequestId = v;
   }
 
   /// The type of code requested. Default is PIN.
   PinRequestType? get requestType =>
       _wrapped.requestType?.let(PinRequestType.fromJS);
   set requestType(PinRequestType? v) {
-    throw UnimplementedError();
+    _wrapped.requestType = v?.toJS;
   }
 
   /// The error template displayed to the user. This should be set if the
@@ -423,7 +423,7 @@ class RequestPinDetails {
   PinRequestErrorType? get errorType =>
       _wrapped.errorType?.let(PinRequestErrorType.fromJS);
   set errorType(PinRequestErrorType? v) {
-    throw UnimplementedError();
+    _wrapped.errorType = v?.toJS;
   }
 
   /// The number of attempts left. This is provided so that any UI can present
@@ -433,7 +433,7 @@ class RequestPinDetails {
   /// exceeded.
   int? get attemptsLeft => _wrapped.attemptsLeft;
   set attemptsLeft(int? v) {
-    throw UnimplementedError();
+    _wrapped.attemptsLeft = v;
   }
 }
 
@@ -447,7 +447,7 @@ class StopPinRequestDetails {
   /// The ID given by Chrome in SignRequest.
   int get signRequestId => _wrapped.signRequestId;
   set signRequestId(int v) {
-    throw UnimplementedError();
+    _wrapped.signRequestId = v;
   }
 
   /// The error template. If present it is displayed to user. Intended to
@@ -456,7 +456,7 @@ class StopPinRequestDetails {
   PinRequestErrorType? get errorType =>
       _wrapped.errorType?.let(PinRequestErrorType.fromJS);
   set errorType(PinRequestErrorType? v) {
-    throw UnimplementedError();
+    _wrapped.errorType = v?.toJS;
   }
 }
 
@@ -471,7 +471,7 @@ class PinResponseDetails {
   /// other error occurred.
   String? get userInput => _wrapped.userInput;
   set userInput(String? v) {
-    throw UnimplementedError();
+    _wrapped.userInput = v;
   }
 }
 

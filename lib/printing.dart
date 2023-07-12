@@ -167,14 +167,14 @@ class SubmitJobRequest {
   /// irrelevant for native printing. All other fields must be present.
   PrintJob get job => PrintJob.fromJS(_wrapped.job);
   set job(PrintJob v) {
-    throw UnimplementedError();
+    _wrapped.job = v.toJS;
   }
 
   /// Used internally to store the blob uuid after parameter customization and
   /// shouldn't be populated by the extension.
   String? get documentBlobUuid => _wrapped.documentBlobUuid;
   set documentBlobUuid(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentBlobUuid = v;
   }
 }
 
@@ -188,14 +188,14 @@ class SubmitJobResponse {
   /// The status of the request.
   SubmitJobStatus get status => SubmitJobStatus.fromJS(_wrapped.status);
   set status(SubmitJobStatus v) {
-    throw UnimplementedError();
+    _wrapped.status = v.toJS;
   }
 
   /// The id of created print job. This is a unique identifier among all print
   /// jobs on the device. If status is not OK, jobId will be null.
   String? get jobId => _wrapped.jobId;
   set jobId(String? v) {
-    throw UnimplementedError();
+    _wrapped.jobId = v;
   }
 }
 
@@ -210,32 +210,32 @@ class Printer {
   /// device.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The name of the printer.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The human-readable description of the printer.
   String get description => _wrapped.description;
   set description(String v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// The printer URI. This can be used by extensions to choose the printer for
   /// the user.
   String get uri => _wrapped.uri;
   set uri(String v) {
-    throw UnimplementedError();
+    _wrapped.uri = v;
   }
 
   /// The source of the printer (user or policy configured).
   PrinterSource get source => PrinterSource.fromJS(_wrapped.source);
   set source(PrinterSource v) {
-    throw UnimplementedError();
+    _wrapped.source = v.toJS;
   }
 
   /// The flag which shows whether the printer fits
@@ -245,7 +245,7 @@ class Printer {
   /// Note that several printers could be flagged.
   bool get isDefault => _wrapped.isDefault;
   set isDefault(bool v) {
-    throw UnimplementedError();
+    _wrapped.isDefault = v;
   }
 
   /// The value showing how recent the printer was used for printing from
@@ -254,7 +254,7 @@ class Printer {
   /// recently. This value is guaranteed to be unique amongst printers.
   int? get recentlyUsedRank => _wrapped.recentlyUsedRank;
   set recentlyUsedRank(int? v) {
-    throw UnimplementedError();
+    _wrapped.recentlyUsedRank = v;
   }
 }
 
@@ -271,13 +271,13 @@ class GetPrinterInfoResponse {
   /// The property may be missing.
   JSAny? get capabilities => _wrapped.capabilities;
   set capabilities(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.capabilities = v;
   }
 
   /// The status of the printer.
   PrinterStatus get status => PrinterStatus.fromJS(_wrapped.status);
   set status(PrinterStatus v) {
-    throw UnimplementedError();
+    _wrapped.status = v.toJS;
   }
 }
 

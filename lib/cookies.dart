@@ -99,74 +99,74 @@ class Cookie {
   /// The name of the cookie.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The value of the cookie.
   String get value => _wrapped.value;
   set value(String v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 
   /// The domain of the cookie (e.g. "www.google.com", "example.com").
   String get domain => _wrapped.domain;
   set domain(String v) {
-    throw UnimplementedError();
+    _wrapped.domain = v;
   }
 
   /// True if the cookie is a host-only cookie (i.e. a request's host must
   /// exactly match the domain of the cookie).
   bool get hostOnly => _wrapped.hostOnly;
   set hostOnly(bool v) {
-    throw UnimplementedError();
+    _wrapped.hostOnly = v;
   }
 
   /// The path of the cookie.
   String get path => _wrapped.path;
   set path(String v) {
-    throw UnimplementedError();
+    _wrapped.path = v;
   }
 
   /// True if the cookie is marked as Secure (i.e. its scope is limited to
   /// secure channels, typically HTTPS).
   bool get secure => _wrapped.secure;
   set secure(bool v) {
-    throw UnimplementedError();
+    _wrapped.secure = v;
   }
 
   /// True if the cookie is marked as HttpOnly (i.e. the cookie is inaccessible
   /// to client-side scripts).
   bool get httpOnly => _wrapped.httpOnly;
   set httpOnly(bool v) {
-    throw UnimplementedError();
+    _wrapped.httpOnly = v;
   }
 
   /// The cookie's same-site status (i.e. whether the cookie is sent with
   /// cross-site requests).
   SameSiteStatus get sameSite => SameSiteStatus.fromJS(_wrapped.sameSite);
   set sameSite(SameSiteStatus v) {
-    throw UnimplementedError();
+    _wrapped.sameSite = v.toJS;
   }
 
   /// True if the cookie is a session cookie, as opposed to a persistent cookie
   /// with an expiration date.
   bool get session => _wrapped.session;
   set session(bool v) {
-    throw UnimplementedError();
+    _wrapped.session = v;
   }
 
   /// The expiration date of the cookie as the number of seconds since the UNIX
   /// epoch. Not provided for session cookies.
   double? get expirationDate => _wrapped.expirationDate;
   set expirationDate(double? v) {
-    throw UnimplementedError();
+    _wrapped.expirationDate = v;
   }
 
   /// The ID of the cookie store containing this cookie, as provided in
   /// getAllCookieStores().
   String get storeId => _wrapped.storeId;
   set storeId(String v) {
-    throw UnimplementedError();
+    _wrapped.storeId = v;
   }
 }
 
@@ -180,13 +180,13 @@ class CookieStore {
   /// The unique identifier for the cookie store.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Identifiers of all the browser tabs that share this cookie store.
   List<int> get tabIds => throw UnimplementedError();
   set tabIds(List<int> v) {
-    throw UnimplementedError();
+    _wrapped.tabIds = throw UnimplementedError();
   }
 }
 
@@ -203,20 +203,20 @@ class CookieDetails {
   /// specified in the manifest file, the API call will fail.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The name of the cookie to access.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The ID of the cookie store in which to look for the cookie. By default,
   /// the current execution context's cookie store will be used.
   String? get storeId => _wrapped.storeId;
   set storeId(String? v) {
-    throw UnimplementedError();
+    _wrapped.storeId = v;
   }
 }
 
@@ -230,19 +230,19 @@ class OnChangedChangeInfo {
   /// True if a cookie was removed.
   bool get removed => _wrapped.removed;
   set removed(bool v) {
-    throw UnimplementedError();
+    _wrapped.removed = v;
   }
 
   /// Information about the cookie that was set or removed.
   Cookie get cookie => Cookie.fromJS(_wrapped.cookie);
   set cookie(Cookie v) {
-    throw UnimplementedError();
+    _wrapped.cookie = v.toJS;
   }
 
   /// The underlying reason behind the cookie's change.
   OnChangedCause get cause => OnChangedCause.fromJS(_wrapped.cause);
   set cause(OnChangedCause v) {
-    throw UnimplementedError();
+    _wrapped.cause = v.toJS;
   }
 }
 
@@ -272,18 +272,18 @@ class RemoveCallbackDetails {
   /// The URL associated with the cookie that's been removed.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The name of the cookie that's been removed.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The ID of the cookie store from which the cookie was removed.
   String get storeId => _wrapped.storeId;
   set storeId(String v) {
-    throw UnimplementedError();
+    _wrapped.storeId = v;
   }
 }

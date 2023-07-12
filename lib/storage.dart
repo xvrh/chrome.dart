@@ -54,13 +54,13 @@ class StorageChange {
   /// The old value of the item, if there was an old value.
   JSAny? get oldValue => _wrapped.oldValue;
   set oldValue(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.oldValue = v;
   }
 
   /// The new value of the item, if there is a new value.
   JSAny? get newValue => _wrapped.newValue;
   set newValue(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.newValue = v;
   }
 }
 
@@ -108,7 +108,7 @@ class StorageSync {
   /// immediately and set [runtime.lastError].
   int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
   set QUOTA_BYTES(int v) {
-    throw UnimplementedError();
+    _wrapped.QUOTA_BYTES = v;
   }
 
   /// The maximum size (in bytes) of each individual item in sync storage, as
@@ -117,7 +117,7 @@ class StorageSync {
   /// set [runtime.lastError].
   int get QUOTA_BYTES_PER_ITEM => _wrapped.QUOTA_BYTES_PER_ITEM;
   set QUOTA_BYTES_PER_ITEM(int v) {
-    throw UnimplementedError();
+    _wrapped.QUOTA_BYTES_PER_ITEM = v;
   }
 
   /// The maximum number of items that can be stored in sync storage. Updates
@@ -125,7 +125,7 @@ class StorageSync {
   /// [runtime.lastError].
   int get MAX_ITEMS => _wrapped.MAX_ITEMS;
   set MAX_ITEMS(int v) {
-    throw UnimplementedError();
+    _wrapped.MAX_ITEMS = v;
   }
 
   /// The maximum number of `set`, `remove`, or `clear` operations that can be
@@ -137,7 +137,7 @@ class StorageSync {
   int get MAX_WRITE_OPERATIONS_PER_HOUR =>
       _wrapped.MAX_WRITE_OPERATIONS_PER_HOUR;
   set MAX_WRITE_OPERATIONS_PER_HOUR(int v) {
-    throw UnimplementedError();
+    _wrapped.MAX_WRITE_OPERATIONS_PER_HOUR = v;
   }
 
   /// The maximum number of `set`, `remove`, or `clear` operations that can be
@@ -149,13 +149,13 @@ class StorageSync {
   int get MAX_WRITE_OPERATIONS_PER_MINUTE =>
       _wrapped.MAX_WRITE_OPERATIONS_PER_MINUTE;
   set MAX_WRITE_OPERATIONS_PER_MINUTE(int v) {
-    throw UnimplementedError();
+    _wrapped.MAX_WRITE_OPERATIONS_PER_MINUTE = v;
   }
 
   int get MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE =>
       _wrapped.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
   set MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE(int v) {
-    throw UnimplementedError();
+    _wrapped.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE = v;
   }
 }
 
@@ -173,7 +173,7 @@ class StorageLocal {
   /// exceeded fail immediately and set [runtime.lastError].
   int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
   set QUOTA_BYTES(int v) {
-    throw UnimplementedError();
+    _wrapped.QUOTA_BYTES = v;
   }
 }
 
@@ -190,7 +190,7 @@ class StorageSession {
   /// immediately and set [runtime.lastError].
   int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
   set QUOTA_BYTES(int v) {
-    throw UnimplementedError();
+    _wrapped.QUOTA_BYTES = v;
   }
 }
 

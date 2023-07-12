@@ -46,20 +46,20 @@ class QueryInfo {
   /// String to query with the default search provider.
   String get text => _wrapped.text;
   set text(String v) {
-    throw UnimplementedError();
+    _wrapped.text = v;
   }
 
   /// Location where search results should be displayed.
   /// `CURRENT_TAB` is the default.
   Disposition? get disposition => _wrapped.disposition?.let(Disposition.fromJS);
   set disposition(Disposition? v) {
-    throw UnimplementedError();
+    _wrapped.disposition = v?.toJS;
   }
 
   /// Location where search results should be displayed.
   /// `tabId` cannot be used with `disposition`.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }

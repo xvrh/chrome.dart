@@ -25,12 +25,12 @@ class MemoryInfo {
   /// The total amount of physical memory capacity, in bytes.
   double get capacity => _wrapped.capacity;
   set capacity(double v) {
-    throw UnimplementedError();
+    _wrapped.capacity = v;
   }
 
   /// The amount of available capacity, in bytes.
   double get availableCapacity => _wrapped.availableCapacity;
   set availableCapacity(double v) {
-    throw UnimplementedError();
+    _wrapped.availableCapacity = v;
   }
 }

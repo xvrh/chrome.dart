@@ -88,14 +88,14 @@ class GetCallbackDetails {
   /// The value of the setting.
   JSAny get value => _wrapped.value;
   set value(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 
   /// The level of control of the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 
   /// Whether the effective value is specific to the incognito session.<br/>This
@@ -103,7 +103,7 @@ class GetCallbackDetails {
   /// [details] parameter of `get()` was true.
   bool? get incognitoSpecific => _wrapped.incognitoSpecific;
   set incognitoSpecific(bool? v) {
-    throw UnimplementedError();
+    _wrapped.incognitoSpecific = v;
   }
 }
 
@@ -141,14 +141,14 @@ class OnChangeDetails {
   /// The value of the setting after the change.
   JSAny get value => _wrapped.value;
   set value(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 
   /// The level of control of the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 
   /// Whether the value that has changed is specific to the incognito
@@ -156,6 +156,6 @@ class OnChangeDetails {
   /// the extension in incognito mode.
   bool? get incognitoSpecific => _wrapped.incognitoSpecific;
   set incognitoSpecific(bool? v) {
-    throw UnimplementedError();
+    _wrapped.incognitoSpecific = v;
   }
 }

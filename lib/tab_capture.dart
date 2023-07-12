@@ -80,19 +80,19 @@ class CaptureInfo {
   /// The id of the tab whose status changed.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The new capture status of the tab.
   TabCaptureState get status => TabCaptureState.fromJS(_wrapped.status);
   set status(TabCaptureState v) {
-    throw UnimplementedError();
+    _wrapped.status = v.toJS;
   }
 
   /// Whether an element in the tab being captured is in fullscreen mode.
   bool get fullscreen => _wrapped.fullscreen;
   set fullscreen(bool v) {
-    throw UnimplementedError();
+    _wrapped.fullscreen = v;
   }
 }
 
@@ -105,12 +105,12 @@ class MediaStreamConstraint {
 
   JSAny get mandatory => _wrapped.mandatory;
   set mandatory(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.mandatory = v;
   }
 
   JSAny? get _optional => _wrapped._optional;
   set _optional(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped._optional = v;
   }
 }
 
@@ -123,29 +123,29 @@ class CaptureOptions {
 
   bool? get audio => _wrapped.audio;
   set audio(bool? v) {
-    throw UnimplementedError();
+    _wrapped.audio = v;
   }
 
   bool? get video => _wrapped.video;
   set video(bool? v) {
-    throw UnimplementedError();
+    _wrapped.video = v;
   }
 
   MediaStreamConstraint? get audioConstraints =>
       _wrapped.audioConstraints?.let(MediaStreamConstraint.fromJS);
   set audioConstraints(MediaStreamConstraint? v) {
-    throw UnimplementedError();
+    _wrapped.audioConstraints = v?.toJS;
   }
 
   MediaStreamConstraint? get videoConstraints =>
       _wrapped.videoConstraints?.let(MediaStreamConstraint.fromJS);
   set videoConstraints(MediaStreamConstraint? v) {
-    throw UnimplementedError();
+    _wrapped.videoConstraints = v?.toJS;
   }
 
   String? get presentationId => _wrapped.presentationId;
   set presentationId(String? v) {
-    throw UnimplementedError();
+    _wrapped.presentationId = v;
   }
 }
 
@@ -164,7 +164,7 @@ class GetMediaStreamOptions {
   /// secure origin, e.g. HTTPS.
   int? get consumerTabId => _wrapped.consumerTabId;
   set consumerTabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.consumerTabId = v;
   }
 
   /// Optional tab id of the tab which will be captured. If not specified
@@ -173,6 +173,6 @@ class GetMediaStreamOptions {
   /// used as the target tab.
   int? get targetTabId => _wrapped.targetTabId;
   set targetTabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.targetTabId = v;
   }
 }

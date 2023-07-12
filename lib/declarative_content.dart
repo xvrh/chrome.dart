@@ -91,7 +91,7 @@ class PageStateMatcher {
   /// top-level URL of the page.
   UrlFilter? get pageUrl => _wrapped.pageUrl?.let(UrlFilter.fromJS);
   set pageUrl(UrlFilter? v) {
-    throw UnimplementedError();
+    _wrapped.pageUrl = v?.toJS;
   }
 
   /// Matches if all of the CSS selectors in the array match displayed elements
@@ -102,20 +102,20 @@ class PageStateMatcher {
   /// that match hundreds of times per page can slow down web sites.
   List<String>? get css => throw UnimplementedError();
   set css(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.css = throw UnimplementedError();
   }
 
   /// Matches if the bookmarked state of the page is equal to the specified
   /// value. Requres the [bookmarks permission](declare_permissions).
   bool? get isBookmarked => _wrapped.isBookmarked;
   set isBookmarked(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isBookmarked = v;
   }
 
   PageStateMatcherInstanceType get instanceType =>
       PageStateMatcherInstanceType.fromJS(_wrapped.instanceType);
   set instanceType(PageStateMatcherInstanceType v) {
-    throw UnimplementedError();
+    _wrapped.instanceType = v.toJS;
   }
 }
 
@@ -129,7 +129,7 @@ class ShowPageAction {
   ShowPageActionInstanceType get instanceType =>
       ShowPageActionInstanceType.fromJS(_wrapped.instanceType);
   set instanceType(ShowPageActionInstanceType v) {
-    throw UnimplementedError();
+    _wrapped.instanceType = v.toJS;
   }
 }
 
@@ -143,7 +143,7 @@ class ShowAction {
   ShowActionInstanceType get instanceType =>
       ShowActionInstanceType.fromJS(_wrapped.instanceType);
   set instanceType(ShowActionInstanceType v) {
-    throw UnimplementedError();
+    _wrapped.instanceType = v.toJS;
   }
 }
 
@@ -157,7 +157,7 @@ class SetIcon {
   SetIconInstanceType get instanceType =>
       SetIconInstanceType.fromJS(_wrapped.instanceType);
   set instanceType(SetIconInstanceType v) {
-    throw UnimplementedError();
+    _wrapped.instanceType = v.toJS;
   }
 
   /// Either an `ImageData` object or a dictionary {size -> ImageData}
@@ -170,7 +170,7 @@ class SetIcon {
   /// {'16': foo}`.
   JSAny? get imageData => _wrapped.imageData;
   set imageData(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.imageData = v;
   }
 }
 
@@ -184,32 +184,32 @@ class RequestContentScript {
   /// Names of CSS files to be injected as a part of the content script.
   List<String>? get css => throw UnimplementedError();
   set css(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.css = throw UnimplementedError();
   }
 
   /// Names of JavaScript files to be injected as a part of the content script.
   List<String>? get js => throw UnimplementedError();
   set js(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.js = throw UnimplementedError();
   }
 
   /// Whether the content script runs in all frames of the matching page, or in
   /// only the top frame. Default is `false`.
   bool? get allFrames => _wrapped.allFrames;
   set allFrames(bool? v) {
-    throw UnimplementedError();
+    _wrapped.allFrames = v;
   }
 
   /// Whether to insert the content script on `about:blank` and `about:srcdoc`.
   /// Default is `false`.
   bool? get matchAboutBlank => _wrapped.matchAboutBlank;
   set matchAboutBlank(bool? v) {
-    throw UnimplementedError();
+    _wrapped.matchAboutBlank = v;
   }
 
   RequestContentScriptInstanceType get instanceType =>
       RequestContentScriptInstanceType.fromJS(_wrapped.instanceType);
   set instanceType(RequestContentScriptInstanceType v) {
-    throw UnimplementedError();
+    _wrapped.instanceType = v.toJS;
   }
 }

@@ -64,7 +64,7 @@ class TabDetails {
   /// non-tab-specific state is returned.
   int? get tabId => _wrapped.tabId;
   set tabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 }
 

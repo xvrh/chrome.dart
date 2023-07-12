@@ -109,7 +109,7 @@ class ExtensionLastError {
   /// Description of the error that has taken place.
   String get message => _wrapped.message;
   set message(String v) {
-    throw UnimplementedError();
+    _wrapped.message = v;
   }
 }
 

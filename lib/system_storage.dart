@@ -88,25 +88,25 @@ class StorageUnitInfo {
   /// application, or between different applications.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The name of the storage unit.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The media type of the storage unit.
   StorageUnitType get type => StorageUnitType.fromJS(_wrapped.type);
   set type(StorageUnitType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// The total amount of the storage space, in bytes.
   double get capacity => _wrapped.capacity;
   set capacity(double v) {
-    throw UnimplementedError();
+    _wrapped.capacity = v;
   }
 }
 
@@ -120,12 +120,12 @@ class StorageAvailableCapacityInfo {
   /// A copied |id| of getAvailableCapacity function parameter |id|.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The available capacity of the storage device, in bytes.
   double get availableCapacity => _wrapped.availableCapacity;
   set availableCapacity(double v) {
-    throw UnimplementedError();
+    _wrapped.availableCapacity = v;
   }
 }

@@ -22,32 +22,32 @@ class Rule {
   /// Optional identifier that allows referencing this rule.
   String? get id => _wrapped.id;
   set id(String? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Tags can be used to annotate rules and perform operations on sets of
   /// rules.
   List<String>? get tags => throw UnimplementedError();
   set tags(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.tags = throw UnimplementedError();
   }
 
   /// List of conditions that can trigger the actions.
   List<JSAny> get conditions => throw UnimplementedError();
   set conditions(List<JSAny> v) {
-    throw UnimplementedError();
+    _wrapped.conditions = throw UnimplementedError();
   }
 
   /// List of actions that are triggered if one of the conditions is fulfilled.
   List<JSAny> get actions => throw UnimplementedError();
   set actions(List<JSAny> v) {
-    throw UnimplementedError();
+    _wrapped.actions = throw UnimplementedError();
   }
 
   /// Optional priority of this rule. Defaults to 100.
   int? get priority => _wrapped.priority;
   set priority(int? v) {
-    throw UnimplementedError();
+    _wrapped.priority = v;
   }
 }
 
@@ -113,73 +113,73 @@ class UrlFilter {
   /// implicit dot is added at the end of the host name.
   String? get hostContains => _wrapped.hostContains;
   set hostContains(String? v) {
-    throw UnimplementedError();
+    _wrapped.hostContains = v;
   }
 
   /// Matches if the host name of the URL is equal to a specified string.
   String? get hostEquals => _wrapped.hostEquals;
   set hostEquals(String? v) {
-    throw UnimplementedError();
+    _wrapped.hostEquals = v;
   }
 
   /// Matches if the host name of the URL starts with a specified string.
   String? get hostPrefix => _wrapped.hostPrefix;
   set hostPrefix(String? v) {
-    throw UnimplementedError();
+    _wrapped.hostPrefix = v;
   }
 
   /// Matches if the host name of the URL ends with a specified string.
   String? get hostSuffix => _wrapped.hostSuffix;
   set hostSuffix(String? v) {
-    throw UnimplementedError();
+    _wrapped.hostSuffix = v;
   }
 
   /// Matches if the path segment of the URL contains a specified string.
   String? get pathContains => _wrapped.pathContains;
   set pathContains(String? v) {
-    throw UnimplementedError();
+    _wrapped.pathContains = v;
   }
 
   /// Matches if the path segment of the URL is equal to a specified string.
   String? get pathEquals => _wrapped.pathEquals;
   set pathEquals(String? v) {
-    throw UnimplementedError();
+    _wrapped.pathEquals = v;
   }
 
   /// Matches if the path segment of the URL starts with a specified string.
   String? get pathPrefix => _wrapped.pathPrefix;
   set pathPrefix(String? v) {
-    throw UnimplementedError();
+    _wrapped.pathPrefix = v;
   }
 
   /// Matches if the path segment of the URL ends with a specified string.
   String? get pathSuffix => _wrapped.pathSuffix;
   set pathSuffix(String? v) {
-    throw UnimplementedError();
+    _wrapped.pathSuffix = v;
   }
 
   /// Matches if the query segment of the URL contains a specified string.
   String? get queryContains => _wrapped.queryContains;
   set queryContains(String? v) {
-    throw UnimplementedError();
+    _wrapped.queryContains = v;
   }
 
   /// Matches if the query segment of the URL is equal to a specified string.
   String? get queryEquals => _wrapped.queryEquals;
   set queryEquals(String? v) {
-    throw UnimplementedError();
+    _wrapped.queryEquals = v;
   }
 
   /// Matches if the query segment of the URL starts with a specified string.
   String? get queryPrefix => _wrapped.queryPrefix;
   set queryPrefix(String? v) {
-    throw UnimplementedError();
+    _wrapped.queryPrefix = v;
   }
 
   /// Matches if the query segment of the URL ends with a specified string.
   String? get querySuffix => _wrapped.querySuffix;
   set querySuffix(String? v) {
-    throw UnimplementedError();
+    _wrapped.querySuffix = v;
   }
 
   /// Matches if the URL (without fragment identifier) contains a specified
@@ -187,7 +187,7 @@ class UrlFilter {
   /// port number.
   String? get urlContains => _wrapped.urlContains;
   set urlContains(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlContains = v;
   }
 
   /// Matches if the URL (without fragment identifier) is equal to a specified
@@ -195,7 +195,7 @@ class UrlFilter {
   /// port number.
   String? get urlEquals => _wrapped.urlEquals;
   set urlEquals(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlEquals = v;
   }
 
   /// Matches if the URL (without fragment identifier) matches a specified
@@ -204,7 +204,7 @@ class UrlFilter {
   /// syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
   String? get urlMatches => _wrapped.urlMatches;
   set urlMatches(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlMatches = v;
   }
 
   /// Matches if the URL without query segment and fragment identifier matches a
@@ -213,7 +213,7 @@ class UrlFilter {
   /// syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
   String? get originAndPathMatches => _wrapped.originAndPathMatches;
   set originAndPathMatches(String? v) {
-    throw UnimplementedError();
+    _wrapped.originAndPathMatches = v;
   }
 
   /// Matches if the URL (without fragment identifier) starts with a specified
@@ -221,7 +221,7 @@ class UrlFilter {
   /// port number.
   String? get urlPrefix => _wrapped.urlPrefix;
   set urlPrefix(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlPrefix = v;
   }
 
   /// Matches if the URL (without fragment identifier) ends with a specified
@@ -229,14 +229,14 @@ class UrlFilter {
   /// port number.
   String? get urlSuffix => _wrapped.urlSuffix;
   set urlSuffix(String? v) {
-    throw UnimplementedError();
+    _wrapped.urlSuffix = v;
   }
 
   /// Matches if the scheme of the URL is equal to any of the schemes specified
   /// in the array.
   List<String>? get schemes => throw UnimplementedError();
   set schemes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.schemes = throw UnimplementedError();
   }
 
   /// Matches if the port of the URL is contained in any of the specified port
@@ -244,6 +244,6 @@ class UrlFilter {
   /// 80, 443 and in the range 1000-1200.
   List<JSAny>? get ports => throw UnimplementedError();
   set ports(List<JSAny>? v) {
-    throw UnimplementedError();
+    _wrapped.ports = throw UnimplementedError();
   }
 }

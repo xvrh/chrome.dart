@@ -197,7 +197,7 @@ class Token {
   /// returned by [enterprise.platformKeys.getTokens].
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Implements the WebCrypto's
@@ -215,7 +215,7 @@ class Token {
   /// interface.
   JSObject get subtleCrypto => _wrapped.subtleCrypto;
   set subtleCrypto(JSObject v) {
-    throw UnimplementedError();
+    _wrapped.subtleCrypto = v;
   }
 
   /// Implements the WebCrypto's
@@ -235,7 +235,7 @@ class Token {
   JSObject get softwareBackedSubtleCrypto =>
       _wrapped.softwareBackedSubtleCrypto;
   set softwareBackedSubtleCrypto(JSObject v) {
-    throw UnimplementedError();
+    _wrapped.softwareBackedSubtleCrypto = v;
   }
 }
 
@@ -249,7 +249,7 @@ class RegisterKeyOptions {
   /// Which algorithm the registered key should use.
   Algorithm get algorithm => Algorithm.fromJS(_wrapped.algorithm);
   set algorithm(Algorithm v) {
-    throw UnimplementedError();
+    _wrapped.algorithm = v.toJS;
   }
 }
 
@@ -263,7 +263,7 @@ class ChallengeKeyOptions {
   /// A challenge as emitted by the Verified Access Web API.
   ByteBuffer get challenge => _wrapped.challenge.toDart;
   set challenge(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.challenge = v.toJS;
   }
 
   /// If present, registers the challenged key with the specified
@@ -274,12 +274,12 @@ class ChallengeKeyOptions {
   RegisterKeyOptions? get registerKey =>
       _wrapped.registerKey?.let(RegisterKeyOptions.fromJS);
   set registerKey(RegisterKeyOptions? v) {
-    throw UnimplementedError();
+    _wrapped.registerKey = v?.toJS;
   }
 
   /// Which Enterprise Key to challenge.
   Scope get scope => Scope.fromJS(_wrapped.scope);
   set scope(Scope v) {
-    throw UnimplementedError();
+    _wrapped.scope = v.toJS;
   }
 }

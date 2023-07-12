@@ -330,7 +330,7 @@ class Port {
   /// The name of the port, as specified in the call to [runtime.connect].
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// Immediately disconnect the port. Calling `disconnect()` on an
@@ -338,14 +338,14 @@ class Port {
   /// new events will be dispatched to this port.
   JSAny get disconnect => _wrapped.disconnect;
   set disconnect(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.disconnect = v;
   }
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
   JSAny get postMessage => _wrapped.postMessage;
   set postMessage(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.postMessage = v;
   }
 
   /// This property will **only** be present on ports passed to
@@ -354,7 +354,7 @@ class Port {
   /// listeners.
   MessageSender? get sender => _wrapped.sender?.let(MessageSender.fromJS);
   set sender(MessageSender? v) {
-    throw UnimplementedError();
+    _wrapped.sender = v?.toJS;
   }
 
   /// Fired when the port is disconnected from the other end(s).
@@ -381,7 +381,7 @@ class MessageSender {
   /// content scripts), and *only* if the receiver is an extension, not an app.
   Tab? get tab => _wrapped.tab?.let(Tab.fromJS);
   set tab(Tab? v) {
-    throw UnimplementedError();
+    _wrapped.tab = v?.toJS;
   }
 
   /// The [frame](webNavigation#frame_ids) that opened the connection. 0 for
@@ -389,27 +389,27 @@ class MessageSender {
   /// `tab` is set.
   int? get frameId => _wrapped.frameId;
   set frameId(int? v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// The guest process id of the requesting webview, if available. Only
   /// available for component extensions.
   int? get guestProcessId => _wrapped.guestProcessId;
   set guestProcessId(int? v) {
-    throw UnimplementedError();
+    _wrapped.guestProcessId = v;
   }
 
   /// The guest render frame routing id of the requesting webview, if available.
   /// Only available for component extensions.
   int? get guestRenderFrameRoutingId => _wrapped.guestRenderFrameRoutingId;
   set guestRenderFrameRoutingId(int? v) {
-    throw UnimplementedError();
+    _wrapped.guestRenderFrameRoutingId = v;
   }
 
   /// The ID of the extension or app that opened the connection, if any.
   String? get id => _wrapped.id;
   set id(String? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The URL of the page or frame that opened the connection. If the sender is
@@ -417,20 +417,20 @@ class MessageSender {
   /// it.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The name of the native application that opened the connection, if any.
   String? get nativeApplication => _wrapped.nativeApplication;
   set nativeApplication(String? v) {
-    throw UnimplementedError();
+    _wrapped.nativeApplication = v;
   }
 
   /// The TLS channel ID of the page or frame that opened the connection, if
   /// requested by the extension or app, and if available.
   String? get tlsChannelId => _wrapped.tlsChannelId;
   set tlsChannelId(String? v) {
-    throw UnimplementedError();
+    _wrapped.tlsChannelId = v;
   }
 
   /// The origin of the page or frame that opened the connection. It can vary
@@ -439,13 +439,13 @@ class MessageSender {
   /// trusted if we can't immediately tell from the URL.
   String? get origin => _wrapped.origin;
   set origin(String? v) {
-    throw UnimplementedError();
+    _wrapped.origin = v;
   }
 
   /// A UUID of the document that opened the connection.
   String? get documentId => _wrapped.documentId;
   set documentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentId = v;
   }
 
   /// The lifecycle the document that opened the connection is in at the time
@@ -453,7 +453,7 @@ class MessageSender {
   /// have changed since port creation.
   String? get documentLifecycle => _wrapped.documentLifecycle;
   set documentLifecycle(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentLifecycle = v;
   }
 }
 
@@ -467,20 +467,20 @@ class PlatformInfo {
   /// The operating system Chrome is running on.
   PlatformOs get os => PlatformOs.fromJS(_wrapped.os);
   set os(PlatformOs v) {
-    throw UnimplementedError();
+    _wrapped.os = v.toJS;
   }
 
   /// The machine's processor architecture.
   PlatformArch get arch => PlatformArch.fromJS(_wrapped.arch);
   set arch(PlatformArch v) {
-    throw UnimplementedError();
+    _wrapped.arch = v.toJS;
   }
 
   /// The native client architecture. This may be different from arch on some
   /// platforms.
   PlatformNaclArch get nacl_arch => PlatformNaclArch.fromJS(_wrapped.nacl_arch);
   set nacl_arch(PlatformNaclArch v) {
-    throw UnimplementedError();
+    _wrapped.nacl_arch = v.toJS;
   }
 }
 
@@ -494,61 +494,61 @@ class ExtensionContext {
   /// The type of context this corresponds to.
   ContextType get contextType => ContextType.fromJS(_wrapped.contextType);
   set contextType(ContextType v) {
-    throw UnimplementedError();
+    _wrapped.contextType = v.toJS;
   }
 
   /// A unique identifier for this context
   String get contextId => _wrapped.contextId;
   set contextId(String v) {
-    throw UnimplementedError();
+    _wrapped.contextId = v;
   }
 
   /// The ID of the tab for this context, or -1 if this context is not hosted in
   /// a tab.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The ID of the window for this context, or -1 if this context is not hosted
   /// in a window.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   /// A UUID for the document associated with this context, or undefined if this
   /// context is hosted not in a document.
   String? get documentId => _wrapped.documentId;
   set documentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentId = v;
   }
 
   /// The ID of the frame for this context, or -1 if this context is not hosted
   /// in a frame.
   int get frameId => _wrapped.frameId;
   set frameId(int v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// The URL of the document associated with this context, or undefined if the
   /// context is not hosted in a document.
   String? get documentUrl => _wrapped.documentUrl;
   set documentUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentUrl = v;
   }
 
   /// The origin of the document associated with this context, or undefined if
   /// the context is not hosted in a document.
   String? get documentOrigin => _wrapped.documentOrigin;
   set documentOrigin(String? v) {
-    throw UnimplementedError();
+    _wrapped.documentOrigin = v;
   }
 
   /// Whether the context is associated with an incognito profile.
   bool get incognito => _wrapped.incognito;
   set incognito(bool v) {
-    throw UnimplementedError();
+    _wrapped.incognito = v;
   }
 }
 
@@ -561,47 +561,47 @@ class ContextFilter {
 
   List<ContextType>? get contextTypes => throw UnimplementedError();
   set contextTypes(List<ContextType>? v) {
-    throw UnimplementedError();
+    _wrapped.contextTypes = throw UnimplementedError();
   }
 
   List<String>? get contextIds => throw UnimplementedError();
   set contextIds(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.contextIds = throw UnimplementedError();
   }
 
   List<int>? get tabIds => throw UnimplementedError();
   set tabIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.tabIds = throw UnimplementedError();
   }
 
   List<int>? get windowIds => throw UnimplementedError();
   set windowIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.windowIds = throw UnimplementedError();
   }
 
   List<String>? get documentIds => throw UnimplementedError();
   set documentIds(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.documentIds = throw UnimplementedError();
   }
 
   List<int>? get frameIds => throw UnimplementedError();
   set frameIds(List<int>? v) {
-    throw UnimplementedError();
+    _wrapped.frameIds = throw UnimplementedError();
   }
 
   List<String>? get documentUrls => throw UnimplementedError();
   set documentUrls(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.documentUrls = throw UnimplementedError();
   }
 
   List<String>? get documentOrigins => throw UnimplementedError();
   set documentOrigins(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.documentOrigins = throw UnimplementedError();
   }
 
   bool? get incognito => _wrapped.incognito;
   set incognito(bool? v) {
-    throw UnimplementedError();
+    _wrapped.incognito = v;
   }
 }
 
@@ -615,21 +615,21 @@ class OnInstalledDetails {
   /// The reason that this event is being dispatched.
   OnInstalledReason get reason => OnInstalledReason.fromJS(_wrapped.reason);
   set reason(OnInstalledReason v) {
-    throw UnimplementedError();
+    _wrapped.reason = v.toJS;
   }
 
   /// Indicates the previous version of the extension, which has just been
   /// updated. This is present only if 'reason' is 'update'.
   String? get previousVersion => _wrapped.previousVersion;
   set previousVersion(String? v) {
-    throw UnimplementedError();
+    _wrapped.previousVersion = v;
   }
 
   /// Indicates the ID of the imported shared module extension which updated.
   /// This is present only if 'reason' is 'shared_module_update'.
   String? get id => _wrapped.id;
   set id(String? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 }
 
@@ -643,7 +643,7 @@ class OnUpdateAvailableDetails {
   /// The version number of the available update.
   String get version => _wrapped.version;
   set version(String v) {
-    throw UnimplementedError();
+    _wrapped.version = v;
   }
 }
 
@@ -666,14 +666,14 @@ class RequestUpdateCheckCallbackResult {
   RequestUpdateCheckStatus get status =>
       RequestUpdateCheckStatus.fromJS(_wrapped.status);
   set status(RequestUpdateCheckStatus v) {
-    throw UnimplementedError();
+    _wrapped.status = v.toJS;
   }
 
   /// If an update is available, this contains the version of the available
   /// update.
   String? get version => _wrapped.version;
   set version(String? v) {
-    throw UnimplementedError();
+    _wrapped.version = v;
   }
 }
 
@@ -703,7 +703,7 @@ class RuntimeLastError {
   /// Details about the error which occurred.
   String? get message => _wrapped.message;
   set message(String? v) {
-    throw UnimplementedError();
+    _wrapped.message = v;
   }
 }
 

@@ -62,21 +62,21 @@ class ProxyServer {
   /// The scheme (protocol) of the proxy server itself. Defaults to 'http'.
   Scheme? get scheme => _wrapped.scheme?.let(Scheme.fromJS);
   set scheme(Scheme? v) {
-    throw UnimplementedError();
+    _wrapped.scheme = v?.toJS;
   }
 
   /// The hostname or IP address of the proxy server. Hostnames must be in ASCII
   /// (in Punycode format). IDNA is not supported, yet.
   String get host => _wrapped.host;
   set host(String v) {
-    throw UnimplementedError();
+    _wrapped.host = v;
   }
 
   /// The port of the proxy server. Defaults to a port that depends on the
   /// scheme.
   int? get port => _wrapped.port;
   set port(int? v) {
-    throw UnimplementedError();
+    _wrapped.port = v;
   }
 }
 
@@ -91,27 +91,27 @@ class ProxyRules {
   /// and ftp).
   ProxyServer? get singleProxy => _wrapped.singleProxy?.let(ProxyServer.fromJS);
   set singleProxy(ProxyServer? v) {
-    throw UnimplementedError();
+    _wrapped.singleProxy = v?.toJS;
   }
 
   /// The proxy server to be used for HTTP requests.
   ProxyServer? get proxyForHttp =>
       _wrapped.proxyForHttp?.let(ProxyServer.fromJS);
   set proxyForHttp(ProxyServer? v) {
-    throw UnimplementedError();
+    _wrapped.proxyForHttp = v?.toJS;
   }
 
   /// The proxy server to be used for HTTPS requests.
   ProxyServer? get proxyForHttps =>
       _wrapped.proxyForHttps?.let(ProxyServer.fromJS);
   set proxyForHttps(ProxyServer? v) {
-    throw UnimplementedError();
+    _wrapped.proxyForHttps = v?.toJS;
   }
 
   /// The proxy server to be used for FTP requests.
   ProxyServer? get proxyForFtp => _wrapped.proxyForFtp?.let(ProxyServer.fromJS);
   set proxyForFtp(ProxyServer? v) {
-    throw UnimplementedError();
+    _wrapped.proxyForFtp = v?.toJS;
   }
 
   /// The proxy server to be used for everthing else or if any of the specific
@@ -119,13 +119,13 @@ class ProxyRules {
   ProxyServer? get fallbackProxy =>
       _wrapped.fallbackProxy?.let(ProxyServer.fromJS);
   set fallbackProxy(ProxyServer? v) {
-    throw UnimplementedError();
+    _wrapped.fallbackProxy = v?.toJS;
   }
 
   /// List of servers to connect to without a proxy server.
   List<String>? get bypassList => throw UnimplementedError();
   set bypassList(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.bypassList = throw UnimplementedError();
   }
 }
 
@@ -139,20 +139,20 @@ class PacScript {
   /// URL of the PAC file to be used.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// A PAC script.
   String? get data => _wrapped.data;
   set data(String? v) {
-    throw UnimplementedError();
+    _wrapped.data = v;
   }
 
   /// If true, an invalid PAC script will prevent the network stack from falling
   /// back to direct connections. Defaults to false.
   bool? get mandatory => _wrapped.mandatory;
   set mandatory(bool? v) {
-    throw UnimplementedError();
+    _wrapped.mandatory = v;
   }
 }
 
@@ -167,14 +167,14 @@ class ProxyConfig {
   /// 'fixed_servers' mode.
   ProxyRules? get rules => _wrapped.rules?.let(ProxyRules.fromJS);
   set rules(ProxyRules? v) {
-    throw UnimplementedError();
+    _wrapped.rules = v?.toJS;
   }
 
   /// The proxy auto-config (PAC) script for this configuration. Use this for
   /// 'pac_script' mode.
   PacScript? get pacScript => _wrapped.pacScript?.let(PacScript.fromJS);
   set pacScript(PacScript? v) {
-    throw UnimplementedError();
+    _wrapped.pacScript = v?.toJS;
   }
 
   /// 'direct' = Never use a proxy
@@ -184,7 +184,7 @@ class ProxyConfig {
   /// 'system' = Use system proxy settings
   Mode get mode => Mode.fromJS(_wrapped.mode);
   set mode(Mode v) {
-    throw UnimplementedError();
+    _wrapped.mode = v.toJS;
   }
 }
 
@@ -199,18 +199,18 @@ class OnProxyErrorDetails {
   /// Otherwise, a direct connection is used instead.
   bool get fatal => _wrapped.fatal;
   set fatal(bool v) {
-    throw UnimplementedError();
+    _wrapped.fatal = v;
   }
 
   /// The error description.
   String get error => _wrapped.error;
   set error(String v) {
-    throw UnimplementedError();
+    _wrapped.error = v;
   }
 
   /// Additional details about the error such as a JavaScript runtime error.
   String get details => _wrapped.details;
   set details(String v) {
-    throw UnimplementedError();
+    _wrapped.details = v;
   }
 }

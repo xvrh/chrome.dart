@@ -124,7 +124,7 @@ class IsUvpaaRequest {
   /// An opaque identifier for the request.
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 }
 
@@ -138,7 +138,7 @@ class CreateRequest {
   /// An opaque identifier for the request.
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The `PublicKeyCredentialCreationOptions` passed to
@@ -148,7 +148,7 @@ class CreateRequest {
   /// `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
   String get requestDetailsJson => _wrapped.requestDetailsJson;
   set requestDetailsJson(String v) {
-    throw UnimplementedError();
+    _wrapped.requestDetailsJson = v;
   }
 }
 
@@ -162,7 +162,7 @@ class GetRequest {
   /// An opaque identifier for the request.
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The `PublicKeyCredentialRequestOptions` passed to
@@ -172,7 +172,7 @@ class GetRequest {
   /// `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
   String get requestDetailsJson => _wrapped.requestDetailsJson;
   set requestDetailsJson(String v) {
-    throw UnimplementedError();
+    _wrapped.requestDetailsJson = v;
   }
 }
 
@@ -185,12 +185,12 @@ class DOMExceptionDetails {
 
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   String get message => _wrapped.message;
   set message(String v) {
-    throw UnimplementedError();
+    _wrapped.message = v;
   }
 }
 
@@ -204,14 +204,14 @@ class CreateResponseDetails {
   /// The `requestId` of the `CreateRequest`.
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The `DOMException` yielded by the remote request, if any.
   DOMExceptionDetails? get error =>
       _wrapped.error?.let(DOMExceptionDetails.fromJS);
   set error(DOMExceptionDetails? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// The `PublicKeyCredential`, yielded by the remote request, if
@@ -220,7 +220,7 @@ class CreateResponseDetails {
   /// `PublicKeyCredential.toJSON()`</a>.
   String? get responseJson => _wrapped.responseJson;
   set responseJson(String? v) {
-    throw UnimplementedError();
+    _wrapped.responseJson = v;
   }
 }
 
@@ -234,14 +234,14 @@ class GetResponseDetails {
   /// The `requestId` of the `CreateRequest`.
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   /// The `DOMException` yielded by the remote request, if any.
   DOMExceptionDetails? get error =>
       _wrapped.error?.let(DOMExceptionDetails.fromJS);
   set error(DOMExceptionDetails? v) {
-    throw UnimplementedError();
+    _wrapped.error = v?.toJS;
   }
 
   /// The `PublicKeyCredential`, yielded by the remote request, if
@@ -250,7 +250,7 @@ class GetResponseDetails {
   /// `PublicKeyCredential.toJSON()`</a>.
   String? get responseJson => _wrapped.responseJson;
   set responseJson(String? v) {
-    throw UnimplementedError();
+    _wrapped.responseJson = v;
   }
 }
 
@@ -263,11 +263,11 @@ class IsUvpaaResponseDetails {
 
   int get requestId => _wrapped.requestId;
   set requestId(int v) {
-    throw UnimplementedError();
+    _wrapped.requestId = v;
   }
 
   bool get isUvpaa => _wrapped.isUvpaa;
   set isUvpaa(bool v) {
-    throw UnimplementedError();
+    _wrapped.isUvpaa = v;
   }
 }

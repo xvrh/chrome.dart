@@ -146,7 +146,7 @@ class AccountInfo {
   /// for the lifetime of the account.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 }
 
@@ -163,7 +163,7 @@ class ProfileDetails {
   AccountStatus? get accountStatus =>
       _wrapped.accountStatus?.let(AccountStatus.fromJS);
   set accountStatus(AccountStatus? v) {
-    throw UnimplementedError();
+    _wrapped.accountStatus = v?.toJS;
   }
 }
 
@@ -180,7 +180,7 @@ class ProfileUserInfo {
   /// specified.
   String get email => _wrapped.email;
   set email(String v) {
-    throw UnimplementedError();
+    _wrapped.email = v;
   }
 
   /// A unique identifier for the account. This ID will not change
@@ -189,7 +189,7 @@ class ProfileUserInfo {
   /// manifest permission is not specified.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 }
 
@@ -208,7 +208,7 @@ class TokenDetails {
   /// return failure any time a prompt would be required.
   bool? get interactive => _wrapped.interactive;
   set interactive(bool? v) {
-    throw UnimplementedError();
+    _wrapped.interactive = v;
   }
 
   /// The account ID whose token should be returned. If not specified, the
@@ -216,7 +216,7 @@ class TokenDetails {
   /// there is one, or otherwise the first Google web account.
   AccountInfo? get account => _wrapped.account?.let(AccountInfo.fromJS);
   set account(AccountInfo? v) {
-    throw UnimplementedError();
+    _wrapped.account = v?.toJS;
   }
 
   /// A list of OAuth2 scopes to request.
@@ -225,7 +225,7 @@ class TokenDetails {
   /// list of scopes specified in manifest.json.
   List<String>? get scopes => throw UnimplementedError();
   set scopes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.scopes = throw UnimplementedError();
   }
 
   /// The `enableGranularPermissions` flag allows extensions to
@@ -233,7 +233,7 @@ class TokenDetails {
   /// requested permissions are granted or denied individually.
   bool? get enableGranularPermissions => _wrapped.enableGranularPermissions;
   set enableGranularPermissions(bool? v) {
-    throw UnimplementedError();
+    _wrapped.enableGranularPermissions = v;
   }
 }
 
@@ -247,7 +247,7 @@ class InvalidTokenDetails {
   /// The specific token that should be removed from the cache.
   String get token => _wrapped.token;
   set token(String v) {
-    throw UnimplementedError();
+    _wrapped.token = v;
   }
 }
 
@@ -261,7 +261,7 @@ class WebAuthFlowDetails {
   /// The URL that initiates the auth flow.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// Whether to launch auth flow in interactive mode.
@@ -282,7 +282,7 @@ class WebAuthFlowDetails {
   /// the page a chance to perform any redirects.
   bool? get interactive => _wrapped.interactive;
   set interactive(bool? v) {
-    throw UnimplementedError();
+    _wrapped.interactive = v;
   }
 
   /// Whether to terminate `launchWebAuthFlow` for non-interactive
@@ -298,7 +298,7 @@ class WebAuthFlowDetails {
   bool? get abortOnLoadForNonInteractive =>
       _wrapped.abortOnLoadForNonInteractive;
   set abortOnLoadForNonInteractive(bool? v) {
-    throw UnimplementedError();
+    _wrapped.abortOnLoadForNonInteractive = v;
   }
 
   /// The maximum amount of time, in miliseconds,
@@ -307,7 +307,7 @@ class WebAuthFlowDetails {
   /// `false`.
   int? get timeoutMsForNonInteractive => _wrapped.timeoutMsForNonInteractive;
   set timeoutMsForNonInteractive(int? v) {
-    throw UnimplementedError();
+    _wrapped.timeoutMsForNonInteractive = v;
   }
 }
 
@@ -321,13 +321,13 @@ class GetAuthTokenResult {
   /// The specific token associated with the request.
   String? get token => _wrapped.token;
   set token(String? v) {
-    throw UnimplementedError();
+    _wrapped.token = v;
   }
 
   /// A list of OAuth2 scopes granted to the extension.
   List<String>? get grantedScopes => throw UnimplementedError();
   set grantedScopes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.grantedScopes = throw UnimplementedError();
   }
 }
 

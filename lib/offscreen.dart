@@ -95,13 +95,13 @@ class CreateParameters {
   /// The reason(s) the extension is creating the offscreen document.
   List<Reason> get reasons => throw UnimplementedError();
   set reasons(List<Reason> v) {
-    throw UnimplementedError();
+    _wrapped.reasons = throw UnimplementedError();
   }
 
   /// The (relative) URL to load in the document.
   String get url => _wrapped.url;
   set url(String v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// A developer-provided string that explains, in more detail, the need for
@@ -109,6 +109,6 @@ class CreateParameters {
   /// user.
   String get justification => _wrapped.justification;
   set justification(String v) {
-    throw UnimplementedError();
+    _wrapped.justification = v;
   }
 }

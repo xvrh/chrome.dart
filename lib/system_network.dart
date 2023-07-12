@@ -28,18 +28,18 @@ class NetworkInterface {
   /// "eth0", "wlan0", etc.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// The available IPv4/6 address.
   String get address => _wrapped.address;
   set address(String v) {
-    throw UnimplementedError();
+    _wrapped.address = v;
   }
 
   /// The prefix length
   int get prefixLength => _wrapped.prefixLength;
   set prefixLength(int v) {
-    throw UnimplementedError();
+    _wrapped.prefixLength = v;
   }
 }

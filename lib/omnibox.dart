@@ -85,18 +85,18 @@ class MatchClassification {
 
   int get offset => _wrapped.offset;
   set offset(int v) {
-    throw UnimplementedError();
+    _wrapped.offset = v;
   }
 
   /// The style type
   DescriptionStyleType get type => DescriptionStyleType.fromJS(_wrapped.type);
   set type(DescriptionStyleType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   int? get length => _wrapped.length;
   set length(int? v) {
-    throw UnimplementedError();
+    _wrapped.length = v;
   }
 }
 
@@ -111,7 +111,7 @@ class SuggestResult {
   /// when the user chooses this entry.
   String get content => _wrapped.content;
   set content(String v) {
-    throw UnimplementedError();
+    _wrapped.content = v;
   }
 
   /// The text that is displayed in the URL dropdown. Can contain XML-style
@@ -123,13 +123,13 @@ class SuggestResult {
   /// stackoverflow.com/a/1091953/89484
   String get description => _wrapped.description;
   set description(String v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// Whether the suggest result can be deleted by the user.
   bool? get deletable => _wrapped.deletable;
   set deletable(bool? v) {
-    throw UnimplementedError();
+    _wrapped.deletable = v;
   }
 
   /// An array of style ranges for the description, as provided by the
@@ -137,7 +137,7 @@ class SuggestResult {
   List<MatchClassification>? get descriptionStyles =>
       throw UnimplementedError();
   set descriptionStyles(List<MatchClassification>? v) {
-    throw UnimplementedError();
+    _wrapped.descriptionStyles = throw UnimplementedError();
   }
 }
 
@@ -155,7 +155,7 @@ class DefaultSuggestResult {
   /// <dim><match>dimmed match</match></dim>.
   String get description => _wrapped.description;
   set description(String v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// An array of style ranges for the description, as provided by the
@@ -163,7 +163,7 @@ class DefaultSuggestResult {
   List<MatchClassification>? get descriptionStyles =>
       throw UnimplementedError();
   set descriptionStyles(List<MatchClassification>? v) {
-    throw UnimplementedError();
+    _wrapped.descriptionStyles = throw UnimplementedError();
   }
 }
 

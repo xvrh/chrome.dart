@@ -85,32 +85,32 @@ class TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
   int get id => _wrapped.id;
   set id(int v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Whether the group is collapsed. A collapsed group is one whose tabs are
   /// hidden.
   bool get collapsed => _wrapped.collapsed;
   set collapsed(bool v) {
-    throw UnimplementedError();
+    _wrapped.collapsed = v;
   }
 
   /// The group's color.
   Color get color => Color.fromJS(_wrapped.color);
   set color(Color v) {
-    throw UnimplementedError();
+    _wrapped.color = v.toJS;
   }
 
   /// The title of the group.
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// The ID of the window that contains the group.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 }
 

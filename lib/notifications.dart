@@ -132,13 +132,13 @@ class NotificationItem {
   /// Title of one item of a list notification.
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// Additional details about this item.
   String get message => _wrapped.message;
   set message(String v) {
-    throw UnimplementedError();
+    _wrapped.message = v;
   }
 }
 
@@ -151,17 +151,17 @@ class NotificationBitmap {
 
   int get width => _wrapped.width;
   set width(int v) {
-    throw UnimplementedError();
+    _wrapped.width = v;
   }
 
   int get height => _wrapped.height;
   set height(int v) {
-    throw UnimplementedError();
+    _wrapped.height = v;
   }
 
   ByteBuffer? get data => _wrapped.data?.toDart;
   set data(ByteBuffer? v) {
-    throw UnimplementedError();
+    _wrapped.data = v?.toJS;
   }
 }
 
@@ -174,18 +174,18 @@ class NotificationButton {
 
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   String? get iconUrl => _wrapped.iconUrl;
   set iconUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.iconUrl = v;
   }
 
   NotificationBitmap? get iconBitmap =>
       _wrapped.iconBitmap?.let(NotificationBitmap.fromJS);
   set iconBitmap(NotificationBitmap? v) {
-    throw UnimplementedError();
+    _wrapped.iconBitmap = v?.toJS;
   }
 }
 
@@ -200,7 +200,7 @@ class NotificationOptions {
   /// _Required for [notifications.create]_ method.
   TemplateType? get type => _wrapped.type?.let(TemplateType.fromJS);
   set type(TemplateType? v) {
-    throw UnimplementedError();
+    _wrapped.type = v?.toJS;
   }
 
   /// A URL to the sender's avatar, app icon, or a thumbnail for image
@@ -211,13 +211,13 @@ class NotificationOptions {
   /// _Required for [notifications.create]_ method.
   String? get iconUrl => _wrapped.iconUrl;
   set iconUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.iconUrl = v;
   }
 
   NotificationBitmap? get iconBitmap =>
       _wrapped.iconBitmap?.let(NotificationBitmap.fromJS);
   set iconBitmap(NotificationBitmap? v) {
-    throw UnimplementedError();
+    _wrapped.iconBitmap = v?.toJS;
   }
 
   /// A URL to the app icon mask. URLs have the same restrictions as
@@ -227,33 +227,33 @@ class NotificationOptions {
   /// of the image will be considered.
   String? get appIconMaskUrl => _wrapped.appIconMaskUrl;
   set appIconMaskUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.appIconMaskUrl = v;
   }
 
   NotificationBitmap? get appIconMaskBitmap =>
       _wrapped.appIconMaskBitmap?.let(NotificationBitmap.fromJS);
   set appIconMaskBitmap(NotificationBitmap? v) {
-    throw UnimplementedError();
+    _wrapped.appIconMaskBitmap = v?.toJS;
   }
 
   /// Title of the notification (e.g. sender name for email).
   /// _Required for [notifications.create]_ method.
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// Main notification content.
   /// _Required for [notifications.create]_ method.
   String? get message => _wrapped.message;
   set message(String? v) {
-    throw UnimplementedError();
+    _wrapped.message = v;
   }
 
   /// Alternate notification content with a lower-weight font.
   String? get contextMessage => _wrapped.contextMessage;
   set contextMessage(String? v) {
-    throw UnimplementedError();
+    _wrapped.contextMessage = v;
   }
 
   /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
@@ -262,26 +262,26 @@ class NotificationOptions {
   /// with those priorities will not be shown at all.
   int? get priority => _wrapped.priority;
   set priority(int? v) {
-    throw UnimplementedError();
+    _wrapped.priority = v;
   }
 
   /// A timestamp associated with the notification, in milliseconds past the
   /// epoch (e.g. `Date.now() + n`).
   double? get eventTime => _wrapped.eventTime;
   set eventTime(double? v) {
-    throw UnimplementedError();
+    _wrapped.eventTime = v;
   }
 
   /// Text and icons for up to two notification action buttons.
   List<NotificationButton>? get buttons => throw UnimplementedError();
   set buttons(List<NotificationButton>? v) {
-    throw UnimplementedError();
+    _wrapped.buttons = throw UnimplementedError();
   }
 
   /// Secondary notification content.
   String? get expandedMessage => _wrapped.expandedMessage;
   set expandedMessage(String? v) {
-    throw UnimplementedError();
+    _wrapped.expandedMessage = v;
   }
 
   /// A URL to the image thumbnail for image-type notifications.
@@ -289,45 +289,45 @@ class NotificationOptions {
   /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
   String? get imageUrl => _wrapped.imageUrl;
   set imageUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.imageUrl = v;
   }
 
   NotificationBitmap? get imageBitmap =>
       _wrapped.imageBitmap?.let(NotificationBitmap.fromJS);
   set imageBitmap(NotificationBitmap? v) {
-    throw UnimplementedError();
+    _wrapped.imageBitmap = v?.toJS;
   }
 
   /// Items for multi-item notifications. Users on Mac OS X only see the first
   /// item.
   List<NotificationItem>? get items => throw UnimplementedError();
   set items(List<NotificationItem>? v) {
-    throw UnimplementedError();
+    _wrapped.items = throw UnimplementedError();
   }
 
   /// Current progress ranges from 0 to 100.
   int? get progress => _wrapped.progress;
   set progress(int? v) {
-    throw UnimplementedError();
+    _wrapped.progress = v;
   }
 
   bool? get isClickable => _wrapped.isClickable;
   set isClickable(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isClickable = v;
   }
 
   /// Indicates that the notification should remain visible on screen until the
   /// user activates or dismisses the notification. This defaults to false.
   bool? get requireInteraction => _wrapped.requireInteraction;
   set requireInteraction(bool? v) {
-    throw UnimplementedError();
+    _wrapped.requireInteraction = v;
   }
 
   /// Indicates that no sounds or vibrations should be made when the
   /// notification is being shown. This defaults to false.
   bool? get silent => _wrapped.silent;
   set silent(bool? v) {
-    throw UnimplementedError();
+    _wrapped.silent = v;
   }
 }
 

@@ -346,13 +346,13 @@ class ResourceIdentifier {
   /// The resource identifier for the given content type.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// A human readable description of the resource.
   String? get description => _wrapped.description;
   set description(String? v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 }
 
@@ -396,7 +396,7 @@ class GetCallbackDetails {
   /// objects for the possible values.
   JSAny get setting => _wrapped.setting;
   set setting(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.setting = v;
   }
 }
 

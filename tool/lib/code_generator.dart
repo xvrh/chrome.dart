@@ -350,8 +350,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..requiredParameters.add(Parameter((b) => b
         ..name = 'v'
         ..type = property.type.dartType))
-      ..body = Code("throw UnimplementedError();"));
-    // ..body = Code('_wrapped.${property.name} = $propertySet;'));
+     ..body = Code('_wrapped.${property.name} = ${property.type.toJS('v')};'));
   }
 
   Field _syntheticProperty(model.Property property) {

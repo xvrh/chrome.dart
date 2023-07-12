@@ -124,52 +124,52 @@ class BookmarkTreeNode {
   /// profile, and they remain valid even after the browser is restarted.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The `id` of the parent folder.  Omitted for the root node.
   String? get parentId => _wrapped.parentId;
   set parentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.parentId = v;
   }
 
   /// The 0-based position of this node within its parent folder.
   int? get index => _wrapped.index;
   set index(int? v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   /// The URL navigated to when a user clicks the bookmark. Omitted for folders.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The text displayed for the node.
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// When this node was created, in milliseconds since the epoch (`new
   /// Date(dateAdded)`).
   double? get dateAdded => _wrapped.dateAdded;
   set dateAdded(double? v) {
-    throw UnimplementedError();
+    _wrapped.dateAdded = v;
   }
 
   /// When this node was last opened, in milliseconds since the epoch. Not set
   /// for folders.
   double? get dateLastUsed => _wrapped.dateLastUsed;
   set dateLastUsed(double? v) {
-    throw UnimplementedError();
+    _wrapped.dateLastUsed = v;
   }
 
   /// When the contents of this folder last changed, in milliseconds since the
   /// epoch.
   double? get dateGroupModified => _wrapped.dateGroupModified;
   set dateGroupModified(double? v) {
-    throw UnimplementedError();
+    _wrapped.dateGroupModified = v;
   }
 
   /// Indicates the reason why this node is unmodifiable. The [managed] value
@@ -179,13 +179,13 @@ class BookmarkTreeNode {
   BookmarkTreeNodeUnmodifiable? get unmodifiable =>
       _wrapped.unmodifiable?.let(BookmarkTreeNodeUnmodifiable.fromJS);
   set unmodifiable(BookmarkTreeNodeUnmodifiable? v) {
-    throw UnimplementedError();
+    _wrapped.unmodifiable = v?.toJS;
   }
 
   /// An ordered list of children of this node.
   List<BookmarkTreeNode>? get children => throw UnimplementedError();
   set children(List<BookmarkTreeNode>? v) {
-    throw UnimplementedError();
+    _wrapped.children = throw UnimplementedError();
   }
 }
 
@@ -199,22 +199,22 @@ class CreateDetails {
   /// Defaults to the Other Bookmarks folder.
   String? get parentId => _wrapped.parentId;
   set parentId(String? v) {
-    throw UnimplementedError();
+    _wrapped.parentId = v;
   }
 
   int? get index => _wrapped.index;
   set index(int? v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 }
 
@@ -227,17 +227,17 @@ class OnRemovedRemoveInfo {
 
   String get parentId => _wrapped.parentId;
   set parentId(String v) {
-    throw UnimplementedError();
+    _wrapped.parentId = v;
   }
 
   int get index => _wrapped.index;
   set index(int v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   BookmarkTreeNode get node => BookmarkTreeNode.fromJS(_wrapped.node);
   set node(BookmarkTreeNode v) {
-    throw UnimplementedError();
+    _wrapped.node = v.toJS;
   }
 }
 
@@ -250,12 +250,12 @@ class OnChangedChangeInfo {
 
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 }
 
@@ -268,22 +268,22 @@ class OnMovedMoveInfo {
 
   String get parentId => _wrapped.parentId;
   set parentId(String v) {
-    throw UnimplementedError();
+    _wrapped.parentId = v;
   }
 
   int get index => _wrapped.index;
   set index(int v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   String get oldParentId => _wrapped.oldParentId;
   set oldParentId(String v) {
-    throw UnimplementedError();
+    _wrapped.oldParentId = v;
   }
 
   int get oldIndex => _wrapped.oldIndex;
   set oldIndex(int v) {
-    throw UnimplementedError();
+    _wrapped.oldIndex = v;
   }
 }
 
@@ -296,7 +296,7 @@ class OnChildrenReorderedReorderInfo {
 
   List<String> get childIds => throw UnimplementedError();
   set childIds(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.childIds = throw UnimplementedError();
   }
 }
 

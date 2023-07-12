@@ -95,19 +95,19 @@ class PrinterInfo {
   /// Unique printer ID.
   String get id => _wrapped.id;
   set id(String v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// Printer's human readable name.
   String get name => _wrapped.name;
   set name(String v) {
-    throw UnimplementedError();
+    _wrapped.name = v;
   }
 
   /// Printer's human readable description.
   String? get description => _wrapped.description;
   set description(String? v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 }
 
@@ -121,13 +121,13 @@ class PrintJob {
   /// ID of the printer which should handle the job.
   String get printerId => _wrapped.printerId;
   set printerId(String v) {
-    throw UnimplementedError();
+    _wrapped.printerId = v;
   }
 
   /// The print job title.
   String get title => _wrapped.title;
   set title(String v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// Print ticket in
@@ -135,21 +135,21 @@ class PrintJob {
   /// CJT format</a>.
   JSAny get ticket => _wrapped.ticket;
   set ticket(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.ticket = v;
   }
 
   /// The document content type. Supported formats are
   /// `"application/pdf"` and `"image/pwg-raster"`.
   String get contentType => _wrapped.contentType;
   set contentType(String v) {
-    throw UnimplementedError();
+    _wrapped.contentType = v;
   }
 
   /// Blob containing the document data to print. Format must match
   /// |contentType|.
   JSObject get document => _wrapped.document;
   set document(JSObject v) {
-    throw UnimplementedError();
+    _wrapped.document = v;
   }
 }
 

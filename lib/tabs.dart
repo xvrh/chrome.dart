@@ -369,21 +369,21 @@ class MutedInfo {
   /// Equivalent to whether the 'muted' audio indicator is showing.
   bool get muted => _wrapped.muted;
   set muted(bool v) {
-    throw UnimplementedError();
+    _wrapped.muted = v;
   }
 
   /// The reason the tab was muted or unmuted. Not set if the tab's mute state
   /// has never been changed.
   MutedInfoReason? get reason => _wrapped.reason?.let(MutedInfoReason.fromJS);
   set reason(MutedInfoReason? v) {
-    throw UnimplementedError();
+    _wrapped.reason = v?.toJS;
   }
 
   /// The ID of the extension that changed the muted state. Not set if an
   /// extension was not the reason the muted state last changed.
   String? get extensionId => _wrapped.extensionId;
   set extensionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.extensionId = v;
   }
 }
 
@@ -401,57 +401,57 @@ class Tab {
   /// devtools windows.
   int? get id => _wrapped.id;
   set id(int? v) {
-    throw UnimplementedError();
+    _wrapped.id = v;
   }
 
   /// The zero-based index of the tab within its window.
   int get index => _wrapped.index;
   set index(int v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   /// The ID of the group that the tab belongs to.
   int get groupId => _wrapped.groupId;
   set groupId(int v) {
-    throw UnimplementedError();
+    _wrapped.groupId = v;
   }
 
   /// The ID of the window that contains the tab.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   /// The ID of the tab that opened this tab, if any. This property is only
   /// present if the opener tab still exists.
   int? get openerTabId => _wrapped.openerTabId;
   set openerTabId(int? v) {
-    throw UnimplementedError();
+    _wrapped.openerTabId = v;
   }
 
   /// Whether the tab is selected.
   bool get selected => _wrapped.selected;
   set selected(bool v) {
-    throw UnimplementedError();
+    _wrapped.selected = v;
   }
 
   /// Whether the tab is highlighted.
   bool get highlighted => _wrapped.highlighted;
   set highlighted(bool v) {
-    throw UnimplementedError();
+    _wrapped.highlighted = v;
   }
 
   /// Whether the tab is active in its window. Does not necessarily mean the
   /// window is focused.
   bool get active => _wrapped.active;
   set active(bool v) {
-    throw UnimplementedError();
+    _wrapped.active = v;
   }
 
   /// Whether the tab is pinned.
   bool get pinned => _wrapped.pinned;
   set pinned(bool v) {
-    throw UnimplementedError();
+    _wrapped.pinned = v;
   }
 
   /// Whether the tab has produced sound over the past couple of seconds (but it
@@ -459,7 +459,7 @@ class Tab {
   /// audio' indicator is showing.
   bool? get audible => _wrapped.audible;
   set audible(bool? v) {
-    throw UnimplementedError();
+    _wrapped.audible = v;
   }
 
   /// Whether the tab is discarded. A discarded tab is one whose content has
@@ -467,20 +467,20 @@ class Tab {
   /// content is reloaded the next time it is activated.
   bool get discarded => _wrapped.discarded;
   set discarded(bool v) {
-    throw UnimplementedError();
+    _wrapped.discarded = v;
   }
 
   /// Whether the tab can be discarded automatically by the browser when
   /// resources are low.
   bool get autoDiscardable => _wrapped.autoDiscardable;
   set autoDiscardable(bool v) {
-    throw UnimplementedError();
+    _wrapped.autoDiscardable = v;
   }
 
   /// The tab's muted state and the reason for the last state change.
   MutedInfo? get mutedInfo => _wrapped.mutedInfo?.let(MutedInfo.fromJS);
   set mutedInfo(MutedInfo? v) {
-    throw UnimplementedError();
+    _wrapped.mutedInfo = v?.toJS;
   }
 
   /// The last committed URL of the main frame of the tab. This property is only
@@ -489,7 +489,7 @@ class Tab {
   /// [Tab.pendingUrl].
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The URL the tab is navigating to, before it has committed. This property
@@ -497,14 +497,14 @@ class Tab {
   /// permission and there is a pending navigation.
   String? get pendingUrl => _wrapped.pendingUrl;
   set pendingUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.pendingUrl = v;
   }
 
   /// The title of the tab. This property is only present if the extension's
   /// manifest includes the `"tabs"` permission.
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 
   /// The URL of the tab's favicon. This property is only present if the
@@ -512,38 +512,38 @@ class Tab {
   /// empty string if the tab is loading.
   String? get favIconUrl => _wrapped.favIconUrl;
   set favIconUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.favIconUrl = v;
   }
 
   /// The tab's loading status.
   TabStatus? get status => _wrapped.status?.let(TabStatus.fromJS);
   set status(TabStatus? v) {
-    throw UnimplementedError();
+    _wrapped.status = v?.toJS;
   }
 
   /// Whether the tab is in an incognito window.
   bool get incognito => _wrapped.incognito;
   set incognito(bool v) {
-    throw UnimplementedError();
+    _wrapped.incognito = v;
   }
 
   /// The width of the tab in pixels.
   int? get width => _wrapped.width;
   set width(int? v) {
-    throw UnimplementedError();
+    _wrapped.width = v;
   }
 
   /// The height of the tab in pixels.
   int? get height => _wrapped.height;
   set height(int? v) {
-    throw UnimplementedError();
+    _wrapped.height = v;
   }
 
   /// The session ID used to uniquely identify a tab obtained from the
   /// [sessions] API.
   String? get sessionId => _wrapped.sessionId;
   set sessionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.sessionId = v;
   }
 }
 
@@ -558,7 +558,7 @@ class ZoomSettings {
   /// for the actual scaling of the page; defaults to `automatic`.
   ZoomSettingsMode? get mode => _wrapped.mode?.let(ZoomSettingsMode.fromJS);
   set mode(ZoomSettingsMode? v) {
-    throw UnimplementedError();
+    _wrapped.mode = v?.toJS;
   }
 
   /// Defines whether zoom changes persist for the page's origin, or only take
@@ -566,14 +566,14 @@ class ZoomSettings {
   /// `per-tab` otherwise.
   ZoomSettingsScope? get scope => _wrapped.scope?.let(ZoomSettingsScope.fromJS);
   set scope(ZoomSettingsScope? v) {
-    throw UnimplementedError();
+    _wrapped.scope = v?.toJS;
   }
 
   /// Used to return the default zoom level for the current tab in calls to
   /// tabs.getZoomSettings.
   double? get defaultZoomFactor => _wrapped.defaultZoomFactor;
   set defaultZoomFactor(double? v) {
-    throw UnimplementedError();
+    _wrapped.defaultZoomFactor = v;
   }
 }
 
@@ -587,61 +587,61 @@ class OnUpdatedChangeInfo {
   /// The tab's loading status.
   TabStatus? get status => _wrapped.status?.let(TabStatus.fromJS);
   set status(TabStatus? v) {
-    throw UnimplementedError();
+    _wrapped.status = v?.toJS;
   }
 
   /// The tab's URL if it has changed.
   String? get url => _wrapped.url;
   set url(String? v) {
-    throw UnimplementedError();
+    _wrapped.url = v;
   }
 
   /// The tab's new group.
   int? get groupId => _wrapped.groupId;
   set groupId(int? v) {
-    throw UnimplementedError();
+    _wrapped.groupId = v;
   }
 
   /// The tab's new pinned state.
   bool? get pinned => _wrapped.pinned;
   set pinned(bool? v) {
-    throw UnimplementedError();
+    _wrapped.pinned = v;
   }
 
   /// The tab's new audible state.
   bool? get audible => _wrapped.audible;
   set audible(bool? v) {
-    throw UnimplementedError();
+    _wrapped.audible = v;
   }
 
   /// The tab's new discarded state.
   bool? get discarded => _wrapped.discarded;
   set discarded(bool? v) {
-    throw UnimplementedError();
+    _wrapped.discarded = v;
   }
 
   /// The tab's new auto-discardable state.
   bool? get autoDiscardable => _wrapped.autoDiscardable;
   set autoDiscardable(bool? v) {
-    throw UnimplementedError();
+    _wrapped.autoDiscardable = v;
   }
 
   /// The tab's new muted state and the reason for the change.
   MutedInfo? get mutedInfo => _wrapped.mutedInfo?.let(MutedInfo.fromJS);
   set mutedInfo(MutedInfo? v) {
-    throw UnimplementedError();
+    _wrapped.mutedInfo = v?.toJS;
   }
 
   /// The tab's new favicon URL.
   String? get favIconUrl => _wrapped.favIconUrl;
   set favIconUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.favIconUrl = v;
   }
 
   /// The tab's new title.
   String? get title => _wrapped.title;
   set title(String? v) {
-    throw UnimplementedError();
+    _wrapped.title = v;
   }
 }
 
@@ -654,17 +654,17 @@ class OnMovedMoveInfo {
 
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   int get fromIndex => _wrapped.fromIndex;
   set fromIndex(int v) {
-    throw UnimplementedError();
+    _wrapped.fromIndex = v;
   }
 
   int get toIndex => _wrapped.toIndex;
   set toIndex(int v) {
-    throw UnimplementedError();
+    _wrapped.toIndex = v;
   }
 }
 
@@ -678,7 +678,7 @@ class OnSelectionChangedSelectInfo {
   /// The ID of the window the selected tab changed inside of.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 }
 
@@ -692,7 +692,7 @@ class OnActiveChangedSelectInfo {
   /// The ID of the window the selected tab changed inside of.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 }
 
@@ -706,13 +706,13 @@ class OnActivatedActiveInfo {
   /// The ID of the tab that has become active.
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   /// The ID of the window the active tab changed inside of.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 }
 
@@ -726,13 +726,13 @@ class OnHighlightChangedSelectInfo {
   /// The window whose tabs changed.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   /// All highlighted tabs in the window.
   List<int> get tabIds => throw UnimplementedError();
   set tabIds(List<int> v) {
-    throw UnimplementedError();
+    _wrapped.tabIds = throw UnimplementedError();
   }
 }
 
@@ -746,13 +746,13 @@ class OnHighlightedHighlightInfo {
   /// The window whose tabs changed.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   /// All highlighted tabs in the window.
   List<int> get tabIds => throw UnimplementedError();
   set tabIds(List<int> v) {
-    throw UnimplementedError();
+    _wrapped.tabIds = throw UnimplementedError();
   }
 }
 
@@ -765,12 +765,12 @@ class OnDetachedDetachInfo {
 
   int get oldWindowId => _wrapped.oldWindowId;
   set oldWindowId(int v) {
-    throw UnimplementedError();
+    _wrapped.oldWindowId = v;
   }
 
   int get oldPosition => _wrapped.oldPosition;
   set oldPosition(int v) {
-    throw UnimplementedError();
+    _wrapped.oldPosition = v;
   }
 }
 
@@ -783,12 +783,12 @@ class OnAttachedAttachInfo {
 
   int get newWindowId => _wrapped.newWindowId;
   set newWindowId(int v) {
-    throw UnimplementedError();
+    _wrapped.newWindowId = v;
   }
 
   int get newPosition => _wrapped.newPosition;
   set newPosition(int v) {
-    throw UnimplementedError();
+    _wrapped.newPosition = v;
   }
 }
 
@@ -802,13 +802,13 @@ class OnRemovedRemoveInfo {
   /// The window whose tab is closed.
   int get windowId => _wrapped.windowId;
   set windowId(int v) {
-    throw UnimplementedError();
+    _wrapped.windowId = v;
   }
 
   /// True when the tab was closed because its parent window was closed.
   bool get isWindowClosing => _wrapped.isWindowClosing;
   set isWindowClosing(bool v) {
-    throw UnimplementedError();
+    _wrapped.isWindowClosing = v;
   }
 }
 
@@ -821,22 +821,22 @@ class OnZoomChangeZoomChangeInfo {
 
   int get tabId => _wrapped.tabId;
   set tabId(int v) {
-    throw UnimplementedError();
+    _wrapped.tabId = v;
   }
 
   double get oldZoomFactor => _wrapped.oldZoomFactor;
   set oldZoomFactor(double v) {
-    throw UnimplementedError();
+    _wrapped.oldZoomFactor = v;
   }
 
   double get newZoomFactor => _wrapped.newZoomFactor;
   set newZoomFactor(double v) {
-    throw UnimplementedError();
+    _wrapped.newZoomFactor = v;
   }
 
   ZoomSettings get zoomSettings => ZoomSettings.fromJS(_wrapped.zoomSettings);
   set zoomSettings(ZoomSettings v) {
-    throw UnimplementedError();
+    _wrapped.zoomSettings = v.toJS;
   }
 }
 

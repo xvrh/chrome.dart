@@ -172,20 +172,20 @@ class Parameters {
   /// IPv4 is currently the only supported mode.
   String get address => _wrapped.address;
   set address(String v) {
-    throw UnimplementedError();
+    _wrapped.address = v;
   }
 
   /// Broadcast address for the VPN interface. (default: deduced
   /// from IP address and mask)
   String? get broadcastAddress => _wrapped.broadcastAddress;
   set broadcastAddress(String? v) {
-    throw UnimplementedError();
+    _wrapped.broadcastAddress = v;
   }
 
   /// MTU setting for the VPN interface. (default: 1500 bytes)
   String? get mtu => _wrapped.mtu;
   set mtu(String? v) {
-    throw UnimplementedError();
+    _wrapped.mtu = v;
   }
 
   /// Exclude network traffic to the list of IP blocks in CIDR notation from
@@ -199,7 +199,7 @@ class Parameters {
   /// undefined.
   List<String> get exclusionList => throw UnimplementedError();
   set exclusionList(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.exclusionList = throw UnimplementedError();
   }
 
   /// Include network traffic to the list of IP blocks in CIDR notation to the
@@ -214,19 +214,19 @@ class Parameters {
   /// undefined.
   List<String> get inclusionList => throw UnimplementedError();
   set inclusionList(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.inclusionList = throw UnimplementedError();
   }
 
   /// A list of search domains. (default: no search domain)
   List<String>? get domainSearch => throw UnimplementedError();
   set domainSearch(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.domainSearch = throw UnimplementedError();
   }
 
   /// A list of IPs for the DNS servers.
   List<String> get dnsServers => throw UnimplementedError();
   set dnsServers(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.dnsServers = throw UnimplementedError();
   }
 
   /// Whether or not the VPN extension implements auto-reconnection.
@@ -243,7 +243,7 @@ class Parameters {
   /// feature based on browser support.
   String? get reconnect => _wrapped.reconnect;
   set reconnect(String? v) {
-    throw UnimplementedError();
+    _wrapped.reconnect = v;
   }
 }
 

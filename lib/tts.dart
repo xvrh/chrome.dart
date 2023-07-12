@@ -88,33 +88,33 @@ class TtsOptions {
   /// before speaking this new utterance.
   bool? get enqueue => _wrapped.enqueue;
   set enqueue(bool? v) {
-    throw UnimplementedError();
+    _wrapped.enqueue = v;
   }
 
   /// The name of the voice to use for synthesis. If empty, uses any available
   /// voice.
   String? get voiceName => _wrapped.voiceName;
   set voiceName(String? v) {
-    throw UnimplementedError();
+    _wrapped.voiceName = v;
   }
 
   /// The extension ID of the speech engine to use, if known.
   String? get extensionId => _wrapped.extensionId;
   set extensionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.extensionId = v;
   }
 
   /// The language to be used for synthesis, in the form _language_-_region_.
   /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   String? get lang => _wrapped.lang;
   set lang(String? v) {
-    throw UnimplementedError();
+    _wrapped.lang = v;
   }
 
   /// Gender of voice for synthesized speech.
   VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
   set gender(VoiceGender? v) {
-    throw UnimplementedError();
+    _wrapped.gender = v?.toJS;
   }
 
   /// Speaking rate relative to the default rate for this voice. 1.0 is the
@@ -125,41 +125,41 @@ class TtsOptions {
   /// 3 times normal even if you specify a value larger than 3.0.
   double? get rate => _wrapped.rate;
   set rate(double? v) {
-    throw UnimplementedError();
+    _wrapped.rate = v;
   }
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to a voice's default pitch.
   double? get pitch => _wrapped.pitch;
   set pitch(double? v) {
-    throw UnimplementedError();
+    _wrapped.pitch = v;
   }
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
   double? get volume => _wrapped.volume;
   set volume(double? v) {
-    throw UnimplementedError();
+    _wrapped.volume = v;
   }
 
   /// The TTS event types the voice must support.
   List<String>? get requiredEventTypes => throw UnimplementedError();
   set requiredEventTypes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.requiredEventTypes = throw UnimplementedError();
   }
 
   /// The TTS event types that you are interested in listening to. If missing,
   /// all event types may be sent.
   List<String>? get desiredEventTypes => throw UnimplementedError();
   set desiredEventTypes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.desiredEventTypes = throw UnimplementedError();
   }
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
   JSAny? get onEvent => _wrapped.onEvent;
   set onEvent(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.onEvent = v;
   }
 }
 
@@ -182,7 +182,7 @@ class TtsEvent {
   /// in-between utterances.
   EventType get type => EventType.fromJS(_wrapped.type);
   set type(EventType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// The index of the current character in the utterance. For word events, the
@@ -191,26 +191,26 @@ class TtsEvent {
   /// next word to be spoken.
   int? get charIndex => _wrapped.charIndex;
   set charIndex(int? v) {
-    throw UnimplementedError();
+    _wrapped.charIndex = v;
   }
 
   /// The error description, if the event type is `error`.
   String? get errorMessage => _wrapped.errorMessage;
   set errorMessage(String? v) {
-    throw UnimplementedError();
+    _wrapped.errorMessage = v;
   }
 
   /// An ID unique to the calling function's context so that events can get
   /// routed back to the correct tts.speak call.
   double? get srcId => _wrapped.srcId;
   set srcId(double? v) {
-    throw UnimplementedError();
+    _wrapped.srcId = v;
   }
 
   /// True if this is the final event that will be sent to this handler.
   bool? get isFinalEvent => _wrapped.isFinalEvent;
   set isFinalEvent(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isFinalEvent = v;
   }
 
   /// The length of the next part of the utterance. For example, in a `word`
@@ -218,7 +218,7 @@ class TtsEvent {
   /// be set to -1 if not set by the speech engine.
   int? get length => _wrapped.length;
   set length(int? v) {
-    throw UnimplementedError();
+    _wrapped.length = v;
   }
 }
 
@@ -232,38 +232,38 @@ class TtsVoice {
   /// The name of the voice.
   String? get voiceName => _wrapped.voiceName;
   set voiceName(String? v) {
-    throw UnimplementedError();
+    _wrapped.voiceName = v;
   }
 
   /// The language that this voice supports, in the form _language_-_region_.
   /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   String? get lang => _wrapped.lang;
   set lang(String? v) {
-    throw UnimplementedError();
+    _wrapped.lang = v;
   }
 
   /// This voice's gender.
   VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
   set gender(VoiceGender? v) {
-    throw UnimplementedError();
+    _wrapped.gender = v?.toJS;
   }
 
   /// If true, the synthesis engine is a remote network resource. It may be
   /// higher latency and may incur bandwidth costs.
   bool? get remote => _wrapped.remote;
   set remote(bool? v) {
-    throw UnimplementedError();
+    _wrapped.remote = v;
   }
 
   /// The ID of the extension providing this voice.
   String? get extensionId => _wrapped.extensionId;
   set extensionId(String? v) {
-    throw UnimplementedError();
+    _wrapped.extensionId = v;
   }
 
   /// All of the callback event types that this voice is capable of sending.
   List<EventType>? get eventTypes => throw UnimplementedError();
   set eventTypes(List<EventType>? v) {
-    throw UnimplementedError();
+    _wrapped.eventTypes = throw UnimplementedError();
   }
 }

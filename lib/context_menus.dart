@@ -105,32 +105,32 @@ class OnClickData {
   /// The ID of the menu item that was clicked.
   JSAny get menuItemId => _wrapped.menuItemId;
   set menuItemId(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.menuItemId = v;
   }
 
   /// The parent ID, if any, for the item clicked.
   JSAny? get parentMenuItemId => _wrapped.parentMenuItemId;
   set parentMenuItemId(JSAny? v) {
-    throw UnimplementedError();
+    _wrapped.parentMenuItemId = v;
   }
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
   /// one of these types of elements.
   String? get mediaType => _wrapped.mediaType;
   set mediaType(String? v) {
-    throw UnimplementedError();
+    _wrapped.mediaType = v;
   }
 
   /// If the element is a link, the URL it points to.
   String? get linkUrl => _wrapped.linkUrl;
   set linkUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.linkUrl = v;
   }
 
   /// Will be present for elements with a 'src' URL.
   String? get srcUrl => _wrapped.srcUrl;
   set srcUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.srcUrl = v;
   }
 
   /// The URL of the page where the menu item was clicked. This property is not
@@ -138,48 +138,48 @@ class OnClickData {
   /// as in a launcher context menu.
   String? get pageUrl => _wrapped.pageUrl;
   set pageUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.pageUrl = v;
   }
 
   ///  The URL of the frame of the element where the context menu was clicked,
   /// if it was in a frame.
   String? get frameUrl => _wrapped.frameUrl;
   set frameUrl(String? v) {
-    throw UnimplementedError();
+    _wrapped.frameUrl = v;
   }
 
   ///  The [ID of the frame](webNavigation#frame_ids) of the element where the
   /// context menu was clicked, if it was in a frame.
   int? get frameId => _wrapped.frameId;
   set frameId(int? v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// The text for the context selection, if any.
   String? get selectionText => _wrapped.selectionText;
   set selectionText(String? v) {
-    throw UnimplementedError();
+    _wrapped.selectionText = v;
   }
 
   /// A flag indicating whether the element is editable (text input, textarea,
   /// etc.).
   bool get editable => _wrapped.editable;
   set editable(bool v) {
-    throw UnimplementedError();
+    _wrapped.editable = v;
   }
 
   /// A flag indicating the state of a checkbox or radio item before it was
   /// clicked.
   bool? get wasChecked => _wrapped.wasChecked;
   set wasChecked(bool? v) {
-    throw UnimplementedError();
+    _wrapped.wasChecked = v;
   }
 
   /// A flag indicating the state of a checkbox or radio item after it is
   /// clicked.
   bool? get checked => _wrapped.checked;
   set checked(bool? v) {
-    throw UnimplementedError();
+    _wrapped.checked = v;
   }
 }
 

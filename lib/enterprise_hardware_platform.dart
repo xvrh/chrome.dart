@@ -28,11 +28,11 @@ class HardwarePlatformInfo {
 
   String get model => _wrapped.model;
   set model(String v) {
-    throw UnimplementedError();
+    _wrapped.model = v;
   }
 
   String get manufacturer => _wrapped.manufacturer;
   set manufacturer(String v) {
-    throw UnimplementedError();
+    _wrapped.manufacturer = v;
   }
 }

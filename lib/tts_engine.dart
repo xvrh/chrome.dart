@@ -81,20 +81,20 @@ class SpeakOptions {
   /// The name of the voice to use for synthesis.
   String? get voiceName => _wrapped.voiceName;
   set voiceName(String? v) {
-    throw UnimplementedError();
+    _wrapped.voiceName = v;
   }
 
   /// The language to be used for synthesis, in the form _language_-_region_.
   /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   String? get lang => _wrapped.lang;
   set lang(String? v) {
-    throw UnimplementedError();
+    _wrapped.lang = v;
   }
 
   /// Gender of voice for synthesized speech.
   VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
   set gender(VoiceGender? v) {
-    throw UnimplementedError();
+    _wrapped.gender = v?.toJS;
   }
 
   /// Speaking rate relative to the default rate for this voice. 1.0 is the
@@ -105,21 +105,21 @@ class SpeakOptions {
   /// voice supports.
   double? get rate => _wrapped.rate;
   set rate(double? v) {
-    throw UnimplementedError();
+    _wrapped.rate = v;
   }
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to this voice's default pitch.
   double? get pitch => _wrapped.pitch;
   set pitch(double? v) {
-    throw UnimplementedError();
+    _wrapped.pitch = v;
   }
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
   double? get volume => _wrapped.volume;
   set volume(double? v) {
-    throw UnimplementedError();
+    _wrapped.volume = v;
   }
 }
 
@@ -133,13 +133,13 @@ class AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
   int get sampleRate => _wrapped.sampleRate;
   set sampleRate(int v) {
-    throw UnimplementedError();
+    _wrapped.sampleRate = v;
   }
 
   /// The number of samples within an audio buffer.
   int get bufferSize => _wrapped.bufferSize;
   set bufferSize(int v) {
-    throw UnimplementedError();
+    _wrapped.bufferSize = v;
   }
 }
 
@@ -156,19 +156,19 @@ class AudioBuffer {
   /// the Float32Array type in javascript.
   JSAny get audioBuffer => _wrapped.audioBuffer;
   set audioBuffer(JSAny v) {
-    throw UnimplementedError();
+    _wrapped.audioBuffer = v;
   }
 
   /// The character index associated with this audio buffer.
   int? get charIndex => _wrapped.charIndex;
   set charIndex(int? v) {
-    throw UnimplementedError();
+    _wrapped.charIndex = v;
   }
 
   /// True if this audio buffer is the last for the text being spoken.
   bool? get isLastBuffer => _wrapped.isLastBuffer;
   set isLastBuffer(bool? v) {
-    throw UnimplementedError();
+    _wrapped.isLastBuffer = v;
   }
 }
 

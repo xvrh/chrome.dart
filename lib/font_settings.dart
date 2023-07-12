@@ -297,13 +297,13 @@ class FontName {
   /// The font ID.
   String get fontId => _wrapped.fontId;
   set fontId(String v) {
-    throw UnimplementedError();
+    _wrapped.fontId = v;
   }
 
   /// The display name of the font.
   String get displayName => _wrapped.displayName;
   set displayName(String v) {
-    throw UnimplementedError();
+    _wrapped.displayName = v;
   }
 }
 
@@ -317,27 +317,27 @@ class OnFontChangedDetails {
   /// The font ID. See the description in `getFont`.
   String get fontId => _wrapped.fontId;
   set fontId(String v) {
-    throw UnimplementedError();
+    _wrapped.fontId = v;
   }
 
   /// The script code for which the font setting has changed.
   ScriptCode? get script => _wrapped.script?.let(ScriptCode.fromJS);
   set script(ScriptCode? v) {
-    throw UnimplementedError();
+    _wrapped.script = v?.toJS;
   }
 
   /// The generic font family for which the font setting has changed.
   GenericFamily get genericFamily =>
       GenericFamily.fromJS(_wrapped.genericFamily);
   set genericFamily(GenericFamily v) {
-    throw UnimplementedError();
+    _wrapped.genericFamily = v.toJS;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -351,14 +351,14 @@ class OnDefaultFontSizeChangedDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -372,14 +372,14 @@ class OnDefaultFixedFontSizeChangedDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -393,14 +393,14 @@ class OnMinimumFontSizeChangedDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -426,14 +426,14 @@ class GetFontCallbackDetails {
   /// fallback to the global script font setting.
   String get fontId => _wrapped.fontId;
   set fontId(String v) {
-    throw UnimplementedError();
+    _wrapped.fontId = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -471,14 +471,14 @@ class GetDefaultFontSizeCallbackDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -516,14 +516,14 @@ class GetDefaultFixedFontSizeCallbackDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 
@@ -561,14 +561,14 @@ class GetMinimumFontSizeCallbackDetails {
   /// The font size in pixels.
   int get pixelSize => _wrapped.pixelSize;
   set pixelSize(int v) {
-    throw UnimplementedError();
+    _wrapped.pixelSize = v;
   }
 
   /// The level of control this extension has over the setting.
   LevelOfControl get levelOfControl =>
       LevelOfControl.fromJS(_wrapped.levelOfControl);
   set levelOfControl(LevelOfControl v) {
-    throw UnimplementedError();
+    _wrapped.levelOfControl = v.toJS;
   }
 }
 

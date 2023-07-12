@@ -61,14 +61,14 @@ class DetectLanguageCallbackResult {
   /// CLD detected language reliability
   bool get isReliable => _wrapped.isReliable;
   set isReliable(bool v) {
-    throw UnimplementedError();
+    _wrapped.isReliable = v;
   }
 
   /// array of detectedLanguage
   DetectLanguageCallbackResultLanguages get languages =>
       DetectLanguageCallbackResultLanguages.fromJS(_wrapped.languages);
   set languages(DetectLanguageCallbackResultLanguages v) {
-    throw UnimplementedError();
+    _wrapped.languages = v.toJS;
   }
 }
 
@@ -81,12 +81,12 @@ class DetectLanguageCallbackResultLanguages {
 
   LanguageCode get language => _wrapped.language;
   set language(LanguageCode v) {
-    throw UnimplementedError();
+    _wrapped.language = v;
   }
 
   /// The percentage of the detected language
   int get percentage => _wrapped.percentage;
   set percentage(int v) {
-    throw UnimplementedError();
+    _wrapped.percentage = v;
   }
 }

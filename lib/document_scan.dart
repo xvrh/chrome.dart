@@ -28,13 +28,13 @@ class ScanOptions {
   /// The MIME types that are accepted by the caller.
   List<String>? get mimeTypes => throw UnimplementedError();
   set mimeTypes(List<String>? v) {
-    throw UnimplementedError();
+    _wrapped.mimeTypes = throw UnimplementedError();
   }
 
   /// The number of scanned images allowed (defaults to 1).
   int? get maxImages => _wrapped.maxImages;
   set maxImages(int? v) {
-    throw UnimplementedError();
+    _wrapped.maxImages = v;
   }
 }
 
@@ -49,12 +49,12 @@ class ScanResults {
   /// an image tag.
   List<String> get dataUrls => throw UnimplementedError();
   set dataUrls(List<String> v) {
-    throw UnimplementedError();
+    _wrapped.dataUrls = throw UnimplementedError();
   }
 
   /// The MIME type of `dataUrls`.
   String get mimeType => _wrapped.mimeType;
   set mimeType(String v) {
-    throw UnimplementedError();
+    _wrapped.mimeType = v;
   }
 }

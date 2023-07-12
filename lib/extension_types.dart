@@ -113,7 +113,7 @@ class ImageDetails {
   /// The format of the resulting image.  Default is `"jpeg"`.
   ImageFormat? get format => _wrapped.format?.let(ImageFormat.fromJS);
   set format(ImageFormat? v) {
-    throw UnimplementedError();
+    _wrapped.format = v?.toJS;
   }
 
   /// When format is `"jpeg"`, controls the quality of the resulting image.
@@ -122,7 +122,7 @@ class ImageDetails {
   /// needed to store it will decrease.
   int? get quality => _wrapped.quality;
   set quality(int? v) {
-    throw UnimplementedError();
+    _wrapped.quality = v;
   }
 }
 
@@ -141,13 +141,13 @@ class InjectDetails {
   /// scripting](https://en.wikipedia.org/wiki/Cross-site_scripting) attacks.
   String? get code => _wrapped.code;
   set code(String? v) {
-    throw UnimplementedError();
+    _wrapped.code = v;
   }
 
   /// JavaScript or CSS file to inject.
   String? get file => _wrapped.file;
   set file(String? v) {
-    throw UnimplementedError();
+    _wrapped.file = v;
   }
 
   /// If allFrames is `true`, implies that the JavaScript or CSS should be
@@ -156,14 +156,14 @@ class InjectDetails {
   /// code is inserted in the selected frame and all of its child frames.
   bool? get allFrames => _wrapped.allFrames;
   set allFrames(bool? v) {
-    throw UnimplementedError();
+    _wrapped.allFrames = v;
   }
 
   /// The [frame](webNavigation#frame_ids) where the script or CSS should be
   /// injected. Defaults to 0 (the top-level frame).
   int? get frameId => _wrapped.frameId;
   set frameId(int? v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// If matchAboutBlank is true, then the code is also injected in about:blank
@@ -172,14 +172,14 @@ class InjectDetails {
   /// it is `false`.
   bool? get matchAboutBlank => _wrapped.matchAboutBlank;
   set matchAboutBlank(bool? v) {
-    throw UnimplementedError();
+    _wrapped.matchAboutBlank = v;
   }
 
   /// The soonest that the JavaScript or CSS will be injected into the tab.
   /// Defaults to "document_idle".
   RunAt? get runAt => _wrapped.runAt?.let(RunAt.fromJS);
   set runAt(RunAt? v) {
-    throw UnimplementedError();
+    _wrapped.runAt = v?.toJS;
   }
 
   /// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
@@ -187,7 +187,7 @@ class InjectDetails {
   /// Defaults to `"author"`.
   CSSOrigin? get cssOrigin => _wrapped.cssOrigin?.let(CSSOrigin.fromJS);
   set cssOrigin(CSSOrigin? v) {
-    throw UnimplementedError();
+    _wrapped.cssOrigin = v?.toJS;
   }
 }
 
@@ -201,13 +201,13 @@ class DeleteInjectionDetails {
   /// CSS code to remove.
   String? get code => _wrapped.code;
   set code(String? v) {
-    throw UnimplementedError();
+    _wrapped.code = v;
   }
 
   /// CSS file to remove.
   String? get file => _wrapped.file;
   set file(String? v) {
-    throw UnimplementedError();
+    _wrapped.file = v;
   }
 
   /// If allFrames is `true`, implies that the CSS should be removed from all
@@ -216,14 +216,14 @@ class DeleteInjectionDetails {
   /// from the selected frame and all of its child frames.
   bool? get allFrames => _wrapped.allFrames;
   set allFrames(bool? v) {
-    throw UnimplementedError();
+    _wrapped.allFrames = v;
   }
 
   /// The [frame](webNavigation#frame_ids) from where the CSS should be removed.
   /// Defaults to 0 (the top-level frame).
   int? get frameId => _wrapped.frameId;
   set frameId(int? v) {
-    throw UnimplementedError();
+    _wrapped.frameId = v;
   }
 
   /// If matchAboutBlank is true, then the code is also removed from about:blank
@@ -231,13 +231,13 @@ class DeleteInjectionDetails {
   /// document. By default it is `false`.
   bool? get matchAboutBlank => _wrapped.matchAboutBlank;
   set matchAboutBlank(bool? v) {
-    throw UnimplementedError();
+    _wrapped.matchAboutBlank = v;
   }
 
   /// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
   /// CSS to remove. Defaults to `"author"`.
   CSSOrigin? get cssOrigin => _wrapped.cssOrigin?.let(CSSOrigin.fromJS);
   set cssOrigin(CSSOrigin? v) {
-    throw UnimplementedError();
+    _wrapped.cssOrigin = v?.toJS;
   }
 }

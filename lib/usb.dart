@@ -294,43 +294,43 @@ class Device {
   /// unplugged.
   int get device => _wrapped.device;
   set device(int v) {
-    throw UnimplementedError();
+    _wrapped.device = v;
   }
 
   /// The device vendor ID.
   int get vendorId => _wrapped.vendorId;
   set vendorId(int v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 
   /// The product ID.
   int get productId => _wrapped.productId;
   set productId(int v) {
-    throw UnimplementedError();
+    _wrapped.productId = v;
   }
 
   /// The device version (bcdDevice field).
   int get version => _wrapped.version;
   set version(int v) {
-    throw UnimplementedError();
+    _wrapped.version = v;
   }
 
   /// The iProduct string read from the device, if available.
   String get productName => _wrapped.productName;
   set productName(String v) {
-    throw UnimplementedError();
+    _wrapped.productName = v;
   }
 
   /// The iManufacturer string read from the device, if available.
   String get manufacturerName => _wrapped.manufacturerName;
   set manufacturerName(String v) {
-    throw UnimplementedError();
+    _wrapped.manufacturerName = v;
   }
 
   /// The iSerialNumber string read from the device, if available.
   String get serialNumber => _wrapped.serialNumber;
   set serialNumber(String v) {
-    throw UnimplementedError();
+    _wrapped.serialNumber = v;
   }
 }
 
@@ -347,19 +347,19 @@ class ConnectionHandle {
   /// different from [Device.device].
   int get handle => _wrapped.handle;
   set handle(int v) {
-    throw UnimplementedError();
+    _wrapped.handle = v;
   }
 
   /// The device vendor ID.
   int get vendorId => _wrapped.vendorId;
   set vendorId(int v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 
   /// The product ID.
   int get productId => _wrapped.productId;
   set productId(int v) {
-    throw UnimplementedError();
+    _wrapped.productId = v;
   }
 }
 
@@ -373,50 +373,50 @@ class EndpointDescriptor {
   /// Endpoint address.
   int get address => _wrapped.address;
   set address(int v) {
-    throw UnimplementedError();
+    _wrapped.address = v;
   }
 
   /// Transfer type.
   TransferType get type => TransferType.fromJS(_wrapped.type);
   set type(TransferType v) {
-    throw UnimplementedError();
+    _wrapped.type = v.toJS;
   }
 
   /// Transfer direction.
   Direction get direction => Direction.fromJS(_wrapped.direction);
   set direction(Direction v) {
-    throw UnimplementedError();
+    _wrapped.direction = v.toJS;
   }
 
   /// Maximum packet size.
   int get maximumPacketSize => _wrapped.maximumPacketSize;
   set maximumPacketSize(int v) {
-    throw UnimplementedError();
+    _wrapped.maximumPacketSize = v;
   }
 
   /// Transfer synchronization mode (isochronous only).
   SynchronizationType? get synchronization =>
       _wrapped.synchronization?.let(SynchronizationType.fromJS);
   set synchronization(SynchronizationType? v) {
-    throw UnimplementedError();
+    _wrapped.synchronization = v?.toJS;
   }
 
   /// Endpoint usage hint.
   UsageType? get usage => _wrapped.usage?.let(UsageType.fromJS);
   set usage(UsageType? v) {
-    throw UnimplementedError();
+    _wrapped.usage = v?.toJS;
   }
 
   /// Polling interval (interrupt and isochronous only).
   int? get pollingInterval => _wrapped.pollingInterval;
   set pollingInterval(int? v) {
-    throw UnimplementedError();
+    _wrapped.pollingInterval = v;
   }
 
   /// Extra descriptor data associated with this endpoint.
   ByteBuffer get extra_data => _wrapped.extra_data.toDart;
   set extra_data(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.extra_data = v.toJS;
   }
 }
 
@@ -430,49 +430,49 @@ class InterfaceDescriptor {
   /// The interface number.
   int get interfaceNumber => _wrapped.interfaceNumber;
   set interfaceNumber(int v) {
-    throw UnimplementedError();
+    _wrapped.interfaceNumber = v;
   }
 
   /// The interface alternate setting number (defaults to `0</code).
   int get alternateSetting => _wrapped.alternateSetting;
   set alternateSetting(int v) {
-    throw UnimplementedError();
+    _wrapped.alternateSetting = v;
   }
 
   /// The USB interface class.
   int get interfaceClass => _wrapped.interfaceClass;
   set interfaceClass(int v) {
-    throw UnimplementedError();
+    _wrapped.interfaceClass = v;
   }
 
   /// The USB interface sub-class.
   int get interfaceSubclass => _wrapped.interfaceSubclass;
   set interfaceSubclass(int v) {
-    throw UnimplementedError();
+    _wrapped.interfaceSubclass = v;
   }
 
   /// The USB interface protocol.
   int get interfaceProtocol => _wrapped.interfaceProtocol;
   set interfaceProtocol(int v) {
-    throw UnimplementedError();
+    _wrapped.interfaceProtocol = v;
   }
 
   /// Description of the interface.
   String? get description => _wrapped.description;
   set description(String? v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// Available endpoints.
   List<EndpointDescriptor> get endpoints => throw UnimplementedError();
   set endpoints(List<EndpointDescriptor> v) {
-    throw UnimplementedError();
+    _wrapped.endpoints = throw UnimplementedError();
   }
 
   /// Extra descriptor data associated with this interface.
   ByteBuffer get extra_data => _wrapped.extra_data.toDart;
   set extra_data(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.extra_data = v.toJS;
   }
 }
 
@@ -486,49 +486,49 @@ class ConfigDescriptor {
   /// Is this the active configuration?
   bool get active => _wrapped.active;
   set active(bool v) {
-    throw UnimplementedError();
+    _wrapped.active = v;
   }
 
   /// The configuration number.
   int get configurationValue => _wrapped.configurationValue;
   set configurationValue(int v) {
-    throw UnimplementedError();
+    _wrapped.configurationValue = v;
   }
 
   /// Description of the configuration.
   String? get description => _wrapped.description;
   set description(String? v) {
-    throw UnimplementedError();
+    _wrapped.description = v;
   }
 
   /// The device is self-powered.
   bool get selfPowered => _wrapped.selfPowered;
   set selfPowered(bool v) {
-    throw UnimplementedError();
+    _wrapped.selfPowered = v;
   }
 
   /// The device supports remote wakeup.
   bool get remoteWakeup => _wrapped.remoteWakeup;
   set remoteWakeup(bool v) {
-    throw UnimplementedError();
+    _wrapped.remoteWakeup = v;
   }
 
   /// The maximum power needed by this device in milliamps (mA).
   int get maxPower => _wrapped.maxPower;
   set maxPower(int v) {
-    throw UnimplementedError();
+    _wrapped.maxPower = v;
   }
 
   /// Available interfaces.
   List<InterfaceDescriptor> get interfaces => throw UnimplementedError();
   set interfaces(List<InterfaceDescriptor> v) {
-    throw UnimplementedError();
+    _wrapped.interfaces = throw UnimplementedError();
   }
 
   /// Extra descriptor data associated with this configuration.
   ByteBuffer get extra_data => _wrapped.extra_data.toDart;
   set extra_data(ByteBuffer v) {
-    throw UnimplementedError();
+    _wrapped.extra_data = v.toJS;
   }
 }
 
@@ -542,59 +542,59 @@ class ControlTransferInfo {
   /// The transfer direction (`"in"` or `"out"`).
   Direction get direction => Direction.fromJS(_wrapped.direction);
   set direction(Direction v) {
-    throw UnimplementedError();
+    _wrapped.direction = v.toJS;
   }
 
   /// The transfer target. The target given by `index` must be
   /// claimed if `"interface"` or `"endpoint"`.
   Recipient get recipient => Recipient.fromJS(_wrapped.recipient);
   set recipient(Recipient v) {
-    throw UnimplementedError();
+    _wrapped.recipient = v.toJS;
   }
 
   /// The request type.
   RequestType get requestType => RequestType.fromJS(_wrapped.requestType);
   set requestType(RequestType v) {
-    throw UnimplementedError();
+    _wrapped.requestType = v.toJS;
   }
 
   /// The `bRequest` field, see <i>Universal Serial Bus
   /// Specification Revision 1.1</i> &sect; 9.3.
   int get request => _wrapped.request;
   set request(int v) {
-    throw UnimplementedError();
+    _wrapped.request = v;
   }
 
   /// The `wValue` field, see <i>Ibid</i>.
   int get value => _wrapped.value;
   set value(int v) {
-    throw UnimplementedError();
+    _wrapped.value = v;
   }
 
   /// The `wIndex` field, see <i>Ibid</i>.
   int get index => _wrapped.index;
   set index(int v) {
-    throw UnimplementedError();
+    _wrapped.index = v;
   }
 
   /// The maximum number of bytes to receive (required only by input
   /// transfers).
   int? get length => _wrapped.length;
   set length(int? v) {
-    throw UnimplementedError();
+    _wrapped.length = v;
   }
 
   /// The data to transmit (required only by output transfers).
   ByteBuffer? get data => _wrapped.data?.toDart;
   set data(ByteBuffer? v) {
-    throw UnimplementedError();
+    _wrapped.data = v?.toJS;
   }
 
   /// Request timeout (in milliseconds). The default value `0`
   /// indicates no timeout.
   int? get timeout => _wrapped.timeout;
   set timeout(int? v) {
-    throw UnimplementedError();
+    _wrapped.timeout = v;
   }
 }
 
@@ -608,34 +608,34 @@ class GenericTransferInfo {
   /// The transfer direction (`"in"` or `"out"`).
   Direction get direction => Direction.fromJS(_wrapped.direction);
   set direction(Direction v) {
-    throw UnimplementedError();
+    _wrapped.direction = v.toJS;
   }
 
   /// The target endpoint address. The interface containing this endpoint must
   /// be claimed.
   int get endpoint => _wrapped.endpoint;
   set endpoint(int v) {
-    throw UnimplementedError();
+    _wrapped.endpoint = v;
   }
 
   /// The maximum number of bytes to receive (required only by input
   /// transfers).
   int? get length => _wrapped.length;
   set length(int? v) {
-    throw UnimplementedError();
+    _wrapped.length = v;
   }
 
   /// The data to transmit (required only by output transfers).
   ByteBuffer? get data => _wrapped.data?.toDart;
   set data(ByteBuffer? v) {
-    throw UnimplementedError();
+    _wrapped.data = v?.toJS;
   }
 
   /// Request timeout (in milliseconds). The default value `0`
   /// indicates no timeout.
   int? get timeout => _wrapped.timeout;
   set timeout(int? v) {
-    throw UnimplementedError();
+    _wrapped.timeout = v;
   }
 }
 
@@ -652,19 +652,19 @@ class IsochronousTransferInfo {
   GenericTransferInfo get transferInfo =>
       GenericTransferInfo.fromJS(_wrapped.transferInfo);
   set transferInfo(GenericTransferInfo v) {
-    throw UnimplementedError();
+    _wrapped.transferInfo = v.toJS;
   }
 
   /// The total number of packets in this transfer.
   int get packets => _wrapped.packets;
   set packets(int v) {
-    throw UnimplementedError();
+    _wrapped.packets = v;
   }
 
   /// The length of each of the packets in this transfer.
   int get packetLength => _wrapped.packetLength;
   set packetLength(int v) {
-    throw UnimplementedError();
+    _wrapped.packetLength = v;
   }
 }
 
@@ -679,14 +679,14 @@ class TransferResultInfo {
   /// Other values indicate failure.
   int? get resultCode => _wrapped.resultCode;
   set resultCode(int? v) {
-    throw UnimplementedError();
+    _wrapped.resultCode = v;
   }
 
   /// The data returned by an input transfer. `undefined` for output
   /// transfers.
   ByteBuffer? get data => _wrapped.data?.toDart;
   set data(ByteBuffer? v) {
-    throw UnimplementedError();
+    _wrapped.data = v?.toJS;
   }
 }
 
@@ -700,31 +700,31 @@ class DeviceFilter {
   /// Device vendor ID.
   int? get vendorId => _wrapped.vendorId;
   set vendorId(int? v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 
   /// Device product ID, checked only if the vendor ID matches.
   int? get productId => _wrapped.productId;
   set productId(int? v) {
-    throw UnimplementedError();
+    _wrapped.productId = v;
   }
 
   /// USB interface class, matches any interface on the device.
   int? get interfaceClass => _wrapped.interfaceClass;
   set interfaceClass(int? v) {
-    throw UnimplementedError();
+    _wrapped.interfaceClass = v;
   }
 
   /// USB interface sub-class, checked only if the interface class matches.
   int? get interfaceSubclass => _wrapped.interfaceSubclass;
   set interfaceSubclass(int? v) {
-    throw UnimplementedError();
+    _wrapped.interfaceSubclass = v;
   }
 
   /// USB interface protocol, checked only if the interface sub-class matches.
   int? get interfaceProtocol => _wrapped.interfaceProtocol;
   set interfaceProtocol(int? v) {
-    throw UnimplementedError();
+    _wrapped.interfaceProtocol = v;
   }
 }
 
@@ -737,19 +737,19 @@ class EnumerateDevicesOptions {
 
   int? get vendorId => _wrapped.vendorId;
   set vendorId(int? v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 
   int? get productId => _wrapped.productId;
   set productId(int? v) {
-    throw UnimplementedError();
+    _wrapped.productId = v;
   }
 
   /// A device matching any given filter will be returned. An empty filter list
   /// will return all devices the app has permission for.
   List<DeviceFilter>? get filters => throw UnimplementedError();
   set filters(List<DeviceFilter>? v) {
-    throw UnimplementedError();
+    _wrapped.filters = throw UnimplementedError();
   }
 }
 
@@ -763,20 +763,20 @@ class EnumerateDevicesAndRequestAccessOptions {
   /// The device vendor ID.
   int get vendorId => _wrapped.vendorId;
   set vendorId(int v) {
-    throw UnimplementedError();
+    _wrapped.vendorId = v;
   }
 
   /// The product ID.
   int get productId => _wrapped.productId;
   set productId(int v) {
-    throw UnimplementedError();
+    _wrapped.productId = v;
   }
 
   /// The interface ID to request access to.
   /// Only available on Chrome OS. It has no effect on other platforms.
   int? get interfaceId => _wrapped.interfaceId;
   set interfaceId(int? v) {
-    throw UnimplementedError();
+    _wrapped.interfaceId = v;
   }
 }
 
@@ -790,13 +790,13 @@ class DevicePromptOptions {
   /// Allow the user to select multiple devices.
   bool? get multiple => _wrapped.multiple;
   set multiple(bool? v) {
-    throw UnimplementedError();
+    _wrapped.multiple = v;
   }
 
   /// Filter the list of devices presented to the user. If multiple filters are
   /// provided devices matching any filter will be displayed.
   List<DeviceFilter>? get filters => throw UnimplementedError();
   set filters(List<DeviceFilter>? v) {
-    throw UnimplementedError();
+    _wrapped.filters = throw UnimplementedError();
   }
 }

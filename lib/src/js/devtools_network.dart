@@ -14,7 +14,7 @@ class JSDevtoolsNetwork {}
 
 extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
   /// Returns HAR log that contains all known network requests.
-  external void getHAR(JSFunction callback);
+  external void getHAR(JSAny callback);
 
   /// Fired when a network request is finished and all request data are
   /// available.
@@ -30,5 +30,5 @@ class Request {}
 
 extension RequestExtension on Request {
   /// Returns content of the response body.
-  external void getContent(JSFunction callback);
+  external void getContent(JSAny callback);
 }

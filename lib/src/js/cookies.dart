@@ -17,23 +17,35 @@ extension JSCookiesExtension on JSCookies {
   /// the same name exists for the given URL, the one with the longest path will
   /// be returned. For cookies with the same path length, the cookie with the
   /// earliest creation time will be returned.
-  external JSPromise get(CookieDetails details);
+  external void get(
+    CookieDetails details,
+    JSFunction callback,
+  );
 
   /// Retrieves all cookies from a single cookie store that match the given
   /// information.  The cookies returned will be sorted, with those with the
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
-  external JSPromise getAll(GetAllDetails details);
+  external void getAll(
+    GetAllDetails details,
+    JSFunction callback,
+  );
 
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
-  external JSPromise set(SetDetails details);
+  external void set(
+    SetDetails details,
+    JSFunction callback,
+  );
 
   /// Deletes a cookie by name.
-  external JSPromise remove(CookieDetails details);
+  external void remove(
+    CookieDetails details,
+    JSFunction callback,
+  );
 
   /// Lists all existing cookie stores.
-  external JSPromise getAllCookieStores();
+  external void getAllCookieStores(JSFunction callback);
 
   /// Fired when a cookie is set or removed. As a special case, note that
   /// updating a cookie's properties is implemented as a two step process: the
@@ -101,7 +113,7 @@ extension CookieExtension on Cookie {
 
   /// The expiration date of the cookie as the number of seconds since the UNIX
   /// epoch. Not provided for session cookies.
-  external num? expirationDate;
+  external double? expirationDate;
 
   /// The ID of the cookie store containing this cookie, as provided in
   /// getAllCookieStores().
@@ -221,10 +233,25 @@ class SetDetails {
 
     /// The expiration date of the cookie as the number of seconds since the UNIX
     /// epoch. If omitted, the cookie becomes a session cookie.
-    num? expirationDate,
+    double? expirationDate,
 
     /// The ID of the cookie store in which to set the cookie. By default, the
     /// cookie is set in the current execution context's cookie store.
     String? storeId,
   });
+}
+
+@JS()
+@staticInterop
+class RemoveCallbackDetails {}
+
+extension RemoveCallbackDetailsExtension on RemoveCallbackDetails {
+  /// The URL associated with the cookie that's been removed.
+  external String url;
+
+  /// The name of the cookie that's been removed.
+  external String name;
+
+  /// The ID of the cookie store from which the cookie was removed.
+  external String storeId;
 }

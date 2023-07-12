@@ -86,7 +86,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   /// The challenged key does not reside in the `"system"` or
   /// `"user"` token and is not accessible by any other API.
   /// |options|: Object containing the fields defined in
-  ///            $(ref:ChallengeKeyOptions).
+  ///            [ChallengeKeyOptions].
   /// |callback|: Called back with the challenge response.
   external void challengeKey(
     ChallengeKeyOptions options,
@@ -175,43 +175,41 @@ class Token {}
 
 extension TokenExtension on Token {
   /// Uniquely identifies this `Token`.
-  /// <p>Static IDs are `"user"` and `"system"`,
+  /// Static IDs are `"user"` and `"system"`,
   /// referring to the platform's user-specific and the system-wide hardware
   /// token, respectively. Any other tokens (with other identifiers) might be
-  /// returned by $(ref:enterprise.platformKeys.getTokens).</p>
+  /// returned by [enterprise.platformKeys.getTokens].
   external String id;
 
   /// Implements the WebCrypto's
-  /// <a
-  /// href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">SubtleCrypto</a>
+  /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
   /// interface. The cryptographic operations, including key generation, are
   /// hardware-backed.
-  /// <p>Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
   /// `modulusLength` up to 2048 and ECDSA with
   /// `namedCurve` P-256 can be generated. Each key can be
-  /// used for signing data at most once.</p>
-  /// <p>Keys generated on a specific `Token` cannot be used with
+  /// used for signing data at most once.
+  /// Keys generated on a specific `Token` cannot be used with
   /// any other Tokens, nor can they be used with
   /// `window.crypto.subtle`. Equally, `Key` objects
   /// created with `window.crypto.subtle` cannot be used with this
-  /// interface.</p>
+  /// interface.
   external JSObject subtleCrypto;
 
   /// Implements the WebCrypto's
-  /// <a
-  /// href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">SubtleCrypto</a>
+  /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
   /// interface. The cryptographic operations, including key generation, are
   /// software-backed. Protection of the keys, and thus implementation of the
   /// non-extractable property, is done in software, so the keys are less
   /// protected than hardware-backed keys.
-  /// <p>Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
   /// `modulusLength` up to 2048 can be generated. Each key can be
-  /// used for signing data at most once.</p>
-  /// <p>Keys generated on a specific `Token` cannot be used with
+  /// used for signing data at most once.
+  /// Keys generated on a specific `Token` cannot be used with
   /// any other Tokens, nor can they be used with
   /// `window.crypto.subtle`. Equally, `Key` objects
   /// created with `window.crypto.subtle` cannot be used with this
-  /// interface.</p>
+  /// interface.
   external JSObject softwareBackedSubtleCrypto;
 }
 

@@ -8,7 +8,8 @@ class JsonModelConverter {
   late final _enumsToConvert =
       model.types.where((e) => e.enums != null).toList();
   late final _dictionariesToGenerate =
-      model.types.where((e) => e.enums == null).toList();
+      model.types.where((e) => e.enums == null && e.type == 'object').toList();
+  final _syntheticDictionaries = <Dictionary>[];
 
   JsonModelConverter(this.model);
 
@@ -19,7 +20,8 @@ class JsonModelConverter {
       events: _convertEvents().toList(),
       functions: _convertFunctions().toList(),
       properties: _convertProperties().toList(),
-      dictionaries: _convertDictionaries().toList(),
+      typedefs: _convertTypeDefs().toList(),
+      dictionaries: [..._convertDictionaries(), ..._syntheticDictionaries],
       enumerations: _convertEnums().toList(),
     );
   }
@@ -30,17 +32,39 @@ class JsonModelConverter {
     }
   }
 
-  Event _toEvent(JsonFunction event) {
+  Event _toEvent(JsonFunction event, {String? parent}) {
+    var parameters = <JsonProperty, ChromeType>{};
     for (var param in event.parameters) {
       var name = param.name!;
       var parameterType = _addSyntheticTypeIfNeeded(param, name, event.name,
-              anonymous: false) ??
+              anonymous: false, isNullable: param.optional ?? false) ??
           _propertyType(param);
-
-      //TODO: create synthetic class to hold event with > 1 parameter
+      parameters[param] = parameterType;
+    }
+    ChromeType? parameterType;
+    if (parameters.length == 1) {
+      parameterType = parameters.values.first;
+    } else if (parameters.length > 1) {
+      var syntheticTypeName =
+          upperCamel(splitWords('${parent ?? ''} ${event.name} Event'));
+      var syntheticType = Dictionary(syntheticTypeName,
+          properties: [
+            for (var param in parameters.entries)
+              Property(param.key.name!,
+                  type: param.value, documentation: param.key.description)
+          ],
+          methods: [],
+          events: [],
+          documentation: '',
+          isAnonymous: false,
+          isSyntheticEvent: true);
+      assert(syntheticType.properties.length > 1);
+      _syntheticDictionaries.add(syntheticType);
+      parameterType = LocalType(syntheticTypeName, isNullable: false);
     }
 
-    return Event(event.name, event.description);
+    return Event(event.name,
+        type: parameterType, documentation: event.description);
   }
 
   Iterable<Method> _convertFunctions() sync* {
@@ -51,17 +75,37 @@ class JsonModelConverter {
 
   Method _convertFunction(JsonFunction f) {
     var jsonReturns = f.returnsAsync ?? f.returns;
-    var returns = MethodReturn(
-        type: TypeRef.void$, isAsync: false, supportPromise: false);
+    var returns = MethodReturn(type: null);
+    ChromeType returnType;
     if (jsonReturns != null) {
-      var supportsPromises = f.returnsAsync != null;
-      var isAsync = jsonReturns.parameters != null;
+      if (f.returnsAsync != null && jsonReturns.parameters == null) {
+        throw StateError('Not a function in ${model.namespace} ${f.name}');
+      }
+
+      if (jsonReturns.parameters != null) {
+        FunctionParameter? singleParameter;
+        if (jsonReturns.parameters!.length > 1) {
+          throw UnimplementedError();
+        } else if (jsonReturns.parameters case [var p]) {
+          var type = _addSyntheticTypeIfNeeded(
+                  p, '${jsonReturns.name!}_${p.name!}', f.name,
+                  anonymous: false, isNullable: p.optional ?? false) ??
+              _propertyType(p);
+          singleParameter = FunctionParameter(p.name, type);
+        }
+        var jsReturnType = FunctionType(
+            null, [if (singleParameter != null) singleParameter],
+            isNullable: jsonReturns.optional ?? false);
+        returnType = AsyncReturnType(singleParameter?.type, jsReturnType);
+      } else {
+        returnType = _addSyntheticTypeIfNeeded(jsonReturns, 'Return', f.name,
+                anonymous: false, isNullable: jsonReturns.optional ?? false) ??
+            _propertyType(jsonReturns);
+      }
 
       returns = MethodReturn(
-        type: _propertyType(jsonReturns),
-        isAsync: isAsync,
-        supportPromise: supportsPromises,
         name: jsonReturns.name,
+        type: returnType,
       );
     }
 
@@ -77,41 +121,41 @@ class JsonModelConverter {
     for (var param in function.parameters) {
       var name = param.name!;
       var parameterType = _addSyntheticTypeIfNeeded(param, name, function.name,
-              anonymous: true) ??
+              anonymous: true, isNullable: param.optional ?? false) ??
           _propertyType(param);
 
       yield Property(
         name,
         type: parameterType,
-        optional: param.optional ?? false,
         documentation: param.description,
       );
     }
   }
 
-  TypeRef? _addSyntheticTypeIfNeeded(
+  ChromeType? _addSyntheticTypeIfNeeded(
       JsonProperty property, String name, String parent,
-      {required bool anonymous}) {
-    TypeRef? type;
+      {required bool anonymous, required bool isNullable}) {
+    ChromeType? type;
     if (property.properties != null) {
       var typeName = upperCamel(
           splitWords('${name.startsWith(parent) ? '' : parent} $name'));
-      type = TypeRef(typeName);
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           properties: property.properties)
         ..isAnonymous = anonymous);
+      type = LocalType(typeName, isNullable: isNullable);
     } else if (property.enums != null) {
       var typeName = upperCamel(
           splitWords('${name.startsWith(parent) ? '' : parent} $name'));
-      type = TypeRef(typeName);
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           enums: property.enums));
+      type = LocalType(typeName, isNullable: isNullable);
     } else if (property.items case var items?) {
       if (items.$ref == null) {
         if (items.properties != null) {
-          _addSyntheticTypeIfNeeded(items, name, parent, anonymous: anonymous);
+          type = _addSyntheticTypeIfNeeded(items, name, parent,
+              anonymous: anonymous, isNullable: isNullable);
         } else if (items.enums != null) {
           throw UnimplementedError('$parent $name');
         }
@@ -127,7 +171,8 @@ class JsonModelConverter {
       if (t.properties != null) {
         for (var e in t.properties!.entries) {
           var propertyType = _addSyntheticTypeIfNeeded(e.value, e.key, t.id,
-                  anonymous: t.isAnonymous) ??
+                  anonymous: t.isAnonymous,
+                  isNullable: e.value.optional ?? false) ??
               _propertyType(e.value);
 
           if (e.value.parameters != null) {
@@ -137,7 +182,6 @@ class JsonModelConverter {
           var property = Property(
             e.key,
             type: propertyType,
-            optional: e.value.optional ?? false,
             documentation: e.value.description,
           );
           properties.add(property);
@@ -154,7 +198,7 @@ class JsonModelConverter {
       var events = <Event>[];
       if (t.events != null) {
         for (var event in t.events!) {
-          events.add(_toEvent(event));
+          events.add(_toEvent(event, parent: t.id));
         }
       }
 
@@ -188,29 +232,73 @@ class JsonModelConverter {
 
   Iterable<Property> _convertProperties() sync* {
     for (var prop in model.properties.entries) {
+      var type = _addSyntheticTypeIfNeeded(
+              prop.value, prop.key, model.namespace,
+              anonymous: false, isNullable: prop.value.optional ?? false) ??
+          _propertyType(prop.value);
+
       yield Property(
         prop.key,
-        type: _propertyType(prop.value),
-        optional: prop.value.optional ?? false,
+        type: type,
         documentation: prop.value.description,
       );
     }
   }
 
-  TypeRef _propertyType(JsonProperty prop) {
-    var typeName = prop.isInstanceOf ??
-        prop.items?.name ??
-        prop.items?.$ref ??
-        prop.type ??
-        prop.$ref;
+  Iterable<Typedef> _convertTypeDefs() sync* {
+    for (var type
+        in model.types.where((t) => t.type != 'object' && t.enums == null)) {
+      ChromeType? target;
+
+      if (type.type == 'array') {
+        var items = type.items!;
+        var typeRef = _addSyntheticTypeIfNeeded(items, 'Items', type.id,
+                anonymous: false, isNullable: false) ??
+            _propertyType(items);
+        target = ListType(typeRef, isNullable: false);
+      } else if (type.isInstanceOf case var isInstanceOf?) {
+        target = ChromeType.tryParse(isInstanceOf, isNullable: false)!;
+      } else if (type.type case var type?) {
+        target = ChromeType.tryParse(type, isNullable: false)!;
+      } else {
+        target = VariousType(isNullable: false);
+      }
+
+      yield Typedef(type.id, target: target, documentation: type.description);
+    }
+  }
+
+  ChromeType _propertyType(JsonProperty prop) {
+    String typeName;
+    var nullable = prop.optional ?? false;
+    var arrayNullable = nullable;
+    var isArray = false;
+    if (prop.items case var items?) {
+      typeName = _extractType(items);
+      isArray = true;
+      nullable = false;
+    } else {
+      typeName = _extractType(prop);
+    }
+
+    var type = ChromeType.tryParse(typeName, isNullable: nullable) ??
+        LocalType.parse(typeName, isNullable: nullable);
+    if (isArray) {
+      return ListType(type, isNullable: arrayNullable);
+    }
+    return type;
+  }
+
+  String _extractType(JsonProperty prop) {
+    assert(prop.items == null && prop.type != 'array');
+    assert(prop.properties == null);
+
+    var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref;
     if (typeName == null) {
       if (prop.value is int) {
         typeName = 'integer';
       }
     }
-    typeName ??= 'object';
-
-    var isArray = prop.items != null;
-    return TypeRef(typeName, isArray: isArray);
+    return typeName ?? 'object';
   }
 }

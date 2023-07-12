@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/tab_capture.dart' as $js;
 export 'chrome.dart';
 
 final _tabCapture = ChromeTabCapture._();
@@ -12,8 +13,8 @@ class ChromeTabCapture {
 
   /// Captures the visible area of the currently active tab.  Capture can
   /// only be started on the currently active tab after the extension has been
-  /// <em>invoked</em>, similar to the way that
-  /// <a href="activeTab#invoking-activeTab">activeTab</a> works.
+  /// _invoked_, similar to the way that
+  /// [activeTab](activeTab#invoking-activeTab) works.
   ///  Capture is maintained across page navigations within
   /// the tab, and stops when the tab is closed, or the media stream is closed
   /// by the extension.
@@ -21,9 +22,10 @@ class ChromeTabCapture {
   /// |options| : Configures the returned media stream.
   /// |callback| : Callback with either the tab capture MediaStream or
   ///   `null`.  `null` indicates an error has occurred
-  ///   and the client may query $(ref:runtime.lastError) to access the error
+  ///   and the client may query [runtime.lastError] to access the error
   ///   details.
-  void capture(options) => throw UnimplementedError();
+  Future<JSObject> capture(CaptureOptions options) =>
+      throw UnimplementedError();
 
   /// Returns a list of tabs that have requested capture or are being
   /// captured, i.e. status != stopped and status != error.
@@ -31,7 +33,7 @@ class ChromeTabCapture {
   /// tab capture that would prevent a new tab capture from succeeding (or
   /// to prevent redundant requests for the same tab).
   /// |callback| : Callback invoked with CaptureInfo[] for captured tabs.
-  void getCapturedTabs() => throw UnimplementedError();
+  Future<List<CaptureInfo>> getCapturedTabs() => throw UnimplementedError();
 
   /// Creates a stream ID to capture the target tab.
   /// Similar to chrome.tabCapture.capture() method, but returns a media
@@ -43,13 +45,14 @@ class ChromeTabCapture {
   /// `getUserMedia()` API to generate a media stream that
   /// corresponds to the target tab. The created `streamId` can
   /// only be used once and expires after a few seconds if it is not used.
-  void getMediaStreamId(options) => throw UnimplementedError();
+  Future<String> getMediaStreamId(GetMediaStreamOptions? options) =>
+      throw UnimplementedError();
 
   /// Event fired when the capture status of a tab changes.
   /// This allows extension authors to keep track of the capture status of
   /// tabs to keep UI elements like page actions in sync.
   /// |info| : CaptureInfo with new capture status for the tab.
-  Stream get onStatusChanged => throw UnimplementedError();
+  Stream<CaptureInfo> get onStatusChanged => throw UnimplementedError();
 }
 
 enum TabCaptureState {
@@ -61,4 +64,115 @@ enum TabCaptureState {
   const TabCaptureState(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static TabCaptureState fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class CaptureInfo {
+  CaptureInfo.fromJS(this._wrapped);
+
+  final $js.CaptureInfo _wrapped;
+
+  $js.CaptureInfo get toJS => _wrapped;
+
+  /// The id of the tab whose status changed.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The new capture status of the tab.
+  TabCaptureState get status => TabCaptureState.fromJS(_wrapped.status);
+  set status(TabCaptureState v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether an element in the tab being captured is in fullscreen mode.
+  bool get fullscreen => _wrapped.fullscreen;
+  set fullscreen(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class MediaStreamConstraint {
+  MediaStreamConstraint.fromJS(this._wrapped);
+
+  final $js.MediaStreamConstraint _wrapped;
+
+  $js.MediaStreamConstraint get toJS => _wrapped;
+
+  JSAny get mandatory => _wrapped.mandatory;
+  set mandatory(JSAny v) {
+    throw UnimplementedError();
+  }
+
+  JSAny? get _optional => _wrapped._optional;
+  set _optional(JSAny? v) {
+    throw UnimplementedError();
+  }
+}
+
+class CaptureOptions {
+  CaptureOptions.fromJS(this._wrapped);
+
+  final $js.CaptureOptions _wrapped;
+
+  $js.CaptureOptions get toJS => _wrapped;
+
+  bool? get audio => _wrapped.audio;
+  set audio(bool? v) {
+    throw UnimplementedError();
+  }
+
+  bool? get video => _wrapped.video;
+  set video(bool? v) {
+    throw UnimplementedError();
+  }
+
+  MediaStreamConstraint? get audioConstraints =>
+      _wrapped.audioConstraints?.let(MediaStreamConstraint.fromJS);
+  set audioConstraints(MediaStreamConstraint? v) {
+    throw UnimplementedError();
+  }
+
+  MediaStreamConstraint? get videoConstraints =>
+      _wrapped.videoConstraints?.let(MediaStreamConstraint.fromJS);
+  set videoConstraints(MediaStreamConstraint? v) {
+    throw UnimplementedError();
+  }
+
+  String? get presentationId => _wrapped.presentationId;
+  set presentationId(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetMediaStreamOptions {
+  GetMediaStreamOptions.fromJS(this._wrapped);
+
+  final $js.GetMediaStreamOptions _wrapped;
+
+  $js.GetMediaStreamOptions get toJS => _wrapped;
+
+  /// Optional tab id of the tab which will later invoke
+  /// `getUserMedia()` to consume the stream. If not specified
+  /// then the resulting stream can be used only by the calling extension.
+  /// The stream can only be used by frames in the given tab whose security
+  /// origin matches the consumber tab's origin. The tab's origin must be a
+  /// secure origin, e.g. HTTPS.
+  int? get consumerTabId => _wrapped.consumerTabId;
+  set consumerTabId(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// Optional tab id of the tab which will be captured. If not specified
+  /// then the current active tab will be selected. Only tabs for which the
+  /// extension has been granted the `activeTab` permission can be
+  /// used as the target tab.
+  int? get targetTabId => _wrapped.targetTabId;
+  set targetTabId(int? v) {
+    throw UnimplementedError();
+  }
 }

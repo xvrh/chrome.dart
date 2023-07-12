@@ -7,9 +7,9 @@ extension JSChromeJSTtsEngineExtension on JSChrome {
   /// Use the `chrome.ttsEngine` API to implement a text-to-speech(TTS) engine
   /// using an extension. If your extension registers using this API, it will
   /// receive events containing an utterance to be spoken and other parameters
-  /// when any extension or Chrome App uses the <a href='tts'>tts</a> API to
-  /// generate speech. Your extension can then use any available web technology
-  /// to synthesize and output the speech, and send events back to the calling
+  /// when any extension or Chrome App uses the [tts](tts) API to generate
+  /// speech. Your extension can then use any available web technology to
+  /// synthesize and output the speech, and send events back to the calling
   /// function to report the status.
   external JSTtsEngine get ttsEngine;
 }
@@ -72,9 +72,8 @@ extension SpeakOptionsExtension on SpeakOptions {
   /// The name of the voice to use for synthesis.
   external String? voiceName;
 
-  /// The language to be used for synthesis, in the form
-  /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
-  /// 'zh-CN'.
+  /// The language to be used for synthesis, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   external String? lang;
 
   /// Gender of voice for synthesized speech.
@@ -86,15 +85,15 @@ extension SpeakOptionsExtension on SpeakOptions {
   /// and 10.0, inclusive. When a voice does not support this full range of
   /// rates, don't return an error. Instead, clip the rate to the range the
   /// voice supports.
-  external num? rate;
+  external double? rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to this voice's default pitch.
-  external num? pitch;
+  external double? pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external num? volume;
+  external double? volume;
 }
 
 @JS()

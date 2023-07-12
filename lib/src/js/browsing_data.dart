@@ -17,57 +17,100 @@ extension JSBrowsingDataExtension on JSBrowsingData {
   /// data' settings UI.  Note: some of the data types included in this API are
   /// not available in the settings UI, and some UI settings control more than
   /// one data type listed here.
-  external JSPromise settings();
+  external void settings(JSFunction callback);
 
   /// Clears various types of browsing data stored in a user's profile.
-  external JSPromise remove(
+  external void remove(
     RemovalOptions options,
     DataTypeSet dataToRemove,
+    JSFunction callback,
   );
 
   /// Clears websites' appcache data.
-  external JSPromise removeAppcache(RemovalOptions options);
+  external void removeAppcache(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears the browser's cache.
-  external JSPromise removeCache(RemovalOptions options);
+  external void removeCache(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' cache storage data.
-  external JSPromise removeCacheStorage(RemovalOptions options);
+  external void removeCacheStorage(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
-  external JSPromise removeCookies(RemovalOptions options);
+  external void removeCookies(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
-  /// Clears the browser's list of downloaded files (<em>not</em> the downloaded
-  /// files themselves).
-  external JSPromise removeDownloads(RemovalOptions options);
+  /// Clears the browser's list of downloaded files (_not_ the downloaded files
+  /// themselves).
+  external void removeDownloads(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' file system data.
-  external JSPromise removeFileSystems(RemovalOptions options);
+  external void removeFileSystems(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears the browser's stored form data (autofill).
-  external JSPromise removeFormData(RemovalOptions options);
+  external void removeFormData(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears the browser's history.
-  external JSPromise removeHistory(RemovalOptions options);
+  external void removeHistory(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' IndexedDB data.
-  external JSPromise removeIndexedDB(RemovalOptions options);
+  external void removeIndexedDB(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' local storage data.
-  external JSPromise removeLocalStorage(RemovalOptions options);
+  external void removeLocalStorage(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears plugins' data.
-  external JSPromise removePluginData(RemovalOptions options);
+  external void removePluginData(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears the browser's stored passwords.
-  external JSPromise removePasswords(RemovalOptions options);
+  external void removePasswords(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' service workers.
-  external JSPromise removeServiceWorkers(RemovalOptions options);
+  external void removeServiceWorkers(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 
   /// Clears websites' WebSQL data.
-  external JSPromise removeWebSQL(RemovalOptions options);
+  external void removeWebSQL(
+    RemovalOptions options,
+    JSFunction callback,
+  );
 }
 
 @JS()
@@ -79,12 +122,12 @@ extension RemovalOptionsExtension on RemovalOptions {
   /// since the epoch (accessible via the `getTime` method of the JavaScript
   /// `Date` object). If absent, defaults to 0 (which would remove all browsing
   /// data).
-  external num? since;
+  external double? since;
 
   /// An object whose properties specify which origin types ought to be cleared.
   /// If this object isn't specified, it defaults to clearing only "unprotected"
-  /// origins. Please ensure that you <em>really</em> want to remove application
-  /// data before adding 'protectedWeb' or 'extensions'.
+  /// origins. Please ensure that you _really_ want to remove application data
+  /// before adding 'protectedWeb' or 'extensions'.
   external RemovalOptionsOriginTypes? originTypes;
 
   /// When present, only data for origins in this list is deleted. Only
@@ -147,6 +190,24 @@ extension DataTypeSetExtension on DataTypeSet {
 
   /// Websites' WebSQL data.
   external bool? webSQL;
+}
+
+@JS()
+@staticInterop
+class SettingsCallbackResult {}
+
+extension SettingsCallbackResultExtension on SettingsCallbackResult {
+  external RemovalOptions options;
+
+  /// All of the types will be present in the result, with values of `true` if
+  /// they are both selected to be removed and permitted to be removed,
+  /// otherwise `false`.
+  external DataTypeSet dataToRemove;
+
+  /// All of the types will be present in the result, with values of `true` if
+  /// they are permitted to be removed (e.g., by enterprise policy) and `false`
+  /// if not.
+  external DataTypeSet dataRemovalPermitted;
 }
 
 @JS()

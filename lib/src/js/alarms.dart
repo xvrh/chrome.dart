@@ -13,7 +13,7 @@ extension JSChromeJSAlarmsExtension on JSChrome {
 class JSAlarms {}
 
 extension JSAlarmsExtension on JSAlarms {
-  /// Creates an alarm.  Near the time(s) specified by `alarmInfo`,
+  /// Creates an alarm.  Near the time(s) specified by [alarmInfo],
   /// the `onAlarm` event is fired. If there is another alarm with
   /// the same name (or no name if none is specified), it will be cancelled and
   /// replaced by this alarm.
@@ -32,12 +32,12 @@ extension JSAlarmsExtension on JSAlarms {
   /// |name|: Optional name to identify this alarm. Defaults to the empty
   /// string.
   /// |alarmInfo|: Describes when the alarm should fire.  The initial time must
-  /// be specified by either `when` or `delayInMinutes` (but
-  /// not both).  If `periodInMinutes` is set, the alarm will repeat
-  /// every `periodInMinutes` minutes after the initial event.  If
-  /// neither `when` or `delayInMinutes` is set for a
-  /// repeating alarm, `periodInMinutes` is used as the default for
-  /// `delayInMinutes`.
+  /// be specified by either [when] or [delayInMinutes] (but
+  /// not both).  If [periodInMinutes] is set, the alarm will repeat
+  /// every [periodInMinutes] minutes after the initial event.  If
+  /// neither [when] or [delayInMinutes] is set for a
+  /// repeating alarm, [periodInMinutes] is used as the default for
+  /// [delayInMinutes].
   /// |callback|: Invoked when the alarm has been created.
   external void create(
     String? name,
@@ -84,7 +84,7 @@ extension AlarmExtension on Alarm {
   external double scheduledTime;
 
   /// If not null, the alarm is a repeating alarm and will fire again in
-  /// `periodInMinutes` minutes.
+  /// [periodInMinutes] minutes.
   external double? periodInMinutes;
 }
 
@@ -103,9 +103,9 @@ extension AlarmCreateInfoExtension on AlarmCreateInfo {
   /// <!-- TODO: need minimum=0 -->
   external double? delayInMinutes;
 
-  /// If set, the onAlarm event should fire every `periodInMinutes`
-  /// minutes after the initial event specified by `when` or
-  /// `delayInMinutes`.  If not set, the alarm will only fire once.
+  /// If set, the onAlarm event should fire every [periodInMinutes]
+  /// minutes after the initial event specified by [when] or
+  /// [delayInMinutes].  If not set, the alarm will only fire once.
   ///
   /// <!-- TODO: need minimum=0 -->
   external double? periodInMinutes;

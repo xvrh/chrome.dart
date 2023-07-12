@@ -14,34 +14,51 @@ class JSWindows {}
 
 extension JSWindowsExtension on JSWindows {
   /// Gets details about a window.
-  external JSPromise get(
+  external void get(
     int windowId,
     QueryOptions? queryOptions,
+    JSFunction callback,
   );
 
-  /// Gets the <a href='#current-window'>current window</a>.
-  external JSPromise getCurrent(QueryOptions? queryOptions);
+  /// Gets the [current window](#current-window).
+  external void getCurrent(
+    QueryOptions? queryOptions,
+    JSFunction callback,
+  );
 
-  /// Gets the window that was most recently focused &mdash; typically the
-  /// window 'on top'.
-  external JSPromise getLastFocused(QueryOptions? queryOptions);
+  /// Gets the window that was most recently focused - typically the window 'on
+  /// top'.
+  external void getLastFocused(
+    QueryOptions? queryOptions,
+    JSFunction callback,
+  );
 
   /// Gets all windows.
-  external JSPromise getAll(QueryOptions? queryOptions);
+  external void getAll(
+    QueryOptions? queryOptions,
+    JSFunction callback,
+  );
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  external JSPromise create(CreateData? createData);
+  external void create(
+    CreateData? createData,
+    JSFunction callback,
+  );
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
-  external JSPromise update(
+  external void update(
     int windowId,
     UpdateInfo updateInfo,
+    JSFunction callback,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
-  external JSPromise remove(int windowId);
+  external void remove(
+    int windowId,
+    JSFunction callback,
+  );
 
   /// Fired when a window is created.
   external ChromeEvent get onCreated;
@@ -62,19 +79,19 @@ extension JSWindowsExtension on JSWindows {
   /// The windowId value that represents the absence of a Chrome browser window.
   external int get WINDOW_ID_NONE;
 
-  /// The windowId value that represents the <a
-  /// href='windows#current-window'>current window</a>.
+  /// The windowId value that represents the [current
+  /// window](windows#current-window).
   external int get WINDOW_ID_CURRENT;
 }
 
 /// The type of browser window this is. In some circumstances a window may not
 /// be assigned a `type` property; for example, when querying closed windows
-/// from the $(ref:sessions) API.
+/// from the [sessions] API.
 typedef WindowType = String;
 
 /// The state of this browser window. In some circumstances a window may not be
 /// assigned a `state` property; for example, when querying closed windows from
-/// the $(ref:sessions) API.
+/// the [sessions] API.
 typedef WindowState = String;
 
 /// Specifies what type of browser window to create. 'panel' is deprecated and
@@ -88,8 +105,8 @@ class Window {}
 extension WindowExtension on Window {
   /// The ID of the window. Window IDs are unique within a browser session. In
   /// some circumstances a window may not be assigned an `ID` property; for
-  /// example, when querying windows using the $(ref:sessions) API, in which
-  /// case a session ID may be present.
+  /// example, when querying windows using the [sessions] API, in which case a
+  /// session ID may be present.
   external int? id;
 
   /// Whether the window is currently the focused window.
@@ -97,26 +114,25 @@ extension WindowExtension on Window {
 
   /// The offset of the window from the top edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `top` property; for
-  /// example, when querying closed windows from the $(ref:sessions) API.
+  /// example, when querying closed windows from the [sessions] API.
   external int? top;
 
   /// The offset of the window from the left edge of the screen in pixels. In
   /// some circumstances a window may not be assigned a `left` property; for
-  /// example, when querying closed windows from the $(ref:sessions) API.
+  /// example, when querying closed windows from the [sessions] API.
   external int? left;
 
   /// The width of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `width` property; for
-  /// example, when querying closed windows from the $(ref:sessions) API.
+  /// example, when querying closed windows from the [sessions] API.
   external int? width;
 
   /// The height of the window, including the frame, in pixels. In some
   /// circumstances a window may not be assigned a `height` property; for
-  /// example, when querying closed windows from the $(ref:sessions) API.
+  /// example, when querying closed windows from the [sessions] API.
   external int? height;
 
-  /// Array of $(ref:tabs.Tab) objects representing the current tabs in the
-  /// window.
+  /// Array of [tabs.Tab] objects representing the current tabs in the window.
   external JSArray? tabs;
 
   /// Whether the window is incognito.
@@ -132,7 +148,7 @@ extension WindowExtension on Window {
   external bool alwaysOnTop;
 
   /// The session ID used to uniquely identify a window, obtained from the
-  /// $(ref:sessions) API.
+  /// [sessions] API.
   external String? sessionId;
 }
 
@@ -141,14 +157,14 @@ extension WindowExtension on Window {
 class QueryOptions {}
 
 extension QueryOptionsExtension on QueryOptions {
-  /// If true, the $(ref:windows.Window) object has a `tabs` property that
-  /// contains a list of the $(ref:tabs.Tab) objects. The `Tab` objects only
-  /// contain the `url`, `pendingUrl`, `title`, and `favIconUrl` properties if
-  /// the extension's manifest file includes the `"tabs"` permission.
+  /// If true, the [windows.Window] object has a [tabs] property that contains a
+  /// list of the [tabs.Tab] objects. The `Tab` objects only contain the `url`,
+  /// `pendingUrl`, `title`, and `favIconUrl` properties if the extension's
+  /// manifest file includes the `"tabs"` permission.
   external bool? populate;
 
-  /// If set, the $(ref:windows.Window) returned is filtered based on its type.
-  /// If unset, the default filter is set to `['normal', 'popup']`.
+  /// If set, the [windows.Window] returned is filtered based on its type. If
+  /// unset, the default filter is set to `['normal', 'popup']`.
   external JSArray? windowTypes;
 }
 
@@ -161,7 +177,7 @@ class CreateData {
     /// must include a scheme, e.g., 'http://www.google.com', not
     /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
     /// the extension. Defaults to the New Tab Page.
-    JSObject? url,
+    JSAny? url,
 
     /// The ID of the tab to add to the new window.
     int? tabId,
@@ -199,9 +215,9 @@ class CreateData {
     WindowState? state,
 
     /// If `true`, the newly-created window's 'window.opener' is set to the caller
-    /// and is in the same <a
-    /// href="https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts">unit
-    /// of related browsing contexts</a> as the caller.
+    /// and is in the same [unit of related browsing
+    /// contexts](https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts)
+    /// as the caller.
     bool? setSelfAsOpener,
   });
 }

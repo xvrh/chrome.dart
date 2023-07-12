@@ -19,7 +19,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
     JSArray sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JSFunction callback,
+    JSAny callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
@@ -30,12 +30,12 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
 /// chooseDesktopMedia().
 typedef DesktopCaptureSourceType = String;
 
-/// Mirrors <a
-/// href="https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum">SystemAudioPreferenceEnum</a>.
+/// Mirrors
+/// [SystemAudioPreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum).
 typedef SystemAudioPreferenceEnum = String;
 
-/// Mirrors <a
-/// href="https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum">SelfCapturePreferenceEnum</a>.
+/// Mirrors
+/// [SelfCapturePreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum).
 typedef SelfCapturePreferenceEnum = String;
 
 @JS()
@@ -43,12 +43,12 @@ typedef SelfCapturePreferenceEnum = String;
 @anonymous
 class ChooseDesktopMediaOptions {
   external factory ChooseDesktopMediaOptions({
-    /// Mirrors <a
-    /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio">systemAudio</a>.
+    /// Mirrors
+    /// [systemAudio](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio).
     SystemAudioPreferenceEnum? systemAudio,
 
-    /// Mirrors <a
-    /// href="https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface">selfBrowserSurface</a>.
+    /// Mirrors
+    /// [selfBrowserSurface](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface).
     SelfCapturePreferenceEnum? selfBrowserSurface,
 
     /// Indicates that the caller intends to perform local audio suppression, and

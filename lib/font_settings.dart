@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/font_settings.dart' as $js;
 export 'chrome.dart';
 
 final _fontSettings = ChromeFontSettings._();
@@ -11,55 +12,74 @@ class ChromeFontSettings {
   ChromeFontSettings._();
 
   /// Clears the font set by this extension, if any.
-  void clearFont(details) => throw UnimplementedError();
+  Future<void> clearFont(ClearFontDetails details) =>
+      throw UnimplementedError();
 
   /// Gets the font for a given script and generic font family.
-  void getFont(details) => throw UnimplementedError();
+  Future<GetFontCallbackDetails> getFont(GetFontDetails details) =>
+      throw UnimplementedError();
 
   /// Sets the font for a given script and generic font family.
-  void setFont(details) => throw UnimplementedError();
+  Future<void> setFont(SetFontDetails details) => throw UnimplementedError();
 
   /// Gets a list of fonts on the system.
-  void getFontList() => throw UnimplementedError();
+  Future<List<FontName>> getFontList() => throw UnimplementedError();
 
   /// Clears the default font size set by this extension, if any.
-  void clearDefaultFontSize(details) => throw UnimplementedError();
+  Future<void> clearDefaultFontSize(ClearDefaultFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Gets the default font size.
-  void getDefaultFontSize(details) => throw UnimplementedError();
+  Future<GetDefaultFontSizeCallbackDetails> getDefaultFontSize(
+          GetDefaultFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Sets the default font size.
-  void setDefaultFontSize(details) => throw UnimplementedError();
+  Future<void> setDefaultFontSize(SetDefaultFontSizeDetails details) =>
+      throw UnimplementedError();
 
   /// Clears the default fixed font size set by this extension, if any.
-  void clearDefaultFixedFontSize(details) => throw UnimplementedError();
+  Future<void> clearDefaultFixedFontSize(
+          ClearDefaultFixedFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Gets the default size for fixed width fonts.
-  void getDefaultFixedFontSize(details) => throw UnimplementedError();
+  Future<GetDefaultFixedFontSizeCallbackDetails> getDefaultFixedFontSize(
+          GetDefaultFixedFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Sets the default size for fixed width fonts.
-  void setDefaultFixedFontSize(details) => throw UnimplementedError();
+  Future<void> setDefaultFixedFontSize(
+          SetDefaultFixedFontSizeDetails details) =>
+      throw UnimplementedError();
 
   /// Clears the minimum font size set by this extension, if any.
-  void clearMinimumFontSize(details) => throw UnimplementedError();
+  Future<void> clearMinimumFontSize(ClearMinimumFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Gets the minimum font size.
-  void getMinimumFontSize(details) => throw UnimplementedError();
+  Future<GetMinimumFontSizeCallbackDetails> getMinimumFontSize(
+          GetMinimumFontSizeDetails? details) =>
+      throw UnimplementedError();
 
   /// Sets the minimum font size.
-  void setMinimumFontSize(details) => throw UnimplementedError();
+  Future<void> setMinimumFontSize(SetMinimumFontSizeDetails details) =>
+      throw UnimplementedError();
 
   /// Fired when a font setting changes.
-  Stream get onFontChanged => throw UnimplementedError();
+  Stream<OnFontChangedDetails> get onFontChanged => throw UnimplementedError();
 
   /// Fired when the default font size setting changes.
-  Stream get onDefaultFontSizeChanged => throw UnimplementedError();
+  Stream<OnDefaultFontSizeChangedDetails> get onDefaultFontSizeChanged =>
+      throw UnimplementedError();
 
   /// Fired when the default fixed font size setting changes.
-  Stream get onDefaultFixedFontSizeChanged => throw UnimplementedError();
+  Stream<OnDefaultFixedFontSizeChangedDetails>
+      get onDefaultFixedFontSizeChanged => throw UnimplementedError();
 
   /// Fired when the minimum font size setting changes.
-  Stream get onMinimumFontSizeChanged => throw UnimplementedError();
+  Stream<OnMinimumFontSizeChangedDetails> get onMinimumFontSizeChanged =>
+      throw UnimplementedError();
 }
 
 /// An ISO 15924 script code. The default, or global, script is represented by
@@ -221,6 +241,10 @@ enum ScriptCode {
   const ScriptCode(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static ScriptCode fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// A CSS generic font family.
@@ -236,14 +260,18 @@ enum GenericFamily {
   const GenericFamily(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static GenericFamily fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// One of
-/// `not_controllable`: cannot be controlled by any extension
-/// `controlled_by_other_extensions`: controlled by extensions with higher
+/// [not_controllable]: cannot be controlled by any extension
+/// [controlled_by_other_extensions]: controlled by extensions with higher
 /// precedence
-/// `controllable_by_this_extension`: can be controlled by this extension
-/// `controlled_by_this_extension`: controlled by this extension
+/// [controllable_by_this_extension]: can be controlled by this extension
+/// [controlled_by_this_extension]: controlled by this extension
 enum LevelOfControl {
   notControllable('not_controllable'),
   controlledByOtherExtensions('controlled_by_other_extensions'),
@@ -253,4 +281,309 @@ enum LevelOfControl {
   const LevelOfControl(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static LevelOfControl fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class FontName {
+  FontName.fromJS(this._wrapped);
+
+  final $js.FontName _wrapped;
+
+  $js.FontName get toJS => _wrapped;
+
+  /// The font ID.
+  String get fontId => _wrapped.fontId;
+  set fontId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The display name of the font.
+  String get displayName => _wrapped.displayName;
+  set displayName(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnFontChangedDetails {
+  OnFontChangedDetails.fromJS(this._wrapped);
+
+  final $js.OnFontChangedDetails _wrapped;
+
+  $js.OnFontChangedDetails get toJS => _wrapped;
+
+  /// The font ID. See the description in `getFont`.
+  String get fontId => _wrapped.fontId;
+  set fontId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The script code for which the font setting has changed.
+  ScriptCode? get script => _wrapped.script?.let(ScriptCode.fromJS);
+  set script(ScriptCode? v) {
+    throw UnimplementedError();
+  }
+
+  /// The generic font family for which the font setting has changed.
+  GenericFamily get genericFamily =>
+      GenericFamily.fromJS(_wrapped.genericFamily);
+  set genericFamily(GenericFamily v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnDefaultFontSizeChangedDetails {
+  OnDefaultFontSizeChangedDetails.fromJS(this._wrapped);
+
+  final $js.OnDefaultFontSizeChangedDetails _wrapped;
+
+  $js.OnDefaultFontSizeChangedDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnDefaultFixedFontSizeChangedDetails {
+  OnDefaultFixedFontSizeChangedDetails.fromJS(this._wrapped);
+
+  final $js.OnDefaultFixedFontSizeChangedDetails _wrapped;
+
+  $js.OnDefaultFixedFontSizeChangedDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnMinimumFontSizeChangedDetails {
+  OnMinimumFontSizeChangedDetails.fromJS(this._wrapped);
+
+  final $js.OnMinimumFontSizeChangedDetails _wrapped;
+
+  $js.OnMinimumFontSizeChangedDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class ClearFontDetails {
+  ClearFontDetails.fromJS(this._wrapped);
+
+  final $js.ClearFontDetails _wrapped;
+
+  $js.ClearFontDetails get toJS => _wrapped;
+}
+
+class GetFontCallbackDetails {
+  GetFontCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetFontCallbackDetails _wrapped;
+
+  $js.GetFontCallbackDetails get toJS => _wrapped;
+
+  /// The font ID. Rather than the literal font ID preference value, this may be
+  /// the ID of the font that the system resolves the preference value to. So,
+  /// [fontId] can differ from the font passed to `setFont`, if, for example,
+  /// the font is not available on the system. The empty string signifies
+  /// fallback to the global script font setting.
+  String get fontId => _wrapped.fontId;
+  set fontId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetFontDetails {
+  GetFontDetails.fromJS(this._wrapped);
+
+  final $js.GetFontDetails _wrapped;
+
+  $js.GetFontDetails get toJS => _wrapped;
+}
+
+class SetFontDetails {
+  SetFontDetails.fromJS(this._wrapped);
+
+  final $js.SetFontDetails _wrapped;
+
+  $js.SetFontDetails get toJS => _wrapped;
+}
+
+class ClearDefaultFontSizeDetails {
+  ClearDefaultFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.ClearDefaultFontSizeDetails _wrapped;
+
+  $js.ClearDefaultFontSizeDetails get toJS => _wrapped;
+}
+
+class GetDefaultFontSizeCallbackDetails {
+  GetDefaultFontSizeCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetDefaultFontSizeCallbackDetails _wrapped;
+
+  $js.GetDefaultFontSizeCallbackDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetDefaultFontSizeDetails {
+  GetDefaultFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.GetDefaultFontSizeDetails _wrapped;
+
+  $js.GetDefaultFontSizeDetails get toJS => _wrapped;
+}
+
+class SetDefaultFontSizeDetails {
+  SetDefaultFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.SetDefaultFontSizeDetails _wrapped;
+
+  $js.SetDefaultFontSizeDetails get toJS => _wrapped;
+}
+
+class ClearDefaultFixedFontSizeDetails {
+  ClearDefaultFixedFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.ClearDefaultFixedFontSizeDetails _wrapped;
+
+  $js.ClearDefaultFixedFontSizeDetails get toJS => _wrapped;
+}
+
+class GetDefaultFixedFontSizeCallbackDetails {
+  GetDefaultFixedFontSizeCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetDefaultFixedFontSizeCallbackDetails _wrapped;
+
+  $js.GetDefaultFixedFontSizeCallbackDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetDefaultFixedFontSizeDetails {
+  GetDefaultFixedFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.GetDefaultFixedFontSizeDetails _wrapped;
+
+  $js.GetDefaultFixedFontSizeDetails get toJS => _wrapped;
+}
+
+class SetDefaultFixedFontSizeDetails {
+  SetDefaultFixedFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.SetDefaultFixedFontSizeDetails _wrapped;
+
+  $js.SetDefaultFixedFontSizeDetails get toJS => _wrapped;
+}
+
+class ClearMinimumFontSizeDetails {
+  ClearMinimumFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.ClearMinimumFontSizeDetails _wrapped;
+
+  $js.ClearMinimumFontSizeDetails get toJS => _wrapped;
+}
+
+class GetMinimumFontSizeCallbackDetails {
+  GetMinimumFontSizeCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetMinimumFontSizeCallbackDetails _wrapped;
+
+  $js.GetMinimumFontSizeCallbackDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The level of control this extension has over the setting.
+  LevelOfControl get levelOfControl =>
+      LevelOfControl.fromJS(_wrapped.levelOfControl);
+  set levelOfControl(LevelOfControl v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetMinimumFontSizeDetails {
+  GetMinimumFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.GetMinimumFontSizeDetails _wrapped;
+
+  $js.GetMinimumFontSizeDetails get toJS => _wrapped;
+}
+
+class SetMinimumFontSizeDetails {
+  SetMinimumFontSizeDetails.fromJS(this._wrapped);
+
+  final $js.SetMinimumFontSizeDetails _wrapped;
+
+  $js.SetMinimumFontSizeDetails get toJS => _wrapped;
 }

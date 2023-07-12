@@ -13,46 +13,79 @@ class JSFontSettings {}
 
 extension JSFontSettingsExtension on JSFontSettings {
   /// Clears the font set by this extension, if any.
-  external JSPromise clearFont(ClearFontDetails details);
+  external void clearFont(
+    ClearFontDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the font for a given script and generic font family.
-  external JSPromise getFont(GetFontDetails details);
+  external void getFont(
+    GetFontDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the font for a given script and generic font family.
-  external JSPromise setFont(SetFontDetails details);
+  external void setFont(
+    SetFontDetails details,
+    JSFunction callback,
+  );
 
   /// Gets a list of fonts on the system.
-  external JSPromise getFontList();
+  external void getFontList(JSFunction callback);
 
   /// Clears the default font size set by this extension, if any.
-  external JSPromise clearDefaultFontSize(ClearDefaultFontSizeDetails? details);
+  external void clearDefaultFontSize(
+    ClearDefaultFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Gets the default font size.
-  external JSPromise getDefaultFontSize(GetDefaultFontSizeDetails? details);
+  external void getDefaultFontSize(
+    GetDefaultFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Sets the default font size.
-  external JSPromise setDefaultFontSize(SetDefaultFontSizeDetails details);
+  external void setDefaultFontSize(
+    SetDefaultFontSizeDetails details,
+    JSFunction callback,
+  );
 
   /// Clears the default fixed font size set by this extension, if any.
-  external JSPromise clearDefaultFixedFontSize(
-      ClearDefaultFixedFontSizeDetails? details);
+  external void clearDefaultFixedFontSize(
+    ClearDefaultFixedFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Gets the default size for fixed width fonts.
-  external JSPromise getDefaultFixedFontSize(
-      GetDefaultFixedFontSizeDetails? details);
+  external void getDefaultFixedFontSize(
+    GetDefaultFixedFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Sets the default size for fixed width fonts.
-  external JSPromise setDefaultFixedFontSize(
-      SetDefaultFixedFontSizeDetails details);
+  external void setDefaultFixedFontSize(
+    SetDefaultFixedFontSizeDetails details,
+    JSFunction callback,
+  );
 
   /// Clears the minimum font size set by this extension, if any.
-  external JSPromise clearMinimumFontSize(ClearMinimumFontSizeDetails? details);
+  external void clearMinimumFontSize(
+    ClearMinimumFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Gets the minimum font size.
-  external JSPromise getMinimumFontSize(GetMinimumFontSizeDetails? details);
+  external void getMinimumFontSize(
+    GetMinimumFontSizeDetails? details,
+    JSFunction callback,
+  );
 
   /// Sets the minimum font size.
-  external JSPromise setMinimumFontSize(SetMinimumFontSizeDetails details);
+  external void setMinimumFontSize(
+    SetMinimumFontSizeDetails details,
+    JSFunction callback,
+  );
 
   /// Fired when a font setting changes.
   external ChromeEvent get onFontChanged;
@@ -75,11 +108,11 @@ typedef ScriptCode = String;
 typedef GenericFamily = String;
 
 /// One of
-/// `not_controllable`: cannot be controlled by any extension
-/// `controlled_by_other_extensions`: controlled by extensions with higher
+/// [not_controllable]: cannot be controlled by any extension
+/// [controlled_by_other_extensions]: controlled by extensions with higher
 /// precedence
-/// `controllable_by_this_extension`: can be controlled by this extension
-/// `controlled_by_this_extension`: controlled by this extension
+/// [controllable_by_this_extension]: can be controlled by this extension
+/// [controlled_by_this_extension]: controlled by this extension
 typedef LevelOfControl = String;
 
 @JS()
@@ -167,6 +200,22 @@ class ClearFontDetails {
 
 @JS()
 @staticInterop
+class GetFontCallbackDetails {}
+
+extension GetFontCallbackDetailsExtension on GetFontCallbackDetails {
+  /// The font ID. Rather than the literal font ID preference value, this may be
+  /// the ID of the font that the system resolves the preference value to. So,
+  /// [fontId] can differ from the font passed to `setFont`, if, for example,
+  /// the font is not available on the system. The empty string signifies
+  /// fallback to the global script font setting.
+  external String fontId;
+
+  /// The level of control this extension has over the setting.
+  external LevelOfControl levelOfControl;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class GetFontDetails {
   external factory GetFontDetails({
@@ -206,6 +255,19 @@ class ClearDefaultFontSizeDetails {
 
 @JS()
 @staticInterop
+class GetDefaultFontSizeCallbackDetails {}
+
+extension GetDefaultFontSizeCallbackDetailsExtension
+    on GetDefaultFontSizeCallbackDetails {
+  /// The font size in pixels.
+  external int pixelSize;
+
+  /// The level of control this extension has over the setting.
+  external LevelOfControl levelOfControl;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class GetDefaultFontSizeDetails {
   external factory GetDefaultFontSizeDetails();
@@ -230,6 +292,19 @@ class ClearDefaultFixedFontSizeDetails {
 
 @JS()
 @staticInterop
+class GetDefaultFixedFontSizeCallbackDetails {}
+
+extension GetDefaultFixedFontSizeCallbackDetailsExtension
+    on GetDefaultFixedFontSizeCallbackDetails {
+  /// The font size in pixels.
+  external int pixelSize;
+
+  /// The level of control this extension has over the setting.
+  external LevelOfControl levelOfControl;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class GetDefaultFixedFontSizeDetails {
   external factory GetDefaultFixedFontSizeDetails();
@@ -250,6 +325,19 @@ class SetDefaultFixedFontSizeDetails {
 @anonymous
 class ClearMinimumFontSizeDetails {
   external factory ClearMinimumFontSizeDetails();
+}
+
+@JS()
+@staticInterop
+class GetMinimumFontSizeCallbackDetails {}
+
+extension GetMinimumFontSizeCallbackDetailsExtension
+    on GetMinimumFontSizeCallbackDetails {
+  /// The font size in pixels.
+  external int pixelSize;
+
+  /// The level of control this extension has over the setting.
+  external LevelOfControl levelOfControl;
 }
 
 @JS()

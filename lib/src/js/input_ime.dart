@@ -16,19 +16,31 @@ class JSInputIme {}
 extension JSInputImeExtension on JSInputIme {
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  external JSPromise setComposition(SetCompositionParameters parameters);
+  external void setComposition(
+    SetCompositionParameters parameters,
+    JSFunction callback,
+  );
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  external JSPromise clearComposition(ClearCompositionParameters parameters);
+  external void clearComposition(
+    ClearCompositionParameters parameters,
+    JSFunction callback,
+  );
 
   /// Commits the provided text to the current input.
-  external JSPromise commitText(CommitTextParameters parameters);
+  external void commitText(
+    CommitTextParameters parameters,
+    JSFunction callback,
+  );
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  external JSPromise sendKeyEvents(SendKeyEventsParameters parameters);
+  external void sendKeyEvents(
+    SendKeyEventsParameters parameters,
+    JSFunction callback,
+  );
 
   /// Hides the input view window, which is popped up automatically by system.
   /// If the input view window is already hidden, this function will do nothing.
@@ -36,34 +48,54 @@ extension JSInputImeExtension on JSInputIme {
 
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
-  external JSPromise setCandidateWindowProperties(
-      SetCandidateWindowPropertiesParameters parameters);
+  external void setCandidateWindowProperties(
+    SetCandidateWindowPropertiesParameters parameters,
+    JSFunction callback,
+  );
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  external JSPromise setCandidates(SetCandidatesParameters parameters);
+  external void setCandidates(
+    SetCandidatesParameters parameters,
+    JSFunction callback,
+  );
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  external JSPromise setCursorPosition(SetCursorPositionParameters parameters);
+  external void setCursorPosition(
+    SetCursorPositionParameters parameters,
+    JSFunction callback,
+  );
 
   /// Shows/Hides an assistive window with the given properties.
-  external JSPromise setAssistiveWindowProperties(
-      SetAssistiveWindowPropertiesParameters parameters);
+  external void setAssistiveWindowProperties(
+    SetAssistiveWindowPropertiesParameters parameters,
+    JSFunction callback,
+  );
 
   /// Highlights/Unhighlights a button in an assistive window.
-  external JSPromise setAssistiveWindowButtonHighlighted(
-      SetAssistiveWindowButtonHighlightedParameters parameters);
+  external void setAssistiveWindowButtonHighlighted(
+    SetAssistiveWindowButtonHighlightedParameters parameters,
+    JSFunction callback,
+  );
 
   /// Adds the provided menu items to the language menu when this IME is active.
-  external JSPromise setMenuItems(MenuParameters parameters);
+  external void setMenuItems(
+    MenuParameters parameters,
+    JSFunction callback,
+  );
 
   /// Updates the state of the MenuItems specified
-  external JSPromise updateMenuItems(MenuParameters parameters);
+  external void updateMenuItems(
+    MenuParameters parameters,
+    JSFunction callback,
+  );
 
   /// Deletes the text around the caret.
-  external JSPromise deleteSurroundingText(
-      DeleteSurroundingTextParameters parameters);
+  external void deleteSurroundingText(
+    DeleteSurroundingTextParameters parameters,
+    JSFunction callback,
+  );
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
@@ -332,7 +364,7 @@ class SetCompositionParameters {
     int cursor,
 
     /// List of segments and their associated types.
-    JSArray? segments,
+    SetCompositionParametersSegments? segments,
   });
 }
 
@@ -393,7 +425,7 @@ class SetCandidatesParameters {
     int contextID,
 
     /// List of candidates to show in the candidate window
-    JSArray candidates,
+    SetCandidatesParametersCandidates candidates,
   });
 }
 

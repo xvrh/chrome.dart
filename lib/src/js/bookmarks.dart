@@ -4,8 +4,8 @@ export 'chrome.dart';
 
 extension JSChromeJSBookmarksExtension on JSChrome {
   /// Use the `chrome.bookmarks` API to create, organize, and otherwise
-  /// manipulate bookmarks. Also see <a href='override'>Override Pages</a>,
-  /// which you can use to create a custom Bookmark Manager page.
+  /// manipulate bookmarks. Also see [Override Pages](override), which you can
+  /// use to create a custom Bookmark Manager page.
   external JSBookmarks get bookmarks;
 }
 
@@ -15,48 +15,74 @@ class JSBookmarks {}
 
 extension JSBookmarksExtension on JSBookmarks {
   /// Retrieves the specified BookmarkTreeNode(s).
-  external JSPromise get(JSObject idOrIdList);
+  external void get(
+    JSAny idOrIdList,
+    JSFunction callback,
+  );
 
   /// Retrieves the children of the specified BookmarkTreeNode id.
-  external JSPromise getChildren(String id);
+  external void getChildren(
+    String id,
+    JSFunction callback,
+  );
 
   /// Retrieves the recently added bookmarks.
-  external JSPromise getRecent(int numberOfItems);
+  external void getRecent(
+    int numberOfItems,
+    JSFunction callback,
+  );
 
   /// Retrieves the entire Bookmarks hierarchy.
-  external JSPromise getTree();
+  external void getTree(JSFunction callback);
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
-  external JSPromise getSubTree(String id);
+  external void getSubTree(
+    String id,
+    JSFunction callback,
+  );
 
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
   /// with an object produce BookmarkTreeNodes matching all specified
   /// properties.
-  external JSPromise search(JSObject query);
+  external void search(
+    JSAny query,
+    JSFunction callback,
+  );
 
   /// Creates a bookmark or folder under the specified parentId.  If url is NULL
   /// or missing, it will be a folder.
-  external JSPromise create(CreateDetails bookmark);
+  external void create(
+    CreateDetails bookmark,
+    JSFunction callback,
+  );
 
   /// Moves the specified BookmarkTreeNode to the provided location.
-  external JSPromise move(
+  external void move(
     String id,
     MoveDestination destination,
+    JSFunction callback,
   );
 
   /// Updates the properties of a bookmark or folder. Specify only the
   /// properties that you want to change; unspecified properties will be left
   /// unchanged.  **Note:** Currently, only 'title' and 'url' are supported.
-  external JSPromise update(
+  external void update(
     String id,
     UpdateChanges changes,
+    JSFunction callback,
   );
 
   /// Removes a bookmark or an empty bookmark folder.
-  external JSPromise remove(String id);
+  external void remove(
+    String id,
+    JSFunction callback,
+  );
 
   /// Recursively removes a bookmark folder.
-  external JSPromise removeTree(String id);
+  external void removeTree(
+    String id,
+    JSFunction callback,
+  );
 
   /// Fired when a bookmark or folder is created.
   external ChromeEvent get onCreated;
@@ -90,7 +116,7 @@ extension JSBookmarksExtension on JSBookmarks {
   external int get MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
 }
 
-/// Indicates the reason why this node is unmodifiable. The `managed` value
+/// Indicates the reason why this node is unmodifiable. The [managed] value
 /// indicates that this node was configured by the system administrator. Omitted
 /// if the node can be modified by the user and the extension (default).
 typedef BookmarkTreeNodeUnmodifiable = String;
@@ -118,17 +144,17 @@ extension BookmarkTreeNodeExtension on BookmarkTreeNode {
 
   /// When this node was created, in milliseconds since the epoch (`new
   /// Date(dateAdded)`).
-  external num? dateAdded;
+  external double? dateAdded;
 
   /// When this node was last opened, in milliseconds since the epoch. Not set
   /// for folders.
-  external num? dateLastUsed;
+  external double? dateLastUsed;
 
   /// When the contents of this folder last changed, in milliseconds since the
   /// epoch.
-  external num? dateGroupModified;
+  external double? dateGroupModified;
 
-  /// Indicates the reason why this node is unmodifiable. The `managed` value
+  /// Indicates the reason why this node is unmodifiable. The [managed] value
   /// indicates that this node was configured by the system administrator or by
   /// the custodian of a supervised user. Omitted if the node can be modified by
   /// the user and the extension (default).

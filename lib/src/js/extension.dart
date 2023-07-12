@@ -5,8 +5,8 @@ export 'chrome.dart';
 extension JSChromeJSExtensionExtension on JSChrome {
   /// The `chrome.extension` API has utilities that can be used by any extension
   /// page. It includes support for exchanging messages between an extension and
-  /// its content scripts or between extensions, as described in detail in <a
-  /// href='messaging'>Message Passing</a>.
+  /// its content scripts or between extensions, as described in detail in
+  /// [Message Passing](messaging).
   external JSExtension get extension;
 }
 
@@ -16,12 +16,13 @@ class JSExtension {}
 
 extension JSExtensionExtension on JSExtension {
   /// Sends a single request to other listeners within the extension. Similar to
-  /// $(ref:runtime.connect), but only sends a single request with an optional
-  /// response. The $(ref:extension.onRequest) event is fired in each page of
-  /// the extension.
-  external JSPromise sendRequest(
+  /// [runtime.connect], but only sends a single request with an optional
+  /// response. The [extension.onRequest] event is fired in each page of the
+  /// extension.
+  external void sendRequest(
     String? extensionId,
     JSAny request,
+    JSFunction callback,
   );
 
   /// Converts a relative path within an extension install directory to a
@@ -35,7 +36,7 @@ extension JSExtensionExtension on JSExtension {
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
   /// background page.
-  external JSObject getBackgroundPage();
+  external JSObject? getBackgroundPage();
 
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
@@ -45,12 +46,12 @@ extension JSExtensionExtension on JSExtension {
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
   /// setting accessible via the chrome://extensions page.
-  external JSPromise isAllowedIncognitoAccess();
+  external void isAllowedIncognitoAccess(JSFunction callback);
 
   /// Retrieves the state of the extension's access to the 'file://' scheme.
   /// This corresponds to the user-controlled per-extension 'Allow access to
   /// File URLs' setting accessible via the chrome://extensions page.
-  external JSPromise isAllowedFileSchemeAccess();
+  external void isAllowedFileSchemeAccess(JSFunction callback);
 
   /// Sets the value of the ap CGI parameter used in the extension's update URL.
   ///  This value is ignored for extensions that are hosted in the Chrome
@@ -66,13 +67,13 @@ extension JSExtensionExtension on JSExtension {
 
   /// Set for the lifetime of a callback if an ansychronous extension api has
   /// resulted in an error. If no error has occured lastError will be
-  /// `undefined`.
-  external JSObject get lastError;
+  /// [undefined].
+  external ExtensionLastError? get lastError;
 
   /// True for content scripts running inside incognito tabs, and for extension
   /// pages running inside an incognito process. The latter only applies to
   /// extensions with 'split' incognito_behavior.
-  external bool get inIncognitoContext;
+  external bool? get inIncognitoContext;
 }
 
 /// The type of extension view.
@@ -94,4 +95,13 @@ class GetViewsFetchProperties {
     /// views.
     int? tabId,
   });
+}
+
+@JS()
+@staticInterop
+class ExtensionLastError {}
+
+extension ExtensionLastErrorExtension on ExtensionLastError {
+  /// Description of the error that has taken place.
+  external String message;
 }

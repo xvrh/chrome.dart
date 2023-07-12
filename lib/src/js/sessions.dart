@@ -16,20 +16,29 @@ class JSSessions {}
 
 extension JSSessionsExtension on JSSessions {
   /// Gets the list of recently closed tabs and/or windows.
-  external JSPromise getRecentlyClosed(Filter? filter);
+  external void getRecentlyClosed(
+    Filter? filter,
+    JSFunction callback,
+  );
 
   /// Retrieves all devices with synced sessions.
-  external JSPromise getDevices(Filter? filter);
+  external void getDevices(
+    Filter? filter,
+    JSFunction callback,
+  );
 
-  /// Reopens a $(ref:windows.Window) or $(ref:tabs.Tab), with an optional
-  /// callback to run when the entry has been restored.
-  external JSPromise restore(String? sessionId);
+  /// Reopens a [windows.Window] or [tabs.Tab], with an optional callback to run
+  /// when the entry has been restored.
+  external void restore(
+    String? sessionId,
+    JSFunction callback,
+  );
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
   external ChromeEvent get onChanged;
 
-  /// The maximum number of $(ref:sessions.Session) that will be included in a
+  /// The maximum number of [sessions.Session] that will be included in a
   /// requested list.
   external int get MAX_SESSION_RESULTS;
 }
@@ -41,7 +50,7 @@ class Filter {}
 extension FilterExtension on Filter {
   /// The maximum number of entries to be fetched in the requested list. Omit
   /// this parameter to fetch the maximum number of entries
-  /// ($(ref:sessions.MAX_SESSION_RESULTS)).
+  /// ([sessions.MAX_SESSION_RESULTS]).
   external int? maxResults;
 }
 
@@ -54,13 +63,13 @@ extension SessionExtension on Session {
   /// milliseconds since the epoch.
   external int lastModified;
 
-  /// The $(ref:tabs.Tab), if this entry describes a tab. Either this or
-  /// $(ref:sessions.Session.window) will be set.
+  /// The [tabs.Tab], if this entry describes a tab. Either this or
+  /// [sessions.Session.window] will be set.
   external Tab? tab;
 
-  /// The $(ref:windows.Window), if this entry describes a window. Either this
-  /// or $(ref:sessions.Session.tab) will be set.
-  external JSObject? window;
+  /// The [windows.Window], if this entry describes a window. Either this or
+  /// [sessions.Session.tab] will be set.
+  external Window? window;
 }
 
 @JS()

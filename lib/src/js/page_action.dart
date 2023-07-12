@@ -17,31 +17,52 @@ class JSPageAction {}
 extension JSPageActionExtension on JSPageAction {
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
-  external JSPromise show(int tabId);
+  external void show(
+    int tabId,
+    JSFunction callback,
+  );
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
-  external JSPromise hide(int tabId);
+  external void hide(
+    int tabId,
+    JSFunction callback,
+  );
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
-  external JSPromise setTitle(SetTitleDetails details);
+  external void setTitle(
+    SetTitleDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the title of the page action.
-  external JSPromise getTitle(TabDetails details);
+  external void getTitle(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the icon for the page action. The icon can be specified either as the
   /// path to an image file or as the pixel data from a canvas element, or as
   /// dictionary of either one of those. Either the **path** or the
   /// **imageData** property must be specified.
-  external JSPromise setIcon(SetIconDetails details);
+  external void setIcon(
+    SetIconDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// page action's icon.
-  external JSPromise setPopup(SetPopupDetails details);
+  external void setPopup(
+    SetPopupDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the html document set as the popup for this page action.
-  external JSPromise getPopup(TabDetails details);
+  external void getPopup(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Fired when a page action icon is clicked.  This event will not fire if the
   /// page action has a popup.
@@ -93,7 +114,7 @@ class SetIconDetails {
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.imageData = foo' is equivalent to 'details.imageData =
     /// {'16': foo}'
-    JSObject? imageData,
+    JSAny? imageData,
 
     /// Either a relative image path or a dictionary {size -> relative image path}
     /// pointing to icon to be set. If the icon is specified as a dictionary, the
@@ -102,7 +123,7 @@ class SetIconDetails {
     /// `scale`, then image with size `scale` * n will be selected, where n is the
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
-    JSObject? path,
+    JSAny? path,
 
     /// **Deprecated.** This argument is ignored.
     int? iconIndex,

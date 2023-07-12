@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/tts.dart' as $js;
 export 'chrome.dart';
 
 final _tts = ChromeTts._();
@@ -11,9 +12,9 @@ class ChromeTts {
   ChromeTts._();
 
   /// Speaks text using a text-to-speech engine.
-  void speak(
-    utterance,
-    options,
+  Future<void> speak(
+    String utterance,
+    TtsOptions? options,
   ) =>
       throw UnimplementedError();
 
@@ -32,13 +33,13 @@ class ChromeTts {
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  void isSpeaking() => throw UnimplementedError();
+  Future<bool> isSpeaking() => throw UnimplementedError();
 
   /// Gets an array of all available voices.
-  void getVoices() => throw UnimplementedError();
+  Future<List<TtsVoice>> getVoices() => throw UnimplementedError();
 
   /// Used to pass events back to the function calling speak().
-  Stream get onEvent => throw UnimplementedError();
+  Stream<TtsEvent> get onEvent => throw UnimplementedError();
 }
 
 enum EventType {
@@ -56,6 +57,10 @@ enum EventType {
   const EventType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static EventType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum VoiceGender {
@@ -65,4 +70,200 @@ enum VoiceGender {
   const VoiceGender(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static VoiceGender fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class TtsOptions {
+  TtsOptions.fromJS(this._wrapped);
+
+  final $js.TtsOptions _wrapped;
+
+  $js.TtsOptions get toJS => _wrapped;
+
+  /// If true, enqueues this utterance if TTS is already in progress. If false
+  /// (the default), interrupts any current speech and flushes the speech queue
+  /// before speaking this new utterance.
+  bool? get enqueue => _wrapped.enqueue;
+  set enqueue(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The name of the voice to use for synthesis. If empty, uses any available
+  /// voice.
+  String? get voiceName => _wrapped.voiceName;
+  set voiceName(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The extension ID of the speech engine to use, if known.
+  String? get extensionId => _wrapped.extensionId;
+  set extensionId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The language to be used for synthesis, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+  String? get lang => _wrapped.lang;
+  set lang(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Gender of voice for synthesized speech.
+  VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
+  set gender(VoiceGender? v) {
+    throw UnimplementedError();
+  }
+
+  /// Speaking rate relative to the default rate for this voice. 1.0 is the
+  /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
+  /// fast, and 0.5 is half as fast. Values below 0.1 or above 10.0 are strictly
+  /// disallowed, but many voices will constrain the minimum and maximum rates
+  /// further-for example a particular voice may not actually speak faster than
+  /// 3 times normal even if you specify a value larger than 3.0.
+  double? get rate => _wrapped.rate;
+  set rate(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
+  /// highest. 1.0 corresponds to a voice's default pitch.
+  double? get pitch => _wrapped.pitch;
+  set pitch(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
+  /// highest, with a default of 1.0.
+  double? get volume => _wrapped.volume;
+  set volume(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// The TTS event types the voice must support.
+  List<String>? get requiredEventTypes => throw UnimplementedError();
+  set requiredEventTypes(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// The TTS event types that you are interested in listening to. If missing,
+  /// all event types may be sent.
+  List<String>? get desiredEventTypes => throw UnimplementedError();
+  set desiredEventTypes(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// This function is called with events that occur in the process of speaking
+  /// the utterance.
+  JSAny? get onEvent => _wrapped.onEvent;
+  set onEvent(JSAny? v) {
+    throw UnimplementedError();
+  }
+}
+
+class TtsEvent {
+  TtsEvent.fromJS(this._wrapped);
+
+  final $js.TtsEvent _wrapped;
+
+  $js.TtsEvent get toJS => _wrapped;
+
+  /// The type can be `start` as soon as speech has started, `word` when a word
+  /// boundary is reached, `sentence` when a sentence boundary is reached,
+  /// `marker` when an SSML mark element is reached, `end` when the end of the
+  /// utterance is reached, `interrupted` when the utterance is stopped or
+  /// interrupted before reaching the end, `cancelled` when it's removed from
+  /// the queue before ever being synthesized, or `error` when any other error
+  /// occurs. When pausing speech, a `pause` event is fired if a particular
+  /// utterance is paused in the middle, and `resume` if an utterance resumes
+  /// speech. Note that pause and resume events may not fire if speech is paused
+  /// in-between utterances.
+  EventType get type => EventType.fromJS(_wrapped.type);
+  set type(EventType v) {
+    throw UnimplementedError();
+  }
+
+  /// The index of the current character in the utterance. For word events, the
+  /// event fires at the end of one word and before the beginning of the next.
+  /// The `charIndex` represents a point in the text at the beginning of the
+  /// next word to be spoken.
+  int? get charIndex => _wrapped.charIndex;
+  set charIndex(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// The error description, if the event type is `error`.
+  String? get errorMessage => _wrapped.errorMessage;
+  set errorMessage(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// An ID unique to the calling function's context so that events can get
+  /// routed back to the correct tts.speak call.
+  double? get srcId => _wrapped.srcId;
+  set srcId(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// True if this is the final event that will be sent to this handler.
+  bool? get isFinalEvent => _wrapped.isFinalEvent;
+  set isFinalEvent(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The length of the next part of the utterance. For example, in a `word`
+  /// event, this is the length of the word which will be spoken next. It will
+  /// be set to -1 if not set by the speech engine.
+  int? get length => _wrapped.length;
+  set length(int? v) {
+    throw UnimplementedError();
+  }
+}
+
+class TtsVoice {
+  TtsVoice.fromJS(this._wrapped);
+
+  final $js.TtsVoice _wrapped;
+
+  $js.TtsVoice get toJS => _wrapped;
+
+  /// The name of the voice.
+  String? get voiceName => _wrapped.voiceName;
+  set voiceName(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The language that this voice supports, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+  String? get lang => _wrapped.lang;
+  set lang(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// This voice's gender.
+  VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
+  set gender(VoiceGender? v) {
+    throw UnimplementedError();
+  }
+
+  /// If true, the synthesis engine is a remote network resource. It may be
+  /// higher latency and may incur bandwidth costs.
+  bool? get remote => _wrapped.remote;
+  set remote(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the extension providing this voice.
+  String? get extensionId => _wrapped.extensionId;
+  set extensionId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// All of the callback event types that this voice is capable of sending.
+  List<EventType>? get eventTypes => throw UnimplementedError();
+  set eventTypes(List<EventType>? v) {
+    throw UnimplementedError();
+  }
 }

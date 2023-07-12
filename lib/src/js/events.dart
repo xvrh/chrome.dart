@@ -41,13 +41,13 @@ extension RuleExtension on Rule {
 class Event {}
 
 extension EventExtension on Event {
-  /// Registers an event listener <em>callback</em> to an event.
-  external void addListener(JSFunction callback);
+  /// Registers an event listener _callback_ to an event.
+  external void addListener(JSAny callback);
 
-  /// Deregisters an event listener <em>callback</em> from an event.
-  external void removeListener(JSFunction callback);
+  /// Deregisters an event listener _callback_ from an event.
+  external void removeListener(JSAny callback);
 
-  external bool hasListener(JSFunction callback);
+  external bool hasListener(JSAny callback);
 
   external bool hasListeners();
 
@@ -56,7 +56,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray rules,
-    JSFunction? callback,
+    JSAny? callback,
   );
 
   /// Returns currently registered rules.
@@ -64,7 +64,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JSFunction callback,
+    JSAny callback,
   );
 
   /// Unregisters currently registered rules.
@@ -72,7 +72,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JSFunction? callback,
+    JSAny? callback,
   );
 }
 
@@ -136,16 +136,14 @@ extension UrlFilterExtension on UrlFilter {
 
   /// Matches if the URL (without fragment identifier) matches a specified
   /// regular expression. Port numbers are stripped from the URL if they match
-  /// the default port number. The regular expressions use the <a
-  /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
-  /// syntax</a>.
+  /// the default port number. The regular expressions use the [RE2
+  /// syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
   external String? urlMatches;
 
   /// Matches if the URL without query segment and fragment identifier matches a
   /// specified regular expression. Port numbers are stripped from the URL if
-  /// they match the default port number. The regular expressions use the <a
-  /// href="https://github.com/google/re2/blob/master/doc/syntax.txt">RE2
-  /// syntax</a>.
+  /// they match the default port number. The regular expressions use the [RE2
+  /// syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
   external String? originAndPathMatches;
 
   /// Matches if the URL (without fragment identifier) starts with a specified

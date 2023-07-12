@@ -40,7 +40,7 @@ extension JSScriptingExtension on JSScripting {
   /// from a target context.
   /// |injection|: The details of the styles to remove. Note that the
   /// `css`, `files`, and `origin` properties
-  /// must exactly match the stylesheet inserted through $(ref:insertCSS).
+  /// must exactly match the stylesheet inserted through [insertCSS].
   /// Attempting to remove a non-existent stylesheet is a no-op.
   /// |callback|: A callback to be invoked upon the completion of the removal.
   external void removeCSS(
@@ -101,9 +101,8 @@ extension JSScriptingExtension on JSScripting {
 }
 
 /// The origin for a style change.
-/// See <a
-/// href="https://developer.mozilla.org/en-US/docs/Glossary/Style_origin">style
-/// origins</a>
+/// See [style
+/// origins](https://developer.mozilla.org/en-US/docs/Glossary/Style_origin)
 /// for more info.
 typedef StyleOrigin = String;
 
@@ -118,13 +117,12 @@ extension InjectionTargetExtension on InjectionTarget {
   /// The ID of the tab into which to inject.
   external int tabId;
 
-  /// The <a
-  /// href="https://developer.chrome.com/extensions/webNavigation#frame_ids">IDs</a>
+  /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
   /// of specific frames to inject into.
   external JSArray? frameIds;
 
-  /// The <a
-  /// href="https://developer.chrome.com/extensions/webNavigation#document_ids">IDs</a>
+  /// The
+  /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
   /// of specific documentIds to inject into. This must not be set if
   /// `frameIds` is set.
   external JSArray? documentIds;
@@ -145,7 +143,7 @@ extension ScriptInjectionExtension on ScriptInjection {
   /// and execution context will be lost.
   /// Exactly one of `files` and `func` must be
   /// specified.
-  external JSFunction? func;
+  external JSAny? func;
 
   /// The arguments to curry into a provided function. This is only valid if
   /// the `func` parameter is specified. These arguments must be
@@ -157,7 +155,7 @@ extension ScriptInjectionExtension on ScriptInjection {
   /// https://crbug.com/1166438). We leave this silently in for backwards
   /// compatibility.
   /// TODO(devlin): Remove this in M95.
-  external JSFunction? function;
+  external JSAny? function;
 
   /// The path of the JS or CSS files to inject, relative to the extension's
   /// root directory.
@@ -227,13 +225,13 @@ extension RegisteredContentScriptExtension on RegisteredContentScript {
   external String id;
 
   /// Specifies which pages this content script will be injected into. See
-  /// <a href="match_patterns">Match Patterns</a> for more details on the
+  /// [Match Patterns](match_patterns) for more details on the
   /// syntax of these strings. Must be specified for
-  /// $(ref:registerContentScripts).
+  /// [registerContentScripts].
   external JSArray? matches;
 
   /// Excludes pages that this content script would otherwise be injected into.
-  /// See <a href="match_patterns">Match Patterns</a> for more details on the
+  /// See [Match Patterns](match_patterns) for more details on the
   /// syntax of these strings.
   external JSArray? excludeMatches;
 
@@ -275,7 +273,7 @@ extension RegisteredContentScriptExtension on RegisteredContentScript {
 class ContentScriptFilter {}
 
 extension ContentScriptFilterExtension on ContentScriptFilter {
-  /// If specified, $(ref:getRegisteredContentScripts) will only return scripts
+  /// If specified, [getRegisteredContentScripts] will only return scripts
   /// with an id specified in this list.
   external JSArray? ids;
 }

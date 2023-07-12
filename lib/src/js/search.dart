@@ -14,7 +14,7 @@ class JSSearch {}
 extension JSSearchExtension on JSSearch {
   /// Used to query the default search provider.
   /// In case of an error,
-  /// $(ref:runtime.lastError) will be set.
+  /// [runtime.lastError] will be set.
   external void query(
     QueryInfo queryInfo,
     JSFunction callback,

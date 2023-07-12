@@ -28,11 +28,9 @@ typedef SetIconInstanceType = String;
 
 typedef RequestContentScriptInstanceType = String;
 
-@JS()
-@staticInterop
-class ImageDataType {}
-
-extension ImageDataTypeExtension on ImageDataType {}
+/// See <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/API/ImageData">https://developer.mozilla.org/en-US/docs/Web/API/ImageData</a>.
+typedef ImageDataType = JSObject;
 
 @JS()
 @staticInterop
@@ -45,14 +43,14 @@ extension PageStateMatcherExtension on PageStateMatcher {
 
   /// Matches if all of the CSS selectors in the array match displayed elements
   /// in a frame with the same origin as the page's main frame. All selectors in
-  /// this array must be <a
-  /// href="http://www.w3.org/TR/selectors4/#compound">compound selectors</a> to
-  /// speed up matching. Note: Listing hundreds of CSS selectors or listing CSS
-  /// selectors that match hundreds of times per page can slow down web sites.
+  /// this array must be [compound
+  /// selectors](http://www.w3.org/TR/selectors4/#compound) to speed up
+  /// matching. Note: Listing hundreds of CSS selectors or listing CSS selectors
+  /// that match hundreds of times per page can slow down web sites.
   external JSArray? css;
 
   /// Matches if the bookmarked state of the page is equal to the specified
-  /// value. Requres the <a href='declare_permissions'>bookmarks permission</a>.
+  /// value. Requres the [bookmarks permission](declare_permissions).
   external bool? isBookmarked;
 
   external PageStateMatcherInstanceType instanceType;
@@ -89,7 +87,7 @@ extension SetIconExtension on SetIcon {
   /// size of the icon in the UI. At least one image must be specified. Note
   /// that `details.imageData = foo` is equivalent to `details.imageData =
   /// {'16': foo}`.
-  external JSObject? imageData;
+  external JSAny? imageData;
 }
 
 @JS()

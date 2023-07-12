@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'tabs.dart';
+import 'src/js/desktop_capture.dart' as $js;
 export 'chrome.dart';
 
 final _desktopCapture = ChromeDesktopCapture._();
@@ -11,16 +13,16 @@ class ChromeDesktopCapture {
   ChromeDesktopCapture._();
 
   /// Shows desktop media picker UI with the specified set of sources.
-  void chooseDesktopMedia(
-    sources,
-    targetTab,
-    options,
-    callback,
+  int chooseDesktopMedia(
+    List<DesktopCaptureSourceType> sources,
+    Tab? targetTab,
+    ChooseDesktopMediaOptions? options,
+    JSAny callback,
   ) =>
       throw UnimplementedError();
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
-  void cancelChooseDesktopMedia(desktopMediaRequestId) =>
+  void cancelChooseDesktopMedia(int desktopMediaRequestId) =>
       throw UnimplementedError();
 }
 
@@ -35,10 +37,14 @@ enum DesktopCaptureSourceType {
   const DesktopCaptureSourceType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static DesktopCaptureSourceType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
-/// Mirrors <a
-/// href="https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum">SystemAudioPreferenceEnum</a>.
+/// Mirrors
+/// [SystemAudioPreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-systemaudiopreferenceenum).
 enum SystemAudioPreferenceEnum {
   include('include'),
   exclude('exclude');
@@ -46,10 +52,14 @@ enum SystemAudioPreferenceEnum {
   const SystemAudioPreferenceEnum(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static SystemAudioPreferenceEnum fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
-/// Mirrors <a
-/// href="https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum">SelfCapturePreferenceEnum</a>.
+/// Mirrors
+/// [SelfCapturePreferenceEnum](https://w3c.github.io/mediacapture-screen-share/#dom-selfcapturepreferenceenum).
 enum SelfCapturePreferenceEnum {
   include('include'),
   exclude('exclude');
@@ -57,4 +67,16 @@ enum SelfCapturePreferenceEnum {
   const SelfCapturePreferenceEnum(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static SelfCapturePreferenceEnum fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class ChooseDesktopMediaOptions {
+  ChooseDesktopMediaOptions.fromJS(this._wrapped);
+
+  final $js.ChooseDesktopMediaOptions _wrapped;
+
+  $js.ChooseDesktopMediaOptions get toJS => _wrapped;
 }

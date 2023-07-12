@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'extension_types.dart';
+import 'src/js/web_navigation.dart' as $js;
 export 'chrome.dart';
 
 final _webNavigation = ChromeWebNavigation._();
@@ -12,53 +14,62 @@ class ChromeWebNavigation {
 
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
-  void getFrame(details) => throw UnimplementedError();
+  Future<GetFrameCallbackDetails?> getFrame(GetFrameDetails details) =>
+      throw UnimplementedError();
 
   /// Retrieves information about all frames of a given tab.
-  void getAllFrames(details) => throw UnimplementedError();
+  Future<GetAllFramesCallbackDetails?> getAllFrames(
+          GetAllFramesDetails details) =>
+      throw UnimplementedError();
 
   /// Fired when a navigation is about to occur.
-  Stream get onBeforeNavigate => throw UnimplementedError();
+  Stream<OnBeforeNavigateDetails> get onBeforeNavigate =>
+      throw UnimplementedError();
 
   /// Fired when a navigation is committed. The document (and the resources it
   /// refers to, such as images and subframes) might still be downloading, but
   /// at least part of the document has been received from the server and the
   /// browser has decided to switch to the new document.
-  Stream get onCommitted => throw UnimplementedError();
+  Stream<OnCommittedDetails> get onCommitted => throw UnimplementedError();
 
   /// Fired when the page's DOM is fully constructed, but the referenced
   /// resources may not finish loading.
-  Stream get onDOMContentLoaded => throw UnimplementedError();
+  Stream<OnDOMContentLoadedDetails> get onDOMContentLoaded =>
+      throw UnimplementedError();
 
   /// Fired when a document, including the resources it refers to, is completely
   /// loaded and initialized.
-  Stream get onCompleted => throw UnimplementedError();
+  Stream<OnCompletedDetails> get onCompleted => throw UnimplementedError();
 
   /// Fired when an error occurs and the navigation is aborted. This can happen
   /// if either a network error occurred, or the user aborted the navigation.
-  Stream get onErrorOccurred => throw UnimplementedError();
+  Stream<OnErrorOccurredDetails> get onErrorOccurred =>
+      throw UnimplementedError();
 
   /// Fired when a new window, or a new tab in an existing window, is created to
   /// host a navigation.
-  Stream get onCreatedNavigationTarget => throw UnimplementedError();
+  Stream<OnCreatedNavigationTargetDetails> get onCreatedNavigationTarget =>
+      throw UnimplementedError();
 
   /// Fired when the reference fragment of a frame was updated. All future
   /// events for that frame will use the updated URL.
-  Stream get onReferenceFragmentUpdated => throw UnimplementedError();
+  Stream<OnReferenceFragmentUpdatedDetails> get onReferenceFragmentUpdated =>
+      throw UnimplementedError();
 
   /// Fired when the contents of the tab is replaced by a different (usually
   /// previously pre-rendered) tab.
-  Stream get onTabReplaced => throw UnimplementedError();
+  Stream<OnTabReplacedDetails> get onTabReplaced => throw UnimplementedError();
 
   /// Fired when the frame's history was updated to a new URL. All future events
   /// for that frame will use the updated URL.
-  Stream get onHistoryStateUpdated => throw UnimplementedError();
+  Stream<OnHistoryStateUpdatedDetails> get onHistoryStateUpdated =>
+      throw UnimplementedError();
 }
 
 /// Cause of the navigation. The same transition types as defined in the history
-/// API are used. These are the same transition types as defined in the <a
-/// href="history#transition_types">history API</a> except with `"start_page"`
-/// in place of `"auto_toplevel"` (for backwards compatibility).
+/// API are used. These are the same transition types as defined in the [history
+/// API](history#transition_types) except with `"start_page"` in place of
+/// `"auto_toplevel"` (for backwards compatibility).
 enum TransitionType {
   link('link'),
   typed('typed'),
@@ -75,6 +86,10 @@ enum TransitionType {
   const TransitionType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static TransitionType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum TransitionQualifier {
@@ -86,4 +101,763 @@ enum TransitionQualifier {
   const TransitionQualifier(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static TransitionQualifier fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class OnBeforeNavigateDetails {
+  OnBeforeNavigateDetails.fromJS(this._wrapped);
+
+  final $js.OnBeforeNavigateDetails _wrapped;
+
+  $js.OnBeforeNavigateDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation is about to occur.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The value of -1.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique for a given
+  /// tab and process.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the browser was about to start the navigation, in
+  /// milliseconds since the epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnCommittedDetails {
+  OnCommittedDetails.fromJS(this._wrapped);
+
+  final $js.OnCommittedDetails _wrapped;
+
+  $js.OnCommittedDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// Cause of the navigation.
+  TransitionType get transitionType =>
+      TransitionType.fromJS(_wrapped.transitionType);
+  set transitionType(TransitionType v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of transition qualifiers.
+  List<TransitionQualifier> get transitionQualifiers =>
+      throw UnimplementedError();
+  set transitionQualifiers(List<TransitionQualifier> v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the navigation was committed, in milliseconds since the
+  /// epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnDOMContentLoadedDetails {
+  OnDOMContentLoadedDetails.fromJS(this._wrapped);
+
+  final $js.OnDOMContentLoadedDetails _wrapped;
+
+  $js.OnDOMContentLoadedDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the page's DOM was fully constructed, in milliseconds since
+  /// the epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnCompletedDetails {
+  OnCompletedDetails.fromJS(this._wrapped);
+
+  final $js.OnCompletedDetails _wrapped;
+
+  $js.OnCompletedDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the document finished loading, in milliseconds since the
+  /// epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnErrorOccurredDetails {
+  OnErrorOccurredDetails.fromJS(this._wrapped);
+
+  final $js.OnErrorOccurredDetails _wrapped;
+
+  $js.OnErrorOccurredDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The value of -1.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The error description.
+  String get error => _wrapped.error;
+  set error(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the error occurred, in milliseconds since the epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnCreatedNavigationTargetDetails {
+  OnCreatedNavigationTargetDetails.fromJS(this._wrapped);
+
+  final $js.OnCreatedNavigationTargetDetails _wrapped;
+
+  $js.OnCreatedNavigationTargetDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation is triggered.
+  int get sourceTabId => _wrapped.sourceTabId;
+  set sourceTabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for the source frame.
+  int get sourceProcessId => _wrapped.sourceProcessId;
+  set sourceProcessId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the frame with sourceTabId in which the navigation is triggered.
+  /// 0 indicates the main frame.
+  int get sourceFrameId => _wrapped.sourceFrameId;
+  set sourceFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The URL to be opened in the new window.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the tab in which the url is opened
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the browser was about to create a new view, in milliseconds
+  /// since the epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnReferenceFragmentUpdatedDetails {
+  OnReferenceFragmentUpdatedDetails.fromJS(this._wrapped);
+
+  final $js.OnReferenceFragmentUpdatedDetails _wrapped;
+
+  $js.OnReferenceFragmentUpdatedDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// Cause of the navigation.
+  TransitionType get transitionType =>
+      TransitionType.fromJS(_wrapped.transitionType);
+  set transitionType(TransitionType v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of transition qualifiers.
+  List<TransitionQualifier> get transitionQualifiers =>
+      throw UnimplementedError();
+  set transitionQualifiers(List<TransitionQualifier> v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the navigation was committed, in milliseconds since the
+  /// epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnTabReplacedDetails {
+  OnTabReplacedDetails.fromJS(this._wrapped);
+
+  final $js.OnTabReplacedDetails _wrapped;
+
+  $js.OnTabReplacedDetails get toJS => _wrapped;
+
+  /// The ID of the tab that was replaced.
+  int get replacedTabId => _wrapped.replacedTabId;
+  set replacedTabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the tab that replaced the old tab.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the replacement happened, in milliseconds since the epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnHistoryStateUpdatedDetails {
+  OnHistoryStateUpdatedDetails.fromJS(this._wrapped);
+
+  final $js.OnHistoryStateUpdatedDetails _wrapped;
+
+  $js.OnHistoryStateUpdatedDetails get toJS => _wrapped;
+
+  /// The ID of the tab in which the navigation occurs.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// 0 indicates the navigation happens in the tab content window; a positive
+  /// value indicates navigation in a subframe. Frame IDs are unique within a
+  /// tab.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// Cause of the navigation.
+  TransitionType get transitionType =>
+      TransitionType.fromJS(_wrapped.transitionType);
+  set transitionType(TransitionType v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of transition qualifiers.
+  List<TransitionQualifier> get transitionQualifiers =>
+      throw UnimplementedError();
+  set transitionQualifiers(List<TransitionQualifier> v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the navigation was committed, in milliseconds since the
+  /// epoch.
+  double get timeStamp => _wrapped.timeStamp;
+  set timeStamp(double v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetFrameCallbackDetails {
+  GetFrameCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetFrameCallbackDetails _wrapped;
+
+  $js.GetFrameCallbackDetails get toJS => _wrapped;
+
+  /// True if the last navigation in this frame was interrupted by an error,
+  /// i.e. the onErrorOccurred event fired.
+  bool get errorOccurred => _wrapped.errorOccurred;
+  set errorOccurred(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// The URL currently associated with this frame, if the frame identified by
+  /// the frameId existed at one point in the given tab. The fact that an URL is
+  /// associated with a given frameId does not imply that the corresponding
+  /// frame still exists.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetFrameDetails {
+  GetFrameDetails.fromJS(this._wrapped);
+
+  final $js.GetFrameDetails _wrapped;
+
+  $js.GetFrameDetails get toJS => _wrapped;
+}
+
+class GetAllFramesCallbackDetails {
+  GetAllFramesCallbackDetails.fromJS(this._wrapped);
+
+  final $js.GetAllFramesCallbackDetails _wrapped;
+
+  $js.GetAllFramesCallbackDetails get toJS => _wrapped;
+
+  /// True if the last navigation in this frame was interrupted by an error,
+  /// i.e. the onErrorOccurred event fired.
+  bool get errorOccurred => _wrapped.errorOccurred;
+  set errorOccurred(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the process that runs the renderer for this frame.
+  int get processId => _wrapped.processId;
+  set processId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the frame. 0 indicates that this is the main frame; a positive
+  /// value indicates the ID of a subframe.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  int get parentFrameId => _wrapped.parentFrameId;
+  set parentFrameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The URL currently associated with this frame.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document loaded.
+  String get documentId => _wrapped.documentId;
+  set documentId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  String? get parentDocumentId => _wrapped.parentDocumentId;
+  set parentDocumentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document is in.
+  DocumentLifecycle get documentLifecycle =>
+      DocumentLifecycle.fromJS(_wrapped.documentLifecycle);
+  set documentLifecycle(DocumentLifecycle v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of frame the navigation occurred in.
+  FrameType get frameType => FrameType.fromJS(_wrapped.frameType);
+  set frameType(FrameType v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetAllFramesDetails {
+  GetAllFramesDetails.fromJS(this._wrapped);
+
+  final $js.GetAllFramesDetails _wrapped;
+
+  $js.GetAllFramesDetails get toJS => _wrapped;
 }

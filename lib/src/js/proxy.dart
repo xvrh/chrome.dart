@@ -5,8 +5,8 @@ export 'chrome.dart';
 
 extension JSChromeJSProxyExtension on JSChrome {
   /// Use the `chrome.proxy` API to manage Chrome's proxy settings. This API
-  /// relies on the <a href='types#ChromeSetting'>ChromeSetting prototype of the
-  /// type API</a> for getting and setting the proxy configuration.
+  /// relies on the [ChromeSetting prototype of the type
+  /// API](types#ChromeSetting) for getting and setting the proxy configuration.
   external JSProxy get proxy;
 }
 

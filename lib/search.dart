@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/search.dart' as $js;
 export 'chrome.dart';
 
 final _search = ChromeSearch._();
@@ -12,8 +13,8 @@ class ChromeSearch {
 
   /// Used to query the default search provider.
   /// In case of an error,
-  /// $(ref:runtime.lastError) will be set.
-  void query(queryInfo) => throw UnimplementedError();
+  /// [runtime.lastError] will be set.
+  Future<void> query(QueryInfo queryInfo) => throw UnimplementedError();
 }
 
 enum Disposition {
@@ -29,4 +30,36 @@ enum Disposition {
   const Disposition(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static Disposition fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class QueryInfo {
+  QueryInfo.fromJS(this._wrapped);
+
+  final $js.QueryInfo _wrapped;
+
+  $js.QueryInfo get toJS => _wrapped;
+
+  /// String to query with the default search provider.
+  String get text => _wrapped.text;
+  set text(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Location where search results should be displayed.
+  /// `CURRENT_TAB` is the default.
+  Disposition? get disposition => _wrapped.disposition?.let(Disposition.fromJS);
+  set disposition(Disposition? v) {
+    throw UnimplementedError();
+  }
+
+  /// Location where search results should be displayed.
+  /// `tabId` cannot be used with `disposition`.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    throw UnimplementedError();
+  }
 }

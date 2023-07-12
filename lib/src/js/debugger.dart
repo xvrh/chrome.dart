@@ -3,12 +3,13 @@ import 'dart:js_interop';
 export 'chrome.dart';
 
 extension JSChromeJSDebuggerExtension on JSChrome {
-  /// The `chrome.debugger` API serves as an alternate transport for Chrome's <a
-  /// href='https://developer.chrome.com/devtools/docs/debugger-protocol'>remote
-  /// debugging protocol</a>. Use `chrome.debugger` to attach to one or more
-  /// tabs to instrument network interaction, debug JavaScript, mutate the DOM
-  /// and CSS, etc. Use the Debuggee `tabId` to target tabs with sendCommand and
-  /// route events by `tabId` from onEvent callbacks.
+  /// The `chrome.debugger` API serves as an alternate transport for Chrome's
+  /// [remote debugging
+  /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
+  /// Use `chrome.debugger` to attach to one or more tabs to instrument network
+  /// interaction, debug JavaScript, mutate the DOM and CSS, etc. Use the
+  /// Debuggee `tabId` to target tabs with sendCommand and route events by
+  /// `tabId` from onEvent callbacks.
   external JSDebugger get debugger;
 }
 
@@ -18,23 +19,28 @@ class JSDebugger {}
 
 extension JSDebuggerExtension on JSDebugger {
   /// Attaches debugger to the given target.
-  external JSPromise attach(
+  external void attach(
     Debuggee target,
     String requiredVersion,
+    JSFunction callback,
   );
 
   /// Detaches debugger from the given target.
-  external JSPromise detach(Debuggee target);
+  external void detach(
+    Debuggee target,
+    JSFunction callback,
+  );
 
   /// Sends given command to the debugging target.
-  external JSPromise sendCommand(
+  external void sendCommand(
     Debuggee target,
     String method,
-    JSObject? commandParams,
+    JSAny? commandParams,
+    JSFunction callback,
   );
 
   /// Returns the list of available debug targets.
-  external JSPromise getTargets();
+  external void getTargets(JSFunction callback);
 
   /// Fired whenever debugging target issues instrumentation event.
   external ChromeEvent get onEvent;

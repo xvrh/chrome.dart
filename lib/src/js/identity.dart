@@ -100,7 +100,7 @@ extension JSIdentityExtension on JSIdentity {
   /// redirects to a URL matching the pattern
   /// `https://<app-id>.chromiumapp.org/*`, the
   /// window will close, and the final redirect URL will be passed to
-  /// the `callback` function.
+  /// the [callback] function.
   ///
   /// For a good user experience it is important interactive auth flows are
   /// initiated by UI in your app explaining what the authorization is for.
@@ -121,7 +121,7 @@ extension JSIdentityExtension on JSIdentity {
   /// `https://<app-id>.chromiumapp.org/*`.
   ///
   /// |path| : The path appended to the end of the generated URL.
-  external void getRedirectURL(String? path);
+  external String getRedirectURL(String? path);
 
   /// Fired when signin state changes for an account on the user's profile.
   external ChromeEvent get onSignInChanged;

@@ -37,7 +37,7 @@ extension JSProcessesExtension on JSProcesses {
   /// collecting memory usage information incurs extra CPU usage and should
   /// only be queried for when needed.
   external void getProcessInfo(
-    JSObject processIds,
+    JSAny processIds,
     bool includeMemory,
     JSFunction callback,
   );
@@ -45,7 +45,7 @@ extension JSProcessesExtension on JSProcesses {
   /// Fired each time the Task Manager updates its process statistics,
   /// providing the dictionary of updated Process objects, indexed by process
   /// ID.
-  /// |processes|: A dictionary of updated $(ref:Process) objects for each live
+  /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Metrics requiring
   /// aggregation over time will be populated in each Process object.
   external ChromeEvent get onUpdated;
@@ -56,7 +56,7 @@ extension JSProcessesExtension on JSProcesses {
   /// included in each Process object. Note, collecting memory usage
   /// information incurs extra CPU usage and should only be listened for when
   /// needed.
-  /// |processes|: A dictionary of updated $(ref:Process) objects for each live
+  /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Memory usage details will
   /// be included in each Process object.
   external ChromeEvent get onUpdatedWithMemory;

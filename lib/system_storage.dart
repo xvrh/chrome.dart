@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/system_storage.dart' as $js;
 export 'chrome.dart';
 
 final _systemStorage = ChromeSystemStorage._();
@@ -12,20 +13,22 @@ class ChromeSystemStorage {
 
   /// Get the storage information from the system. The argument passed to the
   /// callback is an array of StorageUnitInfo objects.
-  void getInfo() => throw UnimplementedError();
+  Future<List<StorageUnitInfo>> getInfo() => throw UnimplementedError();
 
   /// Ejects a removable storage device.
-  void ejectDevice(id) => throw UnimplementedError();
+  Future<EjectDeviceResultCode> ejectDevice(String id) =>
+      throw UnimplementedError();
 
   /// Get the available capacity of a specified |id| storage device.
   /// The |id| is the transient device ID from StorageUnitInfo.
-  void getAvailableCapacity(id) => throw UnimplementedError();
+  Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) =>
+      throw UnimplementedError();
 
   /// Fired when a new removable storage is attached to the system.
-  Stream get onAttached => throw UnimplementedError();
+  Stream<StorageUnitInfo> get onAttached => throw UnimplementedError();
 
   /// Fired when a removable storage is detached from the system.
-  Stream get onDetached => throw UnimplementedError();
+  Stream<String> get onDetached => throw UnimplementedError();
 }
 
 enum StorageUnitType {
@@ -41,6 +44,10 @@ enum StorageUnitType {
   const StorageUnitType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static StorageUnitType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum EjectDeviceResultCode {
@@ -62,4 +69,63 @@ enum EjectDeviceResultCode {
   const EjectDeviceResultCode(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static EjectDeviceResultCode fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class StorageUnitInfo {
+  StorageUnitInfo.fromJS(this._wrapped);
+
+  final $js.StorageUnitInfo _wrapped;
+
+  $js.StorageUnitInfo get toJS => _wrapped;
+
+  /// The transient ID that uniquely identifies the storage device.
+  /// This ID will be persistent within the same run of a single application.
+  /// It will not be a persistent identifier between different runs of an
+  /// application, or between different applications.
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The name of the storage unit.
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The media type of the storage unit.
+  StorageUnitType get type => StorageUnitType.fromJS(_wrapped.type);
+  set type(StorageUnitType v) {
+    throw UnimplementedError();
+  }
+
+  /// The total amount of the storage space, in bytes.
+  double get capacity => _wrapped.capacity;
+  set capacity(double v) {
+    throw UnimplementedError();
+  }
+}
+
+class StorageAvailableCapacityInfo {
+  StorageAvailableCapacityInfo.fromJS(this._wrapped);
+
+  final $js.StorageAvailableCapacityInfo _wrapped;
+
+  $js.StorageAvailableCapacityInfo get toJS => _wrapped;
+
+  /// A copied |id| of getAvailableCapacity function parameter |id|.
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The available capacity of the storage device, in bytes.
+  double get availableCapacity => _wrapped.availableCapacity;
+  set availableCapacity(double v) {
+    throw UnimplementedError();
+  }
 }

@@ -17,7 +17,7 @@ void main() {
 }
 
 void generateApi(String apiName) {
-  var fileName = _apiNameToFileName(apiName);
+  var fileName = apiNameToFileName(apiName);
   var idlFile = _locateDefinitionFile(fileName);
   var content = idlFile.readAsStringSync();
 
@@ -29,16 +29,9 @@ void generateApi(String apiName) {
   }
 
   File(p.join('lib', 'src', 'js', '$fileName.dart'))
-      .writeAsStringSync(JsBindingGenerator(model).toCode());
+      .writeAsStringSync(JsBindingGenerator(model, apiName).toCode());
   File(p.join('lib', '$fileName.dart'))
-      .writeAsStringSync(DartApiGenerator(model).toCode());
-}
-
-String _apiNameToFileName(String name) {
-  name = name.replaceAll('.', '_');
-  name = name.replaceAllMapped(
-      RegExp(r"[A-Z]"), (Match m) => "_${m.group(0)!.toLowerCase()}");
-  return name;
+      .writeAsStringSync(DartApiGenerator(model, apiName).toCode());
 }
 
 File _locateDefinitionFile(String fileName) {

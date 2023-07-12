@@ -4,9 +4,8 @@ export 'chrome.dart';
 
 extension JSChromeJSGcmExtension on JSChrome {
   /// Use `chrome.gcm` to enable apps and extensions to send and receive
-  /// messages through <a
-  /// href='https://firebase.google.com/docs/cloud-messaging/'>Firebase Cloud
-  /// Messaging</a> (FCM).
+  /// messages through [Firebase Cloud
+  /// Messaging](https://firebase.google.com/docs/cloud-messaging/) (FCM).
   external JSGcm get gcm;
 }
 
@@ -20,25 +19,25 @@ extension JSGcmExtension on JSGcm {
   /// `senderIds`, the same registration ID will be returned.
   external void register(
     JSArray senderIds,
-    JSFunction callback,
+    JSAny callback,
   );
 
   /// Unregisters the application from FCM.
-  external void unregister(JSFunction callback);
+  external void unregister(JSAny callback);
 
   /// Sends a message according to its contents.
   external void send(
     SendMessage message,
-    JSFunction callback,
+    JSAny callback,
   );
 
   /// Fired when a message is received through FCM.
   external ChromeEvent get onMessage;
 
   /// Fired when a FCM server had to delete messages sent by an app server to
-  /// the application. See <a
-  /// href='https://firebase.google.com/docs/cloud-messaging/concept-options#lifetime'>Lifetime
-  /// of a message</a> for details on handling this event.
+  /// the application. See [Lifetime of a
+  /// message](https://firebase.google.com/docs/cloud-messaging/concept-options#lifetime)
+  /// for details on handling this event.
   external ChromeEvent get onMessagesDeleted;
 
   /// Fired when it was not possible to send a message to the FCM server.
@@ -86,15 +85,14 @@ extension OnSendErrorErrorExtension on OnSendErrorError {
 @anonymous
 class SendMessage {
   external factory SendMessage({
-    /// The ID of the server to send the message to as assigned by <a
-    /// href='https://console.cloud.google.com/apis/dashboard'>Google API
-    /// Console</a>.
+    /// The ID of the server to send the message to as assigned by [Google API
+    /// Console](https://console.cloud.google.com/apis/dashboard).
     String destinationId,
 
     /// The ID of the message. It must be unique for each message in scope of the
-    /// applications. See the <a
-    /// href='https://firebase.google.com/docs/cloud-messaging/js/client'>Cloud
-    /// Messaging documentation</a> for advice for picking and handling an ID.
+    /// applications. See the [Cloud Messaging
+    /// documentation](https://firebase.google.com/docs/cloud-messaging/js/client)
+    /// for advice for picking and handling an ID.
     String messageId,
 
     /// Time-to-live of the message in seconds. If it is not possible to send the
@@ -106,7 +104,7 @@ class SendMessage {
 
     /// Message data to send to the server. Case-insensitive `goog.` and `google`,
     /// as well as case-sensitive `collapse_key` are disallowed as key prefixes.
-    /// Sum of all key/value pairs should not exceed $(ref:gcm.MAX_MESSAGE_SIZE).
+    /// Sum of all key/value pairs should not exceed [gcm.MAX_MESSAGE_SIZE].
     SendMessageData data,
   });
 }

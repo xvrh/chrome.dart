@@ -15,8 +15,8 @@ class JSTabCapture {}
 extension JSTabCaptureExtension on JSTabCapture {
   /// Captures the visible area of the currently active tab.  Capture can
   /// only be started on the currently active tab after the extension has been
-  /// <em>invoked</em>, similar to the way that
-  /// <a href="activeTab#invoking-activeTab">activeTab</a> works.
+  /// _invoked_, similar to the way that
+  /// [activeTab](activeTab#invoking-activeTab) works.
   ///  Capture is maintained across page navigations within
   /// the tab, and stops when the tab is closed, or the media stream is closed
   /// by the extension.
@@ -24,7 +24,7 @@ extension JSTabCaptureExtension on JSTabCapture {
   /// |options| : Configures the returned media stream.
   /// |callback| : Callback with either the tab capture MediaStream or
   ///   `null`.  `null` indicates an error has occurred
-  ///   and the client may query $(ref:runtime.lastError) to access the error
+  ///   and the client may query [runtime.lastError] to access the error
   ///   details.
   external void capture(
     CaptureOptions options,
@@ -83,9 +83,9 @@ extension CaptureInfoExtension on CaptureInfo {
 class MediaStreamConstraint {}
 
 extension MediaStreamConstraintExtension on MediaStreamConstraint {
-  external JSObject mandatory;
+  external JSAny mandatory;
 
-  external JSObject? _optional;
+  external JSAny? _optional;
 }
 
 @JS()

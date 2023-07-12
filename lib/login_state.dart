@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/login_state.dart' as $js;
 export 'chrome.dart';
 
 final _loginState = ChromeLoginState._();
@@ -11,14 +12,14 @@ class ChromeLoginState {
   ChromeLoginState._();
 
   /// Gets the type of the profile the extension is in.
-  void getProfileType() => throw UnimplementedError();
+  Future<ProfileType> getProfileType() => throw UnimplementedError();
 
   /// Gets the current session state.
-  void getSessionState() => throw UnimplementedError();
+  Future<SessionState> getSessionState() => throw UnimplementedError();
 
   /// Dispatched when the session state changes. `sessionState`
   /// is the new session state.
-  Stream get onSessionStateChanged => throw UnimplementedError();
+  Stream<SessionState> get onSessionStateChanged => throw UnimplementedError();
 }
 
 enum ProfileType {
@@ -31,6 +32,10 @@ enum ProfileType {
   const ProfileType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static ProfileType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum SessionState {
@@ -55,4 +60,8 @@ enum SessionState {
   const SessionState(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static SessionState fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }

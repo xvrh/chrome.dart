@@ -17,7 +17,7 @@ extension JSWebRequestExtension on JSWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  external void handlerBehaviorChanged(JSFunction? callback);
+  external void handlerBehaviorChanged(JSAny? callback);
 
   /// Fired when a request is about to occur.
   external ChromeEvent get onBeforeRequest;
@@ -90,6 +90,16 @@ typedef OnErrorOccurredOptions = String;
 
 typedef IgnoredActionType = String;
 
+/// An array of HTTP headers. Each header is represented as a dictionary
+/// containing the keys `name` and either `value` or `binaryValue`.
+typedef HttpHeaders = JSArray;
+
+/// Contains data passed within form data. For urlencoded form it is stored as
+/// string if data is utf-8 string and as ArrayBuffer otherwise. For form-data
+/// it is ArrayBuffer. If form-data represents uploading file, it is string with
+/// filename, if the filename is provided.
+typedef FormDataItem = JSAny;
+
 @JS()
 @staticInterop
 class RequestFilter {}
@@ -107,12 +117,6 @@ extension RequestFilterExtension on RequestFilter {
 
   external int? windowId;
 }
-
-@JS()
-@staticInterop
-class HttpHeaders {}
-
-extension HttpHeadersExtension on HttpHeaders {}
 
 @JS()
 @staticInterop
@@ -161,12 +165,6 @@ extension UploadDataExtension on UploadData {
   /// A string with the file's path and name.
   external String? file;
 }
-
-@JS()
-@staticInterop
-class FormDataItem {}
-
-extension FormDataItemExtension on FormDataItem {}
 
 @JS()
 @staticInterop
@@ -223,7 +221,7 @@ extension OnBeforeRequestDetailsExtension on OnBeforeRequestDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 }
 
 @JS()
@@ -277,7 +275,7 @@ extension OnBeforeSendHeadersDetailsExtension on OnBeforeSendHeadersDetails {
   external ResourceType type;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The HTTP request headers that are going to be sent out with this request.
   external HttpHeaders? requestHeaders;
@@ -334,7 +332,7 @@ extension OnSendHeadersDetailsExtension on OnSendHeadersDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The HTTP request headers that have been sent out with this request.
   external HttpHeaders? requestHeaders;
@@ -391,7 +389,7 @@ extension OnHeadersReceivedDetailsExtension on OnHeadersReceivedDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
   /// HTTP/0.9 responses (i.e., responses that lack a status line).
@@ -455,7 +453,7 @@ extension OnAuthRequiredDetailsExtension on OnAuthRequiredDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The authentication scheme, e.g. Basic or Digest.
   external String scheme;
@@ -532,7 +530,7 @@ extension OnResponseStartedDetailsExtension on OnResponseStartedDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The server IP address that the request was actually sent to. Note that it
   /// may be a literal IPv6 address.
@@ -604,7 +602,7 @@ extension OnBeforeRedirectDetailsExtension on OnBeforeRedirectDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The server IP address that the request was actually sent to. Note that it
   /// may be a literal IPv6 address.
@@ -679,7 +677,7 @@ extension OnCompletedDetailsExtension on OnCompletedDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The server IP address that the request was actually sent to. Note that it
   /// may be a literal IPv6 address.
@@ -752,7 +750,7 @@ extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   external String? initiator;
 
   /// The time when this signal is triggered, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// The server IP address that the request was actually sent to. Note that it
   /// may be a literal IPv6 address.
@@ -761,9 +759,9 @@ extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   /// Indicates if this response was fetched from disk cache.
   external bool fromCache;
 
-  /// The error description. This string is <em>not</em> guaranteed to remain
-  /// backwards compatible between releases. You must not parse and act based
-  /// upon its content.
+  /// The error description. This string is _not_ guaranteed to remain backwards
+  /// compatible between releases. You must not parse and act based upon its
+  /// content.
   external String error;
 }
 
@@ -779,6 +777,22 @@ extension OnActionIgnoredDetailsExtension on OnActionIgnoredDetails {
 
   /// The proposed action which was ignored.
   external IgnoredActionType action;
+}
+
+@JS()
+@staticInterop
+class HttpHeadersItems {}
+
+extension HttpHeadersItemsExtension on HttpHeadersItems {
+  /// Name of the HTTP header.
+  external String name;
+
+  /// Value of the HTTP header if it can be represented by UTF-8.
+  external String? value;
+
+  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+  /// individual byte values (0..255).
+  external JSArray? binaryValue;
 }
 
 @JS()

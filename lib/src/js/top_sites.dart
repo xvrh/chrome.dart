@@ -15,7 +15,7 @@ class JSTopSites {}
 
 extension JSTopSitesExtension on JSTopSites {
   /// Gets a list of top sites.
-  external JSPromise get();
+  external void get(JSFunction callback);
 }
 
 @JS()

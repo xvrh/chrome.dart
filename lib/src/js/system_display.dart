@@ -26,7 +26,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   external void getDisplayLayout(JSFunction callback);
 
   /// Updates the properties for the display specified by |id|, according to
-  /// the information provided in |info|. On failure, $(ref:runtime.lastError)
+  /// the information provided in |info|. On failure, [runtime.lastError]
   /// will be set.
   /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   /// |id|: The display's unique identifier.
@@ -34,7 +34,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///     A property will be changed only if a new value for it is specified in
   ///     |info|.
   /// |callback|: Empty function called when the function finishes. To find out
-  ///     whether the function succeeded, $(ref:runtime.lastError) should be
+  ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
   external void setDisplayProperties(
     String id,
@@ -50,7 +50,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |layouts|: The layout information, required for all displays except
   ///     the primary display.
   /// |callback|: Empty function called when the function finishes. To find out
-  ///     whether the function succeeded, $(ref:runtime.lastError) should be
+  ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
   external void setDisplayLayout(
     JSArray layouts,
@@ -137,7 +137,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |info|: The information of the mirror mode that should be applied to the
   ///     display mode.
   /// |callback|: Empty function called when the function finishes. To find out
-  ///     whether the function succeeded, $(ref:runtime.lastError) should be
+  ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
   external void setMirrorMode(
     MirrorModeInfo info,
@@ -339,7 +339,7 @@ extension DisplayUnitInfoExtension on DisplayUnitInfo {
   external bool isEnabled;
 
   /// True for all displays when in unified desktop mode. See documentation
-  /// for $(ref:enableUnifiedDesktop).
+  /// for [enableUnifiedDesktop].
   external bool isUnified;
 
   /// True when the auto-rotation is allowed. It happens when the device is in
@@ -402,7 +402,7 @@ class DisplayProperties {}
 
 extension DisplayPropertiesExtension on DisplayProperties {
   /// Chrome OS only. If set to true, changes the display mode to unified
-  /// desktop (see $(ref:enableUnifiedDesktop) for details). If set to false,
+  /// desktop (see [enableUnifiedDesktop] for details). If set to false,
   /// unified desktop mode will be disabled. This is only valid for the
   /// primary display. If provided, mirroringSourceId must not be provided and
   /// other properties will be ignored. This is has no effect if not provided.
@@ -417,7 +417,7 @@ extension DisplayPropertiesExtension on DisplayProperties {
 
   /// If set to true, makes the display primary. No-op if set to false.
   /// Note: If set, the display is considered primary for all other properties
-  /// (i.e. $(ref:isUnified) may be set and bounds origin may not).
+  /// (i.e. [isUnified] may be set and bounds origin may not).
   external bool? isPrimary;
 
   /// If set, sets the display's overscan insets to the provided values. Note
@@ -431,16 +431,16 @@ extension DisplayPropertiesExtension on DisplayProperties {
   external int? rotation;
 
   /// If set, updates the display's logical bounds origin along the x-axis.
-  /// Applied together with $(ref:boundsOriginY). Defaults to the current value
-  /// if not set and $(ref:boundsOriginY) is set. Note that when updating the
+  /// Applied together with [boundsOriginY]. Defaults to the current value
+  /// if not set and [boundsOriginY] is set. Note that when updating the
   /// display origin, some constraints will be applied, so the final bounds
   /// origin may be different than the one set. The final bounds can be
-  /// retrieved using $(ref:getInfo). The bounds origin cannot be changed on
+  /// retrieved using [getInfo]. The bounds origin cannot be changed on
   /// the primary display.
   external int? boundsOriginX;
 
   /// If set, updates the display's logical bounds origin along the y-axis.
-  /// See documentation for $(ref:boundsOriginX) parameter.
+  /// See documentation for [boundsOriginX] parameter.
   external int? boundsOriginY;
 
   /// If set, updates the display mode to the mode matching this value.
@@ -460,9 +460,9 @@ extension DisplayPropertiesExtension on DisplayProperties {
 class GetInfoFlags {}
 
 extension GetInfoFlagsExtension on GetInfoFlags {
-  /// If set to true, only a single $(ref:DisplayUnitInfo) will be returned
-  /// by $(ref:getInfo) when in unified desktop mode (see
-  /// $(ref:enableUnifiedDesktop)). Defaults to false.
+  /// If set to true, only a single [DisplayUnitInfo] will be returned
+  /// by [getInfo] when in unified desktop mode (see
+  /// [enableUnifiedDesktop]). Defaults to false.
   external bool? singleUnified;
 }
 

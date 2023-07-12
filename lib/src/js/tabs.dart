@@ -16,17 +16,20 @@ class JSTabs {}
 
 extension JSTabsExtension on JSTabs {
   /// Retrieves details about the specified tab.
-  external JSPromise get(int tabId);
+  external void get(
+    int tabId,
+    JSFunction callback,
+  );
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
   /// view).
-  external JSPromise getCurrent();
+  external void getCurrent(JSFunction callback);
 
   /// Connects to the content script(s) in the specified tab. The
-  /// $(ref:runtime.onConnect) event is fired in each content script running in
-  /// the specified tab for the current extension. For more details, see <a
-  /// href='messaging'>Content Script Messaging</a>.
+  /// [runtime.onConnect] event is fired in each content script running in the
+  /// specified tab for the current extension. For more details, see [Content
+  /// Script Messaging](messaging).
   external Port connect(
     int tabId,
     ConnectInfo? connectInfo,
@@ -34,144 +37,198 @@ extension JSTabsExtension on JSTabs {
 
   /// Sends a single request to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
-  /// $(ref:extension.onRequest) event is fired in each content script running
-  /// in the specified tab for the current extension.
-  external JSPromise sendRequest(
+  /// [extension.onRequest] event is fired in each content script running in the
+  /// specified tab for the current extension.
+  external void sendRequest(
     int tabId,
     JSAny request,
+    JSFunction callback,
   );
 
   /// Sends a single message to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
-  /// $(ref:runtime.onMessage) event is fired in each content script running in
-  /// the specified tab for the current extension.
-  external JSPromise sendMessage(
+  /// [runtime.onMessage] event is fired in each content script running in the
+  /// specified tab for the current extension.
+  external void sendMessage(
     int tabId,
     JSAny message,
     SendMessageOptions? options,
+    JSFunction callback,
   );
 
   /// Gets the tab that is selected in the specified window.
-  external JSPromise getSelected(int? windowId);
+  external void getSelected(
+    int? windowId,
+    JSFunction callback,
+  );
 
   /// Gets details about all tabs in the specified window.
-  external JSPromise getAllInWindow(int? windowId);
+  external void getAllInWindow(
+    int? windowId,
+    JSFunction callback,
+  );
 
   /// Creates a new tab.
-  external JSPromise create(CreateProperties createProperties);
+  external void create(
+    CreateProperties createProperties,
+    JSFunction callback,
+  );
 
   /// Duplicates a tab.
-  external JSPromise duplicate(int tabId);
+  external void duplicate(
+    int tabId,
+    JSFunction callback,
+  );
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
-  external JSPromise query(QueryInfo queryInfo);
+  external void query(
+    QueryInfo queryInfo,
+    JSFunction callback,
+  );
 
   /// Highlights the given tabs and focuses on the first of group. Will appear
   /// to do nothing if the specified tab is currently active.
-  external JSPromise highlight(HighlightInfo highlightInfo);
+  external void highlight(
+    HighlightInfo highlightInfo,
+    JSFunction callback,
+  );
 
   /// Modifies the properties of a tab. Properties that are not specified in
-  /// `updateProperties` are not modified.
-  external JSPromise update(
+  /// [updateProperties] are not modified.
+  external void update(
     int? tabId,
     UpdateProperties updateProperties,
+    JSFunction callback,
   );
 
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
   /// === "normal") windows.
-  external JSPromise move(
-    JSObject tabIds,
+  external void move(
+    JSAny tabIds,
     MoveProperties moveProperties,
+    JSFunction callback,
   );
 
   /// Reload a tab.
-  external JSPromise reload(
+  external void reload(
     int? tabId,
     ReloadProperties? reloadProperties,
+    JSFunction callback,
   );
 
   /// Closes one or more tabs.
-  external JSPromise remove(JSObject tabIds);
+  external void remove(
+    JSAny tabIds,
+    JSFunction callback,
+  );
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
-  external JSPromise group(GroupOptions options);
+  external void group(
+    GroupOptions options,
+    JSFunction callback,
+  );
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
-  external JSPromise ungroup(JSObject tabIds);
+  external void ungroup(
+    JSAny tabIds,
+    JSFunction callback,
+  );
 
   /// Detects the primary language of the content in a tab.
-  external JSPromise detectLanguage(int? tabId);
+  external void detectLanguage(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
-  /// <a href='declare_permissions'><all_urls></a> permission or the <a
-  /// href='activeTab'>activeTab</a> permission. In addition to sites that
-  /// extensions can normally access, this method allows extensions to capture
-  /// sensitive sites that are otherwise restricted, including chrome:-scheme
-  /// pages, other extensions' pages, and data: URLs. These sensitive sites can
-  /// only be captured with the activeTab permission. File URLs may be captured
-  /// only if the extension has been granted file access.
-  external JSPromise captureVisibleTab(
+  /// <a href='declare_permissions'><all_urls></a> permission or the
+  /// [activeTab](activeTab) permission. In addition to sites that extensions
+  /// can normally access, this method allows extensions to capture sensitive
+  /// sites that are otherwise restricted, including chrome:-scheme pages, other
+  /// extensions' pages, and data: URLs. These sensitive sites can only be
+  /// captured with the activeTab permission. File URLs may be captured only if
+  /// the extension has been granted file access.
+  external void captureVisibleTab(
     int? windowId,
     ImageDetails? options,
+    JSFunction callback,
   );
 
-  /// Injects JavaScript code into a page. For details, see the <a
-  /// href='content_scripts#pi'>programmatic injection</a> section of the
-  /// content scripts doc.
-  external JSPromise executeScript(
+  /// Injects JavaScript code into a page. For details, see the [programmatic
+  /// injection](content_scripts#pi) section of the content scripts doc.
+  external void executeScript(
     int? tabId,
     InjectDetails details,
+    JSFunction callback,
   );
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
-  /// with $(ref:scripting.removeCSS). For details, see the <a
-  /// href='content_scripts#pi'>programmatic injection</a> section of the
-  /// content scripts doc.
-  external JSPromise insertCSS(
+  /// with [scripting.removeCSS]. For details, see the [programmatic
+  /// injection](content_scripts#pi) section of the content scripts doc.
+  external void insertCSS(
     int? tabId,
     InjectDetails details,
+    JSFunction callback,
   );
 
   /// Removes from a page CSS that was previously injected by a call to
-  /// $(ref:scripting.insertCSS).
-  external JSPromise removeCSS(
+  /// [scripting.insertCSS].
+  external void removeCSS(
     int? tabId,
     DeleteInjectionDetails details,
+    JSFunction callback,
   );
 
   /// Zooms a specified tab.
-  external JSPromise setZoom(
+  external void setZoom(
     int? tabId,
-    num zoomFactor,
+    double zoomFactor,
+    JSFunction callback,
   );
 
   /// Gets the current zoom factor of a specified tab.
-  external JSPromise getZoom(int? tabId);
+  external void getZoom(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
-  external JSPromise setZoomSettings(
+  external void setZoomSettings(
     int? tabId,
     ZoomSettings zoomSettings,
+    JSFunction callback,
   );
 
   /// Gets the current zoom settings of a specified tab.
-  external JSPromise getZoomSettings(int? tabId);
+  external void getZoomSettings(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  external JSPromise discard(int? tabId);
+  external void discard(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Go foward to the next page, if one is available.
-  external JSPromise goForward(int? tabId);
+  external void goForward(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Go back to the previous page, if one is available.
-  external JSPromise goBack(int? tabId);
+  external void goBack(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can
@@ -186,7 +243,7 @@ extension JSTabsExtension on JSTabs {
   /// representing the tab the user directly moved. Move events are not fired
   /// for the other tabs that must move in response to the manually-moved tab.
   /// This event is not fired when a tab is moved between windows; for details,
-  /// see $(ref:tabs.onDetached).
+  /// see [tabs.onDetached].
   external ChromeEvent get onMoved;
 
   /// Fires when the selected tab in a window changes.
@@ -194,7 +251,7 @@ extension JSTabsExtension on JSTabs {
 
   /// Fires when the selected tab in a window changes. Note that the tab's URL
   /// may not be set at the time this event fired, but you can listen to
-  /// $(ref:tabs.onUpdated) events so as to be notified when a URL is set.
+  /// [tabs.onUpdated] events so as to be notified when a URL is set.
   external ChromeEvent get onActiveChanged;
 
   /// Fires when the active tab in a window changes. Note that the tab's URL may
@@ -226,9 +283,9 @@ extension JSTabsExtension on JSTabs {
   /// Fired when a tab is zoomed.
   external ChromeEvent get onZoomChange;
 
-  /// The maximum number of times that $(ref:captureVisibleTab) can be called
-  /// per second. $(ref:captureVisibleTab) is expensive and should not be called
-  /// too often.
+  /// The maximum number of times that [captureVisibleTab] can be called per
+  /// second. [captureVisibleTab] is expensive and should not be called too
+  /// often.
   external int get MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND;
 
   /// An ID that represents the absence of a browser tab.
@@ -279,9 +336,9 @@ class Tab {}
 extension TabExtension on Tab {
   /// The ID of the tab. Tab IDs are unique within a browser session. Under some
   /// circumstances a tab may not be assigned an ID; for example, when querying
-  /// foreign tabs using the $(ref:sessions) API, in which case a session ID may
-  /// be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps
-  /// and devtools windows.
+  /// foreign tabs using the [sessions] API, in which case a session ID may be
+  /// present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE` for apps and
+  /// devtools windows.
   external int? id;
 
   /// The zero-based index of the tab within its window.
@@ -330,7 +387,7 @@ extension TabExtension on Tab {
   /// The last committed URL of the main frame of the tab. This property is only
   /// present if the extension's manifest includes the `"tabs"` permission and
   /// may be an empty string if the tab has not yet committed. See also
-  /// $(ref:Tab.pendingUrl).
+  /// [Tab.pendingUrl].
   external String? url;
 
   /// The URL the tab is navigating to, before it has committed. This property
@@ -360,7 +417,7 @@ extension TabExtension on Tab {
   external int? height;
 
   /// The session ID used to uniquely identify a tab obtained from the
-  /// $(ref:sessions) API.
+  /// [sessions] API.
   external String? sessionId;
 }
 
@@ -380,7 +437,7 @@ extension ZoomSettingsExtension on ZoomSettings {
 
   /// Used to return the default zoom level for the current tab in calls to
   /// tabs.getZoomSettings.
-  external num? defaultZoomFactor;
+  external double? defaultZoomFactor;
 }
 
 @JS()
@@ -526,9 +583,9 @@ class OnZoomChangeZoomChangeInfo {}
 extension OnZoomChangeZoomChangeInfoExtension on OnZoomChangeZoomChangeInfo {
   external int tabId;
 
-  external num oldZoomFactor;
+  external double oldZoomFactor;
 
-  external num newZoomFactor;
+  external double newZoomFactor;
 
   external ZoomSettings zoomSettings;
 }
@@ -542,13 +599,12 @@ class ConnectInfo {
     /// connection event.
     String? name,
 
-    /// Open a port to a specific <a href='webNavigation#frame_ids'>frame</a>
-    /// identified by `frameId` instead of all frames in the tab.
+    /// Open a port to a specific [frame](webNavigation#frame_ids) identified by
+    /// `frameId` instead of all frames in the tab.
     int? frameId,
 
-    /// Open a port to a specific <a
-    /// href='webNavigation#document_ids'>document</a> identified by `documentId`
-    /// instead of all frames in the tab.
+    /// Open a port to a specific [document](webNavigation#document_ids)
+    /// identified by `documentId` instead of all frames in the tab.
     String? documentId,
   });
 }
@@ -558,13 +614,12 @@ class ConnectInfo {
 @anonymous
 class SendMessageOptions {
   external factory SendMessageOptions({
-    /// Send a message to a specific <a href='webNavigation#frame_ids'>frame</a>
-    /// identified by `frameId` instead of all frames in the tab.
+    /// Send a message to a specific [frame](webNavigation#frame_ids) identified
+    /// by `frameId` instead of all frames in the tab.
     int? frameId,
 
-    /// Send a message to a specific <a
-    /// href='webNavigation#document_ids'>document</a> identified by `documentId`
-    /// instead of all frames in the tab.
+    /// Send a message to a specific [document](webNavigation#document_ids)
+    /// identified by `documentId` instead of all frames in the tab.
     String? documentId,
   });
 }
@@ -574,8 +629,8 @@ class SendMessageOptions {
 @anonymous
 class CreateProperties {
   external factory CreateProperties({
-    /// The window in which to create the new tab. Defaults to the <a
-    /// href='windows#current-window'>current window</a>.
+    /// The window in which to create the new tab. Defaults to the [current
+    /// window](windows#current-window).
     int? windowId,
 
     /// The position the tab should take in the window. The provided value is
@@ -589,15 +644,15 @@ class CreateProperties {
     String? url,
 
     /// Whether the tab should become the active tab in the window. Does not
-    /// affect whether the window is focused (see $(ref:windows.update)). Defaults
-    /// to `true`.
+    /// affect whether the window is focused (see [windows.update]). Defaults to
+    /// [true].
     bool? active,
 
     /// Whether the tab should become the selected tab in the window. Defaults to
-    /// `true`
+    /// [true]
     bool? selected,
 
-    /// Whether the tab should be pinned. Defaults to `false`
+    /// Whether the tab should be pinned. Defaults to [false]
     bool? pinned,
 
     /// The ID of the tab that opened this tab. If specified, the opener tab must
@@ -635,8 +690,7 @@ class QueryInfo {
     /// resources are low.
     bool? autoDiscardable,
 
-    /// Whether the tabs are in the <a href='windows#current-window'>current
-    /// window</a>.
+    /// Whether the tabs are in the [current window](windows#current-window).
     bool? currentWindow,
 
     /// Whether the tabs are in the last focused window.
@@ -649,17 +703,17 @@ class QueryInfo {
     /// extension does not have the `"tabs"` permission.
     String? title,
 
-    /// Match tabs against one or more <a href='match_patterns'>URL patterns</a>.
-    /// Fragment identifiers are not matched. This property is ignored if the
-    /// extension does not have the `"tabs"` permission.
-    JSObject? url,
+    /// Match tabs against one or more [URL patterns](match_patterns). Fragment
+    /// identifiers are not matched. This property is ignored if the extension
+    /// does not have the `"tabs"` permission.
+    JSAny? url,
 
-    /// The ID of the group that the tabs are in, or
-    /// $(ref:tabGroups.TAB_GROUP_ID_NONE) for ungrouped tabs.
+    /// The ID of the group that the tabs are in, or [tabGroups.TAB_GROUP_ID_NONE]
+    /// for ungrouped tabs.
     int? groupId,
 
-    /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
-    /// <a href='windows#current-window'>current window</a>.
+    /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+    /// [current window](windows#current-window).
     int? windowId,
 
     /// The type of window the tabs are in.
@@ -679,7 +733,7 @@ class HighlightInfo {
     int? windowId,
 
     /// One or more tab indices to highlight.
-    JSObject tabs,
+    JSAny tabs,
   });
 }
 
@@ -689,11 +743,11 @@ class HighlightInfo {
 class UpdateProperties {
   external factory UpdateProperties({
     /// A URL to navigate the tab to. JavaScript URLs are not supported; use
-    /// $(ref:scripting.executeScript) instead.
+    /// [scripting.executeScript] instead.
     String? url,
 
     /// Whether the tab should be active. Does not affect whether the window is
-    /// focused (see $(ref:windows.update)).
+    /// focused (see [windows.update]).
     bool? active,
 
     /// Adds or removes the tab from the current selection.
@@ -748,7 +802,7 @@ class ReloadProperties {
 class GroupOptions {
   external factory GroupOptions({
     /// The tab ID or list of tab IDs to add to the specified group.
-    JSObject tabIds,
+    JSAny tabIds,
 
     /// The ID of the group to add the tabs to. If not specified, a new group will
     /// be created.

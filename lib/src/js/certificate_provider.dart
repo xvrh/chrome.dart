@@ -26,7 +26,7 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
     JSFunction callback,
   );
 
-  /// Stops the pin request started by the $(ref:requestPin) function.
+  /// Stops the pin request started by the [requestPin] function.
   /// |details|: Contains the details about the reason for stopping the
   /// request flow.
   /// |callback|: To be used by Chrome to send to the extension the status from
@@ -37,11 +37,11 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   );
 
   /// Sets a list of certificates to use in the browser.
-  /// <p>The extension should call this function after initialization and on
+  /// The extension should call this function after initialization and on
   /// every change in the set of currently available certificates. The
   /// extension should also call this function in response to
-  /// $(ref:onCertificatesUpdateRequested) every time this event is
-  /// received.</p>
+  /// [onCertificatesUpdateRequested] every time this event is
+  /// received.
   /// |details|: The certificates to set. Invalid certificates will be ignored.
   /// |callback|: Called upon completion.
   external void setCertificates(
@@ -49,38 +49,38 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
     JSFunction callback,
   );
 
-  /// Should be called as a response to $(ref:onSignatureRequested).
-  /// <p>The extension must eventually call this function for every
-  /// $(ref:onSignatureRequested) event; the API implementation will stop
+  /// Should be called as a response to [onSignatureRequested].
+  /// The extension must eventually call this function for every
+  /// [onSignatureRequested] event; the API implementation will stop
   /// waiting for this call after some time and respond with a timeout
-  /// error when this function is called.</p>
+  /// error when this function is called.
   external void reportSignature(
     ReportSignatureDetails details,
     JSFunction callback,
   );
 
-  /// This event fires if the certificates set via $(ref:setCertificates)
+  /// This event fires if the certificates set via [setCertificates]
   /// are insufficient or the browser requests updated information. The
-  /// extension must call $(ref:setCertificates) with the updated list of
+  /// extension must call [setCertificates] with the updated list of
   /// certificates and the received `certificatesRequestId`.
   external ChromeEvent get onCertificatesUpdateRequested;
 
   /// This event fires every time the browser needs to sign a message using a
-  /// certificate provided by this extension via $(ref:setCertificates).
-  /// <p>The extension must sign the input data from `request` using
+  /// certificate provided by this extension via [setCertificates].
+  /// The extension must sign the input data from `request` using
   /// the appropriate algorithm and private key and return it by calling
-  /// $(ref:reportSignature) with the received `signRequestId`.</p>
+  /// [reportSignature] with the received `signRequestId`.
   external ChromeEvent get onSignatureRequested;
 
-  /// <p>This event fires every time the browser requests the current list of
+  /// This event fires every time the browser requests the current list of
   /// certificates provided by this extension. The extension must call
   /// `reportCallback` exactly once with the current list of
-  /// certificates.</p>
+  /// certificates.
   external ChromeEvent get onCertificatesRequested;
 
   /// This event fires every time the browser needs to sign a message using
   /// a certificate provided by this extension in reply to an
-  /// $(ref:onCertificatesRequested) event.
+  /// [onCertificatesRequested] event.
   /// The extension must sign the data in `request` using the
   /// appropriate algorithm and private key and return it by calling
   /// `reportCallback`. `reportCallback` must be called
@@ -95,7 +95,7 @@ typedef Algorithm = String;
 /// Types of errors that the extension can report.
 typedef Error = String;
 
-/// Deprecated. Replaced by $(ref:Algorithm).
+/// Deprecated. Replaced by [Algorithm].
 typedef Hash = String;
 
 /// The type of code being requested by the extension with requestPin function.
@@ -105,6 +105,26 @@ typedef PinRequestType = String;
 /// requestPin function.
 typedef PinRequestErrorType = String;
 
+/// The callback provided by the extension that Chrome uses to report back
+/// rejected certificates. See `CertificatesCallback`.
+typedef ResultCallback = JSFunction;
+
+/// Call this exactly once with the list of certificates that this extension is
+/// providing. The list must only contain certificates for which the extension
+/// can sign data using the associated private key. If the list contains
+/// invalid certificates, these will be ignored. All valid certificates are
+/// still registered for the extension. Chrome will call back with the list of
+/// rejected certificates, which might be empty.
+typedef CertificatesCallback = JSFunction;
+
+/// If no error occurred, this function must be called with the signature of
+/// the digest using the private key of the requested certificate.
+/// For an RSA key, the signature must be a PKCS#1 signature. The extension
+/// is responsible for prepending the DigestInfo prefix and adding PKCS#1
+/// padding. If an error occurred, this callback should be called without
+/// signature.
+typedef SignCallback = JSFunction;
+
 @JS()
 @staticInterop
 class ClientCertificateInfo {}
@@ -112,7 +132,7 @@ class ClientCertificateInfo {}
 extension ClientCertificateInfoExtension on ClientCertificateInfo {
   /// The array must contain the DER encoding of the X.509 client certificate
   /// as its first element.
-  /// <p>This must include exactly one certificate.</p>
+  /// This must include exactly one certificate.
   external JSArray certificateChain;
 
   /// All algorithms supported for this certificate. The extension will only be
@@ -125,7 +145,7 @@ extension ClientCertificateInfoExtension on ClientCertificateInfo {
 class SetCertificatesDetails {}
 
 extension SetCertificatesDetailsExtension on SetCertificatesDetails {
-  /// When called in response to $(ref:onCertificatesUpdateRequested), should
+  /// When called in response to [onCertificatesUpdateRequested], should
   /// contain the received `certificatesRequestId` value. Otherwise,
   /// should be unset.
   external int? certificatesRequestId;
@@ -143,7 +163,7 @@ extension SetCertificatesDetailsExtension on SetCertificatesDetails {
 class CertificatesUpdateRequest {}
 
 extension CertificatesUpdateRequestExtension on CertificatesUpdateRequest {
-  /// Request identifier to be passed to $(ref:setCertificates).
+  /// Request identifier to be passed to [setCertificates].
   external int certificatesRequestId;
 }
 
@@ -152,7 +172,7 @@ extension CertificatesUpdateRequestExtension on CertificatesUpdateRequest {
 class SignatureRequest {}
 
 extension SignatureRequestExtension on SignatureRequest {
-  /// Request identifier to be passed to $(ref:reportSignature).
+  /// Request identifier to be passed to [reportSignature].
   external int signRequestId;
 
   /// Data to be signed. Note that the data is not hashed.
@@ -171,7 +191,7 @@ extension SignatureRequestExtension on SignatureRequest {
 class ReportSignatureDetails {}
 
 extension ReportSignatureDetailsExtension on ReportSignatureDetails {
-  /// Request identifier that was received via the $(ref:onSignatureRequested)
+  /// Request identifier that was received via the [onSignatureRequested]
   /// event.
   external int signRequestId;
 

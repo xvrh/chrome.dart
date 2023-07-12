@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/offscreen.dart' as $js;
 export 'chrome.dart';
 
 final _offscreen = ChromeOffscreen._();
@@ -14,11 +15,12 @@ class ChromeOffscreen {
   /// |parameters|: The parameters describing the offscreen document to create.
   /// |callback|: Invoked when the offscreen document is created and has
   /// completed its initial page load.
-  void createDocument(parameters) => throw UnimplementedError();
+  Future<void> createDocument(CreateParameters parameters) =>
+      throw UnimplementedError();
 
   /// Closes the currently-open offscreen document for the extension.
   /// |callback|: Invoked when the offscreen document has been closed.
-  void closeDocument() => throw UnimplementedError();
+  Future<void> closeDocument() => throw UnimplementedError();
 
   /// Determines whether the extension has an active document.
   /// TODO(https://crbug.com/1339382): This probably isn't something we want to
@@ -27,7 +29,7 @@ class ChromeOffscreen {
   /// alternative. But this is pretty useful in testing environments.
   /// |callback|: Invoked with the result of whether the extension has an
   /// active offscreen document.
-  void hasDocument() => throw UnimplementedError();
+  Future<bool> hasDocument() => throw UnimplementedError();
 }
 
 enum Reason {
@@ -67,8 +69,8 @@ enum Reason {
   /// (e.g. `Navigator.clipboard`).
   clipboard('CLIPBOARD'),
 
-  /// The offscreen document needs access to <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">localStorage</a>.
+  /// The offscreen document needs access to
+  /// [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
   localStorage('LOCAL_STORAGE'),
 
   /// The offscreen document needs to spawn workers.
@@ -77,4 +79,36 @@ enum Reason {
   const Reason(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static Reason fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class CreateParameters {
+  CreateParameters.fromJS(this._wrapped);
+
+  final $js.CreateParameters _wrapped;
+
+  $js.CreateParameters get toJS => _wrapped;
+
+  /// The reason(s) the extension is creating the offscreen document.
+  List<Reason> get reasons => throw UnimplementedError();
+  set reasons(List<Reason> v) {
+    throw UnimplementedError();
+  }
+
+  /// The (relative) URL to load in the document.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A developer-provided string that explains, in more detail, the need for
+  /// the background context. The user agent _may_ use this in display to the
+  /// user.
+  String get justification => _wrapped.justification;
+  set justification(String v) {
+    throw UnimplementedError();
+  }
 }

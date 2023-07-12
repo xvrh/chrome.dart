@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'dart:typed_data';
+import 'src/js/enterprise_platform_keys.dart' as $js;
 export 'chrome.dart';
 
 final _enterprisePlatformKeys = ChromeEnterprisePlatformKeys._();
@@ -17,14 +19,15 @@ class ChromeEnterprisePlatformKeys {
   /// contain the system-wide token with `id` `"system"`.
   /// The system-wide token will be the same for all sessions on this device
   /// (device in the sense of e.g. a Chromebook).
-  void getTokens() => throw UnimplementedError();
+  Future<List<Token>> getTokens() => throw UnimplementedError();
 
   /// Returns the list of all client certificates available from the given
   /// token. Can be used to check for the existence and expiration of client
   /// certificates that are usable for a certain authentication.
   /// |tokenId|: The id of a Token returned by `getTokens`.
   /// |callback|: Called back with the list of the available certificates.
-  void getCertificates(tokenId) => throw UnimplementedError();
+  Future<List<ByteBuffer>> getCertificates(String tokenId) =>
+      throw UnimplementedError();
 
   /// Imports `certificate` to the given token if the certified key
   /// is already stored in this token.
@@ -34,9 +37,9 @@ class ChromeEnterprisePlatformKeys {
   /// |tokenId|: The id of a Token returned by `getTokens`.
   /// |certificate|: The DER encoding of a X.509 certificate.
   /// |callback|: Called back when this operation is finished.
-  void importCertificate(
-    tokenId,
-    certificate,
+  Future<void> importCertificate(
+    String tokenId,
+    ByteBuffer certificate,
   ) =>
       throw UnimplementedError();
 
@@ -47,9 +50,9 @@ class ChromeEnterprisePlatformKeys {
   /// |tokenId|: The id of a Token returned by `getTokens`.
   /// |certificate|: The DER encoding of a X.509 certificate.
   /// |callback|: Called back when this operation is finished.
-  void removeCertificate(
-    tokenId,
-    certificate,
+  Future<void> removeCertificate(
+    String tokenId,
+    ByteBuffer certificate,
   ) =>
       throw UnimplementedError();
 
@@ -77,9 +80,10 @@ class ChromeEnterprisePlatformKeys {
   /// The challenged key does not reside in the `"system"` or
   /// `"user"` token and is not accessible by any other API.
   /// |options|: Object containing the fields defined in
-  ///            $(ref:ChallengeKeyOptions).
+  ///            [ChallengeKeyOptions].
   /// |callback|: Called back with the challenge response.
-  void challengeKey(options) => throw UnimplementedError();
+  Future<ByteBuffer> challengeKey(ChallengeKeyOptions options) =>
+      throw UnimplementedError();
 
   /// Challenges a hardware-backed Enterprise Machine Key and emits the
   /// response as part of a remote attestation protocol. Only useful on Chrome
@@ -110,9 +114,9 @@ class ChromeEnterprisePlatformKeys {
   ///                to this function will then generate a new Enterprise
   ///                Machine Key.
   /// |callback|: Called back with the challenge response.
-  void challengeMachineKey(
-    challenge,
-    registerKey,
+  Future<ByteBuffer> challengeMachineKey(
+    ByteBuffer challenge,
+    bool? registerKey,
   ) =>
       throw UnimplementedError();
 
@@ -144,9 +148,9 @@ class ChromeEnterprisePlatformKeys {
   ///                This key is 2048-bit RSA. Subsequent calls to this
   ///                function will then generate a new Enterprise User Key.
   /// |callback|: Called back with the challenge response.
-  void challengeUserKey(
-    challenge,
-    registerKey,
+  Future<ByteBuffer> challengeUserKey(
+    ByteBuffer challenge,
+    bool registerKey,
   ) =>
       throw UnimplementedError();
 }
@@ -159,6 +163,10 @@ enum Scope {
   const Scope(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static Scope fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// Type of key to generate.
@@ -169,4 +177,109 @@ enum Algorithm {
   const Algorithm(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static Algorithm fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class Token {
+  Token.fromJS(this._wrapped);
+
+  final $js.Token _wrapped;
+
+  $js.Token get toJS => _wrapped;
+
+  /// Uniquely identifies this `Token`.
+  /// Static IDs are `"user"` and `"system"`,
+  /// referring to the platform's user-specific and the system-wide hardware
+  /// token, respectively. Any other tokens (with other identifiers) might be
+  /// returned by [enterprise.platformKeys.getTokens].
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Implements the WebCrypto's
+  /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
+  /// interface. The cryptographic operations, including key generation, are
+  /// hardware-backed.
+  /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  /// `modulusLength` up to 2048 and ECDSA with
+  /// `namedCurve` P-256 can be generated. Each key can be
+  /// used for signing data at most once.
+  /// Keys generated on a specific `Token` cannot be used with
+  /// any other Tokens, nor can they be used with
+  /// `window.crypto.subtle`. Equally, `Key` objects
+  /// created with `window.crypto.subtle` cannot be used with this
+  /// interface.
+  JSObject get subtleCrypto => _wrapped.subtleCrypto;
+  set subtleCrypto(JSObject v) {
+    throw UnimplementedError();
+  }
+
+  /// Implements the WebCrypto's
+  /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
+  /// interface. The cryptographic operations, including key generation, are
+  /// software-backed. Protection of the keys, and thus implementation of the
+  /// non-extractable property, is done in software, so the keys are less
+  /// protected than hardware-backed keys.
+  /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
+  /// `modulusLength` up to 2048 can be generated. Each key can be
+  /// used for signing data at most once.
+  /// Keys generated on a specific `Token` cannot be used with
+  /// any other Tokens, nor can they be used with
+  /// `window.crypto.subtle`. Equally, `Key` objects
+  /// created with `window.crypto.subtle` cannot be used with this
+  /// interface.
+  JSObject get softwareBackedSubtleCrypto =>
+      _wrapped.softwareBackedSubtleCrypto;
+  set softwareBackedSubtleCrypto(JSObject v) {
+    throw UnimplementedError();
+  }
+}
+
+class RegisterKeyOptions {
+  RegisterKeyOptions.fromJS(this._wrapped);
+
+  final $js.RegisterKeyOptions _wrapped;
+
+  $js.RegisterKeyOptions get toJS => _wrapped;
+
+  /// Which algorithm the registered key should use.
+  Algorithm get algorithm => Algorithm.fromJS(_wrapped.algorithm);
+  set algorithm(Algorithm v) {
+    throw UnimplementedError();
+  }
+}
+
+class ChallengeKeyOptions {
+  ChallengeKeyOptions.fromJS(this._wrapped);
+
+  final $js.ChallengeKeyOptions _wrapped;
+
+  $js.ChallengeKeyOptions get toJS => _wrapped;
+
+  /// A challenge as emitted by the Verified Access Web API.
+  ByteBuffer get challenge => _wrapped.challenge.toDart;
+  set challenge(ByteBuffer v) {
+    throw UnimplementedError();
+  }
+
+  /// If present, registers the challenged key with the specified
+  /// `scope`'s token.  The key can then be associated with a
+  /// certificate and used like any other signing key.  Subsequent calls to
+  /// this function will then generate a new Enterprise Key in the specified
+  /// `scope`.
+  RegisterKeyOptions? get registerKey =>
+      _wrapped.registerKey?.let(RegisterKeyOptions.fromJS);
+  set registerKey(RegisterKeyOptions? v) {
+    throw UnimplementedError();
+  }
+
+  /// Which Enterprise Key to challenge.
+  Scope get scope => Scope.fromJS(_wrapped.scope);
+  set scope(Scope v) {
+    throw UnimplementedError();
+  }
 }

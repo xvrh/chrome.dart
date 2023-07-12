@@ -16,10 +16,16 @@ class JSWebNavigation {}
 extension JSWebNavigationExtension on JSWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
-  external JSPromise getFrame(GetFrameDetails details);
+  external void getFrame(
+    GetFrameDetails details,
+    JSFunction callback,
+  );
 
   /// Retrieves information about all frames of a given tab.
-  external JSPromise getAllFrames(GetAllFramesDetails details);
+  external void getAllFrames(
+    GetAllFramesDetails details,
+    JSFunction callback,
+  );
 
   /// Fired when a navigation is about to occur.
   external ChromeEvent get onBeforeNavigate;
@@ -60,9 +66,9 @@ extension JSWebNavigationExtension on JSWebNavigation {
 }
 
 /// Cause of the navigation. The same transition types as defined in the history
-/// API are used. These are the same transition types as defined in the <a
-/// href="history#transition_types">history API</a> except with `"start_page"`
-/// in place of `"auto_toplevel"` (for backwards compatibility).
+/// API are used. These are the same transition types as defined in the [history
+/// API](history#transition_types) except with `"start_page"` in place of
+/// `"auto_toplevel"` (for backwards compatibility).
 typedef TransitionType = String;
 
 typedef TransitionQualifier = String;
@@ -90,7 +96,7 @@ extension OnBeforeNavigateDetailsExtension on OnBeforeNavigateDetails {
 
   /// The time when the browser was about to start the navigation, in
   /// milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the parent document owning this frame. This is not set if there
   /// is no parent.
@@ -132,7 +138,7 @@ extension OnCommittedDetailsExtension on OnCommittedDetails {
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -171,7 +177,7 @@ extension OnDOMContentLoadedDetailsExtension on OnDOMContentLoadedDetails {
 
   /// The time when the page's DOM was fully constructed, in milliseconds since
   /// the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -210,7 +216,7 @@ extension OnCompletedDetailsExtension on OnCompletedDetails {
 
   /// The time when the document finished loading, in milliseconds since the
   /// epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -251,7 +257,7 @@ extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   external String error;
 
   /// The time when the error occurred, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -291,7 +297,7 @@ extension OnCreatedNavigationTargetDetailsExtension
 
   /// The time when the browser was about to create a new view, in milliseconds
   /// since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 }
 
 @JS()
@@ -324,7 +330,7 @@ extension OnReferenceFragmentUpdatedDetailsExtension
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num timeStamp;
+  external double timeStamp;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -352,7 +358,7 @@ extension OnTabReplacedDetailsExtension on OnTabReplacedDetails {
   external int tabId;
 
   /// The time when the replacement happened, in milliseconds since the epoch.
-  external num timeStamp;
+  external double timeStamp;
 }
 
 @JS()
@@ -385,7 +391,39 @@ extension OnHistoryStateUpdatedDetailsExtension
 
   /// The time when the navigation was committed, in milliseconds since the
   /// epoch.
-  external num timeStamp;
+  external double timeStamp;
+
+  /// A UUID of the document loaded.
+  external String documentId;
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  external String? parentDocumentId;
+
+  /// The lifecycle the document is in.
+  external DocumentLifecycle documentLifecycle;
+
+  /// The type of frame the navigation occurred in.
+  external FrameType frameType;
+}
+
+@JS()
+@staticInterop
+class GetFrameCallbackDetails {}
+
+extension GetFrameCallbackDetailsExtension on GetFrameCallbackDetails {
+  /// True if the last navigation in this frame was interrupted by an error,
+  /// i.e. the onErrorOccurred event fired.
+  external bool errorOccurred;
+
+  /// The URL currently associated with this frame, if the frame identified by
+  /// the frameId existed at one point in the given tab. The fact that an URL is
+  /// associated with a given frameId does not imply that the corresponding
+  /// frame still exists.
+  external String url;
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  external int parentFrameId;
 
   /// A UUID of the document loaded.
   external String documentId;
@@ -419,6 +457,42 @@ class GetFrameDetails {
     /// will be validated to match the document found by provided document ID.
     String? documentId,
   });
+}
+
+@JS()
+@staticInterop
+class GetAllFramesCallbackDetails {}
+
+extension GetAllFramesCallbackDetailsExtension on GetAllFramesCallbackDetails {
+  /// True if the last navigation in this frame was interrupted by an error,
+  /// i.e. the onErrorOccurred event fired.
+  external bool errorOccurred;
+
+  /// The ID of the process that runs the renderer for this frame.
+  external int processId;
+
+  /// The ID of the frame. 0 indicates that this is the main frame; a positive
+  /// value indicates the ID of a subframe.
+  external int frameId;
+
+  /// The ID of the parent frame, or `-1` if this is the main frame.
+  external int parentFrameId;
+
+  /// The URL currently associated with this frame.
+  external String url;
+
+  /// A UUID of the document loaded.
+  external String documentId;
+
+  /// A UUID of the parent document owning this frame. This is not set if there
+  /// is no parent.
+  external String? parentDocumentId;
+
+  /// The lifecycle the document is in.
+  external DocumentLifecycle documentLifecycle;
+
+  /// The type of frame the navigation occurred in.
+  external FrameType frameType;
 }
 
 @JS()

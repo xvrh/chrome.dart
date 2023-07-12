@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'dart:typed_data';
+import 'src/js/vpn_provider.dart' as $js;
 export 'chrome.dart';
 
 final _vpnProvider = ChromeVpnProvider._();
@@ -15,33 +17,35 @@ class ChromeVpnProvider {
   /// |name|: The name of the VPN configuration.
   /// |callback|: Called when the configuration is created or if there is an
   /// error.
-  void createConfig(name) => throw UnimplementedError();
+  Future<String> createConfig(String name) => throw UnimplementedError();
 
   /// Destroys a VPN configuration created by the extension.
   /// |id|: ID of the VPN configuration to destroy.
   /// |callback|: Called when the configuration is destroyed or if there is an
   /// error.
-  void destroyConfig(id) => throw UnimplementedError();
+  Future<void> destroyConfig(String id) => throw UnimplementedError();
 
   /// Sets the parameters for the VPN session. This should be called
   /// immediately after `"connected"` is received from the platform.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |parameters|: The parameters for the VPN session.
   /// |callback|: Called when the parameters are set or if there is an error.
-  void setParameters(parameters) => throw UnimplementedError();
+  Future<void> setParameters(Parameters parameters) =>
+      throw UnimplementedError();
 
   /// Sends an IP packet through the tunnel created for the VPN session.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |data|: The IP packet to be sent to the platform.
   /// |callback|: Called when the packet is sent or if there is an error.
-  void sendPacket(data) => throw UnimplementedError();
+  Future<void> sendPacket(ByteBuffer data) => throw UnimplementedError();
 
   /// Notifies the VPN session state to the platform.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |state|: The VPN session state of the VPN client.
   /// |callback|: Called when the notification is complete or if there is an
   /// error.
-  void notifyConnectionStateChanged(state) => throw UnimplementedError();
+  Future<void> notifyConnectionStateChanged(VpnConnectionState state) =>
+      throw UnimplementedError();
 
   /// Triggered when a message is received from the platform for a
   /// VPN configuration owned by the extension.
@@ -50,31 +54,33 @@ class ChromeVpnProvider {
   /// message types may be added in future Chrome versions to support new
   /// features.
   /// |error|: Error message when there is an error.
-  Stream get onPlatformMessage => throw UnimplementedError();
+  Stream<OnPlatformMessageEvent> get onPlatformMessage =>
+      throw UnimplementedError();
 
   /// Triggered when an IP packet is received via the tunnel for the VPN
   /// session owned by the extension.
   /// |data|: The IP packet received from the platform.
-  Stream get onPacketReceived => throw UnimplementedError();
+  Stream<ByteBuffer> get onPacketReceived => throw UnimplementedError();
 
   /// Triggered when a configuration created by the extension is removed by the
   /// platform.
   /// |id|: ID of the removed configuration.
-  Stream get onConfigRemoved => throw UnimplementedError();
+  Stream<String> get onConfigRemoved => throw UnimplementedError();
 
   /// Triggered when a configuration is created by the platform for the
   /// extension.
   /// |id|: ID of the configuration created.
   /// |name|: Name of the configuration created.
   /// |data|: Configuration data provided by the administrator.
-  Stream get onConfigCreated => throw UnimplementedError();
+  Stream<OnConfigCreatedEvent> get onConfigCreated =>
+      throw UnimplementedError();
 
   /// Triggered when there is a UI event for the extension. UI events are
   /// signals from the platform that indicate to the app that a UI dialog
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  Stream get onUIEvent => throw UnimplementedError();
+  Stream<OnUIEventEvent> get onUIEvent => throw UnimplementedError();
 }
 
 /// The enum is used by the platform to notify the client of the VPN session
@@ -112,6 +118,10 @@ enum PlatformMessage {
   const PlatformMessage(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static PlatformMessage fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The enum is used by the VPN client to inform the platform
@@ -127,6 +137,10 @@ enum VpnConnectionState {
   const VpnConnectionState(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static VpnConnectionState fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The enum is used by the platform to indicate the event that triggered
@@ -141,4 +155,133 @@ enum UIEvent {
   const UIEvent(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static UIEvent fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class Parameters {
+  Parameters.fromJS(this._wrapped);
+
+  final $js.Parameters _wrapped;
+
+  $js.Parameters get toJS => _wrapped;
+
+  /// IP address for the VPN interface in CIDR notation.
+  /// IPv4 is currently the only supported mode.
+  String get address => _wrapped.address;
+  set address(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Broadcast address for the VPN interface. (default: deduced
+  /// from IP address and mask)
+  String? get broadcastAddress => _wrapped.broadcastAddress;
+  set broadcastAddress(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// MTU setting for the VPN interface. (default: 1500 bytes)
+  String? get mtu => _wrapped.mtu;
+  set mtu(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Exclude network traffic to the list of IP blocks in CIDR notation from
+  /// the tunnel. This can be used to bypass traffic to and from the VPN
+  /// server.
+  /// When many rules match a destination, the rule with the longest matching
+  /// prefix wins.
+  /// Entries that correspond to the same CIDR block are treated as duplicates.
+  /// Such duplicates in the collated (exclusionList + inclusionList) list are
+  /// eliminated and the exact duplicate entry that will be eliminated is
+  /// undefined.
+  List<String> get exclusionList => throw UnimplementedError();
+  set exclusionList(List<String> v) {
+    throw UnimplementedError();
+  }
+
+  /// Include network traffic to the list of IP blocks in CIDR notation to the
+  /// tunnel. This parameter can be used to set up a split tunnel. By default
+  /// no traffic is directed to the tunnel. Adding the entry "0.0.0.0/0" to
+  /// this list gets all the user traffic redirected to the tunnel.
+  /// When many rules match a destination, the rule with the longest matching
+  /// prefix wins.
+  /// Entries that correspond to the same CIDR block are treated as duplicates.
+  /// Such duplicates in the collated (exclusionList + inclusionList) list are
+  /// eliminated and the exact duplicate entry that will be eliminated is
+  /// undefined.
+  List<String> get inclusionList => throw UnimplementedError();
+  set inclusionList(List<String> v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of search domains. (default: no search domain)
+  List<String>? get domainSearch => throw UnimplementedError();
+  set domainSearch(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of IPs for the DNS servers.
+  List<String> get dnsServers => throw UnimplementedError();
+  set dnsServers(List<String> v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether or not the VPN extension implements auto-reconnection.
+  ///
+  /// If true, the `linkDown`, `linkUp`,
+  /// `linkChanged`, `suspend`, and `resume`
+  /// platform messages will be used to signal the respective events.
+  /// If false, the system will forcibly disconnect the VPN if the network
+  /// topology changes, and the user will need to reconnect manually.
+  /// (default: false)
+  ///
+  /// This property is new in Chrome 51; it will generate an exception in
+  /// earlier versions. try/catch can be used to conditionally enable the
+  /// feature based on browser support.
+  String? get reconnect => _wrapped.reconnect;
+  set reconnect(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnPlatformMessageEvent {
+  OnPlatformMessageEvent({
+    required this.id,
+    required this.message,
+    required this.error,
+  });
+
+  final String id;
+
+  final PlatformMessage message;
+
+  final String error;
+}
+
+class OnConfigCreatedEvent {
+  OnConfigCreatedEvent({
+    required this.id,
+    required this.name,
+    required this.data,
+  });
+
+  final String id;
+
+  final String name;
+
+  final JSAny data;
+}
+
+class OnUIEventEvent {
+  OnUIEventEvent({
+    required this.event,
+    required this.id,
+  });
+
+  final UIEvent event;
+
+  final String? id;
 }

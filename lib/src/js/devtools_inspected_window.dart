@@ -27,14 +27,14 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   external void eval(
     String expression,
     EvalOptions? options,
-    JSFunction? callback,
+    JSAny? callback,
   );
 
   /// Reloads the inspected page.
   external void reload(ReloadOptions? reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
-  external void getResources(JSFunction callback);
+  external void getResources(JSAny callback);
 
   /// Fired when a new resource is added to the inspected page.
   external ChromeEvent get onResourceAdded;
@@ -57,13 +57,13 @@ extension ResourceExtension on Resource {
   external String url;
 
   /// Gets the content of the resource.
-  external void getContent(JSFunction callback);
+  external void getContent(JSAny callback);
 
   /// Sets the content of the resource.
   external void setContent(
     String content,
     bool commit,
-    JSFunction? callback,
+    JSAny? callback,
   );
 }
 
@@ -110,8 +110,8 @@ class ReloadOptions {
 
     /// If specified, the script will be injected into every frame of the
     /// inspected page immediately upon load, before any of the frame's scripts.
-    /// The script will not be injected after subsequent reloads&mdash;for
-    /// example, if the user presses Ctrl+R.
+    /// The script will not be injected after subsequent reloads-for example, if
+    /// the user presses Ctrl+R.
     String? injectedScript,
   });
 }

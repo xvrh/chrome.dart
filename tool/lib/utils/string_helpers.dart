@@ -1,3 +1,5 @@
+import 'split_words.dart';
+
 String firstLetterUpper(String src) {
   if (src.isNotEmpty) {
     var first = src[0];
@@ -42,3 +44,7 @@ Iterable<T> _mapWithIndex<E, T>(
     ++index;
   }
 }
+
+String stringToLowerCamel(String input) => lowerCamel(splitWords(input));
+String stringToUpperCamel(String input) => upperCamel(splitWords(input));
+String stringToSnakeCase(String input) => snakeCase(splitWords(input));

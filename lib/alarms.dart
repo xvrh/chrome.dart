@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/alarms.dart' as $js;
 export 'chrome.dart';
 
 final _alarms = ChromeAlarms._();
@@ -10,7 +11,7 @@ extension ChromeAlarmsExtension on Chrome {
 class ChromeAlarms {
   ChromeAlarms._();
 
-  /// Creates an alarm.  Near the time(s) specified by `alarmInfo`,
+  /// Creates an alarm.  Near the time(s) specified by [alarmInfo],
   /// the `onAlarm` event is fired. If there is another alarm with
   /// the same name (or no name if none is specified), it will be cancelled and
   /// replaced by this alarm.
@@ -29,34 +30,97 @@ class ChromeAlarms {
   /// |name|: Optional name to identify this alarm. Defaults to the empty
   /// string.
   /// |alarmInfo|: Describes when the alarm should fire.  The initial time must
-  /// be specified by either `when` or `delayInMinutes` (but
-  /// not both).  If `periodInMinutes` is set, the alarm will repeat
-  /// every `periodInMinutes` minutes after the initial event.  If
-  /// neither `when` or `delayInMinutes` is set for a
-  /// repeating alarm, `periodInMinutes` is used as the default for
-  /// `delayInMinutes`.
+  /// be specified by either [when] or [delayInMinutes] (but
+  /// not both).  If [periodInMinutes] is set, the alarm will repeat
+  /// every [periodInMinutes] minutes after the initial event.  If
+  /// neither [when] or [delayInMinutes] is set for a
+  /// repeating alarm, [periodInMinutes] is used as the default for
+  /// [delayInMinutes].
   /// |callback|: Invoked when the alarm has been created.
-  void create(
-    name,
-    alarmInfo,
+  Future<void> create(
+    String? name,
+    AlarmCreateInfo alarmInfo,
   ) =>
       throw UnimplementedError();
 
   /// Retrieves details about the specified alarm.
   /// |name|: The name of the alarm to get. Defaults to the empty string.
-  void get(name) => throw UnimplementedError();
+  Future<Alarm?> get(String? name) => throw UnimplementedError();
 
   /// Gets an array of all the alarms.
-  void getAll() => throw UnimplementedError();
+  Future<List<Alarm>> getAll() => throw UnimplementedError();
 
   /// Clears the alarm with the given name.
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
-  void clear(name) => throw UnimplementedError();
+  Future<bool> clear(String? name) => throw UnimplementedError();
 
   /// Clears all alarms.
-  void clearAll() => throw UnimplementedError();
+  Future<bool> clearAll() => throw UnimplementedError();
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.
-  Stream get onAlarm => throw UnimplementedError();
+  Stream<Alarm> get onAlarm => throw UnimplementedError();
+}
+
+class Alarm {
+  Alarm.fromJS(this._wrapped);
+
+  final $js.Alarm _wrapped;
+
+  $js.Alarm get toJS => _wrapped;
+
+  /// Name of this alarm.
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Time at which this alarm was scheduled to fire, in milliseconds past the
+  /// epoch (e.g. `Date.now() + n`).  For performance reasons, the
+  /// alarm may have been delayed an arbitrary amount beyond this.
+  double get scheduledTime => _wrapped.scheduledTime;
+  set scheduledTime(double v) {
+    throw UnimplementedError();
+  }
+
+  /// If not null, the alarm is a repeating alarm and will fire again in
+  /// [periodInMinutes] minutes.
+  double? get periodInMinutes => _wrapped.periodInMinutes;
+  set periodInMinutes(double? v) {
+    throw UnimplementedError();
+  }
+}
+
+class AlarmCreateInfo {
+  AlarmCreateInfo.fromJS(this._wrapped);
+
+  final $js.AlarmCreateInfo _wrapped;
+
+  $js.AlarmCreateInfo get toJS => _wrapped;
+
+  /// Time at which the alarm should fire, in milliseconds past the epoch
+  /// (e.g. `Date.now() + n`).
+  double? get when => _wrapped.when;
+  set when(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Length of time in minutes after which the `onAlarm` event
+  /// should fire.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  double? get delayInMinutes => _wrapped.delayInMinutes;
+  set delayInMinutes(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// If set, the onAlarm event should fire every [periodInMinutes]
+  /// minutes after the initial event specified by [when] or
+  /// [delayInMinutes].  If not set, the alarm will only fire once.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  double? get periodInMinutes => _wrapped.periodInMinutes;
+  set periodInMinutes(double? v) {
+    throw UnimplementedError();
+  }
 }

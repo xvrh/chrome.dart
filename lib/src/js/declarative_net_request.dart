@@ -28,11 +28,11 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// extension updates.</li>
   /// <li>Static rules specified as part of the extension package can not be
   /// removed using this function.</li>
-  /// <li>$(ref:MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES) is the maximum number
+  /// <li>[MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES] is the maximum number
   /// of combined dynamic and session rules an extension can add.</li>
   /// </ul>
   /// |callback|: Called once the update is complete or has failed. In case of
-  /// an error, $(ref:runtime.lastError) will be set and no change will be made
+  /// an error, [runtime.lastError] will be set and no change will be made
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, internal
   /// errors, and others.
@@ -61,11 +61,11 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// specified rules are added and removed, or an error is returned.</li>
   /// <li>These rules are not persisted across sessions and are backed in
   /// memory.</li>
-  /// <li>$(ref:MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES) is the maximum number
+  /// <li>[MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES] is the maximum number
   /// of combined dynamic and session rules an extension can add.</li>
   /// </ul>
   /// |callback|: Called once the update is complete or has failed. In case of
-  /// an error, $(ref:runtime.lastError) will be set and no change will be made
+  /// an error, [runtime.lastError] will be set and no change will be made
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, and others.
   external void updateSessionRules(
@@ -92,7 +92,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// manifest key will determine the set of enabled static rulesets on each
   /// extension update.
   /// |callback|: Called once the update is complete. In case of an error,
-  /// $(ref:runtime.lastError) will be set and no change will be made to set of
+  /// [runtime.lastError] will be set and no change will be made to set of
   /// enabled rulesets. This can happen for multiple reasons, such as invalid
   /// ruleset IDs, rule count limit exceeded, or internal errors.
   external void updateEnabledRulesets(
@@ -102,21 +102,21 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
 
   /// Returns the ids for the current set of enabled static rulesets.
   /// |callback|: Called with a list of ids, where each id corresponds to an
-  /// enabled static $(ref:Ruleset).
+  /// enabled static [Ruleset].
   external void getEnabledRulesets(JSFunction callback);
 
-  /// Disables and enables individual static rules in a $(ref:Ruleset).
-  /// Changes to rules belonging to a disabled $(ref:Ruleset) will take
+  /// Disables and enables individual static rules in a [Ruleset].
+  /// Changes to rules belonging to a disabled [Ruleset] will take
   /// effect the next time that it becomes enabled.
   /// |callback|: Called once the update is complete. In case of an error,
-  /// $(ref:runtime.lastError) will be set and no change will be made to the
+  /// [runtime.lastError] will be set and no change will be made to the
   /// enabled static rules.
   external void updateStaticRules(
     UpdateStaticRulesOptions options,
     JSFunction callback,
   );
 
-  /// Returns the list of static rules in the given $(ref:Ruleset) that are
+  /// Returns the list of static rules in the given [Ruleset] that are
   /// currently disabled.
   /// |options|: Specifies the ruleset to query.
   /// |callback|: Called with a list of ids that correspond to the disabled
@@ -136,7 +136,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// than five minutes ago will not be returned.
   /// |filter|: An object to filter the list of matched rules.
   /// |callback|: Called once the list of matched rules has been fetched. In
-  /// case of an error, $(ref:runtime.lastError) will be set and no rules will
+  /// case of an error, [runtime.lastError] will be set and no rules will
   /// be returned. This can happen for multiple reasons, such as insufficient
   /// permissions, or exceeding the quota.
   external void getMatchedRules(
@@ -163,7 +163,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   );
 
   /// Returns the number of static rules an extension can enable before the
-  /// <a href="#global-static-rule-limit">global static rule limit</a> is
+  /// [global static rule limit](#global-static-rule-limit) is
   /// reached.
   external void getAvailableStaticRuleCount(JSFunction callback);
 
@@ -187,7 +187,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
 
   /// The minimum number of static rules guaranteed to an extension across its
   /// enabled static rulesets. Any rules above this limit will count towards
-  /// the <a href="#global-static-rule-limit">global static rule limit</a>.
+  /// the [global static rule limit](#global-static-rule-limit).
   external int get GUARANTEED_MINIMUM_STATIC_RULES;
 
   /// The maximum number of dynamic rules that an extension can add.
@@ -199,7 +199,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
 
   /// Time interval within which `MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
   /// getMatchedRules` calls can be made, specified in minutes.
-  /// Additional calls will fail immediately and set $(ref:runtime.lastError).
+  /// Additional calls will fail immediately and set [runtime.lastError].
   /// Note: `getMatchedRules` calls associated with a user gesture
   /// are exempt from the quota.
   external int get GETMATCHEDRULES_QUOTA_INTERVAL;
@@ -507,14 +507,14 @@ extension RuleConditionExtension on RuleCondition {
   /// accepted.
   external DomainType? domainType;
 
-  /// List of $(ref:tabs.Tab.id) which the rule should match. An ID of
-  /// $(ref:tabs.TAB_ID_NONE) matches requests which don't originate from a
+  /// List of [tabs.Tab.id] which the rule should match. An ID of
+  /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
   /// tab. An empty list is not allowed. Only supported for session-scoped
   /// rules.
   external JSArray? tabIds;
 
-  /// List of $(ref:tabs.Tab.id) which the rule should not match. An ID of
-  /// $(ref:tabs.TAB_ID_NONE) excludes requests which don't originate from a
+  /// List of [tabs.Tab.id] which the rule should not match. An ID of
+  /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
   /// tab. Only supported for session-scoped rules.
   external JSArray? excludedTabIds;
 }
@@ -582,9 +582,9 @@ extension MatchedRuleExtension on MatchedRule {
   /// A matching rule's ID.
   external int ruleId;
 
-  /// ID of the $(ref:Ruleset) this rule belongs to. For a rule originating
+  /// ID of the [Ruleset] this rule belongs to. For a rule originating
   /// from the set of dynamic rules, this will be equal to
-  /// $(ref:DYNAMIC_RULESET_ID).
+  /// [DYNAMIC_RULESET_ID].
   external String rulesetId;
 }
 
@@ -796,11 +796,11 @@ extension UpdateRuleOptionsExtension on UpdateRuleOptions {
 class UpdateRulesetOptions {}
 
 extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
-  /// The set of ids corresponding to a static $(ref:Ruleset) that should be
+  /// The set of ids corresponding to a static [Ruleset] that should be
   /// disabled.
   external JSArray? disableRulesetIds;
 
-  /// The set of ids corresponding to a static $(ref:Ruleset) that should be
+  /// The set of ids corresponding to a static [Ruleset] that should be
   /// enabled.
   external JSArray? enableRulesetIds;
 }
@@ -810,13 +810,13 @@ extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
 class UpdateStaticRulesOptions {}
 
 extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
-  /// The id corresponding to a static $(ref:Ruleset).
+  /// The id corresponding to a static [Ruleset].
   external String rulesetId;
 
-  /// Set of ids corresponding to rules in the $(ref:Ruleset) to disable.
+  /// Set of ids corresponding to rules in the [Ruleset] to disable.
   external JSArray? disableRuleIds;
 
-  /// Set of ids corresponding to rules in the $(ref:Ruleset) to enable.
+  /// Set of ids corresponding to rules in the [Ruleset] to enable.
   external JSArray? enableRuleIds;
 }
 
@@ -825,7 +825,7 @@ extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
 class GetDisabledRuleIdsOptions {}
 
 extension GetDisabledRuleIdsOptionsExtension on GetDisabledRuleIdsOptions {
-  /// The id corresponding to a static $(ref:Ruleset).
+  /// The id corresponding to a static [Ruleset].
   external String rulesetId;
 }
 

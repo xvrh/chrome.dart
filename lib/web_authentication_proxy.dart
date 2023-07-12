@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/web_authentication_proxy.dart' as $js;
 export 'chrome.dart';
 
 final _webAuthenticationProxy = ChromeWebAuthenticationProxy._();
@@ -16,19 +17,22 @@ class ChromeWebAuthenticationProxy {
   /// `onCreateRequest` event it has received, unless the request
   /// was canceled (in which case, an `onRequestCanceled` event is
   /// fired).
-  void completeCreateRequest(details) => throw UnimplementedError();
+  Future<void> completeCreateRequest(CreateResponseDetails details) =>
+      throw UnimplementedError();
 
   /// Reports the result of a `navigator.credentials.get()` call.
   /// The extension must call this for every `onGetRequest` event
   /// it has received, unless the request was canceled (in which case, an
   /// `onRequestCanceled` event is fired).
-  void completeGetRequest(details) => throw UnimplementedError();
+  Future<void> completeGetRequest(GetResponseDetails details) =>
+      throw UnimplementedError();
 
   /// Reports the result of a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   /// call. The extension must call this for every
   /// `onIsUvpaaRequest` event it has received.
-  void completeIsUvpaaRequest(details) => throw UnimplementedError();
+  Future<void> completeIsUvpaaRequest(IsUvpaaResponseDetails details) =>
+      throw UnimplementedError();
 
   /// Makes this extension the active Web Authentication API request proxy.
   ///
@@ -48,7 +52,7 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  void attach() => throw UnimplementedError();
+  Future<String?> attach() => throw UnimplementedError();
 
   /// Removes this extension from being the active Web Authentication API
   /// request proxy.
@@ -60,7 +64,7 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  void detach() => throw UnimplementedError();
+  Future<String?> detach() => throw UnimplementedError();
 
   /// A native application associated with this extension can cause this
   /// event to be fired by writing to a file with a name equal to the
@@ -80,26 +84,26 @@ class ChromeWebAuthenticationProxy {
   /// `attach()` or `detach()` API methods accordingly.
   ///
   /// The event listener must be registered synchronously at load time.
-  Stream get onRemoteSessionStateChange => throw UnimplementedError();
+  Stream<void> get onRemoteSessionStateChange => throw UnimplementedError();
 
   /// Fires when a WebAuthn `navigator.credentials.create()` call
   /// occurs. The extension must supply a response by calling
   /// `completeCreateRequest()` with the `requestId` from
   /// `requestInfo`.
-  Stream get onCreateRequest => throw UnimplementedError();
+  Stream<CreateRequest> get onCreateRequest => throw UnimplementedError();
 
   /// Fires when a WebAuthn navigator.credentials.get() call occurs. The
   /// extension must supply a response by calling
   /// `completeGetRequest()` with the `requestId` from
   /// `requestInfo`
-  Stream get onGetRequest => throw UnimplementedError();
+  Stream<GetRequest> get onGetRequest => throw UnimplementedError();
 
   /// Fires when a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()`
   /// call occurs. The extension must supply a response by calling
   /// `completeIsUvpaaRequest()` with the `requestId`
   /// from `requestInfo`
-  Stream get onIsUvpaaRequest => throw UnimplementedError();
+  Stream<IsUvpaaRequest> get onIsUvpaaRequest => throw UnimplementedError();
 
   /// Fires when a `onCreateRequest` or `onGetRequest`
   /// event is canceled (because the WebAuthn request was aborted by the
@@ -107,5 +111,163 @@ class ChromeWebAuthenticationProxy {
   /// extension should cancel processing of the corresponding request on the
   /// client side. Extensions cannot complete a request once it has been
   /// canceled.
-  Stream get onRequestCanceled => throw UnimplementedError();
+  Stream<int> get onRequestCanceled => throw UnimplementedError();
+}
+
+class IsUvpaaRequest {
+  IsUvpaaRequest.fromJS(this._wrapped);
+
+  final $js.IsUvpaaRequest _wrapped;
+
+  $js.IsUvpaaRequest get toJS => _wrapped;
+
+  /// An opaque identifier for the request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+}
+
+class CreateRequest {
+  CreateRequest.fromJS(this._wrapped);
+
+  final $js.CreateRequest _wrapped;
+
+  $js.CreateRequest get toJS => _wrapped;
+
+  /// An opaque identifier for the request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The `PublicKeyCredentialCreationOptions` passed to
+  /// `navigator.credentials.create()`, serialized as a JSON
+  /// string. The serialization format is compatible with <a
+  /// href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
+  /// `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
+  String get requestDetailsJson => _wrapped.requestDetailsJson;
+  set requestDetailsJson(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetRequest {
+  GetRequest.fromJS(this._wrapped);
+
+  final $js.GetRequest _wrapped;
+
+  $js.GetRequest get toJS => _wrapped;
+
+  /// An opaque identifier for the request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The `PublicKeyCredentialRequestOptions` passed to
+  /// `navigator.credentials.get()`, serialized as a JSON string.
+  /// The serialization format is compatible with <a
+  /// href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
+  /// `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
+  String get requestDetailsJson => _wrapped.requestDetailsJson;
+  set requestDetailsJson(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class DOMExceptionDetails {
+  DOMExceptionDetails.fromJS(this._wrapped);
+
+  final $js.DOMExceptionDetails _wrapped;
+
+  $js.DOMExceptionDetails get toJS => _wrapped;
+
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  String get message => _wrapped.message;
+  set message(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class CreateResponseDetails {
+  CreateResponseDetails.fromJS(this._wrapped);
+
+  final $js.CreateResponseDetails _wrapped;
+
+  $js.CreateResponseDetails get toJS => _wrapped;
+
+  /// The `requestId` of the `CreateRequest`.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The `DOMException` yielded by the remote request, if any.
+  DOMExceptionDetails? get error =>
+      _wrapped.error?.let(DOMExceptionDetails.fromJS);
+  set error(DOMExceptionDetails? v) {
+    throw UnimplementedError();
+  }
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  String? get responseJson => _wrapped.responseJson;
+  set responseJson(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetResponseDetails {
+  GetResponseDetails.fromJS(this._wrapped);
+
+  final $js.GetResponseDetails _wrapped;
+
+  $js.GetResponseDetails get toJS => _wrapped;
+
+  /// The `requestId` of the `CreateRequest`.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The `DOMException` yielded by the remote request, if any.
+  DOMExceptionDetails? get error =>
+      _wrapped.error?.let(DOMExceptionDetails.fromJS);
+  set error(DOMExceptionDetails? v) {
+    throw UnimplementedError();
+  }
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  String? get responseJson => _wrapped.responseJson;
+  set responseJson(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class IsUvpaaResponseDetails {
+  IsUvpaaResponseDetails.fromJS(this._wrapped);
+
+  final $js.IsUvpaaResponseDetails _wrapped;
+
+  $js.IsUvpaaResponseDetails get toJS => _wrapped;
+
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  bool get isUvpaa => _wrapped.isUvpaa;
+  set isUvpaa(bool v) {
+    throw UnimplementedError();
+  }
 }

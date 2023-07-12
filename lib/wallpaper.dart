@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/wallpaper.dart' as $js;
 export 'chrome.dart';
 
 final _wallpaper = ChromeWallpaper._();
@@ -10,9 +11,10 @@ extension ChromeWallpaperExtension on Chrome {
 class ChromeWallpaper {
   ChromeWallpaper._();
 
-  /// Sets wallpaper to the image at <em>url</em> or <em>wallpaperData</em> with
-  /// the specified <em>layout</em>
-  void setWallpaper(details) => throw UnimplementedError();
+  /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
+  /// _layout_
+  Future<JSAny?> setWallpaper(SetWallpaperDetails details) =>
+      throw UnimplementedError();
 }
 
 /// The supported wallpaper layouts.
@@ -24,4 +26,16 @@ enum WallpaperLayout {
   const WallpaperLayout(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static WallpaperLayout fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class SetWallpaperDetails {
+  SetWallpaperDetails.fromJS(this._wrapped);
+
+  final $js.SetWallpaperDetails _wrapped;
+
+  $js.SetWallpaperDetails get toJS => _wrapped;
 }

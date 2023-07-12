@@ -20,8 +20,7 @@ typedef ImageFormat = String;
 /// The soonest that the JavaScript or CSS will be injected into the tab.
 typedef RunAt = String;
 
-/// The <a
-/// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of
+/// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of
 /// injected CSS.
 typedef CSSOrigin = String;
 
@@ -60,9 +59,8 @@ extension InjectDetailsExtension on InjectDetails {
   ///
   /// **Warning:**
   /// Be careful using the `code` parameter. Incorrect use of it may open your
-  /// extension to <a
-  /// href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross site
-  /// scripting</a> attacks.
+  /// extension to [cross site
+  /// scripting](https://en.wikipedia.org/wiki/Cross-site_scripting) attacks.
   external String? code;
 
   /// JavaScript or CSS file to inject.
@@ -74,8 +72,8 @@ extension InjectDetailsExtension on InjectDetails {
   /// code is inserted in the selected frame and all of its child frames.
   external bool? allFrames;
 
-  /// The <a href='webNavigation#frame_ids'>frame</a> where the script or CSS
-  /// should be injected. Defaults to 0 (the top-level frame).
+  /// The [frame](webNavigation#frame_ids) where the script or CSS should be
+  /// injected. Defaults to 0 (the top-level frame).
   external int? frameId;
 
   /// If matchAboutBlank is true, then the code is also injected in about:blank
@@ -88,9 +86,8 @@ extension InjectDetailsExtension on InjectDetails {
   /// Defaults to "document_idle".
   external RunAt? runAt;
 
-  /// The <a
-  /// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of
-  /// the CSS to inject. This may only be specified for CSS, not JavaScript.
+  /// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
+  /// CSS to inject. This may only be specified for CSS, not JavaScript.
   /// Defaults to `"author"`.
   external CSSOrigin? cssOrigin;
 }
@@ -112,8 +109,8 @@ extension DeleteInjectionDetailsExtension on DeleteInjectionDetails {
   /// from the selected frame and all of its child frames.
   external bool? allFrames;
 
-  /// The <a href='webNavigation#frame_ids'>frame</a> from where the CSS should
-  /// be removed. Defaults to 0 (the top-level frame).
+  /// The [frame](webNavigation#frame_ids) from where the CSS should be removed.
+  /// Defaults to 0 (the top-level frame).
   external int? frameId;
 
   /// If matchAboutBlank is true, then the code is also removed from about:blank
@@ -121,8 +118,7 @@ extension DeleteInjectionDetailsExtension on DeleteInjectionDetails {
   /// document. By default it is `false`.
   external bool? matchAboutBlank;
 
-  /// The <a
-  /// href="https://www.w3.org/TR/css3-cascade/#cascading-origins">origin</a> of
-  /// the CSS to remove. Defaults to `"author"`.
+  /// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of the
+  /// CSS to remove. Defaults to `"author"`.
   external CSSOrigin? cssOrigin;
 }

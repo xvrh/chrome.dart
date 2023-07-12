@@ -21,9 +21,9 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
 
   /// Event fired when print manager requests information about a USB device
   /// that may be a printer.
-  /// <p><em>Note:</em> An application should not rely on this event being
+  /// _Note:_ An application should not rely on this event being
   /// fired more than once per device. If a connected device is supported it
-  /// should be returned in the $(ref:onGetPrintersRequested) event.</p>
+  /// should be returned in the [onGetPrintersRequested] event.
   /// |device|: The USB device.
   /// |resultCallback|: Callback to return printer info. The receiving listener
   /// must call callback exactly once. If the parameter to this callback is
@@ -46,8 +46,19 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   external ChromeEvent get onPrintRequested;
 }
 
-/// Error codes returned in response to $(ref:onPrintRequested) event.
+/// Error codes returned in response to [onPrintRequested] event.
 typedef PrintError = String;
+
+typedef PrintersCallback = JSFunction;
+
+typedef PrinterInfoCallback = JSFunction;
+
+/// |capabilities|: Device capabilities in
+/// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">CDD
+/// format</a>.
+typedef CapabilitiesCallback = JSFunction;
+
+typedef PrintCallback = JSFunction;
 
 @JS()
 @staticInterop
@@ -78,7 +89,7 @@ extension PrintJobExtension on PrintJob {
   /// Print ticket in
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
   /// CJT format</a>.
-  external JSObject ticket;
+  external JSAny ticket;
 
   /// The document content type. Supported formats are
   /// `"application/pdf"` and `"image/pwg-raster"`.

@@ -16,7 +16,7 @@ class JSCommands {}
 extension JSCommandsExtension on JSCommands {
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).
-  external JSPromise getAll();
+  external void getAll(JSFunction callback);
 
   /// Fired when a registered command is activated using a keyboard shortcut.
   external ChromeEvent get onCommand;

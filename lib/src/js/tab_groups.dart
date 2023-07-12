@@ -16,23 +16,31 @@ class JSTabGroups {}
 
 extension JSTabGroupsExtension on JSTabGroups {
   /// Retrieves details about the specified group.
-  external JSPromise get(int groupId);
+  external void get(
+    int groupId,
+    JSFunction callback,
+  );
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
-  external JSPromise query(QueryInfo queryInfo);
+  external void query(
+    QueryInfo queryInfo,
+    JSFunction callback,
+  );
 
   /// Modifies the properties of a group. Properties that are not specified in
-  /// `updateProperties` are not modified.
-  external JSPromise update(
+  /// [updateProperties] are not modified.
+  external void update(
     int groupId,
     UpdateProperties updateProperties,
+    JSFunction callback,
   );
 
   /// Moves the group and all its tabs within its window, or to a new window.
-  external JSPromise move(
+  external void move(
     int groupId,
     MoveProperties moveProperties,
+    JSFunction callback,
   );
 
   /// Fired when a group is created.
@@ -94,8 +102,8 @@ class QueryInfo {
     /// Match group titles against a pattern.
     String? title,
 
-    /// The ID of the parent window, or $(ref:windows.WINDOW_ID_CURRENT) for the
-    /// <a href='windows#current-window'>current window</a>.
+    /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+    /// [current window](windows#current-window).
     int? windowId,
   });
 }
@@ -123,7 +131,7 @@ class MoveProperties {
   external factory MoveProperties({
     /// The window to move the group to. Defaults to the window the group is
     /// currently in. Note that groups can only be moved to and from windows with
-    /// $(ref:windows.WindowType) type `"normal"`.
+    /// [windows.WindowType] type `"normal"`.
     int? windowId,
 
     /// The position to move the group to. Use `-1` to place the group at the end

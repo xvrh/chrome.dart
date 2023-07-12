@@ -23,7 +23,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// Depending on the type of the file system being mounted, the
   /// `source` option must be set appropriately.
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set with a
+  /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
   external void mount(
     MountOptions options,
@@ -31,11 +31,11 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   );
 
   /// Unmounts a file system with the given `fileSystemId`. It
-  /// must be called after $(ref:onUnmountRequested) is invoked. Also,
+  /// must be called after [onUnmountRequested] is invoked. Also,
   /// the providing extension can decide to perform unmounting if not requested
   /// (eg. in case of lost connection, or a file error).
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set with a
+  /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
   external void unmount(
     UnmountOptions options,
@@ -57,7 +57,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// system is mounted with `supportsNofityTag`, then
   /// `tag` must be provided, and all changes since the last
   /// notification always reported, even if the system was shutdown. The last
-  /// tag can be obtained with $(ref:getAll).
+  /// tag can be obtained with [getAll].
   ///
   /// To use, the `file_system_provider.notify` manifest option
   /// must be set to true.
@@ -65,7 +65,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// Value of `tag` can be any string which is unique per call,
   /// so it's possible to identify the last registered notification. Eg. if
   /// the providing extension starts after a reboot, and the last registered
-  /// notification's tag is equal to "123", then it should call $(ref:notify)
+  /// notification's tag is equal to "123", then it should call [notify]
   /// for all changes which happened since the change tagged as "123". It
   /// cannot be an empty string.
   ///
@@ -79,7 +79,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// entries are in fact removed, as there is no entry under their original
   /// paths anymore.
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set
+  /// In case of an error, [runtime.lastError] will be set
   /// will a corresponding error code.
   external void notify(
     NotifyOptions options,
@@ -88,7 +88,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
 
   /// Raised when unmounting for the file system with the
   /// `fileSystemId` identifier is requested. In the response, the
-  /// $(ref:unmount) API method must be called together with
+  /// [unmount] API method must be called together with
   /// `successCallback`. If unmounting is not possible (eg. due to
   /// a pending operation), then `errorCallback` must be called.
   external ChromeEvent get onUnmountRequested;
@@ -202,7 +202,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
 /// `"OK"` must be used.
 typedef ProviderError = String;
 
-/// Mode of opening a file. Used by $(ref:onOpenFileRequested).
+/// Mode of opening a file. Used by [onOpenFileRequested].
 typedef OpenFileMode = String;
 
 /// Type of a change detected on the observed directory.
@@ -212,8 +212,33 @@ typedef ChangeType = String;
 /// others. `"SAVE_FOR_OFFLINE"` for pinning (saving for offline
 /// access). `"OFFLINE_NOT_NECESSARY"` for notifying that the file
 /// doesn't need to be stored for offline access anymore.
-/// Used by $(ref:onGetActionsRequested) and $(ref:onExecuteActionRequested).
+/// Used by [onGetActionsRequested] and [onExecuteActionRequested].
 typedef CommonActionId = String;
+
+/// Callback to be called by the providing extension in case of a success.
+typedef ProviderSuccessCallback = JSFunction;
+
+/// Callback to be called by the providing extension in case of an error.
+/// Any error code is allowed except `OK`.
+typedef ProviderErrorCallback = JSFunction;
+
+/// Success callback for the [onGetMetadataRequested] event.
+typedef MetadataCallback = JSFunction;
+
+/// Success callback for the [onGetActionsRequested] event.
+typedef ActionsCallback = JSFunction;
+
+/// Success callback for the [onReadDirectoryRequested] event. If more
+/// entries will be returned, then `hasMore` must be true, and it
+/// has to be called again with additional entries. If no more entries are
+/// available, then `hasMore` must be set to false.
+typedef EntriesCallback = JSFunction;
+
+/// Success callback for the [onReadFileRequested] event. If more
+/// data will be returned, then `hasMore` must be true, and it
+/// has to be called again with additional entries. If no more data is
+/// available, then `hasMore` must be set to false.
+typedef FileDataCallback = JSFunction;
 
 @JS()
 @staticInterop
@@ -234,7 +259,7 @@ extension EntryMetadataExtension on EntryMetadata {
 
   /// The last modified time of this entry. Must be provided if requested in
   /// `options`.
-  external JSObject? modificationTime;
+  external JSAny? modificationTime;
 
   /// Mime type for the entry. Always optional, but should be provided if
   /// requested in `options`.
@@ -242,7 +267,7 @@ extension EntryMetadataExtension on EntryMetadata {
 
   /// Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at most
   /// 32 KB in size. Optional, but can be provided only when explicitly
-  /// requested by the $(ref:onGetMetadataRequested) event.
+  /// requested by the [onGetMetadataRequested] event.
   external String? thumbnail;
 }
 
@@ -681,7 +706,7 @@ extension RemoveWatcherRequestedOptionsExtension
 class Action {}
 
 extension ActionExtension on Action {
-  /// The identifier of the action. Any string or $(ref:CommonActionId) for
+  /// The identifier of the action. Any string or [CommonActionId] for
   /// common actions.
   external String id;
 

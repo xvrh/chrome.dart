@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/downloads.dart' as $js;
 export 'chrome.dart';
 
 final _downloads = ChromeDownloads._();
@@ -15,145 +16,143 @@ class ChromeDownloads {
   /// `filename` and `saveAs` are specified, then the
   /// Save As dialog will be displayed, pre-populated with the specified
   /// `filename`. If the download started successfully,
-  /// `callback` will be called with the new $(ref:DownloadItem)'s
+  /// `callback` will be called with the new [DownloadItem]'s
   /// `downloadId`. If there was an error starting the download,
   /// then `callback` will be called with
-  /// `downloadId=undefined` and $(ref:runtime.lastError) will contain
+  /// `downloadId=undefined` and [runtime.lastError] will contain
   /// a descriptive string. The error strings are not guaranteed to remain
   /// backwards compatible between releases. Extensions must not parse it.
   /// |options|: What to download and how.
-  /// |callback|: Called with the id of the new $(ref:DownloadItem).
-  void download(options) => throw UnimplementedError();
+  /// |callback|: Called with the id of the new [DownloadItem].
+  Future<int> download(DownloadOptions options) => throw UnimplementedError();
 
-  /// Find $(ref:DownloadItem). Set `query` to the empty object to get
-  /// all $(ref:DownloadItem). To get a specific $(ref:DownloadItem), set only
-  /// the
+  /// Find [DownloadItem]. Set `query` to the empty object to get
+  /// all [DownloadItem]. To get a specific [DownloadItem], set only the
   /// `id` field. To page through a large number of items, set
   /// `orderBy: ['-startTime']`, set `limit` to the
   /// number of items per page, and set `startedAfter` to the
   /// `startTime` of the last item from the last page.
-  void search(query) => throw UnimplementedError();
+  Future<List<DownloadItem>> search(DownloadQuery query) =>
+      throw UnimplementedError();
 
   /// Pause the download. If the request was successful the download is in a
-  /// paused state. Otherwise $(ref:runtime.lastError) contains an error
-  /// message.
+  /// paused state. Otherwise [runtime.lastError] contains an error message.
   /// The request will fail if the download is not active.
   /// |downloadId|: The id of the download to pause.
   /// |callback|: Called when the pause request is completed.
-  void pause(downloadId) => throw UnimplementedError();
+  Future<void> pause(int downloadId) => throw UnimplementedError();
 
   /// Resume a paused download. If the request was successful the download is
-  /// in progress and unpaused. Otherwise $(ref:runtime.lastError) contains an
+  /// in progress and unpaused. Otherwise [runtime.lastError] contains an
   /// error message. The request will fail if the download is not active.
   /// |downloadId|: The id of the download to resume.
   /// |callback|: Called when the resume request is completed.
-  void resume(downloadId) => throw UnimplementedError();
+  Future<void> resume(int downloadId) => throw UnimplementedError();
 
   /// Cancel a download. When `callback` is run, the download is
   /// cancelled, completed, interrupted or doesn't exist anymore.
   /// |downloadId|: The id of the download to cancel.
   /// |callback|: Called when the cancel request is completed.
-  void cancel(downloadId) => throw UnimplementedError();
+  Future<void> cancel(int downloadId) => throw UnimplementedError();
 
   /// Retrieve an icon for the specified download. For new downloads, file
-  /// icons are available after the $(ref:onCreated) event has been received.
-  /// The
+  /// icons are available after the [onCreated] event has been received. The
   /// image returned by this function while a download is in progress may be
   /// different from the image returned after the download is complete. Icon
   /// retrieval is done by querying the underlying operating system or toolkit
   /// depending on the platform. The icon that is returned will therefore
   /// depend on a number of factors including state of the download, platform,
   /// registered file types and visual theme. If a file icon cannot be
-  /// determined, $(ref:runtime.lastError) will contain an error message.
+  /// determined, [runtime.lastError] will contain an error message.
   /// |downloadId|: The identifier for the download.
   /// |callback|: A URL to an image that represents the download.
-  void getFileIcon(
-    downloadId,
-    options,
+  Future<String?> getFileIcon(
+    int downloadId,
+    GetFileIconOptions? options,
   ) =>
       throw UnimplementedError();
 
-  /// Open the downloaded file now if the $(ref:DownloadItem) is complete;
-  /// otherwise returns an error through $(ref:runtime.lastError). Requires the
+  /// Open the downloaded file now if the [DownloadItem] is complete;
+  /// otherwise returns an error through [runtime.lastError]. Requires the
   /// `"downloads.open"` permission in addition to the
-  /// `"downloads"` permission. An $(ref:onChanged) event will fire
+  /// `"downloads"` permission. An [onChanged] event will fire
   /// when the item is opened for the first time.
   /// |downloadId|: The identifier for the downloaded file.
-  void open(downloadId) => throw UnimplementedError();
+  void open(int downloadId) => throw UnimplementedError();
 
   /// Show the downloaded file in its folder in a file manager.
   /// |downloadId|: The identifier for the downloaded file.
-  void show(downloadId) => throw UnimplementedError();
+  void show(int downloadId) => throw UnimplementedError();
 
   /// Show the default Downloads folder in a file manager.
   void showDefaultFolder() => throw UnimplementedError();
 
-  /// Erase matching $(ref:DownloadItem) from history without deleting the
-  /// downloaded file. An $(ref:onErased) event will fire for each
-  /// $(ref:DownloadItem) that matches `query`, then
+  /// Erase matching [DownloadItem] from history without deleting the
+  /// downloaded file. An [onErased] event will fire for each
+  /// [DownloadItem] that matches `query`, then
   /// `callback` will be called.
-  void erase(query) => throw UnimplementedError();
+  Future<List<int>> erase(DownloadQuery query) => throw UnimplementedError();
 
-  /// Remove the downloaded file if it exists and the $(ref:DownloadItem) is
-  /// complete; otherwise return an error through $(ref:runtime.lastError).
-  void removeFile(downloadId) => throw UnimplementedError();
+  /// Remove the downloaded file if it exists and the [DownloadItem] is
+  /// complete; otherwise return an error through [runtime.lastError].
+  Future<void> removeFile(int downloadId) => throw UnimplementedError();
 
   /// Prompt the user to accept a dangerous download. Can only be called from a
   /// visible context (tab, window, or page/browser action popup). Does not
   /// automatically accept dangerous downloads. If the download is accepted,
-  /// then an $(ref:onChanged) event will fire, otherwise nothing will happen.
+  /// then an [onChanged] event will fire, otherwise nothing will happen.
   /// When all the data is fetched into a temporary file and either the
   /// download is not dangerous or the danger has been accepted, then the
   /// temporary file is renamed to the target filename, the |state| changes to
-  /// 'complete', and $(ref:onChanged) fires.
-  /// |downloadId|: The identifier for the $(ref:DownloadItem).
+  /// 'complete', and [onChanged] fires.
+  /// |downloadId|: The identifier for the [DownloadItem].
   /// |callback|: Called when the danger prompt dialog closes.
-  void acceptDanger(downloadId) => throw UnimplementedError();
+  Future<void> acceptDanger(int downloadId) => throw UnimplementedError();
 
   /// Enable or disable the gray shelf at the bottom of every window associated
   /// with the current browser profile. The shelf will be disabled as long as
   /// at least one extension has disabled it. Enabling the shelf while at least
   /// one other extension has disabled it will return an error through
-  /// $(ref:runtime.lastError). Requires the `"downloads.shelf"`
+  /// [runtime.lastError]. Requires the `"downloads.shelf"`
   /// permission in addition to the `"downloads"` permission.
-  void setShelfEnabled(enabled) => throw UnimplementedError();
+  void setShelfEnabled(bool enabled) => throw UnimplementedError();
 
   /// Change the download UI of every window associated with the current
   /// browser profile. As long as at least one extension has set
-  /// $(ref:UiOptions.enabled) to false, the download UI will be hidden.
-  /// Setting $(ref:UiOptions.enabled) to true while at least one other
+  /// [UiOptions.enabled] to false, the download UI will be hidden.
+  /// Setting [UiOptions.enabled] to true while at least one other
   /// extension has disabled it will return an error through
-  /// $(ref:runtime.lastError). Requires the `"downloads.ui"`
+  /// [runtime.lastError]. Requires the `"downloads.ui"`
   /// permission in addition to the `"downloads"` permission.
   /// |options|: Encapsulate a change to the download UI.
   /// |callback|: Called when the UI update is completed.
-  void setUiOptions(options) => throw UnimplementedError();
+  Future<void> setUiOptions(UiOptions options) => throw UnimplementedError();
 
-  /// This event fires with the $(ref:DownloadItem) object when a download
+  /// This event fires with the [DownloadItem] object when a download
   /// begins.
-  Stream get onCreated => throw UnimplementedError();
+  Stream<DownloadItem> get onCreated => throw UnimplementedError();
 
   /// Fires with the `downloadId` when a download is erased from
   /// history.
-  /// |downloadId|: The `id` of the $(ref:DownloadItem) that was
+  /// |downloadId|: The `id` of the [DownloadItem] that was
   /// erased.
-  Stream get onErased => throw UnimplementedError();
+  Stream<int> get onErased => throw UnimplementedError();
 
-  /// When any of a $(ref:DownloadItem)'s properties except
+  /// When any of a [DownloadItem]'s properties except
   /// `bytesReceived` and `estimatedEndTime` changes,
   /// this event fires with the `downloadId` and an object
   /// containing the properties that changed.
-  Stream get onChanged => throw UnimplementedError();
+  Stream<DownloadDelta> get onChanged => throw UnimplementedError();
 
   /// During the filename determination process, extensions will be given the
-  /// opportunity to override the target $(ref:DownloadItem.filename). Each
+  /// opportunity to override the target [DownloadItem.filename]. Each
   /// extension may not register more than one listener for this event. Each
   /// listener must call `suggest` exactly once, either
   /// synchronously or asynchronously. If the listener calls
   /// `suggest` asynchronously, then it must return
   /// `true`. If the listener neither calls `suggest`
   /// synchronously nor returns `true`, then `suggest`
-  /// will be called automatically. The $(ref:DownloadItem) will not complete
+  /// will be called automatically. The [DownloadItem] will not complete
   /// until all listeners have called `suggest`. Listeners may call
   /// `suggest` without any arguments in order to allow the download
   /// to use `downloadItem.filename` for its filename, or pass a
@@ -163,10 +162,11 @@ class ChromeDownloads {
   /// `suggestion` object to `suggest` wins. In order to
   /// avoid confusion regarding which extension will win, users should not
   /// install extensions that may conflict. If the download is initiated by
-  /// $(ref:download) and the target filename is known before the MIME type and
+  /// [download] and the target filename is known before the MIME type and
   /// tentative filename have been determined, pass `filename` to
-  /// $(ref:download) instead.
-  Stream get onDeterminingFilename => throw UnimplementedError();
+  /// [download] instead.
+  Stream<OnDeterminingFilenameEvent> get onDeterminingFilename =>
+      throw UnimplementedError();
 }
 
 /// <dl><dt>uniquify</dt>
@@ -185,6 +185,10 @@ enum FilenameConflictAction {
   const FilenameConflictAction(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static FilenameConflictAction fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum HttpMethod {
@@ -194,6 +198,10 @@ enum HttpMethod {
   const HttpMethod(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static HttpMethod fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum InterruptReason {
@@ -230,6 +238,10 @@ enum InterruptReason {
   const InterruptReason(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static InterruptReason fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// <dl><dt>file</dt>
@@ -276,6 +288,10 @@ enum DangerType {
   const DangerType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static DangerType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// <dl><dt>in_progress</dt>
@@ -293,4 +309,672 @@ enum State {
   const State(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static State fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+typedef SuggestFilenameCallback = void Function(FilenameSuggestion?);
+
+class HeaderNameValuePair {
+  HeaderNameValuePair.fromJS(this._wrapped);
+
+  final $js.HeaderNameValuePair _wrapped;
+
+  $js.HeaderNameValuePair get toJS => _wrapped;
+
+  /// Name of the HTTP header.
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Value of the HTTP header.
+  String get value => _wrapped.value;
+  set value(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class FilenameSuggestion {
+  FilenameSuggestion.fromJS(this._wrapped);
+
+  final $js.FilenameSuggestion _wrapped;
+
+  $js.FilenameSuggestion get toJS => _wrapped;
+
+  /// The [DownloadItem]'s new target [DownloadItem.filename], as a path
+  /// relative to the user's default Downloads directory, possibly containing
+  /// subdirectories. Absolute paths, empty paths, and paths containing
+  /// back-references ".." will be ignored. `filename` is ignored if
+  /// there are any [onDeterminingFilename] listeners registered by any
+  /// extensions.
+  String get filename => _wrapped.filename;
+  set filename(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The action to take if `filename` already exists.
+  FilenameConflictAction? get conflictAction =>
+      _wrapped.conflictAction?.let(FilenameConflictAction.fromJS);
+  set conflictAction(FilenameConflictAction? v) {
+    throw UnimplementedError();
+  }
+}
+
+class DownloadOptions {
+  DownloadOptions.fromJS(this._wrapped);
+
+  final $js.DownloadOptions _wrapped;
+
+  $js.DownloadOptions get toJS => _wrapped;
+
+  /// The URL to download.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A file path relative to the Downloads directory to contain the downloaded
+  /// file, possibly containing subdirectories. Absolute paths, empty paths,
+  /// and paths containing back-references ".." will cause an error.
+  /// [onDeterminingFilename] allows suggesting a filename after the file's
+  /// MIME type and a tentative filename have been determined.
+  String? get filename => _wrapped.filename;
+  set filename(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The action to take if `filename` already exists.
+  FilenameConflictAction? get conflictAction =>
+      _wrapped.conflictAction?.let(FilenameConflictAction.fromJS);
+  set conflictAction(FilenameConflictAction? v) {
+    throw UnimplementedError();
+  }
+
+  /// Use a file-chooser to allow the user to select a filename regardless of
+  /// whether `filename` is set or already exists.
+  bool? get saveAs => _wrapped.saveAs;
+  set saveAs(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The HTTP method to use if the URL uses the HTTP[S] protocol.
+  HttpMethod? get method => _wrapped.method?.let(HttpMethod.fromJS);
+  set method(HttpMethod? v) {
+    throw UnimplementedError();
+  }
+
+  /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
+  /// protocol. Each header is represented as a dictionary containing the keys
+  /// `name` and either `value` or
+  /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
+  List<HeaderNameValuePair>? get headers => throw UnimplementedError();
+  set headers(List<HeaderNameValuePair>? v) {
+    throw UnimplementedError();
+  }
+
+  /// Post body.
+  String? get body => _wrapped.body;
+  set body(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class DownloadItem {
+  DownloadItem.fromJS(this._wrapped);
+
+  final $js.DownloadItem _wrapped;
+
+  $js.DownloadItem get toJS => _wrapped;
+
+  /// An identifier that is persistent across browser sessions.
+  int get id => _wrapped.id;
+  set id(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The absolute URL that this download initiated from, before any
+  /// redirects.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The absolute URL that this download is being made from, after all
+  /// redirects.
+  String get finalUrl => _wrapped.finalUrl;
+  set finalUrl(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Absolute URL.
+  String get referrer => _wrapped.referrer;
+  set referrer(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Absolute local path.
+  String get filename => _wrapped.filename;
+  set filename(String v) {
+    throw UnimplementedError();
+  }
+
+  /// False if this download is recorded in the history, true if it is not
+  /// recorded.
+  bool get incognito => _wrapped.incognito;
+  set incognito(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Indication of whether this download is thought to be safe or known to be
+  /// suspicious.
+  DangerType get danger => DangerType.fromJS(_wrapped.danger);
+  set danger(DangerType v) {
+    throw UnimplementedError();
+  }
+
+  /// The file's MIME type.
+  String get mime => _wrapped.mime;
+  set mime(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the download began in ISO 8601 format. May be passed
+  /// directly to the Date constructor: `chrome.downloads.search({},
+  /// function(items){items.forEach(function(item){console.log(new
+  /// Date(item.startTime))})})`
+  String get startTime => _wrapped.startTime;
+  set startTime(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the download ended in ISO 8601 format. May be passed
+  /// directly to the Date constructor: `chrome.downloads.search({},
+  /// function(items){items.forEach(function(item){if (item.endTime)
+  /// console.log(new Date(item.endTime))})})`
+  String? get endTime => _wrapped.endTime;
+  set endTime(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Estimated time when the download will complete in ISO 8601 format. May be
+  /// passed directly to the Date constructor:
+  /// `chrome.downloads.search({},
+  /// function(items){items.forEach(function(item){if (item.estimatedEndTime)
+  /// console.log(new Date(item.estimatedEndTime))})})`
+  String? get estimatedEndTime => _wrapped.estimatedEndTime;
+  set estimatedEndTime(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Indicates whether the download is progressing, interrupted, or complete.
+  State get state => State.fromJS(_wrapped.state);
+  set state(State v) {
+    throw UnimplementedError();
+  }
+
+  /// True if the download has stopped reading data from the host, but kept the
+  /// connection open.
+  bool get paused => _wrapped.paused;
+  set paused(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// True if the download is in progress and paused, or else if it is
+  /// interrupted and can be resumed starting from where it was interrupted.
+  bool get canResume => _wrapped.canResume;
+  set canResume(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Why the download was interrupted. Several kinds of HTTP errors may be
+  /// grouped under one of the errors beginning with `SERVER_`.
+  /// Errors relating to the network begin with `NETWORK_`, errors
+  /// relating to the process of writing the file to the file system begin with
+  /// `FILE_`, and interruptions initiated by the user begin with
+  /// `USER_`.
+  InterruptReason? get error => _wrapped.error?.let(InterruptReason.fromJS);
+  set error(InterruptReason? v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes received so far from the host, without considering file
+  /// compression.
+  double get bytesReceived => _wrapped.bytesReceived;
+  set bytesReceived(double v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes in the whole file, without considering file compression,
+  /// or -1 if unknown.
+  double get totalBytes => _wrapped.totalBytes;
+  set totalBytes(double v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes in the whole file post-decompression, or -1 if unknown.
+  double get fileSize => _wrapped.fileSize;
+  set fileSize(double v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the downloaded file still exists. This information may be out of
+  /// date because Chrome does not automatically watch for file removal. Call
+  /// [search]() in order to trigger the check for file existence. When the
+  /// existence check completes, if the file has been deleted, then an
+  /// [onChanged] event will fire. Note that [search]() does not wait
+  /// for the existence check to finish before returning, so results from
+  /// [search]() may not accurately reflect the file system. Also,
+  /// [search]() may be called as often as necessary, but will not check for
+  /// file existence any more frequently than once every 10 seconds.
+  bool get exists => _wrapped.exists;
+  set exists(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// The identifier for the extension that initiated this download if this
+  /// download was initiated by an extension. Does not change once it is set.
+  String? get byExtensionId => _wrapped.byExtensionId;
+  set byExtensionId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The localized name of the extension that initiated this download if this
+  /// download was initiated by an extension. May change if the extension
+  /// changes its name or if the user changes their locale.
+  String? get byExtensionName => _wrapped.byExtensionName;
+  set byExtensionName(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class DownloadQuery {
+  DownloadQuery.fromJS(this._wrapped);
+
+  final $js.DownloadQuery _wrapped;
+
+  $js.DownloadQuery get toJS => _wrapped;
+
+  /// This array of search terms limits results to [DownloadItem] whose
+  /// `filename` or `url` or `finalUrl`
+  /// contain all of the search terms that do not begin with a dash '-' and
+  /// none of the search terms that do begin with a dash.
+  List<String>? get query => throw UnimplementedError();
+  set query(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] that
+  /// started before the given ms since the epoch.
+  String? get startedBefore => _wrapped.startedBefore;
+  set startedBefore(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] that
+  /// started after the given ms since the epoch.
+  String? get startedAfter => _wrapped.startedAfter;
+  set startedAfter(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] that ended before the given ms since the
+  /// epoch.
+  String? get endedBefore => _wrapped.endedBefore;
+  set endedBefore(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] that ended after the given ms since the
+  /// epoch.
+  String? get endedAfter => _wrapped.endedAfter;
+  set endedAfter(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] whose
+  /// `totalBytes` is greater than the given integer.
+  double? get totalBytesGreater => _wrapped.totalBytesGreater;
+  set totalBytesGreater(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] whose
+  /// `totalBytes` is less than the given integer.
+  double? get totalBytesLess => _wrapped.totalBytesLess;
+  set totalBytesLess(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] whose
+  /// `filename` matches the given regular expression.
+  String? get filenameRegex => _wrapped.filenameRegex;
+  set filenameRegex(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] whose
+  /// `url` matches the given regular expression.
+  String? get urlRegex => _wrapped.urlRegex;
+  set urlRegex(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Limits results to [DownloadItem] whose
+  /// `finalUrl` matches the given regular expression.
+  String? get finalUrlRegex => _wrapped.finalUrlRegex;
+  set finalUrlRegex(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The maximum number of matching [DownloadItem] returned. Defaults to
+  /// 1000. Set to 0 in order to return all matching [DownloadItem]. See
+  /// [search] for how to page through results.
+  int? get limit => _wrapped.limit;
+  set limit(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// Set elements of this array to [DownloadItem] properties in order to
+  /// sort search results. For example, setting
+  /// `orderBy=['startTime']` sorts the [DownloadItem] by their
+  /// start time in ascending order. To specify descending order, prefix with a
+  /// hyphen: '-startTime'.
+  List<String>? get orderBy => throw UnimplementedError();
+  set orderBy(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// The `id` of the [DownloadItem] to query.
+  int? get id => _wrapped.id;
+  set id(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// The absolute URL that this download initiated from, before any
+  /// redirects.
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The absolute URL that this download is being made from, after all
+  /// redirects.
+  String? get finalUrl => _wrapped.finalUrl;
+  set finalUrl(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Absolute local path.
+  String? get filename => _wrapped.filename;
+  set filename(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Indication of whether this download is thought to be safe or known to be
+  /// suspicious.
+  DangerType? get danger => _wrapped.danger?.let(DangerType.fromJS);
+  set danger(DangerType? v) {
+    throw UnimplementedError();
+  }
+
+  /// The file's MIME type.
+  String? get mime => _wrapped.mime;
+  set mime(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the download began in ISO 8601 format.
+  String? get startTime => _wrapped.startTime;
+  set startTime(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The time when the download ended in ISO 8601 format.
+  String? get endTime => _wrapped.endTime;
+  set endTime(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Indicates whether the download is progressing, interrupted, or complete.
+  State? get state => _wrapped.state?.let(State.fromJS);
+  set state(State? v) {
+    throw UnimplementedError();
+  }
+
+  /// True if the download has stopped reading data from the host, but kept the
+  /// connection open.
+  bool? get paused => _wrapped.paused;
+  set paused(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// Why a download was interrupted.
+  InterruptReason? get error => _wrapped.error?.let(InterruptReason.fromJS);
+  set error(InterruptReason? v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes received so far from the host, without considering file
+  /// compression.
+  double? get bytesReceived => _wrapped.bytesReceived;
+  set bytesReceived(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes in the whole file, without considering file compression,
+  /// or -1 if unknown.
+  double? get totalBytes => _wrapped.totalBytes;
+  set totalBytes(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes in the whole file post-decompression, or -1 if unknown.
+  double? get fileSize => _wrapped.fileSize;
+  set fileSize(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the downloaded file exists;
+  bool? get exists => _wrapped.exists;
+  set exists(bool? v) {
+    throw UnimplementedError();
+  }
+}
+
+class StringDelta {
+  StringDelta.fromJS(this._wrapped);
+
+  final $js.StringDelta _wrapped;
+
+  $js.StringDelta get toJS => _wrapped;
+
+  String? get previous => _wrapped.previous;
+  set previous(String? v) {
+    throw UnimplementedError();
+  }
+
+  String? get current => _wrapped.current;
+  set current(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class DoubleDelta {
+  DoubleDelta.fromJS(this._wrapped);
+
+  final $js.DoubleDelta _wrapped;
+
+  $js.DoubleDelta get toJS => _wrapped;
+
+  double? get previous => _wrapped.previous;
+  set previous(double? v) {
+    throw UnimplementedError();
+  }
+
+  double? get current => _wrapped.current;
+  set current(double? v) {
+    throw UnimplementedError();
+  }
+}
+
+class BooleanDelta {
+  BooleanDelta.fromJS(this._wrapped);
+
+  final $js.BooleanDelta _wrapped;
+
+  $js.BooleanDelta get toJS => _wrapped;
+
+  bool? get previous => _wrapped.previous;
+  set previous(bool? v) {
+    throw UnimplementedError();
+  }
+
+  bool? get current => _wrapped.current;
+  set current(bool? v) {
+    throw UnimplementedError();
+  }
+}
+
+class DownloadDelta {
+  DownloadDelta.fromJS(this._wrapped);
+
+  final $js.DownloadDelta _wrapped;
+
+  $js.DownloadDelta get toJS => _wrapped;
+
+  /// The `id` of the [DownloadItem]
+  /// that changed.
+  int get id => _wrapped.id;
+  set id(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `url`, if any.
+  StringDelta? get url => _wrapped.url?.let(StringDelta.fromJS);
+  set url(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `finalUrl`, if any.
+  StringDelta? get finalUrl => _wrapped.finalUrl?.let(StringDelta.fromJS);
+  set finalUrl(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `filename`, if any.
+  StringDelta? get filename => _wrapped.filename?.let(StringDelta.fromJS);
+  set filename(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `danger`, if any.
+  StringDelta? get danger => _wrapped.danger?.let(StringDelta.fromJS);
+  set danger(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `mime`, if any.
+  StringDelta? get mime => _wrapped.mime?.let(StringDelta.fromJS);
+  set mime(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `startTime`, if any.
+  StringDelta? get startTime => _wrapped.startTime?.let(StringDelta.fromJS);
+  set startTime(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `endTime`, if any.
+  StringDelta? get endTime => _wrapped.endTime?.let(StringDelta.fromJS);
+  set endTime(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `state`, if any.
+  StringDelta? get state => _wrapped.state?.let(StringDelta.fromJS);
+  set state(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `canResume`, if any.
+  BooleanDelta? get canResume => _wrapped.canResume?.let(BooleanDelta.fromJS);
+  set canResume(BooleanDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `paused`, if any.
+  BooleanDelta? get paused => _wrapped.paused?.let(BooleanDelta.fromJS);
+  set paused(BooleanDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `error`, if any.
+  StringDelta? get error => _wrapped.error?.let(StringDelta.fromJS);
+  set error(StringDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `totalBytes`, if any.
+  DoubleDelta? get totalBytes => _wrapped.totalBytes?.let(DoubleDelta.fromJS);
+  set totalBytes(DoubleDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `fileSize`, if any.
+  DoubleDelta? get fileSize => _wrapped.fileSize?.let(DoubleDelta.fromJS);
+  set fileSize(DoubleDelta? v) {
+    throw UnimplementedError();
+  }
+
+  /// The change in `exists`, if any.
+  BooleanDelta? get exists => _wrapped.exists?.let(BooleanDelta.fromJS);
+  set exists(BooleanDelta? v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetFileIconOptions {
+  GetFileIconOptions.fromJS(this._wrapped);
+
+  final $js.GetFileIconOptions _wrapped;
+
+  $js.GetFileIconOptions get toJS => _wrapped;
+
+  /// The size of the returned icon. The icon will be square with dimensions
+  /// size * size pixels. The default and largest size for the icon is 32x32
+  /// pixels. The only supported sizes are 16 and 32. It is an error to specify
+  /// any other size.
+  int? get size => _wrapped.size;
+  set size(int? v) {
+    throw UnimplementedError();
+  }
+}
+
+class UiOptions {
+  UiOptions.fromJS(this._wrapped);
+
+  final $js.UiOptions _wrapped;
+
+  $js.UiOptions get toJS => _wrapped;
+
+  /// Enable or disable the download UI.
+  bool get enabled => _wrapped.enabled;
+  set enabled(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnDeterminingFilenameEvent {
+  OnDeterminingFilenameEvent({
+    required this.downloadItem,
+    required this.suggest,
+  });
+
+  final DownloadItem downloadItem;
+
+  final SuggestFilenameCallback suggest;
 }

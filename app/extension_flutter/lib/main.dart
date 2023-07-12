@@ -1,6 +1,7 @@
-import 'package:extension_flutter/tabs/tabs.dart' as chrome;
+import 'package:extension_flutter/tabs/tabs.dart' as tabs;
 import 'package:flutter/material.dart';
 import 'package:chrome/src/js/tabs.dart' as binding;
+import 'package:chrome/system_memory.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -33,13 +34,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<chrome.Tab>> _tabs;
+  late Future<List<tabs.Tab>> _tabs;
 
   @override
   void initState() {
     super.initState();
 
-    _tabs = chrome.tabs.query(queryInfo: chrome.QueryInfo(currentWindow: true));
+    _tabs = tabs.tabs.query(queryInfo: tabs.QueryInfo(currentWindow: true));
   }
 
   @override
@@ -51,13 +52,25 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          Slider(value: 1, onChanged: (v) {}, divisions: 10),
           Row(
             children: [
               ElevatedButton(
+                onPressed: () async {
+                  var info = await chrome.systemMemory.getInfo();
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'Memory ${info.capacity} / ${info.availableCapacity}')));
+                  }
+                },
+                child: Text('Get Memory'),
+              ),
+              ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    _tabs = chrome.tabs.query(
-                        queryInfo: chrome.QueryInfo(currentWindow: false));
+                    _tabs = tabs.tabs
+                        .query(queryInfo: tabs.QueryInfo(currentWindow: false));
                   });
                 },
                 child: Text('List all Here'),
@@ -65,8 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    _tabs = chrome.tabs.query(
-                        queryInfo: chrome.QueryInfo(currentWindow: true));
+                    _tabs = tabs.tabs
+                        .query(queryInfo: tabs.QueryInfo(currentWindow: true));
                   });
                 },
                 child: Text('Current window'),
@@ -75,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              var newTab = await chrome.tabs.create(active: false);
+              var newTab = await tabs.tabs.create(active: false);
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('New tab ${newTab.id}')));
@@ -86,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Text(
               '${binding.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND}'),
           Expanded(
-            child: FutureBuilder<List<chrome.Tab>>(
+            child: FutureBuilder<List<tabs.Tab>>(
               future: _tabs,
               builder: (context, snapshot) {
                 print('Got $snapshot');

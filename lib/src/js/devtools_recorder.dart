@@ -34,14 +34,14 @@ class RecorderExtensionPlugin {}
 
 extension RecorderExtensionPluginExtension on RecorderExtensionPlugin {
   /// Converts a recording from the Recorder panel format into a string.
-  external void stringify(JSObject recording);
+  external void stringify(JSAny recording);
 
   /// Converts a step of the recording from the Recorder panel format into a
   /// string.
-  external void stringifyStep(JSObject step);
+  external void stringifyStep(JSAny step);
 
   /// Allows the extension to implement custom replay functionality.
-  external void replay(JSObject recording);
+  external void replay(JSAny recording);
 }
 
 @JS()

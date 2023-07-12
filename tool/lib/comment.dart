@@ -1,11 +1,10 @@
 import 'dart:convert';
 
+import '../src/utils.dart';
+
 //TODO: convert html to markdown
-String documentationComment(String documentation,
-    {String? argumentName, required int indent}) {
-  if (argumentName != null) {
-    documentation = '[$argumentName]: $documentation';
-  }
+String documentationComment(String documentation, {required int indent}) {
+  documentation = convertHtmlToDartdoc(documentation);
 
   return _toComment(documentation, indent: indent);
 }

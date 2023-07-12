@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'tabs.dart';
+import 'src/js/runtime.dart' as $js;
 export 'chrome.dart';
 
 final _runtime = ChromeRuntime._();
@@ -14,51 +16,56 @@ class ChromeRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  void getBackgroundPage() => throw UnimplementedError();
+  Future<JSObject?> getBackgroundPage() => throw UnimplementedError();
 
-  /// <p>Open your Extension's options page, if possible.</p><p>The precise
-  /// behavior may depend on your manifest's `<a
-  /// href="optionsV2">options_ui</a>` or `<a href="options">options_page</a>`
-  /// key, or what Chrome happens to support at the time. For example, the page
-  /// may be opened in a new tab, within chrome://extensions, within an App, or
-  /// it may just focus an open options page. It will never cause the caller
-  /// page to reload.</p><p>If your Extension does not declare an options page,
-  /// or Chrome failed to create one for some other reason, the callback will
-  /// set $(ref:lastError).</p>
-  void openOptionsPage() => throw UnimplementedError();
+  /// Open your Extension's options page, if possible.
+  ///
+  /// The precise behavior may depend on your manifest's
+  /// `[options_ui](optionsV2)` or `[options_page](options)` key, or what Chrome
+  /// happens to support at the time. For example, the page may be opened in a
+  /// new tab, within chrome://extensions, within an App, or it may just focus
+  /// an open options page. It will never cause the caller page to reload.
+  ///
+  /// If your Extension does not declare an options page, or Chrome failed to
+  /// create one for some other reason, the callback will set [lastError].
+  Future<void> openOptionsPage() => throw UnimplementedError();
 
   /// Returns details about the app or extension from the manifest. The object
-  /// returned is a serialization of the full <a href="manifest.html">manifest
-  /// file</a>.
-  void getManifest() => throw UnimplementedError();
+  /// returned is a serialization of the full [manifest file](manifest.html).
+  GetManifestReturn getManifest() => throw UnimplementedError();
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  void getURL(path) => throw UnimplementedError();
+  String getURL(String path) => throw UnimplementedError();
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  void setUninstallURL(url) => throw UnimplementedError();
+  Future<void> setUninstallURL(String url) => throw UnimplementedError();
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
   void reload() => throw UnimplementedError();
 
-  /// <p>Requests an immediate update check be done for this app/extension.</p>
-  /// <p>**Important**: Most extensions/apps should **not** use this method,
-  /// since Chrome already does automatic checks every few hours, and you can
-  /// listen for the $(ref:runtime.onUpdateAvailable) event without needing to
-  /// call requestUpdateCheck.</p><p>This method is only appropriate to call in
-  /// very limited circumstances, such as if your extension/app talks to a
-  /// backend service, and the backend service has determined that the client
-  /// extension/app version is very far out of date and you'd like to prompt a
-  /// user to update. Most other uses of requestUpdateCheck, such as calling it
-  /// unconditionally based on a repeating timer, probably only serve to waste
-  /// client, network, and server resources.</p><p>Note: When called with a
-  /// callback, instead of returning an object this function will return the two
-  /// properties as separate arguments passed to the callback.</p>
-  void requestUpdateCheck() => throw UnimplementedError();
+  /// Requests an immediate update check be done for this app/extension.
+  /// **Important**: Most extensions/apps should **not** use this method, since
+  /// Chrome already does automatic checks every few hours, and you can listen
+  /// for the [runtime.onUpdateAvailable] event without needing to call
+  /// requestUpdateCheck.
+  ///
+  /// This method is only appropriate to call in very limited circumstances,
+  /// such as if your extension/app talks to a backend service, and the backend
+  /// service has determined that the client extension/app version is very far
+  /// out of date and you'd like to prompt a user to update. Most other uses of
+  /// requestUpdateCheck, such as calling it unconditionally based on a
+  /// repeating timer, probably only serve to waste client, network, and server
+  /// resources.
+  ///
+  /// Note: When called with a callback, instead of returning an object this
+  /// function will return the two properties as separate arguments passed to
+  /// the callback.
+  Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() =>
+      throw UnimplementedError();
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
   /// it's no-op.
@@ -69,64 +76,71 @@ class ChromeRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  void restartAfterDelay(seconds) => throw UnimplementedError();
+  Future<void> restartAfterDelay(int seconds) => throw UnimplementedError();
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
   /// scripts connecting to their extension processes, inter-app/extension
-  /// communication, and <a href="manifest/externally_connectable.html">web
-  /// messaging</a>. Note that this does not connect to any listeners in a
-  /// content script. Extensions may connect to content scripts embedded in tabs
-  /// via $(ref:tabs.connect).
-  void connect(
-    extensionId,
-    connectInfo,
+  /// communication, and [web messaging](manifest/externally_connectable.html).
+  /// Note that this does not connect to any listeners in a content script.
+  /// Extensions may connect to content scripts embedded in tabs via
+  /// [tabs.connect].
+  Port connect(
+    String? extensionId,
+    ConnectInfo? connectInfo,
   ) =>
       throw UnimplementedError();
 
-  /// Connects to a native application in the host machine. See <a
-  /// href="nativeMessaging">Native Messaging</a> for more information.
-  void connectNative(application) => throw UnimplementedError();
+  /// Connects to a native application in the host machine. See [Native
+  /// Messaging](nativeMessaging) for more information.
+  Port connectNative(String application) => throw UnimplementedError();
 
   /// Sends a single message to event listeners within your extension/app or a
-  /// different extension/app. Similar to $(ref:runtime.connect) but only sends
-  /// a single message, with an optional response. If sending to your extension,
-  /// the $(ref:runtime.onMessage) event will be fired in every frame of your
-  /// extension (except for the sender's frame), or
-  /// $(ref:runtime.onMessageExternal), if a different extension. Note that
-  /// extensions cannot send messages to content scripts using this method. To
-  /// send messages to content scripts, use $(ref:tabs.sendMessage).
-  void sendMessage(
-    extensionId,
-    message,
-    options,
+  /// different extension/app. Similar to [runtime.connect] but only sends a
+  /// single message, with an optional response. If sending to your extension,
+  /// the [runtime.onMessage] event will be fired in every frame of your
+  /// extension (except for the sender's frame), or [runtime.onMessageExternal],
+  /// if a different extension. Note that extensions cannot send messages to
+  /// content scripts using this method. To send messages to content scripts,
+  /// use [tabs.sendMessage].
+  Future<JSAny> sendMessage(
+    String? extensionId,
+    JSAny message,
+    SendMessageOptions? options,
   ) =>
       throw UnimplementedError();
 
   /// Send a single message to a native application.
-  void sendNativeMessage(
-    application,
-    message,
+  Future<JSAny> sendNativeMessage(
+    String application,
+    JSAny message,
   ) =>
       throw UnimplementedError();
 
   /// Returns information about the current platform.
-  void getPlatformInfo() => throw UnimplementedError();
+  Future<PlatformInfo> getPlatformInfo() => throw UnimplementedError();
 
   /// Returns a DirectoryEntry for the package directory.
-  void getPackageDirectoryEntry(callback) => throw UnimplementedError();
+  void getPackageDirectoryEntry(JSAny callback) => throw UnimplementedError();
 
   /// Fetches information about active contexts associated with this extension
-  void getContexts(filter) => throw UnimplementedError();
+  Future<List<ExtensionContext>> getContexts(ContextFilter filter) =>
+      throw UnimplementedError();
+
+  /// This will be defined during an API method callback if there was an error
+  RuntimeLastError? get lastError => $js.chrome.runtime.lastError as dynamic;
+
+  /// The ID of the extension/app.
+  String get id => $js.chrome.runtime.id as dynamic;
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
   /// extension is operating in 'split' incognito mode.
-  Stream get onStartup => throw UnimplementedError();
+  Stream<void> get onStartup => throw UnimplementedError();
 
   /// Fired when the extension is first installed, when the extension is updated
   /// to a new version, and when Chrome is updated to a new version.
-  Stream get onInstalled => throw UnimplementedError();
+  Stream<OnInstalledDetails> get onInstalled => throw UnimplementedError();
 
   /// Sent to the event page just before it is unloaded. This gives the
   /// extension opportunity to do some clean up. Note that since the page is
@@ -134,10 +148,10 @@ class ChromeRuntime {
   /// are not guaranteed to complete. If more activity for the event page occurs
   /// before it gets unloaded the onSuspendCanceled event will be sent and the
   /// page won't be unloaded.
-  Stream get onSuspend => throw UnimplementedError();
+  Stream<void> get onSuspend => throw UnimplementedError();
 
   /// Sent after onSuspend to indicate that the app won't be unloaded after all.
-  Stream get onSuspendCanceled => throw UnimplementedError();
+  Stream<void> get onSuspendCanceled => throw UnimplementedError();
 
   /// Fired when an update is available, but isn't installed immediately because
   /// the app is currently running. If you do nothing, the update will be
@@ -149,39 +163,41 @@ class ChromeRuntime {
   /// the next time Chrome itself restarts. If no handlers are listening for
   /// this event, and your extension has a persistent background page, it
   /// behaves as if chrome.runtime.reload() is called in response to this event.
-  Stream get onUpdateAvailable => throw UnimplementedError();
+  Stream<OnUpdateAvailableDetails> get onUpdateAvailable =>
+      throw UnimplementedError();
 
   /// Fired when a Chrome update is available, but isn't installed immediately
   /// because a browser restart is required.
-  Stream get onBrowserUpdateAvailable => throw UnimplementedError();
+  Stream<void> get onBrowserUpdateAvailable => throw UnimplementedError();
 
   /// Fired when a connection is made from either an extension process or a
-  /// content script (by $(ref:runtime.connect)).
-  Stream get onConnect => throw UnimplementedError();
+  /// content script (by [runtime.connect]).
+  Stream<Port> get onConnect => throw UnimplementedError();
 
   /// Fired when a connection is made from another extension (by
-  /// $(ref:runtime.connect)).
-  Stream get onConnectExternal => throw UnimplementedError();
+  /// [runtime.connect]).
+  Stream<Port> get onConnectExternal => throw UnimplementedError();
 
   /// Fired when a connection is made from a native application. Currently only
   /// supported on Chrome OS.
-  Stream get onConnectNative => throw UnimplementedError();
+  Stream<Port> get onConnectNative => throw UnimplementedError();
 
   /// Fired when a message is sent from either an extension process (by
-  /// $(ref:runtime.sendMessage)) or a content script (by
-  /// $(ref:tabs.sendMessage)).
-  Stream get onMessage => throw UnimplementedError();
+  /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
+  Stream<OnMessageEvent> get onMessage => throw UnimplementedError();
 
   /// Fired when a message is sent from another extension/app (by
-  /// $(ref:runtime.sendMessage)). Cannot be used in a content script.
-  Stream get onMessageExternal => throw UnimplementedError();
+  /// [runtime.sendMessage]). Cannot be used in a content script.
+  Stream<OnMessageExternalEvent> get onMessageExternal =>
+      throw UnimplementedError();
 
   /// Fired when an app or the device that it runs on needs to be restarted. The
   /// app should close all its windows at its earliest convenient time to let
   /// the restart to happen. If the app does nothing, a restart will be enforced
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
-  Stream get onRestartRequired => throw UnimplementedError();
+  Stream<OnRestartRequiredReason> get onRestartRequired =>
+      throw UnimplementedError();
 }
 
 /// The operating system Chrome is running on.
@@ -197,6 +213,10 @@ enum PlatformOs {
   const PlatformOs(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static PlatformOs fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The machine's processor architecture.
@@ -211,6 +231,10 @@ enum PlatformArch {
   const PlatformArch(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static PlatformArch fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The native client architecture. This may be different from arch on some
@@ -225,6 +249,10 @@ enum PlatformNaclArch {
   const PlatformNaclArch(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static PlatformNaclArch fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// Result of the update check.
@@ -236,6 +264,10 @@ enum RequestUpdateCheckStatus {
   const RequestUpdateCheckStatus(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static RequestUpdateCheckStatus fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The reason that this event is being dispatched.
@@ -248,6 +280,10 @@ enum OnInstalledReason {
   const OnInstalledReason(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static OnInstalledReason fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// The reason that the event is being dispatched. 'app_update' is used when the
@@ -263,6 +299,10 @@ enum OnRestartRequiredReason {
   const OnRestartRequiredReason(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static OnRestartRequiredReason fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 enum ContextType {
@@ -274,4 +314,452 @@ enum ContextType {
   const ContextType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static ContextType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class Port {
+  Port.fromJS(this._wrapped);
+
+  final $js.Port _wrapped;
+
+  $js.Port get toJS => _wrapped;
+
+  /// The name of the port, as specified in the call to [runtime.connect].
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Immediately disconnect the port. Calling `disconnect()` on an
+  /// already-disconnected port has no effect. When a port is disconnected, no
+  /// new events will be dispatched to this port.
+  JSAny get disconnect => _wrapped.disconnect;
+  set disconnect(JSAny v) {
+    throw UnimplementedError();
+  }
+
+  /// Send a message to the other end of the port. If the port is disconnected,
+  /// an error is thrown.
+  JSAny get postMessage => _wrapped.postMessage;
+  set postMessage(JSAny v) {
+    throw UnimplementedError();
+  }
+
+  /// This property will **only** be present on ports passed to
+  /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
+  /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
+  /// listeners.
+  MessageSender? get sender => _wrapped.sender?.let(MessageSender.fromJS);
+  set sender(MessageSender? v) {
+    throw UnimplementedError();
+  }
+
+  /// Fired when the port is disconnected from the other end(s).
+  /// [runtime.lastError] may be set if the port was disconnected by an error.
+  /// If the port is closed via $(ref:Port.disconnect disconnect), then this
+  /// event is _only_ fired on the other end. This event is fired at most once
+  /// (see also [Port lifetime](messaging#port-lifetime)).
+  Stream<Port> get onDisconnect => throw UnimplementedError();
+
+  /// This event is fired when $(ref:Port.postMessage postMessage) is called by
+  /// the other end of the port.
+  Stream<PortOnMessageEvent> get onMessage => throw UnimplementedError();
+}
+
+class MessageSender {
+  MessageSender.fromJS(this._wrapped);
+
+  final $js.MessageSender _wrapped;
+
+  $js.MessageSender get toJS => _wrapped;
+
+  /// The [tabs.Tab] which opened the connection, if any. This property will
+  /// *only* be present when the connection was opened from a tab (including
+  /// content scripts), and *only* if the receiver is an extension, not an app.
+  Tab? get tab => _wrapped.tab?.let(Tab.fromJS);
+  set tab(Tab? v) {
+    throw UnimplementedError();
+  }
+
+  /// The [frame](webNavigation#frame_ids) that opened the connection. 0 for
+  /// top-level frames, positive for child frames. This will only be set when
+  /// `tab` is set.
+  int? get frameId => _wrapped.frameId;
+  set frameId(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// The guest process id of the requesting webview, if available. Only
+  /// available for component extensions.
+  int? get guestProcessId => _wrapped.guestProcessId;
+  set guestProcessId(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// The guest render frame routing id of the requesting webview, if available.
+  /// Only available for component extensions.
+  int? get guestRenderFrameRoutingId => _wrapped.guestRenderFrameRoutingId;
+  set guestRenderFrameRoutingId(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the extension or app that opened the connection, if any.
+  String? get id => _wrapped.id;
+  set id(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The URL of the page or frame that opened the connection. If the sender is
+  /// in an iframe, it will be iframe's URL not the URL of the page which hosts
+  /// it.
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The name of the native application that opened the connection, if any.
+  String? get nativeApplication => _wrapped.nativeApplication;
+  set nativeApplication(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The TLS channel ID of the page or frame that opened the connection, if
+  /// requested by the extension or app, and if available.
+  String? get tlsChannelId => _wrapped.tlsChannelId;
+  set tlsChannelId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The origin of the page or frame that opened the connection. It can vary
+  /// from the url property (e.g., about:blank) or can be opaque (e.g.,
+  /// sandboxed iframes). This is useful for identifying if the origin can be
+  /// trusted if we can't immediately tell from the URL.
+  String? get origin => _wrapped.origin;
+  set origin(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID of the document that opened the connection.
+  String? get documentId => _wrapped.documentId;
+  set documentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The lifecycle the document that opened the connection is in at the time
+  /// the port was created. Note that the lifecycle state of the document may
+  /// have changed since port creation.
+  String? get documentLifecycle => _wrapped.documentLifecycle;
+  set documentLifecycle(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class PlatformInfo {
+  PlatformInfo.fromJS(this._wrapped);
+
+  final $js.PlatformInfo _wrapped;
+
+  $js.PlatformInfo get toJS => _wrapped;
+
+  /// The operating system Chrome is running on.
+  PlatformOs get os => PlatformOs.fromJS(_wrapped.os);
+  set os(PlatformOs v) {
+    throw UnimplementedError();
+  }
+
+  /// The machine's processor architecture.
+  PlatformArch get arch => PlatformArch.fromJS(_wrapped.arch);
+  set arch(PlatformArch v) {
+    throw UnimplementedError();
+  }
+
+  /// The native client architecture. This may be different from arch on some
+  /// platforms.
+  PlatformNaclArch get nacl_arch => PlatformNaclArch.fromJS(_wrapped.nacl_arch);
+  set nacl_arch(PlatformNaclArch v) {
+    throw UnimplementedError();
+  }
+}
+
+class ExtensionContext {
+  ExtensionContext.fromJS(this._wrapped);
+
+  final $js.ExtensionContext _wrapped;
+
+  $js.ExtensionContext get toJS => _wrapped;
+
+  /// The type of context this corresponds to.
+  ContextType get contextType => ContextType.fromJS(_wrapped.contextType);
+  set contextType(ContextType v) {
+    throw UnimplementedError();
+  }
+
+  /// A unique identifier for this context
+  String get contextId => _wrapped.contextId;
+  set contextId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the tab for this context, or -1 if this context is not hosted in
+  /// a tab.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the window for this context, or -1 if this context is not hosted
+  /// in a window.
+  int get windowId => _wrapped.windowId;
+  set windowId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// A UUID for the document associated with this context, or undefined if this
+  /// context is hosted not in a document.
+  String? get documentId => _wrapped.documentId;
+  set documentId(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The ID of the frame for this context, or -1 if this context is not hosted
+  /// in a frame.
+  int get frameId => _wrapped.frameId;
+  set frameId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The URL of the document associated with this context, or undefined if the
+  /// context is not hosted in a document.
+  String? get documentUrl => _wrapped.documentUrl;
+  set documentUrl(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// The origin of the document associated with this context, or undefined if
+  /// the context is not hosted in a document.
+  String? get documentOrigin => _wrapped.documentOrigin;
+  set documentOrigin(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the context is associated with an incognito profile.
+  bool get incognito => _wrapped.incognito;
+  set incognito(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class ContextFilter {
+  ContextFilter.fromJS(this._wrapped);
+
+  final $js.ContextFilter _wrapped;
+
+  $js.ContextFilter get toJS => _wrapped;
+
+  List<ContextType>? get contextTypes => throw UnimplementedError();
+  set contextTypes(List<ContextType>? v) {
+    throw UnimplementedError();
+  }
+
+  List<String>? get contextIds => throw UnimplementedError();
+  set contextIds(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  List<int>? get tabIds => throw UnimplementedError();
+  set tabIds(List<int>? v) {
+    throw UnimplementedError();
+  }
+
+  List<int>? get windowIds => throw UnimplementedError();
+  set windowIds(List<int>? v) {
+    throw UnimplementedError();
+  }
+
+  List<String>? get documentIds => throw UnimplementedError();
+  set documentIds(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  List<int>? get frameIds => throw UnimplementedError();
+  set frameIds(List<int>? v) {
+    throw UnimplementedError();
+  }
+
+  List<String>? get documentUrls => throw UnimplementedError();
+  set documentUrls(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  List<String>? get documentOrigins => throw UnimplementedError();
+  set documentOrigins(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  bool? get incognito => _wrapped.incognito;
+  set incognito(bool? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnInstalledDetails {
+  OnInstalledDetails.fromJS(this._wrapped);
+
+  final $js.OnInstalledDetails _wrapped;
+
+  $js.OnInstalledDetails get toJS => _wrapped;
+
+  /// The reason that this event is being dispatched.
+  OnInstalledReason get reason => OnInstalledReason.fromJS(_wrapped.reason);
+  set reason(OnInstalledReason v) {
+    throw UnimplementedError();
+  }
+
+  /// Indicates the previous version of the extension, which has just been
+  /// updated. This is present only if 'reason' is 'update'.
+  String? get previousVersion => _wrapped.previousVersion;
+  set previousVersion(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Indicates the ID of the imported shared module extension which updated.
+  /// This is present only if 'reason' is 'shared_module_update'.
+  String? get id => _wrapped.id;
+  set id(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnUpdateAvailableDetails {
+  OnUpdateAvailableDetails.fromJS(this._wrapped);
+
+  final $js.OnUpdateAvailableDetails _wrapped;
+
+  $js.OnUpdateAvailableDetails get toJS => _wrapped;
+
+  /// The version number of the available update.
+  String get version => _wrapped.version;
+  set version(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetManifestReturn {
+  GetManifestReturn.fromJS(this._wrapped);
+
+  final $js.GetManifestReturn _wrapped;
+
+  $js.GetManifestReturn get toJS => _wrapped;
+}
+
+class RequestUpdateCheckCallbackResult {
+  RequestUpdateCheckCallbackResult.fromJS(this._wrapped);
+
+  final $js.RequestUpdateCheckCallbackResult _wrapped;
+
+  $js.RequestUpdateCheckCallbackResult get toJS => _wrapped;
+
+  /// Result of the update check.
+  RequestUpdateCheckStatus get status =>
+      RequestUpdateCheckStatus.fromJS(_wrapped.status);
+  set status(RequestUpdateCheckStatus v) {
+    throw UnimplementedError();
+  }
+
+  /// If an update is available, this contains the version of the available
+  /// update.
+  String? get version => _wrapped.version;
+  set version(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class ConnectInfo {
+  ConnectInfo.fromJS(this._wrapped);
+
+  final $js.ConnectInfo _wrapped;
+
+  $js.ConnectInfo get toJS => _wrapped;
+}
+
+class SendMessageOptions {
+  SendMessageOptions.fromJS(this._wrapped);
+
+  final $js.SendMessageOptions _wrapped;
+
+  $js.SendMessageOptions get toJS => _wrapped;
+}
+
+class RuntimeLastError {
+  RuntimeLastError.fromJS(this._wrapped);
+
+  final $js.RuntimeLastError _wrapped;
+
+  $js.RuntimeLastError get toJS => _wrapped;
+
+  /// Details about the error which occurred.
+  String? get message => _wrapped.message;
+  set message(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnMessageEvent {
+  OnMessageEvent({
+    required this.message,
+    required this.sender,
+    required this.sendResponse,
+  });
+
+  /// The message sent by the calling script.
+  final JSAny? message;
+
+  final MessageSender sender;
+
+  /// Function to call (at most once) when you have a response. The argument
+  /// should be any JSON-ifiable object. If you have more than one `onMessage`
+  /// listener in the same document, then only one may send a response. This
+  /// function becomes invalid when the event listener returns, *unless you
+  /// return true* from the event listener to indicate you wish to send a
+  /// response asynchronously (this will keep the message channel open to the
+  /// other end until `sendResponse` is called).
+  final JSAny sendResponse;
+}
+
+class OnMessageExternalEvent {
+  OnMessageExternalEvent({
+    required this.message,
+    required this.sender,
+    required this.sendResponse,
+  });
+
+  /// The message sent by the calling script.
+  final JSAny? message;
+
+  final MessageSender sender;
+
+  /// Function to call (at most once) when you have a response. The argument
+  /// should be any JSON-ifiable object. If you have more than one `onMessage`
+  /// listener in the same document, then only one may send a response. This
+  /// function becomes invalid when the event listener returns, *unless you
+  /// return true* from the event listener to indicate you wish to send a
+  /// response asynchronously (this will keep the message channel open to the
+  /// other end until `sendResponse` is called).
+  final JSAny sendResponse;
+}
+
+class PortOnMessageEvent {
+  PortOnMessageEvent({
+    required this.message,
+    required this.port,
+  });
+
+  /// The message received on the port.
+  final JSAny message;
+
+  /// The port that received the message.
+  final Port port;
 }

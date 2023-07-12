@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/identity.dart' as $js;
 export 'chrome.dart';
 
 final _identity = ChromeIdentity._();
@@ -14,7 +15,7 @@ class ChromeIdentity {
   /// present on the profile.
   ///
   /// `getAccounts` is only supported on dev channel.
-  void getAccounts() => throw UnimplementedError();
+  Future<List<AccountInfo>> getAccounts() => throw UnimplementedError();
 
   /// Gets an OAuth2 access token using the client ID and scopes
   /// specified in the <a
@@ -42,7 +43,8 @@ class ChromeIdentity {
   /// `grantedScopes` parameter is populated since Chrome 87. When
   /// available, this parameter contains the list of granted scopes
   /// corresponding with the returned token.
-  void getAuthToken(details) => throw UnimplementedError();
+  Future<GetAuthTokenResult> getAuthToken(TokenDetails? details) =>
+      throw UnimplementedError();
 
   /// Retrieves email address and obfuscated gaia id of the user
   /// signed into a profile.
@@ -58,7 +60,8 @@ class ChromeIdentity {
   /// |callback|: Called with the `ProfileUserInfo` of the primary
   /// Chrome account, of an empty `ProfileUserInfo` if the account
   /// with given `details` doesn't exist.
-  void getProfileUserInfo(details) => throw UnimplementedError();
+  Future<ProfileUserInfo> getProfileUserInfo(ProfileDetails? details) =>
+      throw UnimplementedError();
 
   /// Removes an OAuth2 access token from the Identity API's token cache.
   ///
@@ -69,7 +72,8 @@ class ChromeIdentity {
   ///
   /// |details| : Token information.
   /// |callback| : Called when the token has been removed from the cache.
-  void removeCachedAuthToken(details) => throw UnimplementedError();
+  Future<void> removeCachedAuthToken(InvalidTokenDetails details) =>
+      throw UnimplementedError();
 
   /// Resets the state of the Identity API:
   /// <ul>
@@ -79,7 +83,7 @@ class ChromeIdentity {
   /// </ul>
   ///
   /// |callback| : Called when the state has been cleared.
-  void clearAllCachedAuthTokens() => throw UnimplementedError();
+  Future<void> clearAllCachedAuthTokens() => throw UnimplementedError();
 
   /// Starts an auth flow at the specified URL.
   ///
@@ -89,7 +93,7 @@ class ChromeIdentity {
   /// redirects to a URL matching the pattern
   /// `https://<app-id>.chromiumapp.org/*`, the
   /// window will close, and the final redirect URL will be passed to
-  /// the `callback` function.
+  /// the [callback] function.
   ///
   /// For a good user experience it is important interactive auth flows are
   /// initiated by UI in your app explaining what the authorization is for.
@@ -99,7 +103,8 @@ class ChromeIdentity {
   ///
   /// |details| : WebAuth flow options.
   /// |callback| : Called with the URL redirected back to your application.
-  void launchWebAuthFlow(details) => throw UnimplementedError();
+  Future<String?> launchWebAuthFlow(WebAuthFlowDetails details) =>
+      throw UnimplementedError();
 
   /// Generates a redirect URL to be used in |launchWebAuthFlow|.
   ///
@@ -107,15 +112,16 @@ class ChromeIdentity {
   /// `https://<app-id>.chromiumapp.org/*`.
   ///
   /// |path| : The path appended to the end of the generated URL.
-  void getRedirectURL(path) => throw UnimplementedError();
+  String getRedirectURL(String? path) => throw UnimplementedError();
 
   /// Fired when signin state changes for an account on the user's profile.
-  Stream get onSignInChanged => throw UnimplementedError();
+  Stream<OnSignInChangedEvent> get onSignInChanged =>
+      throw UnimplementedError();
 }
 
 enum AccountStatus {
   /// Sync is enabled for the primary account.
-  sync$('SYNC'),
+  sync('SYNC'),
 
   /// Any primary account, if exists.
   any('ANY');
@@ -123,4 +129,215 @@ enum AccountStatus {
   const AccountStatus(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static AccountStatus fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+class AccountInfo {
+  AccountInfo.fromJS(this._wrapped);
+
+  final $js.AccountInfo _wrapped;
+
+  $js.AccountInfo get toJS => _wrapped;
+
+  /// A unique identifier for the account. This ID will not change
+  /// for the lifetime of the account.
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class ProfileDetails {
+  ProfileDetails.fromJS(this._wrapped);
+
+  final $js.ProfileDetails _wrapped;
+
+  $js.ProfileDetails get toJS => _wrapped;
+
+  /// A status of the primary account signed into a profile whose
+  /// `ProfileUserInfo` should be returned. Defaults to
+  /// `SYNC` account status.
+  AccountStatus? get accountStatus =>
+      _wrapped.accountStatus?.let(AccountStatus.fromJS);
+  set accountStatus(AccountStatus? v) {
+    throw UnimplementedError();
+  }
+}
+
+class ProfileUserInfo {
+  ProfileUserInfo.fromJS(this._wrapped);
+
+  final $js.ProfileUserInfo _wrapped;
+
+  $js.ProfileUserInfo get toJS => _wrapped;
+
+  /// An email address for the user account signed into the current
+  /// profile. Empty if the user is not signed in or the
+  /// `identity.email` manifest permission is not
+  /// specified.
+  String get email => _wrapped.email;
+  set email(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A unique identifier for the account. This ID will not change
+  /// for the lifetime of the account. Empty if the user is not
+  /// signed in or (in M41+) the `identity.email`
+  /// manifest permission is not specified.
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class TokenDetails {
+  TokenDetails.fromJS(this._wrapped);
+
+  final $js.TokenDetails _wrapped;
+
+  $js.TokenDetails get toJS => _wrapped;
+
+  /// Fetching a token may require the user to sign-in to Chrome, or
+  /// approve the application's requested scopes. If the interactive
+  /// flag is `true`, `getAuthToken` will
+  /// prompt the user as necessary. When the flag is
+  /// `false` or omitted, `getAuthToken` will
+  /// return failure any time a prompt would be required.
+  bool? get interactive => _wrapped.interactive;
+  set interactive(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The account ID whose token should be returned. If not specified, the
+  /// function will use an account from the Chrome profile: the Sync account if
+  /// there is one, or otherwise the first Google web account.
+  AccountInfo? get account => _wrapped.account?.let(AccountInfo.fromJS);
+  set account(AccountInfo? v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of OAuth2 scopes to request.
+  ///
+  /// When the `scopes` field is present, it overrides the
+  /// list of scopes specified in manifest.json.
+  List<String>? get scopes => throw UnimplementedError();
+  set scopes(List<String>? v) {
+    throw UnimplementedError();
+  }
+
+  /// The `enableGranularPermissions` flag allows extensions to
+  /// opt-in early to the granular permissions consent screen, in which
+  /// requested permissions are granted or denied individually.
+  bool? get enableGranularPermissions => _wrapped.enableGranularPermissions;
+  set enableGranularPermissions(bool? v) {
+    throw UnimplementedError();
+  }
+}
+
+class InvalidTokenDetails {
+  InvalidTokenDetails.fromJS(this._wrapped);
+
+  final $js.InvalidTokenDetails _wrapped;
+
+  $js.InvalidTokenDetails get toJS => _wrapped;
+
+  /// The specific token that should be removed from the cache.
+  String get token => _wrapped.token;
+  set token(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class WebAuthFlowDetails {
+  WebAuthFlowDetails.fromJS(this._wrapped);
+
+  final $js.WebAuthFlowDetails _wrapped;
+
+  $js.WebAuthFlowDetails get toJS => _wrapped;
+
+  /// The URL that initiates the auth flow.
+  String get url => _wrapped.url;
+  set url(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether to launch auth flow in interactive mode.
+  ///
+  /// Since some auth flows may immediately redirect to a result URL,
+  /// `launchWebAuthFlow` hides its web view until the first
+  /// navigation either redirects to the final URL, or finishes loading a page
+  /// meant to be displayed.
+  ///
+  /// If the `interactive` flag is `true`, the window
+  /// will be displayed when a page load completes. If the flag is
+  /// `false` or omitted, `launchWebAuthFlow` will return
+  /// with an error if the initial navigation does not complete the flow.
+  ///
+  /// For flows that use JavaScript for redirection,
+  /// `abortOnLoadForNonInteractive` can be set to `false`
+  /// in combination with setting `timeoutMsForNonInteractive` to give
+  /// the page a chance to perform any redirects.
+  bool? get interactive => _wrapped.interactive;
+  set interactive(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether to terminate `launchWebAuthFlow` for non-interactive
+  /// requests after the page loads. This parameter does not affect interactive
+  /// flows.
+  ///
+  /// When set to `true` (default) the flow will terminate
+  /// immediately after the page loads. When set to `false`, the
+  /// flow will only terminate after the
+  /// `timeoutMsForNonInteractive` passes. This is useful for
+  /// identity providers that use JavaScript to perform redirections after the
+  /// page loads.
+  bool? get abortOnLoadForNonInteractive =>
+      _wrapped.abortOnLoadForNonInteractive;
+  set abortOnLoadForNonInteractive(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The maximum amount of time, in miliseconds,
+  /// `launchWebAuthFlow` is allowed to run in non-interactive mode
+  /// in total. Only has an effect if `interactive` is
+  /// `false`.
+  int? get timeoutMsForNonInteractive => _wrapped.timeoutMsForNonInteractive;
+  set timeoutMsForNonInteractive(int? v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetAuthTokenResult {
+  GetAuthTokenResult.fromJS(this._wrapped);
+
+  final $js.GetAuthTokenResult _wrapped;
+
+  $js.GetAuthTokenResult get toJS => _wrapped;
+
+  /// The specific token associated with the request.
+  String? get token => _wrapped.token;
+  set token(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// A list of OAuth2 scopes granted to the extension.
+  List<String>? get grantedScopes => throw UnimplementedError();
+  set grantedScopes(List<String>? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnSignInChangedEvent {
+  OnSignInChangedEvent({
+    required this.account,
+    required this.signedIn,
+  });
+
+  final AccountInfo account;
+
+  final bool signedIn;
 }

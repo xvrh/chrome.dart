@@ -24,7 +24,7 @@ extension JSPrintingExtension on JSPrinting {
 
   /// Cancels previously submitted job.
   /// |jobId|: The id of the print job to cancel. This should be the same id
-  /// received in a $(ref:SubmitJobResponse).
+  /// received in a [SubmitJobResponse].
   external void cancelJob(
     String jobId,
     JSFunction callback,
@@ -48,16 +48,16 @@ extension JSPrintingExtension on JSPrinting {
   /// This is only fired for the jobs created by this extension.
   external ChromeEvent get onJobStatusChanged;
 
-  /// The maximum number of times that $(ref:submitJob) can be called per
+  /// The maximum number of times that [submitJob] can be called per
   /// minute.
   external int get MAX_SUBMIT_JOB_CALLS_PER_MINUTE;
 
-  /// The maximum number of times that $(ref:getPrinterInfo) can be called per
+  /// The maximum number of times that [getPrinterInfo] can be called per
   /// minute.
   external int get MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE;
 }
 
-/// The status of $(ref:submitJob) request.
+/// The status of [submitJob] request.
 typedef SubmitJobStatus = String;
 
 /// The source of the printer.
@@ -144,7 +144,7 @@ extension GetPrinterInfoResponseExtension on GetPrinterInfoResponse {
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   /// CDD format</a>.
   /// The property may be missing.
-  external JSObject? capabilities;
+  external JSAny? capabilities;
 
   /// The status of the printer.
   external PrinterStatus status;

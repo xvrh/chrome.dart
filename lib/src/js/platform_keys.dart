@@ -31,9 +31,9 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   );
 
   /// Passes the key pair of `certificate` for usage with
-  /// $(ref:platformKeys.subtleCrypto) to `callback`.
-  /// |certificate|: The certificate of a $(ref:Match) returned by
-  /// $(ref:selectClientCertificates).
+  /// [platformKeys.subtleCrypto] to `callback`.
+  /// |certificate|: The certificate of a [Match] returned by
+  /// [selectClientCertificates].
   /// |parameters|: Determines signature/hash algorithm parameters additionally
   /// to the parameters fixed by the key itself. The same parameters are
   /// accepted as by WebCrypto's <a
@@ -45,16 +45,16 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   /// "SHA-256", "SHA-384", or "SHA-512", e.g.
   /// `{"hash": { "name": "none" } }`. The sign function will then
   /// apply PKCS#1 v1.5 padding but not hash the given data.
-  /// <p>Currently, this method only supports the "RSASSA-PKCS1-v1_5" and
-  /// "ECDSA" algorithms.</p>
+  /// Currently, this method only supports the "RSASSA-PKCS1-v1_5" and
+  /// "ECDSA" algorithms.
   external void getKeyPair(
     JSArrayBuffer certificate,
-    JSObject parameters,
+    JSAny parameters,
     JSFunction callback,
   );
 
   /// Passes the key pair identified by `publicKeySpkiDer` for
-  /// usage with $(ref:platformKeys.subtleCrypto) to `callback`.
+  /// usage with [platformKeys.subtleCrypto] to `callback`.
   /// |publicKeySpkiDer|: A DER-encoded X.509 SubjectPublicKeyInfo, obtained
   /// e.g. by calling WebCrypto's exportKey function with format="spki".
   /// |parameters|: Provides signature and hash algorithm parameters, in
@@ -68,13 +68,13 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   /// operation before a sign. It is possible to pass "none" as the hash name,
   /// in which case the sign function will apply PKCS#1 v1.5 padding and but
   /// not hash the given data.
-  /// <p>Currently, this method supports the "ECDSA" algorithm with
+  /// Currently, this method supports the "ECDSA" algorithm with
   /// named-curve P-256 and "RSASSA-PKCS1-v1_5" algorithm with one of the
   /// hashing algorithms "none", "SHA-1", "SHA-256", "SHA-384", and
-  /// "SHA-512".</p>
+  /// "SHA-512".
   external void getKeyPairBySpki(
     JSArrayBuffer publicKeySpkiDer,
-    JSObject parameters,
+    JSAny parameters,
     JSFunction callback,
   );
 
@@ -83,7 +83,7 @@ extension JSPlatformKeysExtension on JSPlatformKeys {
   /// SubtleCrypto</a>
   /// that allows crypto operations on keys of client certificates that are
   /// available to this extension.
-  external void subtleCrypto();
+  external JSAny subtleCrypto();
 
   /// Checks whether `details.serverCertificateChain` can be trusted
   /// for `details.hostname` according to the trust settings of the
@@ -116,7 +116,7 @@ extension MatchExtension on Match {
   /// parameters that are inherent to the key of the certificate (e.g. the key
   /// length). Other parameters like the hash function used by the sign
   /// function are not included.
-  external JSObject keyAlgorithm;
+  external JSAny keyAlgorithm;
 }
 
 @JS()
@@ -186,7 +186,7 @@ extension VerificationResultExtension on VerificationResult {
   /// If the trust verification failed, this array contains the errors reported
   /// by the underlying network layer. Otherwise, this array is empty.
   ///
-  /// <strong>Note:</strong> This list is meant for debugging only and may not
+  /// *Note:* This list is meant for debugging only and may not
   /// contain all relevant errors. The errors returned may change in future
   /// revisions of this API, and are not guaranteed to be forwards or backwards
   /// compatible.

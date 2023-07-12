@@ -1,4 +1,5 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'src/js/page_capture.dart' as $js;
 export 'chrome.dart';
 
 final _pageCapture = ChromePageCapture._();
@@ -12,8 +13,16 @@ class ChromePageCapture {
 
   /// Saves the content of the tab with given id as MHTML.
   void saveAsMHTML(
-    details,
-    callback,
+    SaveAsMHTMLDetails details,
+    JSAny callback,
   ) =>
       throw UnimplementedError();
+}
+
+class SaveAsMHTMLDetails {
+  SaveAsMHTMLDetails.fromJS(this._wrapped);
+
+  final $js.SaveAsMHTMLDetails _wrapped;
+
+  $js.SaveAsMHTMLDetails get toJS => _wrapped;
 }

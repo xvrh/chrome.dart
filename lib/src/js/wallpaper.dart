@@ -12,9 +12,12 @@ extension JSChromeJSWallpaperExtension on JSChrome {
 class JSWallpaper {}
 
 extension JSWallpaperExtension on JSWallpaper {
-  /// Sets wallpaper to the image at <em>url</em> or <em>wallpaperData</em> with
-  /// the specified <em>layout</em>
-  external JSPromise setWallpaper(SetWallpaperDetails details);
+  /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
+  /// _layout_
+  external void setWallpaper(
+    SetWallpaperDetails details,
+    JSFunction callback,
+  );
 }
 
 /// The supported wallpaper layouts.

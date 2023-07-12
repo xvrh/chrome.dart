@@ -8,10 +8,16 @@ import 'package:chrome/src/js/tabs.dart' as binding;
 final tabs = TabsApi();
 
 class TabsApi {
-  Future<List<Tab>> query({QueryInfo? queryInfo}) async {
-    var jsTab = await promiseToFuture<JSArray>(
-        binding.chrome.tabs.query(queryInfo?.toJS ?? binding.QueryInfo()));
-    return jsTab.toDart.map((JSAny? e) => (e! as binding.Tab).toDart).toList();
+  Future<List<Tab>> query({QueryInfo? queryInfo}) {
+    var completer = Completer<List<Tab>>();
+    binding.chrome.tabs.query(
+        queryInfo?.toJS ?? binding.QueryInfo(),
+        (JSArray jsTab) {
+          return jsTab.toDart
+              .map((JSAny? e) => (e! as binding.Tab).toDart)
+              .toList();
+        }.toJS);
+    return completer.future;
   }
 
   Future<Tab> create({
@@ -19,9 +25,10 @@ class TabsApi {
     int? index,
     String? url,
   }) async {
-    var jsTab = await promiseToFuture<binding.Tab>(binding.chrome.tabs.create(
-        binding.CreateProperties(active: active, index: index, url: url)));
-    return jsTab.toDart;
+    throw Exception('');
+    //var jsTab = await promiseToFuture<binding.Tab>(binding.chrome.tabs.create(
+    //    binding.CreateProperties(active: active, index: index, url: url)));
+    //return jsTab.toDart;
   }
 
   Stream<Tab> get onCreated {
@@ -119,7 +126,7 @@ enum TabStatus {
   const TabStatus(this.value);
 
   static TabStatus _fromJS(binding.TabStatus status) =>
-      TabStatus.values.firstWhere((e) => e.value == status);
+      values.firstWhere((e) => e.value == status);
 
   binding.TabStatus get toJS => value;
 }

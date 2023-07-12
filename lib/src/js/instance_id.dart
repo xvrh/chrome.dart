@@ -15,22 +15,28 @@ extension JSInstanceIDExtension on JSInstanceID {
   /// Retrieves an identifier for the app instance. The instance ID will be
   /// returned by the `callback`. The same ID will be returned as long as the
   /// application identity has not been revoked or expired.
-  external JSPromise getID();
+  external void getID(JSFunction callback);
 
   /// Retrieves the time when the InstanceID has been generated. The creation
   /// time will be returned by the `callback`.
-  external JSPromise getCreationTime();
+  external void getCreationTime(JSFunction callback);
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
-  external JSPromise getToken(GetTokenParams getTokenParams);
+  external void getToken(
+    GetTokenParams getTokenParams,
+    JSFunction callback,
+  );
 
   /// Revokes a granted token.
-  external JSPromise deleteToken(DeleteTokenParams deleteTokenParams);
+  external void deleteToken(
+    DeleteTokenParams deleteTokenParams,
+    JSFunction callback,
+  );
 
   /// Resets the app instance identifier and revokes all tokens associated with
   /// it.
-  external JSPromise deleteID();
+  external void deleteID(JSFunction callback);
 
   /// Fired when all the granted tokens need to be refreshed.
   external ChromeEvent get onTokenRefresh;
@@ -42,8 +48,8 @@ extension JSInstanceIDExtension on JSInstanceID {
 class GetTokenParams {
   external factory GetTokenParams({
     /// Identifies the entity that is authorized to access resources associated
-    /// with this Instance ID. It can be a project ID from <a
-    /// href='https://code.google.com/apis/console'>Google developer console</a>.
+    /// with this Instance ID. It can be a project ID from [Google developer
+    /// console](https://code.google.com/apis/console).
     String authorizedEntity,
 
     /// Identifies authorized actions that the authorized entity can take. E.g.

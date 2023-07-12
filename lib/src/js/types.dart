@@ -13,22 +13,22 @@ class JSTypes {}
 
 extension JSTypesExtension on JSTypes {}
 
-/// The scope of the ChromeSetting. One of<ul><li>`regular`: setting for the
+/// The scope of the ChromeSetting. One of<ul><li>[regular]: setting for the
 /// regular profile (which is inherited by the incognito profile if not
-/// overridden elsewhere),</li><li>`regular_only`: setting for the regular
+/// overridden elsewhere),</li><li>[regular_only]: setting for the regular
 /// profile only (not inherited by the incognito
-/// profile),</li><li>`incognito_persistent`: setting for the incognito profile
+/// profile),</li><li>[incognito_persistent]: setting for the incognito profile
 /// that survives browser restarts (overrides regular
-/// preferences),</li><li>`incognito_session_only`: setting for the incognito
+/// preferences),</li><li>[incognito_session_only]: setting for the incognito
 /// profile that can only be set during an incognito session and is deleted when
 /// the incognito session ends (overrides regular and incognito_persistent
 /// preferences).</li></ul>
 typedef ChromeSettingScope = String;
 
-/// One of<ul><li>`not_controllable`: cannot be controlled by any
-/// extension</li><li>`controlled_by_other_extensions`: controlled by extensions
-/// with higher precedence</li><li>`controllable_by_this_extension`: can be
-/// controlled by this extension</li><li>`controlled_by_this_extension`:
+/// One of<ul><li>[not_controllable]: cannot be controlled by any
+/// extension</li><li>[controlled_by_other_extensions]: controlled by extensions
+/// with higher precedence</li><li>[controllable_by_this_extension]: can be
+/// controlled by this extension</li><li>[controlled_by_this_extension]:
 /// controlled by this extension</li></ul>
 typedef LevelOfControl = String;
 
@@ -38,16 +38,42 @@ class ChromeSetting {}
 
 extension ChromeSettingExtension on ChromeSetting {
   /// Gets the value of a setting.
-  external JSPromise get(GetDetails details);
+  external void get(
+    GetDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the value of a setting.
-  external JSPromise set(SetDetails details);
+  external void set(
+    SetDetails details,
+    JSFunction callback,
+  );
 
   /// Clears the setting, restoring any default value.
-  external JSPromise clear(ClearDetails details);
+  external void clear(
+    ClearDetails details,
+    JSFunction callback,
+  );
 
   /// Fired after the setting changes.
   external ChromeEvent get onChange;
+}
+
+@JS()
+@staticInterop
+class GetCallbackDetails {}
+
+extension GetCallbackDetailsExtension on GetCallbackDetails {
+  /// The value of the setting.
+  external JSAny value;
+
+  /// The level of control of the setting.
+  external LevelOfControl levelOfControl;
+
+  /// Whether the effective value is specific to the incognito session.<br/>This
+  /// property will _only_ be present if the [incognito] property in the
+  /// [details] parameter of `get()` was true.
+  external bool? incognitoSpecific;
 }
 
 @JS()
@@ -68,7 +94,7 @@ class SetDetails {
   external factory SetDetails({
     /// The value of the setting. <br/>Note that every setting has a specific
     /// value type, which is described together with the setting. An extension
-    /// should <em>not</em> set a value of a different type.
+    /// should _not_ set a value of a different type.
     JSAny value,
 
     /// Where to set the setting (default: regular).
@@ -98,7 +124,7 @@ extension OnChangeDetailsExtension on OnChangeDetails {
   external LevelOfControl levelOfControl;
 
   /// Whether the value that has changed is specific to the incognito
-  /// session.<br/>This property will <em>only</em> be present if the user has
-  /// enabled the extension in incognito mode.
+  /// session.<br/>This property will _only_ be present if the user has enabled
+  /// the extension in incognito mode.
   external bool? incognitoSpecific;
 }

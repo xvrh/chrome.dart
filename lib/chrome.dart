@@ -1,6 +1,1 @@
-
-final chrome = Chrome._();
-
-class Chrome {
-  Chrome._();
-}
+export 'src/chrome.dart' show chrome;

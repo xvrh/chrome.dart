@@ -4,9 +4,9 @@ export 'chrome.dart';
 
 extension JSChromeJSTtsExtension on JSChrome {
   /// Use the `chrome.tts` API to play synthesized text-to-speech (TTS). See
-  /// also the related <a
-  /// href='http://developer.chrome.com/extensions/ttsEngine'>ttsEngine</a> API,
-  /// which allows an extension to implement a speech engine.
+  /// also the related
+  /// [ttsEngine](http://developer.chrome.com/extensions/ttsEngine) API, which
+  /// allows an extension to implement a speech engine.
   external JSTts get tts;
 }
 
@@ -16,9 +16,10 @@ class JSTts {}
 
 extension JSTtsExtension on JSTts {
   /// Speaks text using a text-to-speech engine.
-  external JSPromise speak(
+  external void speak(
     String utterance,
     TtsOptions? options,
+    JSFunction callback,
   );
 
   /// Stops any current speech and flushes the queue of any pending utterances.
@@ -36,10 +37,10 @@ extension JSTtsExtension on JSTts {
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  external JSPromise isSpeaking();
+  external void isSpeaking(JSFunction callback);
 
   /// Gets an array of all available voices.
-  external JSPromise getVoices();
+  external void getVoices(JSFunction callback);
 
   /// Used to pass events back to the function calling speak().
   external ChromeEvent get onEvent;
@@ -66,9 +67,8 @@ extension TtsOptionsExtension on TtsOptions {
   /// The extension ID of the speech engine to use, if known.
   external String? extensionId;
 
-  /// The language to be used for synthesis, in the form
-  /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
-  /// 'zh-CN'.
+  /// The language to be used for synthesis, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   external String? lang;
 
   /// Gender of voice for synthesized speech.
@@ -78,17 +78,17 @@ extension TtsOptionsExtension on TtsOptions {
   /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
   /// fast, and 0.5 is half as fast. Values below 0.1 or above 10.0 are strictly
   /// disallowed, but many voices will constrain the minimum and maximum rates
-  /// further&mdash;for example a particular voice may not actually speak faster
-  /// than 3 times normal even if you specify a value larger than 3.0.
-  external num? rate;
+  /// further-for example a particular voice may not actually speak faster than
+  /// 3 times normal even if you specify a value larger than 3.0.
+  external double? rate;
 
   /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
   /// highest. 1.0 corresponds to a voice's default pitch.
-  external num? pitch;
+  external double? pitch;
 
   /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
   /// highest, with a default of 1.0.
-  external num? volume;
+  external double? volume;
 
   /// The TTS event types the voice must support.
   external JSArray? requiredEventTypes;
@@ -99,7 +99,7 @@ extension TtsOptionsExtension on TtsOptions {
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  external JSFunction? onEvent;
+  external JSAny? onEvent;
 }
 
 @JS()
@@ -130,7 +130,7 @@ extension TtsEventExtension on TtsEvent {
 
   /// An ID unique to the calling function's context so that events can get
   /// routed back to the correct tts.speak call.
-  external num? srcId;
+  external double? srcId;
 
   /// True if this is the final event that will be sent to this handler.
   external bool? isFinalEvent;
@@ -149,9 +149,8 @@ extension TtsVoiceExtension on TtsVoice {
   /// The name of the voice.
   external String? voiceName;
 
-  /// The language that this voice supports, in the form
-  /// <em>language</em>-<em>region</em>. Examples: 'en', 'en-US', 'en-GB',
-  /// 'zh-CN'.
+  /// The language that this voice supports, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
   external String? lang;
 
   /// This voice's gender.

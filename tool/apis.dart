@@ -78,5 +78,6 @@ final extensionApis = {
   "webAuthenticationProxy",
   "webNavigation",
   "webRequest",
-  "windows"
+  "windows",
+  "usb",
 };

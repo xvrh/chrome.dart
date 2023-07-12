@@ -34,7 +34,7 @@ extension JSNotificationsExtension on JSNotifications {
 
   /// Updates an existing notification.
   /// |notificationId|: The id of the notification to be updated. This is
-  /// returned by $(ref:notifications.create) method.
+  /// returned by [notifications.create] method.
   /// |options|: Contents of the notification to update to.
   /// |callback|: Called to indicate whether a matching notification existed.
   ///
@@ -47,7 +47,7 @@ extension JSNotificationsExtension on JSNotifications {
 
   /// Clears the specified notification.
   /// |notificationId|: The id of the notification to be cleared. This is
-  /// returned by $(ref:notifications.create) method.
+  /// returned by [notifications.create] method.
   /// |callback|: Called to indicate whether a matching notification existed.
   ///
   /// The callback is required before Chrome 42.
@@ -130,7 +130,7 @@ class NotificationOptions {}
 
 extension NotificationOptionsExtension on NotificationOptions {
   /// Which type of notification to display.
-  /// <em>Required for $(ref:notifications.create)</em> method.
+  /// _Required for [notifications.create]_ method.
   external TemplateType? type;
 
   /// A URL to the sender's avatar, app icon, or a thumbnail for image
@@ -138,7 +138,7 @@ extension NotificationOptionsExtension on NotificationOptions {
   ///
   /// URLs can be a data URL, a blob URL, or a URL relative to a resource
   /// within this extension's .crx file
-  /// <em>Required for $(ref:notifications.create)</em> method.
+  /// _Required for [notifications.create]_ method.
   external String? iconUrl;
 
   external NotificationBitmap? iconBitmap;
@@ -153,11 +153,11 @@ extension NotificationOptionsExtension on NotificationOptions {
   external NotificationBitmap? appIconMaskBitmap;
 
   /// Title of the notification (e.g. sender name for email).
-  /// <em>Required for $(ref:notifications.create)</em> method.
+  /// _Required for [notifications.create]_ method.
   external String? title;
 
   /// Main notification content.
-  /// <em>Required for $(ref:notifications.create)</em> method.
+  /// _Required for [notifications.create]_ method.
   external String? message;
 
   /// Alternate notification content with a lower-weight font.

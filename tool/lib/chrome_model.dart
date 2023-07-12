@@ -1,5 +1,6 @@
-import 'utils/split_words.dart';
-import 'utils/string_helpers.dart';
+import 'chrome_type.dart';
+
+export 'chrome_type.dart';
 
 class ChromeApi {
   final String name;
@@ -9,6 +10,7 @@ class ChromeApi {
   final List<Property> properties;
   final List<Dictionary> dictionaries;
   final List<Enumeration> enumerations;
+  final List<Typedef> typedefs;
 
   ChromeApi({
     required this.documentation,
@@ -18,39 +20,16 @@ class ChromeApi {
     required this.functions,
     required this.dictionaries,
     required this.enumerations,
+    required this.typedefs,
   });
-}
-
-class TypeRef {
-  static final void$ = TypeRef('void');
-
-  String name;
-  final bool isArray;
-  String? url;
-
-  TypeRef._(this.name, this.url, {this.isArray = false});
-
-  factory TypeRef(String name, {bool isArray = false}) {
-    var (rawName, url) = _nameAndUrl(name);
-    return TypeRef._(rawName, url, isArray: isArray);
-  }
-
-  static (String, String?) _nameAndUrl(String name) {
-    var split = name.split('.');
-    if (split.length > 1) {
-      var url = '${snakeCase(splitWords(split.first))}.dart';
-      return (split.last, url);
-    } else {
-      return (name, null);
-    }
-  }
 }
 
 class Event {
   final String name;
   final String documentation;
+  final ChromeType? type;
 
-  Event(this.name, this.documentation);
+  Event(this.name, {required this.type, required this.documentation});
 }
 
 class Method {
@@ -68,17 +47,15 @@ class Method {
 }
 
 class MethodReturn {
-  final TypeRef type;
-  final bool isAsync;
-  final bool supportPromise;
+  final ChromeType? type;
   final String? name;
 
   MethodReturn({
     required this.type,
-    required this.isAsync,
-    required this.supportPromise,
     this.name,
   });
+
+  bool get isAsync => type is AsyncReturnType;
 }
 
 class Enumeration {
@@ -103,6 +80,7 @@ class Dictionary {
   final List<Event> events;
   final String documentation;
   final bool isAnonymous;
+  final bool isSyntheticEvent;
 
   Dictionary(
     this.name, {
@@ -111,19 +89,26 @@ class Dictionary {
     required this.events,
     required this.documentation,
     required this.isAnonymous,
+    this.isSyntheticEvent = false,
   });
 }
 
 class Property {
   final String name;
-  final TypeRef type;
-  final bool optional;
+  final ChromeType type;
   final String documentation;
 
   Property(
     this.name, {
     required this.type,
-    required this.optional,
     required this.documentation,
   });
+}
+
+class Typedef {
+  final String alias;
+  final ChromeType target;
+  final String documentation;
+
+  Typedef(this.alias, {required this.target, required this.documentation});
 }

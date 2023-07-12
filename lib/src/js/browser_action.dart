@@ -4,11 +4,9 @@ export 'chrome.dart';
 
 extension JSChromeJSBrowserActionExtension on JSChrome {
   /// Use browser actions to put icons in the main Google Chrome toolbar, to the
-  /// right of the address bar. In addition to its <a
-  /// href='browserAction#icon'>icon</a>, a browser action can have a <a
-  /// href='browserAction#tooltip'>tooltip</a>, a <a
-  /// href='browserAction#badge'>badge</a>, and a <a
-  /// href='browserAction#popups'>popup</a>.
+  /// right of the address bar. In addition to its [icon](browserAction#icon), a
+  /// browser action can have a [tooltip](browserAction#tooltip), a
+  /// [badge](browserAction#badge), and a [popup](browserAction#popups).
   external JSBrowserAction get browserAction;
 }
 
@@ -18,10 +16,16 @@ class JSBrowserAction {}
 
 extension JSBrowserActionExtension on JSBrowserAction {
   /// Sets the title of the browser action. This title appears in the tooltip.
-  external JSPromise setTitle(SetTitleDetails details);
+  external void setTitle(
+    SetTitleDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the title of the browser action.
-  external JSPromise getTitle(TabDetails details);
+  external void getTitle(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the icon for the browser action. The icon can be specified as the
   /// path to an image file, as the pixel data from a canvas element, or as a
@@ -29,51 +33,70 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// must be specified.
   external void setIcon(
     SetIconDetails details,
-    JSFunction? callback,
+    JSAny? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
   /// browser action icon.
-  external JSPromise setPopup(SetPopupDetails details);
+  external void setPopup(
+    SetPopupDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the HTML document that is set as the popup for this browser action.
-  external JSPromise getPopup(TabDetails details);
+  external void getPopup(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the badge text for the browser action. The badge is displayed on top
   /// of the icon.
-  external JSPromise setBadgeText(SetBadgeTextDetails details);
+  external void setBadgeText(
+    SetBadgeTextDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the badge text of the browser action. If no tab is specified, the
   /// non-tab-specific badge text is returned.
-  external JSPromise getBadgeText(TabDetails details);
+  external void getBadgeText(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Sets the background color for the badge.
-  external JSPromise setBadgeBackgroundColor(
-      SetBadgeBackgroundColorDetails details);
+  external void setBadgeBackgroundColor(
+    SetBadgeBackgroundColorDetails details,
+    JSFunction callback,
+  );
 
   /// Gets the background color of the browser action.
-  external JSPromise getBadgeBackgroundColor(TabDetails details);
+  external void getBadgeBackgroundColor(
+    TabDetails details,
+    JSFunction callback,
+  );
 
   /// Enables the browser action for a tab. Defaults to enabled.
-  external JSPromise enable(int? tabId);
+  external void enable(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Disables the browser action for a tab.
-  external JSPromise disable(int? tabId);
+  external void disable(
+    int? tabId,
+    JSFunction callback,
+  );
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  external void openPopup(JSFunction callback);
+  external void openPopup(JSAny callback);
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser
   /// action has a popup.
   external ChromeEvent get onClicked;
 }
 
-@JS()
-@staticInterop
-class ColorArray {}
-
-extension ColorArrayExtension on ColorArray {}
+typedef ColorArray = JSArray;
 
 @JS()
 @staticInterop
@@ -118,7 +141,7 @@ class SetIconDetails {
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.imageData = foo' is equivalent to 'details.imageData =
     /// {'16': foo}'
-    JSObject? imageData,
+    JSAny? imageData,
 
     /// Either a relative image path or a dictionary {size -> relative image path}
     /// pointing to an icon to be set. If the icon is specified as a dictionary,
@@ -127,7 +150,7 @@ class SetIconDetails {
     /// then an image with size `scale` * n is selected, where <i>n</i> is the
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
-    JSObject? path,
+    JSAny? path,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
@@ -175,7 +198,7 @@ class SetBadgeBackgroundColorDetails {
     /// An array of four integers in the range 0-255 that make up the RGBA color
     /// of the badge. Can also be a string with a CSS hex color value; for
     /// example, `#FF0000` or `#F00` (red). Renders colors at full opacity.
-    JSObject color,
+    JSAny color,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.

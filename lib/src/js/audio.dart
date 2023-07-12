@@ -26,11 +26,11 @@ extension JSAudioExtension on JSAudio {
   );
 
   /// Sets lists of active input and/or output devices.
-  /// |ids|: <p>Specifies IDs of devices that should be active. If either the
+  /// |ids|: Specifies IDs of devices that should be active. If either the
   ///     input or output list is not set, devices in that category are
   ///     unaffected.
-  ///     </p>
-  ///     <p>It is an error to pass in a non-existent device ID.</p>
+  ///
+  ///     It is an error to pass in a non-existent device ID.
   external void setActiveDevices(
     DeviceIdLists ids,
     JSFunction callback,
@@ -131,12 +131,12 @@ extension DeviceFilterExtension on DeviceFilter {
 class DeviceProperties {}
 
 extension DevicePropertiesExtension on DeviceProperties {
-  /// <p>
+  ///
   ///   The audio device's desired sound level. Defaults to the device's
   ///   current sound level.
-  /// </p>
-  /// <p>If used with audio input device, represents audio device gain.</p>
-  /// <p>If used with audio output device, represents audio device volume.</p>
+  ///
+  /// If used with audio input device, represents audio device gain.
+  /// If used with audio output device, represents audio device volume.
   external int? level;
 }
 
@@ -145,14 +145,14 @@ extension DevicePropertiesExtension on DeviceProperties {
 class DeviceIdLists {}
 
 extension DeviceIdListsExtension on DeviceIdLists {
-  /// <p>List of input devices specified by their ID.</p>
-  /// <p>To indicate input devices should be unaffected, leave this property
-  ///   unset.</p>
+  /// List of input devices specified by their ID.
+  /// To indicate input devices should be unaffected, leave this property
+  ///   unset.
   external JSArray? input;
 
-  /// <p>List of output devices specified by their ID.</p>
-  /// <p>To indicate output devices should be unaffected, leave this property
-  ///   unset.</p>
+  /// List of output devices specified by their ID.
+  /// To indicate output devices should be unaffected, leave this property
+  ///   unset.
   external JSArray? output;
 }
 

@@ -1,4 +1,6 @@
-import 'chrome.dart';
+import 'src/internal_helpers.dart';
+import 'dart:typed_data';
+import 'src/js/file_system_provider.dart' as $js;
 export 'chrome.dart';
 
 final _fileSystemProvider = ChromeFileSystemProvider._();
@@ -20,32 +22,32 @@ class ChromeFileSystemProvider {
   /// Depending on the type of the file system being mounted, the
   /// `source` option must be set appropriately.
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set with a
+  /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  void mount(options) => throw UnimplementedError();
+  Future<void> mount(MountOptions options) => throw UnimplementedError();
 
   /// Unmounts a file system with the given `fileSystemId`. It
-  /// must be called after $(ref:onUnmountRequested) is invoked. Also,
+  /// must be called after [onUnmountRequested] is invoked. Also,
   /// the providing extension can decide to perform unmounting if not requested
   /// (eg. in case of lost connection, or a file error).
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set with a
+  /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  void unmount(options) => throw UnimplementedError();
+  Future<void> unmount(UnmountOptions options) => throw UnimplementedError();
 
   /// Returns all file systems mounted by the extension.
-  void getAll() => throw UnimplementedError();
+  Future<List<FileSystemInfo>> getAll() => throw UnimplementedError();
 
   /// Returns information about a file system with the passed
   /// `fileSystemId`.
-  void get(fileSystemId) => throw UnimplementedError();
+  Future<FileSystemInfo> get(String fileSystemId) => throw UnimplementedError();
 
   /// Notifies about changes in the watched directory at
   /// `observedPath` in `recursive` mode. If the file
   /// system is mounted with `supportsNofityTag`, then
   /// `tag` must be provided, and all changes since the last
   /// notification always reported, even if the system was shutdown. The last
-  /// tag can be obtained with $(ref:getAll).
+  /// tag can be obtained with [getAll].
   ///
   /// To use, the `file_system_provider.notify` manifest option
   /// must be set to true.
@@ -53,7 +55,7 @@ class ChromeFileSystemProvider {
   /// Value of `tag` can be any string which is unique per call,
   /// so it's possible to identify the last registered notification. Eg. if
   /// the providing extension starts after a reboot, and the last registered
-  /// notification's tag is equal to "123", then it should call $(ref:notify)
+  /// notification's tag is equal to "123", then it should call [notify]
   /// for all changes which happened since the change tagged as "123". It
   /// cannot be an empty string.
   ///
@@ -67,22 +69,24 @@ class ChromeFileSystemProvider {
   /// entries are in fact removed, as there is no entry under their original
   /// paths anymore.
   ///
-  /// In case of an error, $(ref:runtime.lastError) will be set
+  /// In case of an error, [runtime.lastError] will be set
   /// will a corresponding error code.
-  void notify(options) => throw UnimplementedError();
+  Future<void> notify(NotifyOptions options) => throw UnimplementedError();
 
   /// Raised when unmounting for the file system with the
   /// `fileSystemId` identifier is requested. In the response, the
-  /// $(ref:unmount) API method must be called together with
+  /// [unmount] API method must be called together with
   /// `successCallback`. If unmounting is not possible (eg. due to
   /// a pending operation), then `errorCallback` must be called.
-  Stream get onUnmountRequested => throw UnimplementedError();
+  Stream<OnUnmountRequestedEvent> get onUnmountRequested =>
+      throw UnimplementedError();
 
   /// Raised when metadata of a file or a directory at `entryPath`
   /// is requested. The metadata must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  Stream get onGetMetadataRequested => throw UnimplementedError();
+  Stream<OnGetMetadataRequestedEvent> get onGetMetadataRequested =>
+      throw UnimplementedError();
 
   /// Raised when a list of actions for a set of files or directories at
   /// `entryPaths` is requested. All of the returned actions must
@@ -90,60 +94,72 @@ class ChromeFileSystemProvider {
   /// should be returned. The actions must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  Stream get onGetActionsRequested => throw UnimplementedError();
+  Stream<OnGetActionsRequestedEvent> get onGetActionsRequested =>
+      throw UnimplementedError();
 
   /// Raised when contents of a directory at `directoryPath` are
   /// requested. The results must be returned in chunks by calling the
   /// `successCallback` several times. In case of an error,
   /// `errorCallback` must be called.
-  Stream get onReadDirectoryRequested => throw UnimplementedError();
+  Stream<OnReadDirectoryRequestedEvent> get onReadDirectoryRequested =>
+      throw UnimplementedError();
 
   /// Raised when opening a file at `filePath` is requested. If the
   /// file does not exist, then the operation must fail. Maximum number of
   /// files opened at once can be specified with `MountOptions`.
-  Stream get onOpenFileRequested => throw UnimplementedError();
+  Stream<OnOpenFileRequestedEvent> get onOpenFileRequested =>
+      throw UnimplementedError();
 
   /// Raised when opening a file previously opened with
   /// `openRequestId` is requested to be closed.
-  Stream get onCloseFileRequested => throw UnimplementedError();
+  Stream<OnCloseFileRequestedEvent> get onCloseFileRequested =>
+      throw UnimplementedError();
 
   /// Raised when reading contents of a file opened previously with
   /// `openRequestId` is requested. The results must be returned in
   /// chunks by calling `successCallback` several times. In case of
   /// an error, `errorCallback` must be called.
-  Stream get onReadFileRequested => throw UnimplementedError();
+  Stream<OnReadFileRequestedEvent> get onReadFileRequested =>
+      throw UnimplementedError();
 
   /// Raised when creating a directory is requested. The operation must fail
   /// with the EXISTS error if the target directory already exists.
   /// If `recursive` is true, then all of the missing directories
   /// on the directory path must be created.
-  Stream get onCreateDirectoryRequested => throw UnimplementedError();
+  Stream<OnCreateDirectoryRequestedEvent> get onCreateDirectoryRequested =>
+      throw UnimplementedError();
 
   /// Raised when deleting an entry is requested. If `recursive` is
   /// true, and the entry is a directory, then all of the entries inside
   /// must be recursively deleted as well.
-  Stream get onDeleteEntryRequested => throw UnimplementedError();
+  Stream<OnDeleteEntryRequestedEvent> get onDeleteEntryRequested =>
+      throw UnimplementedError();
 
   /// Raised when creating a file is requested. If the file already exists,
   /// then `errorCallback` must be called with the
   /// `"EXISTS"` error code.
-  Stream get onCreateFileRequested => throw UnimplementedError();
+  Stream<OnCreateFileRequestedEvent> get onCreateFileRequested =>
+      throw UnimplementedError();
 
   /// Raised when copying an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream get onCopyEntryRequested => throw UnimplementedError();
+  Stream<OnCopyEntryRequestedEvent> get onCopyEntryRequested =>
+      throw UnimplementedError();
 
   /// Raised when moving an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream get onMoveEntryRequested => throw UnimplementedError();
+  Stream<OnMoveEntryRequestedEvent> get onMoveEntryRequested =>
+      throw UnimplementedError();
 
   /// Raised when truncating a file to a desired length is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream get onTruncateRequested => throw UnimplementedError();
+  Stream<OnTruncateRequestedEvent> get onTruncateRequested =>
+      throw UnimplementedError();
 
   /// Raised when writing contents to a file opened previously with
   /// `openRequestId` is requested.
-  Stream get onWriteFileRequested => throw UnimplementedError();
+  Stream<OnWriteFileRequestedEvent> get onWriteFileRequested =>
+      throw UnimplementedError();
 
   /// Raised when aborting an operation with `operationRequestId`
   /// is requested. The operation executed with `operationRequestId`
@@ -152,13 +168,15 @@ class ChromeFileSystemProvider {
   /// `errorCallback` must be called. Note, that callbacks of the
   /// aborted operation must not be called, as they will be ignored. Despite
   /// calling `errorCallback`, the request may be forcibly aborted.
-  Stream get onAbortRequested => throw UnimplementedError();
+  Stream<OnAbortRequestedEvent> get onAbortRequested =>
+      throw UnimplementedError();
 
   /// Raised when showing a configuration dialog for `fileSystemId`
   /// is requested. If it's handled, the
   /// `file_system_provider.configurable` manfiest option must be
   /// set to true.
-  Stream get onConfigureRequested => throw UnimplementedError();
+  Stream<OnConfigureRequestedEvent> get onConfigureRequested =>
+      throw UnimplementedError();
 
   /// Raised when showing a dialog for mounting a new file system is requested.
   /// If the extension/app is a file handler, then this event shouldn't be
@@ -166,20 +184,24 @@ class ChromeFileSystemProvider {
   /// order to mount new file systems when a file is opened. For multiple
   /// mounts, the `file_system_provider.multiple_mounts` manifest
   /// option must be set to true.
-  Stream get onMountRequested => throw UnimplementedError();
+  Stream<OnMountRequestedEvent> get onMountRequested =>
+      throw UnimplementedError();
 
   /// Raised when setting a new directory watcher is requested. If an error
   /// occurs, then `errorCallback` must be called.
-  Stream get onAddWatcherRequested => throw UnimplementedError();
+  Stream<OnAddWatcherRequestedEvent> get onAddWatcherRequested =>
+      throw UnimplementedError();
 
   /// Raised when the watcher should be removed. If an error occurs, then
   /// `errorCallback` must be called.
-  Stream get onRemoveWatcherRequested => throw UnimplementedError();
+  Stream<OnRemoveWatcherRequestedEvent> get onRemoveWatcherRequested =>
+      throw UnimplementedError();
 
   /// Raised when executing an action for a set of files or directories is\
   /// requested. After the action is completed, `successCallback`
   /// must be called. On error, `errorCallback` must be called.
-  Stream get onExecuteActionRequested => throw UnimplementedError();
+  Stream<OnExecuteActionRequestedEvent> get onExecuteActionRequested =>
+      throw UnimplementedError();
 }
 
 /// Error codes used by providing extensions in response to requests as well
@@ -207,9 +229,13 @@ enum ProviderError {
   const ProviderError(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static ProviderError fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
-/// Mode of opening a file. Used by $(ref:onOpenFileRequested).
+/// Mode of opening a file. Used by [onOpenFileRequested].
 enum OpenFileMode {
   read('READ'),
   write('WRITE');
@@ -217,6 +243,10 @@ enum OpenFileMode {
   const OpenFileMode(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static OpenFileMode fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// Type of a change detected on the observed directory.
@@ -227,13 +257,17 @@ enum ChangeType {
   const ChangeType(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static ChangeType fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
 }
 
 /// List of common actions. `"SHARE"` is for sharing files with
 /// others. `"SAVE_FOR_OFFLINE"` for pinning (saving for offline
 /// access). `"OFFLINE_NOT_NECESSARY"` for notifying that the file
 /// doesn't need to be stored for offline access anymore.
-/// Used by $(ref:onGetActionsRequested) and $(ref:onExecuteActionRequested).
+/// Used by [onGetActionsRequested] and [onExecuteActionRequested].
 enum CommonActionId {
   saveForOffline('SAVE_FOR_OFFLINE'),
   offlineNotNecessary('OFFLINE_NOT_NECESSARY'),
@@ -242,4 +276,1263 @@ enum CommonActionId {
   const CommonActionId(this.value);
 
   final String value;
+
+  String get toJS => value;
+  static CommonActionId fromJS(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+/// Callback to be called by the providing extension in case of a success.
+typedef ProviderSuccessCallback = void Function();
+
+/// Callback to be called by the providing extension in case of an error.
+/// Any error code is allowed except `OK`.
+typedef ProviderErrorCallback = void Function(ProviderError);
+
+/// Success callback for the [onGetMetadataRequested] event.
+typedef MetadataCallback = void Function(EntryMetadata);
+
+/// Success callback for the [onGetActionsRequested] event.
+typedef ActionsCallback = void Function(List<Action>);
+
+/// Success callback for the [onReadDirectoryRequested] event. If more
+/// entries will be returned, then `hasMore` must be true, and it
+/// has to be called again with additional entries. If no more entries are
+/// available, then `hasMore` must be set to false.
+typedef EntriesCallback = void Function(
+  List<EntryMetadata>,
+  bool,
+);
+
+/// Success callback for the [onReadFileRequested] event. If more
+/// data will be returned, then `hasMore` must be true, and it
+/// has to be called again with additional entries. If no more data is
+/// available, then `hasMore` must be set to false.
+typedef FileDataCallback = void Function(
+  ByteBuffer,
+  bool,
+);
+
+class EntryMetadata {
+  EntryMetadata.fromJS(this._wrapped);
+
+  final $js.EntryMetadata _wrapped;
+
+  $js.EntryMetadata get toJS => _wrapped;
+
+  /// True if it is a directory. Must be provided if requested in
+  /// `options`.
+  bool? get isDirectory => _wrapped.isDirectory;
+  set isDirectory(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// Name of this entry (not full path name). Must not contain '/'. For root
+  /// it must be empty. Must be provided if requested in `options`.
+  String? get name => _wrapped.name;
+  set name(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// File size in bytes. Must be provided if requested in
+  /// `options`.
+  double? get size => _wrapped.size;
+  set size(double? v) {
+    throw UnimplementedError();
+  }
+
+  /// The last modified time of this entry. Must be provided if requested in
+  /// `options`.
+  JSAny? get modificationTime => _wrapped.modificationTime;
+  set modificationTime(JSAny? v) {
+    throw UnimplementedError();
+  }
+
+  /// Mime type for the entry. Always optional, but should be provided if
+  /// requested in `options`.
+  String? get mimeType => _wrapped.mimeType;
+  set mimeType(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at most
+  /// 32 KB in size. Optional, but can be provided only when explicitly
+  /// requested by the [onGetMetadataRequested] event.
+  String? get thumbnail => _wrapped.thumbnail;
+  set thumbnail(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class Watcher {
+  Watcher.fromJS(this._wrapped);
+
+  final $js.Watcher _wrapped;
+
+  $js.Watcher get toJS => _wrapped;
+
+  /// The path of the entry being observed.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether watching should include all child entries recursively. It can be
+  /// true for directories only.
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Tag used by the last notification for the watcher.
+  String? get lastTag => _wrapped.lastTag;
+  set lastTag(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class OpenedFile {
+  OpenedFile.fromJS(this._wrapped);
+
+  final $js.OpenedFile _wrapped;
+
+  $js.OpenedFile get toJS => _wrapped;
+
+  /// A request ID to be be used by consecutive read/write and close requests.
+  int get openRequestId => _wrapped.openRequestId;
+  set openRequestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the opened file.
+  String get filePath => _wrapped.filePath;
+  set filePath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file was opened for reading or writing.
+  OpenFileMode get mode => OpenFileMode.fromJS(_wrapped.mode);
+  set mode(OpenFileMode v) {
+    throw UnimplementedError();
+  }
+}
+
+class FileSystemInfo {
+  FileSystemInfo.fromJS(this._wrapped);
+
+  final $js.FileSystemInfo _wrapped;
+
+  $js.FileSystemInfo get toJS => _wrapped;
+
+  /// The identifier of the file system.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A human-readable name for the file system.
+  String get displayName => _wrapped.displayName;
+  set displayName(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file system supports operations which may change contents
+  /// of the file system (such as creating, deleting or writing to files).
+  bool get writable => _wrapped.writable;
+  set writable(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// The maximum number of files that can be opened at once. If 0, then not
+  /// limited.
+  int get openedFilesLimit => _wrapped.openedFilesLimit;
+  set openedFilesLimit(int v) {
+    throw UnimplementedError();
+  }
+
+  /// List of currently opened files.
+  List<OpenedFile> get openedFiles => throw UnimplementedError();
+  set openedFiles(List<OpenedFile> v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file system supports the `tag` field for observing
+  /// directories.
+  bool? get supportsNotifyTag => _wrapped.supportsNotifyTag;
+  set supportsNotifyTag(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// List of watchers.
+  List<Watcher> get watchers => throw UnimplementedError();
+  set watchers(List<Watcher> v) {
+    throw UnimplementedError();
+  }
+}
+
+class MountOptions {
+  MountOptions.fromJS(this._wrapped);
+
+  final $js.MountOptions _wrapped;
+
+  $js.MountOptions get toJS => _wrapped;
+
+  /// The string indentifier of the file system. Must be unique per each
+  /// extension.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A human-readable name for the file system.
+  String get displayName => _wrapped.displayName;
+  set displayName(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file system supports operations which may change contents
+  /// of the file system (such as creating, deleting or writing to files).
+  bool? get writable => _wrapped.writable;
+  set writable(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// The maximum number of files that can be opened at once. If not specified,
+  /// or 0, then not limited.
+  int? get openedFilesLimit => _wrapped.openedFilesLimit;
+  set openedFilesLimit(int? v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file system supports the `tag` field for observed
+  /// directories.
+  bool? get supportsNotifyTag => _wrapped.supportsNotifyTag;
+  set supportsNotifyTag(bool? v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the framework should resume the file system at the next sign-in
+  /// session. True by default.
+  bool? get persistent => _wrapped.persistent;
+  set persistent(bool? v) {
+    throw UnimplementedError();
+  }
+}
+
+class UnmountOptions {
+  UnmountOptions.fromJS(this._wrapped);
+
+  final $js.UnmountOptions _wrapped;
+
+  $js.UnmountOptions get toJS => _wrapped;
+
+  /// The identifier of the file system to be unmounted.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class UnmountRequestedOptions {
+  UnmountRequestedOptions.fromJS(this._wrapped);
+
+  final $js.UnmountRequestedOptions _wrapped;
+
+  $js.UnmountRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system to be unmounted.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetMetadataRequestedOptions {
+  GetMetadataRequestedOptions.fromJS(this._wrapped);
+
+  final $js.GetMetadataRequestedOptions _wrapped;
+
+  $js.GetMetadataRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the entry to fetch metadata about.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `is_directory` value is requested.
+  bool get isDirectory => _wrapped.isDirectory;
+  set isDirectory(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `name` value is requested.
+  bool get name => _wrapped.name;
+  set name(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `size` value is requested.
+  bool get size => _wrapped.size;
+  set size(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `modificationTime` value is
+  /// requested.
+  bool get modificationTime => _wrapped.modificationTime;
+  set modificationTime(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `mimeType` value is requested.
+  bool get mimeType => _wrapped.mimeType;
+  set mimeType(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if the thumbnail is requested.
+  bool get thumbnail => _wrapped.thumbnail;
+  set thumbnail(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class GetActionsRequestedOptions {
+  GetActionsRequestedOptions.fromJS(this._wrapped);
+
+  final $js.GetActionsRequestedOptions _wrapped;
+
+  $js.GetActionsRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// List of paths of entries for the list of actions.
+  List<String> get entryPaths => throw UnimplementedError();
+  set entryPaths(List<String> v) {
+    throw UnimplementedError();
+  }
+}
+
+class ReadDirectoryRequestedOptions {
+  ReadDirectoryRequestedOptions.fromJS(this._wrapped);
+
+  final $js.ReadDirectoryRequestedOptions _wrapped;
+
+  $js.ReadDirectoryRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the directory which contents are requested.
+  String get directoryPath => _wrapped.directoryPath;
+  set directoryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `is_directory` value is requested.
+  bool get isDirectory => _wrapped.isDirectory;
+  set isDirectory(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `name` value is requested.
+  bool get name => _wrapped.name;
+  set name(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `size` value is requested.
+  bool get size => _wrapped.size;
+  set size(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `modificationTime` value is
+  /// requested.
+  bool get modificationTime => _wrapped.modificationTime;
+  set modificationTime(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if `mimeType` value is requested.
+  bool get mimeType => _wrapped.mimeType;
+  set mimeType(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// Set to `true` if the thumbnail is requested.
+  bool get thumbnail => _wrapped.thumbnail;
+  set thumbnail(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class OpenFileRequestedOptions {
+  OpenFileRequestedOptions.fromJS(this._wrapped);
+
+  final $js.OpenFileRequestedOptions _wrapped;
+
+  $js.OpenFileRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// A request ID which will be used by consecutive read/write and close
+  /// requests.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the file to be opened.
+  String get filePath => _wrapped.filePath;
+  set filePath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the file will be used for reading or writing.
+  OpenFileMode get mode => OpenFileMode.fromJS(_wrapped.mode);
+  set mode(OpenFileMode v) {
+    throw UnimplementedError();
+  }
+}
+
+class CloseFileRequestedOptions {
+  CloseFileRequestedOptions.fromJS(this._wrapped);
+
+  final $js.CloseFileRequestedOptions _wrapped;
+
+  $js.CloseFileRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// A request ID used to open the file.
+  int get openRequestId => _wrapped.openRequestId;
+  set openRequestId(int v) {
+    throw UnimplementedError();
+  }
+}
+
+class ReadFileRequestedOptions {
+  ReadFileRequestedOptions.fromJS(this._wrapped);
+
+  final $js.ReadFileRequestedOptions _wrapped;
+
+  $js.ReadFileRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// A request ID used to open the file.
+  int get openRequestId => _wrapped.openRequestId;
+  set openRequestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// Position in the file (in bytes) to start reading from.
+  double get offset => _wrapped.offset;
+  set offset(double v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes to be returned.
+  double get length => _wrapped.length;
+  set length(double v) {
+    throw UnimplementedError();
+  }
+}
+
+class CreateDirectoryRequestedOptions {
+  CreateDirectoryRequestedOptions.fromJS(this._wrapped);
+
+  final $js.CreateDirectoryRequestedOptions _wrapped;
+
+  $js.CreateDirectoryRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the directory to be created.
+  String get directoryPath => _wrapped.directoryPath;
+  set directoryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the operation is recursive (for directories only).
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class DeleteEntryRequestedOptions {
+  DeleteEntryRequestedOptions.fromJS(this._wrapped);
+
+  final $js.DeleteEntryRequestedOptions _wrapped;
+
+  $js.DeleteEntryRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the entry to be deleted.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether the operation is recursive (for directories only).
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class CreateFileRequestedOptions {
+  CreateFileRequestedOptions.fromJS(this._wrapped);
+
+  final $js.CreateFileRequestedOptions _wrapped;
+
+  $js.CreateFileRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the file to be created.
+  String get filePath => _wrapped.filePath;
+  set filePath(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class CopyEntryRequestedOptions {
+  CopyEntryRequestedOptions.fromJS(this._wrapped);
+
+  final $js.CopyEntryRequestedOptions _wrapped;
+
+  $js.CopyEntryRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The source path of the entry to be copied.
+  String get sourcePath => _wrapped.sourcePath;
+  set sourcePath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The destination path for the copy operation.
+  String get targetPath => _wrapped.targetPath;
+  set targetPath(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class MoveEntryRequestedOptions {
+  MoveEntryRequestedOptions.fromJS(this._wrapped);
+
+  final $js.MoveEntryRequestedOptions _wrapped;
+
+  $js.MoveEntryRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The source path of the entry to be moved into a new place.
+  String get sourcePath => _wrapped.sourcePath;
+  set sourcePath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The destination path for the copy operation.
+  String get targetPath => _wrapped.targetPath;
+  set targetPath(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class TruncateRequestedOptions {
+  TruncateRequestedOptions.fromJS(this._wrapped);
+
+  final $js.TruncateRequestedOptions _wrapped;
+
+  $js.TruncateRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the file to be truncated.
+  String get filePath => _wrapped.filePath;
+  set filePath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Number of bytes to be retained after the operation completes.
+  double get length => _wrapped.length;
+  set length(double v) {
+    throw UnimplementedError();
+  }
+}
+
+class WriteFileRequestedOptions {
+  WriteFileRequestedOptions.fromJS(this._wrapped);
+
+  final $js.WriteFileRequestedOptions _wrapped;
+
+  $js.WriteFileRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// A request ID used to open the file.
+  int get openRequestId => _wrapped.openRequestId;
+  set openRequestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// Position in the file (in bytes) to start writing the bytes from.
+  double get offset => _wrapped.offset;
+  set offset(double v) {
+    throw UnimplementedError();
+  }
+
+  /// Buffer of bytes to be written to the file.
+  ByteBuffer get data => _wrapped.data.toDart;
+  set data(ByteBuffer v) {
+    throw UnimplementedError();
+  }
+}
+
+class AbortRequestedOptions {
+  AbortRequestedOptions.fromJS(this._wrapped);
+
+  final $js.AbortRequestedOptions _wrapped;
+
+  $js.AbortRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// An ID of the request to be aborted.
+  int get operationRequestId => _wrapped.operationRequestId;
+  set operationRequestId(int v) {
+    throw UnimplementedError();
+  }
+}
+
+class AddWatcherRequestedOptions {
+  AddWatcherRequestedOptions.fromJS(this._wrapped);
+
+  final $js.AddWatcherRequestedOptions _wrapped;
+
+  $js.AddWatcherRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the entry to be observed.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Whether observing should include all child entries recursively. It can be
+  /// true for directories only.
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class RemoveWatcherRequestedOptions {
+  RemoveWatcherRequestedOptions.fromJS(this._wrapped);
+
+  final $js.RemoveWatcherRequestedOptions _wrapped;
+
+  $js.RemoveWatcherRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the watched entry.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Mode of the watcher.
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+}
+
+class Action {
+  Action.fromJS(this._wrapped);
+
+  final $js.Action _wrapped;
+
+  $js.Action get toJS => _wrapped;
+
+  /// The identifier of the action. Any string or [CommonActionId] for
+  /// common actions.
+  String get id => _wrapped.id;
+  set id(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The title of the action. It may be ignored for common actions.
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class ExecuteActionRequestedOptions {
+  ExecuteActionRequestedOptions.fromJS(this._wrapped);
+
+  final $js.ExecuteActionRequestedOptions _wrapped;
+
+  $js.ExecuteActionRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this operation.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+
+  /// The set of paths of the entries to be used for the action.
+  List<String> get entryPaths => throw UnimplementedError();
+  set entryPaths(List<String> v) {
+    throw UnimplementedError();
+  }
+
+  /// The identifier of the action to be executed.
+  String get actionId => _wrapped.actionId;
+  set actionId(String v) {
+    throw UnimplementedError();
+  }
+}
+
+class Change {
+  Change.fromJS(this._wrapped);
+
+  final $js.Change _wrapped;
+
+  $js.Change get toJS => _wrapped;
+
+  /// The path of the changed entry.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of the change which happened to the entry.
+  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
+  set changeType(ChangeType v) {
+    throw UnimplementedError();
+  }
+}
+
+class NotifyOptions {
+  NotifyOptions.fromJS(this._wrapped);
+
+  final $js.NotifyOptions _wrapped;
+
+  $js.NotifyOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this change.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The path of the observed entry.
+  String get observedPath => _wrapped.observedPath;
+  set observedPath(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Mode of the observed entry.
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    throw UnimplementedError();
+  }
+
+  /// The type of the change which happened to the observed entry. If it is
+  /// DELETED, then the observed entry will be automatically removed from the
+  /// list of observed entries.
+  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
+  set changeType(ChangeType v) {
+    throw UnimplementedError();
+  }
+
+  /// List of changes to entries within the observed directory (including the
+  /// entry itself)
+  List<Change>? get changes => throw UnimplementedError();
+  set changes(List<Change>? v) {
+    throw UnimplementedError();
+  }
+
+  /// Tag for the notification. Required if the file system was mounted with
+  /// the `supportsNotifyTag` option. Note, that this flag is
+  /// necessary to provide notifications about changes which changed even
+  /// when the system was shutdown.
+  String? get tag => _wrapped.tag;
+  set tag(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class ConfigureRequestedOptions {
+  ConfigureRequestedOptions.fromJS(this._wrapped);
+
+  final $js.ConfigureRequestedOptions _wrapped;
+
+  $js.ConfigureRequestedOptions get toJS => _wrapped;
+
+  /// The identifier of the file system to be configured.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    throw UnimplementedError();
+  }
+
+  /// The unique identifier of this request.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    throw UnimplementedError();
+  }
+}
+
+class OnUnmountRequestedEvent {
+  OnUnmountRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final UnmountRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnGetMetadataRequestedEvent {
+  OnGetMetadataRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final GetMetadataRequestedOptions options;
+
+  final MetadataCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnGetActionsRequestedEvent {
+  OnGetActionsRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final GetActionsRequestedOptions options;
+
+  final ActionsCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnReadDirectoryRequestedEvent {
+  OnReadDirectoryRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final ReadDirectoryRequestedOptions options;
+
+  final EntriesCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnOpenFileRequestedEvent {
+  OnOpenFileRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final OpenFileRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnCloseFileRequestedEvent {
+  OnCloseFileRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final CloseFileRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnReadFileRequestedEvent {
+  OnReadFileRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final ReadFileRequestedOptions options;
+
+  final FileDataCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnCreateDirectoryRequestedEvent {
+  OnCreateDirectoryRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final CreateDirectoryRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnDeleteEntryRequestedEvent {
+  OnDeleteEntryRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final DeleteEntryRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnCreateFileRequestedEvent {
+  OnCreateFileRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final CreateFileRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnCopyEntryRequestedEvent {
+  OnCopyEntryRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final CopyEntryRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnMoveEntryRequestedEvent {
+  OnMoveEntryRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final MoveEntryRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnTruncateRequestedEvent {
+  OnTruncateRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final TruncateRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnWriteFileRequestedEvent {
+  OnWriteFileRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final WriteFileRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnAbortRequestedEvent {
+  OnAbortRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final AbortRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnConfigureRequestedEvent {
+  OnConfigureRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final ConfigureRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnMountRequestedEvent {
+  OnMountRequestedEvent({
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnAddWatcherRequestedEvent {
+  OnAddWatcherRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final AddWatcherRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnRemoveWatcherRequestedEvent {
+  OnRemoveWatcherRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final RemoveWatcherRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
+}
+
+class OnExecuteActionRequestedEvent {
+  OnExecuteActionRequestedEvent({
+    required this.options,
+    required this.successCallback,
+    required this.errorCallback,
+  });
+
+  final ExecuteActionRequestedOptions options;
+
+  final ProviderSuccessCallback successCallback;
+
+  final ProviderErrorCallback errorCallback;
 }

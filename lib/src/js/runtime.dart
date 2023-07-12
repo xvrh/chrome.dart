@@ -20,23 +20,23 @@ extension JSRuntimeExtension on JSRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  external JSPromise getBackgroundPage();
+  external void getBackgroundPage(JSFunction callback);
 
-  /// <p>Open your Extension's options page, if possible.</p><p>The precise
-  /// behavior may depend on your manifest's `<a
-  /// href="optionsV2">options_ui</a>` or `<a href="options">options_page</a>`
-  /// key, or what Chrome happens to support at the time. For example, the page
-  /// may be opened in a new tab, within chrome://extensions, within an App, or
-  /// it may just focus an open options page. It will never cause the caller
-  /// page to reload.</p><p>If your Extension does not declare an options page,
-  /// or Chrome failed to create one for some other reason, the callback will
-  /// set $(ref:lastError).</p>
-  external JSPromise openOptionsPage();
+  /// Open your Extension's options page, if possible.
+  ///
+  /// The precise behavior may depend on your manifest's
+  /// `[options_ui](optionsV2)` or `[options_page](options)` key, or what Chrome
+  /// happens to support at the time. For example, the page may be opened in a
+  /// new tab, within chrome://extensions, within an App, or it may just focus
+  /// an open options page. It will never cause the caller page to reload.
+  ///
+  /// If your Extension does not declare an options page, or Chrome failed to
+  /// create one for some other reason, the callback will set [lastError].
+  external void openOptionsPage(JSFunction callback);
 
   /// Returns details about the app or extension from the manifest. The object
-  /// returned is a serialization of the full <a href="manifest.html">manifest
-  /// file</a>.
-  external JSObject getManifest();
+  /// returned is a serialization of the full [manifest file](manifest.html).
+  external GetManifestReturn getManifest();
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
@@ -45,26 +45,33 @@ extension JSRuntimeExtension on JSRuntime {
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  external JSPromise setUninstallURL(String url);
+  external void setUninstallURL(
+    String url,
+    JSFunction callback,
+  );
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
   external void reload();
 
-  /// <p>Requests an immediate update check be done for this app/extension.</p>
-  /// <p>**Important**: Most extensions/apps should **not** use this method,
-  /// since Chrome already does automatic checks every few hours, and you can
-  /// listen for the $(ref:runtime.onUpdateAvailable) event without needing to
-  /// call requestUpdateCheck.</p><p>This method is only appropriate to call in
-  /// very limited circumstances, such as if your extension/app talks to a
-  /// backend service, and the backend service has determined that the client
-  /// extension/app version is very far out of date and you'd like to prompt a
-  /// user to update. Most other uses of requestUpdateCheck, such as calling it
-  /// unconditionally based on a repeating timer, probably only serve to waste
-  /// client, network, and server resources.</p><p>Note: When called with a
-  /// callback, instead of returning an object this function will return the two
-  /// properties as separate arguments passed to the callback.</p>
-  external JSPromise requestUpdateCheck();
+  /// Requests an immediate update check be done for this app/extension.
+  /// **Important**: Most extensions/apps should **not** use this method, since
+  /// Chrome already does automatic checks every few hours, and you can listen
+  /// for the [runtime.onUpdateAvailable] event without needing to call
+  /// requestUpdateCheck.
+  ///
+  /// This method is only appropriate to call in very limited circumstances,
+  /// such as if your extension/app talks to a backend service, and the backend
+  /// service has determined that the client extension/app version is very far
+  /// out of date and you'd like to prompt a user to update. Most other uses of
+  /// requestUpdateCheck, such as calling it unconditionally based on a
+  /// repeating timer, probably only serve to waste client, network, and server
+  /// resources.
+  ///
+  /// Note: When called with a callback, instead of returning an object this
+  /// function will return the two properties as separate arguments passed to
+  /// the callback.
+  external void requestUpdateCheck(JSFunction callback);
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
   /// it's no-op.
@@ -75,52 +82,60 @@ extension JSRuntimeExtension on JSRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  external JSPromise restartAfterDelay(int seconds);
+  external void restartAfterDelay(
+    int seconds,
+    JSFunction callback,
+  );
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
   /// scripts connecting to their extension processes, inter-app/extension
-  /// communication, and <a href="manifest/externally_connectable.html">web
-  /// messaging</a>. Note that this does not connect to any listeners in a
-  /// content script. Extensions may connect to content scripts embedded in tabs
-  /// via $(ref:tabs.connect).
+  /// communication, and [web messaging](manifest/externally_connectable.html).
+  /// Note that this does not connect to any listeners in a content script.
+  /// Extensions may connect to content scripts embedded in tabs via
+  /// [tabs.connect].
   external Port connect(
     String? extensionId,
     ConnectInfo? connectInfo,
   );
 
-  /// Connects to a native application in the host machine. See <a
-  /// href="nativeMessaging">Native Messaging</a> for more information.
+  /// Connects to a native application in the host machine. See [Native
+  /// Messaging](nativeMessaging) for more information.
   external Port connectNative(String application);
 
   /// Sends a single message to event listeners within your extension/app or a
-  /// different extension/app. Similar to $(ref:runtime.connect) but only sends
-  /// a single message, with an optional response. If sending to your extension,
-  /// the $(ref:runtime.onMessage) event will be fired in every frame of your
-  /// extension (except for the sender's frame), or
-  /// $(ref:runtime.onMessageExternal), if a different extension. Note that
-  /// extensions cannot send messages to content scripts using this method. To
-  /// send messages to content scripts, use $(ref:tabs.sendMessage).
-  external JSPromise sendMessage(
+  /// different extension/app. Similar to [runtime.connect] but only sends a
+  /// single message, with an optional response. If sending to your extension,
+  /// the [runtime.onMessage] event will be fired in every frame of your
+  /// extension (except for the sender's frame), or [runtime.onMessageExternal],
+  /// if a different extension. Note that extensions cannot send messages to
+  /// content scripts using this method. To send messages to content scripts,
+  /// use [tabs.sendMessage].
+  external void sendMessage(
     String? extensionId,
     JSAny message,
     SendMessageOptions? options,
+    JSFunction callback,
   );
 
   /// Send a single message to a native application.
-  external JSPromise sendNativeMessage(
+  external void sendNativeMessage(
     String application,
-    JSObject message,
+    JSAny message,
+    JSFunction callback,
   );
 
   /// Returns information about the current platform.
-  external JSPromise getPlatformInfo();
+  external void getPlatformInfo(JSFunction callback);
 
   /// Returns a DirectoryEntry for the package directory.
-  external void getPackageDirectoryEntry(JSFunction callback);
+  external void getPackageDirectoryEntry(JSAny callback);
 
   /// Fetches information about active contexts associated with this extension
-  external JSPromise getContexts(ContextFilter filter);
+  external void getContexts(
+    ContextFilter filter,
+    JSFunction callback,
+  );
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
@@ -159,11 +174,11 @@ extension JSRuntimeExtension on JSRuntime {
   external ChromeEvent get onBrowserUpdateAvailable;
 
   /// Fired when a connection is made from either an extension process or a
-  /// content script (by $(ref:runtime.connect)).
+  /// content script (by [runtime.connect]).
   external ChromeEvent get onConnect;
 
   /// Fired when a connection is made from another extension (by
-  /// $(ref:runtime.connect)).
+  /// [runtime.connect]).
   external ChromeEvent get onConnectExternal;
 
   /// Fired when a connection is made from a native application. Currently only
@@ -171,12 +186,11 @@ extension JSRuntimeExtension on JSRuntime {
   external ChromeEvent get onConnectNative;
 
   /// Fired when a message is sent from either an extension process (by
-  /// $(ref:runtime.sendMessage)) or a content script (by
-  /// $(ref:tabs.sendMessage)).
+  /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
   external ChromeEvent get onMessage;
 
   /// Fired when a message is sent from another extension/app (by
-  /// $(ref:runtime.sendMessage)). Cannot be used in a content script.
+  /// [runtime.sendMessage]). Cannot be used in a content script.
   external ChromeEvent get onMessageExternal;
 
   /// Fired when an app or the device that it runs on needs to be restarted. The
@@ -187,7 +201,7 @@ extension JSRuntimeExtension on JSRuntime {
   external ChromeEvent get onRestartRequired;
 
   /// This will be defined during an API method callback if there was an error
-  external JSObject get lastError;
+  external RuntimeLastError? get lastError;
 
   /// The ID of the extension/app.
   external String get id;
@@ -223,17 +237,17 @@ typedef ContextType = String;
 class Port {}
 
 extension PortExtension on Port {
-  /// The name of the port, as specified in the call to $(ref:runtime.connect).
+  /// The name of the port, as specified in the call to [runtime.connect].
   external String name;
 
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  external JSFunction disconnect;
+  external JSAny disconnect;
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  external JSFunction postMessage;
+  external JSAny postMessage;
 
   /// This property will **only** be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
@@ -242,10 +256,10 @@ extension PortExtension on Port {
   external MessageSender? sender;
 
   /// Fired when the port is disconnected from the other end(s).
-  /// $(ref:runtime.lastError) may be set if the port was disconnected by an
-  /// error. If the port is closed via $(ref:Port.disconnect disconnect), then
-  /// this event is <em>only</em> fired on the other end. This event is fired at
-  /// most once (see also <a href="messaging#port-lifetime">Port lifetime</a>).
+  /// [runtime.lastError] may be set if the port was disconnected by an error.
+  /// If the port is closed via $(ref:Port.disconnect disconnect), then this
+  /// event is _only_ fired on the other end. This event is fired at most once
+  /// (see also [Port lifetime](messaging#port-lifetime)).
   external ChromeEvent get onDisconnect;
 
   /// This event is fired when $(ref:Port.postMessage postMessage) is called by
@@ -258,15 +272,14 @@ extension PortExtension on Port {
 class MessageSender {}
 
 extension MessageSenderExtension on MessageSender {
-  /// The $(ref:tabs.Tab) which opened the connection, if any. This property
-  /// will <strong>only</strong> be present when the connection was opened from
-  /// a tab (including content scripts), and <strong>only</strong> if the
-  /// receiver is an extension, not an app.
+  /// The [tabs.Tab] which opened the connection, if any. This property will
+  /// *only* be present when the connection was opened from a tab (including
+  /// content scripts), and *only* if the receiver is an extension, not an app.
   external Tab? tab;
 
-  /// The <a href='webNavigation#frame_ids'>frame</a> that opened the
-  /// connection. 0 for top-level frames, positive for child frames. This will
-  /// only be set when `tab` is set.
+  /// The [frame](webNavigation#frame_ids) that opened the connection. 0 for
+  /// top-level frames, positive for child frames. This will only be set when
+  /// `tab` is set.
   external int? frameId;
 
   /// The guest process id of the requesting webview, if available. Only
@@ -414,6 +427,26 @@ extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
 
 @JS()
 @staticInterop
+class GetManifestReturn {}
+
+extension GetManifestReturnExtension on GetManifestReturn {}
+
+@JS()
+@staticInterop
+class RequestUpdateCheckCallbackResult {}
+
+extension RequestUpdateCheckCallbackResultExtension
+    on RequestUpdateCheckCallbackResult {
+  /// Result of the update check.
+  external RequestUpdateCheckStatus status;
+
+  /// If an update is available, this contains the version of the available
+  /// update.
+  external String? version;
+}
+
+@JS()
+@staticInterop
 @anonymous
 class ConnectInfo {
   external factory ConnectInfo({
@@ -436,4 +469,13 @@ class SendMessageOptions {
       /// Whether the TLS channel ID will be passed into onMessageExternal for
       /// processes that are listening for the connection event.
       bool? includeTlsChannelId});
+}
+
+@JS()
+@staticInterop
+class RuntimeLastError {}
+
+extension RuntimeLastErrorExtension on RuntimeLastError {
+  /// Details about the error which occurred.
+  external String? message;
 }

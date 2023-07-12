@@ -16,27 +16,27 @@ class JSContextMenus {}
 extension JSContextMenusExtension on JSContextMenus {
   /// Creates a new context menu item. If an error occurs during creation, it
   /// may not be detected until the creation callback fires; details will be in
-  /// $(ref:runtime.lastError).
-  external JSObject create(
+  /// [runtime.lastError].
+  external JSAny create(
     CreateProperties createProperties,
-    JSFunction? callback,
+    JSAny? callback,
   );
 
   /// Updates a previously created context menu item.
   external void update(
-    JSObject id,
+    JSAny id,
     UpdateProperties updateProperties,
-    JSFunction? callback,
+    JSAny? callback,
   );
 
   /// Removes a context menu item.
   external void remove(
-    JSObject menuItemId,
-    JSFunction? callback,
+    JSAny menuItemId,
+    JSAny? callback,
   );
 
   /// Removes all context menu items added by this extension.
-  external void removeAll(JSFunction? callback);
+  external void removeAll(JSAny? callback);
 
   /// Fired when a context menu item is clicked.
   external ChromeEvent get onClicked;
@@ -64,10 +64,10 @@ class OnClickData {}
 
 extension OnClickDataExtension on OnClickData {
   /// The ID of the menu item that was clicked.
-  external JSObject menuItemId;
+  external JSAny menuItemId;
 
   /// The parent ID, if any, for the item clicked.
-  external JSObject? parentMenuItemId;
+  external JSAny? parentMenuItemId;
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
   /// one of these types of elements.
@@ -88,8 +88,8 @@ extension OnClickDataExtension on OnClickData {
   /// if it was in a frame.
   external String? frameUrl;
 
-  ///  The <a href='webNavigation#frame_ids'>ID of the frame</a> of the element
-  /// where the context menu was clicked, if it was in a frame.
+  ///  The [ID of the frame](webNavigation#frame_ids) of the element where the
+  /// context menu was clicked, if it was in a frame.
   external int? frameId;
 
   /// The text for the context selection, if any.
@@ -120,10 +120,10 @@ class CreateProperties {
     /// the same as another ID for this extension.
     String? id,
 
-    /// The text to display in the item; this is <em>required</em> unless `type`
-    /// is `separator`. When the context is `selection`, use `%s` within the
-    /// string to show the selected text. For example, if this parameter's value
-    /// is "Translate '%s' to Pig Latin" and the user selects the word "cool", the
+    /// The text to display in the item; this is _required_ unless `type` is
+    /// `separator`. When the context is `selection`, use `%s` within the string
+    /// to show the selected text. For example, if this parameter's value is
+    /// "Translate '%s' to Pig Latin" and the user selects the word "cool", the
     /// context menu item for the selection is "Translate 'cool' to Pig Latin".
     String? title,
 
@@ -140,16 +140,16 @@ class CreateProperties {
 
     /// A function that is called back when the menu item is clicked. Event pages
     /// cannot use this; instead, they should register a listener for
-    /// $(ref:contextMenus.onClicked).
-    JSFunction? onclick,
+    /// [contextMenus.onClicked].
+    JSAny? onclick,
 
     /// The ID of a parent menu item; this makes the item a child of a previously
     /// added item.
-    JSObject? parentId,
+    JSAny? parentId,
 
     /// Restricts the item to apply only to documents or frames whose URL matches
-    /// one of the given patterns. For details on pattern formats, see <a
-    /// href='match_patterns'>Match Patterns</a>.
+    /// one of the given patterns. For details on pattern formats, see [Match
+    /// Patterns](match_patterns).
     JSArray? documentUrlPatterns,
 
     /// Similar to `documentUrlPatterns`, filters based on the `src` attribute of
@@ -173,11 +173,11 @@ class UpdateProperties {
 
     /// Whether the item is visible in the menu.
     bool? visible,
-    JSFunction? onclick,
+    JSAny? onclick,
 
     /// The ID of the item to be made this item's parent. Note: You cannot set an
     /// item to become a child of its own descendant.
-    JSObject? parentId,
+    JSAny? parentId,
     JSArray? documentUrlPatterns,
     JSArray? targetUrlPatterns,
     bool? enabled,

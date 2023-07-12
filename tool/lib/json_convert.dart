@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 import 'chrome_model.dart';
 import 'json_model.dart';
 import 'utils/split_words.dart';
@@ -10,8 +12,11 @@ class JsonModelConverter {
   late final _dictionariesToGenerate =
       model.types.where((e) => e.enums == null && e.type == 'object').toList();
   final _syntheticDictionaries = <Dictionary>[];
+  final _typedefs =  <Typedef>[];
 
-  JsonModelConverter(this.model);
+  JsonModelConverter(this.model) {
+    _fillTypedefs();
+  }
 
   ChromeApi convert() {
     return ChromeApi(
@@ -20,7 +25,7 @@ class JsonModelConverter {
       events: _convertEvents().toList(),
       functions: _convertFunctions().toList(),
       properties: _convertProperties().toList(),
-      typedefs: _convertTypeDefs().toList(),
+      typedefs: _typedefs,
       dictionaries: [..._convertDictionaries(), ..._syntheticDictionaries],
       enumerations: _convertEnums().toList(),
     );
@@ -245,7 +250,7 @@ class JsonModelConverter {
     }
   }
 
-  Iterable<Typedef> _convertTypeDefs() sync* {
+  void _fillTypedefs() {
     for (var type
         in model.types.where((t) => t.type != 'object' && t.enums == null)) {
       ChromeType? target;
@@ -264,7 +269,7 @@ class JsonModelConverter {
         target = VariousType(isNullable: false);
       }
 
-      yield Typedef(type.id, target: target, documentation: type.description);
+      _typedefs.add(Typedef(type.id, target: target, documentation: type.description));
     }
   }
 
@@ -281,7 +286,12 @@ class JsonModelConverter {
       typeName = _extractType(prop);
     }
 
-    var type = ChromeType.tryParse(typeName, isNullable: nullable) ??
+    ChromeType? type;
+    if (_typedefs.firstWhereOrNull((e) => e.alias == typeName) case var typedef?) {
+      type = AliasedType(typeName, typedef.target, isNullable: nullable);
+    }
+
+     type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??
         LocalType.parse(typeName, isNullable: nullable);
     if (isArray) {
       return ListType(type, isNullable: arrayNullable);

@@ -168,6 +168,22 @@ extension UploadDataExtension on UploadData {
 
 @JS()
 @staticInterop
+class HttpHeadersItems {}
+
+extension HttpHeadersItemsExtension on HttpHeadersItems {
+  /// Name of the HTTP header.
+  external String name;
+
+  /// Value of the HTTP header if it can be represented by UTF-8.
+  external String? value;
+
+  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+  /// individual byte values (0..255).
+  external JSArray? binaryValue;
+}
+
+@JS()
+@staticInterop
 class OnBeforeRequestDetails {}
 
 extension OnBeforeRequestDetailsExtension on OnBeforeRequestDetails {
@@ -777,22 +793,6 @@ extension OnActionIgnoredDetailsExtension on OnActionIgnoredDetails {
 
   /// The proposed action which was ignored.
   external IgnoredActionType action;
-}
-
-@JS()
-@staticInterop
-class HttpHeadersItems {}
-
-extension HttpHeadersItemsExtension on HttpHeadersItems {
-  /// Name of the HTTP header.
-  external String name;
-
-  /// Value of the HTTP header if it can be represented by UTF-8.
-  external String? value;
-
-  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
-  /// individual byte values (0..255).
-  external JSArray? binaryValue;
 }
 
 @JS()

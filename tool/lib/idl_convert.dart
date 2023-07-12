@@ -77,7 +77,7 @@ class IdlModelConverter {
             target: type,
             documentation: _toDocumentation(callback.documentation)));
       }
-      type = AliasedType(callback.name, type);
+      type = AliasedType(callback.name, type, isNullable: param.isOptional);
     } else {
       type = _typeFromName(param.type, isNullable: param.isOptional);
     }

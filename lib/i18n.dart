@@ -79,7 +79,7 @@ class DetectLanguageCallbackResultLanguages {
 
   $js.DetectLanguageCallbackResultLanguages get toJS => _wrapped;
 
-  LanguageCode get language => LanguageCode.fromJS(_wrapped.language);
+  LanguageCode get language => _wrapped.language;
   set language(LanguageCode v) {
     throw UnimplementedError();
   }

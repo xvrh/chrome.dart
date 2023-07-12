@@ -314,8 +314,8 @@ class AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
 
-  AliasedType(this.alias, this.original)
-      : super(isNullable: original.isNullable);
+  AliasedType(this.alias, this.original, {required bool isNullable})
+      : super(isNullable: isNullable);
 
   @override
   code.Reference get jsType => code.TypeReference((b) => b

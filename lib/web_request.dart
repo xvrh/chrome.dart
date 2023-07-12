@@ -308,8 +308,7 @@ class BlockingResponse {
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the
   /// request is made with these request headers instead.
-  HttpHeaders? get requestHeaders =>
-      _wrapped.requestHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get requestHeaders => throw UnimplementedError();
   set requestHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -319,8 +318,7 @@ class BlockingResponse {
   /// return `responseHeaders` if you really want to modify the headers in order
   /// to limit the number of conflicts (only one extension may modify
   /// `responseHeaders` for each request).
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -350,6 +348,33 @@ class UploadData {
   /// A string with the file's path and name.
   String? get file => _wrapped.file;
   set file(String? v) {
+    throw UnimplementedError();
+  }
+}
+
+class HttpHeadersItems {
+  HttpHeadersItems.fromJS(this._wrapped);
+
+  final $js.HttpHeadersItems _wrapped;
+
+  $js.HttpHeadersItems get toJS => _wrapped;
+
+  /// Name of the HTTP header.
+  String get name => _wrapped.name;
+  set name(String v) {
+    throw UnimplementedError();
+  }
+
+  /// Value of the HTTP header if it can be represented by UTF-8.
+  String? get value => _wrapped.value;
+  set value(String? v) {
+    throw UnimplementedError();
+  }
+
+  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+  /// individual byte values (0..255).
+  List<int>? get binaryValue => throw UnimplementedError();
+  set binaryValue(List<int>? v) {
     throw UnimplementedError();
   }
 }
@@ -554,8 +579,7 @@ class OnBeforeSendHeadersDetails {
   }
 
   /// The HTTP request headers that are going to be sent out with this request.
-  HttpHeaders? get requestHeaders =>
-      _wrapped.requestHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get requestHeaders => throw UnimplementedError();
   set requestHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -657,8 +681,7 @@ class OnSendHeadersDetails {
   }
 
   /// The HTTP request headers that have been sent out with this request.
-  HttpHeaders? get requestHeaders =>
-      _wrapped.requestHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get requestHeaders => throw UnimplementedError();
   set requestHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -767,8 +790,7 @@ class OnHeadersReceivedDetails {
   }
 
   /// The HTTP response headers that have been received with this response.
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -901,8 +923,7 @@ class OnAuthRequiredDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -1037,8 +1058,7 @@ class OnResponseStartedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -1173,8 +1193,7 @@ class OnBeforeRedirectDetails {
   }
 
   /// The HTTP response headers that were received along with this redirect.
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -1303,8 +1322,7 @@ class OnCompletedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders =>
-      _wrapped.responseHeaders?.let(HttpHeaders.fromJS);
+  HttpHeaders? get responseHeaders => throw UnimplementedError();
   set responseHeaders(HttpHeaders? v) {
     throw UnimplementedError();
   }
@@ -1454,33 +1472,6 @@ class OnActionIgnoredDetails {
   /// The proposed action which was ignored.
   IgnoredActionType get action => IgnoredActionType.fromJS(_wrapped.action);
   set action(IgnoredActionType v) {
-    throw UnimplementedError();
-  }
-}
-
-class HttpHeadersItems {
-  HttpHeadersItems.fromJS(this._wrapped);
-
-  final $js.HttpHeadersItems _wrapped;
-
-  $js.HttpHeadersItems get toJS => _wrapped;
-
-  /// Name of the HTTP header.
-  String get name => _wrapped.name;
-  set name(String v) {
-    throw UnimplementedError();
-  }
-
-  /// Value of the HTTP header if it can be represented by UTF-8.
-  String? get value => _wrapped.value;
-  set value(String? v) {
-    throw UnimplementedError();
-  }
-
-  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
-  /// individual byte values (0..255).
-  List<int>? get binaryValue => throw UnimplementedError();
-  set binaryValue(List<int>? v) {
     throw UnimplementedError();
   }
 }

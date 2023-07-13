@@ -260,14 +260,14 @@ class JSFunctionType extends ChromeType {
 class LocalType extends ChromeType {
   final String name;
   final String? url;
-  final String selfFileName;
+  final String declarationFile;
 
   LocalType(this.name,
-      {this.url, required this.selfFileName, required super.isNullable});
+      {this.url, required this.declarationFile, required super.isNullable});
 
   @override
   ChromeType copyWith({required bool isNullable}) => LocalType(name,
-      url: url, selfFileName: selfFileName, isNullable: isNullable);
+      url: url, declarationFile: declarationFile, isNullable: isNullable);
 
   static LocalType parse(String input,
       {required String selfFileName, required bool isNullable}) {
@@ -279,7 +279,7 @@ class LocalType extends ChromeType {
     var name = split.last;
 
     return LocalType(name,
-        selfFileName: selfFileName, isNullable: isNullable, url: url);
+        declarationFile: selfFileName, isNullable: isNullable, url: url);
   }
 
   @override
@@ -301,7 +301,7 @@ class LocalType extends ChromeType {
     if (url case var url?) {
       fullUrl = '$jsBasePath$url';
     } else {
-      fullUrl = '$jsBasePath$selfFileName';
+      fullUrl = '$jsBasePath$declarationFile';
     }
 
     return code.TypeReference((b) => b
@@ -395,10 +395,6 @@ class ListType extends ChromeType {
 
   @override
   code.Expression toDart(code.Expression accessor) {
-    //var emitter = code.DartEmitter(
-    //    useNullSafetySyntax: true);
-    var jsType = item.jsTypeReferencedFromDart;
-
     return accessor
         .nullSafePropertyIf('toDart', isNullable)
         .property('cast')
@@ -430,19 +426,37 @@ class ListType extends ChromeType {
 class AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
+  final String declarationFile;
 
-  AliasedType(this.alias, ChromeType original, {required bool isNullable})
+  AliasedType(this.alias, ChromeType original,
+      {required this.declarationFile, required bool isNullable})
       : original = original.copyWith(isNullable: isNullable),
         super(isNullable: isNullable);
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      AliasedType(alias, original, isNullable: isNullable);
+      AliasedType(alias, original,
+          declarationFile: declarationFile, isNullable: isNullable);
 
   @override
-  code.Reference get jsType => code.TypeReference((b) => b
-    ..symbol = alias
-    ..isNullable = isNullable);
+  code.Reference get jsType {
+    var originalType = original.jsType;
+    if (originalType is code.TypeReference) {
+      return originalType.rebuild((b) => b.symbol = alias);
+    }
+    return originalType;
+  }
+
+  @override
+  code.Reference get jsTypeReferencedFromDart {
+    var originalType = original.jsTypeReferencedFromDart;
+    if (originalType is code.TypeReference) {
+      return originalType.rebuild((b) => b
+        ..symbol = alias
+        ..url = 'src/js/$declarationFile');
+    }
+    return originalType;
+  }
 
   @override
   code.Reference get dartType => jsType;

@@ -54,7 +54,7 @@ class IdlModelConverter {
             isAnonymous: false,
             isSyntheticEvent: true);
         type = LocalType(newTypeName,
-            selfFileName: _targetFileName, isNullable: false);
+            declarationFile: _targetFileName, isNullable: false);
         _syntheticDictionaries.add(syntheticType);
       }
       yield Event(e.name,
@@ -80,7 +80,7 @@ class IdlModelConverter {
             target: type,
             documentation: _toDocumentation(callback.documentation)));
       }
-      type = AliasedType(callback.name, type, isNullable: param.isOptional);
+      type = AliasedType(callback.name, type,declarationFile: _targetFileName, isNullable: param.isOptional);
     } else {
       type = _typeFromName(param.type, isNullable: param.isOptional);
     }
@@ -168,7 +168,7 @@ class IdlModelConverter {
             singleParameter = FunctionParameter(
                 null,
                 LocalType(syntheticTypeName,
-                    selfFileName: _targetFileName, isNullable: false));
+                    declarationFile: _targetFileName, isNullable: false));
             var syntheticType = Dictionary(syntheticTypeName,
                 properties: syntheticProperties,
                 methods: [],

@@ -254,10 +254,10 @@ class DartApiGenerator extends _GeneratorBase {
       if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
         completeParameter = singleParam.type.toDart(refer(singleParam.name!));
       } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
-        completeParameter = asyncReturn.dartType.call([
+        completeParameter = asyncReturn.dartType.call([], {
           for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-            jsParam.type.toDart(refer(jsParam.name!))
-        ]);
+            jsParam.name!: jsParam.type.toDart(refer(jsParam.name!))
+        });
       }
 
       var completerVar = r'$completer';
@@ -368,7 +368,7 @@ class DartApiGenerator extends _GeneratorBase {
 
   Iterable<Spec> _dictionary(model.Dictionary dictionary) sync* {
     var type = model.LocalType(dictionary.name,
-        selfFileName: api.fileName, isNullable: false);
+        declarationFile: api.fileName, isNullable: false);
 
     const wrappedVariable = '_wrapped';
 

@@ -290,7 +290,7 @@ class JsonModelConverter {
     ChromeType? type;
     if (_typedefs.firstWhereOrNull((e) => e.alias == typeName)
         case var typedef?) {
-      type = AliasedType(typeName, typedef.target, isNullable: nullable);
+      type = AliasedType(typeName, typedef.target,declarationFile:_targetFileName, isNullable: nullable);
     }
 
     type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??
@@ -317,6 +317,6 @@ class JsonModelConverter {
 
   LocalType _newLocalType(String name, {required bool isNullable}) {
     return LocalType(name,
-        selfFileName: _targetFileName, isNullable: isNullable);
+        declarationFile: _targetFileName, isNullable: isNullable);
   }
 }

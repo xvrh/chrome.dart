@@ -119,7 +119,7 @@ class ChromeBrowserAction {
     var $completer = Completer<ColorArray>();
     $js.chrome.browserAction.getBadgeBackgroundColor(
       details.toJS,
-      (ColorArray result) {
+      ($js.ColorArray result) {
         $completer.complete(result.toDart.cast<int>().map((e) => e).toList());
       }.toJS,
     );

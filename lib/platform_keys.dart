@@ -66,8 +66,8 @@ class ChromePlatformKeys {
         JSAny? privateKey,
       ) {
         $completer.complete(GetKeyPairResult(
-          publicKey,
-          privateKey,
+          publicKey: publicKey,
+          privateKey: privateKey,
         ));
       }.toJS,
     );
@@ -106,8 +106,8 @@ class ChromePlatformKeys {
         JSAny? privateKey,
       ) {
         $completer.complete(GetKeyPairBySpkiResult(
-          publicKey,
-          privateKey,
+          publicKey: publicKey,
+          privateKey: privateKey,
         ));
       }.toJS,
     );

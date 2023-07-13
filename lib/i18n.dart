@@ -18,7 +18,7 @@ class ChromeI18n {
     var $completer = Completer<List<LanguageCode>>();
     $js.chrome.i18n.getAcceptLanguages((JSArray languages) {
       $completer.complete(
-          languages.toDart.cast<LanguageCode>().map((e) => e).toList());
+          languages.toDart.cast<$js.LanguageCode>().map((e) => e).toList());
     }.toJS);
     return $completer.future;
   }

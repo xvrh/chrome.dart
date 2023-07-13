@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'tts.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSTtsEngineExtension on JSChrome {

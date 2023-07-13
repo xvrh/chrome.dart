@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/events.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _events = ChromeEvents._();
 
@@ -14,6 +15,19 @@ class ChromeEvents {
 
 class Rule {
   Rule.fromJS(this._wrapped);
+
+  Rule({
+    String? id,
+    List<String>? tags,
+    required List<JSAny> conditions,
+    required List<JSAny> actions,
+    int? priority,
+  }) : _wrapped = $js.Rule()
+          ..id = id
+          ..tags = throw UnimplementedError()
+          ..conditions = throw UnimplementedError()
+          ..actions = throw UnimplementedError()
+          ..priority = priority;
 
   final $js.Rule _wrapped;
 
@@ -57,50 +71,121 @@ class Rule {
 class Event {
   Event.fromJS(this._wrapped);
 
+  Event() : _wrapped = $js.Event();
+
   final $js.Event _wrapped;
 
   $js.Event get toJS => _wrapped;
 
   /// Registers an event listener _callback_ to an event.
-  void addListener(JSAny callback) => throw UnimplementedError();
+  void addListener(JFFunction callback) {
+    _wrapped.addListener(callback);
+  }
 
   /// Deregisters an event listener _callback_ from an event.
-  void removeListener(JSAny callback) => throw UnimplementedError();
+  void removeListener(JFFunction callback) {
+    _wrapped.removeListener(callback);
+  }
 
-  bool hasListener(JSAny callback) => throw UnimplementedError();
+  bool hasListener(JFFunction callback) {
+    return _wrapped.hasListener(callback);
+  }
 
-  bool hasListeners() => throw UnimplementedError();
+  bool hasListeners() {
+    return _wrapped.hasListeners();
+  }
 
   /// Registers rules to handle events.
   void addRules(
     String eventName,
     int webViewInstanceId,
     List<Rule> rules,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.addRules(
+      eventName,
+      webViewInstanceId,
+      throw UnimplementedError(),
+      callback,
+    );
+  }
 
   /// Returns currently registered rules.
   void getRules(
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JSAny callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction callback,
+  ) {
+    _wrapped.getRules(
+      eventName,
+      webViewInstanceId,
+      throw UnimplementedError(),
+      callback,
+    );
+  }
 
   /// Unregisters currently registered rules.
   void removeRules(
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.removeRules(
+      eventName,
+      webViewInstanceId,
+      throw UnimplementedError(),
+      callback,
+    );
+  }
 }
 
 class UrlFilter {
   UrlFilter.fromJS(this._wrapped);
+
+  UrlFilter({
+    String? hostContains,
+    String? hostEquals,
+    String? hostPrefix,
+    String? hostSuffix,
+    String? pathContains,
+    String? pathEquals,
+    String? pathPrefix,
+    String? pathSuffix,
+    String? queryContains,
+    String? queryEquals,
+    String? queryPrefix,
+    String? querySuffix,
+    String? urlContains,
+    String? urlEquals,
+    String? urlMatches,
+    String? originAndPathMatches,
+    String? urlPrefix,
+    String? urlSuffix,
+    List<String>? schemes,
+    List<JSAny>? ports,
+  }) : _wrapped = $js.UrlFilter()
+          ..hostContains = hostContains
+          ..hostEquals = hostEquals
+          ..hostPrefix = hostPrefix
+          ..hostSuffix = hostSuffix
+          ..pathContains = pathContains
+          ..pathEquals = pathEquals
+          ..pathPrefix = pathPrefix
+          ..pathSuffix = pathSuffix
+          ..queryContains = queryContains
+          ..queryEquals = queryEquals
+          ..queryPrefix = queryPrefix
+          ..querySuffix = querySuffix
+          ..urlContains = urlContains
+          ..urlEquals = urlEquals
+          ..urlMatches = urlMatches
+          ..originAndPathMatches = originAndPathMatches
+          ..urlPrefix = urlPrefix
+          ..urlSuffix = urlSuffix
+          ..schemes = throw UnimplementedError()
+          ..ports = throw UnimplementedError();
 
   final $js.UrlFilter _wrapped;
 

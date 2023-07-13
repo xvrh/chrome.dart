@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'tabs.dart';
 import 'src/js/desktop_capture.dart' as $js;
-export 'chrome.dart';
+import 'tabs.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _desktopCapture = ChromeDesktopCapture._();
 
@@ -17,13 +18,20 @@ class ChromeDesktopCapture {
     List<DesktopCaptureSourceType> sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JSAny callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction callback,
+  ) {
+    return $js.chrome.desktopCapture.chooseDesktopMedia(
+      throw UnimplementedError(),
+      targetTab?.toJS,
+      options?.toJS,
+      callback,
+    );
+  }
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
-  void cancelChooseDesktopMedia(int desktopMediaRequestId) =>
-      throw UnimplementedError();
+  void cancelChooseDesktopMedia(int desktopMediaRequestId) {
+    $js.chrome.desktopCapture.cancelChooseDesktopMedia(desktopMediaRequestId);
+  }
 }
 
 /// Enum used to define set of desktop media sources used in
@@ -75,6 +83,17 @@ enum SelfCapturePreferenceEnum {
 
 class ChooseDesktopMediaOptions {
   ChooseDesktopMediaOptions.fromJS(this._wrapped);
+
+  ChooseDesktopMediaOptions({
+    SystemAudioPreferenceEnum? systemAudio,
+    SelfCapturePreferenceEnum? selfBrowserSurface,
+    bool? suppressLocalAudioPlaybackIntended,
+  }) : _wrapped = $js.ChooseDesktopMediaOptions(
+          systemAudio: systemAudio?.toJS,
+          selfBrowserSurface: selfBrowserSurface?.toJS,
+          suppressLocalAudioPlaybackIntended:
+              suppressLocalAudioPlaybackIntended,
+        );
 
   final $js.ChooseDesktopMediaOptions _wrapped;
 

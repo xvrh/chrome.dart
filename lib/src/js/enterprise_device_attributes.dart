@@ -1,14 +1,17 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSEnterpriseDeviceAttributesExtension on JSChrome {
+import 'enterprise.dart';
+
+export 'chrome.dart';
+export 'enterprise.dart';
+
+extension JSChromeJSEnterpriseDeviceAttributesExtension on JSChromeEnterprise {
   /// Use the `chrome.enterprise.deviceAttributes` API to read device
   /// attributes.
   /// Note: This API is only available to extensions force-installed by
   /// enterprise
   /// policy.
-  external JSEnterpriseDeviceAttributes get enterpriseDeviceAttributes;
+  external JSEnterpriseDeviceAttributes get deviceAttributes;
 }
 
 @JS()

@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/offscreen.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _offscreen = ChromeOffscreen._();
 
@@ -15,12 +16,26 @@ class ChromeOffscreen {
   /// |parameters|: The parameters describing the offscreen document to create.
   /// |callback|: Invoked when the offscreen document is created and has
   /// completed its initial page load.
-  Future<void> createDocument(CreateParameters parameters) =>
-      throw UnimplementedError();
+  Future<void> createDocument(CreateParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.offscreen.createDocument(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Closes the currently-open offscreen document for the extension.
   /// |callback|: Invoked when the offscreen document has been closed.
-  Future<void> closeDocument() => throw UnimplementedError();
+  Future<void> closeDocument() {
+    var $completer = Completer<void>();
+    $js.chrome.offscreen.closeDocument(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Determines whether the extension has an active document.
   /// TODO(https://crbug.com/1339382): This probably isn't something we want to
@@ -29,7 +44,13 @@ class ChromeOffscreen {
   /// alternative. But this is pretty useful in testing environments.
   /// |callback|: Invoked with the result of whether the extension has an
   /// active offscreen document.
-  Future<bool> hasDocument() => throw UnimplementedError();
+  Future<bool> hasDocument() {
+    var $completer = Completer<bool>();
+    $js.chrome.offscreen.hasDocument((bool result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 enum Reason {
@@ -87,6 +108,15 @@ enum Reason {
 
 class CreateParameters {
   CreateParameters.fromJS(this._wrapped);
+
+  CreateParameters({
+    required List<Reason> reasons,
+    required String url,
+    required String justification,
+  }) : _wrapped = $js.CreateParameters()
+          ..reasons = throw UnimplementedError()
+          ..url = url
+          ..justification = justification;
 
   final $js.CreateParameters _wrapped;
 

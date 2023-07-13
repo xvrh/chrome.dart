@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/alarms.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _alarms = ChromeAlarms._();
 
@@ -40,22 +41,61 @@ class ChromeAlarms {
   Future<void> create(
     String? name,
     AlarmCreateInfo alarmInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.alarms.create(
+      name,
+      alarmInfo.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves details about the specified alarm.
   /// |name|: The name of the alarm to get. Defaults to the empty string.
-  Future<Alarm?> get(String? name) => throw UnimplementedError();
+  Future<Alarm?> get(String? name) {
+    var $completer = Completer<Alarm?>();
+    $js.chrome.alarms.get(
+      name,
+      (Alarm? alarm) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets an array of all the alarms.
-  Future<List<Alarm>> getAll() => throw UnimplementedError();
+  Future<List<Alarm>> getAll() {
+    var $completer = Completer<List<Alarm>>();
+    $js.chrome.alarms.getAll((JSArray alarms) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Clears the alarm with the given name.
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
-  Future<bool> clear(String? name) => throw UnimplementedError();
+  Future<bool> clear(String? name) {
+    var $completer = Completer<bool>();
+    $js.chrome.alarms.clear(
+      name,
+      (bool wasCleared) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears all alarms.
-  Future<bool> clearAll() => throw UnimplementedError();
+  Future<bool> clearAll() {
+    var $completer = Completer<bool>();
+    $js.chrome.alarms.clearAll((bool wasCleared) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.
@@ -64,6 +104,15 @@ class ChromeAlarms {
 
 class Alarm {
   Alarm.fromJS(this._wrapped);
+
+  Alarm({
+    required String name,
+    required double scheduledTime,
+    double? periodInMinutes,
+  }) : _wrapped = $js.Alarm()
+          ..name = name
+          ..scheduledTime = scheduledTime
+          ..periodInMinutes = periodInMinutes;
 
   final $js.Alarm _wrapped;
 
@@ -93,6 +142,15 @@ class Alarm {
 
 class AlarmCreateInfo {
   AlarmCreateInfo.fromJS(this._wrapped);
+
+  AlarmCreateInfo({
+    double? when,
+    double? delayInMinutes,
+    double? periodInMinutes,
+  }) : _wrapped = $js.AlarmCreateInfo()
+          ..when = when
+          ..delayInMinutes = delayInMinutes
+          ..periodInMinutes = periodInMinutes;
 
   final $js.AlarmCreateInfo _wrapped;
 

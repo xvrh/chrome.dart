@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/downloads.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _downloads = ChromeDownloads._();
 
@@ -24,7 +25,16 @@ class ChromeDownloads {
   /// backwards compatible between releases. Extensions must not parse it.
   /// |options|: What to download and how.
   /// |callback|: Called with the id of the new [DownloadItem].
-  Future<int> download(DownloadOptions options) => throw UnimplementedError();
+  Future<int> download(DownloadOptions options) {
+    var $completer = Completer<int>();
+    $js.chrome.downloads.download(
+      options.toJS,
+      (int downloadId) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Find [DownloadItem]. Set `query` to the empty object to get
   /// all [DownloadItem]. To get a specific [DownloadItem], set only the
@@ -32,28 +42,63 @@ class ChromeDownloads {
   /// `orderBy: ['-startTime']`, set `limit` to the
   /// number of items per page, and set `startedAfter` to the
   /// `startTime` of the last item from the last page.
-  Future<List<DownloadItem>> search(DownloadQuery query) =>
-      throw UnimplementedError();
+  Future<List<DownloadItem>> search(DownloadQuery query) {
+    var $completer = Completer<List<DownloadItem>>();
+    $js.chrome.downloads.search(
+      query.toJS,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Pause the download. If the request was successful the download is in a
   /// paused state. Otherwise [runtime.lastError] contains an error message.
   /// The request will fail if the download is not active.
   /// |downloadId|: The id of the download to pause.
   /// |callback|: Called when the pause request is completed.
-  Future<void> pause(int downloadId) => throw UnimplementedError();
+  Future<void> pause(int downloadId) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.pause(
+      downloadId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Resume a paused download. If the request was successful the download is
   /// in progress and unpaused. Otherwise [runtime.lastError] contains an
   /// error message. The request will fail if the download is not active.
   /// |downloadId|: The id of the download to resume.
   /// |callback|: Called when the resume request is completed.
-  Future<void> resume(int downloadId) => throw UnimplementedError();
+  Future<void> resume(int downloadId) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.resume(
+      downloadId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Cancel a download. When `callback` is run, the download is
   /// cancelled, completed, interrupted or doesn't exist anymore.
   /// |downloadId|: The id of the download to cancel.
   /// |callback|: Called when the cancel request is completed.
-  Future<void> cancel(int downloadId) => throw UnimplementedError();
+  Future<void> cancel(int downloadId) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.cancel(
+      downloadId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieve an icon for the specified download. For new downloads, file
   /// icons are available after the [onCreated] event has been received. The
@@ -69,8 +114,17 @@ class ChromeDownloads {
   Future<String?> getFileIcon(
     int downloadId,
     GetFileIconOptions? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<String?>();
+    $js.chrome.downloads.getFileIcon(
+      downloadId,
+      options?.toJS,
+      (String? iconURL) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Open the downloaded file now if the [DownloadItem] is complete;
   /// otherwise returns an error through [runtime.lastError]. Requires the
@@ -78,24 +132,48 @@ class ChromeDownloads {
   /// `"downloads"` permission. An [onChanged] event will fire
   /// when the item is opened for the first time.
   /// |downloadId|: The identifier for the downloaded file.
-  void open(int downloadId) => throw UnimplementedError();
+  void open(int downloadId) {
+    $js.chrome.downloads.open(downloadId);
+  }
 
   /// Show the downloaded file in its folder in a file manager.
   /// |downloadId|: The identifier for the downloaded file.
-  void show(int downloadId) => throw UnimplementedError();
+  void show(int downloadId) {
+    $js.chrome.downloads.show(downloadId);
+  }
 
   /// Show the default Downloads folder in a file manager.
-  void showDefaultFolder() => throw UnimplementedError();
+  void showDefaultFolder() {
+    $js.chrome.downloads.showDefaultFolder();
+  }
 
   /// Erase matching [DownloadItem] from history without deleting the
   /// downloaded file. An [onErased] event will fire for each
   /// [DownloadItem] that matches `query`, then
   /// `callback` will be called.
-  Future<List<int>> erase(DownloadQuery query) => throw UnimplementedError();
+  Future<List<int>> erase(DownloadQuery query) {
+    var $completer = Completer<List<int>>();
+    $js.chrome.downloads.erase(
+      query.toJS,
+      (JSArray erasedIds) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Remove the downloaded file if it exists and the [DownloadItem] is
   /// complete; otherwise return an error through [runtime.lastError].
-  Future<void> removeFile(int downloadId) => throw UnimplementedError();
+  Future<void> removeFile(int downloadId) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.removeFile(
+      downloadId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Prompt the user to accept a dangerous download. Can only be called from a
   /// visible context (tab, window, or page/browser action popup). Does not
@@ -107,7 +185,16 @@ class ChromeDownloads {
   /// 'complete', and [onChanged] fires.
   /// |downloadId|: The identifier for the [DownloadItem].
   /// |callback|: Called when the danger prompt dialog closes.
-  Future<void> acceptDanger(int downloadId) => throw UnimplementedError();
+  Future<void> acceptDanger(int downloadId) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.acceptDanger(
+      downloadId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Enable or disable the gray shelf at the bottom of every window associated
   /// with the current browser profile. The shelf will be disabled as long as
@@ -115,7 +202,9 @@ class ChromeDownloads {
   /// one other extension has disabled it will return an error through
   /// [runtime.lastError]. Requires the `"downloads.shelf"`
   /// permission in addition to the `"downloads"` permission.
-  void setShelfEnabled(bool enabled) => throw UnimplementedError();
+  void setShelfEnabled(bool enabled) {
+    $js.chrome.downloads.setShelfEnabled(enabled);
+  }
 
   /// Change the download UI of every window associated with the current
   /// browser profile. As long as at least one extension has set
@@ -126,7 +215,16 @@ class ChromeDownloads {
   /// permission in addition to the `"downloads"` permission.
   /// |options|: Encapsulate a change to the download UI.
   /// |callback|: Called when the UI update is completed.
-  Future<void> setUiOptions(UiOptions options) => throw UnimplementedError();
+  Future<void> setUiOptions(UiOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.downloads.setUiOptions(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// This event fires with the [DownloadItem] object when a download
   /// begins.
@@ -320,6 +418,13 @@ typedef SuggestFilenameCallback = void Function(FilenameSuggestion?);
 class HeaderNameValuePair {
   HeaderNameValuePair.fromJS(this._wrapped);
 
+  HeaderNameValuePair({
+    required String name,
+    required String value,
+  }) : _wrapped = $js.HeaderNameValuePair()
+          ..name = name
+          ..value = value;
+
   final $js.HeaderNameValuePair _wrapped;
 
   $js.HeaderNameValuePair get toJS => _wrapped;
@@ -339,6 +444,13 @@ class HeaderNameValuePair {
 
 class FilenameSuggestion {
   FilenameSuggestion.fromJS(this._wrapped);
+
+  FilenameSuggestion({
+    required String filename,
+    FilenameConflictAction? conflictAction,
+  }) : _wrapped = $js.FilenameSuggestion()
+          ..filename = filename
+          ..conflictAction = conflictAction?.toJS;
 
   final $js.FilenameSuggestion _wrapped;
 
@@ -365,6 +477,23 @@ class FilenameSuggestion {
 
 class DownloadOptions {
   DownloadOptions.fromJS(this._wrapped);
+
+  DownloadOptions({
+    required String url,
+    String? filename,
+    FilenameConflictAction? conflictAction,
+    bool? saveAs,
+    HttpMethod? method,
+    List<HeaderNameValuePair>? headers,
+    String? body,
+  }) : _wrapped = $js.DownloadOptions()
+          ..url = url
+          ..filename = filename
+          ..conflictAction = conflictAction?.toJS
+          ..saveAs = saveAs
+          ..method = method?.toJS
+          ..headers = throw UnimplementedError()
+          ..body = body;
 
   final $js.DownloadOptions _wrapped;
 
@@ -427,6 +556,51 @@ class DownloadOptions {
 
 class DownloadItem {
   DownloadItem.fromJS(this._wrapped);
+
+  DownloadItem({
+    required int id,
+    required String url,
+    required String finalUrl,
+    required String referrer,
+    required String filename,
+    required bool incognito,
+    required DangerType danger,
+    required String mime,
+    required String startTime,
+    String? endTime,
+    String? estimatedEndTime,
+    required State state,
+    required bool paused,
+    required bool canResume,
+    InterruptReason? error,
+    required double bytesReceived,
+    required double totalBytes,
+    required double fileSize,
+    required bool exists,
+    String? byExtensionId,
+    String? byExtensionName,
+  }) : _wrapped = $js.DownloadItem()
+          ..id = id
+          ..url = url
+          ..finalUrl = finalUrl
+          ..referrer = referrer
+          ..filename = filename
+          ..incognito = incognito
+          ..danger = danger.toJS
+          ..mime = mime
+          ..startTime = startTime
+          ..endTime = endTime
+          ..estimatedEndTime = estimatedEndTime
+          ..state = state.toJS
+          ..paused = paused
+          ..canResume = canResume
+          ..error = error?.toJS
+          ..bytesReceived = bytesReceived
+          ..totalBytes = totalBytes
+          ..fileSize = fileSize
+          ..exists = exists
+          ..byExtensionId = byExtensionId
+          ..byExtensionName = byExtensionName;
 
   final $js.DownloadItem _wrapped;
 
@@ -595,6 +769,63 @@ class DownloadItem {
 
 class DownloadQuery {
   DownloadQuery.fromJS(this._wrapped);
+
+  DownloadQuery({
+    List<String>? query,
+    String? startedBefore,
+    String? startedAfter,
+    String? endedBefore,
+    String? endedAfter,
+    double? totalBytesGreater,
+    double? totalBytesLess,
+    String? filenameRegex,
+    String? urlRegex,
+    String? finalUrlRegex,
+    int? limit,
+    List<String>? orderBy,
+    int? id,
+    String? url,
+    String? finalUrl,
+    String? filename,
+    DangerType? danger,
+    String? mime,
+    String? startTime,
+    String? endTime,
+    State? state,
+    bool? paused,
+    InterruptReason? error,
+    double? bytesReceived,
+    double? totalBytes,
+    double? fileSize,
+    bool? exists,
+  }) : _wrapped = $js.DownloadQuery()
+          ..query = throw UnimplementedError()
+          ..startedBefore = startedBefore
+          ..startedAfter = startedAfter
+          ..endedBefore = endedBefore
+          ..endedAfter = endedAfter
+          ..totalBytesGreater = totalBytesGreater
+          ..totalBytesLess = totalBytesLess
+          ..filenameRegex = filenameRegex
+          ..urlRegex = urlRegex
+          ..finalUrlRegex = finalUrlRegex
+          ..limit = limit
+          ..orderBy = throw UnimplementedError()
+          ..id = id
+          ..url = url
+          ..finalUrl = finalUrl
+          ..filename = filename
+          ..danger = danger?.toJS
+          ..mime = mime
+          ..startTime = startTime
+          ..endTime = endTime
+          ..state = state?.toJS
+          ..paused = paused
+          ..error = error?.toJS
+          ..bytesReceived = bytesReceived
+          ..totalBytes = totalBytes
+          ..fileSize = fileSize
+          ..exists = exists;
 
   final $js.DownloadQuery _wrapped;
 
@@ -792,6 +1023,13 @@ class DownloadQuery {
 class StringDelta {
   StringDelta.fromJS(this._wrapped);
 
+  StringDelta({
+    String? previous,
+    String? current,
+  }) : _wrapped = $js.StringDelta()
+          ..previous = previous
+          ..current = current;
+
   final $js.StringDelta _wrapped;
 
   $js.StringDelta get toJS => _wrapped;
@@ -809,6 +1047,13 @@ class StringDelta {
 
 class DoubleDelta {
   DoubleDelta.fromJS(this._wrapped);
+
+  DoubleDelta({
+    double? previous,
+    double? current,
+  }) : _wrapped = $js.DoubleDelta()
+          ..previous = previous
+          ..current = current;
 
   final $js.DoubleDelta _wrapped;
 
@@ -828,6 +1073,13 @@ class DoubleDelta {
 class BooleanDelta {
   BooleanDelta.fromJS(this._wrapped);
 
+  BooleanDelta({
+    bool? previous,
+    bool? current,
+  }) : _wrapped = $js.BooleanDelta()
+          ..previous = previous
+          ..current = current;
+
   final $js.BooleanDelta _wrapped;
 
   $js.BooleanDelta get toJS => _wrapped;
@@ -845,6 +1097,39 @@ class BooleanDelta {
 
 class DownloadDelta {
   DownloadDelta.fromJS(this._wrapped);
+
+  DownloadDelta({
+    required int id,
+    StringDelta? url,
+    StringDelta? finalUrl,
+    StringDelta? filename,
+    StringDelta? danger,
+    StringDelta? mime,
+    StringDelta? startTime,
+    StringDelta? endTime,
+    StringDelta? state,
+    BooleanDelta? canResume,
+    BooleanDelta? paused,
+    StringDelta? error,
+    DoubleDelta? totalBytes,
+    DoubleDelta? fileSize,
+    BooleanDelta? exists,
+  }) : _wrapped = $js.DownloadDelta()
+          ..id = id
+          ..url = url?.toJS
+          ..finalUrl = finalUrl?.toJS
+          ..filename = filename?.toJS
+          ..danger = danger?.toJS
+          ..mime = mime?.toJS
+          ..startTime = startTime?.toJS
+          ..endTime = endTime?.toJS
+          ..state = state?.toJS
+          ..canResume = canResume?.toJS
+          ..paused = paused?.toJS
+          ..error = error?.toJS
+          ..totalBytes = totalBytes?.toJS
+          ..fileSize = fileSize?.toJS
+          ..exists = exists?.toJS;
 
   final $js.DownloadDelta _wrapped;
 
@@ -945,6 +1230,9 @@ class DownloadDelta {
 class GetFileIconOptions {
   GetFileIconOptions.fromJS(this._wrapped);
 
+  GetFileIconOptions({int? size})
+      : _wrapped = $js.GetFileIconOptions()..size = size;
+
   final $js.GetFileIconOptions _wrapped;
 
   $js.GetFileIconOptions get toJS => _wrapped;
@@ -961,6 +1249,9 @@ class GetFileIconOptions {
 
 class UiOptions {
   UiOptions.fromJS(this._wrapped);
+
+  UiOptions({required bool enabled})
+      : _wrapped = $js.UiOptions()..enabled = enabled;
 
   final $js.UiOptions _wrapped;
 

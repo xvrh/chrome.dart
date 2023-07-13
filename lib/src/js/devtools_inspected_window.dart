@@ -1,13 +1,17 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSDevtoolsInspectedWindowExtension on JSChrome {
+import 'chrome.dart';
+import 'devtools.dart';
+
+export 'chrome.dart';
+export 'devtools.dart';
+
+extension JSChromeJSDevtoolsInspectedWindowExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.inspectedWindow` API to interact with the
   /// inspected window: obtain the tab ID for the inspected page, evaluate the
   /// code in the context of the inspected window, reload the page, or obtain
   /// the list of resources within the page.
-  external JSDevtoolsInspectedWindow get devtoolsInspectedWindow;
+  external JSDevtoolsInspectedWindow get inspectedWindow;
 }
 
 @JS()
@@ -27,14 +31,14 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   external void eval(
     String expression,
     EvalOptions? options,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Reloads the inspected page.
   external void reload(ReloadOptions? reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
-  external void getResources(JSAny callback);
+  external void getResources(JFFunction callback);
 
   /// Fired when a new resource is added to the inspected page.
   external ChromeEvent get onResourceAdded;
@@ -57,13 +61,13 @@ extension ResourceExtension on Resource {
   external String url;
 
   /// Gets the content of the resource.
-  external void getContent(JSAny callback);
+  external void getContent(JFFunction callback);
 
   /// Sets the content of the resource.
   external void setContent(
     String content,
     bool commit,
-    JSAny? callback,
+    JFFunction? callback,
   );
 }
 

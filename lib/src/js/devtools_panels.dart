@@ -1,12 +1,16 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSDevtoolsPanelsExtension on JSChrome {
+import 'chrome.dart';
+import 'devtools.dart';
+
+export 'chrome.dart';
+export 'devtools.dart';
+
+extension JSChromeJSDevtoolsPanelsExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.panels` API to integrate your extension into
   /// Developer Tools window UI: create your own panels, access existing panels,
   /// and add sidebars.
-  external JSDevtoolsPanels get devtoolsPanels;
+  external JSDevtoolsPanels get panels;
 }
 
 @JS()
@@ -19,20 +23,20 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
     String title,
     String iconPath,
     String pagePath,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  external void setOpenResourceHandler(JSAny? callback);
+  external void setOpenResourceHandler(JFFunction? callback);
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   external void openResource(
     String url,
     int lineNumber,
     int? columnNumber,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Elements panel.
@@ -54,7 +58,7 @@ extension ElementsPanelExtension on ElementsPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
     String title,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Fired when an object is selected in the panel.
@@ -69,7 +73,7 @@ extension SourcesPanelExtension on SourcesPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
     String title,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Fired when an object is selected in the panel.
@@ -112,14 +116,14 @@ extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
   external void setExpression(
     String expression,
     String? rootTitle,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Sets a JSON-compliant object to be displayed in the sidebar pane.
   external void setObject(
     String jsonObject,
     String? rootTitle,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Sets an HTML page to be displayed in the sidebar pane.

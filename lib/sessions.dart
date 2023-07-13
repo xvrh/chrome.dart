@@ -1,8 +1,9 @@
 import 'src/internal_helpers.dart';
+import 'src/js/sessions.dart' as $js;
 import 'tabs.dart';
 import 'windows.dart';
-import 'src/js/sessions.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _sessions = ChromeSessions._();
 
@@ -14,20 +15,46 @@ class ChromeSessions {
   ChromeSessions._();
 
   /// Gets the list of recently closed tabs and/or windows.
-  Future<List<Session>> getRecentlyClosed(Filter? filter) =>
-      throw UnimplementedError();
+  Future<List<Session>> getRecentlyClosed(Filter? filter) {
+    var $completer = Completer<List<Session>>();
+    $js.chrome.sessions.getRecentlyClosed(
+      filter?.toJS,
+      (JSArray sessions) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves all devices with synced sessions.
-  Future<List<Device>> getDevices(Filter? filter) => throw UnimplementedError();
+  Future<List<Device>> getDevices(Filter? filter) {
+    var $completer = Completer<List<Device>>();
+    $js.chrome.sessions.getDevices(
+      filter?.toJS,
+      (JSArray devices) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Reopens a [windows.Window] or [tabs.Tab], with an optional callback to run
   /// when the entry has been restored.
-  Future<Session> restore(String? sessionId) => throw UnimplementedError();
+  Future<Session> restore(String? sessionId) {
+    var $completer = Completer<Session>();
+    $js.chrome.sessions.restore(
+      sessionId,
+      (Session restoredSession) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// The maximum number of [sessions.Session] that will be included in a
   /// requested list.
   int get maxSessionResults =>
-      $js.chrome.sessions.MAX_SESSION_RESULTS as dynamic;
+      ($js.chrome.sessions.MAX_SESSION_RESULTS as dynamic);
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
@@ -36,6 +63,8 @@ class ChromeSessions {
 
 class Filter {
   Filter.fromJS(this._wrapped);
+
+  Filter({int? maxResults}) : _wrapped = $js.Filter()..maxResults = maxResults;
 
   final $js.Filter _wrapped;
 
@@ -52,6 +81,15 @@ class Filter {
 
 class Session {
   Session.fromJS(this._wrapped);
+
+  Session({
+    required int lastModified,
+    Tab? tab,
+    Window? window,
+  }) : _wrapped = $js.Session()
+          ..lastModified = lastModified
+          ..tab = tab?.toJS
+          ..window = window?.toJS;
 
   final $js.Session _wrapped;
 
@@ -81,6 +119,15 @@ class Session {
 
 class Device {
   Device.fromJS(this._wrapped);
+
+  Device({
+    required String info,
+    required String deviceName,
+    required List<Session> sessions,
+  }) : _wrapped = $js.Device()
+          ..info = info
+          ..deviceName = deviceName
+          ..sessions = throw UnimplementedError();
 
   final $js.Device _wrapped;
 

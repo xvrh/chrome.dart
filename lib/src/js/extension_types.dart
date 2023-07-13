@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSExtensionTypesExtension on JSChrome {

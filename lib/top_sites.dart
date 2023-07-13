@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/top_sites.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _topSites = ChromeTopSites._();
 
@@ -12,11 +13,24 @@ class ChromeTopSites {
   ChromeTopSites._();
 
   /// Gets a list of top sites.
-  Future<List<MostVisitedURL>> get() => throw UnimplementedError();
+  Future<List<MostVisitedURL>> get() {
+    var $completer = Completer<List<MostVisitedURL>>();
+    $js.chrome.topSites.get((JSArray data) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class MostVisitedURL {
   MostVisitedURL.fromJS(this._wrapped);
+
+  MostVisitedURL({
+    required String url,
+    required String title,
+  }) : _wrapped = $js.MostVisitedURL()
+          ..url = url
+          ..title = title;
 
   final $js.MostVisitedURL _wrapped;
 

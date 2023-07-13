@@ -1,8 +1,5 @@
 import 'package:code_builder/code_builder.dart' as code;
-
-import 'utils/string_helpers.dart';
-
-const jsBindingRecognizableUrl = '_js_binding.dart';
+import 'utils/string.dart';
 
 sealed class ChromeType {
   final bool isNullable;
@@ -13,15 +10,20 @@ sealed class ChromeType {
 
   code.Reference get jsType;
 
-  String toJS(String accessor);
+  code.Reference get jsTypeReferencedFromDart => jsType;
 
-  String toDart(String accessor);
+  code.Expression toJS(code.Expression accessor);
+
+  code.Expression toDart(code.Expression accessor);
 
   String get questionMark => isNullable ? '?' : '';
+
+  ChromeType copyWith({required bool isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     return PrimitiveType.tryParse(input, isNullable: isNullable) ??
         WebType.tryParse(input, isNullable: isNullable) ??
+        JFFunctionType.tryParse(input, isNullable: isNullable) ??
         VariousType.tryParse(input, isNullable: isNullable);
   }
 }
@@ -54,12 +56,12 @@ sealed class PrimitiveType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  String toDart(String accessor) {
+  code.Expression toDart(code.Expression accessor) {
     return accessor;
   }
 
   @override
-  String toJS(String accessor) {
+  code.Expression toJS(code.Expression accessor) {
     return accessor;
   }
 
@@ -79,6 +81,10 @@ class StringType extends PrimitiveType {
 
   @override
   String get dartTypeWithoutNullable => 'String';
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      StringType(isNullable: isNullable);
 }
 
 class IntegerType extends PrimitiveType {
@@ -89,6 +95,10 @@ class IntegerType extends PrimitiveType {
 
   @override
   String get dartTypeWithoutNullable => 'int';
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      IntegerType(isNullable: isNullable);
 }
 
 class DoubleType extends PrimitiveType {
@@ -99,6 +109,10 @@ class DoubleType extends PrimitiveType {
 
   @override
   String get dartTypeWithoutNullable => 'double';
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      DoubleType(isNullable: isNullable);
 }
 
 class BooleanType extends PrimitiveType {
@@ -106,6 +120,10 @@ class BooleanType extends PrimitiveType {
 
   @override
   String get dartTypeWithoutNullable => 'bool';
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      BooleanType(isNullable: isNullable);
 }
 
 class ArrayBufferType extends ChromeType {
@@ -123,10 +141,16 @@ class ArrayBufferType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  String toDart(String accessor) => '$accessor$questionMark.toDart';
+  code.Expression toDart(code.Expression accessor) =>
+      accessor.nullSafePropertyIf('toDart', isNullable);
 
   @override
-  String toJS(String accessor) => '$accessor$questionMark.toJS';
+  code.Expression toJS(code.Expression accessor) =>
+      accessor.nullSafePropertyIf('toJS', isNullable);
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      ArrayBufferType(isNullable: isNullable);
 }
 
 class WebType extends ChromeType {
@@ -156,10 +180,14 @@ class WebType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  String toDart(String accessor) => accessor;
+  code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
-  String toJS(String accessor) => accessor;
+  code.Expression toJS(code.Expression accessor) => accessor;
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      WebType(isNullable: isNullable);
 }
 
 class VariousType extends ChromeType {
@@ -171,7 +199,6 @@ class VariousType extends ChromeType {
       'any',
       'Date',
       'binary',
-      'function',
       'InjectedFunction',
       'global',
     }.contains(input)) {
@@ -189,27 +216,70 @@ class VariousType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  String toDart(String accessor) => accessor;
+  code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
-  String toJS(String accessor) => accessor;
+  code.Expression toJS(code.Expression accessor) => accessor;
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      VariousType(isNullable: isNullable);
+}
+
+class JFFunctionType extends ChromeType {
+  JFFunctionType({required super.isNullable});
+
+  static ChromeType? tryParse(String input, {required bool isNullable}) {
+    if (const {
+      'function',
+    }.contains(input)) {
+      return JFFunctionType(isNullable: isNullable);
+    }
+    return null;
+  }
+
+  @override
+  code.Reference get dartType => code.TypeReference((b) => b
+    ..symbol = 'JFFunction'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get jsType => dartType;
+
+  @override
+  code.Expression toDart(code.Expression accessor) => accessor;
+
+  @override
+  code.Expression toJS(code.Expression accessor) => accessor;
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      JFFunctionType(isNullable: isNullable);
 }
 
 class LocalType extends ChromeType {
   final String name;
   final String? url;
+  final String selfFileName;
 
-  LocalType(this.name, {this.url, required super.isNullable});
+  LocalType(this.name,
+      {this.url, required this.selfFileName, required super.isNullable});
 
-  static LocalType parse(String input, {required bool isNullable}) {
+  @override
+  ChromeType copyWith({required bool isNullable}) => LocalType(name,
+      url: url, selfFileName: selfFileName, isNullable: isNullable);
+
+  static LocalType parse(String input,
+      {required String selfFileName, required bool isNullable}) {
     var split = input.split('.');
     String? url;
     if (split.length > 1) {
-      url = '${stringToSnakeCase(split.first)}.dart';
+      url = '${split.first.snakeCase}.dart';
     }
     var name = split.last;
 
-    return LocalType(name, isNullable: isNullable, url: url);
+    return LocalType(name,
+        selfFileName: selfFileName, isNullable: isNullable, url: url);
   }
 
   @override
@@ -225,17 +295,35 @@ class LocalType extends ChromeType {
     ..url = url);
 
   @override
-  String toDart(String accessor) {
-    if (isNullable) {
-      return '$accessor?.let($name.fromJS)';
+  code.Reference get jsTypeReferencedFromDart {
+    String fullUrl;
+    const jsBasePath = 'src/js/';
+    if (url case var url?) {
+      fullUrl = '$jsBasePath$url';
     } else {
-      return '$name.fromJS($accessor)';
+      fullUrl = '$jsBasePath$selfFileName';
+    }
+
+    return code.TypeReference((b) => b
+      ..symbol = name
+      ..isNullable = isNullable
+      ..url = fullUrl);
+  }
+
+  @override
+  code.Expression toDart(code.Expression accessor) {
+    if (isNullable) {
+      return accessor
+          .nullSafeProperty('let')
+          .call([code.refer(name).property('fromJS')]);
+    } else {
+      return code.refer(name).property('fromJS').call([accessor]);
     }
   }
 
   @override
-  String toJS(String accessor) {
-    return '$accessor$questionMark.toJS';
+  code.Expression toJS(code.Expression accessor) {
+    return accessor.nullSafePropertyIf('toJS', isNullable);
   }
 }
 
@@ -245,6 +333,10 @@ class FunctionType extends ChromeType {
 
   FunctionType(this.returns, this.positionalParameters,
       {required super.isNullable});
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      FunctionType(returns, positionalParameters, isNullable: isNullable);
 
   @override
   code.Reference get jsType => code.TypeReference((b) => b
@@ -261,14 +353,14 @@ class FunctionType extends ChromeType {
   }
 
   @override
-  String toDart(String accessor) {
-    return 'throw UnimplementedError()';
+  code.Expression toDart(code.Expression accessor) {
+    return code.refer('UnimplementedError').call([]).thrown;
   }
 
   @override
-  String toJS(String accessor) {
+  code.Expression toJS(code.Expression accessor) {
     // Need to wrap with a function taking JS parameters and convert them to Dart
-    return 'throw UnimplementedError()';
+    return code.refer('UnimplementedError').call([]).thrown;
   }
 }
 
@@ -285,6 +377,10 @@ class ListType extends ChromeType {
   ListType(this.item, {required super.isNullable});
 
   @override
+  ChromeType copyWith({required bool isNullable}) =>
+      ListType(item, isNullable: isNullable);
+
+  @override
   code.Reference get jsType => code.TypeReference((b) => b
     ..symbol = 'JSArray'
     ..isNullable = isNullable);
@@ -298,26 +394,36 @@ class ListType extends ChromeType {
   }
 
   @override
-  String toDart(String accessor) {
-    var emitter = code.DartEmitter(useNullSafetySyntax: true);
-    var jsType = item.jsType;
-    var jsTypeName = jsType.accept(emitter).toString();
+  code.Expression toDart(code.Expression accessor) {
+    //var emitter = code.DartEmitter(
+    //    useNullSafetySyntax: true);
+    var jsType = item.jsTypeReferencedFromDart;
 
-    ""
+    return accessor
+        .nullSafePropertyIf('toDart', isNullable)
+        .property('cast')
+        .call([], {}, [item.jsTypeReferencedFromDart])
+        .property('map')
+        .call([
+          code.Method((b) => b
+            ..requiredParameters.add(code.Parameter((b) => b..name = 'e'))
+            ..lambda = true
+            ..body = item.toDart(code.refer('e')).code).closure
+        ])
+        .property('toList')
+        .call([]);
+
     // TODO: remove this uggly hack
     // remove map((e) => e)
     // try to tear-off result (when end with (e))
     // check if cast<int>() is correct or need cast<JSNumber>()
-    if (item is LocalType) {
-      jsTypeName = '\$js.$jsTypeName';
-    }
-    return '$accessor$questionMark.toDart.cast<$jsTypeName>().map((e) => ${item.toDart('e')}).toList()';
+    //return '$accessor$questionMark.toDart.cast<$jsTypeName>().map((e) => ${item.toDart('e')}).toList()';
   }
 
   @override
-  String toJS(String accessor) {
+  code.Expression toJS(code.Expression accessor) {
     // Need to wrap with a function taking JS parameters and convert them to Dart
-    return 'throw UnimplementedError()';
+    return code.refer('UnimplementedError').call([]).thrown;
   }
 }
 
@@ -325,8 +431,13 @@ class AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
 
-  AliasedType(this.alias, this.original, {required bool isNullable})
-      : super(isNullable: isNullable);
+  AliasedType(this.alias, ChromeType original, {required bool isNullable})
+      : original = original.copyWith(isNullable: isNullable),
+        super(isNullable: isNullable);
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      AliasedType(alias, original, isNullable: isNullable);
 
   @override
   code.Reference get jsType => code.TypeReference((b) => b
@@ -337,32 +448,44 @@ class AliasedType extends ChromeType {
   code.Reference get dartType => jsType;
 
   @override
-  String toDart(String accessor) => original.toDart(accessor);
+  code.Expression toDart(code.Expression accessor) => original.toDart(accessor);
 
   @override
-  String toJS(String accessor) => original.toJS(accessor);
+  code.Expression toJS(code.Expression accessor) => original.toJS(accessor);
 }
 
 class AsyncReturnType extends ChromeType {
   final ChromeType? _dart;
-  final FunctionType _js;
+  final FunctionType jsCallback;
 
-  AsyncReturnType(this._dart, this._js)
+  AsyncReturnType(this._dart, this.jsCallback)
       : super(isNullable: _dart?.isNullable ?? false);
 
   @override
-  code.Reference get jsType => _js.jsType;
+  ChromeType copyWith({required bool isNullable}) =>
+      AsyncReturnType(_dart, jsCallback);
 
   @override
-  code.Reference get dartType {
-    return code.TypeReference((b) => b
-      ..symbol = 'Future'
-      ..types.add(_dart?.dartType ?? code.refer('void')));
+  code.Reference get jsType => jsCallback.jsType;
+
+  @override
+  code.Reference get dartType => _dart?.dartType ?? code.refer('void');
+
+  @override
+  code.Expression toDart(code.Expression accessor) =>
+      jsCallback.toDart(accessor);
+
+  @override
+  code.Expression toJS(code.Expression accessor) =>
+      _dart?.toJS(accessor) ?? accessor;
+}
+
+extension on code.Expression {
+  code.Expression nullSafePropertyIf(String name, bool isNullable) {
+    if (isNullable) {
+      return nullSafeProperty(name);
+    } else {
+      return property(name);
+    }
   }
-
-  @override
-  String toDart(String accessor) => _js.toDart(accessor);
-
-  @override
-  String toJS(String accessor) => _dart?.toJS(accessor) ?? accessor;
 }

@@ -1,18 +1,23 @@
+import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_network.dart' as $js;
-export 'chrome.dart';
+
+export 'devtools.dart' show ChromeDevtools, ChromeDevtoolsExtension;
+export 'src/chrome.dart' show chrome;
 
 final _devtoolsNetwork = ChromeDevtoolsNetwork._();
 
-extension ChromeDevtoolsNetworkExtension on Chrome {
-  ChromeDevtoolsNetwork get devtoolsNetwork => _devtoolsNetwork;
+extension ChromeDevtoolsNetworkExtension on ChromeDevtools {
+  ChromeDevtoolsNetwork get network => _devtoolsNetwork;
 }
 
 class ChromeDevtoolsNetwork {
   ChromeDevtoolsNetwork._();
 
   /// Returns HAR log that contains all known network requests.
-  void getHAR(JSAny callback) => throw UnimplementedError();
+  void getHAR(JFFunction callback) {
+    $js.chrome.devtools.network.getHAR(callback);
+  }
 
   /// Fired when a network request is finished and all request data are
   /// available.
@@ -25,10 +30,14 @@ class ChromeDevtoolsNetwork {
 class Request {
   Request.fromJS(this._wrapped);
 
+  Request() : _wrapped = $js.Request();
+
   final $js.Request _wrapped;
 
   $js.Request get toJS => _wrapped;
 
   /// Returns content of the response body.
-  void getContent(JSAny callback) => throw UnimplementedError();
+  void getContent(JFFunction callback) {
+    _wrapped.getContent(callback);
+  }
 }

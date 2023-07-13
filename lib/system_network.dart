@@ -1,11 +1,14 @@
 import 'src/internal_helpers.dart';
 import 'src/js/system_network.dart' as $js;
-export 'chrome.dart';
+import 'system.dart';
+
+export 'src/chrome.dart' show chrome;
+export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 
 final _systemNetwork = ChromeSystemNetwork._();
 
-extension ChromeSystemNetworkExtension on Chrome {
-  ChromeSystemNetwork get systemNetwork => _systemNetwork;
+extension ChromeSystemNetworkExtension on ChromeSystem {
+  ChromeSystemNetwork get network => _systemNetwork;
 }
 
 class ChromeSystemNetwork {
@@ -13,12 +16,26 @@ class ChromeSystemNetwork {
 
   /// Retrieves information about local adapters on this system.
   /// |callback| : Called when local adapter information is available.
-  Future<List<NetworkInterface>> getNetworkInterfaces() =>
-      throw UnimplementedError();
+  Future<List<NetworkInterface>> getNetworkInterfaces() {
+    var $completer = Completer<List<NetworkInterface>>();
+    $js.chrome.system.network.getNetworkInterfaces((JSArray networkInterfaces) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class NetworkInterface {
   NetworkInterface.fromJS(this._wrapped);
+
+  NetworkInterface({
+    required String name,
+    required String address,
+    required int prefixLength,
+  }) : _wrapped = $js.NetworkInterface()
+          ..name = name
+          ..address = address
+          ..prefixLength = prefixLength;
 
   final $js.NetworkInterface _wrapped;
 

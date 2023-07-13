@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'types.dart';
 import 'src/js/accessibility_features.dart' as $js;
-export 'chrome.dart';
+import 'types.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _accessibilityFeatures = ChromeAccessibilityFeatures._();
 
@@ -20,7 +21,7 @@ class ChromeAccessibilityFeatures {
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
   ChromeSetting get spokenFeedback =>
-      $js.chrome.accessibilityFeatures.spokenFeedback as dynamic;
+      ($js.chrome.accessibilityFeatures.spokenFeedback as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -28,7 +29,7 @@ class ChromeAccessibilityFeatures {
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get largeCursor =>
-      $js.chrome.accessibilityFeatures.largeCursor as dynamic;
+      ($js.chrome.accessibilityFeatures.largeCursor as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -37,7 +38,7 @@ class ChromeAccessibilityFeatures {
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
   ChromeSetting get stickyKeys =>
-      $js.chrome.accessibilityFeatures.stickyKeys as dynamic;
+      ($js.chrome.accessibilityFeatures.stickyKeys as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -45,7 +46,7 @@ class ChromeAccessibilityFeatures {
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get highContrast =>
-      $js.chrome.accessibilityFeatures.highContrast as dynamic;
+      ($js.chrome.accessibilityFeatures.highContrast as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -53,7 +54,7 @@ class ChromeAccessibilityFeatures {
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get screenMagnifier =>
-      $js.chrome.accessibilityFeatures.screenMagnifier as dynamic;
+      ($js.chrome.accessibilityFeatures.screenMagnifier as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -62,7 +63,7 @@ class ChromeAccessibilityFeatures {
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
   ChromeSetting get autoclick =>
-      $js.chrome.accessibilityFeatures.autoclick as dynamic;
+      ($js.chrome.accessibilityFeatures.autoclick as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -70,7 +71,7 @@ class ChromeAccessibilityFeatures {
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get virtualKeyboard =>
-      $js.chrome.accessibilityFeatures.virtualKeyboard as dynamic;
+      ($js.chrome.accessibilityFeatures.virtualKeyboard as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -78,7 +79,7 @@ class ChromeAccessibilityFeatures {
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get caretHighlight =>
-      $js.chrome.accessibilityFeatures.caretHighlight as dynamic;
+      ($js.chrome.accessibilityFeatures.caretHighlight as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -86,7 +87,7 @@ class ChromeAccessibilityFeatures {
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get cursorHighlight =>
-      $js.chrome.accessibilityFeatures.cursorHighlight as dynamic;
+      ($js.chrome.accessibilityFeatures.cursorHighlight as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -95,7 +96,7 @@ class ChromeAccessibilityFeatures {
   /// `accessibilityFeatures.read` permission. `set()` and `clear()` require
   /// `accessibilityFeatures.modify` permission.
   ChromeSetting get cursorColor =>
-      $js.chrome.accessibilityFeatures.cursorColor as dynamic;
+      ($js.chrome.accessibilityFeatures.cursorColor as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -103,7 +104,7 @@ class ChromeAccessibilityFeatures {
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get dockedMagnifier =>
-      $js.chrome.accessibilityFeatures.dockedMagnifier as dynamic;
+      ($js.chrome.accessibilityFeatures.dockedMagnifier as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -111,7 +112,7 @@ class ChromeAccessibilityFeatures {
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get focusHighlight =>
-      $js.chrome.accessibilityFeatures.focusHighlight as dynamic;
+      ($js.chrome.accessibilityFeatures.focusHighlight as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -119,7 +120,7 @@ class ChromeAccessibilityFeatures {
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get selectToSpeak =>
-      $js.chrome.accessibilityFeatures.selectToSpeak as dynamic;
+      ($js.chrome.accessibilityFeatures.selectToSpeak as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -127,12 +128,12 @@ class ChromeAccessibilityFeatures {
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get switchAccess =>
-      $js.chrome.accessibilityFeatures.switchAccess as dynamic;
+      ($js.chrome.accessibilityFeatures.switchAccess as dynamic);
 
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get animationPolicy =>
-      $js.chrome.accessibilityFeatures.animationPolicy as dynamic;
+      ($js.chrome.accessibilityFeatures.animationPolicy as dynamic);
 
   /// *ChromeOS only.*
   ///
@@ -140,5 +141,5 @@ class ChromeAccessibilityFeatures {
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
   ChromeSetting get dictation =>
-      $js.chrome.accessibilityFeatures.dictation as dynamic;
+      ($js.chrome.accessibilityFeatures.dictation as dynamic);
 }

@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'tabs.dart';
 import 'src/js/context_menus.dart' as $js;
-export 'chrome.dart';
+import 'tabs.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _contextMenus = ChromeContextMenus._();
 
@@ -17,33 +18,48 @@ class ChromeContextMenus {
   /// [runtime.lastError].
   JSAny create(
     CreateProperties createProperties,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    return $js.chrome.contextMenus.create(
+      createProperties.toJS,
+      callback,
+    );
+  }
 
   /// Updates a previously created context menu item.
   void update(
     JSAny id,
     UpdateProperties updateProperties,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    $js.chrome.contextMenus.update(
+      id,
+      updateProperties.toJS,
+      callback,
+    );
+  }
 
   /// Removes a context menu item.
   void remove(
     JSAny menuItemId,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    $js.chrome.contextMenus.remove(
+      menuItemId,
+      callback,
+    );
+  }
 
   /// Removes all context menu items added by this extension.
-  void removeAll(JSAny? callback) => throw UnimplementedError();
+  void removeAll(JFFunction? callback) {
+    $js.chrome.contextMenus.removeAll(callback);
+  }
 
   /// The maximum number of top level extension items that can be added to an
   /// extension action context menu. Any items beyond this limit will be
   /// ignored.
   int get actionMenuTopLevelLimit =>
-      $js.chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT as dynamic;
+      ($js.chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT as dynamic);
 
   /// Fired when a context menu item is clicked.
   Stream<OnClickedEvent> get onClicked => throw UnimplementedError();
@@ -97,6 +113,33 @@ enum ItemType {
 
 class OnClickData {
   OnClickData.fromJS(this._wrapped);
+
+  OnClickData({
+    required JSAny menuItemId,
+    JSAny? parentMenuItemId,
+    String? mediaType,
+    String? linkUrl,
+    String? srcUrl,
+    String? pageUrl,
+    String? frameUrl,
+    int? frameId,
+    String? selectionText,
+    required bool editable,
+    bool? wasChecked,
+    bool? checked,
+  }) : _wrapped = $js.OnClickData()
+          ..menuItemId = menuItemId
+          ..parentMenuItemId = parentMenuItemId
+          ..mediaType = mediaType
+          ..linkUrl = linkUrl
+          ..srcUrl = srcUrl
+          ..pageUrl = pageUrl
+          ..frameUrl = frameUrl
+          ..frameId = frameId
+          ..selectionText = selectionText
+          ..editable = editable
+          ..wasChecked = wasChecked
+          ..checked = checked;
 
   final $js.OnClickData _wrapped;
 
@@ -186,6 +229,32 @@ class OnClickData {
 class CreateProperties {
   CreateProperties.fromJS(this._wrapped);
 
+  CreateProperties({
+    ItemType? type,
+    String? id,
+    String? title,
+    bool? checked,
+    List<ContextType>? contexts,
+    bool? visible,
+    JFFunction? onclick,
+    JSAny? parentId,
+    List<String>? documentUrlPatterns,
+    List<String>? targetUrlPatterns,
+    bool? enabled,
+  }) : _wrapped = $js.CreateProperties(
+          type: type?.toJS,
+          id: id,
+          title: title,
+          checked: checked,
+          contexts: throw UnimplementedError(),
+          visible: visible,
+          onclick: onclick,
+          parentId: parentId,
+          documentUrlPatterns: throw UnimplementedError(),
+          targetUrlPatterns: throw UnimplementedError(),
+          enabled: enabled,
+        );
+
   final $js.CreateProperties _wrapped;
 
   $js.CreateProperties get toJS => _wrapped;
@@ -193,6 +262,30 @@ class CreateProperties {
 
 class UpdateProperties {
   UpdateProperties.fromJS(this._wrapped);
+
+  UpdateProperties({
+    ItemType? type,
+    String? title,
+    bool? checked,
+    List<ContextType>? contexts,
+    bool? visible,
+    JFFunction? onclick,
+    JSAny? parentId,
+    List<String>? documentUrlPatterns,
+    List<String>? targetUrlPatterns,
+    bool? enabled,
+  }) : _wrapped = $js.UpdateProperties(
+          type: type?.toJS,
+          title: title,
+          checked: checked,
+          contexts: throw UnimplementedError(),
+          visible: visible,
+          onclick: onclick,
+          parentId: parentId,
+          documentUrlPatterns: throw UnimplementedError(),
+          targetUrlPatterns: throw UnimplementedError(),
+          enabled: enabled,
+        );
 
   final $js.UpdateProperties _wrapped;
 

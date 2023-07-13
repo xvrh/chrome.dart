@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'tabs.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSDesktopCaptureExtension on JSChrome {
@@ -19,7 +21,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
     JSArray sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JSAny callback,
+    JFFunction callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().

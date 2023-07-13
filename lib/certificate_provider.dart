@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/certificate_provider.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _certificateProvider = ChromeCertificateProvider._();
 
@@ -20,16 +22,32 @@ class ChromeCertificateProvider {
   /// |callback|: Is called when the dialog is resolved with the user input, or
   /// when the dialog request finishes unsuccessfully (e.g. the dialog was
   /// canceled by the user or was not allowed to be shown).
-  Future<PinResponseDetails?> requestPin(RequestPinDetails details) =>
-      throw UnimplementedError();
+  Future<PinResponseDetails?> requestPin(RequestPinDetails details) {
+    var $completer = Completer<PinResponseDetails?>();
+    $js.chrome.certificateProvider.requestPin(
+      details.toJS,
+      (PinResponseDetails? details) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Stops the pin request started by the [requestPin] function.
   /// |details|: Contains the details about the reason for stopping the
   /// request flow.
   /// |callback|: To be used by Chrome to send to the extension the status from
   /// their request to close PIN dialog for user.
-  Future<void> stopPinRequest(StopPinRequestDetails details) =>
-      throw UnimplementedError();
+  Future<void> stopPinRequest(StopPinRequestDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.certificateProvider.stopPinRequest(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets a list of certificates to use in the browser.
   /// The extension should call this function after initialization and on
@@ -39,16 +57,32 @@ class ChromeCertificateProvider {
   /// received.
   /// |details|: The certificates to set. Invalid certificates will be ignored.
   /// |callback|: Called upon completion.
-  Future<void> setCertificates(SetCertificatesDetails details) =>
-      throw UnimplementedError();
+  Future<void> setCertificates(SetCertificatesDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.certificateProvider.setCertificates(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Should be called as a response to [onSignatureRequested].
   /// The extension must eventually call this function for every
   /// [onSignatureRequested] event; the API implementation will stop
   /// waiting for this call after some time and respond with a timeout
   /// error when this function is called.
-  Future<void> reportSignature(ReportSignatureDetails details) =>
-      throw UnimplementedError();
+  Future<void> reportSignature(ReportSignatureDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.certificateProvider.reportSignature(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// This event fires if the certificates set via [setCertificates]
   /// are insufficient or the browser requests updated information. The
@@ -217,6 +251,13 @@ typedef SignCallback = void Function(ByteBuffer?);
 class ClientCertificateInfo {
   ClientCertificateInfo.fromJS(this._wrapped);
 
+  ClientCertificateInfo({
+    required List<ByteBuffer> certificateChain,
+    required List<Algorithm> supportedAlgorithms,
+  }) : _wrapped = $js.ClientCertificateInfo()
+          ..certificateChain = throw UnimplementedError()
+          ..supportedAlgorithms = throw UnimplementedError();
+
   final $js.ClientCertificateInfo _wrapped;
 
   $js.ClientCertificateInfo get toJS => _wrapped;
@@ -245,6 +286,15 @@ class ClientCertificateInfo {
 
 class SetCertificatesDetails {
   SetCertificatesDetails.fromJS(this._wrapped);
+
+  SetCertificatesDetails({
+    int? certificatesRequestId,
+    Error? error,
+    required List<ClientCertificateInfo> clientCertificates,
+  }) : _wrapped = $js.SetCertificatesDetails()
+          ..certificatesRequestId = certificatesRequestId
+          ..error = error?.toJS
+          ..clientCertificates = throw UnimplementedError();
 
   final $js.SetCertificatesDetails _wrapped;
 
@@ -279,6 +329,10 @@ class SetCertificatesDetails {
 class CertificatesUpdateRequest {
   CertificatesUpdateRequest.fromJS(this._wrapped);
 
+  CertificatesUpdateRequest({required int certificatesRequestId})
+      : _wrapped = $js.CertificatesUpdateRequest()
+          ..certificatesRequestId = certificatesRequestId;
+
   final $js.CertificatesUpdateRequest _wrapped;
 
   $js.CertificatesUpdateRequest get toJS => _wrapped;
@@ -292,6 +346,17 @@ class CertificatesUpdateRequest {
 
 class SignatureRequest {
   SignatureRequest.fromJS(this._wrapped);
+
+  SignatureRequest({
+    required int signRequestId,
+    required ByteBuffer input,
+    required Algorithm algorithm,
+    required ByteBuffer certificate,
+  }) : _wrapped = $js.SignatureRequest()
+          ..signRequestId = signRequestId
+          ..input = input.toJS
+          ..algorithm = algorithm.toJS
+          ..certificate = certificate.toJS;
 
   final $js.SignatureRequest _wrapped;
 
@@ -326,6 +391,15 @@ class SignatureRequest {
 class ReportSignatureDetails {
   ReportSignatureDetails.fromJS(this._wrapped);
 
+  ReportSignatureDetails({
+    required int signRequestId,
+    Error? error,
+    ByteBuffer? signature,
+  }) : _wrapped = $js.ReportSignatureDetails()
+          ..signRequestId = signRequestId
+          ..error = error?.toJS
+          ..signature = signature?.toJS;
+
   final $js.ReportSignatureDetails _wrapped;
 
   $js.ReportSignatureDetails get toJS => _wrapped;
@@ -353,6 +427,13 @@ class ReportSignatureDetails {
 class CertificateInfo {
   CertificateInfo.fromJS(this._wrapped);
 
+  CertificateInfo({
+    required ByteBuffer certificate,
+    required List<Hash> supportedHashes,
+  }) : _wrapped = $js.CertificateInfo()
+          ..certificate = certificate.toJS
+          ..supportedHashes = throw UnimplementedError();
+
   final $js.CertificateInfo _wrapped;
 
   $js.CertificateInfo get toJS => _wrapped;
@@ -378,6 +459,17 @@ class CertificateInfo {
 
 class SignRequest {
   SignRequest.fromJS(this._wrapped);
+
+  SignRequest({
+    required int signRequestId,
+    required ByteBuffer digest,
+    required Hash hash,
+    required ByteBuffer certificate,
+  }) : _wrapped = $js.SignRequest()
+          ..signRequestId = signRequestId
+          ..digest = digest.toJS
+          ..hash = hash.toJS
+          ..certificate = certificate.toJS;
 
   final $js.SignRequest _wrapped;
 
@@ -412,6 +504,17 @@ class SignRequest {
 
 class RequestPinDetails {
   RequestPinDetails.fromJS(this._wrapped);
+
+  RequestPinDetails({
+    required int signRequestId,
+    PinRequestType? requestType,
+    PinRequestErrorType? errorType,
+    int? attemptsLeft,
+  }) : _wrapped = $js.RequestPinDetails()
+          ..signRequestId = signRequestId
+          ..requestType = requestType?.toJS
+          ..errorType = errorType?.toJS
+          ..attemptsLeft = attemptsLeft;
 
   final $js.RequestPinDetails _wrapped;
 
@@ -452,6 +555,13 @@ class RequestPinDetails {
 class StopPinRequestDetails {
   StopPinRequestDetails.fromJS(this._wrapped);
 
+  StopPinRequestDetails({
+    required int signRequestId,
+    PinRequestErrorType? errorType,
+  }) : _wrapped = $js.StopPinRequestDetails()
+          ..signRequestId = signRequestId
+          ..errorType = errorType?.toJS;
+
   final $js.StopPinRequestDetails _wrapped;
 
   $js.StopPinRequestDetails get toJS => _wrapped;
@@ -474,6 +584,9 @@ class StopPinRequestDetails {
 
 class PinResponseDetails {
   PinResponseDetails.fromJS(this._wrapped);
+
+  PinResponseDetails({String? userInput})
+      : _wrapped = $js.PinResponseDetails()..userInput = userInput;
 
   final $js.PinResponseDetails _wrapped;
 

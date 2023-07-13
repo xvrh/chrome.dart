@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'printing.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/printing_metrics.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _printingMetrics = ChromePrintingMetrics._();
 
@@ -13,7 +14,13 @@ class ChromePrintingMetrics {
   ChromePrintingMetrics._();
 
   /// Returns the list of the finished print jobs.
-  Future<List<PrintJobInfo>> getPrintJobs() => throw UnimplementedError();
+  Future<List<PrintJobInfo>> getPrintJobs() {
+    var $completer = Completer<List<PrintJobInfo>>();
+    $js.chrome.printingMetrics.getPrintJobs((JSArray jobs) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Event fired when the print job is finished.
   /// This includes any of termination statuses: FAILED, CANCELED and PRINTED.
@@ -115,6 +122,15 @@ enum DuplexMode {
 class MediaSize {
   MediaSize.fromJS(this._wrapped);
 
+  MediaSize({
+    required int width,
+    required int height,
+    required String vendorId,
+  }) : _wrapped = $js.MediaSize()
+          ..width = width
+          ..height = height
+          ..vendorId = vendorId;
+
   final $js.MediaSize _wrapped;
 
   $js.MediaSize get toJS => _wrapped;
@@ -144,6 +160,17 @@ class MediaSize {
 
 class PrintSettings {
   PrintSettings.fromJS(this._wrapped);
+
+  PrintSettings({
+    required ColorMode color,
+    required DuplexMode duplex,
+    required MediaSize mediaSize,
+    required int copies,
+  }) : _wrapped = $js.PrintSettings()
+          ..color = color.toJS
+          ..duplex = duplex.toJS
+          ..mediaSize = mediaSize.toJS
+          ..copies = copies;
 
   final $js.PrintSettings _wrapped;
 
@@ -177,6 +204,15 @@ class PrintSettings {
 class Printer {
   Printer.fromJS(this._wrapped);
 
+  Printer({
+    required String name,
+    required String uri,
+    required PrinterSource source,
+  }) : _wrapped = $js.Printer()
+          ..name = name
+          ..uri = uri
+          ..source = source.toJS;
+
   final $js.Printer _wrapped;
 
   $js.Printer get toJS => _wrapped;
@@ -203,6 +239,31 @@ class Printer {
 
 class PrintJobInfo {
   PrintJobInfo.fromJS(this._wrapped);
+
+  PrintJobInfo({
+    required String id,
+    required String title,
+    required PrintJobSource source,
+    String? sourceId,
+    required PrintJobStatus status,
+    required double creationTime,
+    required double completionTime,
+    required Printer printer,
+    required PrintSettings settings,
+    required int numberOfPages,
+    required PrinterStatus printer_status,
+  }) : _wrapped = $js.PrintJobInfo()
+          ..id = id
+          ..title = title
+          ..source = source.toJS
+          ..sourceId = sourceId
+          ..status = status.toJS
+          ..creationTime = creationTime
+          ..completionTime = completionTime
+          ..printer = printer.toJS
+          ..settings = settings.toJS
+          ..numberOfPages = numberOfPages
+          ..printer_status = printer_status.toJS;
 
   final $js.PrintJobInfo _wrapped;
 

@@ -1,13 +1,16 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'enterprise.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/enterprise_platform_keys.dart' as $js;
-export 'chrome.dart';
+
+export 'enterprise.dart' show ChromeEnterprise, ChromeEnterpriseExtension;
+export 'src/chrome.dart' show chrome;
 
 final _enterprisePlatformKeys = ChromeEnterprisePlatformKeys._();
 
-extension ChromeEnterprisePlatformKeysExtension on Chrome {
-  ChromeEnterprisePlatformKeys get enterprisePlatformKeys =>
-      _enterprisePlatformKeys;
+extension ChromeEnterprisePlatformKeysExtension on ChromeEnterprise {
+  ChromeEnterprisePlatformKeys get platformKeys => _enterprisePlatformKeys;
 }
 
 class ChromeEnterprisePlatformKeys {
@@ -19,15 +22,29 @@ class ChromeEnterprisePlatformKeys {
   /// contain the system-wide token with `id` `"system"`.
   /// The system-wide token will be the same for all sessions on this device
   /// (device in the sense of e.g. a Chromebook).
-  Future<List<Token>> getTokens() => throw UnimplementedError();
+  Future<List<Token>> getTokens() {
+    var $completer = Completer<List<Token>>();
+    $js.chrome.enterprise.platformKeys.getTokens((JSArray tokens) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns the list of all client certificates available from the given
   /// token. Can be used to check for the existence and expiration of client
   /// certificates that are usable for a certain authentication.
   /// |tokenId|: The id of a Token returned by `getTokens`.
   /// |callback|: Called back with the list of the available certificates.
-  Future<List<ByteBuffer>> getCertificates(String tokenId) =>
-      throw UnimplementedError();
+  Future<List<ByteBuffer>> getCertificates(String tokenId) {
+    var $completer = Completer<List<ByteBuffer>>();
+    $js.chrome.enterprise.platformKeys.getCertificates(
+      tokenId,
+      (JSArray certificates) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Imports `certificate` to the given token if the certified key
   /// is already stored in this token.
@@ -40,8 +57,17 @@ class ChromeEnterprisePlatformKeys {
   Future<void> importCertificate(
     String tokenId,
     ByteBuffer certificate,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.enterprise.platformKeys.importCertificate(
+      tokenId,
+      certificate.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes `certificate` from the given token if present.
   /// Should be used to remove obsolete certificates so that they are not
@@ -53,8 +79,17 @@ class ChromeEnterprisePlatformKeys {
   Future<void> removeCertificate(
     String tokenId,
     ByteBuffer certificate,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.enterprise.platformKeys.removeCertificate(
+      tokenId,
+      certificate.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Similar to `challengeMachineKey` and
   /// `challengeUserKey`, but allows specifying the algorithm of a
@@ -82,8 +117,16 @@ class ChromeEnterprisePlatformKeys {
   /// |options|: Object containing the fields defined in
   ///            [ChallengeKeyOptions].
   /// |callback|: Called back with the challenge response.
-  Future<ByteBuffer> challengeKey(ChallengeKeyOptions options) =>
-      throw UnimplementedError();
+  Future<ByteBuffer> challengeKey(ChallengeKeyOptions options) {
+    var $completer = Completer<ByteBuffer>();
+    $js.chrome.enterprise.platformKeys.challengeKey(
+      options.toJS,
+      (JSArrayBuffer response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Challenges a hardware-backed Enterprise Machine Key and emits the
   /// response as part of a remote attestation protocol. Only useful on Chrome
@@ -117,8 +160,17 @@ class ChromeEnterprisePlatformKeys {
   Future<ByteBuffer> challengeMachineKey(
     ByteBuffer challenge,
     bool? registerKey,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<ByteBuffer>();
+    $js.chrome.enterprise.platformKeys.challengeMachineKey(
+      challenge.toJS,
+      registerKey,
+      (JSArrayBuffer response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Challenges a hardware-backed Enterprise User Key and emits the response
   /// as part of a remote attestation protocol. Only useful on Chrome OS and in
@@ -151,8 +203,17 @@ class ChromeEnterprisePlatformKeys {
   Future<ByteBuffer> challengeUserKey(
     ByteBuffer challenge,
     bool registerKey,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<ByteBuffer>();
+    $js.chrome.enterprise.platformKeys.challengeUserKey(
+      challenge.toJS,
+      registerKey,
+      (JSArrayBuffer response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 }
 
 /// Whether to use the Enterprise User Key or the Enterprise Machine Key.
@@ -185,6 +246,15 @@ enum Algorithm {
 
 class Token {
   Token.fromJS(this._wrapped);
+
+  Token({
+    required String id,
+    required JSObject subtleCrypto,
+    required JSObject softwareBackedSubtleCrypto,
+  }) : _wrapped = $js.Token()
+          ..id = id
+          ..subtleCrypto = subtleCrypto
+          ..softwareBackedSubtleCrypto = softwareBackedSubtleCrypto;
 
   final $js.Token _wrapped;
 
@@ -242,6 +312,9 @@ class Token {
 class RegisterKeyOptions {
   RegisterKeyOptions.fromJS(this._wrapped);
 
+  RegisterKeyOptions({required Algorithm algorithm})
+      : _wrapped = $js.RegisterKeyOptions()..algorithm = algorithm.toJS;
+
   final $js.RegisterKeyOptions _wrapped;
 
   $js.RegisterKeyOptions get toJS => _wrapped;
@@ -255,6 +328,15 @@ class RegisterKeyOptions {
 
 class ChallengeKeyOptions {
   ChallengeKeyOptions.fromJS(this._wrapped);
+
+  ChallengeKeyOptions({
+    required ByteBuffer challenge,
+    RegisterKeyOptions? registerKey,
+    required Scope scope,
+  }) : _wrapped = $js.ChallengeKeyOptions()
+          ..challenge = challenge.toJS
+          ..registerKey = registerKey?.toJS
+          ..scope = scope.toJS;
 
   final $js.ChallengeKeyOptions _wrapped;
 

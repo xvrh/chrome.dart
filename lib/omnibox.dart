@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/omnibox.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _omnibox = ChromeOmnibox._();
 
@@ -16,14 +17,26 @@ class ChromeOmnibox {
   void sendSuggestions(
     int requestId,
     List<SuggestResult> suggestResults,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.omnibox.sendSuggestions(
+      requestId,
+      throw UnimplementedError(),
+    );
+  }
 
   /// Sets the description and styling for the default suggestion. The default
   /// suggestion is the text that is displayed in the first suggestion row
   /// underneath the URL bar.
-  Future<void> setDefaultSuggestion(DefaultSuggestResult suggestion) =>
-      throw UnimplementedError();
+  Future<void> setDefaultSuggestion(DefaultSuggestResult suggestion) {
+    var $completer = Completer<void>();
+    $js.chrome.omnibox.setDefaultSuggestion(
+      suggestion.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and
@@ -79,6 +92,15 @@ enum OnInputEnteredDisposition {
 class MatchClassification {
   MatchClassification.fromJS(this._wrapped);
 
+  MatchClassification({
+    required int offset,
+    required DescriptionStyleType type,
+    int? length,
+  }) : _wrapped = $js.MatchClassification()
+          ..offset = offset
+          ..type = type.toJS
+          ..length = length;
+
   final $js.MatchClassification _wrapped;
 
   $js.MatchClassification get toJS => _wrapped;
@@ -102,6 +124,17 @@ class MatchClassification {
 
 class SuggestResult {
   SuggestResult.fromJS(this._wrapped);
+
+  SuggestResult({
+    required String content,
+    required String description,
+    bool? deletable,
+    List<MatchClassification>? descriptionStyles,
+  }) : _wrapped = $js.SuggestResult()
+          ..content = content
+          ..description = description
+          ..deletable = deletable
+          ..descriptionStyles = throw UnimplementedError();
 
   final $js.SuggestResult _wrapped;
 
@@ -147,6 +180,13 @@ class SuggestResult {
 class DefaultSuggestResult {
   DefaultSuggestResult.fromJS(this._wrapped);
 
+  DefaultSuggestResult({
+    required String description,
+    List<MatchClassification>? descriptionStyles,
+  }) : _wrapped = $js.DefaultSuggestResult()
+          ..description = description
+          ..descriptionStyles = throw UnimplementedError();
+
   final $js.DefaultSuggestResult _wrapped;
 
   $js.DefaultSuggestResult get toJS => _wrapped;
@@ -183,7 +223,7 @@ class OnInputChangedEvent {
 
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
-  final JSAny suggest;
+  final JFFunction suggest;
 }
 
 class OnInputEnteredEvent {

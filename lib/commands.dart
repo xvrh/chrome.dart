@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'tabs.dart';
 import 'src/js/commands.dart' as $js;
-export 'chrome.dart';
+import 'tabs.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _commands = ChromeCommands._();
 
@@ -14,7 +15,13 @@ class ChromeCommands {
 
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).
-  Future<List<Command>> getAll() => throw UnimplementedError();
+  Future<List<Command>> getAll() {
+    var $completer = Completer<List<Command>>();
+    $js.chrome.commands.getAll((JSArray commands) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired when a registered command is activated using a keyboard shortcut.
   Stream<OnCommandEvent> get onCommand => throw UnimplementedError();
@@ -22,6 +29,15 @@ class ChromeCommands {
 
 class Command {
   Command.fromJS(this._wrapped);
+
+  Command({
+    String? name,
+    String? description,
+    String? shortcut,
+  }) : _wrapped = $js.Command()
+          ..name = name
+          ..description = description
+          ..shortcut = shortcut;
 
   final $js.Command _wrapped;
 

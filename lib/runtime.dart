@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'tabs.dart';
 import 'src/js/runtime.dart' as $js;
-export 'chrome.dart';
+import 'tabs.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _runtime = ChromeRuntime._();
 
@@ -16,7 +17,13 @@ class ChromeRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  Future<JSObject?> getBackgroundPage() => throw UnimplementedError();
+  Future<JSObject?> getBackgroundPage() {
+    var $completer = Completer<JSObject?>();
+    $js.chrome.runtime.getBackgroundPage((JSObject? backgroundPage) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Open your Extension's options page, if possible.
   ///
@@ -28,24 +35,45 @@ class ChromeRuntime {
   ///
   /// If your Extension does not declare an options page, or Chrome failed to
   /// create one for some other reason, the callback will set [lastError].
-  Future<void> openOptionsPage() => throw UnimplementedError();
+  Future<void> openOptionsPage() {
+    var $completer = Completer<void>();
+    $js.chrome.runtime.openOptionsPage(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
-  GetManifestReturn getManifest() => throw UnimplementedError();
+  GetManifestReturn getManifest() {
+    return GetManifestReturn.fromJS($js.chrome.runtime.getManifest());
+  }
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  String getURL(String path) => throw UnimplementedError();
+  String getURL(String path) {
+    return $js.chrome.runtime.getURL(path);
+  }
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  Future<void> setUninstallURL(String url) => throw UnimplementedError();
+  Future<void> setUninstallURL(String url) {
+    var $completer = Completer<void>();
+    $js.chrome.runtime.setUninstallURL(
+      url,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
-  void reload() => throw UnimplementedError();
+  void reload() {
+    $js.chrome.runtime.reload();
+  }
 
   /// Requests an immediate update check be done for this app/extension.
   /// **Important**: Most extensions/apps should **not** use this method, since
@@ -64,19 +92,36 @@ class ChromeRuntime {
   /// Note: When called with a callback, instead of returning an object this
   /// function will return the two properties as separate arguments passed to
   /// the callback.
-  Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() =>
-      throw UnimplementedError();
+  Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() {
+    var $completer = Completer<RequestUpdateCheckCallbackResult>();
+    $js.chrome.runtime
+        .requestUpdateCheck((RequestUpdateCheckCallbackResult result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
   /// it's no-op.
-  void restart() => throw UnimplementedError();
+  void restart() {
+    $js.chrome.runtime.restart();
+  }
 
   /// Restart the ChromeOS device when the app runs in kiosk mode after the
   /// given seconds. If called again before the time ends, the reboot will be
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  Future<void> restartAfterDelay(int seconds) => throw UnimplementedError();
+  Future<void> restartAfterDelay(int seconds) {
+    var $completer = Completer<void>();
+    $js.chrome.runtime.restartAfterDelay(
+      seconds,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
@@ -88,12 +133,18 @@ class ChromeRuntime {
   Port connect(
     String? extensionId,
     ConnectInfo? connectInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    return Port.fromJS($js.chrome.runtime.connect(
+      extensionId,
+      connectInfo?.toJS,
+    ));
+  }
 
   /// Connects to a native application in the host machine. See [Native
   /// Messaging](nativeMessaging) for more information.
-  Port connectNative(String application) => throw UnimplementedError();
+  Port connectNative(String application) {
+    return Port.fromJS($js.chrome.runtime.connectNative(application));
+  }
 
   /// Sends a single message to event listeners within your extension/app or a
   /// different extension/app. Similar to [runtime.connect] but only sends a
@@ -107,31 +158,66 @@ class ChromeRuntime {
     String? extensionId,
     JSAny message,
     SendMessageOptions? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.runtime.sendMessage(
+      extensionId,
+      message,
+      options?.toJS,
+      (JSAny response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Send a single message to a native application.
   Future<JSAny> sendNativeMessage(
     String application,
     JSAny message,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.runtime.sendNativeMessage(
+      application,
+      message,
+      (JSAny response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns information about the current platform.
-  Future<PlatformInfo> getPlatformInfo() => throw UnimplementedError();
+  Future<PlatformInfo> getPlatformInfo() {
+    var $completer = Completer<PlatformInfo>();
+    $js.chrome.runtime.getPlatformInfo((PlatformInfo platformInfo) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns a DirectoryEntry for the package directory.
-  void getPackageDirectoryEntry(JSAny callback) => throw UnimplementedError();
+  void getPackageDirectoryEntry(JFFunction callback) {
+    $js.chrome.runtime.getPackageDirectoryEntry(callback);
+  }
 
   /// Fetches information about active contexts associated with this extension
-  Future<List<ExtensionContext>> getContexts(ContextFilter filter) =>
-      throw UnimplementedError();
+  Future<List<ExtensionContext>> getContexts(ContextFilter filter) {
+    var $completer = Completer<List<ExtensionContext>>();
+    $js.chrome.runtime.getContexts(
+      filter.toJS,
+      (JSArray contexts) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// This will be defined during an API method callback if there was an error
-  RuntimeLastError? get lastError => $js.chrome.runtime.lastError as dynamic;
+  RuntimeLastError? get lastError => ($js.chrome.runtime.lastError as dynamic);
 
   /// The ID of the extension/app.
-  String get id => $js.chrome.runtime.id as dynamic;
+  String get id => ($js.chrome.runtime.id as dynamic);
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
@@ -323,6 +409,17 @@ enum ContextType {
 class Port {
   Port.fromJS(this._wrapped);
 
+  Port({
+    required String name,
+    required JFFunction disconnect,
+    required JFFunction postMessage,
+    MessageSender? sender,
+  }) : _wrapped = $js.Port()
+          ..name = name
+          ..disconnect = disconnect
+          ..postMessage = postMessage
+          ..sender = sender?.toJS;
+
   final $js.Port _wrapped;
 
   $js.Port get toJS => _wrapped;
@@ -336,15 +433,15 @@ class Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  JSAny get disconnect => _wrapped.disconnect;
-  set disconnect(JSAny v) {
+  JFFunction get disconnect => _wrapped.disconnect;
+  set disconnect(JFFunction v) {
     _wrapped.disconnect = v;
   }
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  JSAny get postMessage => _wrapped.postMessage;
-  set postMessage(JSAny v) {
+  JFFunction get postMessage => _wrapped.postMessage;
+  set postMessage(JFFunction v) {
     _wrapped.postMessage = v;
   }
 
@@ -371,6 +468,31 @@ class Port {
 
 class MessageSender {
   MessageSender.fromJS(this._wrapped);
+
+  MessageSender({
+    Tab? tab,
+    int? frameId,
+    int? guestProcessId,
+    int? guestRenderFrameRoutingId,
+    String? id,
+    String? url,
+    String? nativeApplication,
+    String? tlsChannelId,
+    String? origin,
+    String? documentId,
+    String? documentLifecycle,
+  }) : _wrapped = $js.MessageSender()
+          ..tab = tab?.toJS
+          ..frameId = frameId
+          ..guestProcessId = guestProcessId
+          ..guestRenderFrameRoutingId = guestRenderFrameRoutingId
+          ..id = id
+          ..url = url
+          ..nativeApplication = nativeApplication
+          ..tlsChannelId = tlsChannelId
+          ..origin = origin
+          ..documentId = documentId
+          ..documentLifecycle = documentLifecycle;
 
   final $js.MessageSender _wrapped;
 
@@ -460,6 +582,15 @@ class MessageSender {
 class PlatformInfo {
   PlatformInfo.fromJS(this._wrapped);
 
+  PlatformInfo({
+    required PlatformOs os,
+    required PlatformArch arch,
+    required PlatformNaclArch nacl_arch,
+  }) : _wrapped = $js.PlatformInfo()
+          ..os = os.toJS
+          ..arch = arch.toJS
+          ..nacl_arch = nacl_arch.toJS;
+
   final $js.PlatformInfo _wrapped;
 
   $js.PlatformInfo get toJS => _wrapped;
@@ -486,6 +617,27 @@ class PlatformInfo {
 
 class ExtensionContext {
   ExtensionContext.fromJS(this._wrapped);
+
+  ExtensionContext({
+    required ContextType contextType,
+    required String contextId,
+    required int tabId,
+    required int windowId,
+    String? documentId,
+    required int frameId,
+    String? documentUrl,
+    String? documentOrigin,
+    required bool incognito,
+  }) : _wrapped = $js.ExtensionContext()
+          ..contextType = contextType.toJS
+          ..contextId = contextId
+          ..tabId = tabId
+          ..windowId = windowId
+          ..documentId = documentId
+          ..frameId = frameId
+          ..documentUrl = documentUrl
+          ..documentOrigin = documentOrigin
+          ..incognito = incognito;
 
   final $js.ExtensionContext _wrapped;
 
@@ -555,6 +707,27 @@ class ExtensionContext {
 class ContextFilter {
   ContextFilter.fromJS(this._wrapped);
 
+  ContextFilter({
+    List<ContextType>? contextTypes,
+    List<String>? contextIds,
+    List<int>? tabIds,
+    List<int>? windowIds,
+    List<String>? documentIds,
+    List<int>? frameIds,
+    List<String>? documentUrls,
+    List<String>? documentOrigins,
+    bool? incognito,
+  }) : _wrapped = $js.ContextFilter()
+          ..contextTypes = throw UnimplementedError()
+          ..contextIds = throw UnimplementedError()
+          ..tabIds = throw UnimplementedError()
+          ..windowIds = throw UnimplementedError()
+          ..documentIds = throw UnimplementedError()
+          ..frameIds = throw UnimplementedError()
+          ..documentUrls = throw UnimplementedError()
+          ..documentOrigins = throw UnimplementedError()
+          ..incognito = incognito;
+
   final $js.ContextFilter _wrapped;
 
   $js.ContextFilter get toJS => _wrapped;
@@ -618,6 +791,15 @@ class ContextFilter {
 class OnInstalledDetails {
   OnInstalledDetails.fromJS(this._wrapped);
 
+  OnInstalledDetails({
+    required OnInstalledReason reason,
+    String? previousVersion,
+    String? id,
+  }) : _wrapped = $js.OnInstalledDetails()
+          ..reason = reason.toJS
+          ..previousVersion = previousVersion
+          ..id = id;
+
   final $js.OnInstalledDetails _wrapped;
 
   $js.OnInstalledDetails get toJS => _wrapped;
@@ -646,6 +828,9 @@ class OnInstalledDetails {
 class OnUpdateAvailableDetails {
   OnUpdateAvailableDetails.fromJS(this._wrapped);
 
+  OnUpdateAvailableDetails({required String version})
+      : _wrapped = $js.OnUpdateAvailableDetails()..version = version;
+
   final $js.OnUpdateAvailableDetails _wrapped;
 
   $js.OnUpdateAvailableDetails get toJS => _wrapped;
@@ -660,6 +845,8 @@ class OnUpdateAvailableDetails {
 class GetManifestReturn {
   GetManifestReturn.fromJS(this._wrapped);
 
+  GetManifestReturn() : _wrapped = $js.GetManifestReturn();
+
   final $js.GetManifestReturn _wrapped;
 
   $js.GetManifestReturn get toJS => _wrapped;
@@ -667,6 +854,13 @@ class GetManifestReturn {
 
 class RequestUpdateCheckCallbackResult {
   RequestUpdateCheckCallbackResult.fromJS(this._wrapped);
+
+  RequestUpdateCheckCallbackResult({
+    required RequestUpdateCheckStatus status,
+    String? version,
+  }) : _wrapped = $js.RequestUpdateCheckCallbackResult()
+          ..status = status.toJS
+          ..version = version;
 
   final $js.RequestUpdateCheckCallbackResult _wrapped;
 
@@ -690,6 +884,14 @@ class RequestUpdateCheckCallbackResult {
 class ConnectInfo {
   ConnectInfo.fromJS(this._wrapped);
 
+  ConnectInfo({
+    String? name,
+    bool? includeTlsChannelId,
+  }) : _wrapped = $js.ConnectInfo(
+          name: name,
+          includeTlsChannelId: includeTlsChannelId,
+        );
+
   final $js.ConnectInfo _wrapped;
 
   $js.ConnectInfo get toJS => _wrapped;
@@ -698,6 +900,10 @@ class ConnectInfo {
 class SendMessageOptions {
   SendMessageOptions.fromJS(this._wrapped);
 
+  SendMessageOptions({bool? includeTlsChannelId})
+      : _wrapped =
+            $js.SendMessageOptions(includeTlsChannelId: includeTlsChannelId);
+
   final $js.SendMessageOptions _wrapped;
 
   $js.SendMessageOptions get toJS => _wrapped;
@@ -705,6 +911,9 @@ class SendMessageOptions {
 
 class RuntimeLastError {
   RuntimeLastError.fromJS(this._wrapped);
+
+  RuntimeLastError({String? message})
+      : _wrapped = $js.RuntimeLastError()..message = message;
 
   final $js.RuntimeLastError _wrapped;
 
@@ -736,7 +945,7 @@ class OnMessageEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final JSAny sendResponse;
+  final JFFunction sendResponse;
 }
 
 class OnMessageExternalEvent {
@@ -758,7 +967,7 @@ class OnMessageExternalEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final JSAny sendResponse;
+  final JFFunction sendResponse;
 }
 
 class PortOnMessageEvent {

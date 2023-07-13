@@ -1,11 +1,15 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSDevtoolsNetworkExtension on JSChrome {
+import 'chrome.dart';
+import 'devtools.dart';
+
+export 'chrome.dart';
+export 'devtools.dart';
+
+extension JSChromeJSDevtoolsNetworkExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.network` API to retrieve the information about
   /// network requests displayed by the Developer Tools in the Network panel.
-  external JSDevtoolsNetwork get devtoolsNetwork;
+  external JSDevtoolsNetwork get network;
 }
 
 @JS()
@@ -14,7 +18,7 @@ class JSDevtoolsNetwork {}
 
 extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
   /// Returns HAR log that contains all known network requests.
-  external void getHAR(JSAny callback);
+  external void getHAR(JFFunction callback);
 
   /// Fired when a network request is finished and all request data are
   /// available.
@@ -30,5 +34,5 @@ class Request {}
 
 extension RequestExtension on Request {
   /// Returns content of the response body.
-  external void getContent(JSAny callback);
+  external void getContent(JFFunction callback);
 }

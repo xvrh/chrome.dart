@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'types.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSPrivacyExtension on JSChrome {

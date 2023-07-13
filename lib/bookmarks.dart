@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/bookmarks.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _bookmarks = ChromeBookmarks._();
 
@@ -12,41 +13,104 @@ class ChromeBookmarks {
   ChromeBookmarks._();
 
   /// Retrieves the specified BookmarkTreeNode(s).
-  Future<List<BookmarkTreeNode>> get(JSAny idOrIdList) =>
-      throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> get(JSAny idOrIdList) {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.get(
+      idOrIdList,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves the children of the specified BookmarkTreeNode id.
-  Future<List<BookmarkTreeNode>> getChildren(String id) =>
-      throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> getChildren(String id) {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.getChildren(
+      id,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves the recently added bookmarks.
-  Future<List<BookmarkTreeNode>> getRecent(int numberOfItems) =>
-      throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> getRecent(int numberOfItems) {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.getRecent(
+      numberOfItems,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves the entire Bookmarks hierarchy.
-  Future<List<BookmarkTreeNode>> getTree() => throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> getTree() {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.getTree((JSArray results) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
-  Future<List<BookmarkTreeNode>> getSubTree(String id) =>
-      throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> getSubTree(String id) {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.getSubTree(
+      id,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
   /// with an object produce BookmarkTreeNodes matching all specified
   /// properties.
-  Future<List<BookmarkTreeNode>> search(JSAny query) =>
-      throw UnimplementedError();
+  Future<List<BookmarkTreeNode>> search(JSAny query) {
+    var $completer = Completer<List<BookmarkTreeNode>>();
+    $js.chrome.bookmarks.search(
+      query,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Creates a bookmark or folder under the specified parentId.  If url is NULL
   /// or missing, it will be a folder.
-  Future<BookmarkTreeNode> create(CreateDetails bookmark) =>
-      throw UnimplementedError();
+  Future<BookmarkTreeNode> create(CreateDetails bookmark) {
+    var $completer = Completer<BookmarkTreeNode>();
+    $js.chrome.bookmarks.create(
+      bookmark.toJS,
+      (BookmarkTreeNode result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Moves the specified BookmarkTreeNode to the provided location.
   Future<BookmarkTreeNode> move(
     String id,
     MoveDestination destination,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<BookmarkTreeNode>();
+    $js.chrome.bookmarks.move(
+      id,
+      destination.toJS,
+      (BookmarkTreeNode result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates the properties of a bookmark or folder. Specify only the
   /// properties that you want to change; unspecified properties will be left
@@ -54,20 +118,48 @@ class ChromeBookmarks {
   Future<BookmarkTreeNode> update(
     String id,
     UpdateChanges changes,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<BookmarkTreeNode>();
+    $js.chrome.bookmarks.update(
+      id,
+      changes.toJS,
+      (BookmarkTreeNode result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes a bookmark or an empty bookmark folder.
-  Future<void> remove(String id) => throw UnimplementedError();
+  Future<void> remove(String id) {
+    var $completer = Completer<void>();
+    $js.chrome.bookmarks.remove(
+      id,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Recursively removes a bookmark folder.
-  Future<void> removeTree(String id) => throw UnimplementedError();
+  Future<void> removeTree(String id) {
+    var $completer = Completer<void>();
+    $js.chrome.bookmarks.removeTree(
+      id,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   int get maxWriteOperationsPerHour =>
-      $js.chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR as dynamic;
+      ($js.chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR as dynamic);
 
   int get maxSustainedWriteOperationsPerMinute =>
-      $js.chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE as dynamic;
+      ($js.chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE
+          as dynamic);
 
   /// Fired when a bookmark or folder is created.
   Stream<OnCreatedEvent> get onCreated => throw UnimplementedError();
@@ -115,6 +207,29 @@ enum BookmarkTreeNodeUnmodifiable {
 
 class BookmarkTreeNode {
   BookmarkTreeNode.fromJS(this._wrapped);
+
+  BookmarkTreeNode({
+    required String id,
+    String? parentId,
+    int? index,
+    String? url,
+    required String title,
+    double? dateAdded,
+    double? dateLastUsed,
+    double? dateGroupModified,
+    BookmarkTreeNodeUnmodifiable? unmodifiable,
+    List<BookmarkTreeNode>? children,
+  }) : _wrapped = $js.BookmarkTreeNode()
+          ..id = id
+          ..parentId = parentId
+          ..index = index
+          ..url = url
+          ..title = title
+          ..dateAdded = dateAdded
+          ..dateLastUsed = dateLastUsed
+          ..dateGroupModified = dateGroupModified
+          ..unmodifiable = unmodifiable?.toJS
+          ..children = throw UnimplementedError();
 
   final $js.BookmarkTreeNode _wrapped;
 
@@ -195,6 +310,17 @@ class BookmarkTreeNode {
 class CreateDetails {
   CreateDetails.fromJS(this._wrapped);
 
+  CreateDetails({
+    String? parentId,
+    int? index,
+    String? title,
+    String? url,
+  }) : _wrapped = $js.CreateDetails()
+          ..parentId = parentId
+          ..index = index
+          ..title = title
+          ..url = url;
+
   final $js.CreateDetails _wrapped;
 
   $js.CreateDetails get toJS => _wrapped;
@@ -224,6 +350,15 @@ class CreateDetails {
 class OnRemovedRemoveInfo {
   OnRemovedRemoveInfo.fromJS(this._wrapped);
 
+  OnRemovedRemoveInfo({
+    required String parentId,
+    required int index,
+    required BookmarkTreeNode node,
+  }) : _wrapped = $js.OnRemovedRemoveInfo()
+          ..parentId = parentId
+          ..index = index
+          ..node = node.toJS;
+
   final $js.OnRemovedRemoveInfo _wrapped;
 
   $js.OnRemovedRemoveInfo get toJS => _wrapped;
@@ -247,6 +382,13 @@ class OnRemovedRemoveInfo {
 class OnChangedChangeInfo {
   OnChangedChangeInfo.fromJS(this._wrapped);
 
+  OnChangedChangeInfo({
+    required String title,
+    String? url,
+  }) : _wrapped = $js.OnChangedChangeInfo()
+          ..title = title
+          ..url = url;
+
   final $js.OnChangedChangeInfo _wrapped;
 
   $js.OnChangedChangeInfo get toJS => _wrapped;
@@ -264,6 +406,17 @@ class OnChangedChangeInfo {
 
 class OnMovedMoveInfo {
   OnMovedMoveInfo.fromJS(this._wrapped);
+
+  OnMovedMoveInfo({
+    required String parentId,
+    required int index,
+    required String oldParentId,
+    required int oldIndex,
+  }) : _wrapped = $js.OnMovedMoveInfo()
+          ..parentId = parentId
+          ..index = index
+          ..oldParentId = oldParentId
+          ..oldIndex = oldIndex;
 
   final $js.OnMovedMoveInfo _wrapped;
 
@@ -293,6 +446,10 @@ class OnMovedMoveInfo {
 class OnChildrenReorderedReorderInfo {
   OnChildrenReorderedReorderInfo.fromJS(this._wrapped);
 
+  OnChildrenReorderedReorderInfo({required List<String> childIds})
+      : _wrapped = $js.OnChildrenReorderedReorderInfo()
+          ..childIds = throw UnimplementedError();
+
   final $js.OnChildrenReorderedReorderInfo _wrapped;
 
   $js.OnChildrenReorderedReorderInfo get toJS => _wrapped;
@@ -307,6 +464,14 @@ class OnChildrenReorderedReorderInfo {
 class MoveDestination {
   MoveDestination.fromJS(this._wrapped);
 
+  MoveDestination({
+    String? parentId,
+    int? index,
+  }) : _wrapped = $js.MoveDestination(
+          parentId: parentId,
+          index: index,
+        );
+
   final $js.MoveDestination _wrapped;
 
   $js.MoveDestination get toJS => _wrapped;
@@ -314,6 +479,14 @@ class MoveDestination {
 
 class UpdateChanges {
   UpdateChanges.fromJS(this._wrapped);
+
+  UpdateChanges({
+    String? title,
+    String? url,
+  }) : _wrapped = $js.UpdateChanges(
+          title: title,
+          url: url,
+        );
 
   final $js.UpdateChanges _wrapped;
 

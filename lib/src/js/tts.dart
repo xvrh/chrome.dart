@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSTtsExtension on JSChrome {
@@ -99,7 +101,7 @@ extension TtsOptionsExtension on TtsOptions {
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  external JSAny? onEvent;
+  external JFFunction? onEvent;
 }
 
 @JS()

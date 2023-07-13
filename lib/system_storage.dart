@@ -1,11 +1,14 @@
 import 'src/internal_helpers.dart';
 import 'src/js/system_storage.dart' as $js;
-export 'chrome.dart';
+import 'system.dart';
+
+export 'src/chrome.dart' show chrome;
+export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 
 final _systemStorage = ChromeSystemStorage._();
 
-extension ChromeSystemStorageExtension on Chrome {
-  ChromeSystemStorage get systemStorage => _systemStorage;
+extension ChromeSystemStorageExtension on ChromeSystem {
+  ChromeSystemStorage get storage => _systemStorage;
 }
 
 class ChromeSystemStorage {
@@ -13,16 +16,38 @@ class ChromeSystemStorage {
 
   /// Get the storage information from the system. The argument passed to the
   /// callback is an array of StorageUnitInfo objects.
-  Future<List<StorageUnitInfo>> getInfo() => throw UnimplementedError();
+  Future<List<StorageUnitInfo>> getInfo() {
+    var $completer = Completer<List<StorageUnitInfo>>();
+    $js.chrome.system.storage.getInfo((JSArray info) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Ejects a removable storage device.
-  Future<EjectDeviceResultCode> ejectDevice(String id) =>
-      throw UnimplementedError();
+  Future<EjectDeviceResultCode> ejectDevice(String id) {
+    var $completer = Completer<EjectDeviceResultCode>();
+    $js.chrome.system.storage.ejectDevice(
+      id,
+      (EjectDeviceResultCode result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Get the available capacity of a specified |id| storage device.
   /// The |id| is the transient device ID from StorageUnitInfo.
-  Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) =>
-      throw UnimplementedError();
+  Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) {
+    var $completer = Completer<StorageAvailableCapacityInfo>();
+    $js.chrome.system.storage.getAvailableCapacity(
+      id,
+      (StorageAvailableCapacityInfo info) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired when a new removable storage is attached to the system.
   Stream<StorageUnitInfo> get onAttached => throw UnimplementedError();
@@ -78,6 +103,17 @@ enum EjectDeviceResultCode {
 class StorageUnitInfo {
   StorageUnitInfo.fromJS(this._wrapped);
 
+  StorageUnitInfo({
+    required String id,
+    required String name,
+    required StorageUnitType type,
+    required double capacity,
+  }) : _wrapped = $js.StorageUnitInfo()
+          ..id = id
+          ..name = name
+          ..type = type.toJS
+          ..capacity = capacity;
+
   final $js.StorageUnitInfo _wrapped;
 
   $js.StorageUnitInfo get toJS => _wrapped;
@@ -112,6 +148,13 @@ class StorageUnitInfo {
 
 class StorageAvailableCapacityInfo {
   StorageAvailableCapacityInfo.fromJS(this._wrapped);
+
+  StorageAvailableCapacityInfo({
+    required String id,
+    required double availableCapacity,
+  }) : _wrapped = $js.StorageAvailableCapacityInfo()
+          ..id = id
+          ..availableCapacity = availableCapacity;
 
   final $js.StorageAvailableCapacityInfo _wrapped;
 

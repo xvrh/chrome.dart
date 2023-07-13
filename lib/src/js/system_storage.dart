@@ -1,13 +1,17 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSSystemStorageExtension on JSChrome {
+import 'chrome.dart';
+import 'system.dart';
+
+export 'chrome.dart';
+export 'system.dart';
+
+extension JSChromeJSSystemStorageExtension on JSChromeSystem {
   /// Use the `chrome.system.storage` API to query storage device
   /// information and be notified when a removable storage device is attached
   /// and
   /// detached.
-  external JSSystemStorage get systemStorage;
+  external JSSystemStorage get storage;
 }
 
 @JS()

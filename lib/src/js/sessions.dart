@@ -1,7 +1,9 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'tabs.dart';
 import 'windows.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSSessionsExtension on JSChrome {

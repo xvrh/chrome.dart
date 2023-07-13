@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'runtime.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/extension.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _extension = ChromeExtension._();
 
@@ -19,54 +20,94 @@ class ChromeExtension {
   Future<JSAny> sendRequest(
     String? extensionId,
     JSAny request,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.extension.sendRequest(
+      extensionId,
+      request,
+      (JSAny response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
-  String getURL(String path) => throw UnimplementedError();
+  String getURL(String path) {
+    return $js.chrome.extension.getURL(path);
+  }
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
-  List<JSObject> getViews(GetViewsFetchProperties? fetchProperties) =>
-      throw UnimplementedError();
+  List<JSObject> getViews(GetViewsFetchProperties? fetchProperties) {
+    return $js.chrome.extension
+        .getViews(fetchProperties?.toJS)
+        .toDart
+        .cast<JSObject>()
+        .map((e) => e)
+        .toList();
+  }
 
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
   /// background page.
-  JSObject? getBackgroundPage() => throw UnimplementedError();
+  JSObject? getBackgroundPage() {
+    return $js.chrome.extension.getBackgroundPage();
+  }
 
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
-  List<JSObject> getExtensionTabs(int? windowId) => throw UnimplementedError();
+  List<JSObject> getExtensionTabs(int? windowId) {
+    return $js.chrome.extension
+        .getExtensionTabs(windowId)
+        .toDart
+        .cast<JSObject>()
+        .map((e) => e)
+        .toList();
+  }
 
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
   /// setting accessible via the chrome://extensions page.
-  Future<bool> isAllowedIncognitoAccess() => throw UnimplementedError();
+  Future<bool> isAllowedIncognitoAccess() {
+    var $completer = Completer<bool>();
+    $js.chrome.extension.isAllowedIncognitoAccess((bool isAllowedAccess) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Retrieves the state of the extension's access to the 'file://' scheme.
   /// This corresponds to the user-controlled per-extension 'Allow access to
   /// File URLs' setting accessible via the chrome://extensions page.
-  Future<bool> isAllowedFileSchemeAccess() => throw UnimplementedError();
+  Future<bool> isAllowedFileSchemeAccess() {
+    var $completer = Completer<bool>();
+    $js.chrome.extension.isAllowedFileSchemeAccess((bool isAllowedAccess) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Sets the value of the ap CGI parameter used in the extension's update URL.
   ///  This value is ignored for extensions that are hosted in the Chrome
   /// Extension Gallery.
-  void setUpdateUrlData(String data) => throw UnimplementedError();
+  void setUpdateUrlData(String data) {
+    $js.chrome.extension.setUpdateUrlData(data);
+  }
 
   /// Set for the lifetime of a callback if an ansychronous extension api has
   /// resulted in an error. If no error has occured lastError will be
   /// [undefined].
   ExtensionLastError? get lastError =>
-      $js.chrome.extension.lastError as dynamic;
+      ($js.chrome.extension.lastError as dynamic);
 
   /// True for content scripts running inside incognito tabs, and for extension
   /// pages running inside an incognito process. The latter only applies to
   /// extensions with 'split' incognito_behavior.
   bool? get inIncognitoContext =>
-      $js.chrome.extension.inIncognitoContext as dynamic;
+      ($js.chrome.extension.inIncognitoContext as dynamic);
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.
@@ -94,6 +135,16 @@ enum ViewType {
 class GetViewsFetchProperties {
   GetViewsFetchProperties.fromJS(this._wrapped);
 
+  GetViewsFetchProperties({
+    ViewType? type,
+    int? windowId,
+    int? tabId,
+  }) : _wrapped = $js.GetViewsFetchProperties(
+          type: type?.toJS,
+          windowId: windowId,
+          tabId: tabId,
+        );
+
   final $js.GetViewsFetchProperties _wrapped;
 
   $js.GetViewsFetchProperties get toJS => _wrapped;
@@ -101,6 +152,9 @@ class GetViewsFetchProperties {
 
 class ExtensionLastError {
   ExtensionLastError.fromJS(this._wrapped);
+
+  ExtensionLastError({required String message})
+      : _wrapped = $js.ExtensionLastError()..message = message;
 
   final $js.ExtensionLastError _wrapped;
 
@@ -129,7 +183,7 @@ class OnRequestEvent {
   /// should be any JSON-ifiable object, or undefined if there is no response.
   /// If you have more than one `onRequest` listener in the same document, then
   /// only one may send a response.
-  final JSAny sendResponse;
+  final JFFunction sendResponse;
 }
 
 class OnRequestExternalEvent {
@@ -146,5 +200,5 @@ class OnRequestExternalEvent {
 
   /// Function to call when you have a response. The argument should be any
   /// JSON-ifiable object, or undefined if there is no response.
-  final JSAny sendResponse;
+  final JFFunction sendResponse;
 }

@@ -1,10 +1,14 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSSystemDisplayExtension on JSChrome {
+import 'chrome.dart';
+import 'system.dart';
+
+export 'chrome.dart';
+export 'system.dart';
+
+extension JSChromeJSSystemDisplayExtension on JSChromeSystem {
   /// Use the `system.display` API to query display metadata.
-  external JSSystemDisplay get systemDisplay;
+  external JSSystemDisplay get display;
 }
 
 @JS()

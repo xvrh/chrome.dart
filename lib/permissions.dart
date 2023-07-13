@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/permissions.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _permissions = ChromePermissions._();
 
@@ -12,10 +13,25 @@ class ChromePermissions {
   ChromePermissions._();
 
   /// Gets the extension's current set of permissions.
-  Future<Permissions> getAll() => throw UnimplementedError();
+  Future<Permissions> getAll() {
+    var $completer = Completer<Permissions>();
+    $js.chrome.permissions.getAll((Permissions permissions) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Checks if the extension has the specified permissions.
-  Future<bool> contains(Permissions permissions) => throw UnimplementedError();
+  Future<bool> contains(Permissions permissions) {
+    var $completer = Completer<bool>();
+    $js.chrome.permissions.contains(
+      permissions.toJS,
+      (bool result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Requests access to the specified permissions, displaying a prompt to the
   /// user if necessary. These permissions must either be defined in the
@@ -25,11 +41,29 @@ class ChromePermissions {
   /// you specify `*://*/*` in the `optional_permissions` section of the
   /// manifest, you can request `http://example.com/`. If there are any problems
   /// requesting the permissions, [runtime.lastError] will be set.
-  Future<bool> request(Permissions permissions) => throw UnimplementedError();
+  Future<bool> request(Permissions permissions) {
+    var $completer = Completer<bool>();
+    $js.chrome.permissions.request(
+      permissions.toJS,
+      (bool granted) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes access to the specified permissions. If there are any problems
   /// removing the permissions, [runtime.lastError] will be set.
-  Future<bool> remove(Permissions permissions) => throw UnimplementedError();
+  Future<bool> remove(Permissions permissions) {
+    var $completer = Completer<bool>();
+    $js.chrome.permissions.remove(
+      permissions.toJS,
+      (bool removed) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired when the extension acquires new permissions.
   Stream<Permissions> get onAdded => throw UnimplementedError();
@@ -40,6 +74,13 @@ class ChromePermissions {
 
 class Permissions {
   Permissions.fromJS(this._wrapped);
+
+  Permissions({
+    List<String>? permissions,
+    List<String>? origins,
+  }) : _wrapped = $js.Permissions()
+          ..permissions = throw UnimplementedError()
+          ..origins = throw UnimplementedError();
 
   final $js.Permissions _wrapped;
 

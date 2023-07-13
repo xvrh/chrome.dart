@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'usb.dart';
 import 'src/js/printer_provider.dart' as $js;
-export 'chrome.dart';
+import 'usb.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _printerProvider = ChromePrinterProvider._();
 
@@ -88,6 +89,15 @@ typedef PrintCallback = void Function(PrintError);
 class PrinterInfo {
   PrinterInfo.fromJS(this._wrapped);
 
+  PrinterInfo({
+    required String id,
+    required String name,
+    String? description,
+  }) : _wrapped = $js.PrinterInfo()
+          ..id = id
+          ..name = name
+          ..description = description;
+
   final $js.PrinterInfo _wrapped;
 
   $js.PrinterInfo get toJS => _wrapped;
@@ -113,6 +123,19 @@ class PrinterInfo {
 
 class PrintJob {
   PrintJob.fromJS(this._wrapped);
+
+  PrintJob({
+    required String printerId,
+    required String title,
+    required JSAny ticket,
+    required String contentType,
+    required JSObject document,
+  }) : _wrapped = $js.PrintJob()
+          ..printerId = printerId
+          ..title = title
+          ..ticket = ticket
+          ..contentType = contentType
+          ..document = document;
 
   final $js.PrintJob _wrapped;
 

@@ -1,10 +1,13 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSSystemNetworkExtension on JSChrome {
+import 'system.dart';
+
+export 'chrome.dart';
+export 'system.dart';
+
+extension JSChromeJSSystemNetworkExtension on JSChromeSystem {
   /// Use the `chrome.system.network` API.
-  external JSSystemNetwork get systemNetwork;
+  external JSSystemNetwork get network;
 }
 
 @JS()

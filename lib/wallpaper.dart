@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/wallpaper.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _wallpaper = ChromeWallpaper._();
 
@@ -13,8 +14,16 @@ class ChromeWallpaper {
 
   /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
   /// _layout_
-  Future<JSAny?> setWallpaper(SetWallpaperDetails details) =>
-      throw UnimplementedError();
+  Future<JSAny?> setWallpaper(SetWallpaperDetails details) {
+    var $completer = Completer<JSAny?>();
+    $js.chrome.wallpaper.setWallpaper(
+      details.toJS,
+      (JSAny? thumbnail) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 }
 
 /// The supported wallpaper layouts.
@@ -34,6 +43,20 @@ enum WallpaperLayout {
 
 class SetWallpaperDetails {
   SetWallpaperDetails.fromJS(this._wrapped);
+
+  SetWallpaperDetails({
+    JSAny? data,
+    String? url,
+    required WallpaperLayout layout,
+    required String filename,
+    bool? thumbnail,
+  }) : _wrapped = $js.SetWallpaperDetails(
+          data: data,
+          url: url,
+          layout: layout.toJS,
+          filename: filename,
+          thumbnail: thumbnail,
+        );
 
   final $js.SetWallpaperDetails _wrapped;
 

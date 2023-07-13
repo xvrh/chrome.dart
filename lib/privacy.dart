@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'types.dart';
 import 'src/js/privacy.dart' as $js;
-export 'chrome.dart';
+import 'types.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _privacy = ChromePrivacy._();
 
@@ -14,15 +15,15 @@ class ChromePrivacy {
 
   /// Settings that influence Chrome's handling of network connections in
   /// general.
-  PrivacyNetwork get network => $js.chrome.privacy.network as dynamic;
+  PrivacyNetwork get network => ($js.chrome.privacy.network as dynamic);
 
   /// Settings that enable or disable features that require third-party network
   /// services provided by Google and your default search provider.
-  PrivacyServices get services => $js.chrome.privacy.services as dynamic;
+  PrivacyServices get services => ($js.chrome.privacy.services as dynamic);
 
   /// Settings that determine what information Chrome makes available to
   /// websites.
-  PrivacyWebsites get websites => $js.chrome.privacy.websites as dynamic;
+  PrivacyWebsites get websites => ($js.chrome.privacy.websites as dynamic);
 }
 
 /// The IP handling policy of WebRTC.
@@ -43,6 +44,13 @@ enum IPHandlingPolicy {
 
 class PrivacyNetwork {
   PrivacyNetwork.fromJS(this._wrapped);
+
+  PrivacyNetwork({
+    required ChromeSetting networkPredictionEnabled,
+    required ChromeSetting webRTCIPHandlingPolicy,
+  }) : _wrapped = $js.PrivacyNetwork()
+          ..networkPredictionEnabled = networkPredictionEnabled.toJS
+          ..webRTCIPHandlingPolicy = webRTCIPHandlingPolicy.toJS;
 
   final $js.PrivacyNetwork _wrapped;
 
@@ -73,6 +81,30 @@ class PrivacyNetwork {
 
 class PrivacyServices {
   PrivacyServices.fromJS(this._wrapped);
+
+  PrivacyServices({
+    required ChromeSetting alternateErrorPagesEnabled,
+    required ChromeSetting autofillEnabled,
+    required ChromeSetting autofillAddressEnabled,
+    required ChromeSetting autofillCreditCardEnabled,
+    required ChromeSetting passwordSavingEnabled,
+    required ChromeSetting safeBrowsingEnabled,
+    required ChromeSetting safeBrowsingExtendedReportingEnabled,
+    required ChromeSetting searchSuggestEnabled,
+    required ChromeSetting spellingServiceEnabled,
+    required ChromeSetting translationServiceEnabled,
+  }) : _wrapped = $js.PrivacyServices()
+          ..alternateErrorPagesEnabled = alternateErrorPagesEnabled.toJS
+          ..autofillEnabled = autofillEnabled.toJS
+          ..autofillAddressEnabled = autofillAddressEnabled.toJS
+          ..autofillCreditCardEnabled = autofillCreditCardEnabled.toJS
+          ..passwordSavingEnabled = passwordSavingEnabled.toJS
+          ..safeBrowsingEnabled = safeBrowsingEnabled.toJS
+          ..safeBrowsingExtendedReportingEnabled =
+              safeBrowsingExtendedReportingEnabled.toJS
+          ..searchSuggestEnabled = searchSuggestEnabled.toJS
+          ..spellingServiceEnabled = spellingServiceEnabled.toJS
+          ..translationServiceEnabled = translationServiceEnabled.toJS;
 
   final $js.PrivacyServices _wrapped;
 
@@ -164,6 +196,27 @@ class PrivacyServices {
 
 class PrivacyWebsites {
   PrivacyWebsites.fromJS(this._wrapped);
+
+  PrivacyWebsites({
+    required ChromeSetting thirdPartyCookiesAllowed,
+    required ChromeSetting privacySandboxEnabled,
+    required ChromeSetting topicsEnabled,
+    required ChromeSetting fledgeEnabled,
+    required ChromeSetting adMeasurementEnabled,
+    required ChromeSetting hyperlinkAuditingEnabled,
+    required ChromeSetting referrersEnabled,
+    required ChromeSetting doNotTrackEnabled,
+    required ChromeSetting protectedContentEnabled,
+  }) : _wrapped = $js.PrivacyWebsites()
+          ..thirdPartyCookiesAllowed = thirdPartyCookiesAllowed.toJS
+          ..privacySandboxEnabled = privacySandboxEnabled.toJS
+          ..topicsEnabled = topicsEnabled.toJS
+          ..fledgeEnabled = fledgeEnabled.toJS
+          ..adMeasurementEnabled = adMeasurementEnabled.toJS
+          ..hyperlinkAuditingEnabled = hyperlinkAuditingEnabled.toJS
+          ..referrersEnabled = referrersEnabled.toJS
+          ..doNotTrackEnabled = doNotTrackEnabled.toJS
+          ..protectedContentEnabled = protectedContentEnabled.toJS;
 
   final $js.PrivacyWebsites _wrapped;
 

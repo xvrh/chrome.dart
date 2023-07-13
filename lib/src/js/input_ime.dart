@@ -1,12 +1,16 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSInputImeExtension on JSChrome {
+import 'chrome.dart';
+import 'input.dart';
+
+export 'chrome.dart';
+export 'input.dart';
+
+extension JSChromeJSInputImeExtension on JSChromeInput {
   /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
   /// This allows your extension to handle keystrokes, set the composition, and
   /// manage the candidate window.
-  external JSInputIme get inputIme;
+  external JSInputIme get ime;
 }
 
 @JS()

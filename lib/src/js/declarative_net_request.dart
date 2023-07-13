@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'extension_types.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeNetRequestExtension on JSChrome {

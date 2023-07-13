@@ -1,10 +1,13 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSSystemCpuExtension on JSChrome {
+import 'system.dart';
+
+export 'chrome.dart';
+export 'system.dart';
+
+extension JSChromeJSSystemCpuExtension on JSChromeSystem {
   /// Use the `system.cpu` API to query CPU metadata.
-  external JSSystemCpu get systemCpu;
+  external JSSystemCpu get cpu;
 }
 
 @JS()

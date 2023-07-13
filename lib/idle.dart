@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/idle.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _idle = ChromeIdle._();
 
@@ -16,19 +17,26 @@ class ChromeIdle {
   /// otherwise.
   void queryState(
     int detectionIntervalInSeconds,
-    JSAny callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction callback,
+  ) {
+    $js.chrome.idle.queryState(
+      detectionIntervalInSeconds,
+      callback,
+    );
+  }
 
   /// Sets the interval, in seconds, used to determine when the system is in an
   /// idle state for onStateChanged events. The default interval is 60 seconds.
-  void setDetectionInterval(int intervalInSeconds) =>
-      throw UnimplementedError();
+  void setDetectionInterval(int intervalInSeconds) {
+    $js.chrome.idle.setDetectionInterval(intervalInSeconds);
+  }
 
   /// Gets the time, in seconds, it takes until the screen is locked
   /// automatically while idle. Returns a zero duration if the screen is never
   /// locked automatically. Currently supported on Chrome OS only.
-  void getAutoLockDelay(JSAny callback) => throw UnimplementedError();
+  void getAutoLockDelay(JFFunction callback) {
+    $js.chrome.idle.getAutoLockDelay(callback);
+  }
 
   /// Fired when the system changes to an active, idle or locked state. The
   /// event fires with "locked" if the screen is locked or the screensaver

@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/debugger.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _debugger = ChromeDebugger._();
 
@@ -15,22 +16,56 @@ class ChromeDebugger {
   Future<void> attach(
     Debuggee target,
     String requiredVersion,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.debugger.attach(
+      target.toJS,
+      requiredVersion,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Detaches debugger from the given target.
-  Future<void> detach(Debuggee target) => throw UnimplementedError();
+  Future<void> detach(Debuggee target) {
+    var $completer = Completer<void>();
+    $js.chrome.debugger.detach(
+      target.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sends given command to the debugging target.
   Future<JSAny?> sendCommand(
     Debuggee target,
     String method,
     JSAny? commandParams,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny?>();
+    $js.chrome.debugger.sendCommand(
+      target.toJS,
+      method,
+      commandParams,
+      (JSAny? result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the list of available debug targets.
-  Future<List<TargetInfo>> getTargets() => throw UnimplementedError();
+  Future<List<TargetInfo>> getTargets() {
+    var $completer = Completer<List<TargetInfo>>();
+    $js.chrome.debugger.getTargets((JSArray result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired whenever debugging target issues instrumentation event.
   Stream<OnEventEvent> get onEvent => throw UnimplementedError();
@@ -74,6 +109,15 @@ enum DetachReason {
 class Debuggee {
   Debuggee.fromJS(this._wrapped);
 
+  Debuggee({
+    int? tabId,
+    String? extensionId,
+    String? targetId,
+  }) : _wrapped = $js.Debuggee()
+          ..tabId = tabId
+          ..extensionId = extensionId
+          ..targetId = targetId;
+
   final $js.Debuggee _wrapped;
 
   $js.Debuggee get toJS => _wrapped;
@@ -101,6 +145,25 @@ class Debuggee {
 
 class TargetInfo {
   TargetInfo.fromJS(this._wrapped);
+
+  TargetInfo({
+    required TargetInfoType type,
+    required String id,
+    int? tabId,
+    String? extensionId,
+    required bool attached,
+    required String title,
+    required String url,
+    String? faviconUrl,
+  }) : _wrapped = $js.TargetInfo()
+          ..type = type.toJS
+          ..id = id
+          ..tabId = tabId
+          ..extensionId = extensionId
+          ..attached = attached
+          ..title = title
+          ..url = url
+          ..faviconUrl = faviconUrl;
 
   final $js.TargetInfo _wrapped;
 

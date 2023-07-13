@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/cookies.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _cookies = ChromeCookies._();
 
@@ -15,25 +16,65 @@ class ChromeCookies {
   /// the same name exists for the given URL, the one with the longest path will
   /// be returned. For cookies with the same path length, the cookie with the
   /// earliest creation time will be returned.
-  Future<Cookie?> get(CookieDetails details) => throw UnimplementedError();
+  Future<Cookie?> get(CookieDetails details) {
+    var $completer = Completer<Cookie?>();
+    $js.chrome.cookies.get(
+      details.toJS,
+      (Cookie? cookie) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves all cookies from a single cookie store that match the given
   /// information.  The cookies returned will be sorted, with those with the
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
-  Future<List<Cookie>> getAll(GetAllDetails details) =>
-      throw UnimplementedError();
+  Future<List<Cookie>> getAll(GetAllDetails details) {
+    var $completer = Completer<List<Cookie>>();
+    $js.chrome.cookies.getAll(
+      details.toJS,
+      (JSArray cookies) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
-  Future<Cookie?> set(SetDetails details) => throw UnimplementedError();
+  Future<Cookie?> set(SetDetails details) {
+    var $completer = Completer<Cookie?>();
+    $js.chrome.cookies.set(
+      details.toJS,
+      (Cookie? cookie) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Deletes a cookie by name.
-  Future<RemoveCallbackDetails?> remove(CookieDetails details) =>
-      throw UnimplementedError();
+  Future<RemoveCallbackDetails?> remove(CookieDetails details) {
+    var $completer = Completer<RemoveCallbackDetails?>();
+    $js.chrome.cookies.remove(
+      details.toJS,
+      (RemoveCallbackDetails? details) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Lists all existing cookie stores.
-  Future<List<CookieStore>> getAllCookieStores() => throw UnimplementedError();
+  Future<List<CookieStore>> getAllCookieStores() {
+    var $completer = Completer<List<CookieStore>>();
+    $js.chrome.cookies.getAllCookieStores((JSArray cookieStores) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired when a cookie is set or removed. As a special case, note that
   /// updating a cookie's properties is implemented as a two step process: the
@@ -91,6 +132,31 @@ enum OnChangedCause {
 
 class Cookie {
   Cookie.fromJS(this._wrapped);
+
+  Cookie({
+    required String name,
+    required String value,
+    required String domain,
+    required bool hostOnly,
+    required String path,
+    required bool secure,
+    required bool httpOnly,
+    required SameSiteStatus sameSite,
+    required bool session,
+    double? expirationDate,
+    required String storeId,
+  }) : _wrapped = $js.Cookie()
+          ..name = name
+          ..value = value
+          ..domain = domain
+          ..hostOnly = hostOnly
+          ..path = path
+          ..secure = secure
+          ..httpOnly = httpOnly
+          ..sameSite = sameSite.toJS
+          ..session = session
+          ..expirationDate = expirationDate
+          ..storeId = storeId;
 
   final $js.Cookie _wrapped;
 
@@ -173,6 +239,13 @@ class Cookie {
 class CookieStore {
   CookieStore.fromJS(this._wrapped);
 
+  CookieStore({
+    required String id,
+    required List<int> tabIds,
+  }) : _wrapped = $js.CookieStore()
+          ..id = id
+          ..tabIds = throw UnimplementedError();
+
   final $js.CookieStore _wrapped;
 
   $js.CookieStore get toJS => _wrapped;
@@ -193,6 +266,15 @@ class CookieStore {
 
 class CookieDetails {
   CookieDetails.fromJS(this._wrapped);
+
+  CookieDetails({
+    required String url,
+    required String name,
+    String? storeId,
+  }) : _wrapped = $js.CookieDetails()
+          ..url = url
+          ..name = name
+          ..storeId = storeId;
 
   final $js.CookieDetails _wrapped;
 
@@ -224,6 +306,15 @@ class CookieDetails {
 class OnChangedChangeInfo {
   OnChangedChangeInfo.fromJS(this._wrapped);
 
+  OnChangedChangeInfo({
+    required bool removed,
+    required Cookie cookie,
+    required OnChangedCause cause,
+  }) : _wrapped = $js.OnChangedChangeInfo()
+          ..removed = removed
+          ..cookie = cookie.toJS
+          ..cause = cause.toJS;
+
   final $js.OnChangedChangeInfo _wrapped;
 
   $js.OnChangedChangeInfo get toJS => _wrapped;
@@ -250,6 +341,24 @@ class OnChangedChangeInfo {
 class GetAllDetails {
   GetAllDetails.fromJS(this._wrapped);
 
+  GetAllDetails({
+    String? url,
+    String? name,
+    String? domain,
+    String? path,
+    bool? secure,
+    bool? session,
+    String? storeId,
+  }) : _wrapped = $js.GetAllDetails(
+          url: url,
+          name: name,
+          domain: domain,
+          path: path,
+          secure: secure,
+          session: session,
+          storeId: storeId,
+        );
+
   final $js.GetAllDetails _wrapped;
 
   $js.GetAllDetails get toJS => _wrapped;
@@ -258,6 +367,30 @@ class GetAllDetails {
 class SetDetails {
   SetDetails.fromJS(this._wrapped);
 
+  SetDetails({
+    required String url,
+    String? name,
+    String? value,
+    String? domain,
+    String? path,
+    bool? secure,
+    bool? httpOnly,
+    SameSiteStatus? sameSite,
+    double? expirationDate,
+    String? storeId,
+  }) : _wrapped = $js.SetDetails(
+          url: url,
+          name: name,
+          value: value,
+          domain: domain,
+          path: path,
+          secure: secure,
+          httpOnly: httpOnly,
+          sameSite: sameSite?.toJS,
+          expirationDate: expirationDate,
+          storeId: storeId,
+        );
+
   final $js.SetDetails _wrapped;
 
   $js.SetDetails get toJS => _wrapped;
@@ -265,6 +398,15 @@ class SetDetails {
 
 class RemoveCallbackDetails {
   RemoveCallbackDetails.fromJS(this._wrapped);
+
+  RemoveCallbackDetails({
+    required String url,
+    required String name,
+    required String storeId,
+  }) : _wrapped = $js.RemoveCallbackDetails()
+          ..url = url
+          ..name = name
+          ..storeId = storeId;
 
   final $js.RemoveCallbackDetails _wrapped;
 

@@ -1,11 +1,13 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSI18nExtension on JSChrome {
   /// Use the `chrome.i18n` infrastructure to implement internationalization
   /// across your whole app or extension.
-  external JSI18n get i18N;
+  external JSI18n get i18n;
 }
 
 @JS()

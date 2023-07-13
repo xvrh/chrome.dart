@@ -1,9 +1,10 @@
-import 'src/internal_helpers.dart';
-import 'runtime.dart';
-import 'windows.dart';
 import 'extension_types.dart';
+import 'runtime.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/tabs.dart' as $js;
-export 'chrome.dart';
+import 'windows.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _tabs = ChromeTabs._();
 
@@ -15,12 +16,27 @@ class ChromeTabs {
   ChromeTabs._();
 
   /// Retrieves details about the specified tab.
-  Future<Tab> get(int tabId) => throw UnimplementedError();
+  Future<Tab> get(int tabId) {
+    var $completer = Completer<Tab>();
+    $js.chrome.tabs.get(
+      tabId,
+      (Tab tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
   /// view).
-  Future<Tab?> getCurrent() => throw UnimplementedError();
+  Future<Tab?> getCurrent() {
+    var $completer = Completer<Tab?>();
+    $js.chrome.tabs.getCurrent((Tab? tab) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Connects to the content script(s) in the specified tab. The
   /// [runtime.onConnect] event is fired in each content script running in the
@@ -29,8 +45,12 @@ class ChromeTabs {
   Port connect(
     int tabId,
     ConnectInfo? connectInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    return Port.fromJS($js.chrome.tabs.connect(
+      tabId,
+      connectInfo?.toJS,
+    ));
+  }
 
   /// Sends a single request to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
@@ -39,8 +59,17 @@ class ChromeTabs {
   Future<JSAny> sendRequest(
     int tabId,
     JSAny request,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.tabs.sendRequest(
+      tabId,
+      request,
+      (JSAny response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sends a single message to the content script(s) in the specified tab, with
   /// an optional callback to run when a response is sent back.  The
@@ -50,38 +79,109 @@ class ChromeTabs {
     int tabId,
     JSAny message,
     SendMessageOptions? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.tabs.sendMessage(
+      tabId,
+      message,
+      options?.toJS,
+      (JSAny response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the tab that is selected in the specified window.
-  Future<Tab> getSelected(int? windowId) => throw UnimplementedError();
+  Future<Tab> getSelected(int? windowId) {
+    var $completer = Completer<Tab>();
+    $js.chrome.tabs.getSelected(
+      windowId,
+      (Tab tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets details about all tabs in the specified window.
-  Future<List<Tab>> getAllInWindow(int? windowId) => throw UnimplementedError();
+  Future<List<Tab>> getAllInWindow(int? windowId) {
+    var $completer = Completer<List<Tab>>();
+    $js.chrome.tabs.getAllInWindow(
+      windowId,
+      (JSArray tabs) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Creates a new tab.
-  Future<Tab> create(CreateProperties createProperties) =>
-      throw UnimplementedError();
+  Future<Tab> create(CreateProperties createProperties) {
+    var $completer = Completer<Tab>();
+    $js.chrome.tabs.create(
+      createProperties.toJS,
+      (Tab tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Duplicates a tab.
-  Future<Tab?> duplicate(int tabId) => throw UnimplementedError();
+  Future<Tab?> duplicate(int tabId) {
+    var $completer = Completer<Tab?>();
+    $js.chrome.tabs.duplicate(
+      tabId,
+      (Tab? tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
-  Future<List<Tab>> query(QueryInfo queryInfo) => throw UnimplementedError();
+  Future<List<Tab>> query(QueryInfo queryInfo) {
+    var $completer = Completer<List<Tab>>();
+    $js.chrome.tabs.query(
+      queryInfo.toJS,
+      (JSArray result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Highlights the given tabs and focuses on the first of group. Will appear
   /// to do nothing if the specified tab is currently active.
-  Future<Window> highlight(HighlightInfo highlightInfo) =>
-      throw UnimplementedError();
+  Future<Window> highlight(HighlightInfo highlightInfo) {
+    var $completer = Completer<Window>();
+    $js.chrome.tabs.highlight(
+      highlightInfo.toJS,
+      (Window window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Modifies the properties of a tab. Properties that are not specified in
   /// [updateProperties] are not modified.
   Future<Tab?> update(
     int? tabId,
     UpdateProperties updateProperties,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<Tab?>();
+    $js.chrome.tabs.update(
+      tabId,
+      updateProperties.toJS,
+      (Tab? tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
@@ -89,29 +189,83 @@ class ChromeTabs {
   Future<JSAny> move(
     JSAny tabIds,
     MoveProperties moveProperties,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.tabs.move(
+      tabIds,
+      moveProperties.toJS,
+      (JSAny tabs) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Reload a tab.
   Future<void> reload(
     int? tabId,
     ReloadProperties? reloadProperties,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.reload(
+      tabId,
+      reloadProperties?.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Closes one or more tabs.
-  Future<void> remove(JSAny tabIds) => throw UnimplementedError();
+  Future<void> remove(JSAny tabIds) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.remove(
+      tabIds,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
-  Future<int> group(GroupOptions options) => throw UnimplementedError();
+  Future<int> group(GroupOptions options) {
+    var $completer = Completer<int>();
+    $js.chrome.tabs.group(
+      options.toJS,
+      (int groupId) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
-  Future<void> ungroup(JSAny tabIds) => throw UnimplementedError();
+  Future<void> ungroup(JSAny tabIds) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.ungroup(
+      tabIds,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Detects the primary language of the content in a tab.
-  Future<String> detectLanguage(int? tabId) => throw UnimplementedError();
+  Future<String> detectLanguage(int? tabId) {
+    var $completer = Completer<String>();
+    $js.chrome.tabs.detectLanguage(
+      tabId,
+      (String language) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Captures the visible area of the currently active tab in the specified
   /// window. In order to call this method, the extension must have either the
@@ -125,16 +279,34 @@ class ChromeTabs {
   Future<String> captureVisibleTab(
     int? windowId,
     ImageDetails? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<String>();
+    $js.chrome.tabs.captureVisibleTab(
+      windowId,
+      options?.toJS,
+      (String dataUrl) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Injects JavaScript code into a page. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
   Future<List<JSAny>?> executeScript(
     int? tabId,
     InjectDetails details,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<List<JSAny>?>();
+    $js.chrome.tabs.executeScript(
+      tabId,
+      details.toJS,
+      (JSArray? result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with [scripting.removeCSS]. For details, see the [programmatic
@@ -142,57 +314,137 @@ class ChromeTabs {
   Future<void> insertCSS(
     int? tabId,
     InjectDetails details,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.insertCSS(
+      tabId,
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes from a page CSS that was previously injected by a call to
   /// [scripting.insertCSS].
   Future<void> removeCSS(
     int? tabId,
     DeleteInjectionDetails details,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.removeCSS(
+      tabId,
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Zooms a specified tab.
   Future<void> setZoom(
     int? tabId,
     double zoomFactor,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.setZoom(
+      tabId,
+      zoomFactor,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the current zoom factor of a specified tab.
-  Future<double> getZoom(int? tabId) => throw UnimplementedError();
+  Future<double> getZoom(int? tabId) {
+    var $completer = Completer<double>();
+    $js.chrome.tabs.getZoom(
+      tabId,
+      (double zoomFactor) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
   Future<void> setZoomSettings(
     int? tabId,
     ZoomSettings zoomSettings,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.setZoomSettings(
+      tabId,
+      zoomSettings.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the current zoom settings of a specified tab.
-  Future<ZoomSettings> getZoomSettings(int? tabId) =>
-      throw UnimplementedError();
+  Future<ZoomSettings> getZoomSettings(int? tabId) {
+    var $completer = Completer<ZoomSettings>();
+    $js.chrome.tabs.getZoomSettings(
+      tabId,
+      (ZoomSettings zoomSettings) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
-  Future<Tab?> discard(int? tabId) => throw UnimplementedError();
+  Future<Tab?> discard(int? tabId) {
+    var $completer = Completer<Tab?>();
+    $js.chrome.tabs.discard(
+      tabId,
+      (Tab? tab) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Go foward to the next page, if one is available.
-  Future<void> goForward(int? tabId) => throw UnimplementedError();
+  Future<void> goForward(int? tabId) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.goForward(
+      tabId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Go back to the previous page, if one is available.
-  Future<void> goBack(int? tabId) => throw UnimplementedError();
+  Future<void> goBack(int? tabId) {
+    var $completer = Completer<void>();
+    $js.chrome.tabs.goBack(
+      tabId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// The maximum number of times that [captureVisibleTab] can be called per
   /// second. [captureVisibleTab] is expensive and should not be called too
   /// often.
   int get maxCaptureVisibleTabCallsPerSecond =>
-      $js.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND as dynamic;
+      ($js.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND as dynamic);
 
   /// An ID that represents the absence of a browser tab.
-  int get tabIdNone => $js.chrome.tabs.TAB_ID_NONE as dynamic;
+  int get tabIdNone => ($js.chrome.tabs.TAB_ID_NONE as dynamic);
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can
@@ -360,6 +612,15 @@ enum WindowType {
 class MutedInfo {
   MutedInfo.fromJS(this._wrapped);
 
+  MutedInfo({
+    required bool muted,
+    MutedInfoReason? reason,
+    String? extensionId,
+  }) : _wrapped = $js.MutedInfo()
+          ..muted = muted
+          ..reason = reason?.toJS
+          ..extensionId = extensionId;
+
   final $js.MutedInfo _wrapped;
 
   $js.MutedInfo get toJS => _wrapped;
@@ -389,6 +650,53 @@ class MutedInfo {
 
 class Tab {
   Tab.fromJS(this._wrapped);
+
+  Tab({
+    int? id,
+    required int index,
+    required int groupId,
+    required int windowId,
+    int? openerTabId,
+    required bool selected,
+    required bool highlighted,
+    required bool active,
+    required bool pinned,
+    bool? audible,
+    required bool discarded,
+    required bool autoDiscardable,
+    MutedInfo? mutedInfo,
+    String? url,
+    String? pendingUrl,
+    String? title,
+    String? favIconUrl,
+    TabStatus? status,
+    required bool incognito,
+    int? width,
+    int? height,
+    String? sessionId,
+  }) : _wrapped = $js.Tab()
+          ..id = id
+          ..index = index
+          ..groupId = groupId
+          ..windowId = windowId
+          ..openerTabId = openerTabId
+          ..selected = selected
+          ..highlighted = highlighted
+          ..active = active
+          ..pinned = pinned
+          ..audible = audible
+          ..discarded = discarded
+          ..autoDiscardable = autoDiscardable
+          ..mutedInfo = mutedInfo?.toJS
+          ..url = url
+          ..pendingUrl = pendingUrl
+          ..title = title
+          ..favIconUrl = favIconUrl
+          ..status = status?.toJS
+          ..incognito = incognito
+          ..width = width
+          ..height = height
+          ..sessionId = sessionId;
 
   final $js.Tab _wrapped;
 
@@ -550,6 +858,15 @@ class Tab {
 class ZoomSettings {
   ZoomSettings.fromJS(this._wrapped);
 
+  ZoomSettings({
+    ZoomSettingsMode? mode,
+    ZoomSettingsScope? scope,
+    double? defaultZoomFactor,
+  }) : _wrapped = $js.ZoomSettings()
+          ..mode = mode?.toJS
+          ..scope = scope?.toJS
+          ..defaultZoomFactor = defaultZoomFactor;
+
   final $js.ZoomSettings _wrapped;
 
   $js.ZoomSettings get toJS => _wrapped;
@@ -579,6 +896,29 @@ class ZoomSettings {
 
 class OnUpdatedChangeInfo {
   OnUpdatedChangeInfo.fromJS(this._wrapped);
+
+  OnUpdatedChangeInfo({
+    TabStatus? status,
+    String? url,
+    int? groupId,
+    bool? pinned,
+    bool? audible,
+    bool? discarded,
+    bool? autoDiscardable,
+    MutedInfo? mutedInfo,
+    String? favIconUrl,
+    String? title,
+  }) : _wrapped = $js.OnUpdatedChangeInfo()
+          ..status = status?.toJS
+          ..url = url
+          ..groupId = groupId
+          ..pinned = pinned
+          ..audible = audible
+          ..discarded = discarded
+          ..autoDiscardable = autoDiscardable
+          ..mutedInfo = mutedInfo?.toJS
+          ..favIconUrl = favIconUrl
+          ..title = title;
 
   final $js.OnUpdatedChangeInfo _wrapped;
 
@@ -648,6 +988,15 @@ class OnUpdatedChangeInfo {
 class OnMovedMoveInfo {
   OnMovedMoveInfo.fromJS(this._wrapped);
 
+  OnMovedMoveInfo({
+    required int windowId,
+    required int fromIndex,
+    required int toIndex,
+  }) : _wrapped = $js.OnMovedMoveInfo()
+          ..windowId = windowId
+          ..fromIndex = fromIndex
+          ..toIndex = toIndex;
+
   final $js.OnMovedMoveInfo _wrapped;
 
   $js.OnMovedMoveInfo get toJS => _wrapped;
@@ -671,6 +1020,9 @@ class OnMovedMoveInfo {
 class OnSelectionChangedSelectInfo {
   OnSelectionChangedSelectInfo.fromJS(this._wrapped);
 
+  OnSelectionChangedSelectInfo({required int windowId})
+      : _wrapped = $js.OnSelectionChangedSelectInfo()..windowId = windowId;
+
   final $js.OnSelectionChangedSelectInfo _wrapped;
 
   $js.OnSelectionChangedSelectInfo get toJS => _wrapped;
@@ -685,6 +1037,9 @@ class OnSelectionChangedSelectInfo {
 class OnActiveChangedSelectInfo {
   OnActiveChangedSelectInfo.fromJS(this._wrapped);
 
+  OnActiveChangedSelectInfo({required int windowId})
+      : _wrapped = $js.OnActiveChangedSelectInfo()..windowId = windowId;
+
   final $js.OnActiveChangedSelectInfo _wrapped;
 
   $js.OnActiveChangedSelectInfo get toJS => _wrapped;
@@ -698,6 +1053,13 @@ class OnActiveChangedSelectInfo {
 
 class OnActivatedActiveInfo {
   OnActivatedActiveInfo.fromJS(this._wrapped);
+
+  OnActivatedActiveInfo({
+    required int tabId,
+    required int windowId,
+  }) : _wrapped = $js.OnActivatedActiveInfo()
+          ..tabId = tabId
+          ..windowId = windowId;
 
   final $js.OnActivatedActiveInfo _wrapped;
 
@@ -718,6 +1080,13 @@ class OnActivatedActiveInfo {
 
 class OnHighlightChangedSelectInfo {
   OnHighlightChangedSelectInfo.fromJS(this._wrapped);
+
+  OnHighlightChangedSelectInfo({
+    required int windowId,
+    required List<int> tabIds,
+  }) : _wrapped = $js.OnHighlightChangedSelectInfo()
+          ..windowId = windowId
+          ..tabIds = throw UnimplementedError();
 
   final $js.OnHighlightChangedSelectInfo _wrapped;
 
@@ -740,6 +1109,13 @@ class OnHighlightChangedSelectInfo {
 class OnHighlightedHighlightInfo {
   OnHighlightedHighlightInfo.fromJS(this._wrapped);
 
+  OnHighlightedHighlightInfo({
+    required int windowId,
+    required List<int> tabIds,
+  }) : _wrapped = $js.OnHighlightedHighlightInfo()
+          ..windowId = windowId
+          ..tabIds = throw UnimplementedError();
+
   final $js.OnHighlightedHighlightInfo _wrapped;
 
   $js.OnHighlightedHighlightInfo get toJS => _wrapped;
@@ -761,6 +1137,13 @@ class OnHighlightedHighlightInfo {
 class OnDetachedDetachInfo {
   OnDetachedDetachInfo.fromJS(this._wrapped);
 
+  OnDetachedDetachInfo({
+    required int oldWindowId,
+    required int oldPosition,
+  }) : _wrapped = $js.OnDetachedDetachInfo()
+          ..oldWindowId = oldWindowId
+          ..oldPosition = oldPosition;
+
   final $js.OnDetachedDetachInfo _wrapped;
 
   $js.OnDetachedDetachInfo get toJS => _wrapped;
@@ -779,6 +1162,13 @@ class OnDetachedDetachInfo {
 class OnAttachedAttachInfo {
   OnAttachedAttachInfo.fromJS(this._wrapped);
 
+  OnAttachedAttachInfo({
+    required int newWindowId,
+    required int newPosition,
+  }) : _wrapped = $js.OnAttachedAttachInfo()
+          ..newWindowId = newWindowId
+          ..newPosition = newPosition;
+
   final $js.OnAttachedAttachInfo _wrapped;
 
   $js.OnAttachedAttachInfo get toJS => _wrapped;
@@ -796,6 +1186,13 @@ class OnAttachedAttachInfo {
 
 class OnRemovedRemoveInfo {
   OnRemovedRemoveInfo.fromJS(this._wrapped);
+
+  OnRemovedRemoveInfo({
+    required int windowId,
+    required bool isWindowClosing,
+  }) : _wrapped = $js.OnRemovedRemoveInfo()
+          ..windowId = windowId
+          ..isWindowClosing = isWindowClosing;
 
   final $js.OnRemovedRemoveInfo _wrapped;
 
@@ -816,6 +1213,17 @@ class OnRemovedRemoveInfo {
 
 class OnZoomChangeZoomChangeInfo {
   OnZoomChangeZoomChangeInfo.fromJS(this._wrapped);
+
+  OnZoomChangeZoomChangeInfo({
+    required int tabId,
+    required double oldZoomFactor,
+    required double newZoomFactor,
+    required ZoomSettings zoomSettings,
+  }) : _wrapped = $js.OnZoomChangeZoomChangeInfo()
+          ..tabId = tabId
+          ..oldZoomFactor = oldZoomFactor
+          ..newZoomFactor = newZoomFactor
+          ..zoomSettings = zoomSettings.toJS;
 
   final $js.OnZoomChangeZoomChangeInfo _wrapped;
 
@@ -845,6 +1253,16 @@ class OnZoomChangeZoomChangeInfo {
 class ConnectInfo {
   ConnectInfo.fromJS(this._wrapped);
 
+  ConnectInfo({
+    String? name,
+    int? frameId,
+    String? documentId,
+  }) : _wrapped = $js.ConnectInfo(
+          name: name,
+          frameId: frameId,
+          documentId: documentId,
+        );
+
   final $js.ConnectInfo _wrapped;
 
   $js.ConnectInfo get toJS => _wrapped;
@@ -852,6 +1270,14 @@ class ConnectInfo {
 
 class SendMessageOptions {
   SendMessageOptions.fromJS(this._wrapped);
+
+  SendMessageOptions({
+    int? frameId,
+    String? documentId,
+  }) : _wrapped = $js.SendMessageOptions(
+          frameId: frameId,
+          documentId: documentId,
+        );
 
   final $js.SendMessageOptions _wrapped;
 
@@ -861,6 +1287,24 @@ class SendMessageOptions {
 class CreateProperties {
   CreateProperties.fromJS(this._wrapped);
 
+  CreateProperties({
+    int? windowId,
+    int? index,
+    String? url,
+    bool? active,
+    bool? selected,
+    bool? pinned,
+    int? openerTabId,
+  }) : _wrapped = $js.CreateProperties(
+          windowId: windowId,
+          index: index,
+          url: url,
+          active: active,
+          selected: selected,
+          pinned: pinned,
+          openerTabId: openerTabId,
+        );
+
   final $js.CreateProperties _wrapped;
 
   $js.CreateProperties get toJS => _wrapped;
@@ -868,6 +1312,42 @@ class CreateProperties {
 
 class QueryInfo {
   QueryInfo.fromJS(this._wrapped);
+
+  QueryInfo({
+    bool? active,
+    bool? pinned,
+    bool? audible,
+    bool? muted,
+    bool? highlighted,
+    bool? discarded,
+    bool? autoDiscardable,
+    bool? currentWindow,
+    bool? lastFocusedWindow,
+    TabStatus? status,
+    String? title,
+    JSAny? url,
+    int? groupId,
+    int? windowId,
+    WindowType? windowType,
+    int? index,
+  }) : _wrapped = $js.QueryInfo(
+          active: active,
+          pinned: pinned,
+          audible: audible,
+          muted: muted,
+          highlighted: highlighted,
+          discarded: discarded,
+          autoDiscardable: autoDiscardable,
+          currentWindow: currentWindow,
+          lastFocusedWindow: lastFocusedWindow,
+          status: status?.toJS,
+          title: title,
+          url: url,
+          groupId: groupId,
+          windowId: windowId,
+          windowType: windowType?.toJS,
+          index: index,
+        );
 
   final $js.QueryInfo _wrapped;
 
@@ -877,6 +1357,14 @@ class QueryInfo {
 class HighlightInfo {
   HighlightInfo.fromJS(this._wrapped);
 
+  HighlightInfo({
+    int? windowId,
+    required JSAny tabs,
+  }) : _wrapped = $js.HighlightInfo(
+          windowId: windowId,
+          tabs: tabs,
+        );
+
   final $js.HighlightInfo _wrapped;
 
   $js.HighlightInfo get toJS => _wrapped;
@@ -884,6 +1372,26 @@ class HighlightInfo {
 
 class UpdateProperties {
   UpdateProperties.fromJS(this._wrapped);
+
+  UpdateProperties({
+    String? url,
+    bool? active,
+    bool? highlighted,
+    bool? selected,
+    bool? pinned,
+    bool? muted,
+    int? openerTabId,
+    bool? autoDiscardable,
+  }) : _wrapped = $js.UpdateProperties(
+          url: url,
+          active: active,
+          highlighted: highlighted,
+          selected: selected,
+          pinned: pinned,
+          muted: muted,
+          openerTabId: openerTabId,
+          autoDiscardable: autoDiscardable,
+        );
 
   final $js.UpdateProperties _wrapped;
 
@@ -893,6 +1401,14 @@ class UpdateProperties {
 class MoveProperties {
   MoveProperties.fromJS(this._wrapped);
 
+  MoveProperties({
+    int? windowId,
+    required int index,
+  }) : _wrapped = $js.MoveProperties(
+          windowId: windowId,
+          index: index,
+        );
+
   final $js.MoveProperties _wrapped;
 
   $js.MoveProperties get toJS => _wrapped;
@@ -900,6 +1416,9 @@ class MoveProperties {
 
 class ReloadProperties {
   ReloadProperties.fromJS(this._wrapped);
+
+  ReloadProperties({bool? bypassCache})
+      : _wrapped = $js.ReloadProperties(bypassCache: bypassCache);
 
   final $js.ReloadProperties _wrapped;
 
@@ -909,6 +1428,16 @@ class ReloadProperties {
 class GroupOptions {
   GroupOptions.fromJS(this._wrapped);
 
+  GroupOptions({
+    required JSAny tabIds,
+    int? groupId,
+    GroupOptionsCreateProperties? createProperties,
+  }) : _wrapped = $js.GroupOptions(
+          tabIds: tabIds,
+          groupId: groupId,
+          createProperties: createProperties?.toJS,
+        );
+
   final $js.GroupOptions _wrapped;
 
   $js.GroupOptions get toJS => _wrapped;
@@ -916,6 +1445,9 @@ class GroupOptions {
 
 class GroupOptionsCreateProperties {
   GroupOptionsCreateProperties.fromJS(this._wrapped);
+
+  GroupOptionsCreateProperties({int? windowId})
+      : _wrapped = $js.GroupOptionsCreateProperties(windowId: windowId);
 
   final $js.GroupOptionsCreateProperties _wrapped;
 

@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/identity.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _identity = ChromeIdentity._();
 
@@ -15,7 +16,13 @@ class ChromeIdentity {
   /// present on the profile.
   ///
   /// `getAccounts` is only supported on dev channel.
-  Future<List<AccountInfo>> getAccounts() => throw UnimplementedError();
+  Future<List<AccountInfo>> getAccounts() {
+    var $completer = Completer<List<AccountInfo>>();
+    $js.chrome.identity.getAccounts((JSArray accounts) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Gets an OAuth2 access token using the client ID and scopes
   /// specified in the <a
@@ -43,8 +50,16 @@ class ChromeIdentity {
   /// `grantedScopes` parameter is populated since Chrome 87. When
   /// available, this parameter contains the list of granted scopes
   /// corresponding with the returned token.
-  Future<GetAuthTokenResult> getAuthToken(TokenDetails? details) =>
-      throw UnimplementedError();
+  Future<GetAuthTokenResult> getAuthToken(TokenDetails? details) {
+    var $completer = Completer<GetAuthTokenResult>();
+    $js.chrome.identity.getAuthToken(
+      details?.toJS,
+      (GetAuthTokenResult result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves email address and obfuscated gaia id of the user
   /// signed into a profile.
@@ -60,8 +75,16 @@ class ChromeIdentity {
   /// |callback|: Called with the `ProfileUserInfo` of the primary
   /// Chrome account, of an empty `ProfileUserInfo` if the account
   /// with given `details` doesn't exist.
-  Future<ProfileUserInfo> getProfileUserInfo(ProfileDetails? details) =>
-      throw UnimplementedError();
+  Future<ProfileUserInfo> getProfileUserInfo(ProfileDetails? details) {
+    var $completer = Completer<ProfileUserInfo>();
+    $js.chrome.identity.getProfileUserInfo(
+      details?.toJS,
+      (ProfileUserInfo userInfo) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes an OAuth2 access token from the Identity API's token cache.
   ///
@@ -72,8 +95,16 @@ class ChromeIdentity {
   ///
   /// |details| : Token information.
   /// |callback| : Called when the token has been removed from the cache.
-  Future<void> removeCachedAuthToken(InvalidTokenDetails details) =>
-      throw UnimplementedError();
+  Future<void> removeCachedAuthToken(InvalidTokenDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.identity.removeCachedAuthToken(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Resets the state of the Identity API:
   /// <ul>
@@ -83,7 +114,13 @@ class ChromeIdentity {
   /// </ul>
   ///
   /// |callback| : Called when the state has been cleared.
-  Future<void> clearAllCachedAuthTokens() => throw UnimplementedError();
+  Future<void> clearAllCachedAuthTokens() {
+    var $completer = Completer<void>();
+    $js.chrome.identity.clearAllCachedAuthTokens(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Starts an auth flow at the specified URL.
   ///
@@ -103,8 +140,16 @@ class ChromeIdentity {
   ///
   /// |details| : WebAuth flow options.
   /// |callback| : Called with the URL redirected back to your application.
-  Future<String?> launchWebAuthFlow(WebAuthFlowDetails details) =>
-      throw UnimplementedError();
+  Future<String?> launchWebAuthFlow(WebAuthFlowDetails details) {
+    var $completer = Completer<String?>();
+    $js.chrome.identity.launchWebAuthFlow(
+      details.toJS,
+      (String? responseUrl) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Generates a redirect URL to be used in |launchWebAuthFlow|.
   ///
@@ -112,7 +157,9 @@ class ChromeIdentity {
   /// `https://<app-id>.chromiumapp.org/*`.
   ///
   /// |path| : The path appended to the end of the generated URL.
-  String getRedirectURL(String? path) => throw UnimplementedError();
+  String getRedirectURL(String? path) {
+    return $js.chrome.identity.getRedirectURL(path);
+  }
 
   /// Fired when signin state changes for an account on the user's profile.
   Stream<OnSignInChangedEvent> get onSignInChanged =>
@@ -138,6 +185,8 @@ enum AccountStatus {
 class AccountInfo {
   AccountInfo.fromJS(this._wrapped);
 
+  AccountInfo({required String id}) : _wrapped = $js.AccountInfo()..id = id;
+
   final $js.AccountInfo _wrapped;
 
   $js.AccountInfo get toJS => _wrapped;
@@ -152,6 +201,9 @@ class AccountInfo {
 
 class ProfileDetails {
   ProfileDetails.fromJS(this._wrapped);
+
+  ProfileDetails({AccountStatus? accountStatus})
+      : _wrapped = $js.ProfileDetails()..accountStatus = accountStatus?.toJS;
 
   final $js.ProfileDetails _wrapped;
 
@@ -169,6 +221,13 @@ class ProfileDetails {
 
 class ProfileUserInfo {
   ProfileUserInfo.fromJS(this._wrapped);
+
+  ProfileUserInfo({
+    required String email,
+    required String id,
+  }) : _wrapped = $js.ProfileUserInfo()
+          ..email = email
+          ..id = id;
 
   final $js.ProfileUserInfo _wrapped;
 
@@ -195,6 +254,17 @@ class ProfileUserInfo {
 
 class TokenDetails {
   TokenDetails.fromJS(this._wrapped);
+
+  TokenDetails({
+    bool? interactive,
+    AccountInfo? account,
+    List<String>? scopes,
+    bool? enableGranularPermissions,
+  }) : _wrapped = $js.TokenDetails()
+          ..interactive = interactive
+          ..account = account?.toJS
+          ..scopes = throw UnimplementedError()
+          ..enableGranularPermissions = enableGranularPermissions;
 
   final $js.TokenDetails _wrapped;
 
@@ -241,6 +311,9 @@ class TokenDetails {
 class InvalidTokenDetails {
   InvalidTokenDetails.fromJS(this._wrapped);
 
+  InvalidTokenDetails({required String token})
+      : _wrapped = $js.InvalidTokenDetails()..token = token;
+
   final $js.InvalidTokenDetails _wrapped;
 
   $js.InvalidTokenDetails get toJS => _wrapped;
@@ -254,6 +327,17 @@ class InvalidTokenDetails {
 
 class WebAuthFlowDetails {
   WebAuthFlowDetails.fromJS(this._wrapped);
+
+  WebAuthFlowDetails({
+    required String url,
+    bool? interactive,
+    bool? abortOnLoadForNonInteractive,
+    int? timeoutMsForNonInteractive,
+  }) : _wrapped = $js.WebAuthFlowDetails()
+          ..url = url
+          ..interactive = interactive
+          ..abortOnLoadForNonInteractive = abortOnLoadForNonInteractive
+          ..timeoutMsForNonInteractive = timeoutMsForNonInteractive;
 
   final $js.WebAuthFlowDetails _wrapped;
 
@@ -314,6 +398,13 @@ class WebAuthFlowDetails {
 
 class GetAuthTokenResult {
   GetAuthTokenResult.fromJS(this._wrapped);
+
+  GetAuthTokenResult({
+    String? token,
+    List<String>? grantedScopes,
+  }) : _wrapped = $js.GetAuthTokenResult()
+          ..token = token
+          ..grantedScopes = throw UnimplementedError();
 
   final $js.GetAuthTokenResult _wrapped;
 

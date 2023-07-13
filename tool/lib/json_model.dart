@@ -1,11 +1,6 @@
-library model_json;
-
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
-
-import 'chrome_model.dart';
-import 'utils/string_helpers.dart';
 
 part 'json_model.g.dart';
 

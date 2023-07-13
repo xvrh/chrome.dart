@@ -1,10 +1,13 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSSystemMemoryExtension on JSChrome {
+import 'system.dart';
+
+export 'chrome.dart';
+export 'system.dart';
+
+extension JSChromeJSSystemMemoryExtension on JSChromeSystem {
   /// The `chrome.system.memory` API.
-  external JSSystemMemory get systemMemory;
+  external JSSystemMemory get memory;
 }
 
 @JS()

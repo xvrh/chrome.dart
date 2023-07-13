@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/browsing_data.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _browsingData = ChromeBrowsingData._();
 
@@ -15,76 +16,214 @@ class ChromeBrowsingData {
   /// data' settings UI.  Note: some of the data types included in this API are
   /// not available in the settings UI, and some UI settings control more than
   /// one data type listed here.
-  Future<SettingsCallbackResult> settings() => throw UnimplementedError();
+  Future<SettingsCallbackResult> settings() {
+    var $completer = Completer<SettingsCallbackResult>();
+    $js.chrome.browsingData.settings((SettingsCallbackResult result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Clears various types of browsing data stored in a user's profile.
   Future<void> remove(
     RemovalOptions options,
     DataTypeSet dataToRemove,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.remove(
+      options.toJS,
+      dataToRemove.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' appcache data.
-  Future<void> removeAppcache(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeAppcache(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeAppcache(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's cache.
-  Future<void> removeCache(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeCache(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeCache(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' cache storage data.
-  Future<void> removeCacheStorage(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeCacheStorage(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeCacheStorage(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
-  Future<void> removeCookies(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeCookies(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeCookies(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's list of downloaded files (_not_ the downloaded files
   /// themselves).
-  Future<void> removeDownloads(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeDownloads(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeDownloads(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' file system data.
-  Future<void> removeFileSystems(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeFileSystems(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeFileSystems(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's stored form data (autofill).
-  Future<void> removeFormData(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeFormData(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeFormData(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's history.
-  Future<void> removeHistory(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeHistory(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeHistory(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' IndexedDB data.
-  Future<void> removeIndexedDB(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeIndexedDB(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeIndexedDB(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' local storage data.
-  Future<void> removeLocalStorage(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeLocalStorage(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeLocalStorage(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears plugins' data.
-  Future<void> removePluginData(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removePluginData(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removePluginData(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the browser's stored passwords.
-  Future<void> removePasswords(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removePasswords(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removePasswords(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' service workers.
-  Future<void> removeServiceWorkers(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeServiceWorkers(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeServiceWorkers(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears websites' WebSQL data.
-  Future<void> removeWebSQL(RemovalOptions options) =>
-      throw UnimplementedError();
+  Future<void> removeWebSQL(RemovalOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.browsingData.removeWebSQL(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 }
 
 class RemovalOptions {
   RemovalOptions.fromJS(this._wrapped);
+
+  RemovalOptions({
+    double? since,
+    RemovalOptionsOriginTypes? originTypes,
+    List<String>? origins,
+    List<String>? excludeOrigins,
+  }) : _wrapped = $js.RemovalOptions()
+          ..since = since
+          ..originTypes = originTypes?.toJS
+          ..origins = throw UnimplementedError()
+          ..excludeOrigins = throw UnimplementedError();
 
   final $js.RemovalOptions _wrapped;
 
@@ -130,6 +269,39 @@ class RemovalOptions {
 
 class DataTypeSet {
   DataTypeSet.fromJS(this._wrapped);
+
+  DataTypeSet({
+    bool? appcache,
+    bool? cache,
+    bool? cacheStorage,
+    bool? cookies,
+    bool? downloads,
+    bool? fileSystems,
+    bool? formData,
+    bool? history,
+    bool? indexedDB,
+    bool? localStorage,
+    bool? serverBoundCertificates,
+    bool? passwords,
+    bool? pluginData,
+    bool? serviceWorkers,
+    bool? webSQL,
+  }) : _wrapped = $js.DataTypeSet()
+          ..appcache = appcache
+          ..cache = cache
+          ..cacheStorage = cacheStorage
+          ..cookies = cookies
+          ..downloads = downloads
+          ..fileSystems = fileSystems
+          ..formData = formData
+          ..history = history
+          ..indexedDB = indexedDB
+          ..localStorage = localStorage
+          ..serverBoundCertificates = serverBoundCertificates
+          ..passwords = passwords
+          ..pluginData = pluginData
+          ..serviceWorkers = serviceWorkers
+          ..webSQL = webSQL;
 
   final $js.DataTypeSet _wrapped;
 
@@ -229,6 +401,15 @@ class DataTypeSet {
 class SettingsCallbackResult {
   SettingsCallbackResult.fromJS(this._wrapped);
 
+  SettingsCallbackResult({
+    required RemovalOptions options,
+    required DataTypeSet dataToRemove,
+    required DataTypeSet dataRemovalPermitted,
+  }) : _wrapped = $js.SettingsCallbackResult()
+          ..options = options.toJS
+          ..dataToRemove = dataToRemove.toJS
+          ..dataRemovalPermitted = dataRemovalPermitted.toJS;
+
   final $js.SettingsCallbackResult _wrapped;
 
   $js.SettingsCallbackResult get toJS => _wrapped;
@@ -258,6 +439,15 @@ class SettingsCallbackResult {
 
 class RemovalOptionsOriginTypes {
   RemovalOptionsOriginTypes.fromJS(this._wrapped);
+
+  RemovalOptionsOriginTypes({
+    bool? unprotectedWeb,
+    bool? protectedWeb,
+    bool? extension,
+  }) : _wrapped = $js.RemovalOptionsOriginTypes()
+          ..unprotectedWeb = unprotectedWeb
+          ..protectedWeb = protectedWeb
+          ..extension = extension;
 
   final $js.RemovalOptionsOriginTypes _wrapped;
 

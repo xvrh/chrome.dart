@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/tts.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _tts = ChromeTts._();
 
@@ -15,28 +16,55 @@ class ChromeTts {
   Future<void> speak(
     String utterance,
     TtsOptions? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.tts.speak(
+      utterance,
+      options?.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Stops any current speech and flushes the queue of any pending utterances.
   /// In addition, if speech was paused, it will now be un-paused for the next
   /// call to speak.
-  void stop() => throw UnimplementedError();
+  void stop() {
+    $js.chrome.tts.stop();
+  }
 
   /// Pauses speech synthesis, potentially in the middle of an utterance. A call
   /// to resume or stop will un-pause speech.
-  void pause() => throw UnimplementedError();
+  void pause() {
+    $js.chrome.tts.pause();
+  }
 
   /// If speech was paused, resumes speaking where it left off.
-  void resume() => throw UnimplementedError();
+  void resume() {
+    $js.chrome.tts.resume();
+  }
 
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  Future<bool> isSpeaking() => throw UnimplementedError();
+  Future<bool> isSpeaking() {
+    var $completer = Completer<bool>();
+    $js.chrome.tts.isSpeaking((bool speaking) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Gets an array of all available voices.
-  Future<List<TtsVoice>> getVoices() => throw UnimplementedError();
+  Future<List<TtsVoice>> getVoices() {
+    var $completer = Completer<List<TtsVoice>>();
+    $js.chrome.tts.getVoices((JSArray voices) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Used to pass events back to the function calling speak().
   Stream<TtsEvent> get onEvent => throw UnimplementedError();
@@ -78,6 +106,31 @@ enum VoiceGender {
 
 class TtsOptions {
   TtsOptions.fromJS(this._wrapped);
+
+  TtsOptions({
+    bool? enqueue,
+    String? voiceName,
+    String? extensionId,
+    String? lang,
+    VoiceGender? gender,
+    double? rate,
+    double? pitch,
+    double? volume,
+    List<String>? requiredEventTypes,
+    List<String>? desiredEventTypes,
+    JFFunction? onEvent,
+  }) : _wrapped = $js.TtsOptions()
+          ..enqueue = enqueue
+          ..voiceName = voiceName
+          ..extensionId = extensionId
+          ..lang = lang
+          ..gender = gender?.toJS
+          ..rate = rate
+          ..pitch = pitch
+          ..volume = volume
+          ..requiredEventTypes = throw UnimplementedError()
+          ..desiredEventTypes = throw UnimplementedError()
+          ..onEvent = onEvent;
 
   final $js.TtsOptions _wrapped;
 
@@ -159,14 +212,29 @@ class TtsOptions {
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  JSAny? get onEvent => _wrapped.onEvent;
-  set onEvent(JSAny? v) {
+  JFFunction? get onEvent => _wrapped.onEvent;
+  set onEvent(JFFunction? v) {
     _wrapped.onEvent = v;
   }
 }
 
 class TtsEvent {
   TtsEvent.fromJS(this._wrapped);
+
+  TtsEvent({
+    required EventType type,
+    int? charIndex,
+    String? errorMessage,
+    double? srcId,
+    bool? isFinalEvent,
+    int? length,
+  }) : _wrapped = $js.TtsEvent()
+          ..type = type.toJS
+          ..charIndex = charIndex
+          ..errorMessage = errorMessage
+          ..srcId = srcId
+          ..isFinalEvent = isFinalEvent
+          ..length = length;
 
   final $js.TtsEvent _wrapped;
 
@@ -226,6 +294,21 @@ class TtsEvent {
 
 class TtsVoice {
   TtsVoice.fromJS(this._wrapped);
+
+  TtsVoice({
+    String? voiceName,
+    String? lang,
+    VoiceGender? gender,
+    bool? remote,
+    String? extensionId,
+    List<EventType>? eventTypes,
+  }) : _wrapped = $js.TtsVoice()
+          ..voiceName = voiceName
+          ..lang = lang
+          ..gender = gender?.toJS
+          ..remote = remote
+          ..extensionId = extensionId
+          ..eventTypes = throw UnimplementedError();
 
   final $js.TtsVoice _wrapped;
 

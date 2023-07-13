@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSContextMenusExtension on JSChrome {
@@ -19,24 +21,24 @@ extension JSContextMenusExtension on JSContextMenus {
   /// [runtime.lastError].
   external JSAny create(
     CreateProperties createProperties,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Updates a previously created context menu item.
   external void update(
     JSAny id,
     UpdateProperties updateProperties,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Removes a context menu item.
   external void remove(
     JSAny menuItemId,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Removes all context menu items added by this extension.
-  external void removeAll(JSAny? callback);
+  external void removeAll(JFFunction? callback);
 
   /// Fired when a context menu item is clicked.
   external ChromeEvent get onClicked;
@@ -141,7 +143,7 @@ class CreateProperties {
     /// A function that is called back when the menu item is clicked. Event pages
     /// cannot use this; instead, they should register a listener for
     /// [contextMenus.onClicked].
-    JSAny? onclick,
+    JFFunction? onclick,
 
     /// The ID of a parent menu item; this makes the item a child of a previously
     /// added item.
@@ -173,7 +175,7 @@ class UpdateProperties {
 
     /// Whether the item is visible in the menu.
     bool? visible,
-    JSAny? onclick,
+    JFFunction? onclick,
 
     /// The ID of the item to be made this item's parent. Note: You cannot set an
     /// item to become a child of its own descendant.

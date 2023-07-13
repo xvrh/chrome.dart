@@ -1,11 +1,14 @@
+import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_panels.dart' as $js;
-export 'chrome.dart';
+
+export 'devtools.dart' show ChromeDevtools, ChromeDevtoolsExtension;
+export 'src/chrome.dart' show chrome;
 
 final _devtoolsPanels = ChromeDevtoolsPanels._();
 
-extension ChromeDevtoolsPanelsExtension on Chrome {
-  ChromeDevtoolsPanels get devtoolsPanels => _devtoolsPanels;
+extension ChromeDevtoolsPanelsExtension on ChromeDevtools {
+  ChromeDevtoolsPanels get panels => _devtoolsPanels;
 }
 
 class ChromeDevtoolsPanels {
@@ -16,37 +19,54 @@ class ChromeDevtoolsPanels {
     String title,
     String iconPath,
     String pagePath,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    $js.chrome.devtools.panels.create(
+      title,
+      iconPath,
+      pagePath,
+      callback,
+    );
+  }
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  void setOpenResourceHandler(JSAny? callback) => throw UnimplementedError();
+  void setOpenResourceHandler(JFFunction? callback) {
+    $js.chrome.devtools.panels.setOpenResourceHandler(callback);
+  }
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   void openResource(
     String url,
     int lineNumber,
     int? columnNumber,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    $js.chrome.devtools.panels.openResource(
+      url,
+      lineNumber,
+      columnNumber,
+      callback,
+    );
+  }
 
   /// Elements panel.
-  ElementsPanel get elements => $js.chrome.devtoolsPanels.elements as dynamic;
+  ElementsPanel get elements =>
+      ($js.chrome.devtools.panels.elements as dynamic);
 
   /// Sources panel.
-  SourcesPanel get sources => $js.chrome.devtoolsPanels.sources as dynamic;
+  SourcesPanel get sources => ($js.chrome.devtools.panels.sources as dynamic);
 
   /// The name of the color theme set in user's DevTools settings. Possible
   /// values: `default` (the default) and `dark`.
-  String get themeName => $js.chrome.devtoolsPanels.themeName as dynamic;
+  String get themeName => ($js.chrome.devtools.panels.themeName as dynamic);
 }
 
 class ElementsPanel {
   ElementsPanel.fromJS(this._wrapped);
+
+  ElementsPanel() : _wrapped = $js.ElementsPanel();
 
   final $js.ElementsPanel _wrapped;
 
@@ -55,9 +75,13 @@ class ElementsPanel {
   /// Creates a pane within panel's sidebar.
   void createSidebarPane(
     String title,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.createSidebarPane(
+      title,
+      callback,
+    );
+  }
 
   /// Fired when an object is selected in the panel.
   Stream<void> get onSelectionChanged => throw UnimplementedError();
@@ -66,6 +90,8 @@ class ElementsPanel {
 class SourcesPanel {
   SourcesPanel.fromJS(this._wrapped);
 
+  SourcesPanel() : _wrapped = $js.SourcesPanel();
+
   final $js.SourcesPanel _wrapped;
 
   $js.SourcesPanel get toJS => _wrapped;
@@ -73,9 +99,13 @@ class SourcesPanel {
   /// Creates a pane within panel's sidebar.
   void createSidebarPane(
     String title,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.createSidebarPane(
+      title,
+      callback,
+    );
+  }
 
   /// Fired when an object is selected in the panel.
   Stream<void> get onSelectionChanged => throw UnimplementedError();
@@ -83,6 +113,8 @@ class SourcesPanel {
 
 class ExtensionPanel {
   ExtensionPanel.fromJS(this._wrapped);
+
+  ExtensionPanel() : _wrapped = $js.ExtensionPanel();
 
   final $js.ExtensionPanel _wrapped;
 
@@ -93,8 +125,13 @@ class ExtensionPanel {
     String iconPath,
     String tooltipText,
     bool disabled,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    return Button.fromJS(_wrapped.createStatusBarButton(
+      iconPath,
+      tooltipText,
+      disabled,
+    ));
+  }
 
   /// Fired upon a search action (start of a new search, search result
   /// navigation, or search being canceled).
@@ -111,32 +148,48 @@ class ExtensionPanel {
 class ExtensionSidebarPane {
   ExtensionSidebarPane.fromJS(this._wrapped);
 
+  ExtensionSidebarPane() : _wrapped = $js.ExtensionSidebarPane();
+
   final $js.ExtensionSidebarPane _wrapped;
 
   $js.ExtensionSidebarPane get toJS => _wrapped;
 
   /// Sets the height of the sidebar.
-  void setHeight(String height) => throw UnimplementedError();
+  void setHeight(String height) {
+    _wrapped.setHeight(height);
+  }
 
   /// Sets an expression that is evaluated within the inspected page. The result
   /// is displayed in the sidebar pane.
   void setExpression(
     String expression,
     String? rootTitle,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.setExpression(
+      expression,
+      rootTitle,
+      callback,
+    );
+  }
 
   /// Sets a JSON-compliant object to be displayed in the sidebar pane.
   void setObject(
     String jsonObject,
     String? rootTitle,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.setObject(
+      jsonObject,
+      rootTitle,
+      callback,
+    );
+  }
 
   /// Sets an HTML page to be displayed in the sidebar pane.
-  void setPage(String path) => throw UnimplementedError();
+  void setPage(String path) {
+    _wrapped.setPage(path);
+  }
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
@@ -150,6 +203,8 @@ class ExtensionSidebarPane {
 class Button {
   Button.fromJS(this._wrapped);
 
+  Button() : _wrapped = $js.Button();
+
   final $js.Button _wrapped;
 
   $js.Button get toJS => _wrapped;
@@ -160,8 +215,13 @@ class Button {
     String? iconPath,
     String? tooltipText,
     bool? disabled,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    _wrapped.update(
+      iconPath,
+      tooltipText,
+      disabled,
+    );
+  }
 
   /// Fired when the button is clicked.
   Stream<void> get onClicked => throw UnimplementedError();

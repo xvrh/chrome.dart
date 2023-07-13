@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSEventsExtension on JSChrome {
@@ -42,12 +44,12 @@ class Event {}
 
 extension EventExtension on Event {
   /// Registers an event listener _callback_ to an event.
-  external void addListener(JSAny callback);
+  external void addListener(JFFunction callback);
 
   /// Deregisters an event listener _callback_ from an event.
-  external void removeListener(JSAny callback);
+  external void removeListener(JFFunction callback);
 
-  external bool hasListener(JSAny callback);
+  external bool hasListener(JFFunction callback);
 
   external bool hasListeners();
 
@@ -56,7 +58,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray rules,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Returns currently registered rules.
@@ -64,7 +66,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JSAny callback,
+    JFFunction callback,
   );
 
   /// Unregisters currently registered rules.
@@ -72,7 +74,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JSAny? callback,
+    JFFunction? callback,
   );
 }
 

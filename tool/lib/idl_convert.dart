@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'chrome_model.dart';
 import 'idl_model.dart';
 import 'idl_parser.dart';
-import 'utils/string_helpers.dart';
+import 'utils/string.dart';
 
 class IdlModelConverter {
   final IDLNamespaceDeclaration model;
@@ -11,6 +11,8 @@ class IdlModelConverter {
   final _syntheticTypedefs = <Typedef>[];
 
   IdlModelConverter(this.model);
+
+  String get _targetFileName => '${apiNameToFileName(model.name)}.dart';
 
   factory IdlModelConverter.fromString(String content) {
     var parser = ChromeIDLParser();
@@ -41,7 +43,7 @@ class IdlModelConverter {
         var createdProperty = _convertSyntheticParam(parameters.first);
         type = createdProperty.type;
       } else if (parameters.length > 1) {
-        var newTypeName = '${stringToUpperCamel(e.name)}Event';
+        var newTypeName = '${e.name.upperCamel}Event';
         var syntheticType = Dictionary(newTypeName,
             properties: [
               for (var param in parameters) _convertSyntheticParam(param)
@@ -51,7 +53,8 @@ class IdlModelConverter {
             documentation: '',
             isAnonymous: false,
             isSyntheticEvent: true);
-        type = LocalType(newTypeName, isNullable: false);
+        type = LocalType(newTypeName,
+            selfFileName: _targetFileName, isNullable: false);
         _syntheticDictionaries.add(syntheticType);
       }
       yield Event(e.name,
@@ -102,28 +105,32 @@ class IdlModelConverter {
   }
 
   Iterable<Dictionary> _convertDictionaries() sync* {
-    for (var t in model.typeDeclarations) {
+    for (var declaration in model.typeDeclarations) {
       var properties = <Property>[];
-      for (var m in t.members) {
-        var p = Property(m.name,
-            type: _typeFromName(m.type, isNullable: m.isOptional),
-            documentation: _toDocumentation(m.documentation));
+      for (var member in declaration.members) {
+        if (member.name.startsWith('_')) continue;
+
+        var p = Property(member.name,
+            type: _typeFromName(member.type, isNullable: member.isOptional),
+            documentation: _toDocumentation(member.documentation));
         properties.add(p);
       }
 
-      if (t.methods.isNotEmpty) {
-        throw UnimplementedError('${model.name} / ${t.name} has methods');
+      if (declaration.methods.isNotEmpty) {
+        throw UnimplementedError(
+            '${model.name} / ${declaration.name} has methods');
       }
-      if (t.methods.isNotEmpty) {
-        throw UnimplementedError('${model.name} / ${t.name} has methods');
+      if (declaration.methods.isNotEmpty) {
+        throw UnimplementedError(
+            '${model.name} / ${declaration.name} has methods');
       }
 
       yield Dictionary(
-        t.name,
+        declaration.name,
         properties: properties,
         methods: [],
         events: [],
-        documentation: _toDocumentation(t.documentation),
+        documentation: _toDocumentation(declaration.documentation),
         //TODO: make it anonymous if this is a "input" only type?
         isAnonymous: false,
       );
@@ -131,31 +138,39 @@ class IdlModelConverter {
   }
 
   Iterable<Method> _convertMethods() sync* {
-    for (var f in model.functionDeclaration?.methods ?? <IDLMethod>[]) {
+    for (var function in model.functionDeclaration?.methods ?? <IDLMethod>[]) {
       var parameters = <Property>[];
       AsyncReturnType? callback;
-      for (var p in f.parameters) {
-        if (p.isCallback && f.returnType.name == 'void') {
+      for (var paramDecl in function.parameters) {
+        if (paramDecl.isCallback && function.returnType.name == 'void') {
           if (callback != null) {
             throw UnimplementedError(
-                'Multiple callback for ${model.name} ${f.name}');
+                'Multiple callback for ${model.name} ${function.name}');
           }
           var callbackDeclaration = model.callbackDeclarations.singleWhere(
-              (c) => c.name == p.type.name,
+              (c) => c.name == paramDecl.type.name,
               orElse: () => throw StateError(
-                  'Look for callback ${p.type.name} ${model.name} ${f.name}'));
+                  'Look for callback ${paramDecl.type.name} ${model.name} ${function.name}'));
 
           FunctionParameter? singleParameter;
+          var allParameters = <FunctionParameter>[];
           if (callbackDeclaration.parameters.length > 1) {
-            var syntheticTypeName = '${stringToUpperCamel(f.name)}Result';
+            var syntheticTypeName = '${function.name.upperCamel}Result';
+
+            var syntheticProperties = <Property>[];
+            for (var param in callbackDeclaration.parameters) {
+              var syntheticProperty = _convertSyntheticParam(param);
+              syntheticProperties.add(syntheticProperty);
+              allParameters.add(FunctionParameter(
+                  syntheticProperty.name, syntheticProperty.type));
+            }
 
             singleParameter = FunctionParameter(
-                null, LocalType(syntheticTypeName, isNullable: false));
+                null,
+                LocalType(syntheticTypeName,
+                    selfFileName: _targetFileName, isNullable: false));
             var syntheticType = Dictionary(syntheticTypeName,
-                properties: [
-                  for (var param in callbackDeclaration.parameters)
-                    _convertSyntheticParam(param)
-                ],
+                properties: syntheticProperties,
                 methods: [],
                 events: [],
                 documentation: '',
@@ -165,20 +180,21 @@ class IdlModelConverter {
           } else if (callbackDeclaration.parameters case [var param]) {
             singleParameter = FunctionParameter(param.name,
                 _typeFromName(param.type, isNullable: param.isOptional));
+            allParameters.add(singleParameter);
           }
 
-          var jsCallback = FunctionType(
-              null, [if (singleParameter != null) singleParameter],
-              isNullable: p.isOptional);
+          var jsCallback = FunctionType(null, allParameters,
+              isNullable: paramDecl.isOptional);
           callback = AsyncReturnType(singleParameter?.type, jsCallback);
-          if (f.returnType.name != 'void') {
+          if (function.returnType.name != 'void') {
             throw UnimplementedError(
-                'Async with non void function ${model.name} / ${f.name}');
+                'Async with non void function ${model.name} / ${function.name}');
           }
         } else {
           var property = Property(
-            p.name,
-            type: _typeFromName(p.type, isNullable: p.isOptional),
+            paramDecl.name,
+            type:
+                _typeFromName(paramDecl.type, isNullable: paramDecl.isOptional),
             documentation: '',
           );
           parameters.add(property);
@@ -186,26 +202,26 @@ class IdlModelConverter {
       }
       var returns = MethodReturn(
         type: callback ??
-            (f.returnType.name != 'void'
-                ? _typeFromName(f.returnType, isNullable: false)
+            (function.returnType.name != 'void'
+                ? _typeFromName(function.returnType, isNullable: false)
                 : null),
       );
 
       yield Method(
-        f.name,
+        function.name,
         parameters: parameters,
-        documentation: _toDocumentation(f.documentation),
+        documentation: _toDocumentation(function.documentation),
         returns: returns,
       );
     }
   }
 
   Iterable<Enumeration> _convertEnums() sync* {
-    for (var e in model.enumDeclarations) {
+    for (var declaration in model.enumDeclarations) {
       yield Enumeration(
-        e.name,
-        documentation: _toDocumentation(e.documentation),
-        values: e.enums
+        declaration.name,
+        documentation: _toDocumentation(declaration.documentation),
+        values: declaration.enums
             .map((v) => EnumerationValue(
                 name: v.name, documentation: _toDocumentation(v.documentation)))
             .toList(),
@@ -220,7 +236,8 @@ class IdlModelConverter {
       isNullable = false;
     }
     var chromeType = ChromeType.tryParse(name, isNullable: isNullable) ??
-        LocalType.parse(name, isNullable: isNullable);
+        LocalType.parse(name,
+            selfFileName: _targetFileName, isNullable: isNullable);
     if (type.isArray) {
       return ListType(chromeType, isNullable: arrayIsNullable);
     }

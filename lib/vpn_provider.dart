@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/vpn_provider.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _vpnProvider = ChromeVpnProvider._();
 
@@ -17,35 +19,78 @@ class ChromeVpnProvider {
   /// |name|: The name of the VPN configuration.
   /// |callback|: Called when the configuration is created or if there is an
   /// error.
-  Future<String> createConfig(String name) => throw UnimplementedError();
+  Future<String> createConfig(String name) {
+    var $completer = Completer<String>();
+    $js.chrome.vpnProvider.createConfig(
+      name,
+      (String id) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Destroys a VPN configuration created by the extension.
   /// |id|: ID of the VPN configuration to destroy.
   /// |callback|: Called when the configuration is destroyed or if there is an
   /// error.
-  Future<void> destroyConfig(String id) => throw UnimplementedError();
+  Future<void> destroyConfig(String id) {
+    var $completer = Completer<void>();
+    $js.chrome.vpnProvider.destroyConfig(
+      id,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets the parameters for the VPN session. This should be called
   /// immediately after `"connected"` is received from the platform.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |parameters|: The parameters for the VPN session.
   /// |callback|: Called when the parameters are set or if there is an error.
-  Future<void> setParameters(Parameters parameters) =>
-      throw UnimplementedError();
+  Future<void> setParameters(Parameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.vpnProvider.setParameters(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sends an IP packet through the tunnel created for the VPN session.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |data|: The IP packet to be sent to the platform.
   /// |callback|: Called when the packet is sent or if there is an error.
-  Future<void> sendPacket(ByteBuffer data) => throw UnimplementedError();
+  Future<void> sendPacket(ByteBuffer data) {
+    var $completer = Completer<void>();
+    $js.chrome.vpnProvider.sendPacket(
+      data.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Notifies the VPN session state to the platform.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |state|: The VPN session state of the VPN client.
   /// |callback|: Called when the notification is complete or if there is an
   /// error.
-  Future<void> notifyConnectionStateChanged(VpnConnectionState state) =>
-      throw UnimplementedError();
+  Future<void> notifyConnectionStateChanged(VpnConnectionState state) {
+    var $completer = Completer<void>();
+    $js.chrome.vpnProvider.notifyConnectionStateChanged(
+      state.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Triggered when a message is received from the platform for a
   /// VPN configuration owned by the extension.
@@ -80,7 +125,7 @@ class ChromeVpnProvider {
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  Stream<OnUiEventEvent> get onUIEvent => throw UnimplementedError();
+  Stream<OnUIEventEvent> get onUIEvent => throw UnimplementedError();
 }
 
 /// The enum is used by the platform to notify the client of the VPN session
@@ -163,6 +208,25 @@ enum UIEvent {
 
 class Parameters {
   Parameters.fromJS(this._wrapped);
+
+  Parameters({
+    required String address,
+    String? broadcastAddress,
+    String? mtu,
+    required List<String> exclusionList,
+    required List<String> inclusionList,
+    List<String>? domainSearch,
+    required List<String> dnsServers,
+    String? reconnect,
+  }) : _wrapped = $js.Parameters()
+          ..address = address
+          ..broadcastAddress = broadcastAddress
+          ..mtu = mtu
+          ..exclusionList = throw UnimplementedError()
+          ..inclusionList = throw UnimplementedError()
+          ..domainSearch = throw UnimplementedError()
+          ..dnsServers = throw UnimplementedError()
+          ..reconnect = reconnect;
 
   final $js.Parameters _wrapped;
 
@@ -279,8 +343,8 @@ class OnConfigCreatedEvent {
   final JSAny data;
 }
 
-class OnUiEventEvent {
-  OnUiEventEvent({
+class OnUIEventEvent {
+  OnUIEventEvent({
     required this.event,
     required this.id,
   });

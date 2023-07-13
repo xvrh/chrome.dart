@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/types.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _types = ChromeTypes._();
 
@@ -60,19 +61,47 @@ enum LevelOfControl {
 class ChromeSetting {
   ChromeSetting.fromJS(this._wrapped);
 
+  ChromeSetting() : _wrapped = $js.ChromeSetting();
+
   final $js.ChromeSetting _wrapped;
 
   $js.ChromeSetting get toJS => _wrapped;
 
   /// Gets the value of a setting.
-  Future<GetCallbackDetails> get(GetDetails details) =>
-      throw UnimplementedError();
+  Future<GetCallbackDetails> get(GetDetails details) {
+    var $completer = Completer<GetCallbackDetails>();
+    _wrapped.get(
+      details.toJS,
+      (GetCallbackDetails details) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets the value of a setting.
-  Future<void> set(SetDetails details) => throw UnimplementedError();
+  Future<void> set(SetDetails details) {
+    var $completer = Completer<void>();
+    _wrapped.set(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the setting, restoring any default value.
-  Future<void> clear(ClearDetails details) => throw UnimplementedError();
+  Future<void> clear(ClearDetails details) {
+    var $completer = Completer<void>();
+    _wrapped.clear(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired after the setting changes.
   Stream<OnChangeDetails> get onChange => throw UnimplementedError();
@@ -80,6 +109,15 @@ class ChromeSetting {
 
 class GetCallbackDetails {
   GetCallbackDetails.fromJS(this._wrapped);
+
+  GetCallbackDetails({
+    required JSAny value,
+    required LevelOfControl levelOfControl,
+    bool? incognitoSpecific,
+  }) : _wrapped = $js.GetCallbackDetails()
+          ..value = value
+          ..levelOfControl = levelOfControl.toJS
+          ..incognitoSpecific = incognitoSpecific;
 
   final $js.GetCallbackDetails _wrapped;
 
@@ -110,6 +148,9 @@ class GetCallbackDetails {
 class GetDetails {
   GetDetails.fromJS(this._wrapped);
 
+  GetDetails({bool? incognito})
+      : _wrapped = $js.GetDetails(incognito: incognito);
+
   final $js.GetDetails _wrapped;
 
   $js.GetDetails get toJS => _wrapped;
@@ -117,6 +158,14 @@ class GetDetails {
 
 class SetDetails {
   SetDetails.fromJS(this._wrapped);
+
+  SetDetails({
+    required JSAny value,
+    ChromeSettingScope? scope,
+  }) : _wrapped = $js.SetDetails(
+          value: value,
+          scope: scope?.toJS,
+        );
 
   final $js.SetDetails _wrapped;
 
@@ -126,6 +175,9 @@ class SetDetails {
 class ClearDetails {
   ClearDetails.fromJS(this._wrapped);
 
+  ClearDetails({ChromeSettingScope? scope})
+      : _wrapped = $js.ClearDetails(scope: scope?.toJS);
+
   final $js.ClearDetails _wrapped;
 
   $js.ClearDetails get toJS => _wrapped;
@@ -133,6 +185,15 @@ class ClearDetails {
 
 class OnChangeDetails {
   OnChangeDetails.fromJS(this._wrapped);
+
+  OnChangeDetails({
+    required JSAny value,
+    required LevelOfControl levelOfControl,
+    bool? incognitoSpecific,
+  }) : _wrapped = $js.OnChangeDetails()
+          ..value = value
+          ..levelOfControl = levelOfControl.toJS
+          ..incognitoSpecific = incognitoSpecific;
 
   final $js.OnChangeDetails _wrapped;
 

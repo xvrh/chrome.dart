@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/search.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _search = ChromeSearch._();
 
@@ -14,7 +15,16 @@ class ChromeSearch {
   /// Used to query the default search provider.
   /// In case of an error,
   /// [runtime.lastError] will be set.
-  Future<void> query(QueryInfo queryInfo) => throw UnimplementedError();
+  Future<void> query(QueryInfo queryInfo) {
+    var $completer = Completer<void>();
+    $js.chrome.search.query(
+      queryInfo.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 }
 
 enum Disposition {
@@ -38,6 +48,15 @@ enum Disposition {
 
 class QueryInfo {
   QueryInfo.fromJS(this._wrapped);
+
+  QueryInfo({
+    required String text,
+    Disposition? disposition,
+    int? tabId,
+  }) : _wrapped = $js.QueryInfo()
+          ..text = text
+          ..disposition = disposition?.toJS
+          ..tabId = tabId;
 
   final $js.QueryInfo _wrapped;
 

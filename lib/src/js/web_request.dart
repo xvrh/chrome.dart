@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'extension_types.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSWebRequestExtension on JSChrome {
@@ -17,7 +19,7 @@ extension JSWebRequestExtension on JSWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  external void handlerBehaviorChanged(JSAny? callback);
+  external void handlerBehaviorChanged(JFFunction? callback);
 
   /// Fired when a request is about to occur.
   external ChromeEvent get onBeforeRequest;

@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/gcm.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _gcm = ChromeGcm._();
 
@@ -16,22 +17,32 @@ class ChromeGcm {
   /// `senderIds`, the same registration ID will be returned.
   void register(
     List<String> senderIds,
-    JSAny callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction callback,
+  ) {
+    $js.chrome.gcm.register(
+      throw UnimplementedError(),
+      callback,
+    );
+  }
 
   /// Unregisters the application from FCM.
-  void unregister(JSAny callback) => throw UnimplementedError();
+  void unregister(JFFunction callback) {
+    $js.chrome.gcm.unregister(callback);
+  }
 
   /// Sends a message according to its contents.
   void send(
     SendMessage message,
-    JSAny callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction callback,
+  ) {
+    $js.chrome.gcm.send(
+      message.toJS,
+      callback,
+    );
+  }
 
   /// The maximum size (in bytes) of all key/value pairs in a message.
-  int get maxMessageSize => $js.chrome.gcm.MAX_MESSAGE_SIZE as dynamic;
+  int get maxMessageSize => ($js.chrome.gcm.MAX_MESSAGE_SIZE as dynamic);
 
   /// Fired when a message is received through FCM.
   Stream<OnMessageMessage> get onMessage => throw UnimplementedError();
@@ -48,6 +59,15 @@ class ChromeGcm {
 
 class OnMessageMessage {
   OnMessageMessage.fromJS(this._wrapped);
+
+  OnMessageMessage({
+    required OnMessageMessageData data,
+    String? from,
+    String? collapseKey,
+  }) : _wrapped = $js.OnMessageMessage()
+          ..data = data.toJS
+          ..from = from
+          ..collapseKey = collapseKey;
 
   final $js.OnMessageMessage _wrapped;
 
@@ -77,6 +97,15 @@ class OnMessageMessage {
 class OnSendErrorError {
   OnSendErrorError.fromJS(this._wrapped);
 
+  OnSendErrorError({
+    required String errorMessage,
+    String? messageId,
+    required OnSendErrorErrorDetails details,
+  }) : _wrapped = $js.OnSendErrorError()
+          ..errorMessage = errorMessage
+          ..messageId = messageId
+          ..details = details.toJS;
+
   final $js.OnSendErrorError _wrapped;
 
   $js.OnSendErrorError get toJS => _wrapped;
@@ -105,6 +134,18 @@ class OnSendErrorError {
 class SendMessage {
   SendMessage.fromJS(this._wrapped);
 
+  SendMessage({
+    required String destinationId,
+    required String messageId,
+    int? timeToLive,
+    required SendMessageData data,
+  }) : _wrapped = $js.SendMessage(
+          destinationId: destinationId,
+          messageId: messageId,
+          timeToLive: timeToLive,
+          data: data.toJS,
+        );
+
   final $js.SendMessage _wrapped;
 
   $js.SendMessage get toJS => _wrapped;
@@ -112,6 +153,8 @@ class SendMessage {
 
 class OnMessageMessageData {
   OnMessageMessageData.fromJS(this._wrapped);
+
+  OnMessageMessageData() : _wrapped = $js.OnMessageMessageData();
 
   final $js.OnMessageMessageData _wrapped;
 
@@ -121,6 +164,8 @@ class OnMessageMessageData {
 class OnSendErrorErrorDetails {
   OnSendErrorErrorDetails.fromJS(this._wrapped);
 
+  OnSendErrorErrorDetails() : _wrapped = $js.OnSendErrorErrorDetails();
+
   final $js.OnSendErrorErrorDetails _wrapped;
 
   $js.OnSendErrorErrorDetails get toJS => _wrapped;
@@ -128,6 +173,8 @@ class OnSendErrorErrorDetails {
 
 class SendMessageData {
   SendMessageData.fromJS(this._wrapped);
+
+  SendMessageData() : _wrapped = $js.SendMessageData();
 
   final $js.SendMessageData _wrapped;
 

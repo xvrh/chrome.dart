@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/extension_types.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _extensionTypes = ChromeExtensionTypes._();
 
@@ -106,6 +107,13 @@ enum ExecutionWorld {
 class ImageDetails {
   ImageDetails.fromJS(this._wrapped);
 
+  ImageDetails({
+    ImageFormat? format,
+    int? quality,
+  }) : _wrapped = $js.ImageDetails()
+          ..format = format?.toJS
+          ..quality = quality;
+
   final $js.ImageDetails _wrapped;
 
   $js.ImageDetails get toJS => _wrapped;
@@ -128,6 +136,23 @@ class ImageDetails {
 
 class InjectDetails {
   InjectDetails.fromJS(this._wrapped);
+
+  InjectDetails({
+    String? code,
+    String? file,
+    bool? allFrames,
+    int? frameId,
+    bool? matchAboutBlank,
+    RunAt? runAt,
+    CSSOrigin? cssOrigin,
+  }) : _wrapped = $js.InjectDetails()
+          ..code = code
+          ..file = file
+          ..allFrames = allFrames
+          ..frameId = frameId
+          ..matchAboutBlank = matchAboutBlank
+          ..runAt = runAt?.toJS
+          ..cssOrigin = cssOrigin?.toJS;
 
   final $js.InjectDetails _wrapped;
 
@@ -193,6 +218,21 @@ class InjectDetails {
 
 class DeleteInjectionDetails {
   DeleteInjectionDetails.fromJS(this._wrapped);
+
+  DeleteInjectionDetails({
+    String? code,
+    String? file,
+    bool? allFrames,
+    int? frameId,
+    bool? matchAboutBlank,
+    CSSOrigin? cssOrigin,
+  }) : _wrapped = $js.DeleteInjectionDetails()
+          ..code = code
+          ..file = file
+          ..allFrames = allFrames
+          ..frameId = frameId
+          ..matchAboutBlank = matchAboutBlank
+          ..cssOrigin = cssOrigin?.toJS;
 
   final $js.DeleteInjectionDetails _wrapped;
 

@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'types.dart';
 import 'src/js/proxy.dart' as $js;
-export 'chrome.dart';
+import 'types.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _proxy = ChromeProxy._();
 
@@ -14,7 +15,7 @@ class ChromeProxy {
 
   /// Proxy settings to be used. The value of this setting is a ProxyConfig
   /// object.
-  ChromeSetting get settings => $js.chrome.proxy.settings as dynamic;
+  ChromeSetting get settings => ($js.chrome.proxy.settings as dynamic);
 
   /// Notifies about proxy errors.
   Stream<OnProxyErrorDetails> get onProxyError => throw UnimplementedError();
@@ -55,6 +56,15 @@ enum Mode {
 class ProxyServer {
   ProxyServer.fromJS(this._wrapped);
 
+  ProxyServer({
+    Scheme? scheme,
+    required String host,
+    int? port,
+  }) : _wrapped = $js.ProxyServer()
+          ..scheme = scheme?.toJS
+          ..host = host
+          ..port = port;
+
   final $js.ProxyServer _wrapped;
 
   $js.ProxyServer get toJS => _wrapped;
@@ -82,6 +92,21 @@ class ProxyServer {
 
 class ProxyRules {
   ProxyRules.fromJS(this._wrapped);
+
+  ProxyRules({
+    ProxyServer? singleProxy,
+    ProxyServer? proxyForHttp,
+    ProxyServer? proxyForHttps,
+    ProxyServer? proxyForFtp,
+    ProxyServer? fallbackProxy,
+    List<String>? bypassList,
+  }) : _wrapped = $js.ProxyRules()
+          ..singleProxy = singleProxy?.toJS
+          ..proxyForHttp = proxyForHttp?.toJS
+          ..proxyForHttps = proxyForHttps?.toJS
+          ..proxyForFtp = proxyForFtp?.toJS
+          ..fallbackProxy = fallbackProxy?.toJS
+          ..bypassList = throw UnimplementedError();
 
   final $js.ProxyRules _wrapped;
 
@@ -133,6 +158,15 @@ class ProxyRules {
 class PacScript {
   PacScript.fromJS(this._wrapped);
 
+  PacScript({
+    String? url,
+    String? data,
+    bool? mandatory,
+  }) : _wrapped = $js.PacScript()
+          ..url = url
+          ..data = data
+          ..mandatory = mandatory;
+
   final $js.PacScript _wrapped;
 
   $js.PacScript get toJS => _wrapped;
@@ -159,6 +193,15 @@ class PacScript {
 
 class ProxyConfig {
   ProxyConfig.fromJS(this._wrapped);
+
+  ProxyConfig({
+    ProxyRules? rules,
+    PacScript? pacScript,
+    required Mode mode,
+  }) : _wrapped = $js.ProxyConfig()
+          ..rules = rules?.toJS
+          ..pacScript = pacScript?.toJS
+          ..mode = mode.toJS;
 
   final $js.ProxyConfig _wrapped;
 
@@ -191,6 +234,15 @@ class ProxyConfig {
 
 class OnProxyErrorDetails {
   OnProxyErrorDetails.fromJS(this._wrapped);
+
+  OnProxyErrorDetails({
+    required bool fatal,
+    required String error,
+    required String details,
+  }) : _wrapped = $js.OnProxyErrorDetails()
+          ..fatal = fatal
+          ..error = error
+          ..details = details;
 
   final $js.OnProxyErrorDetails _wrapped;
 

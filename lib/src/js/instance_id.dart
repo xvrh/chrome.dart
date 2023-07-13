@@ -1,17 +1,19 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
-extension JSChromeJSInstanceIDExtension on JSChrome {
+extension JSChromeJSInstanceIdExtension on JSChrome {
   /// Use `chrome.instanceID` to access the Instance ID service.
-  external JSInstanceID get instanceID;
+  external JSInstanceId get instanceId;
 }
 
 @JS()
 @staticInterop
-class JSInstanceID {}
+class JSInstanceId {}
 
-extension JSInstanceIDExtension on JSInstanceID {
+extension JSInstanceIdExtension on JSInstanceId {
   /// Retrieves an identifier for the app instance. The instance ID will be
   /// returned by the `callback`. The same ID will be returned as long as the
   /// application identity has not been revoked or expired.

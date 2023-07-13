@@ -1,14 +1,18 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSEnterpriseNetworkingAttributesExtension on JSChrome {
+import 'enterprise.dart';
+
+export 'chrome.dart';
+export 'enterprise.dart';
+
+extension JSChromeJSEnterpriseNetworkingAttributesExtension
+    on JSChromeEnterprise {
   /// Use the `chrome.enterprise.networkingAttributes` API to read
   /// information about your current network.
   /// Note: This API is only available to extensions force-installed by
   /// enterprise
   /// policy.
-  external JSEnterpriseNetworkingAttributes get enterpriseNetworkingAttributes;
+  external JSEnterpriseNetworkingAttributes get networkingAttributes;
 }
 
 @JS()

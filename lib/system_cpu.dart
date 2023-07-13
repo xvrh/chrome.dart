@@ -1,22 +1,42 @@
 import 'src/internal_helpers.dart';
 import 'src/js/system_cpu.dart' as $js;
-export 'chrome.dart';
+import 'system.dart';
+
+export 'src/chrome.dart' show chrome;
+export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 
 final _systemCpu = ChromeSystemCpu._();
 
-extension ChromeSystemCpuExtension on Chrome {
-  ChromeSystemCpu get systemCpu => _systemCpu;
+extension ChromeSystemCpuExtension on ChromeSystem {
+  ChromeSystemCpu get cpu => _systemCpu;
 }
 
 class ChromeSystemCpu {
   ChromeSystemCpu._();
 
   /// Queries basic CPU information of the system.
-  Future<CpuInfo> getInfo() => throw UnimplementedError();
+  Future<CpuInfo> getInfo() {
+    var $completer = Completer<CpuInfo>();
+    $js.chrome.system.cpu.getInfo((CpuInfo info) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class CpuTime {
   CpuTime.fromJS(this._wrapped);
+
+  CpuTime({
+    required double user,
+    required double kernel,
+    required double idle,
+    required double total,
+  }) : _wrapped = $js.CpuTime()
+          ..user = user
+          ..kernel = kernel
+          ..idle = idle
+          ..total = total;
 
   final $js.CpuTime _wrapped;
 
@@ -51,6 +71,9 @@ class CpuTime {
 class ProcessorInfo {
   ProcessorInfo.fromJS(this._wrapped);
 
+  ProcessorInfo({required CpuTime usage})
+      : _wrapped = $js.ProcessorInfo()..usage = usage.toJS;
+
   final $js.ProcessorInfo _wrapped;
 
   $js.ProcessorInfo get toJS => _wrapped;
@@ -64,6 +87,21 @@ class ProcessorInfo {
 
 class CpuInfo {
   CpuInfo.fromJS(this._wrapped);
+
+  CpuInfo({
+    required int numOfProcessors,
+    required String archName,
+    required String modelName,
+    required List<String> features,
+    required List<ProcessorInfo> processors,
+    required List<double> temperatures,
+  }) : _wrapped = $js.CpuInfo()
+          ..numOfProcessors = numOfProcessors
+          ..archName = archName
+          ..modelName = modelName
+          ..features = throw UnimplementedError()
+          ..processors = throw UnimplementedError()
+          ..temperatures = throw UnimplementedError();
 
   final $js.CpuInfo _wrapped;
 

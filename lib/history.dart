@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/history.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _history = ChromeHistory._();
 
@@ -13,28 +14,76 @@ class ChromeHistory {
 
   /// Searches the history for the last visit time of each page matching the
   /// query.
-  Future<List<HistoryItem>> search(SearchQuery query) =>
-      throw UnimplementedError();
+  Future<List<HistoryItem>> search(SearchQuery query) {
+    var $completer = Completer<List<HistoryItem>>();
+    $js.chrome.history.search(
+      query.toJS,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves information about visits to a URL.
-  Future<List<VisitItem>> getVisits(UrlDetails details) =>
-      throw UnimplementedError();
+  Future<List<VisitItem>> getVisits(UrlDetails details) {
+    var $completer = Completer<List<VisitItem>>();
+    $js.chrome.history.getVisits(
+      details.toJS,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Adds a URL to the history at the current time with a [transition
   /// type](#transition_types) of "link".
-  Future<void> addUrl(UrlDetails details) => throw UnimplementedError();
+  Future<void> addUrl(UrlDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.history.addUrl(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes all occurrences of the given URL from the history.
-  Future<void> deleteUrl(UrlDetails details) => throw UnimplementedError();
+  Future<void> deleteUrl(UrlDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.history.deleteUrl(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes all items within the specified date range from the history.  Pages
   /// will not be removed from the history unless all visits fall within the
   /// range.
-  Future<void> deleteRange(DeleteRangeRange range) =>
-      throw UnimplementedError();
+  Future<void> deleteRange(DeleteRangeRange range) {
+    var $completer = Completer<void>();
+    $js.chrome.history.deleteRange(
+      range.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Deletes all items from the history.
-  Future<void> deleteAll() => throw UnimplementedError();
+  Future<void> deleteAll() {
+    var $completer = Completer<void>();
+    $js.chrome.history.deleteAll(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired when a URL is visited, providing the HistoryItem data for that URL.
   /// This event fires before the page has loaded.
@@ -71,6 +120,21 @@ enum TransitionType {
 
 class HistoryItem {
   HistoryItem.fromJS(this._wrapped);
+
+  HistoryItem({
+    required String id,
+    String? url,
+    String? title,
+    double? lastVisitTime,
+    int? visitCount,
+    int? typedCount,
+  }) : _wrapped = $js.HistoryItem()
+          ..id = id
+          ..url = url
+          ..title = title
+          ..lastVisitTime = lastVisitTime
+          ..visitCount = visitCount
+          ..typedCount = typedCount;
 
   final $js.HistoryItem _wrapped;
 
@@ -118,6 +182,19 @@ class HistoryItem {
 class VisitItem {
   VisitItem.fromJS(this._wrapped);
 
+  VisitItem({
+    required String id,
+    required String visitId,
+    double? visitTime,
+    required String referringVisitId,
+    required TransitionType transition,
+  }) : _wrapped = $js.VisitItem()
+          ..id = id
+          ..visitId = visitId
+          ..visitTime = visitTime
+          ..referringVisitId = referringVisitId
+          ..transition = transition.toJS;
+
   final $js.VisitItem _wrapped;
 
   $js.VisitItem get toJS => _wrapped;
@@ -156,6 +233,8 @@ class VisitItem {
 class UrlDetails {
   UrlDetails.fromJS(this._wrapped);
 
+  UrlDetails({required String url}) : _wrapped = $js.UrlDetails()..url = url;
+
   final $js.UrlDetails _wrapped;
 
   $js.UrlDetails get toJS => _wrapped;
@@ -170,6 +249,13 @@ class UrlDetails {
 
 class OnVisitRemovedRemoved {
   OnVisitRemovedRemoved.fromJS(this._wrapped);
+
+  OnVisitRemovedRemoved({
+    required bool allHistory,
+    List<String>? urls,
+  }) : _wrapped = $js.OnVisitRemovedRemoved()
+          ..allHistory = allHistory
+          ..urls = throw UnimplementedError();
 
   final $js.OnVisitRemovedRemoved _wrapped;
 
@@ -191,6 +277,18 @@ class OnVisitRemovedRemoved {
 class SearchQuery {
   SearchQuery.fromJS(this._wrapped);
 
+  SearchQuery({
+    required String text,
+    double? startTime,
+    double? endTime,
+    int? maxResults,
+  }) : _wrapped = $js.SearchQuery(
+          text: text,
+          startTime: startTime,
+          endTime: endTime,
+          maxResults: maxResults,
+        );
+
   final $js.SearchQuery _wrapped;
 
   $js.SearchQuery get toJS => _wrapped;
@@ -198,6 +296,14 @@ class SearchQuery {
 
 class DeleteRangeRange {
   DeleteRangeRange.fromJS(this._wrapped);
+
+  DeleteRangeRange({
+    required double startTime,
+    required double endTime,
+  }) : _wrapped = $js.DeleteRangeRange(
+          startTime: startTime,
+          endTime: endTime,
+        );
 
   final $js.DeleteRangeRange _wrapped;
 

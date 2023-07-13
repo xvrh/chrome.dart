@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/processes.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _processes = ChromeProcesses._();
 
@@ -14,12 +15,30 @@ class ChromeProcesses {
   /// Returns the ID of the renderer process for the specified tab.
   /// |tabId|: The ID of the tab for which the renderer process ID is to be
   /// returned.
-  Future<int> getProcessIdForTab(int tabId) => throw UnimplementedError();
+  Future<int> getProcessIdForTab(int tabId) {
+    var $completer = Completer<int>();
+    $js.chrome.processes.getProcessIdForTab(
+      tabId,
+      (int processId) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Terminates the specified renderer process. Equivalent to visiting
   /// about:crash, but without changing the tab's URL.
   /// |processId|: The ID of the process to be terminated.
-  Future<bool> terminate(int processId) => throw UnimplementedError();
+  Future<bool> terminate(int processId) {
+    var $completer = Completer<bool>();
+    $js.chrome.processes.terminate(
+      processId,
+      (bool didTerminate) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves the process information for each process ID specified.
   /// |processIds|: The list of process IDs or single process ID for which
@@ -31,8 +50,17 @@ class ChromeProcesses {
   Future<JSAny> getProcessInfo(
     JSAny processIds,
     bool includeMemory,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSAny>();
+    $js.chrome.processes.getProcessInfo(
+      processIds,
+      includeMemory,
+      (JSAny processes) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired each time the Task Manager updates its process statistics,
   /// providing the dictionary of updated Process objects, indexed by process
@@ -101,6 +129,13 @@ enum ProcessType {
 class TaskInfo {
   TaskInfo.fromJS(this._wrapped);
 
+  TaskInfo({
+    required String title,
+    int? tabId,
+  }) : _wrapped = $js.TaskInfo()
+          ..title = title
+          ..tabId = tabId;
+
   final $js.TaskInfo _wrapped;
 
   $js.TaskInfo get toJS => _wrapped;
@@ -122,6 +157,13 @@ class TaskInfo {
 class Cache {
   Cache.fromJS(this._wrapped);
 
+  Cache({
+    required double size,
+    required double liveSize,
+  }) : _wrapped = $js.Cache()
+          ..size = size
+          ..liveSize = liveSize;
+
   final $js.Cache _wrapped;
 
   $js.Cache get toJS => _wrapped;
@@ -141,6 +183,39 @@ class Cache {
 
 class Process {
   Process.fromJS(this._wrapped);
+
+  Process({
+    required int id,
+    required int osProcessId,
+    required ProcessType type,
+    required String profile,
+    required int naclDebugPort,
+    required List<TaskInfo> tasks,
+    double? cpu,
+    double? network,
+    double? privateMemory,
+    double? jsMemoryAllocated,
+    double? jsMemoryUsed,
+    double? sqliteMemory,
+    Cache? imageCache,
+    Cache? scriptCache,
+    Cache? cssCache,
+  }) : _wrapped = $js.Process()
+          ..id = id
+          ..osProcessId = osProcessId
+          ..type = type.toJS
+          ..profile = profile
+          ..naclDebugPort = naclDebugPort
+          ..tasks = throw UnimplementedError()
+          ..cpu = cpu
+          ..network = network
+          ..privateMemory = privateMemory
+          ..jsMemoryAllocated = jsMemoryAllocated
+          ..jsMemoryUsed = jsMemoryUsed
+          ..sqliteMemory = sqliteMemory
+          ..imageCache = imageCache?.toJS
+          ..scriptCache = scriptCache?.toJS
+          ..cssCache = cssCache?.toJS;
 
   final $js.Process _wrapped;
 

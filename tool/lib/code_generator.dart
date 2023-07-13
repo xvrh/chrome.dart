@@ -3,8 +3,8 @@ import 'package:code_builder/code_builder.dart';
 import '../src/utils.dart';
 import 'chrome_model.dart' as model;
 import 'comment.dart';
-import 'utils/split_words.dart';
-import 'utils/string_helpers.dart';
+import 'utils/string.dart';
+import 'package:path/path.dart' as p;
 
 const _dartInteropUrl = 'dart:js_interop';
 const _sharedBinding = 'chrome.dart';
@@ -13,41 +13,33 @@ const _jsPrefix = r'$js';
 
 final _formatter = DartFormatter();
 
-String apiNameToFileName(String name) {
-  name = name.replaceAll('.', '_');
-  name = name.replaceAllMapped(
-      RegExp(r"[A-Z]"), (Match m) => "_${m.group(0)!.toLowerCase()}");
-  return name;
-}
-
 class _GeneratorBase {
-  final String initialName;
   final model.ChromeApi api;
 
-  _GeneratorBase(this.api, this.initialName);
-
-  String get _apiName => api.name.split('.').map(firstLetterUpper).join('');
-
-  String get _apiNameCamelCase => lowerCamel(splitWords(_apiName));
+  _GeneratorBase(this.api);
 }
 
 class JsBindingGenerator extends _GeneratorBase {
-  JsBindingGenerator(super.api, super.initialName);
+  JsBindingGenerator(super.api);
 
-  String get bindingClassName => 'JS$_apiName';
+  String get bindingClassName => 'JS${api.classNameWithGroup}';
 
   String toCode() {
     final library = Library((b) => b
-      ..directives.add(Directive.export('chrome.dart'))
+      ..directives.addAll([
+        Directive.export('chrome.dart'),
+        if (api.group case var group?)
+          Directive.export('${group.snakeCase}.dart')
+      ])
       ..body.addAll([
         Extension((b) => b
           ..name = 'JSChrome${bindingClassName}Extension'
-          ..on = refer('JSChrome', 'chrome.dart')
+          ..on = _extensionOn
           ..methods.add(Method((b) => b
             ..docs.add(documentationComment(api.documentation, indent: 2))
             ..external = true
             ..returns = refer(bindingClassName)
-            ..name = _apiNameCamelCase
+            ..name = api.nameWithoutGroup.lowerCamel
             ..type = MethodType.getter))),
         Class((b) => b
           ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
@@ -72,9 +64,18 @@ class JsBindingGenerator extends _GeneratorBase {
           ..._dictionary(type),
       ]));
 
-    final emitter =
-        DartEmitter(allocator: Allocator(), useNullSafetySyntax: true);
-    return _formatter.format('${library.accept(emitter)}');
+    return _emitCode(library);
+  }
+
+  Reference get _extensionOn {
+    var extensionOn = 'JSChrome';
+    var extensionOnImport = 'chrome';
+    var group = api.group;
+    if (group != null) {
+      extensionOn = '$extensionOn${group.upperCamel}';
+      extensionOnImport = group.snakeCase;
+    }
+    return refer(extensionOn, '$extensionOnImport.dart');
   }
 
   Method _function(model.Method method) {
@@ -162,44 +163,45 @@ class JsBindingGenerator extends _GeneratorBase {
       ..named = true
       ..type = property.type.jsType);
   }
-
-  Expression _staticInteropAnnotation() =>
-      refer('staticInterop', _dartInteropUrl);
-
-  Expression _anonymousAnnotation() => refer('anonymous', _dartInteropUrl);
-  Expression _jsAnnotation([String? name]) => refer('JS', _dartInteropUrl)
-      .call([if (name != null) literalString(name)]);
 }
 
 class DartApiGenerator extends _GeneratorBase {
-  DartApiGenerator(super.api, super.initialName);
+  DartApiGenerator(super.api);
 
-  String get mainClassName => 'Chrome$_apiName';
+  String get mainClassName => 'Chrome${api.classNameWithGroup}';
+
+  String get _jsFile => 'src/js/${api.fileName}';
 
   String toCode() {
     final library = Library((b) => b
-      ..directives.add(Directive.import(
-          'src/js/${apiNameToFileName(initialName)}.dart',
-          as: _jsPrefix))
-      ..directives.add(Directive.export('chrome.dart'))
+      ..directives.addAll([
+        Directive.export('src/chrome.dart', show: ['chrome']),
+        Directive.import(_internalHelpers),
+        if (api.group case var group?)
+          Directive.export('${group.snakeCase}.dart', show: [
+            'Chrome${group.upperCamel}',
+            'Chrome${group.upperCamel}Extension',
+          ])
+      ])
       ..body.addAll([
         Field((b) => b
-          ..name = '_$_apiNameCamelCase'
+          ..name = '_${api.name.lowerCamel}'
           ..modifier = FieldModifier.final$
           ..assignment = refer(mainClassName).property('_').call([]).code),
         Extension((b) => b
           ..name = '${mainClassName}Extension'
-          ..on = refer('Chrome', _internalHelpers)
+          ..on = _extensionOn
           ..methods.add(Method((b) => b
             ..returns = refer(mainClassName)
-            ..name = _apiNameCamelCase
+            ..name = api.nameWithoutGroup.lowerCamel
             ..lambda = true
-            ..body = Code('_$_apiNameCamelCase')
+            ..body = Code('_${api.name.lowerCamel}')
             ..type = MethodType.getter))),
         Class((b) => b
           ..name = mainClassName
           ..constructors.add(Constructor((c) => c.name = '_'))
-          ..methods.addAll(api.functions.map(_function))
+          ..methods.addAll(
+              api.functions.map((f) => _function(f, source: _referJsBinding())))
           ..methods.addAll(api.properties.map(_property))
           ..methods.addAll(api.events.map(_event))),
         for (var enumeration in api.enumerations) _enum(enumeration),
@@ -211,20 +213,82 @@ class DartApiGenerator extends _GeneratorBase {
         for (var type in api.dictionaries) ..._dictionary(type),
       ]));
 
-    final emitter =
-        DartEmitter(allocator: Allocator(), useNullSafetySyntax: true);
-    return _formatter.format('${library.accept(emitter)}');
+    return _emitCode(library, allocator: _PrefixedAllocator(api.fileName));
   }
 
-  Method _function(model.Method method) {
-    var returns = method.returns.type?.dartType ?? refer('void');
+  Reference get _extensionOn {
+    var extensionOn = 'Chrome';
+    String? extensionOnImport;
+    var group = api.group;
+    if (group != null) {
+      extensionOn = '$extensionOn${group.upperCamel}';
+      extensionOnImport = '${group.snakeCase}.dart';
+    }
+    return refer(extensionOn, extensionOnImport);
+  }
+
+  Expression _referJsBinding() {
+    Expression referTo = refer('chrome', _jsFile);
+    if (api.group case var group?) {
+      referTo = referTo.property(group);
+    }
+    return referTo.property(api.nameWithoutGroup.lowerCamel);
+  }
+
+  Method _function(model.Method method, {required Expression source}) {
+    Reference returns;
+    Block body;
+
+    var referTo = source.property(method.name);
+    var callParameters = <Expression>[
+      for (var p in method.parameters) p.type.toJS(refer(p.name))
+    ];
+
+    if (method.returns.type case model.AsyncReturnType asyncReturn) {
+      var futureType = method.returns.type?.dartType ?? refer('void');
+      returns = TypeReference((b) => b
+        ..symbol = 'Future'
+        ..types.add(futureType));
+
+      var completerVar = r'$completer';
+
+      body = Block.of([
+        declareVar(completerVar)
+            .assign(refer('Completer').call([], {}, [futureType]))
+            .statement,
+        referTo.call([
+          ...callParameters,
+          Method((b) => b
+            ..lambda = false
+            ..requiredParameters.addAll([
+              for (var jsParam in asyncReturn.jsCallback.positionalParameters)
+                Parameter((b) => b
+                  ..name = jsParam.name!
+                  ..type = jsParam.type.jsType)
+            ])
+            ..body = refer(completerVar)
+                .property('complete')
+                .call([refer('null')]).statement).closure.property('toJS')
+        ]).statement,
+        refer(completerVar).property('future').returned.statement,
+      ]);
+    } else {
+      var callExpression = referTo.call(callParameters);
+      if (method.returns.type case var returnType?) {
+        callExpression = returnType.toDart(callExpression).returned;
+      }
+
+      body = Block.of([
+        callExpression.statement,
+      ]);
+      returns = method.returns.type?.dartType ?? refer('void');
+    }
 
     return Method((b) => b
       ..docs.add(documentationComment(method.documentation, indent: 2))
       ..name = method.name
       ..returns = returns
-      ..body = const Code('throw UnimplementedError()')
-      ..lambda = true
+      ..body = body
       ..requiredParameters
           .addAll(method.parameters.map((p) => Parameter((b) => b
             ..name = p.name
@@ -244,14 +308,14 @@ class DartApiGenerator extends _GeneratorBase {
   }
 
   Method _property(model.Property prop) {
+    var referTo = _referJsBinding().property(prop.name);
+
     return Method((b) => b
-      ..name = stringToLowerCamel(prop.name)
+      ..name = prop.name.lowerCamel
       ..returns = prop.type.dartType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..type = MethodType.getter
-      //TODO: make the conversion
-      ..body = Code(
-          "${'$_jsPrefix.chrome.$_apiNameCamelCase.${prop.name} as dynamic'}")
+      ..body = referTo.asA(refer('dynamic')).code
       ..lambda = true);
   }
 
@@ -292,45 +356,78 @@ class DartApiGenerator extends _GeneratorBase {
         ..body = Code('values.firstWhere((e) => e.value == value)'))));
   }
 
-  Iterable<Spec> _dictionary(model.Dictionary type) sync* {
-    yield Class((b) {
-      b.name = type.name;
+  Iterable<Spec> _dictionary(model.Dictionary dictionary) sync* {
+    var type = model.LocalType(dictionary.name,
+        selfFileName: api.fileName, isNullable: false);
 
-      if (!type.isSyntheticEvent) {
+    const wrappedVariable = '_wrapped';
+
+    yield Class((b) {
+      b.name = dictionary.name;
+
+      if (!dictionary.isSyntheticEvent) {
+        //TODO: don't generate some classes that are anonymous and used only
+        // at the root of the input function
+
+        Expression constructorSetter;
+        if (dictionary.isAnonymous) {
+          constructorSetter = type.jsTypeReferencedFromDart.call([], {
+            for (var property in dictionary.properties)
+              property.name: property.type.toJS(refer(property.name)),
+          });
+        } else {
+          constructorSetter = type.jsTypeReferencedFromDart.call([]);
+          for (var property in dictionary.properties) {
+            constructorSetter = constructorSetter
+                .cascade(property.name)
+                .assign(property.type.toJS(refer(property.name)));
+          }
+        }
+
         b
           ..fields.add(Field((b) => b
-            ..name = '_wrapped'
+            ..name = wrappedVariable
             ..modifier = FieldModifier.final$
-            ..type = refer('$_jsPrefix.${type.name}')))
+            ..type = refer(dictionary.name, _jsFile)))
           ..constructors.add(Constructor((b) => b
             ..name = 'fromJS'
             ..requiredParameters.add(Parameter((b) => b
-              ..name = '_wrapped'
+              ..name = wrappedVariable
               ..toThis = true))))
+          ..constructors.add(Constructor((b) => b
+            ..optionalParameters
+                .addAll(dictionary.properties.map((p) => Parameter((b) => b
+                  ..name = p.name
+                  ..type = p.type.dartType
+                  ..named = true
+                  ..required = !p.type.isNullable)))
+            ..initializers
+                .add(refer(wrappedVariable).assign(constructorSetter).code)))
           ..methods.add(Method((b) => b
             ..name = 'toJS'
             ..type = MethodType.getter
-            ..returns = refer('$_jsPrefix.${type.name}')
+            ..returns = refer(dictionary.name, _jsFile)
             ..lambda = true
-            ..body = Code('_wrapped')));
-      }
-
-      if (type.isSyntheticEvent) {
+            ..body = Code(wrappedVariable)));
+      } else {
         b
           ..constructors.add(Constructor((b) => b
             ..optionalParameters
-                .addAll(type.properties.map((p) => Parameter((b) => b
+                .addAll(dictionary.properties.map((p) => Parameter((b) => b
                   ..name = p.name
                   ..named = true
                   ..required = true
                   ..toThis = true)))))
-          ..fields.addAll(type.properties.map(_syntheticProperty));
-      } else if (!type.isAnonymous) {
+          ..fields.addAll(dictionary.properties.map(_syntheticProperty));
+      }
+
+      if (!dictionary.isSyntheticEvent && !dictionary.isAnonymous) {
         b
-          ..methods
-              .addAll(type.properties.map(_wrappingProperty).expand((e) => e))
-          ..methods.addAll(type.methods.map(_function))
-          ..methods.addAll(type.events.map(_event));
+          ..methods.addAll(
+              dictionary.properties.map(_wrappingProperty).expand((e) => e))
+          ..methods.addAll(dictionary.methods
+              .map((f) => _function(f, source: refer(wrappedVariable))))
+          ..methods.addAll(dictionary.events.map(_event));
       }
     });
   }
@@ -342,7 +439,8 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = property.type.dartType
       ..type = MethodType.getter
       ..lambda = true
-      ..body = Code(property.type.toDart('_wrapped.${property.name}')));
+      ..body =
+          property.type.toDart(refer('_wrapped').property(property.name)).code);
 
     yield Method((b) => b
       ..name = property.name
@@ -350,7 +448,10 @@ class DartApiGenerator extends _GeneratorBase {
       ..requiredParameters.add(Parameter((b) => b
         ..name = 'v'
         ..type = property.type.dartType))
-     ..body = Code('_wrapped.${property.name} = ${property.type.toJS('v')};'));
+      ..body = refer('_wrapped')
+          .property(property.name)
+          .assign(property.type.toJS(refer('v')))
+          .statement);
   }
 
   Field _syntheticProperty(model.Property property) {
@@ -363,20 +464,31 @@ class DartApiGenerator extends _GeneratorBase {
 }
 
 class _PrefixedAllocator implements Allocator {
-  static const _prefixes = {model.jsBindingRecognizableUrl: _jsPrefix};
+  final _imports = <String, String?>{};
+  final String thisFile;
 
-  final _imports = <String, String>{};
+  _PrefixedAllocator(this.thisFile);
 
   @override
   String allocate(Reference reference) {
     final symbol = reference.symbol;
     final url = reference.url;
 
-    var prefix = _prefixes[url];
-    if (url == null || prefix == null) {
-      return symbol!;
+    if (url != null && url.startsWith('src/js')) {
+      var baseName = p.basename(url);
+      String prefix;
+      if (baseName == thisFile) {
+        prefix = _jsPrefix;
+      } else {
+        prefix = '${_jsPrefix}_${p.basenameWithoutExtension(url)}';
+      }
+
+      _imports[url] = prefix;
+      return '$prefix.$symbol';
+    } else if (url != null) {
+      _imports[url] = null;
     }
-    return '${_imports.putIfAbsent(url, () => prefix)}.$symbol';
+    return symbol!;
   }
 
   @override
@@ -385,10 +497,91 @@ class _PrefixedAllocator implements Allocator {
       );
 }
 
-String _toEnumValue(String input) {
-  input = stringToLowerCamel(input);
+String generateJSGroupCode(String group) {
+  var groupClass = 'JSChrome${model.apiNameToClassName(group)}';
+  final library = Library((b) => b
+    ..body.addAll([
+      Extension((b) => b
+        ..name = '${groupClass}Extension'
+        ..on = refer('JSChrome', 'chrome.dart')
+        ..methods.add(Method((b) => b
+          ..external = true
+          ..returns = refer('JSChrome${model.apiNameToClassName(group)}')
+          ..name = group
+          ..type = MethodType.getter))),
+      Class((b) => b
+        ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
+        ..name = groupClass),
+    ]));
 
-  return enumValueIdentifier(input);
+  return _emitCode(library);
+}
+
+String generateDartGroupCode(String groupName, List<model.ChromeApi> apis) {
+  var groupClass = 'Chrome${model.apiNameToClassName(groupName)}';
+  final library = Library((b) => b
+    ..directives.addAll([
+      for (var api in apis)
+        Directive.export('${model.apiNameToFileName(api.name)}.dart'),
+    ])
+    ..body.addAll([
+      Field((b) => b
+        ..name = '_${groupClass.lowerCamel}'
+        ..modifier = FieldModifier.final$
+        ..assignment = refer(groupClass).property('_').call([]).code),
+      Extension((b) => b
+        ..name = '${groupClass}Extension'
+        ..on = refer('Chrome', _internalHelpers)
+        ..methods.add(Method((b) => b
+          ..returns = refer(groupClass)
+          ..name = groupName
+          ..lambda = true
+          ..body = Code('_${groupClass.lowerCamel}')
+          ..type = MethodType.getter))),
+      Class((b) => b
+        ..name = groupClass
+        ..constructors.add(Constructor((c) => c.name = '_'))),
+    ]));
+
+  return _emitCode(library);
+}
+
+String generateChromeCode(List<model.ChromeApi> apis, List<String> groups) {
+  final library = Library((b) => b
+    ..directives.addAll([
+      Directive.export('src/chrome.dart', show: ['chrome', 'Chrome']),
+      for (var api in apis)
+        Directive.export(api.fileName, show: [
+          'Chrome${model.apiNameToClassName(api.name)}',
+          'Chrome${model.apiNameToClassName(api.name)}Extension',
+        ]),
+      for (var group in groups)
+        Directive.export('${model.apiNameToFileName(group)}.dart', show: [
+          'Chrome${model.apiNameToClassName(group)}',
+          'Chrome${model.apiNameToClassName(group)}Extension',
+        ]),
+    ]));
+
+  return _emitCode(library);
+}
+
+String _emitCode(Spec spec, {Allocator? allocator}) {
+  final emitter = DartEmitter(
+      allocator: allocator ?? Allocator(),
+      useNullSafetySyntax: true,
+      orderDirectives: true);
+  return _formatter.format('${spec.accept(emitter)}');
+}
+
+Expression _staticInteropAnnotation() =>
+    refer('staticInterop', _dartInteropUrl);
+
+Expression _anonymousAnnotation() => refer('anonymous', _dartInteropUrl);
+Expression _jsAnnotation([String? name]) =>
+    refer('JS', _dartInteropUrl).call([if (name != null) literalString(name)]);
+
+String _toEnumValue(String input) {
+  return enumValueIdentifier(input.lowerCamel);
 }
 
 const _dartKeywordsInEnum = {

@@ -2,8 +2,7 @@ import 'package:collection/collection.dart';
 
 import 'chrome_model.dart';
 import 'json_model.dart';
-import 'utils/split_words.dart';
-import 'utils/string_helpers.dart';
+import 'utils/string.dart';
 
 class JsonModelConverter {
   final JsonNamespace model;
@@ -12,11 +11,13 @@ class JsonModelConverter {
   late final _dictionariesToGenerate =
       model.types.where((e) => e.enums == null && e.type == 'object').toList();
   final _syntheticDictionaries = <Dictionary>[];
-  final _typedefs =  <Typedef>[];
+  final _typedefs = <Typedef>[];
 
   JsonModelConverter(this.model) {
     _fillTypedefs();
   }
+
+  String get _targetFileName => '${apiNameToFileName(model.namespace)}.dart';
 
   ChromeApi convert() {
     return ChromeApi(
@@ -50,8 +51,7 @@ class JsonModelConverter {
     if (parameters.length == 1) {
       parameterType = parameters.values.first;
     } else if (parameters.length > 1) {
-      var syntheticTypeName =
-          upperCamel(splitWords('${parent ?? ''} ${event.name} Event'));
+      var syntheticTypeName = '${parent ?? ''} ${event.name} Event'.upperCamel;
       var syntheticType = Dictionary(syntheticTypeName,
           properties: [
             for (var param in parameters.entries)
@@ -65,7 +65,7 @@ class JsonModelConverter {
           isSyntheticEvent: true);
       assert(syntheticType.properties.length > 1);
       _syntheticDictionaries.add(syntheticType);
-      parameterType = LocalType(syntheticTypeName, isNullable: false);
+      parameterType = _newLocalType(syntheticTypeName, isNullable: false);
     }
 
     return Event(event.name,
@@ -142,20 +142,20 @@ class JsonModelConverter {
       {required bool anonymous, required bool isNullable}) {
     ChromeType? type;
     if (property.properties != null) {
-      var typeName = upperCamel(
-          splitWords('${name.startsWith(parent) ? '' : parent} $name'));
+      var typeName =
+          '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           properties: property.properties)
         ..isAnonymous = anonymous);
-      type = LocalType(typeName, isNullable: isNullable);
+      type = _newLocalType(typeName, isNullable: isNullable);
     } else if (property.enums != null) {
-      var typeName = upperCamel(
-          splitWords('${name.startsWith(parent) ? '' : parent} $name'));
+      var typeName =
+          '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           enums: property.enums));
-      type = LocalType(typeName, isNullable: isNullable);
+      type = _newLocalType(typeName, isNullable: isNullable);
     } else if (property.items case var items?) {
       if (items.$ref == null) {
         if (items.properties != null) {
@@ -269,7 +269,8 @@ class JsonModelConverter {
         target = VariousType(isNullable: false);
       }
 
-      _typedefs.add(Typedef(type.id, target: target, documentation: type.description));
+      _typedefs.add(
+          Typedef(type.id, target: target, documentation: type.description));
     }
   }
 
@@ -287,12 +288,14 @@ class JsonModelConverter {
     }
 
     ChromeType? type;
-    if (_typedefs.firstWhereOrNull((e) => e.alias == typeName) case var typedef?) {
+    if (_typedefs.firstWhereOrNull((e) => e.alias == typeName)
+        case var typedef?) {
       type = AliasedType(typeName, typedef.target, isNullable: nullable);
     }
 
-     type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??
-        LocalType.parse(typeName, isNullable: nullable);
+    type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??
+        LocalType.parse(typeName,
+            selfFileName: _targetFileName, isNullable: nullable);
     if (isArray) {
       return ListType(type, isNullable: arrayNullable);
     }
@@ -310,5 +313,10 @@ class JsonModelConverter {
       }
     }
     return typeName ?? 'object';
+  }
+
+  LocalType _newLocalType(String name, {required bool isNullable}) {
+    return LocalType(name,
+        selfFileName: _targetFileName, isNullable: isNullable);
   }
 }

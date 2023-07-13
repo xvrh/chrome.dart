@@ -1,7 +1,9 @@
 import 'src/internal_helpers.dart';
-import 'tabs.dart';
+import 'src/js/tabs.dart' as $js_tabs;
 import 'src/js/windows.dart' as $js;
-export 'chrome.dart';
+import 'tabs.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _windows = ChromeWindows._();
 
@@ -16,44 +18,103 @@ class ChromeWindows {
   Future<JSObject> get(
     int windowId,
     QueryOptions? queryOptions,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSObject>();
+    $js.chrome.windows.get(
+      windowId,
+      queryOptions?.toJS,
+      (JSObject window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the [current window](#current-window).
-  Future<JSObject> getCurrent(QueryOptions? queryOptions) =>
-      throw UnimplementedError();
+  Future<JSObject> getCurrent(QueryOptions? queryOptions) {
+    var $completer = Completer<JSObject>();
+    $js.chrome.windows.getCurrent(
+      queryOptions?.toJS,
+      (JSObject window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the window that was most recently focused - typically the window 'on
   /// top'.
-  Future<JSObject> getLastFocused(QueryOptions? queryOptions) =>
-      throw UnimplementedError();
+  Future<JSObject> getLastFocused(QueryOptions? queryOptions) {
+    var $completer = Completer<JSObject>();
+    $js.chrome.windows.getLastFocused(
+      queryOptions?.toJS,
+      (JSObject window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets all windows.
-  Future<List<JSObject>> getAll(QueryOptions? queryOptions) =>
-      throw UnimplementedError();
+  Future<List<JSObject>> getAll(QueryOptions? queryOptions) {
+    var $completer = Completer<List<JSObject>>();
+    $js.chrome.windows.getAll(
+      queryOptions?.toJS,
+      (JSArray windows) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  Future<JSObject?> create(CreateData? createData) =>
-      throw UnimplementedError();
+  Future<JSObject?> create(CreateData? createData) {
+    var $completer = Completer<JSObject?>();
+    $js.chrome.windows.create(
+      createData?.toJS,
+      (JSObject? window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
   Future<JSObject> update(
     int windowId,
     UpdateInfo updateInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<JSObject>();
+    $js.chrome.windows.update(
+      windowId,
+      updateInfo.toJS,
+      (JSObject window) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes (closes) a window and all the tabs inside it.
-  Future<void> remove(int windowId) => throw UnimplementedError();
+  Future<void> remove(int windowId) {
+    var $completer = Completer<void>();
+    $js.chrome.windows.remove(
+      windowId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// The windowId value that represents the absence of a Chrome browser window.
-  int get windowIdNone => $js.chrome.windows.WINDOW_ID_NONE as dynamic;
+  int get windowIdNone => ($js.chrome.windows.WINDOW_ID_NONE as dynamic);
 
   /// The windowId value that represents the [current
   /// window](windows#current-window).
-  int get windowIdCurrent => $js.chrome.windows.WINDOW_ID_CURRENT as dynamic;
+  int get windowIdCurrent => ($js.chrome.windows.WINDOW_ID_CURRENT as dynamic);
 
   /// Fired when a window is created.
   Stream<JSObject> get onCreated => throw UnimplementedError();
@@ -150,6 +211,33 @@ enum CreateType {
 class Window {
   Window.fromJS(this._wrapped);
 
+  Window({
+    int? id,
+    required bool focused,
+    int? top,
+    int? left,
+    int? width,
+    int? height,
+    List<Tab>? tabs,
+    required bool incognito,
+    WindowType? type,
+    WindowState? state,
+    required bool alwaysOnTop,
+    String? sessionId,
+  }) : _wrapped = $js.Window()
+          ..id = id
+          ..focused = focused
+          ..top = top
+          ..left = left
+          ..width = width
+          ..height = height
+          ..tabs = throw UnimplementedError()
+          ..incognito = incognito
+          ..type = type?.toJS
+          ..state = state?.toJS
+          ..alwaysOnTop = alwaysOnTop
+          ..sessionId = sessionId;
+
   final $js.Window _wrapped;
 
   $js.Window get toJS => _wrapped;
@@ -202,8 +290,10 @@ class Window {
   }
 
   /// Array of [tabs.Tab] objects representing the current tabs in the window.
-  List<Tab>? get tabs =>
-      _wrapped.tabs?.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList();
+  List<Tab>? get tabs => _wrapped.tabs?.toDart
+      .cast<$js_tabs.Tab>()
+      .map((e) => Tab.fromJS(e))
+      .toList();
   set tabs(List<Tab>? v) {
     _wrapped.tabs = throw UnimplementedError();
   }
@@ -243,6 +333,13 @@ class Window {
 class QueryOptions {
   QueryOptions.fromJS(this._wrapped);
 
+  QueryOptions({
+    bool? populate,
+    List<WindowType>? windowTypes,
+  }) : _wrapped = $js.QueryOptions()
+          ..populate = populate
+          ..windowTypes = throw UnimplementedError();
+
   final $js.QueryOptions _wrapped;
 
   $js.QueryOptions get toJS => _wrapped;
@@ -270,6 +367,32 @@ class QueryOptions {
 class CreateData {
   CreateData.fromJS(this._wrapped);
 
+  CreateData({
+    JSAny? url,
+    int? tabId,
+    int? left,
+    int? top,
+    int? width,
+    int? height,
+    bool? focused,
+    bool? incognito,
+    CreateType? type,
+    WindowState? state,
+    bool? setSelfAsOpener,
+  }) : _wrapped = $js.CreateData(
+          url: url,
+          tabId: tabId,
+          left: left,
+          top: top,
+          width: width,
+          height: height,
+          focused: focused,
+          incognito: incognito,
+          type: type?.toJS,
+          state: state?.toJS,
+          setSelfAsOpener: setSelfAsOpener,
+        );
+
   final $js.CreateData _wrapped;
 
   $js.CreateData get toJS => _wrapped;
@@ -277,6 +400,24 @@ class CreateData {
 
 class UpdateInfo {
   UpdateInfo.fromJS(this._wrapped);
+
+  UpdateInfo({
+    int? left,
+    int? top,
+    int? width,
+    int? height,
+    bool? focused,
+    bool? drawAttention,
+    WindowState? state,
+  }) : _wrapped = $js.UpdateInfo(
+          left: left,
+          top: top,
+          width: width,
+          height: height,
+          focused: focused,
+          drawAttention: drawAttention,
+          state: state?.toJS,
+        );
 
   final $js.UpdateInfo _wrapped;
 

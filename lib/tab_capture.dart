@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/tab_capture.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _tabCapture = ChromeTabCapture._();
 
@@ -24,8 +25,16 @@ class ChromeTabCapture {
   ///   `null`.  `null` indicates an error has occurred
   ///   and the client may query [runtime.lastError] to access the error
   ///   details.
-  Future<JSObject> capture(CaptureOptions options) =>
-      throw UnimplementedError();
+  Future<JSObject> capture(CaptureOptions options) {
+    var $completer = Completer<JSObject>();
+    $js.chrome.tabCapture.capture(
+      options.toJS,
+      (JSObject stream) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns a list of tabs that have requested capture or are being
   /// captured, i.e. status != stopped and status != error.
@@ -33,7 +42,13 @@ class ChromeTabCapture {
   /// tab capture that would prevent a new tab capture from succeeding (or
   /// to prevent redundant requests for the same tab).
   /// |callback| : Callback invoked with CaptureInfo[] for captured tabs.
-  Future<List<CaptureInfo>> getCapturedTabs() => throw UnimplementedError();
+  Future<List<CaptureInfo>> getCapturedTabs() {
+    var $completer = Completer<List<CaptureInfo>>();
+    $js.chrome.tabCapture.getCapturedTabs((JSArray result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Creates a stream ID to capture the target tab.
   /// Similar to chrome.tabCapture.capture() method, but returns a media
@@ -45,8 +60,16 @@ class ChromeTabCapture {
   /// `getUserMedia()` API to generate a media stream that
   /// corresponds to the target tab. The created `streamId` can
   /// only be used once and expires after a few seconds if it is not used.
-  Future<String> getMediaStreamId(GetMediaStreamOptions? options) =>
-      throw UnimplementedError();
+  Future<String> getMediaStreamId(GetMediaStreamOptions? options) {
+    var $completer = Completer<String>();
+    $js.chrome.tabCapture.getMediaStreamId(
+      options?.toJS,
+      (String streamId) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Event fired when the capture status of a tab changes.
   /// This allows extension authors to keep track of the capture status of
@@ -72,6 +95,15 @@ enum TabCaptureState {
 
 class CaptureInfo {
   CaptureInfo.fromJS(this._wrapped);
+
+  CaptureInfo({
+    required int tabId,
+    required TabCaptureState status,
+    required bool fullscreen,
+  }) : _wrapped = $js.CaptureInfo()
+          ..tabId = tabId
+          ..status = status.toJS
+          ..fullscreen = fullscreen;
 
   final $js.CaptureInfo _wrapped;
 
@@ -99,6 +131,9 @@ class CaptureInfo {
 class MediaStreamConstraint {
   MediaStreamConstraint.fromJS(this._wrapped);
 
+  MediaStreamConstraint({required JSAny mandatory})
+      : _wrapped = $js.MediaStreamConstraint()..mandatory = mandatory;
+
   final $js.MediaStreamConstraint _wrapped;
 
   $js.MediaStreamConstraint get toJS => _wrapped;
@@ -107,15 +142,23 @@ class MediaStreamConstraint {
   set mandatory(JSAny v) {
     _wrapped.mandatory = v;
   }
-
-  JSAny? get _optional => _wrapped._optional;
-  set _optional(JSAny? v) {
-    _wrapped._optional = v;
-  }
 }
 
 class CaptureOptions {
   CaptureOptions.fromJS(this._wrapped);
+
+  CaptureOptions({
+    bool? audio,
+    bool? video,
+    MediaStreamConstraint? audioConstraints,
+    MediaStreamConstraint? videoConstraints,
+    String? presentationId,
+  }) : _wrapped = $js.CaptureOptions()
+          ..audio = audio
+          ..video = video
+          ..audioConstraints = audioConstraints?.toJS
+          ..videoConstraints = videoConstraints?.toJS
+          ..presentationId = presentationId;
 
   final $js.CaptureOptions _wrapped;
 
@@ -151,6 +194,13 @@ class CaptureOptions {
 
 class GetMediaStreamOptions {
   GetMediaStreamOptions.fromJS(this._wrapped);
+
+  GetMediaStreamOptions({
+    int? consumerTabId,
+    int? targetTabId,
+  }) : _wrapped = $js.GetMediaStreamOptions()
+          ..consumerTabId = consumerTabId
+          ..targetTabId = targetTabId;
 
   final $js.GetMediaStreamOptions _wrapped;
 

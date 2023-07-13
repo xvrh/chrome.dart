@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSTabCaptureExtension on JSChrome {
@@ -84,8 +86,6 @@ class MediaStreamConstraint {}
 
 extension MediaStreamConstraintExtension on MediaStreamConstraint {
   external JSAny mandatory;
-
-  external JSAny? _optional;
 }
 
 @JS()

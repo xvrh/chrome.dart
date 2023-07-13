@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'events.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/declarative_content.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _declarativeContent = ChromeDeclarativeContent._();
 
@@ -83,6 +84,17 @@ typedef ImageDataType = JSObject;
 class PageStateMatcher {
   PageStateMatcher.fromJS(this._wrapped);
 
+  PageStateMatcher({
+    UrlFilter? pageUrl,
+    List<String>? css,
+    bool? isBookmarked,
+    required PageStateMatcherInstanceType instanceType,
+  }) : _wrapped = $js.PageStateMatcher()
+          ..pageUrl = pageUrl?.toJS
+          ..css = throw UnimplementedError()
+          ..isBookmarked = isBookmarked
+          ..instanceType = instanceType.toJS;
+
   final $js.PageStateMatcher _wrapped;
 
   $js.PageStateMatcher get toJS => _wrapped;
@@ -123,6 +135,9 @@ class PageStateMatcher {
 class ShowPageAction {
   ShowPageAction.fromJS(this._wrapped);
 
+  ShowPageAction({required ShowPageActionInstanceType instanceType})
+      : _wrapped = $js.ShowPageAction()..instanceType = instanceType.toJS;
+
   final $js.ShowPageAction _wrapped;
 
   $js.ShowPageAction get toJS => _wrapped;
@@ -137,6 +152,9 @@ class ShowPageAction {
 class ShowAction {
   ShowAction.fromJS(this._wrapped);
 
+  ShowAction({required ShowActionInstanceType instanceType})
+      : _wrapped = $js.ShowAction()..instanceType = instanceType.toJS;
+
   final $js.ShowAction _wrapped;
 
   $js.ShowAction get toJS => _wrapped;
@@ -150,6 +168,13 @@ class ShowAction {
 
 class SetIcon {
   SetIcon.fromJS(this._wrapped);
+
+  SetIcon({
+    required SetIconInstanceType instanceType,
+    JSAny? imageData,
+  }) : _wrapped = $js.SetIcon()
+          ..instanceType = instanceType.toJS
+          ..imageData = imageData;
 
   final $js.SetIcon _wrapped;
 
@@ -177,6 +202,19 @@ class SetIcon {
 
 class RequestContentScript {
   RequestContentScript.fromJS(this._wrapped);
+
+  RequestContentScript({
+    List<String>? css,
+    List<String>? js,
+    bool? allFrames,
+    bool? matchAboutBlank,
+    required RequestContentScriptInstanceType instanceType,
+  }) : _wrapped = $js.RequestContentScript()
+          ..css = throw UnimplementedError()
+          ..js = throw UnimplementedError()
+          ..allFrames = allFrames
+          ..matchAboutBlank = matchAboutBlank
+          ..instanceType = instanceType.toJS;
 
   final $js.RequestContentScript _wrapped;
 

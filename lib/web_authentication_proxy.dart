@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/web_authentication_proxy.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _webAuthenticationProxy = ChromeWebAuthenticationProxy._();
 
@@ -17,22 +18,46 @@ class ChromeWebAuthenticationProxy {
   /// `onCreateRequest` event it has received, unless the request
   /// was canceled (in which case, an `onRequestCanceled` event is
   /// fired).
-  Future<void> completeCreateRequest(CreateResponseDetails details) =>
-      throw UnimplementedError();
+  Future<void> completeCreateRequest(CreateResponseDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.webAuthenticationProxy.completeCreateRequest(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Reports the result of a `navigator.credentials.get()` call.
   /// The extension must call this for every `onGetRequest` event
   /// it has received, unless the request was canceled (in which case, an
   /// `onRequestCanceled` event is fired).
-  Future<void> completeGetRequest(GetResponseDetails details) =>
-      throw UnimplementedError();
+  Future<void> completeGetRequest(GetResponseDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.webAuthenticationProxy.completeGetRequest(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Reports the result of a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   /// call. The extension must call this for every
   /// `onIsUvpaaRequest` event it has received.
-  Future<void> completeIsUvpaaRequest(IsUvpaaResponseDetails details) =>
-      throw UnimplementedError();
+  Future<void> completeIsUvpaaRequest(IsUvpaaResponseDetails details) {
+    var $completer = Completer<void>();
+    $js.chrome.webAuthenticationProxy.completeIsUvpaaRequest(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Makes this extension the active Web Authentication API request proxy.
   ///
@@ -52,7 +77,13 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  Future<String?> attach() => throw UnimplementedError();
+  Future<String?> attach() {
+    var $completer = Completer<String?>();
+    $js.chrome.webAuthenticationProxy.attach((String? error) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Removes this extension from being the active Web Authentication API
   /// request proxy.
@@ -64,7 +95,13 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  Future<String?> detach() => throw UnimplementedError();
+  Future<String?> detach() {
+    var $completer = Completer<String?>();
+    $js.chrome.webAuthenticationProxy.detach((String? error) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// A native application associated with this extension can cause this
   /// event to be fired by writing to a file with a name equal to the
@@ -117,6 +154,9 @@ class ChromeWebAuthenticationProxy {
 class IsUvpaaRequest {
   IsUvpaaRequest.fromJS(this._wrapped);
 
+  IsUvpaaRequest({required int requestId})
+      : _wrapped = $js.IsUvpaaRequest()..requestId = requestId;
+
   final $js.IsUvpaaRequest _wrapped;
 
   $js.IsUvpaaRequest get toJS => _wrapped;
@@ -130,6 +170,13 @@ class IsUvpaaRequest {
 
 class CreateRequest {
   CreateRequest.fromJS(this._wrapped);
+
+  CreateRequest({
+    required int requestId,
+    required String requestDetailsJson,
+  }) : _wrapped = $js.CreateRequest()
+          ..requestId = requestId
+          ..requestDetailsJson = requestDetailsJson;
 
   final $js.CreateRequest _wrapped;
 
@@ -155,6 +202,13 @@ class CreateRequest {
 class GetRequest {
   GetRequest.fromJS(this._wrapped);
 
+  GetRequest({
+    required int requestId,
+    required String requestDetailsJson,
+  }) : _wrapped = $js.GetRequest()
+          ..requestId = requestId
+          ..requestDetailsJson = requestDetailsJson;
+
   final $js.GetRequest _wrapped;
 
   $js.GetRequest get toJS => _wrapped;
@@ -179,6 +233,13 @@ class GetRequest {
 class DOMExceptionDetails {
   DOMExceptionDetails.fromJS(this._wrapped);
 
+  DOMExceptionDetails({
+    required String name,
+    required String message,
+  }) : _wrapped = $js.DOMExceptionDetails()
+          ..name = name
+          ..message = message;
+
   final $js.DOMExceptionDetails _wrapped;
 
   $js.DOMExceptionDetails get toJS => _wrapped;
@@ -196,6 +257,15 @@ class DOMExceptionDetails {
 
 class CreateResponseDetails {
   CreateResponseDetails.fromJS(this._wrapped);
+
+  CreateResponseDetails({
+    required int requestId,
+    DOMExceptionDetails? error,
+    String? responseJson,
+  }) : _wrapped = $js.CreateResponseDetails()
+          ..requestId = requestId
+          ..error = error?.toJS
+          ..responseJson = responseJson;
 
   final $js.CreateResponseDetails _wrapped;
 
@@ -227,6 +297,15 @@ class CreateResponseDetails {
 class GetResponseDetails {
   GetResponseDetails.fromJS(this._wrapped);
 
+  GetResponseDetails({
+    required int requestId,
+    DOMExceptionDetails? error,
+    String? responseJson,
+  }) : _wrapped = $js.GetResponseDetails()
+          ..requestId = requestId
+          ..error = error?.toJS
+          ..responseJson = responseJson;
+
   final $js.GetResponseDetails _wrapped;
 
   $js.GetResponseDetails get toJS => _wrapped;
@@ -256,6 +335,13 @@ class GetResponseDetails {
 
 class IsUvpaaResponseDetails {
   IsUvpaaResponseDetails.fromJS(this._wrapped);
+
+  IsUvpaaResponseDetails({
+    required int requestId,
+    required bool isUvpaa,
+  }) : _wrapped = $js.IsUvpaaResponseDetails()
+          ..requestId = requestId
+          ..isUvpaa = isUvpaa;
 
   final $js.IsUvpaaResponseDetails _wrapped;
 

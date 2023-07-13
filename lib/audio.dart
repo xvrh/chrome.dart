@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/audio.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _audio = ChromeAudio._();
 
@@ -16,8 +17,16 @@ class ChromeAudio {
   ///     audio devices. If the filter is not set or set to `{}`,
   ///     returned device list will contain all available audio devices.
   /// |callback|: Reports the requested list of audio devices.
-  Future<List<AudioDeviceInfo>> getDevices(DeviceFilter? filter) =>
-      throw UnimplementedError();
+  Future<List<AudioDeviceInfo>> getDevices(DeviceFilter? filter) {
+    var $completer = Completer<List<AudioDeviceInfo>>();
+    $js.chrome.audio.getDevices(
+      filter?.toJS,
+      (JSArray devices) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets lists of active input and/or output devices.
   /// |ids|: Specifies IDs of devices that should be active. If either the
@@ -25,21 +34,47 @@ class ChromeAudio {
   ///     unaffected.
   ///
   ///     It is an error to pass in a non-existent device ID.
-  Future<void> setActiveDevices(DeviceIdLists ids) =>
-      throw UnimplementedError();
+  Future<void> setActiveDevices(DeviceIdLists ids) {
+    var $completer = Completer<void>();
+    $js.chrome.audio.setActiveDevices(
+      ids.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets the properties for the input or output device.
   Future<void> setProperties(
     String id,
     DeviceProperties properties,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.audio.setProperties(
+      id,
+      properties.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the system-wide mute state for the specified stream type.
   /// |streamType|: Stream type for which mute state should be fetched.
   /// |callback|: Callback reporting whether mute is set or not for specified
   /// stream type.
-  Future<bool> getMute(StreamType streamType) => throw UnimplementedError();
+  Future<bool> getMute(StreamType streamType) {
+    var $completer = Completer<bool>();
+    $js.chrome.audio.getMute(
+      streamType.toJS,
+      (bool value) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets mute state for a stream type. The mute state will apply to all audio
   /// devices with the specified audio stream type.
@@ -48,8 +83,17 @@ class ChromeAudio {
   Future<void> setMute(
     StreamType streamType,
     bool isMuted,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.audio.setMute(
+      streamType.toJS,
+      isMuted,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired when sound level changes for an active audio device.
   Stream<LevelChangedEvent> get onLevelChanged => throw UnimplementedError();
@@ -111,6 +155,25 @@ enum DeviceType {
 class AudioDeviceInfo {
   AudioDeviceInfo.fromJS(this._wrapped);
 
+  AudioDeviceInfo({
+    required String id,
+    required StreamType streamType,
+    required DeviceType deviceType,
+    required String displayName,
+    required String deviceName,
+    required bool isActive,
+    required int level,
+    String? stableDeviceId,
+  }) : _wrapped = $js.AudioDeviceInfo()
+          ..id = id
+          ..streamType = streamType.toJS
+          ..deviceType = deviceType.toJS
+          ..displayName = displayName
+          ..deviceName = deviceName
+          ..isActive = isActive
+          ..level = level
+          ..stableDeviceId = stableDeviceId;
+
   final $js.AudioDeviceInfo _wrapped;
 
   $js.AudioDeviceInfo get toJS => _wrapped;
@@ -167,6 +230,13 @@ class AudioDeviceInfo {
 class DeviceFilter {
   DeviceFilter.fromJS(this._wrapped);
 
+  DeviceFilter({
+    List<StreamType>? streamTypes,
+    bool? isActive,
+  }) : _wrapped = $js.DeviceFilter()
+          ..streamTypes = throw UnimplementedError()
+          ..isActive = isActive;
+
   final $js.DeviceFilter _wrapped;
 
   $js.DeviceFilter get toJS => _wrapped;
@@ -192,6 +262,9 @@ class DeviceFilter {
 class DeviceProperties {
   DeviceProperties.fromJS(this._wrapped);
 
+  DeviceProperties({int? level})
+      : _wrapped = $js.DeviceProperties()..level = level;
+
   final $js.DeviceProperties _wrapped;
 
   $js.DeviceProperties get toJS => _wrapped;
@@ -210,6 +283,13 @@ class DeviceProperties {
 
 class DeviceIdLists {
   DeviceIdLists.fromJS(this._wrapped);
+
+  DeviceIdLists({
+    List<String>? input,
+    List<String>? output,
+  }) : _wrapped = $js.DeviceIdLists()
+          ..input = throw UnimplementedError()
+          ..output = throw UnimplementedError();
 
   final $js.DeviceIdLists _wrapped;
 
@@ -237,6 +317,13 @@ class DeviceIdLists {
 class MuteChangedEvent {
   MuteChangedEvent.fromJS(this._wrapped);
 
+  MuteChangedEvent({
+    required StreamType streamType,
+    required bool isMuted,
+  }) : _wrapped = $js.MuteChangedEvent()
+          ..streamType = streamType.toJS
+          ..isMuted = isMuted;
+
   final $js.MuteChangedEvent _wrapped;
 
   $js.MuteChangedEvent get toJS => _wrapped;
@@ -257,6 +344,13 @@ class MuteChangedEvent {
 
 class LevelChangedEvent {
   LevelChangedEvent.fromJS(this._wrapped);
+
+  LevelChangedEvent({
+    required String deviceId,
+    required int level,
+  }) : _wrapped = $js.LevelChangedEvent()
+          ..deviceId = deviceId
+          ..level = level;
 
   final $js.LevelChangedEvent _wrapped;
 

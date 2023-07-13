@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/management.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _management = ChromeManagement._();
 
@@ -12,27 +13,64 @@ class ChromeManagement {
   ChromeManagement._();
 
   /// Returns a list of information about installed extensions and apps.
-  Future<List<ExtensionInfo>> getAll() => throw UnimplementedError();
+  Future<List<ExtensionInfo>> getAll() {
+    var $completer = Completer<List<ExtensionInfo>>();
+    $js.chrome.management.getAll((JSArray result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
-  Future<ExtensionInfo> get(String id) => throw UnimplementedError();
+  Future<ExtensionInfo> get(String id) {
+    var $completer = Completer<ExtensionInfo>();
+    $js.chrome.management.get(
+      id,
+      (ExtensionInfo result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns information about the calling extension, app, or theme. Note: This
   /// function can be used without requesting the 'management' permission in the
   /// manifest.
-  Future<ExtensionInfo> getSelf() => throw UnimplementedError();
+  Future<ExtensionInfo> getSelf() {
+    var $completer = Completer<ExtensionInfo>();
+    $js.chrome.management.getSelf((ExtensionInfo result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension id.
-  Future<List<String>> getPermissionWarningsById(String id) =>
-      throw UnimplementedError();
+  Future<List<String>> getPermissionWarningsById(String id) {
+    var $completer = Completer<List<String>>();
+    $js.chrome.management.getPermissionWarningsById(
+      id,
+      (JSArray permissionWarnings) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension manifest string. Note: This function can be used without
   /// requesting the 'management' permission in the manifest.
-  Future<List<String>> getPermissionWarningsByManifest(String manifestStr) =>
-      throw UnimplementedError();
+  Future<List<String>> getPermissionWarningsByManifest(String manifestStr) {
+    var $completer = Completer<List<String>>();
+    $js.chrome.management.getPermissionWarningsByManifest(
+      manifestStr,
+      (JSArray permissionWarnings) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Enables or disables an app or extension. In most cases this function must
   /// be called in the context of a user gesture (e.g. an onclick handler for a
@@ -41,8 +79,17 @@ class ChromeManagement {
   Future<void> setEnabled(
     String id,
     bool enabled,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.management.setEnabled(
+      id,
+      enabled,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Uninstalls a currently installed app or extension. Note: This function
   /// does not work in managed environments when the user is not allowed to
@@ -52,50 +99,121 @@ class ChromeManagement {
   Future<void> uninstall(
     String id,
     UninstallOptions? options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.management.uninstall(
+      id,
+      options?.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Uninstalls the calling extension. Note: This function can be used without
   /// requesting the 'management' permission in the manifest. This function does
   /// not work in managed environments when the user is not allowed to uninstall
   /// the specified extension/app.
-  Future<void> uninstallSelf(UninstallOptions? options) =>
-      throw UnimplementedError();
+  Future<void> uninstallSelf(UninstallOptions? options) {
+    var $completer = Completer<void>();
+    $js.chrome.management.uninstallSelf(
+      options?.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Launches an application.
-  Future<void> launchApp(String id) => throw UnimplementedError();
+  Future<void> launchApp(String id) {
+    var $completer = Completer<void>();
+    $js.chrome.management.launchApp(
+      id,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
-  Future<void> createAppShortcut(String id) => throw UnimplementedError();
+  Future<void> createAppShortcut(String id) {
+    var $completer = Completer<void>();
+    $js.chrome.management.createAppShortcut(
+      id,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Set the launch type of an app.
   Future<void> setLaunchType(
     String id,
     LaunchType launchType,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.management.setLaunchType(
+      id,
+      launchType.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Generate an app for a URL. Returns the generated bookmark app.
   Future<ExtensionInfo> generateAppForLink(
     String url,
     String title,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<ExtensionInfo>();
+    $js.chrome.management.generateAppForLink(
+      url,
+      title,
+      (ExtensionInfo result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Checks if the replacement android app can be installed. Errors generated
   /// by this API are reported by setting [runtime.lastError] and executing the
   /// function's regular callback.
-  Future<bool> canInstallReplacementAndroidApp() => throw UnimplementedError();
+  Future<bool> canInstallReplacementAndroidApp() {
+    var $completer = Completer<bool>();
+    $js.chrome.management.canInstallReplacementAndroidApp((bool result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Prompts the user to install the replacement Android app from the manifest.
   /// Errors generated by this API are reported by setting [runtime.lastError]
   /// and executing the function's regular callback.
-  Future<void> installReplacementAndroidApp() => throw UnimplementedError();
+  Future<void> installReplacementAndroidApp() {
+    var $completer = Completer<void>();
+    $js.chrome.management.installReplacementAndroidApp(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Launches the replacement_web_app specified in the manifest. Prompts the
   /// user to install if not already installed.
-  Future<void> installReplacementWebApp() => throw UnimplementedError();
+  Future<void> installReplacementWebApp() {
+    var $completer = Completer<void>();
+    $js.chrome.management.installReplacementWebApp(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Fired when an app or extension has been installed.
   Stream<ExtensionInfo> get onInstalled => throw UnimplementedError();
@@ -183,6 +301,13 @@ enum ExtensionInstallType {
 class IconInfo {
   IconInfo.fromJS(this._wrapped);
 
+  IconInfo({
+    required int size,
+    required String url,
+  }) : _wrapped = $js.IconInfo()
+          ..size = size
+          ..url = url;
+
   final $js.IconInfo _wrapped;
 
   $js.IconInfo get toJS => _wrapped;
@@ -205,6 +330,55 @@ class IconInfo {
 
 class ExtensionInfo {
   ExtensionInfo.fromJS(this._wrapped);
+
+  ExtensionInfo({
+    required String id,
+    required String name,
+    required String shortName,
+    required String description,
+    required String version,
+    String? versionName,
+    required bool mayDisable,
+    bool? mayEnable,
+    required bool enabled,
+    ExtensionDisabledReason? disabledReason,
+    required bool isApp,
+    required ExtensionType type,
+    String? appLaunchUrl,
+    String? homepageUrl,
+    String? updateUrl,
+    required bool offlineEnabled,
+    required String optionsUrl,
+    List<IconInfo>? icons,
+    required List<String> permissions,
+    required List<String> hostPermissions,
+    required ExtensionInstallType installType,
+    LaunchType? launchType,
+    List<LaunchType>? availableLaunchTypes,
+  }) : _wrapped = $js.ExtensionInfo()
+          ..id = id
+          ..name = name
+          ..shortName = shortName
+          ..description = description
+          ..version = version
+          ..versionName = versionName
+          ..mayDisable = mayDisable
+          ..mayEnable = mayEnable
+          ..enabled = enabled
+          ..disabledReason = disabledReason?.toJS
+          ..isApp = isApp
+          ..type = type.toJS
+          ..appLaunchUrl = appLaunchUrl
+          ..homepageUrl = homepageUrl
+          ..updateUrl = updateUrl
+          ..offlineEnabled = offlineEnabled
+          ..optionsUrl = optionsUrl
+          ..icons = throw UnimplementedError()
+          ..permissions = throw UnimplementedError()
+          ..hostPermissions = throw UnimplementedError()
+          ..installType = installType.toJS
+          ..launchType = launchType?.toJS
+          ..availableLaunchTypes = throw UnimplementedError();
 
   final $js.ExtensionInfo _wrapped;
 
@@ -368,6 +542,10 @@ class ExtensionInfo {
 
 class UninstallOptions {
   UninstallOptions.fromJS(this._wrapped);
+
+  UninstallOptions({bool? showConfirmDialog})
+      : _wrapped = $js.UninstallOptions()
+          ..showConfirmDialog = showConfirmDialog;
 
   final $js.UninstallOptions _wrapped;
 

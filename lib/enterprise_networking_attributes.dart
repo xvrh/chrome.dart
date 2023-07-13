@@ -1,12 +1,15 @@
+import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_networking_attributes.dart' as $js;
-export 'chrome.dart';
+
+export 'enterprise.dart' show ChromeEnterprise, ChromeEnterpriseExtension;
+export 'src/chrome.dart' show chrome;
 
 final _enterpriseNetworkingAttributes =
     ChromeEnterpriseNetworkingAttributes._();
 
-extension ChromeEnterpriseNetworkingAttributesExtension on Chrome {
-  ChromeEnterpriseNetworkingAttributes get enterpriseNetworkingAttributes =>
+extension ChromeEnterpriseNetworkingAttributesExtension on ChromeEnterprise {
+  ChromeEnterpriseNetworkingAttributes get networkingAttributes =>
       _enterpriseNetworkingAttributes;
 }
 
@@ -18,11 +21,27 @@ class ChromeEnterpriseNetworkingAttributes {
   /// network, [runtime.lastError] will be set with a failure reason.
   /// |callback| : Called with the device's default network's
   /// [NetworkDetails].
-  Future<NetworkDetails> getNetworkDetails() => throw UnimplementedError();
+  Future<NetworkDetails> getNetworkDetails() {
+    var $completer = Completer<NetworkDetails>();
+    $js.chrome.enterprise.networkingAttributes
+        .getNetworkDetails((NetworkDetails networkAddresses) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class NetworkDetails {
   NetworkDetails.fromJS(this._wrapped);
+
+  NetworkDetails({
+    required String macAddress,
+    String? ipv4,
+    String? ipv6,
+  }) : _wrapped = $js.NetworkDetails()
+          ..macAddress = macAddress
+          ..ipv4 = ipv4
+          ..ipv6 = ipv6;
 
   final $js.NetworkDetails _wrapped;
 

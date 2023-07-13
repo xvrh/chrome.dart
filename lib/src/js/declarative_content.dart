@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'events.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeContentExtension on JSChrome {

@@ -1,22 +1,38 @@
 import 'src/internal_helpers.dart';
 import 'src/js/system_memory.dart' as $js;
-export 'chrome.dart';
+import 'system.dart';
+
+export 'src/chrome.dart' show chrome;
+export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 
 final _systemMemory = ChromeSystemMemory._();
 
-extension ChromeSystemMemoryExtension on Chrome {
-  ChromeSystemMemory get systemMemory => _systemMemory;
+extension ChromeSystemMemoryExtension on ChromeSystem {
+  ChromeSystemMemory get memory => _systemMemory;
 }
 
 class ChromeSystemMemory {
   ChromeSystemMemory._();
 
   /// Get physical memory information.
-  Future<MemoryInfo> getInfo() => throw UnimplementedError();
+  Future<MemoryInfo> getInfo() {
+    var $completer = Completer<MemoryInfo>();
+    $js.chrome.system.memory.getInfo((MemoryInfo info) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class MemoryInfo {
   MemoryInfo.fromJS(this._wrapped);
+
+  MemoryInfo({
+    required double capacity,
+    required double availableCapacity,
+  }) : _wrapped = $js.MemoryInfo()
+          ..capacity = capacity
+          ..availableCapacity = availableCapacity;
 
   final $js.MemoryInfo _wrapped;
 

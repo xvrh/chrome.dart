@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/file_browser_handler.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _fileBrowserHandler = ChromeFileBrowserHandler._();
 
@@ -17,6 +18,13 @@ class ChromeFileBrowserHandler {
 
 class FileHandlerExecuteEventDetails {
   FileHandlerExecuteEventDetails.fromJS(this._wrapped);
+
+  FileHandlerExecuteEventDetails({
+    required List<JSAny> entries,
+    int? tab_id,
+  }) : _wrapped = $js.FileHandlerExecuteEventDetails()
+          ..entries = throw UnimplementedError()
+          ..tab_id = tab_id;
 
   final $js.FileHandlerExecuteEventDetails _wrapped;
 

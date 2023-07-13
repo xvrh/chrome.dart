@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/usb.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _usb = ChromeUsb._();
 
@@ -14,8 +16,16 @@ class ChromeUsb {
 
   /// Enumerates connected USB devices.
   /// |options|: The properties to search for on target devices.
-  Future<List<Device>> getDevices(EnumerateDevicesOptions options) =>
-      throw UnimplementedError();
+  Future<List<Device>> getDevices(EnumerateDevicesOptions options) {
+    var $completer = Completer<List<Device>>();
+    $js.chrome.usb.getDevices(
+      options.toJS,
+      (JSArray devices) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Presents a device picker to the user and returns the [Device]s
   /// selected.
@@ -24,13 +34,29 @@ class ChromeUsb {
   /// callback will run as though the user cancelled.
   /// |options|: Configuration of the device picker dialog box.
   /// |callback|: Invoked with a list of chosen [Device]s.
-  Future<List<Device>> getUserSelectedDevices(DevicePromptOptions options) =>
-      throw UnimplementedError();
+  Future<List<Device>> getUserSelectedDevices(DevicePromptOptions options) {
+    var $completer = Completer<List<Device>>();
+    $js.chrome.usb.getUserSelectedDevices(
+      options.toJS,
+      (JSArray devices) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the full set of device configuration descriptors.
   /// |device|: The [Device] to fetch descriptors from.
-  Future<List<ConfigDescriptor>> getConfigurations(Device device) =>
-      throw UnimplementedError();
+  Future<List<ConfigDescriptor>> getConfigurations(Device device) {
+    var $completer = Completer<List<ConfigDescriptor>>();
+    $js.chrome.usb.getConfigurations(
+      device.toJS,
+      (JSArray configs) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Requests access from the permission broker to a device claimed by
   /// Chrome OS if the given interface on the device is not claimed.
@@ -40,13 +66,30 @@ class ChromeUsb {
   Future<bool> requestAccess(
     Device device,
     int interfaceId,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<bool>();
+    $js.chrome.usb.requestAccess(
+      device.toJS,
+      interfaceId,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Opens a USB device returned by [getDevices].
   /// |device|: The [Device] to open.
-  Future<ConnectionHandle> openDevice(Device device) =>
-      throw UnimplementedError();
+  Future<ConnectionHandle> openDevice(Device device) {
+    var $completer = Completer<ConnectionHandle>();
+    $js.chrome.usb.openDevice(
+      device.toJS,
+      (ConnectionHandle handle) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Finds USB devices specified by the vendor, product and (optionally)
   /// interface IDs and if permissions allow opens them for use.
@@ -59,14 +102,30 @@ class ChromeUsb {
   ///
   /// |options|: The properties to search for on target devices.
   Future<List<ConnectionHandle>> findDevices(
-          EnumerateDevicesAndRequestAccessOptions options) =>
-      throw UnimplementedError();
+      EnumerateDevicesAndRequestAccessOptions options) {
+    var $completer = Completer<List<ConnectionHandle>>();
+    $js.chrome.usb.findDevices(
+      options.toJS,
+      (JSArray handles) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Closes a connection handle. Invoking operations on a handle after it
   /// has been closed is a safe operation but causes no action to be taken.
   /// |handle|: The [ConnectionHandle] to close.
-  Future<void> closeDevice(ConnectionHandle handle) =>
-      throw UnimplementedError();
+  Future<void> closeDevice(ConnectionHandle handle) {
+    var $completer = Completer<void>();
+    $js.chrome.usb.closeDevice(
+      handle.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Select a device configuration.
   ///
@@ -78,19 +137,44 @@ class ChromeUsb {
   Future<void> setConfiguration(
     ConnectionHandle handle,
     int configurationValue,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.usb.setConfiguration(
+      handle.toJS,
+      configurationValue,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the configuration descriptor for the currently selected
   /// configuration.
   /// |handle|: An open connection to the device.
-  Future<ConfigDescriptor> getConfiguration(ConnectionHandle handle) =>
-      throw UnimplementedError();
+  Future<ConfigDescriptor> getConfiguration(ConnectionHandle handle) {
+    var $completer = Completer<ConfigDescriptor>();
+    $js.chrome.usb.getConfiguration(
+      handle.toJS,
+      (ConfigDescriptor config) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Lists all interfaces on a USB device.
   /// |handle|: An open connection to the device.
-  Future<List<InterfaceDescriptor>> listInterfaces(ConnectionHandle handle) =>
-      throw UnimplementedError();
+  Future<List<InterfaceDescriptor>> listInterfaces(ConnectionHandle handle) {
+    var $completer = Completer<List<InterfaceDescriptor>>();
+    $js.chrome.usb.listInterfaces(
+      handle.toJS,
+      (JSArray descriptors) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Claims an interface on a USB device.
   /// Before data can be transfered to an interface or associated endpoints the
@@ -106,8 +190,17 @@ class ChromeUsb {
   Future<void> claimInterface(
     ConnectionHandle handle,
     int interfaceNumber,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.usb.claimInterface(
+      handle.toJS,
+      interfaceNumber,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Releases a claimed interface.
   /// |handle|: An open connection to the device.
@@ -115,8 +208,17 @@ class ChromeUsb {
   Future<void> releaseInterface(
     ConnectionHandle handle,
     int interfaceNumber,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.usb.releaseInterface(
+      handle.toJS,
+      interfaceNumber,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Selects an alternate setting on a previously claimed interface.
   /// |handle|: An open connection to the device where this interface has been
@@ -127,8 +229,18 @@ class ChromeUsb {
     ConnectionHandle handle,
     int interfaceNumber,
     int alternateSetting,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.usb.setInterfaceAlternateSetting(
+      handle.toJS,
+      interfaceNumber,
+      alternateSetting,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Performs a control transfer on the specified device.
   ///
@@ -140,8 +252,17 @@ class ChromeUsb {
   Future<TransferResultInfo> controlTransfer(
     ConnectionHandle handle,
     ControlTransferInfo transferInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<TransferResultInfo>();
+    $js.chrome.usb.controlTransfer(
+      handle.toJS,
+      transferInfo.toJS,
+      (TransferResultInfo info) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Performs a bulk transfer on the specified device.
   /// |handle|: An open connection to the device.
@@ -149,8 +270,17 @@ class ChromeUsb {
   Future<TransferResultInfo> bulkTransfer(
     ConnectionHandle handle,
     GenericTransferInfo transferInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<TransferResultInfo>();
+    $js.chrome.usb.bulkTransfer(
+      handle.toJS,
+      transferInfo.toJS,
+      (TransferResultInfo info) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Performs an interrupt transfer on the specified device.
   /// |handle|: An open connection to the device.
@@ -158,16 +288,34 @@ class ChromeUsb {
   Future<TransferResultInfo> interruptTransfer(
     ConnectionHandle handle,
     GenericTransferInfo transferInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<TransferResultInfo>();
+    $js.chrome.usb.interruptTransfer(
+      handle.toJS,
+      transferInfo.toJS,
+      (TransferResultInfo info) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Performs an isochronous transfer on the specific device.
   /// |handle|: An open connection to the device.
   Future<TransferResultInfo> isochronousTransfer(
     ConnectionHandle handle,
     IsochronousTransferInfo transferInfo,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<TransferResultInfo>();
+    $js.chrome.usb.isochronousTransfer(
+      handle.toJS,
+      transferInfo.toJS,
+      (TransferResultInfo info) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Tries to reset the USB device.
   /// If the reset fails, the given connection handle will be closed and the
@@ -176,8 +324,16 @@ class ChromeUsb {
   /// to acquire the device.
   ///
   /// |handle|: A connection handle to reset.
-  Future<bool> resetDevice(ConnectionHandle handle) =>
-      throw UnimplementedError();
+  Future<bool> resetDevice(ConnectionHandle handle) {
+    var $completer = Completer<bool>();
+    $js.chrome.usb.resetDevice(
+      handle.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Event generated when a device is added to the system. Events are only
   /// broadcast to apps and extensions that have permission to access the
@@ -286,6 +442,23 @@ enum UsageType {
 class Device {
   Device.fromJS(this._wrapped);
 
+  Device({
+    required int device,
+    required int vendorId,
+    required int productId,
+    required int version,
+    required String productName,
+    required String manufacturerName,
+    required String serialNumber,
+  }) : _wrapped = $js.Device()
+          ..device = device
+          ..vendorId = vendorId
+          ..productId = productId
+          ..version = version
+          ..productName = productName
+          ..manufacturerName = manufacturerName
+          ..serialNumber = serialNumber;
+
   final $js.Device _wrapped;
 
   $js.Device get toJS => _wrapped;
@@ -337,6 +510,15 @@ class Device {
 class ConnectionHandle {
   ConnectionHandle.fromJS(this._wrapped);
 
+  ConnectionHandle({
+    required int handle,
+    required int vendorId,
+    required int productId,
+  }) : _wrapped = $js.ConnectionHandle()
+          ..handle = handle
+          ..vendorId = vendorId
+          ..productId = productId;
+
   final $js.ConnectionHandle _wrapped;
 
   $js.ConnectionHandle get toJS => _wrapped;
@@ -365,6 +547,25 @@ class ConnectionHandle {
 
 class EndpointDescriptor {
   EndpointDescriptor.fromJS(this._wrapped);
+
+  EndpointDescriptor({
+    required int address,
+    required TransferType type,
+    required Direction direction,
+    required int maximumPacketSize,
+    SynchronizationType? synchronization,
+    UsageType? usage,
+    int? pollingInterval,
+    required ByteBuffer extra_data,
+  }) : _wrapped = $js.EndpointDescriptor()
+          ..address = address
+          ..type = type.toJS
+          ..direction = direction.toJS
+          ..maximumPacketSize = maximumPacketSize
+          ..synchronization = synchronization?.toJS
+          ..usage = usage?.toJS
+          ..pollingInterval = pollingInterval
+          ..extra_data = extra_data.toJS;
 
   final $js.EndpointDescriptor _wrapped;
 
@@ -422,6 +623,25 @@ class EndpointDescriptor {
 
 class InterfaceDescriptor {
   InterfaceDescriptor.fromJS(this._wrapped);
+
+  InterfaceDescriptor({
+    required int interfaceNumber,
+    required int alternateSetting,
+    required int interfaceClass,
+    required int interfaceSubclass,
+    required int interfaceProtocol,
+    String? description,
+    required List<EndpointDescriptor> endpoints,
+    required ByteBuffer extra_data,
+  }) : _wrapped = $js.InterfaceDescriptor()
+          ..interfaceNumber = interfaceNumber
+          ..alternateSetting = alternateSetting
+          ..interfaceClass = interfaceClass
+          ..interfaceSubclass = interfaceSubclass
+          ..interfaceProtocol = interfaceProtocol
+          ..description = description
+          ..endpoints = throw UnimplementedError()
+          ..extra_data = extra_data.toJS;
 
   final $js.InterfaceDescriptor _wrapped;
 
@@ -482,6 +702,25 @@ class InterfaceDescriptor {
 class ConfigDescriptor {
   ConfigDescriptor.fromJS(this._wrapped);
 
+  ConfigDescriptor({
+    required bool active,
+    required int configurationValue,
+    String? description,
+    required bool selfPowered,
+    required bool remoteWakeup,
+    required int maxPower,
+    required List<InterfaceDescriptor> interfaces,
+    required ByteBuffer extra_data,
+  }) : _wrapped = $js.ConfigDescriptor()
+          ..active = active
+          ..configurationValue = configurationValue
+          ..description = description
+          ..selfPowered = selfPowered
+          ..remoteWakeup = remoteWakeup
+          ..maxPower = maxPower
+          ..interfaces = throw UnimplementedError()
+          ..extra_data = extra_data.toJS;
+
   final $js.ConfigDescriptor _wrapped;
 
   $js.ConfigDescriptor get toJS => _wrapped;
@@ -540,6 +779,27 @@ class ConfigDescriptor {
 
 class ControlTransferInfo {
   ControlTransferInfo.fromJS(this._wrapped);
+
+  ControlTransferInfo({
+    required Direction direction,
+    required Recipient recipient,
+    required RequestType requestType,
+    required int request,
+    required int value,
+    required int index,
+    int? length,
+    ByteBuffer? data,
+    int? timeout,
+  }) : _wrapped = $js.ControlTransferInfo()
+          ..direction = direction.toJS
+          ..recipient = recipient.toJS
+          ..requestType = requestType.toJS
+          ..request = request
+          ..value = value
+          ..index = index
+          ..length = length
+          ..data = data?.toJS
+          ..timeout = timeout;
 
   final $js.ControlTransferInfo _wrapped;
 
@@ -607,6 +867,19 @@ class ControlTransferInfo {
 class GenericTransferInfo {
   GenericTransferInfo.fromJS(this._wrapped);
 
+  GenericTransferInfo({
+    required Direction direction,
+    required int endpoint,
+    int? length,
+    ByteBuffer? data,
+    int? timeout,
+  }) : _wrapped = $js.GenericTransferInfo()
+          ..direction = direction.toJS
+          ..endpoint = endpoint
+          ..length = length
+          ..data = data?.toJS
+          ..timeout = timeout;
+
   final $js.GenericTransferInfo _wrapped;
 
   $js.GenericTransferInfo get toJS => _wrapped;
@@ -648,6 +921,15 @@ class GenericTransferInfo {
 class IsochronousTransferInfo {
   IsochronousTransferInfo.fromJS(this._wrapped);
 
+  IsochronousTransferInfo({
+    required GenericTransferInfo transferInfo,
+    required int packets,
+    required int packetLength,
+  }) : _wrapped = $js.IsochronousTransferInfo()
+          ..transferInfo = transferInfo.toJS
+          ..packets = packets
+          ..packetLength = packetLength;
+
   final $js.IsochronousTransferInfo _wrapped;
 
   $js.IsochronousTransferInfo get toJS => _wrapped;
@@ -677,6 +959,13 @@ class IsochronousTransferInfo {
 class TransferResultInfo {
   TransferResultInfo.fromJS(this._wrapped);
 
+  TransferResultInfo({
+    int? resultCode,
+    ByteBuffer? data,
+  }) : _wrapped = $js.TransferResultInfo()
+          ..resultCode = resultCode
+          ..data = data?.toJS;
+
   final $js.TransferResultInfo _wrapped;
 
   $js.TransferResultInfo get toJS => _wrapped;
@@ -698,6 +987,19 @@ class TransferResultInfo {
 
 class DeviceFilter {
   DeviceFilter.fromJS(this._wrapped);
+
+  DeviceFilter({
+    int? vendorId,
+    int? productId,
+    int? interfaceClass,
+    int? interfaceSubclass,
+    int? interfaceProtocol,
+  }) : _wrapped = $js.DeviceFilter()
+          ..vendorId = vendorId
+          ..productId = productId
+          ..interfaceClass = interfaceClass
+          ..interfaceSubclass = interfaceSubclass
+          ..interfaceProtocol = interfaceProtocol;
 
   final $js.DeviceFilter _wrapped;
 
@@ -737,6 +1039,15 @@ class DeviceFilter {
 class EnumerateDevicesOptions {
   EnumerateDevicesOptions.fromJS(this._wrapped);
 
+  EnumerateDevicesOptions({
+    int? vendorId,
+    int? productId,
+    List<DeviceFilter>? filters,
+  }) : _wrapped = $js.EnumerateDevicesOptions()
+          ..vendorId = vendorId
+          ..productId = productId
+          ..filters = throw UnimplementedError();
+
   final $js.EnumerateDevicesOptions _wrapped;
 
   $js.EnumerateDevicesOptions get toJS => _wrapped;
@@ -765,6 +1076,15 @@ class EnumerateDevicesOptions {
 class EnumerateDevicesAndRequestAccessOptions {
   EnumerateDevicesAndRequestAccessOptions.fromJS(this._wrapped);
 
+  EnumerateDevicesAndRequestAccessOptions({
+    required int vendorId,
+    required int productId,
+    int? interfaceId,
+  }) : _wrapped = $js.EnumerateDevicesAndRequestAccessOptions()
+          ..vendorId = vendorId
+          ..productId = productId
+          ..interfaceId = interfaceId;
+
   final $js.EnumerateDevicesAndRequestAccessOptions _wrapped;
 
   $js.EnumerateDevicesAndRequestAccessOptions get toJS => _wrapped;
@@ -791,6 +1111,13 @@ class EnumerateDevicesAndRequestAccessOptions {
 
 class DevicePromptOptions {
   DevicePromptOptions.fromJS(this._wrapped);
+
+  DevicePromptOptions({
+    bool? multiple,
+    List<DeviceFilter>? filters,
+  }) : _wrapped = $js.DevicePromptOptions()
+          ..multiple = multiple
+          ..filters = throw UnimplementedError();
 
   final $js.DevicePromptOptions _wrapped;
 

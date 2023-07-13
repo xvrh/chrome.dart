@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'printer_provider.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSPrintingExtension on JSChrome {

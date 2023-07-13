@@ -1,11 +1,15 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-export 'chrome.dart';
 
-extension JSChromeJSDevtoolsRecorderExtension on JSChrome {
+import 'chrome.dart';
+import 'devtools.dart';
+
+export 'chrome.dart';
+export 'devtools.dart';
+
+extension JSChromeJSDevtoolsRecorderExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.recorder` API to customize the Recorder panel in
   /// DevTools.
-  external JSDevtoolsRecorder get devtoolsRecorder;
+  external JSDevtoolsRecorder get recorder;
 }
 
 @JS()

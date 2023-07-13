@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'extension_types.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/scripting.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _scripting = ChromeScripting._();
 
@@ -20,14 +21,31 @@ class ChromeScripting {
   /// |callback|: Invoked upon completion of the injection. The resulting
   /// array contains the result of execution for each frame where the
   /// injection succeeded.
-  Future<List<InjectionResult>> executeScript(ScriptInjection injection) =>
-      throw UnimplementedError();
+  Future<List<InjectionResult>> executeScript(ScriptInjection injection) {
+    var $completer = Completer<List<InjectionResult>>();
+    $js.chrome.scripting.executeScript(
+      injection.toJS,
+      (JSArray results) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Inserts a CSS stylesheet into a target context.
   /// If multiple frames are specified, unsuccessful injections are ignored.
   /// |injection|: The details of the styles to insert.
   /// |callback|: Invoked upon completion of the insertion.
-  Future<void> insertCSS(CSSInjection injection) => throw UnimplementedError();
+  Future<void> insertCSS(CSSInjection injection) {
+    var $completer = Completer<void>();
+    $js.chrome.scripting.insertCSS(
+      injection.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Removes a CSS stylesheet that was previously inserted by this extension
   /// from a target context.
@@ -36,7 +54,16 @@ class ChromeScripting {
   /// must exactly match the stylesheet inserted through [insertCSS].
   /// Attempting to remove a non-existent stylesheet is a no-op.
   /// |callback|: A callback to be invoked upon the completion of the removal.
-  Future<void> removeCSS(CSSInjection injection) => throw UnimplementedError();
+  Future<void> removeCSS(CSSInjection injection) {
+    var $completer = Completer<void>();
+    $js.chrome.scripting.removeCSS(
+      injection.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Registers one or more content scripts for this extension.
   /// |scripts|: Contains a list of scripts to be registered. If there are
@@ -44,16 +71,32 @@ class ChromeScripting {
   /// already exist, then no scripts are registered.
   /// |callback|: A callback to be invoked once scripts have been fully
   /// registered or if an error has occurred.
-  Future<void> registerContentScripts(List<RegisteredContentScript> scripts) =>
-      throw UnimplementedError();
+  Future<void> registerContentScripts(List<RegisteredContentScript> scripts) {
+    var $completer = Completer<void>();
+    $js.chrome.scripting.registerContentScripts(
+      throw UnimplementedError(),
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns all dynamically registered content scripts for this extension
   /// that match the given filter.
   /// |filter|: An object to filter the extension's dynamically registered
   /// scripts.
   Future<List<RegisteredContentScript>> getRegisteredContentScripts(
-          ContentScriptFilter? filter) =>
-      throw UnimplementedError();
+      ContentScriptFilter? filter) {
+    var $completer = Completer<List<RegisteredContentScript>>();
+    $js.chrome.scripting.getRegisteredContentScripts(
+      filter?.toJS,
+      (JSArray scripts) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Unregisters content scripts for this extension.
   /// |filter|: If specified, only unregisters dynamic content scripts which
@@ -61,8 +104,16 @@ class ChromeScripting {
   /// scripts are unregistered.
   /// |callback|: A callback to be invoked once scripts have been unregistered
   /// or if an error has occurred.
-  Future<void> unregisterContentScripts(ContentScriptFilter? filter) =>
-      throw UnimplementedError();
+  Future<void> unregisterContentScripts(ContentScriptFilter? filter) {
+    var $completer = Completer<void>();
+    $js.chrome.scripting.unregisterContentScripts(
+      filter?.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates one or more content scripts for this extension.
   /// |scripts|: Contains a list of scripts to be updated. A property is only
@@ -72,15 +123,23 @@ class ChromeScripting {
   /// are updated.
   /// |callback|: A callback to be invoked once scripts have been updated or
   /// if an error has occurred.
-  Future<void> updateContentScripts(List<RegisteredContentScript> scripts) =>
-      throw UnimplementedError();
+  Future<void> updateContentScripts(List<RegisteredContentScript> scripts) {
+    var $completer = Completer<void>();
+    $js.chrome.scripting.updateContentScripts(
+      throw UnimplementedError(),
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// An object available for content scripts running in isolated worlds to use
   /// and modify as a JS object. One instance exists per frame and is shared
   /// between all content scripts for a given extension. This object is
   /// initialized when the frame is created, before document_start.
   /// TODO(crbug.com/1054624): Enable this once implementation is complete.
-  int get globalParams => $js.chrome.scripting.globalParams as dynamic;
+  int get globalParams => ($js.chrome.scripting.globalParams as dynamic);
 }
 
 /// The origin for a style change.
@@ -119,6 +178,17 @@ enum ExecutionWorld {
 
 class InjectionTarget {
   InjectionTarget.fromJS(this._wrapped);
+
+  InjectionTarget({
+    required int tabId,
+    List<int>? frameIds,
+    List<String>? documentIds,
+    bool? allFrames,
+  }) : _wrapped = $js.InjectionTarget()
+          ..tabId = tabId
+          ..frameIds = throw UnimplementedError()
+          ..documentIds = throw UnimplementedError()
+          ..allFrames = allFrames;
 
   final $js.InjectionTarget _wrapped;
 
@@ -159,6 +229,23 @@ class InjectionTarget {
 
 class ScriptInjection {
   ScriptInjection.fromJS(this._wrapped);
+
+  ScriptInjection({
+    JSAny? func,
+    List<JSAny>? args,
+    JSAny? function,
+    List<String>? files,
+    required InjectionTarget target,
+    ExecutionWorld? world,
+    bool? injectImmediately,
+  }) : _wrapped = $js.ScriptInjection()
+          ..func = func
+          ..args = throw UnimplementedError()
+          ..function = function
+          ..files = throw UnimplementedError()
+          ..target = target.toJS
+          ..world = world?.toJS
+          ..injectImmediately = injectImmediately;
 
   final $js.ScriptInjection _wrapped;
 
@@ -229,6 +316,17 @@ class ScriptInjection {
 class CSSInjection {
   CSSInjection.fromJS(this._wrapped);
 
+  CSSInjection({
+    required InjectionTarget target,
+    String? css,
+    List<String>? files,
+    StyleOrigin? origin,
+  }) : _wrapped = $js.CSSInjection()
+          ..target = target.toJS
+          ..css = css
+          ..files = throw UnimplementedError()
+          ..origin = origin?.toJS;
+
   final $js.CSSInjection _wrapped;
 
   $js.CSSInjection get toJS => _wrapped;
@@ -267,6 +365,15 @@ class CSSInjection {
 class InjectionResult {
   InjectionResult.fromJS(this._wrapped);
 
+  InjectionResult({
+    JSAny? result,
+    required int frameId,
+    required String documentId,
+  }) : _wrapped = $js.InjectionResult()
+          ..result = result
+          ..frameId = frameId
+          ..documentId = documentId;
+
   final $js.InjectionResult _wrapped;
 
   $js.InjectionResult get toJS => _wrapped;
@@ -292,6 +399,29 @@ class InjectionResult {
 
 class RegisteredContentScript {
   RegisteredContentScript.fromJS(this._wrapped);
+
+  RegisteredContentScript({
+    required String id,
+    List<String>? matches,
+    List<String>? excludeMatches,
+    List<String>? css,
+    List<String>? js,
+    bool? allFrames,
+    bool? matchOriginAsFallback,
+    RunAt? runAt,
+    bool? persistAcrossSessions,
+    ExecutionWorld? world,
+  }) : _wrapped = $js.RegisteredContentScript()
+          ..id = id
+          ..matches = throw UnimplementedError()
+          ..excludeMatches = throw UnimplementedError()
+          ..css = throw UnimplementedError()
+          ..js = throw UnimplementedError()
+          ..allFrames = allFrames
+          ..matchOriginAsFallback = matchOriginAsFallback
+          ..runAt = runAt?.toJS
+          ..persistAcrossSessions = persistAcrossSessions
+          ..world = world?.toJS;
 
   final $js.RegisteredContentScript _wrapped;
 
@@ -381,6 +511,9 @@ class RegisteredContentScript {
 
 class ContentScriptFilter {
   ContentScriptFilter.fromJS(this._wrapped);
+
+  ContentScriptFilter({List<String>? ids})
+      : _wrapped = $js.ContentScriptFilter()..ids = throw UnimplementedError();
 
   final $js.ContentScriptFilter _wrapped;
 

@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/login_state.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _loginState = ChromeLoginState._();
 
@@ -12,10 +13,22 @@ class ChromeLoginState {
   ChromeLoginState._();
 
   /// Gets the type of the profile the extension is in.
-  Future<ProfileType> getProfileType() => throw UnimplementedError();
+  Future<ProfileType> getProfileType() {
+    var $completer = Completer<ProfileType>();
+    $js.chrome.loginState.getProfileType((ProfileType result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Gets the current session state.
-  Future<SessionState> getSessionState() => throw UnimplementedError();
+  Future<SessionState> getSessionState() {
+    var $completer = Completer<SessionState>();
+    $js.chrome.loginState.getSessionState((SessionState result) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Dispatched when the session state changes. `sessionState`
   /// is the new session state.

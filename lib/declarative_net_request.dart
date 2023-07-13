@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'extension_types.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/declarative_net_request.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _declarativeNetRequest = ChromeDeclarativeNetRequest._();
 
@@ -32,8 +33,16 @@ class ChromeDeclarativeNetRequest {
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, internal
   /// errors, and others.
-  Future<void> updateDynamicRules(UpdateRuleOptions options) =>
-      throw UnimplementedError();
+  Future<void> updateDynamicRules(UpdateRuleOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.declarativeNetRequest.updateDynamicRules(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the current set of dynamic rules for the extension. Callers can
   /// optionally filter the list of fetched rules by specifying a
@@ -41,8 +50,16 @@ class ChromeDeclarativeNetRequest {
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of dynamic rules. An error might be
   /// raised in case of transient internal errors.
-  Future<List<Rule>> getDynamicRules(GetRulesFilter? filter) =>
-      throw UnimplementedError();
+  Future<List<Rule>> getDynamicRules(GetRulesFilter? filter) {
+    var $completer = Completer<List<Rule>>();
+    $js.chrome.declarativeNetRequest.getDynamicRules(
+      filter?.toJS,
+      (JSArray rules) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Modifies the current set of session scoped rules for the extension.
   /// The rules with IDs listed in `options.removeRuleIds` are first
@@ -60,16 +77,32 @@ class ChromeDeclarativeNetRequest {
   /// an error, [runtime.lastError] will be set and no change will be made
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, and others.
-  Future<void> updateSessionRules(UpdateRuleOptions options) =>
-      throw UnimplementedError();
+  Future<void> updateSessionRules(UpdateRuleOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.declarativeNetRequest.updateSessionRules(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the current set of session scoped rules for the extension.
   /// Callers can optionally filter the list of fetched rules by specifying a
   /// `filter`.
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of session scoped rules.
-  Future<List<Rule>> getSessionRules(GetRulesFilter? filter) =>
-      throw UnimplementedError();
+  Future<List<Rule>> getSessionRules(GetRulesFilter? filter) {
+    var $completer = Completer<List<Rule>>();
+    $js.chrome.declarativeNetRequest.getSessionRules(
+      filter?.toJS,
+      (JSArray rules) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates the set of enabled static rulesets for the extension. The
   /// rulesets with IDs listed in `options.disableRulesetIds` are
@@ -83,13 +116,27 @@ class ChromeDeclarativeNetRequest {
   /// [runtime.lastError] will be set and no change will be made to set of
   /// enabled rulesets. This can happen for multiple reasons, such as invalid
   /// ruleset IDs, rule count limit exceeded, or internal errors.
-  Future<void> updateEnabledRulesets(UpdateRulesetOptions options) =>
-      throw UnimplementedError();
+  Future<void> updateEnabledRulesets(UpdateRulesetOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.declarativeNetRequest.updateEnabledRulesets(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the ids for the current set of enabled static rulesets.
   /// |callback|: Called with a list of ids, where each id corresponds to an
   /// enabled static [Ruleset].
-  Future<List<String>> getEnabledRulesets() => throw UnimplementedError();
+  Future<List<String>> getEnabledRulesets() {
+    var $completer = Completer<List<String>>();
+    $js.chrome.declarativeNetRequest.getEnabledRulesets((JSArray rulesetIds) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Disables and enables individual static rules in a [Ruleset].
   /// Changes to rules belonging to a disabled [Ruleset] will take
@@ -97,16 +144,32 @@ class ChromeDeclarativeNetRequest {
   /// |callback|: Called once the update is complete. In case of an error,
   /// [runtime.lastError] will be set and no change will be made to the
   /// enabled static rules.
-  Future<void> updateStaticRules(UpdateStaticRulesOptions options) =>
-      throw UnimplementedError();
+  Future<void> updateStaticRules(UpdateStaticRulesOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.declarativeNetRequest.updateStaticRules(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the list of static rules in the given [Ruleset] that are
   /// currently disabled.
   /// |options|: Specifies the ruleset to query.
   /// |callback|: Called with a list of ids that correspond to the disabled
   /// rules in that ruleset.
-  Future<List<int>> getDisabledRuleIds(GetDisabledRuleIdsOptions options) =>
-      throw UnimplementedError();
+  Future<List<int>> getDisabledRuleIds(GetDisabledRuleIdsOptions options) {
+    var $completer = Completer<List<int>>();
+    $js.chrome.declarativeNetRequest.getDisabledRuleIds(
+      options.toJS,
+      (JSArray disabledRuleIds) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns all rules matched for the extension. Callers can optionally
   /// filter the list of matched rules by specifying a `filter`.
@@ -121,27 +184,57 @@ class ChromeDeclarativeNetRequest {
   /// case of an error, [runtime.lastError] will be set and no rules will
   /// be returned. This can happen for multiple reasons, such as insufficient
   /// permissions, or exceeding the quota.
-  Future<RulesMatchedDetails> getMatchedRules(MatchedRulesFilter? filter) =>
-      throw UnimplementedError();
+  Future<RulesMatchedDetails> getMatchedRules(MatchedRulesFilter? filter) {
+    var $completer = Completer<RulesMatchedDetails>();
+    $js.chrome.declarativeNetRequest.getMatchedRules(
+      filter?.toJS,
+      (RulesMatchedDetails details) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Configures if the action count for tabs should be displayed as the
   /// extension action's badge text and provides a way for that action count to
   /// be incremented.
-  Future<void> setExtensionActionOptions(ExtensionActionOptions options) =>
-      throw UnimplementedError();
+  Future<void> setExtensionActionOptions(ExtensionActionOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.declarativeNetRequest.setExtensionActionOptions(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Checks if the given regular expression will be supported as a
   /// `regexFilter` rule condition.
   /// |regexOptions|: The regular expression to check.
   /// |callback|: Called with details consisting of whether the regular
   /// expression is supported and the reason if not.
-  Future<IsRegexSupportedResult> isRegexSupported(RegexOptions regexOptions) =>
-      throw UnimplementedError();
+  Future<IsRegexSupportedResult> isRegexSupported(RegexOptions regexOptions) {
+    var $completer = Completer<IsRegexSupportedResult>();
+    $js.chrome.declarativeNetRequest.isRegexSupported(
+      regexOptions.toJS,
+      (IsRegexSupportedResult result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the number of static rules an extension can enable before the
   /// [global static rule limit](#global-static-rule-limit) is
   /// reached.
-  Future<int> getAvailableStaticRuleCount() => throw UnimplementedError();
+  Future<int> getAvailableStaticRuleCount() {
+    var $completer = Completer<int>();
+    $js.chrome.declarativeNetRequest.getAvailableStaticRuleCount((int count) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Checks if any of the extension's declarativeNetRequest rules would match
   /// a hypothetical request.
@@ -150,25 +243,33 @@ class ChromeDeclarativeNetRequest {
   /// |requestDetails|: The request details to test.
   /// |callback|: Called with the details of matched rules.
   Future<TestMatchOutcomeResult> testMatchOutcome(
-          TestMatchRequestDetails request) =>
-      throw UnimplementedError();
+      TestMatchRequestDetails request) {
+    var $completer = Completer<TestMatchOutcomeResult>();
+    $js.chrome.declarativeNetRequest.testMatchOutcome(
+      request.toJS,
+      (TestMatchOutcomeResult result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// The minimum number of static rules guaranteed to an extension across its
   /// enabled static rulesets. Any rules above this limit will count towards
   /// the [global static rule limit](#global-static-rule-limit).
   int get guaranteedMinimumStaticRules =>
-      $js.chrome.declarativeNetRequest.GUARANTEED_MINIMUM_STATIC_RULES
-          as dynamic;
+      ($js.chrome.declarativeNetRequest.GUARANTEED_MINIMUM_STATIC_RULES
+          as dynamic);
 
   /// The maximum number of dynamic rules that an extension can add.
   int get maxNumberOfDynamicRules =>
-      $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_RULES as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_RULES as dynamic);
 
   /// The maximum number of combined dynamic and session scoped rules an
   /// extension can add.
   int get maxNumberOfDynamicAndSessionRules =>
-      $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES
-          as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES
+          as dynamic);
 
   /// Time interval within which `MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
   /// getMatchedRules` calls can be made, specified in minutes.
@@ -176,39 +277,40 @@ class ChromeDeclarativeNetRequest {
   /// Note: `getMatchedRules` calls associated with a user gesture
   /// are exempt from the quota.
   int get getmatchedrulesQuotaInterval =>
-      $js.chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL
-          as dynamic;
+      ($js.chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL
+          as dynamic);
 
   /// The number of times `getMatchedRules` can be called within a
   /// period of `GETMATCHEDRULES_QUOTA_INTERVAL`.
   int get maxGetmatchedrulesCallsPerInterval =>
-      $js.chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
-          as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL
+          as dynamic);
 
   /// The maximum number of regular expression rules that an extension can
   /// add. This limit is evaluated separately for the set of dynamic rules and
   /// those specified in the rule resources file.
   int get maxNumberOfRegexRules =>
-      $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_REGEX_RULES as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_NUMBER_OF_REGEX_RULES as dynamic);
 
   /// The maximum number of static `Rulesets` an extension can
   /// specify as part of the `"rule_resources"` manifest key.
   int get maxNumberOfStaticRulesets =>
-      $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_STATIC_RULESETS as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_NUMBER_OF_STATIC_RULESETS
+          as dynamic);
 
   /// The maximum number of static `Rulesets` an extension can
   /// enable at any one time.
   int get maxNumberOfEnabledStaticRulesets =>
-      $js.chrome.declarativeNetRequest.MAX_NUMBER_OF_ENABLED_STATIC_RULESETS
-          as dynamic;
+      ($js.chrome.declarativeNetRequest.MAX_NUMBER_OF_ENABLED_STATIC_RULESETS
+          as dynamic);
 
   /// Ruleset ID for the dynamic rules added by the extension.
   String get dynamicRulesetId =>
-      $js.chrome.declarativeNetRequest.DYNAMIC_RULESET_ID as dynamic;
+      ($js.chrome.declarativeNetRequest.DYNAMIC_RULESET_ID as dynamic);
 
   /// Ruleset ID for the session-scoped rules added by the extension.
   String get sessionRulesetId =>
-      $js.chrome.declarativeNetRequest.SESSION_RULESET_ID as dynamic;
+      ($js.chrome.declarativeNetRequest.SESSION_RULESET_ID as dynamic);
 
   /// Fired when a rule is matched with a request. Only available for unpacked
   /// extensions with the `declarativeNetRequestFeedback` permission
@@ -362,6 +464,15 @@ enum UnsupportedRegexReason {
 class Ruleset {
   Ruleset.fromJS(this._wrapped);
 
+  Ruleset({
+    required String id,
+    required String path,
+    required bool enabled,
+  }) : _wrapped = $js.Ruleset()
+          ..id = id
+          ..path = path
+          ..enabled = enabled;
+
   final $js.Ruleset _wrapped;
 
   $js.Ruleset get toJS => _wrapped;
@@ -389,6 +500,15 @@ class Ruleset {
 class QueryKeyValue {
   QueryKeyValue.fromJS(this._wrapped);
 
+  QueryKeyValue({
+    required String key,
+    required String value,
+    bool? replaceOnly,
+  }) : _wrapped = $js.QueryKeyValue()
+          ..key = key
+          ..value = value
+          ..replaceOnly = replaceOnly;
+
   final $js.QueryKeyValue _wrapped;
 
   $js.QueryKeyValue get toJS => _wrapped;
@@ -414,6 +534,13 @@ class QueryKeyValue {
 class QueryTransform {
   QueryTransform.fromJS(this._wrapped);
 
+  QueryTransform({
+    List<String>? removeParams,
+    List<QueryKeyValue>? addOrReplaceParams,
+  }) : _wrapped = $js.QueryTransform()
+          ..removeParams = throw UnimplementedError()
+          ..addOrReplaceParams = throw UnimplementedError();
+
   final $js.QueryTransform _wrapped;
 
   $js.QueryTransform get toJS => _wrapped;
@@ -438,6 +565,27 @@ class QueryTransform {
 
 class URLTransform {
   URLTransform.fromJS(this._wrapped);
+
+  URLTransform({
+    String? scheme,
+    String? host,
+    String? port,
+    String? path,
+    String? query,
+    QueryTransform? queryTransform,
+    String? fragment,
+    String? username,
+    String? password,
+  }) : _wrapped = $js.URLTransform()
+          ..scheme = scheme
+          ..host = host
+          ..port = port
+          ..path = path
+          ..query = query
+          ..queryTransform = queryTransform?.toJS
+          ..fragment = fragment
+          ..username = username
+          ..password = password;
 
   final $js.URLTransform _wrapped;
 
@@ -505,6 +653,17 @@ class URLTransform {
 class Redirect {
   Redirect.fromJS(this._wrapped);
 
+  Redirect({
+    String? extensionPath,
+    URLTransform? transform,
+    String? url,
+    String? regexSubstitution,
+  }) : _wrapped = $js.Redirect()
+          ..extensionPath = extensionPath
+          ..transform = transform?.toJS
+          ..url = url
+          ..regexSubstitution = regexSubstitution;
+
   final $js.Redirect _wrapped;
 
   $js.Redirect get toJS => _wrapped;
@@ -540,6 +699,41 @@ class Redirect {
 
 class RuleCondition {
   RuleCondition.fromJS(this._wrapped);
+
+  RuleCondition({
+    String? urlFilter,
+    String? regexFilter,
+    bool? isUrlFilterCaseSensitive,
+    List<String>? initiatorDomains,
+    List<String>? excludedInitiatorDomains,
+    List<String>? requestDomains,
+    List<String>? excludedRequestDomains,
+    List<String>? domains,
+    List<String>? excludedDomains,
+    List<ResourceType>? resourceTypes,
+    List<ResourceType>? excludedResourceTypes,
+    List<RequestMethod>? requestMethods,
+    List<RequestMethod>? excludedRequestMethods,
+    DomainType? domainType,
+    List<int>? tabIds,
+    List<int>? excludedTabIds,
+  }) : _wrapped = $js.RuleCondition()
+          ..urlFilter = urlFilter
+          ..regexFilter = regexFilter
+          ..isUrlFilterCaseSensitive = isUrlFilterCaseSensitive
+          ..initiatorDomains = throw UnimplementedError()
+          ..excludedInitiatorDomains = throw UnimplementedError()
+          ..requestDomains = throw UnimplementedError()
+          ..excludedRequestDomains = throw UnimplementedError()
+          ..domains = throw UnimplementedError()
+          ..excludedDomains = throw UnimplementedError()
+          ..resourceTypes = throw UnimplementedError()
+          ..excludedResourceTypes = throw UnimplementedError()
+          ..requestMethods = throw UnimplementedError()
+          ..excludedRequestMethods = throw UnimplementedError()
+          ..domainType = domainType?.toJS
+          ..tabIds = throw UnimplementedError()
+          ..excludedTabIds = throw UnimplementedError();
 
   final $js.RuleCondition _wrapped;
 
@@ -790,6 +984,15 @@ class RuleCondition {
 class ModifyHeaderInfo {
   ModifyHeaderInfo.fromJS(this._wrapped);
 
+  ModifyHeaderInfo({
+    required String header,
+    required HeaderOperation operation,
+    String? value,
+  }) : _wrapped = $js.ModifyHeaderInfo()
+          ..header = header
+          ..operation = operation.toJS
+          ..value = value;
+
   final $js.ModifyHeaderInfo _wrapped;
 
   $js.ModifyHeaderInfo get toJS => _wrapped;
@@ -816,6 +1019,17 @@ class ModifyHeaderInfo {
 
 class RuleAction {
   RuleAction.fromJS(this._wrapped);
+
+  RuleAction({
+    required RuleActionType type,
+    Redirect? redirect,
+    List<ModifyHeaderInfo>? requestHeaders,
+    List<ModifyHeaderInfo>? responseHeaders,
+  }) : _wrapped = $js.RuleAction()
+          ..type = type.toJS
+          ..redirect = redirect?.toJS
+          ..requestHeaders = throw UnimplementedError()
+          ..responseHeaders = throw UnimplementedError();
 
   final $js.RuleAction _wrapped;
 
@@ -859,6 +1073,17 @@ class RuleAction {
 class Rule {
   Rule.fromJS(this._wrapped);
 
+  Rule({
+    required int id,
+    int? priority,
+    required RuleCondition condition,
+    required RuleAction action,
+  }) : _wrapped = $js.Rule()
+          ..id = id
+          ..priority = priority
+          ..condition = condition.toJS
+          ..action = action.toJS;
+
   final $js.Rule _wrapped;
 
   $js.Rule get toJS => _wrapped;
@@ -891,6 +1116,13 @@ class Rule {
 class MatchedRule {
   MatchedRule.fromJS(this._wrapped);
 
+  MatchedRule({
+    required int ruleId,
+    required String rulesetId,
+  }) : _wrapped = $js.MatchedRule()
+          ..ruleId = ruleId
+          ..rulesetId = rulesetId;
+
   final $js.MatchedRule _wrapped;
 
   $js.MatchedRule get toJS => _wrapped;
@@ -913,6 +1145,9 @@ class MatchedRule {
 class GetRulesFilter {
   GetRulesFilter.fromJS(this._wrapped);
 
+  GetRulesFilter({List<int>? ruleIds})
+      : _wrapped = $js.GetRulesFilter()..ruleIds = throw UnimplementedError();
+
   final $js.GetRulesFilter _wrapped;
 
   $js.GetRulesFilter get toJS => _wrapped;
@@ -927,6 +1162,15 @@ class GetRulesFilter {
 
 class MatchedRuleInfo {
   MatchedRuleInfo.fromJS(this._wrapped);
+
+  MatchedRuleInfo({
+    required MatchedRule rule,
+    required double timeStamp,
+    required int tabId,
+  }) : _wrapped = $js.MatchedRuleInfo()
+          ..rule = rule.toJS
+          ..timeStamp = timeStamp
+          ..tabId = tabId;
 
   final $js.MatchedRuleInfo _wrapped;
 
@@ -956,6 +1200,13 @@ class MatchedRuleInfo {
 class MatchedRulesFilter {
   MatchedRulesFilter.fromJS(this._wrapped);
 
+  MatchedRulesFilter({
+    int? tabId,
+    double? minTimeStamp,
+  }) : _wrapped = $js.MatchedRulesFilter()
+          ..tabId = tabId
+          ..minTimeStamp = minTimeStamp;
+
   final $js.MatchedRulesFilter _wrapped;
 
   $js.MatchedRulesFilter get toJS => _wrapped;
@@ -977,6 +1228,10 @@ class MatchedRulesFilter {
 class RulesMatchedDetails {
   RulesMatchedDetails.fromJS(this._wrapped);
 
+  RulesMatchedDetails({required List<MatchedRuleInfo> rulesMatchedInfo})
+      : _wrapped = $js.RulesMatchedDetails()
+          ..rulesMatchedInfo = throw UnimplementedError();
+
   final $js.RulesMatchedDetails _wrapped;
 
   $js.RulesMatchedDetails get toJS => _wrapped;
@@ -993,6 +1248,33 @@ class RulesMatchedDetails {
 
 class RequestDetails {
   RequestDetails.fromJS(this._wrapped);
+
+  RequestDetails({
+    required String requestId,
+    required String url,
+    String? initiator,
+    required String method,
+    required int frameId,
+    String? documentId,
+    FrameType? frameType,
+    DocumentLifecycle? documentLifecycle,
+    required int parentFrameId,
+    String? parentDocumentId,
+    required int tabId,
+    required ResourceType type,
+  }) : _wrapped = $js.RequestDetails()
+          ..requestId = requestId
+          ..url = url
+          ..initiator = initiator
+          ..method = method
+          ..frameId = frameId
+          ..documentId = documentId
+          ..frameType = frameType?.toJS
+          ..documentLifecycle = documentLifecycle?.toJS
+          ..parentFrameId = parentFrameId
+          ..parentDocumentId = parentDocumentId
+          ..tabId = tabId
+          ..type = type.toJS;
 
   final $js.RequestDetails _wrapped;
 
@@ -1086,6 +1368,19 @@ class RequestDetails {
 class TestMatchRequestDetails {
   TestMatchRequestDetails.fromJS(this._wrapped);
 
+  TestMatchRequestDetails({
+    required String url,
+    String? initiator,
+    RequestMethod? method,
+    required ResourceType type,
+    int? tabId,
+  }) : _wrapped = $js.TestMatchRequestDetails()
+          ..url = url
+          ..initiator = initiator
+          ..method = method?.toJS
+          ..type = type.toJS
+          ..tabId = tabId;
+
   final $js.TestMatchRequestDetails _wrapped;
 
   $js.TestMatchRequestDetails get toJS => _wrapped;
@@ -1127,6 +1422,13 @@ class TestMatchRequestDetails {
 class MatchedRuleInfoDebug {
   MatchedRuleInfoDebug.fromJS(this._wrapped);
 
+  MatchedRuleInfoDebug({
+    required MatchedRule rule,
+    required RequestDetails request,
+  }) : _wrapped = $js.MatchedRuleInfoDebug()
+          ..rule = rule.toJS
+          ..request = request.toJS;
+
   final $js.MatchedRuleInfoDebug _wrapped;
 
   $js.MatchedRuleInfoDebug get toJS => _wrapped;
@@ -1146,6 +1448,9 @@ class MatchedRuleInfoDebug {
 class DNRInfo {
   DNRInfo.fromJS(this._wrapped);
 
+  DNRInfo({required List<Ruleset> rule_resources})
+      : _wrapped = $js.DNRInfo()..rule_resources = throw UnimplementedError();
+
   final $js.DNRInfo _wrapped;
 
   $js.DNRInfo get toJS => _wrapped;
@@ -1162,6 +1467,10 @@ class DNRInfo {
 class ManifestKeys {
   ManifestKeys.fromJS(this._wrapped);
 
+  ManifestKeys({required DNRInfo declarative_net_request})
+      : _wrapped = $js.ManifestKeys()
+          ..declarative_net_request = declarative_net_request.toJS;
+
   final $js.ManifestKeys _wrapped;
 
   $js.ManifestKeys get toJS => _wrapped;
@@ -1175,6 +1484,15 @@ class ManifestKeys {
 
 class RegexOptions {
   RegexOptions.fromJS(this._wrapped);
+
+  RegexOptions({
+    required String regex,
+    bool? isCaseSensitive,
+    bool? requireCapturing,
+  }) : _wrapped = $js.RegexOptions()
+          ..regex = regex
+          ..isCaseSensitive = isCaseSensitive
+          ..requireCapturing = requireCapturing;
 
   final $js.RegexOptions _wrapped;
 
@@ -1205,6 +1523,13 @@ class RegexOptions {
 class IsRegexSupportedResult {
   IsRegexSupportedResult.fromJS(this._wrapped);
 
+  IsRegexSupportedResult({
+    required bool isSupported,
+    UnsupportedRegexReason? reason,
+  }) : _wrapped = $js.IsRegexSupportedResult()
+          ..isSupported = isSupported
+          ..reason = reason?.toJS;
+
   final $js.IsRegexSupportedResult _wrapped;
 
   $js.IsRegexSupportedResult get toJS => _wrapped;
@@ -1226,6 +1551,10 @@ class IsRegexSupportedResult {
 class TestMatchOutcomeResult {
   TestMatchOutcomeResult.fromJS(this._wrapped);
 
+  TestMatchOutcomeResult({required List<MatchedRule> matchedRules})
+      : _wrapped = $js.TestMatchOutcomeResult()
+          ..matchedRules = throw UnimplementedError();
+
   final $js.TestMatchOutcomeResult _wrapped;
 
   $js.TestMatchOutcomeResult get toJS => _wrapped;
@@ -1242,6 +1571,13 @@ class TestMatchOutcomeResult {
 
 class UpdateRuleOptions {
   UpdateRuleOptions.fromJS(this._wrapped);
+
+  UpdateRuleOptions({
+    List<int>? removeRuleIds,
+    List<Rule>? addRules,
+  }) : _wrapped = $js.UpdateRuleOptions()
+          ..removeRuleIds = throw UnimplementedError()
+          ..addRules = throw UnimplementedError();
 
   final $js.UpdateRuleOptions _wrapped;
 
@@ -1267,6 +1603,13 @@ class UpdateRuleOptions {
 class UpdateRulesetOptions {
   UpdateRulesetOptions.fromJS(this._wrapped);
 
+  UpdateRulesetOptions({
+    List<String>? disableRulesetIds,
+    List<String>? enableRulesetIds,
+  }) : _wrapped = $js.UpdateRulesetOptions()
+          ..disableRulesetIds = throw UnimplementedError()
+          ..enableRulesetIds = throw UnimplementedError();
+
   final $js.UpdateRulesetOptions _wrapped;
 
   $js.UpdateRulesetOptions get toJS => _wrapped;
@@ -1290,6 +1633,15 @@ class UpdateRulesetOptions {
 
 class UpdateStaticRulesOptions {
   UpdateStaticRulesOptions.fromJS(this._wrapped);
+
+  UpdateStaticRulesOptions({
+    required String rulesetId,
+    List<int>? disableRuleIds,
+    List<int>? enableRuleIds,
+  }) : _wrapped = $js.UpdateStaticRulesOptions()
+          ..rulesetId = rulesetId
+          ..disableRuleIds = throw UnimplementedError()
+          ..enableRuleIds = throw UnimplementedError();
 
   final $js.UpdateStaticRulesOptions _wrapped;
 
@@ -1319,6 +1671,9 @@ class UpdateStaticRulesOptions {
 class GetDisabledRuleIdsOptions {
   GetDisabledRuleIdsOptions.fromJS(this._wrapped);
 
+  GetDisabledRuleIdsOptions({required String rulesetId})
+      : _wrapped = $js.GetDisabledRuleIdsOptions()..rulesetId = rulesetId;
+
   final $js.GetDisabledRuleIdsOptions _wrapped;
 
   $js.GetDisabledRuleIdsOptions get toJS => _wrapped;
@@ -1332,6 +1687,13 @@ class GetDisabledRuleIdsOptions {
 
 class TabActionCountUpdate {
   TabActionCountUpdate.fromJS(this._wrapped);
+
+  TabActionCountUpdate({
+    required int tabId,
+    required int increment,
+  }) : _wrapped = $js.TabActionCountUpdate()
+          ..tabId = tabId
+          ..increment = increment;
 
   final $js.TabActionCountUpdate _wrapped;
 
@@ -1353,6 +1715,13 @@ class TabActionCountUpdate {
 
 class ExtensionActionOptions {
   ExtensionActionOptions.fromJS(this._wrapped);
+
+  ExtensionActionOptions({
+    bool? displayActionCountAsBadgeText,
+    TabActionCountUpdate? tabUpdate,
+  }) : _wrapped = $js.ExtensionActionOptions()
+          ..displayActionCountAsBadgeText = displayActionCountAsBadgeText
+          ..tabUpdate = tabUpdate?.toJS;
 
   final $js.ExtensionActionOptions _wrapped;
 

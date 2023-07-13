@@ -1,11 +1,14 @@
+import 'input.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/input_ime.dart' as $js;
-export 'chrome.dart';
+
+export 'input.dart' show ChromeInput, ChromeInputExtension;
+export 'src/chrome.dart' show chrome;
 
 final _inputIme = ChromeInputIme._();
 
-extension ChromeInputImeExtension on Chrome {
-  ChromeInputIme get inputIme => _inputIme;
+extension ChromeInputImeExtension on ChromeInput {
+  ChromeInputIme get ime => _inputIme;
 }
 
 class ChromeInputIme {
@@ -13,74 +16,176 @@ class ChromeInputIme {
 
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  Future<bool> setComposition(SetCompositionParameters parameters) =>
-      throw UnimplementedError();
+  Future<bool> setComposition(SetCompositionParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.setComposition(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  Future<bool> clearComposition(ClearCompositionParameters parameters) =>
-      throw UnimplementedError();
+  Future<bool> clearComposition(ClearCompositionParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.clearComposition(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Commits the provided text to the current input.
-  Future<bool> commitText(CommitTextParameters parameters) =>
-      throw UnimplementedError();
+  Future<bool> commitText(CommitTextParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.commitText(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  Future<void> sendKeyEvents(SendKeyEventsParameters parameters) =>
-      throw UnimplementedError();
+  Future<void> sendKeyEvents(SendKeyEventsParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.input.ime.sendKeyEvents(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Hides the input view window, which is popped up automatically by system.
   /// If the input view window is already hidden, this function will do nothing.
-  void hideInputView() => throw UnimplementedError();
+  void hideInputView() {
+    $js.chrome.input.ime.hideInputView();
+  }
 
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
   Future<bool> setCandidateWindowProperties(
-          SetCandidateWindowPropertiesParameters parameters) =>
-      throw UnimplementedError();
+      SetCandidateWindowPropertiesParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.setCandidateWindowProperties(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  Future<bool> setCandidates(SetCandidatesParameters parameters) =>
-      throw UnimplementedError();
+  Future<bool> setCandidates(SetCandidatesParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.setCandidates(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  Future<bool> setCursorPosition(SetCursorPositionParameters parameters) =>
-      throw UnimplementedError();
+  Future<bool> setCursorPosition(SetCursorPositionParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.setCursorPosition(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Shows/Hides an assistive window with the given properties.
   Future<bool> setAssistiveWindowProperties(
-          SetAssistiveWindowPropertiesParameters parameters) =>
-      throw UnimplementedError();
+      SetAssistiveWindowPropertiesParameters parameters) {
+    var $completer = Completer<bool>();
+    $js.chrome.input.ime.setAssistiveWindowProperties(
+      parameters.toJS,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Highlights/Unhighlights a button in an assistive window.
   Future<void> setAssistiveWindowButtonHighlighted(
-          SetAssistiveWindowButtonHighlightedParameters parameters) =>
-      throw UnimplementedError();
+      SetAssistiveWindowButtonHighlightedParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.input.ime.setAssistiveWindowButtonHighlighted(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Adds the provided menu items to the language menu when this IME is active.
-  Future<void> setMenuItems(MenuParameters parameters) =>
-      throw UnimplementedError();
+  Future<void> setMenuItems(MenuParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.input.ime.setMenuItems(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates the state of the MenuItems specified
-  Future<void> updateMenuItems(MenuParameters parameters) =>
-      throw UnimplementedError();
+  Future<void> updateMenuItems(MenuParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.input.ime.updateMenuItems(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Deletes the text around the caret.
   Future<void> deleteSurroundingText(
-          DeleteSurroundingTextParameters parameters) =>
-      throw UnimplementedError();
+      DeleteSurroundingTextParameters parameters) {
+    var $completer = Completer<void>();
+    $js.chrome.input.ime.deleteSurroundingText(
+      parameters.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
   void keyEventHandled(
     String requestId,
     bool response,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.input.ime.keyEventHandled(
+      requestId,
+      response,
+    );
+  }
 
   /// This event is sent when an IME is activated. It signals that the IME will
   /// be receiving onKeyPress events.
@@ -289,6 +394,31 @@ enum AssistiveWindowButton {
 class KeyboardEvent {
   KeyboardEvent.fromJS(this._wrapped);
 
+  KeyboardEvent({
+    required KeyboardEventType type,
+    String? requestId,
+    String? extensionId,
+    required String key,
+    required String code,
+    int? keyCode,
+    bool? altKey,
+    bool? altgrKey,
+    bool? ctrlKey,
+    bool? shiftKey,
+    bool? capsLock,
+  }) : _wrapped = $js.KeyboardEvent()
+          ..type = type.toJS
+          ..requestId = requestId
+          ..extensionId = extensionId
+          ..key = key
+          ..code = code
+          ..keyCode = keyCode
+          ..altKey = altKey
+          ..altgrKey = altgrKey
+          ..ctrlKey = ctrlKey
+          ..shiftKey = shiftKey
+          ..capsLock = capsLock;
+
   final $js.KeyboardEvent _wrapped;
 
   $js.KeyboardEvent get toJS => _wrapped;
@@ -367,6 +497,23 @@ class KeyboardEvent {
 class InputContext {
   InputContext.fromJS(this._wrapped);
 
+  InputContext({
+    required int contextID,
+    required InputContextType type,
+    required bool autoCorrect,
+    required bool autoComplete,
+    required AutoCapitalizeType autoCapitalize,
+    required bool spellCheck,
+    required bool shouldDoLearning,
+  }) : _wrapped = $js.InputContext()
+          ..contextID = contextID
+          ..type = type.toJS
+          ..autoCorrect = autoCorrect
+          ..autoComplete = autoComplete
+          ..autoCapitalize = autoCapitalize.toJS
+          ..spellCheck = spellCheck
+          ..shouldDoLearning = shouldDoLearning;
+
   final $js.InputContext _wrapped;
 
   $js.InputContext get toJS => _wrapped;
@@ -420,6 +567,21 @@ class InputContext {
 class MenuItem {
   MenuItem.fromJS(this._wrapped);
 
+  MenuItem({
+    required String id,
+    String? label,
+    MenuItemStyle? style,
+    bool? visible,
+    bool? checked,
+    bool? enabled,
+  }) : _wrapped = $js.MenuItem()
+          ..id = id
+          ..label = label
+          ..style = style?.toJS
+          ..visible = visible
+          ..checked = checked
+          ..enabled = enabled;
+
   final $js.MenuItem _wrapped;
 
   $js.MenuItem get toJS => _wrapped;
@@ -464,6 +626,15 @@ class MenuItem {
 class AssistiveWindowProperties {
   AssistiveWindowProperties.fromJS(this._wrapped);
 
+  AssistiveWindowProperties({
+    required AssistiveWindowType type,
+    required bool visible,
+    String? announceString,
+  }) : _wrapped = $js.AssistiveWindowProperties()
+          ..type = type.toJS
+          ..visible = visible
+          ..announceString = announceString;
+
   final $js.AssistiveWindowProperties _wrapped;
 
   $js.AssistiveWindowProperties get toJS => _wrapped;
@@ -489,6 +660,13 @@ class AssistiveWindowProperties {
 class MenuParameters {
   MenuParameters.fromJS(this._wrapped);
 
+  MenuParameters({
+    required String engineID,
+    required List<MenuItem> items,
+  }) : _wrapped = $js.MenuParameters()
+          ..engineID = engineID
+          ..items = throw UnimplementedError();
+
   final $js.MenuParameters _wrapped;
 
   $js.MenuParameters get toJS => _wrapped;
@@ -512,6 +690,17 @@ class MenuParameters {
 
 class OnSurroundingTextChangedSurroundingInfo {
   OnSurroundingTextChangedSurroundingInfo.fromJS(this._wrapped);
+
+  OnSurroundingTextChangedSurroundingInfo({
+    required String text,
+    required int focus,
+    required int anchor,
+    required int offset,
+  }) : _wrapped = $js.OnSurroundingTextChangedSurroundingInfo()
+          ..text = text
+          ..focus = focus
+          ..anchor = anchor
+          ..offset = offset;
 
   final $js.OnSurroundingTextChangedSurroundingInfo _wrapped;
 
@@ -550,6 +739,13 @@ class OnSurroundingTextChangedSurroundingInfo {
 class OnAssistiveWindowButtonClickedDetails {
   OnAssistiveWindowButtonClickedDetails.fromJS(this._wrapped);
 
+  OnAssistiveWindowButtonClickedDetails({
+    required AssistiveWindowButton buttonID,
+    required AssistiveWindowType windowType,
+  }) : _wrapped = $js.OnAssistiveWindowButtonClickedDetails()
+          ..buttonID = buttonID.toJS
+          ..windowType = windowType.toJS;
+
   final $js.OnAssistiveWindowButtonClickedDetails _wrapped;
 
   $js.OnAssistiveWindowButtonClickedDetails get toJS => _wrapped;
@@ -572,6 +768,22 @@ class OnAssistiveWindowButtonClickedDetails {
 class SetCompositionParameters {
   SetCompositionParameters.fromJS(this._wrapped);
 
+  SetCompositionParameters({
+    required int contextID,
+    required String text,
+    int? selectionStart,
+    int? selectionEnd,
+    required int cursor,
+    SetCompositionParametersSegments? segments,
+  }) : _wrapped = $js.SetCompositionParameters(
+          contextID: contextID,
+          text: text,
+          selectionStart: selectionStart,
+          selectionEnd: selectionEnd,
+          cursor: cursor,
+          segments: segments?.toJS,
+        );
+
   final $js.SetCompositionParameters _wrapped;
 
   $js.SetCompositionParameters get toJS => _wrapped;
@@ -579,6 +791,9 @@ class SetCompositionParameters {
 
 class ClearCompositionParameters {
   ClearCompositionParameters.fromJS(this._wrapped);
+
+  ClearCompositionParameters({required int contextID})
+      : _wrapped = $js.ClearCompositionParameters(contextID: contextID);
 
   final $js.ClearCompositionParameters _wrapped;
 
@@ -588,6 +803,14 @@ class ClearCompositionParameters {
 class CommitTextParameters {
   CommitTextParameters.fromJS(this._wrapped);
 
+  CommitTextParameters({
+    required int contextID,
+    required String text,
+  }) : _wrapped = $js.CommitTextParameters(
+          contextID: contextID,
+          text: text,
+        );
+
   final $js.CommitTextParameters _wrapped;
 
   $js.CommitTextParameters get toJS => _wrapped;
@@ -595,6 +818,14 @@ class CommitTextParameters {
 
 class SendKeyEventsParameters {
   SendKeyEventsParameters.fromJS(this._wrapped);
+
+  SendKeyEventsParameters({
+    required int contextID,
+    required List<KeyboardEvent> keyData,
+  }) : _wrapped = $js.SendKeyEventsParameters(
+          contextID: contextID,
+          keyData: throw UnimplementedError(),
+        );
 
   final $js.SendKeyEventsParameters _wrapped;
 
@@ -604,6 +835,14 @@ class SendKeyEventsParameters {
 class SetCandidateWindowPropertiesParameters {
   SetCandidateWindowPropertiesParameters.fromJS(this._wrapped);
 
+  SetCandidateWindowPropertiesParameters({
+    required String engineID,
+    required SetCandidateWindowPropertiesParametersProperties properties,
+  }) : _wrapped = $js.SetCandidateWindowPropertiesParameters(
+          engineID: engineID,
+          properties: properties.toJS,
+        );
+
   final $js.SetCandidateWindowPropertiesParameters _wrapped;
 
   $js.SetCandidateWindowPropertiesParameters get toJS => _wrapped;
@@ -611,6 +850,14 @@ class SetCandidateWindowPropertiesParameters {
 
 class SetCandidatesParameters {
   SetCandidatesParameters.fromJS(this._wrapped);
+
+  SetCandidatesParameters({
+    required int contextID,
+    required SetCandidatesParametersCandidates candidates,
+  }) : _wrapped = $js.SetCandidatesParameters(
+          contextID: contextID,
+          candidates: candidates.toJS,
+        );
 
   final $js.SetCandidatesParameters _wrapped;
 
@@ -620,6 +867,14 @@ class SetCandidatesParameters {
 class SetCursorPositionParameters {
   SetCursorPositionParameters.fromJS(this._wrapped);
 
+  SetCursorPositionParameters({
+    required int contextID,
+    required int candidateID,
+  }) : _wrapped = $js.SetCursorPositionParameters(
+          contextID: contextID,
+          candidateID: candidateID,
+        );
+
   final $js.SetCursorPositionParameters _wrapped;
 
   $js.SetCursorPositionParameters get toJS => _wrapped;
@@ -627,6 +882,14 @@ class SetCursorPositionParameters {
 
 class SetAssistiveWindowPropertiesParameters {
   SetAssistiveWindowPropertiesParameters.fromJS(this._wrapped);
+
+  SetAssistiveWindowPropertiesParameters({
+    required int contextID,
+    required AssistiveWindowProperties properties,
+  }) : _wrapped = $js.SetAssistiveWindowPropertiesParameters(
+          contextID: contextID,
+          properties: properties.toJS,
+        );
 
   final $js.SetAssistiveWindowPropertiesParameters _wrapped;
 
@@ -636,6 +899,20 @@ class SetAssistiveWindowPropertiesParameters {
 class SetAssistiveWindowButtonHighlightedParameters {
   SetAssistiveWindowButtonHighlightedParameters.fromJS(this._wrapped);
 
+  SetAssistiveWindowButtonHighlightedParameters({
+    required int contextID,
+    required AssistiveWindowButton buttonID,
+    required AssistiveWindowType windowType,
+    String? announceString,
+    required bool highlighted,
+  }) : _wrapped = $js.SetAssistiveWindowButtonHighlightedParameters(
+          contextID: contextID,
+          buttonID: buttonID.toJS,
+          windowType: windowType.toJS,
+          announceString: announceString,
+          highlighted: highlighted,
+        );
+
   final $js.SetAssistiveWindowButtonHighlightedParameters _wrapped;
 
   $js.SetAssistiveWindowButtonHighlightedParameters get toJS => _wrapped;
@@ -643,6 +920,18 @@ class SetAssistiveWindowButtonHighlightedParameters {
 
 class DeleteSurroundingTextParameters {
   DeleteSurroundingTextParameters.fromJS(this._wrapped);
+
+  DeleteSurroundingTextParameters({
+    required String engineID,
+    required int contextID,
+    required int offset,
+    required int length,
+  }) : _wrapped = $js.DeleteSurroundingTextParameters(
+          engineID: engineID,
+          contextID: contextID,
+          offset: offset,
+          length: length,
+        );
 
   final $js.DeleteSurroundingTextParameters _wrapped;
 
@@ -652,6 +941,16 @@ class DeleteSurroundingTextParameters {
 class SetCompositionParametersSegments {
   SetCompositionParametersSegments.fromJS(this._wrapped);
 
+  SetCompositionParametersSegments({
+    required int start,
+    required int end,
+    required UnderlineStyle style,
+  }) : _wrapped = $js.SetCompositionParametersSegments(
+          start: start,
+          end: end,
+          style: style.toJS,
+        );
+
   final $js.SetCompositionParametersSegments _wrapped;
 
   $js.SetCompositionParametersSegments get toJS => _wrapped;
@@ -659,6 +958,28 @@ class SetCompositionParametersSegments {
 
 class SetCandidateWindowPropertiesParametersProperties {
   SetCandidateWindowPropertiesParametersProperties.fromJS(this._wrapped);
+
+  SetCandidateWindowPropertiesParametersProperties({
+    bool? visible,
+    bool? cursorVisible,
+    bool? vertical,
+    int? pageSize,
+    String? auxiliaryText,
+    bool? auxiliaryTextVisible,
+    int? totalCandidates,
+    int? currentCandidateIndex,
+    WindowPosition? windowPosition,
+  }) : _wrapped = $js.SetCandidateWindowPropertiesParametersProperties(
+          visible: visible,
+          cursorVisible: cursorVisible,
+          vertical: vertical,
+          pageSize: pageSize,
+          auxiliaryText: auxiliaryText,
+          auxiliaryTextVisible: auxiliaryTextVisible,
+          totalCandidates: totalCandidates,
+          currentCandidateIndex: currentCandidateIndex,
+          windowPosition: windowPosition?.toJS,
+        );
 
   final $js.SetCandidateWindowPropertiesParametersProperties _wrapped;
 
@@ -668,6 +989,22 @@ class SetCandidateWindowPropertiesParametersProperties {
 class SetCandidatesParametersCandidates {
   SetCandidatesParametersCandidates.fromJS(this._wrapped);
 
+  SetCandidatesParametersCandidates({
+    required String candidate,
+    required int id,
+    int? parentId,
+    String? label,
+    String? annotation,
+    SetCandidatesParametersCandidatesUsage? usage,
+  }) : _wrapped = $js.SetCandidatesParametersCandidates(
+          candidate: candidate,
+          id: id,
+          parentId: parentId,
+          label: label,
+          annotation: annotation,
+          usage: usage?.toJS,
+        );
+
   final $js.SetCandidatesParametersCandidates _wrapped;
 
   $js.SetCandidatesParametersCandidates get toJS => _wrapped;
@@ -675,6 +1012,14 @@ class SetCandidatesParametersCandidates {
 
 class SetCandidatesParametersCandidatesUsage {
   SetCandidatesParametersCandidatesUsage.fromJS(this._wrapped);
+
+  SetCandidatesParametersCandidatesUsage({
+    required String title,
+    required String body,
+  }) : _wrapped = $js.SetCandidatesParametersCandidatesUsage(
+          title: title,
+          body: body,
+        );
 
   final $js.SetCandidatesParametersCandidatesUsage _wrapped;
 

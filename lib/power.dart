@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/power.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _power = ChromePower._();
 
@@ -15,15 +16,25 @@ class ChromePower {
   /// describes the degree to which power management should be disabled.
   /// If a request previously made by the same app is still active, it
   /// will be replaced by the new request.
-  void requestKeepAwake(Level level) => throw UnimplementedError();
+  void requestKeepAwake(Level level) {
+    $js.chrome.power.requestKeepAwake(level.toJS);
+  }
 
   /// Releases a request previously made via requestKeepAwake().
-  void releaseKeepAwake() => throw UnimplementedError();
+  void releaseKeepAwake() {
+    $js.chrome.power.releaseKeepAwake();
+  }
 
   /// Reports a user activity in order to awake the screen from a dimmed or
   /// turned off state or from a screensaver. Exits the screensaver if it is
   /// currently active.
-  Future<void> reportActivity() => throw UnimplementedError();
+  Future<void> reportActivity() {
+    var $completer = Completer<void>();
+    $js.chrome.power.reportActivity(() {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 enum Level {

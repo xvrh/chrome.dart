@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'printer_provider.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/printing.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _printing = ChromePrinting._();
 
@@ -15,35 +16,66 @@ class ChromePrinting {
   /// Submits the job for print.
   /// If the extension is not listed in PrintingAPIExtensionsAllowlist policy,
   /// the user will be prompted to accept the print job.
-  Future<SubmitJobResponse> submitJob(SubmitJobRequest request) =>
-      throw UnimplementedError();
+  Future<SubmitJobResponse> submitJob(SubmitJobRequest request) {
+    var $completer = Completer<SubmitJobResponse>();
+    $js.chrome.printing.submitJob(
+      request.toJS,
+      (SubmitJobResponse response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Cancels previously submitted job.
   /// |jobId|: The id of the print job to cancel. This should be the same id
   /// received in a [SubmitJobResponse].
-  Future<void> cancelJob(String jobId) => throw UnimplementedError();
+  Future<void> cancelJob(String jobId) {
+    var $completer = Completer<void>();
+    $js.chrome.printing.cancelJob(
+      jobId,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns the list of available printers on the device. This includes
   /// manually added, enterprise and discovered printers.
-  Future<List<Printer>> getPrinters() => throw UnimplementedError();
+  Future<List<Printer>> getPrinters() {
+    var $completer = Completer<List<Printer>>();
+    $js.chrome.printing.getPrinters((JSArray printers) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns the status and capabilities of the printer in
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   /// CDD format</a>.
   /// This call will fail with a runtime error if no printers with given id are
   /// installed.
-  Future<GetPrinterInfoResponse> getPrinterInfo(String printerId) =>
-      throw UnimplementedError();
+  Future<GetPrinterInfoResponse> getPrinterInfo(String printerId) {
+    var $completer = Completer<GetPrinterInfoResponse>();
+    $js.chrome.printing.getPrinterInfo(
+      printerId,
+      (GetPrinterInfoResponse response) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// The maximum number of times that [submitJob] can be called per
   /// minute.
   int get maxSubmitJobCallsPerMinute =>
-      $js.chrome.printing.MAX_SUBMIT_JOB_CALLS_PER_MINUTE as dynamic;
+      ($js.chrome.printing.MAX_SUBMIT_JOB_CALLS_PER_MINUTE as dynamic);
 
   /// The maximum number of times that [getPrinterInfo] can be called per
   /// minute.
   int get maxGetPrinterInfoCallsPerMinute =>
-      $js.chrome.printing.MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE as dynamic;
+      ($js.chrome.printing.MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE as dynamic);
 
   /// Event fired when the status of the job is changed.
   /// This is only fired for the jobs created by this extension.
@@ -156,6 +188,13 @@ enum JobStatus {
 class SubmitJobRequest {
   SubmitJobRequest.fromJS(this._wrapped);
 
+  SubmitJobRequest({
+    required PrintJob job,
+    String? documentBlobUuid,
+  }) : _wrapped = $js.SubmitJobRequest()
+          ..job = job.toJS
+          ..documentBlobUuid = documentBlobUuid;
+
   final $js.SubmitJobRequest _wrapped;
 
   $js.SubmitJobRequest get toJS => _wrapped;
@@ -181,6 +220,13 @@ class SubmitJobRequest {
 class SubmitJobResponse {
   SubmitJobResponse.fromJS(this._wrapped);
 
+  SubmitJobResponse({
+    required SubmitJobStatus status,
+    String? jobId,
+  }) : _wrapped = $js.SubmitJobResponse()
+          ..status = status.toJS
+          ..jobId = jobId;
+
   final $js.SubmitJobResponse _wrapped;
 
   $js.SubmitJobResponse get toJS => _wrapped;
@@ -201,6 +247,23 @@ class SubmitJobResponse {
 
 class Printer {
   Printer.fromJS(this._wrapped);
+
+  Printer({
+    required String id,
+    required String name,
+    required String description,
+    required String uri,
+    required PrinterSource source,
+    required bool isDefault,
+    int? recentlyUsedRank,
+  }) : _wrapped = $js.Printer()
+          ..id = id
+          ..name = name
+          ..description = description
+          ..uri = uri
+          ..source = source.toJS
+          ..isDefault = isDefault
+          ..recentlyUsedRank = recentlyUsedRank;
 
   final $js.Printer _wrapped;
 
@@ -260,6 +323,13 @@ class Printer {
 
 class GetPrinterInfoResponse {
   GetPrinterInfoResponse.fromJS(this._wrapped);
+
+  GetPrinterInfoResponse({
+    JSAny? capabilities,
+    required PrinterStatus status,
+  }) : _wrapped = $js.GetPrinterInfoResponse()
+          ..capabilities = capabilities
+          ..status = status.toJS;
 
   final $js.GetPrinterInfoResponse _wrapped;
 

@@ -1,6 +1,8 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
 import 'extension_types.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSWebNavigationExtension on JSChrome {
@@ -156,9 +158,9 @@ extension OnCommittedDetailsExtension on OnCommittedDetails {
 
 @JS()
 @staticInterop
-class OnDOMContentLoadedDetails {}
+class OnDomContentLoadedDetails {}
 
-extension OnDOMContentLoadedDetailsExtension on OnDOMContentLoadedDetails {
+extension OnDomContentLoadedDetailsExtension on OnDomContentLoadedDetails {
   /// The ID of the tab in which the navigation occurs.
   external int tabId;
 

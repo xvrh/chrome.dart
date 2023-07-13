@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/file_system_provider.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _fileSystemProvider = ChromeFileSystemProvider._();
 
@@ -24,7 +26,16 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  Future<void> mount(MountOptions options) => throw UnimplementedError();
+  Future<void> mount(MountOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.fileSystemProvider.mount(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Unmounts a file system with the given `fileSystemId`. It
   /// must be called after [onUnmountRequested] is invoked. Also,
@@ -33,14 +44,38 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  Future<void> unmount(UnmountOptions options) => throw UnimplementedError();
+  Future<void> unmount(UnmountOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.fileSystemProvider.unmount(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Returns all file systems mounted by the extension.
-  Future<List<FileSystemInfo>> getAll() => throw UnimplementedError();
+  Future<List<FileSystemInfo>> getAll() {
+    var $completer = Completer<List<FileSystemInfo>>();
+    $js.chrome.fileSystemProvider.getAll((JSArray fileSystems) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Returns information about a file system with the passed
   /// `fileSystemId`.
-  Future<FileSystemInfo> get(String fileSystemId) => throw UnimplementedError();
+  Future<FileSystemInfo> get(String fileSystemId) {
+    var $completer = Completer<FileSystemInfo>();
+    $js.chrome.fileSystemProvider.get(
+      fileSystemId,
+      (FileSystemInfo fileSystem) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Notifies about changes in the watched directory at
   /// `observedPath` in `recursive` mode. If the file
@@ -71,7 +106,16 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set
   /// will a corresponding error code.
-  Future<void> notify(NotifyOptions options) => throw UnimplementedError();
+  Future<void> notify(NotifyOptions options) {
+    var $completer = Completer<void>();
+    $js.chrome.fileSystemProvider.notify(
+      options.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Raised when unmounting for the file system with the
   /// `fileSystemId` identifier is requested. In the response, the
@@ -316,6 +360,21 @@ typedef FileDataCallback = void Function(
 class EntryMetadata {
   EntryMetadata.fromJS(this._wrapped);
 
+  EntryMetadata({
+    bool? isDirectory,
+    String? name,
+    double? size,
+    JSAny? modificationTime,
+    String? mimeType,
+    String? thumbnail,
+  }) : _wrapped = $js.EntryMetadata()
+          ..isDirectory = isDirectory
+          ..name = name
+          ..size = size
+          ..modificationTime = modificationTime
+          ..mimeType = mimeType
+          ..thumbnail = thumbnail;
+
   final $js.EntryMetadata _wrapped;
 
   $js.EntryMetadata get toJS => _wrapped;
@@ -367,6 +426,15 @@ class EntryMetadata {
 class Watcher {
   Watcher.fromJS(this._wrapped);
 
+  Watcher({
+    required String entryPath,
+    required bool recursive,
+    String? lastTag,
+  }) : _wrapped = $js.Watcher()
+          ..entryPath = entryPath
+          ..recursive = recursive
+          ..lastTag = lastTag;
+
   final $js.Watcher _wrapped;
 
   $js.Watcher get toJS => _wrapped;
@@ -394,6 +462,15 @@ class Watcher {
 class OpenedFile {
   OpenedFile.fromJS(this._wrapped);
 
+  OpenedFile({
+    required int openRequestId,
+    required String filePath,
+    required OpenFileMode mode,
+  }) : _wrapped = $js.OpenedFile()
+          ..openRequestId = openRequestId
+          ..filePath = filePath
+          ..mode = mode.toJS;
+
   final $js.OpenedFile _wrapped;
 
   $js.OpenedFile get toJS => _wrapped;
@@ -419,6 +496,23 @@ class OpenedFile {
 
 class FileSystemInfo {
   FileSystemInfo.fromJS(this._wrapped);
+
+  FileSystemInfo({
+    required String fileSystemId,
+    required String displayName,
+    required bool writable,
+    required int openedFilesLimit,
+    required List<OpenedFile> openedFiles,
+    bool? supportsNotifyTag,
+    required List<Watcher> watchers,
+  }) : _wrapped = $js.FileSystemInfo()
+          ..fileSystemId = fileSystemId
+          ..displayName = displayName
+          ..writable = writable
+          ..openedFilesLimit = openedFilesLimit
+          ..openedFiles = throw UnimplementedError()
+          ..supportsNotifyTag = supportsNotifyTag
+          ..watchers = throw UnimplementedError();
 
   final $js.FileSystemInfo _wrapped;
 
@@ -479,6 +573,21 @@ class FileSystemInfo {
 class MountOptions {
   MountOptions.fromJS(this._wrapped);
 
+  MountOptions({
+    required String fileSystemId,
+    required String displayName,
+    bool? writable,
+    int? openedFilesLimit,
+    bool? supportsNotifyTag,
+    bool? persistent,
+  }) : _wrapped = $js.MountOptions()
+          ..fileSystemId = fileSystemId
+          ..displayName = displayName
+          ..writable = writable
+          ..openedFilesLimit = openedFilesLimit
+          ..supportsNotifyTag = supportsNotifyTag
+          ..persistent = persistent;
+
   final $js.MountOptions _wrapped;
 
   $js.MountOptions get toJS => _wrapped;
@@ -528,6 +637,9 @@ class MountOptions {
 class UnmountOptions {
   UnmountOptions.fromJS(this._wrapped);
 
+  UnmountOptions({required String fileSystemId})
+      : _wrapped = $js.UnmountOptions()..fileSystemId = fileSystemId;
+
   final $js.UnmountOptions _wrapped;
 
   $js.UnmountOptions get toJS => _wrapped;
@@ -541,6 +653,13 @@ class UnmountOptions {
 
 class UnmountRequestedOptions {
   UnmountRequestedOptions.fromJS(this._wrapped);
+
+  UnmountRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+  }) : _wrapped = $js.UnmountRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId;
 
   final $js.UnmountRequestedOptions _wrapped;
 
@@ -561,6 +680,27 @@ class UnmountRequestedOptions {
 
 class GetMetadataRequestedOptions {
   GetMetadataRequestedOptions.fromJS(this._wrapped);
+
+  GetMetadataRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String entryPath,
+    required bool isDirectory,
+    required bool name,
+    required bool size,
+    required bool modificationTime,
+    required bool mimeType,
+    required bool thumbnail,
+  }) : _wrapped = $js.GetMetadataRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPath = entryPath
+          ..isDirectory = isDirectory
+          ..name = name
+          ..size = size
+          ..modificationTime = modificationTime
+          ..mimeType = mimeType
+          ..thumbnail = thumbnail;
 
   final $js.GetMetadataRequestedOptions _wrapped;
 
@@ -625,6 +765,15 @@ class GetMetadataRequestedOptions {
 class GetActionsRequestedOptions {
   GetActionsRequestedOptions.fromJS(this._wrapped);
 
+  GetActionsRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required List<String> entryPaths,
+  }) : _wrapped = $js.GetActionsRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPaths = throw UnimplementedError();
+
   final $js.GetActionsRequestedOptions _wrapped;
 
   $js.GetActionsRequestedOptions get toJS => _wrapped;
@@ -651,6 +800,27 @@ class GetActionsRequestedOptions {
 
 class ReadDirectoryRequestedOptions {
   ReadDirectoryRequestedOptions.fromJS(this._wrapped);
+
+  ReadDirectoryRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String directoryPath,
+    required bool isDirectory,
+    required bool name,
+    required bool size,
+    required bool modificationTime,
+    required bool mimeType,
+    required bool thumbnail,
+  }) : _wrapped = $js.ReadDirectoryRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..directoryPath = directoryPath
+          ..isDirectory = isDirectory
+          ..name = name
+          ..size = size
+          ..modificationTime = modificationTime
+          ..mimeType = mimeType
+          ..thumbnail = thumbnail;
 
   final $js.ReadDirectoryRequestedOptions _wrapped;
 
@@ -715,6 +885,17 @@ class ReadDirectoryRequestedOptions {
 class OpenFileRequestedOptions {
   OpenFileRequestedOptions.fromJS(this._wrapped);
 
+  OpenFileRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String filePath,
+    required OpenFileMode mode,
+  }) : _wrapped = $js.OpenFileRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..filePath = filePath
+          ..mode = mode.toJS;
+
   final $js.OpenFileRequestedOptions _wrapped;
 
   $js.OpenFileRequestedOptions get toJS => _wrapped;
@@ -748,6 +929,15 @@ class OpenFileRequestedOptions {
 class CloseFileRequestedOptions {
   CloseFileRequestedOptions.fromJS(this._wrapped);
 
+  CloseFileRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required int openRequestId,
+  }) : _wrapped = $js.CloseFileRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..openRequestId = openRequestId;
+
   final $js.CloseFileRequestedOptions _wrapped;
 
   $js.CloseFileRequestedOptions get toJS => _wrapped;
@@ -773,6 +963,19 @@ class CloseFileRequestedOptions {
 
 class ReadFileRequestedOptions {
   ReadFileRequestedOptions.fromJS(this._wrapped);
+
+  ReadFileRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required int openRequestId,
+    required double offset,
+    required double length,
+  }) : _wrapped = $js.ReadFileRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..openRequestId = openRequestId
+          ..offset = offset
+          ..length = length;
 
   final $js.ReadFileRequestedOptions _wrapped;
 
@@ -812,6 +1015,17 @@ class ReadFileRequestedOptions {
 class CreateDirectoryRequestedOptions {
   CreateDirectoryRequestedOptions.fromJS(this._wrapped);
 
+  CreateDirectoryRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String directoryPath,
+    required bool recursive,
+  }) : _wrapped = $js.CreateDirectoryRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..directoryPath = directoryPath
+          ..recursive = recursive;
+
   final $js.CreateDirectoryRequestedOptions _wrapped;
 
   $js.CreateDirectoryRequestedOptions get toJS => _wrapped;
@@ -843,6 +1057,17 @@ class CreateDirectoryRequestedOptions {
 
 class DeleteEntryRequestedOptions {
   DeleteEntryRequestedOptions.fromJS(this._wrapped);
+
+  DeleteEntryRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String entryPath,
+    required bool recursive,
+  }) : _wrapped = $js.DeleteEntryRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPath = entryPath
+          ..recursive = recursive;
 
   final $js.DeleteEntryRequestedOptions _wrapped;
 
@@ -876,6 +1101,15 @@ class DeleteEntryRequestedOptions {
 class CreateFileRequestedOptions {
   CreateFileRequestedOptions.fromJS(this._wrapped);
 
+  CreateFileRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String filePath,
+  }) : _wrapped = $js.CreateFileRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..filePath = filePath;
+
   final $js.CreateFileRequestedOptions _wrapped;
 
   $js.CreateFileRequestedOptions get toJS => _wrapped;
@@ -901,6 +1135,17 @@ class CreateFileRequestedOptions {
 
 class CopyEntryRequestedOptions {
   CopyEntryRequestedOptions.fromJS(this._wrapped);
+
+  CopyEntryRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String sourcePath,
+    required String targetPath,
+  }) : _wrapped = $js.CopyEntryRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..sourcePath = sourcePath
+          ..targetPath = targetPath;
 
   final $js.CopyEntryRequestedOptions _wrapped;
 
@@ -934,6 +1179,17 @@ class CopyEntryRequestedOptions {
 class MoveEntryRequestedOptions {
   MoveEntryRequestedOptions.fromJS(this._wrapped);
 
+  MoveEntryRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String sourcePath,
+    required String targetPath,
+  }) : _wrapped = $js.MoveEntryRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..sourcePath = sourcePath
+          ..targetPath = targetPath;
+
   final $js.MoveEntryRequestedOptions _wrapped;
 
   $js.MoveEntryRequestedOptions get toJS => _wrapped;
@@ -966,6 +1222,17 @@ class MoveEntryRequestedOptions {
 class TruncateRequestedOptions {
   TruncateRequestedOptions.fromJS(this._wrapped);
 
+  TruncateRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String filePath,
+    required double length,
+  }) : _wrapped = $js.TruncateRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..filePath = filePath
+          ..length = length;
+
   final $js.TruncateRequestedOptions _wrapped;
 
   $js.TruncateRequestedOptions get toJS => _wrapped;
@@ -997,6 +1264,19 @@ class TruncateRequestedOptions {
 
 class WriteFileRequestedOptions {
   WriteFileRequestedOptions.fromJS(this._wrapped);
+
+  WriteFileRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required int openRequestId,
+    required double offset,
+    required ByteBuffer data,
+  }) : _wrapped = $js.WriteFileRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..openRequestId = openRequestId
+          ..offset = offset
+          ..data = data.toJS;
 
   final $js.WriteFileRequestedOptions _wrapped;
 
@@ -1036,6 +1316,15 @@ class WriteFileRequestedOptions {
 class AbortRequestedOptions {
   AbortRequestedOptions.fromJS(this._wrapped);
 
+  AbortRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required int operationRequestId,
+  }) : _wrapped = $js.AbortRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..operationRequestId = operationRequestId;
+
   final $js.AbortRequestedOptions _wrapped;
 
   $js.AbortRequestedOptions get toJS => _wrapped;
@@ -1061,6 +1350,17 @@ class AbortRequestedOptions {
 
 class AddWatcherRequestedOptions {
   AddWatcherRequestedOptions.fromJS(this._wrapped);
+
+  AddWatcherRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String entryPath,
+    required bool recursive,
+  }) : _wrapped = $js.AddWatcherRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPath = entryPath
+          ..recursive = recursive;
 
   final $js.AddWatcherRequestedOptions _wrapped;
 
@@ -1095,6 +1395,17 @@ class AddWatcherRequestedOptions {
 class RemoveWatcherRequestedOptions {
   RemoveWatcherRequestedOptions.fromJS(this._wrapped);
 
+  RemoveWatcherRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required String entryPath,
+    required bool recursive,
+  }) : _wrapped = $js.RemoveWatcherRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPath = entryPath
+          ..recursive = recursive;
+
   final $js.RemoveWatcherRequestedOptions _wrapped;
 
   $js.RemoveWatcherRequestedOptions get toJS => _wrapped;
@@ -1127,6 +1438,13 @@ class RemoveWatcherRequestedOptions {
 class Action {
   Action.fromJS(this._wrapped);
 
+  Action({
+    required String id,
+    String? title,
+  }) : _wrapped = $js.Action()
+          ..id = id
+          ..title = title;
+
   final $js.Action _wrapped;
 
   $js.Action get toJS => _wrapped;
@@ -1147,6 +1465,17 @@ class Action {
 
 class ExecuteActionRequestedOptions {
   ExecuteActionRequestedOptions.fromJS(this._wrapped);
+
+  ExecuteActionRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+    required List<String> entryPaths,
+    required String actionId,
+  }) : _wrapped = $js.ExecuteActionRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId
+          ..entryPaths = throw UnimplementedError()
+          ..actionId = actionId;
 
   final $js.ExecuteActionRequestedOptions _wrapped;
 
@@ -1181,6 +1510,13 @@ class ExecuteActionRequestedOptions {
 class Change {
   Change.fromJS(this._wrapped);
 
+  Change({
+    required String entryPath,
+    required ChangeType changeType,
+  }) : _wrapped = $js.Change()
+          ..entryPath = entryPath
+          ..changeType = changeType.toJS;
+
   final $js.Change _wrapped;
 
   $js.Change get toJS => _wrapped;
@@ -1200,6 +1536,21 @@ class Change {
 
 class NotifyOptions {
   NotifyOptions.fromJS(this._wrapped);
+
+  NotifyOptions({
+    required String fileSystemId,
+    required String observedPath,
+    required bool recursive,
+    required ChangeType changeType,
+    List<Change>? changes,
+    String? tag,
+  }) : _wrapped = $js.NotifyOptions()
+          ..fileSystemId = fileSystemId
+          ..observedPath = observedPath
+          ..recursive = recursive
+          ..changeType = changeType.toJS
+          ..changes = throw UnimplementedError()
+          ..tag = tag;
 
   final $js.NotifyOptions _wrapped;
 
@@ -1253,6 +1604,13 @@ class NotifyOptions {
 
 class ConfigureRequestedOptions {
   ConfigureRequestedOptions.fromJS(this._wrapped);
+
+  ConfigureRequestedOptions({
+    required String fileSystemId,
+    required int requestId,
+  }) : _wrapped = $js.ConfigureRequestedOptions()
+          ..fileSystemId = fileSystemId
+          ..requestId = requestId;
 
   final $js.ConfigureRequestedOptions _wrapped;
 

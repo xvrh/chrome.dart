@@ -1,6 +1,7 @@
 import 'src/internal_helpers.dart';
 import 'src/js/content_settings.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _contentSettings = ChromeContentSettings._();
 
@@ -21,7 +22,7 @@ class ChromeContentSettings {
   /// not used. NOTE: When calling `set()`, the primary pattern must be
   /// `<all_urls>`.
   ContentSetting get autoVerify =>
-      $js.chrome.contentSettings.autoVerify as dynamic;
+      ($js.chrome.contentSettings.autoVerify as dynamic);
 
   /// Whether to allow cookies and other local data to be set by websites. One
   /// of
@@ -31,7 +32,7 @@ class ChromeContentSettings {
   /// Default is [allow].
   /// The primary URL is the URL representing the cookie origin. The secondary
   /// URL is the URL of the top-level frame.
-  ContentSetting get cookies => $js.chrome.contentSettings.cookies as dynamic;
+  ContentSetting get cookies => ($js.chrome.contentSettings.cookies as dynamic);
 
   /// Whether to show images. One of
   /// [allow]: Show images,
@@ -39,7 +40,7 @@ class ChromeContentSettings {
   /// Default is [allow].
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// the URL of the image.
-  ContentSetting get images => $js.chrome.contentSettings.images as dynamic;
+  ContentSetting get images => ($js.chrome.contentSettings.images as dynamic);
 
   /// Whether to run JavaScript. One of
   /// [allow]: Run JavaScript,
@@ -48,7 +49,7 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
   ContentSetting get javascript =>
-      $js.chrome.contentSettings.javascript as dynamic;
+      ($js.chrome.contentSettings.javascript as dynamic);
 
   /// Whether to allow Geolocation. One of
   /// [allow]: Allow sites to track your physical location,
@@ -58,12 +59,13 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the document which requested location data.
   /// The secondary URL is the URL of the top-level frame (which may or may not
   /// differ from the requesting URL).
-  ContentSetting get location => $js.chrome.contentSettings.location as dynamic;
+  ContentSetting get location =>
+      ($js.chrome.contentSettings.location as dynamic);
 
   /// <i>Deprecated.</i> With Flash support removed in Chrome 88, this
   /// permission no longer has any effect. Value is always [block]. Calls to
   /// `set()` and `clear()` will be ignored.
-  ContentSetting get plugins => $js.chrome.contentSettings.plugins as dynamic;
+  ContentSetting get plugins => ($js.chrome.contentSettings.plugins as dynamic);
 
   /// Whether to allow sites to show pop-ups. One of
   /// [allow]: Allow sites to show pop-ups,
@@ -71,7 +73,7 @@ class ChromeContentSettings {
   /// Default is [block].
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
-  ContentSetting get popups => $js.chrome.contentSettings.popups as dynamic;
+  ContentSetting get popups => ($js.chrome.contentSettings.popups as dynamic);
 
   /// Whether to allow sites to show desktop notifications. One of
   /// [allow]: Allow sites to show desktop notifications,
@@ -81,17 +83,17 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the document which wants to show the
   /// notification. The secondary URL is not used.
   ContentSetting get notifications =>
-      $js.chrome.contentSettings.notifications as dynamic;
+      ($js.chrome.contentSettings.notifications as dynamic);
 
   /// <i>Deprecated.</i> No longer has any effect. Fullscreen permission is now
   /// automatically granted for all sites. Value is always [allow].
   ContentSetting get fullscreen =>
-      $js.chrome.contentSettings.fullscreen as dynamic;
+      ($js.chrome.contentSettings.fullscreen as dynamic);
 
   /// <i>Deprecated.</i> No longer has any effect. Mouse lock permission is now
   /// automatically granted for all sites. Value is always [allow].
   ContentSetting get mouselock =>
-      $js.chrome.contentSettings.mouselock as dynamic;
+      ($js.chrome.contentSettings.mouselock as dynamic);
 
   /// Whether to allow sites to access the microphone. One of
   /// [allow]: Allow sites to access the microphone,
@@ -102,7 +104,7 @@ class ChromeContentSettings {
   /// access. The secondary URL is not used.
   /// NOTE: The 'allow' setting is not valid if both patterns are '<all_urls>'.
   ContentSetting get microphone =>
-      $js.chrome.contentSettings.microphone as dynamic;
+      ($js.chrome.contentSettings.microphone as dynamic);
 
   /// Whether to allow sites to access the camera. One of
   /// [allow]: Allow sites to access the camera,
@@ -112,14 +114,14 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the document which requested camera access.
   /// The secondary URL is not used.
   /// NOTE: The 'allow' setting is not valid if both patterns are '<all_urls>'.
-  ContentSetting get camera => $js.chrome.contentSettings.camera as dynamic;
+  ContentSetting get camera => ($js.chrome.contentSettings.camera as dynamic);
 
   /// <i>Deprecated.</i> Previously, controlled whether to allow sites to run
   /// plugins unsandboxed, however, with the Flash broker process removed in
   /// Chrome 88, this permission no longer has any effect. Value is always
   /// [block]. Calls to `set()` and `clear()` will be ignored.
   ContentSetting get unsandboxedPlugins =>
-      $js.chrome.contentSettings.unsandboxedPlugins as dynamic;
+      ($js.chrome.contentSettings.unsandboxedPlugins as dynamic);
 
   /// Whether to allow sites to download multiple files automatically. One of
   /// [allow]: Allow sites to download multiple files automatically,
@@ -130,7 +132,7 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
   ContentSetting get automaticDownloads =>
-      $js.chrome.contentSettings.automaticDownloads as dynamic;
+      ($js.chrome.contentSettings.automaticDownloads as dynamic);
 }
 
 /// The scope of the ContentSetting. One of
@@ -339,6 +341,13 @@ enum MultipleAutomaticDownloadsContentSetting {
 class ResourceIdentifier {
   ResourceIdentifier.fromJS(this._wrapped);
 
+  ResourceIdentifier({
+    required String id,
+    String? description,
+  }) : _wrapped = $js.ResourceIdentifier()
+          ..id = id
+          ..description = description;
+
   final $js.ResourceIdentifier _wrapped;
 
   $js.ResourceIdentifier get toJS => _wrapped;
@@ -359,26 +368,62 @@ class ResourceIdentifier {
 class ContentSetting {
   ContentSetting.fromJS(this._wrapped);
 
+  ContentSetting() : _wrapped = $js.ContentSetting();
+
   final $js.ContentSetting _wrapped;
 
   $js.ContentSetting get toJS => _wrapped;
 
   /// Clear all content setting rules set by this extension.
-  Future<void> clear(ClearDetails details) => throw UnimplementedError();
+  Future<void> clear(ClearDetails details) {
+    var $completer = Completer<void>();
+    _wrapped.clear(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Gets the current content setting for a given pair of URLs.
-  Future<GetCallbackDetails> get(GetDetails details) =>
-      throw UnimplementedError();
+  Future<GetCallbackDetails> get(GetDetails details) {
+    var $completer = Completer<GetCallbackDetails>();
+    _wrapped.get(
+      details.toJS,
+      (GetCallbackDetails details) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Applies a new content setting rule.
-  Future<void> set(SetDetails details) => throw UnimplementedError();
+  Future<void> set(SetDetails details) {
+    var $completer = Completer<void>();
+    _wrapped.set(
+      details.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
-  Future<List<ResourceIdentifier>?> getResourceIdentifiers() =>
-      throw UnimplementedError();
+  Future<List<ResourceIdentifier>?> getResourceIdentifiers() {
+    var $completer = Completer<List<ResourceIdentifier>?>();
+    _wrapped.getResourceIdentifiers((JSArray? resourceIdentifiers) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class ClearDetails {
   ClearDetails.fromJS(this._wrapped);
+
+  ClearDetails({Scope? scope})
+      : _wrapped = $js.ClearDetails(scope: scope?.toJS);
 
   final $js.ClearDetails _wrapped;
 
@@ -387,6 +432,9 @@ class ClearDetails {
 
 class GetCallbackDetails {
   GetCallbackDetails.fromJS(this._wrapped);
+
+  GetCallbackDetails({required JSAny setting})
+      : _wrapped = $js.GetCallbackDetails()..setting = setting;
 
   final $js.GetCallbackDetails _wrapped;
 
@@ -403,6 +451,18 @@ class GetCallbackDetails {
 class GetDetails {
   GetDetails.fromJS(this._wrapped);
 
+  GetDetails({
+    required String primaryUrl,
+    String? secondaryUrl,
+    ResourceIdentifier? resourceIdentifier,
+    bool? incognito,
+  }) : _wrapped = $js.GetDetails(
+          primaryUrl: primaryUrl,
+          secondaryUrl: secondaryUrl,
+          resourceIdentifier: resourceIdentifier?.toJS,
+          incognito: incognito,
+        );
+
   final $js.GetDetails _wrapped;
 
   $js.GetDetails get toJS => _wrapped;
@@ -410,6 +470,20 @@ class GetDetails {
 
 class SetDetails {
   SetDetails.fromJS(this._wrapped);
+
+  SetDetails({
+    required String primaryPattern,
+    String? secondaryPattern,
+    ResourceIdentifier? resourceIdentifier,
+    required JSAny setting,
+    Scope? scope,
+  }) : _wrapped = $js.SetDetails(
+          primaryPattern: primaryPattern,
+          secondaryPattern: secondaryPattern,
+          resourceIdentifier: resourceIdentifier?.toJS,
+          setting: setting,
+          scope: scope?.toJS,
+        );
 
   final $js.SetDetails _wrapped;
 

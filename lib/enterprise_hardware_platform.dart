@@ -1,11 +1,14 @@
+import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_hardware_platform.dart' as $js;
-export 'chrome.dart';
+
+export 'enterprise.dart' show ChromeEnterprise, ChromeEnterpriseExtension;
+export 'src/chrome.dart' show chrome;
 
 final _enterpriseHardwarePlatform = ChromeEnterpriseHardwarePlatform._();
 
-extension ChromeEnterpriseHardwarePlatformExtension on Chrome {
-  ChromeEnterpriseHardwarePlatform get enterpriseHardwarePlatform =>
+extension ChromeEnterpriseHardwarePlatformExtension on ChromeEnterprise {
+  ChromeEnterpriseHardwarePlatform get hardwarePlatform =>
       _enterpriseHardwarePlatform;
 }
 
@@ -15,12 +18,25 @@ class ChromeEnterpriseHardwarePlatform {
   /// Obtains the manufacturer and model for the hardware platform and, if
   /// the extension is authorized, returns it via |callback|.
   /// |callback|: Called with the hardware platform info.
-  Future<HardwarePlatformInfo> getHardwarePlatformInfo() =>
-      throw UnimplementedError();
+  Future<HardwarePlatformInfo> getHardwarePlatformInfo() {
+    var $completer = Completer<HardwarePlatformInfo>();
+    $js.chrome.enterprise.hardwarePlatform
+        .getHardwarePlatformInfo((HardwarePlatformInfo info) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 }
 
 class HardwarePlatformInfo {
   HardwarePlatformInfo.fromJS(this._wrapped);
+
+  HardwarePlatformInfo({
+    required String model,
+    required String manufacturer,
+  }) : _wrapped = $js.HardwarePlatformInfo()
+          ..model = model
+          ..manufacturer = manufacturer;
 
   final $js.HardwarePlatformInfo _wrapped;
 

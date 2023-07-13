@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/notifications.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _notifications = ChromeNotifications._();
 
@@ -28,8 +30,17 @@ class ChromeNotifications {
   Future<String> create(
     String? notificationId,
     NotificationOptions options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<String>();
+    $js.chrome.notifications.create(
+      notificationId,
+      options.toJS,
+      (String notificationId) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Updates an existing notification.
   /// |notificationId|: The id of the notification to be updated. This is
@@ -41,8 +52,17 @@ class ChromeNotifications {
   Future<bool> update(
     String notificationId,
     NotificationOptions options,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<bool>();
+    $js.chrome.notifications.update(
+      notificationId,
+      options.toJS,
+      (bool wasUpdated) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Clears the specified notification.
   /// |notificationId|: The id of the notification to be cleared. This is
@@ -50,16 +70,37 @@ class ChromeNotifications {
   /// |callback|: Called to indicate whether a matching notification existed.
   ///
   /// The callback is required before Chrome 42.
-  Future<bool> clear(String notificationId) => throw UnimplementedError();
+  Future<bool> clear(String notificationId) {
+    var $completer = Completer<bool>();
+    $js.chrome.notifications.clear(
+      notificationId,
+      (bool wasCleared) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Retrieves all the notifications of this app or extension.
   /// |callback|: Returns the set of notification_ids currently in the system.
-  Future<JSAny> getAll() => throw UnimplementedError();
+  Future<JSAny> getAll() {
+    var $completer = Completer<JSAny>();
+    $js.chrome.notifications.getAll((JSAny notifications) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Retrieves whether the user has enabled notifications from this app
   /// or extension.
   /// |callback|: Returns the current permission level.
-  Future<PermissionLevel> getPermissionLevel() => throw UnimplementedError();
+  Future<PermissionLevel> getPermissionLevel() {
+    var $completer = Completer<PermissionLevel>();
+    $js.chrome.notifications.getPermissionLevel((PermissionLevel level) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// The notification closed, either by the system or by user action.
   Stream<OnClosedEvent> get onClosed => throw UnimplementedError();
@@ -125,6 +166,13 @@ enum PermissionLevel {
 class NotificationItem {
   NotificationItem.fromJS(this._wrapped);
 
+  NotificationItem({
+    required String title,
+    required String message,
+  }) : _wrapped = $js.NotificationItem()
+          ..title = title
+          ..message = message;
+
   final $js.NotificationItem _wrapped;
 
   $js.NotificationItem get toJS => _wrapped;
@@ -144,6 +192,15 @@ class NotificationItem {
 
 class NotificationBitmap {
   NotificationBitmap.fromJS(this._wrapped);
+
+  NotificationBitmap({
+    required int width,
+    required int height,
+    ByteBuffer? data,
+  }) : _wrapped = $js.NotificationBitmap()
+          ..width = width
+          ..height = height
+          ..data = data?.toJS;
 
   final $js.NotificationBitmap _wrapped;
 
@@ -168,6 +225,15 @@ class NotificationBitmap {
 class NotificationButton {
   NotificationButton.fromJS(this._wrapped);
 
+  NotificationButton({
+    required String title,
+    String? iconUrl,
+    NotificationBitmap? iconBitmap,
+  }) : _wrapped = $js.NotificationButton()
+          ..title = title
+          ..iconUrl = iconUrl
+          ..iconBitmap = iconBitmap?.toJS;
+
   final $js.NotificationButton _wrapped;
 
   $js.NotificationButton get toJS => _wrapped;
@@ -191,6 +257,47 @@ class NotificationButton {
 
 class NotificationOptions {
   NotificationOptions.fromJS(this._wrapped);
+
+  NotificationOptions({
+    TemplateType? type,
+    String? iconUrl,
+    NotificationBitmap? iconBitmap,
+    String? appIconMaskUrl,
+    NotificationBitmap? appIconMaskBitmap,
+    String? title,
+    String? message,
+    String? contextMessage,
+    int? priority,
+    double? eventTime,
+    List<NotificationButton>? buttons,
+    String? expandedMessage,
+    String? imageUrl,
+    NotificationBitmap? imageBitmap,
+    List<NotificationItem>? items,
+    int? progress,
+    bool? isClickable,
+    bool? requireInteraction,
+    bool? silent,
+  }) : _wrapped = $js.NotificationOptions()
+          ..type = type?.toJS
+          ..iconUrl = iconUrl
+          ..iconBitmap = iconBitmap?.toJS
+          ..appIconMaskUrl = appIconMaskUrl
+          ..appIconMaskBitmap = appIconMaskBitmap?.toJS
+          ..title = title
+          ..message = message
+          ..contextMessage = contextMessage
+          ..priority = priority
+          ..eventTime = eventTime
+          ..buttons = throw UnimplementedError()
+          ..expandedMessage = expandedMessage
+          ..imageUrl = imageUrl
+          ..imageBitmap = imageBitmap?.toJS
+          ..items = throw UnimplementedError()
+          ..progress = progress
+          ..isClickable = isClickable
+          ..requireInteraction = requireInteraction
+          ..silent = silent;
 
   final $js.NotificationOptions _wrapped;
 

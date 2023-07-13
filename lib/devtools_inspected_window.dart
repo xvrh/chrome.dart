@@ -1,12 +1,14 @@
+import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_inspected_window.dart' as $js;
-export 'chrome.dart';
+
+export 'devtools.dart' show ChromeDevtools, ChromeDevtoolsExtension;
+export 'src/chrome.dart' show chrome;
 
 final _devtoolsInspectedWindow = ChromeDevtoolsInspectedWindow._();
 
-extension ChromeDevtoolsInspectedWindowExtension on Chrome {
-  ChromeDevtoolsInspectedWindow get devtoolsInspectedWindow =>
-      _devtoolsInspectedWindow;
+extension ChromeDevtoolsInspectedWindowExtension on ChromeDevtools {
+  ChromeDevtoolsInspectedWindow get inspectedWindow => _devtoolsInspectedWindow;
 }
 
 class ChromeDevtoolsInspectedWindow {
@@ -24,19 +26,28 @@ class ChromeDevtoolsInspectedWindow {
   void eval(
     String expression,
     EvalOptions? options,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    $js.chrome.devtools.inspectedWindow.eval(
+      expression,
+      options?.toJS,
+      callback,
+    );
+  }
 
   /// Reloads the inspected page.
-  void reload(ReloadOptions? reloadOptions) => throw UnimplementedError();
+  void reload(ReloadOptions? reloadOptions) {
+    $js.chrome.devtools.inspectedWindow.reload(reloadOptions?.toJS);
+  }
 
   /// Retrieves the list of resources from the inspected page.
-  void getResources(JSAny callback) => throw UnimplementedError();
+  void getResources(JFFunction callback) {
+    $js.chrome.devtools.inspectedWindow.getResources(callback);
+  }
 
   /// The ID of the tab being inspected. This ID may be used with chrome.tabs.*
   /// API.
-  int get tabId => $js.chrome.devtoolsInspectedWindow.tabId as dynamic;
+  int get tabId => ($js.chrome.devtools.inspectedWindow.tabId as dynamic);
 
   /// Fired when a new resource is added to the inspected page.
   Stream<Resource> get onResourceAdded => throw UnimplementedError();
@@ -50,6 +61,8 @@ class ChromeDevtoolsInspectedWindow {
 class Resource {
   Resource.fromJS(this._wrapped);
 
+  Resource({required String url}) : _wrapped = $js.Resource()..url = url;
+
   final $js.Resource _wrapped;
 
   $js.Resource get toJS => _wrapped;
@@ -61,19 +74,36 @@ class Resource {
   }
 
   /// Gets the content of the resource.
-  void getContent(JSAny callback) => throw UnimplementedError();
+  void getContent(JFFunction callback) {
+    _wrapped.getContent(callback);
+  }
 
   /// Sets the content of the resource.
   void setContent(
     String content,
     bool commit,
-    JSAny? callback,
-  ) =>
-      throw UnimplementedError();
+    JFFunction? callback,
+  ) {
+    _wrapped.setContent(
+      content,
+      commit,
+      callback,
+    );
+  }
 }
 
 class EvalOptions {
   EvalOptions.fromJS(this._wrapped);
+
+  EvalOptions({
+    String? frameURL,
+    bool? useContentScriptContext,
+    String? scriptExecutionContext,
+  }) : _wrapped = $js.EvalOptions(
+          frameURL: frameURL,
+          useContentScriptContext: useContentScriptContext,
+          scriptExecutionContext: scriptExecutionContext,
+        );
 
   final $js.EvalOptions _wrapped;
 
@@ -82,6 +112,16 @@ class EvalOptions {
 
 class ReloadOptions {
   ReloadOptions.fromJS(this._wrapped);
+
+  ReloadOptions({
+    bool? ignoreCache,
+    String? userAgent,
+    String? injectedScript,
+  }) : _wrapped = $js.ReloadOptions(
+          ignoreCache: ignoreCache,
+          userAgent: userAgent,
+          injectedScript: injectedScript,
+        );
 
   final $js.ReloadOptions _wrapped;
 

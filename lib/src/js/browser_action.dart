@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSBrowserActionExtension on JSChrome {
@@ -33,7 +35,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// must be specified.
   external void setIcon(
     SetIconDetails details,
-    JSAny? callback,
+    JFFunction? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
@@ -89,7 +91,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  external void openPopup(JSAny callback);
+  external void openPopup(JFFunction callback);
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser
   /// action has a popup.

@@ -1,11 +1,14 @@
 import 'src/internal_helpers.dart';
 import 'src/js/system_display.dart' as $js;
-export 'chrome.dart';
+import 'system.dart';
+
+export 'src/chrome.dart' show chrome;
+export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 
 final _systemDisplay = ChromeSystemDisplay._();
 
-extension ChromeSystemDisplayExtension on Chrome {
-  ChromeSystemDisplay get systemDisplay => _systemDisplay;
+extension ChromeSystemDisplayExtension on ChromeSystem {
+  ChromeSystemDisplay get display => _systemDisplay;
 }
 
 class ChromeSystemDisplay {
@@ -14,13 +17,27 @@ class ChromeSystemDisplay {
   /// Requests the information for all attached display devices.
   /// |flags|: Options affecting how the information is returned.
   /// |callback|: The callback to invoke with the results.
-  Future<List<DisplayUnitInfo>> getInfo(GetInfoFlags? flags) =>
-      throw UnimplementedError();
+  Future<List<DisplayUnitInfo>> getInfo(GetInfoFlags? flags) {
+    var $completer = Completer<List<DisplayUnitInfo>>();
+    $js.chrome.system.display.getInfo(
+      flags?.toJS,
+      (JSArray displayInfo) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Requests the layout info for all displays.
   /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   /// |callback|: The callback to invoke with the results.
-  Future<List<DisplayLayout>> getDisplayLayout() => throw UnimplementedError();
+  Future<List<DisplayLayout>> getDisplayLayout() {
+    var $completer = Completer<List<DisplayLayout>>();
+    $js.chrome.system.display.getDisplayLayout((JSArray layouts) {
+      $completer.complete(null);
+    }.toJS);
+    return $completer.future;
+  }
 
   /// Updates the properties for the display specified by |id|, according to
   /// the information provided in |info|. On failure, [runtime.lastError]
@@ -36,8 +53,17 @@ class ChromeSystemDisplay {
   Future<void> setDisplayProperties(
     String id,
     DisplayProperties info,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<void>();
+    $js.chrome.system.display.setDisplayProperties(
+      id,
+      info.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Set the layout for all displays. Any display not included will use the
   /// default layout. If a layout would overlap or be otherwise invalid it
@@ -49,21 +75,33 @@ class ChromeSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  Future<void> setDisplayLayout(List<DisplayLayout> layouts) =>
-      throw UnimplementedError();
+  Future<void> setDisplayLayout(List<DisplayLayout> layouts) {
+    var $completer = Completer<void>();
+    $js.chrome.system.display.setDisplayLayout(
+      throw UnimplementedError(),
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Enables/disables the unified desktop feature. If enabled while mirroring
   /// is active, the desktop mode will not change until mirroring is turned
   /// off. Otherwise, the desktop mode will switch to unified immediately.
   /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   /// |enabled|: True if unified desktop should be enabled.
-  void enableUnifiedDesktop(bool enabled) => throw UnimplementedError();
+  void enableUnifiedDesktop(bool enabled) {
+    $js.chrome.system.display.enableUnifiedDesktop(enabled);
+  }
 
   /// Starts overscan calibration for a display. This will show an overlay
   /// on the screen indicating the current overscan insets. If overscan
   /// calibration for display |id| is in progress this will reset calibration.
   /// |id|: The display's unique identifier.
-  void overscanCalibrationStart(String id) => throw UnimplementedError();
+  void overscanCalibrationStart(String id) {
+    $js.chrome.system.display.overscanCalibrationStart(id);
+  }
 
   /// Adjusts the current overscan insets for a display. Typically this should
   /// either move the display along an axis (e.g. left+right have the same
@@ -74,18 +112,26 @@ class ChromeSystemDisplay {
   void overscanCalibrationAdjust(
     String id,
     Insets delta,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.system.display.overscanCalibrationAdjust(
+      id,
+      delta.toJS,
+    );
+  }
 
   /// Resets the overscan insets for a display to the last saved value (i.e
   /// before Start was called).
   /// |id|: The display's unique identifier.
-  void overscanCalibrationReset(String id) => throw UnimplementedError();
+  void overscanCalibrationReset(String id) {
+    $js.chrome.system.display.overscanCalibrationReset(id);
+  }
 
   /// Complete overscan adjustments for a display  by saving the current values
   /// and hiding the overlay.
   /// |id|: The display's unique identifier.
-  void overscanCalibrationComplete(String id) => throw UnimplementedError();
+  void overscanCalibrationComplete(String id) {
+    $js.chrome.system.display.overscanCalibrationComplete(id);
+  }
 
   /// Displays the native touch calibration UX for the display with |id| as
   /// display id. This will show an overlay on the screen with required
@@ -96,14 +142,24 @@ class ChromeSystemDisplay {
   /// |callback|: Optional callback to inform the caller that the touch
   ///      calibration has ended. The argument of the callback informs if the
   ///      calibration was a success or not.
-  Future<bool> showNativeTouchCalibration(String id) =>
-      throw UnimplementedError();
+  Future<bool> showNativeTouchCalibration(String id) {
+    var $completer = Completer<bool>();
+    $js.chrome.system.display.showNativeTouchCalibration(
+      id,
+      (bool success) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Starts custom touch calibration for a display. This should be called when
   /// using a custom UX for collecting calibration data. If another touch
   /// calibration is already in progress this will throw an error.
   /// |id|: The display's unique identifier.
-  void startCustomTouchCalibration(String id) => throw UnimplementedError();
+  void startCustomTouchCalibration(String id) {
+    $js.chrome.system.display.startCustomTouchCalibration(id);
+  }
 
   /// Sets the touch calibration pairs for a display. These |pairs| would be
   /// used to calibrate the touch screen for display with |id| called in
@@ -116,14 +172,20 @@ class ChromeSystemDisplay {
   void completeCustomTouchCalibration(
     TouchCalibrationPairQuad pairs,
     Bounds bounds,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.system.display.completeCustomTouchCalibration(
+      pairs.toJS,
+      bounds.toJS,
+    );
+  }
 
   /// Resets the touch calibration for the display and brings it back to its
   /// default state by clearing any touch calibration data associated with the
   /// display.
   /// |id|: The display's unique identifier.
-  void clearTouchCalibration(String id) => throw UnimplementedError();
+  void clearTouchCalibration(String id) {
+    $js.chrome.system.display.clearTouchCalibration(id);
+  }
 
   /// Sets the display mode to the specified mirror mode. Each call resets the
   /// state from previous calls. Calling setDisplayProperties() will fail for
@@ -134,7 +196,16 @@ class ChromeSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  Future<void> setMirrorMode(MirrorModeInfo info) => throw UnimplementedError();
+  Future<void> setMirrorMode(MirrorModeInfo info) {
+    var $completer = Completer<void>();
+    $js.chrome.system.display.setMirrorMode(
+      info.toJS,
+      () {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Fired when anything changes to the display configuration.
   Stream<void> get onDisplayChanged => throw UnimplementedError();
@@ -181,6 +252,17 @@ enum MirrorMode {
 class Bounds {
   Bounds.fromJS(this._wrapped);
 
+  Bounds({
+    required int left,
+    required int top,
+    required int width,
+    required int height,
+  }) : _wrapped = $js.Bounds()
+          ..left = left
+          ..top = top
+          ..width = width
+          ..height = height;
+
   final $js.Bounds _wrapped;
 
   $js.Bounds get toJS => _wrapped;
@@ -212,6 +294,17 @@ class Bounds {
 
 class Insets {
   Insets.fromJS(this._wrapped);
+
+  Insets({
+    required int left,
+    required int top,
+    required int right,
+    required int bottom,
+  }) : _wrapped = $js.Insets()
+          ..left = left
+          ..top = top
+          ..right = right
+          ..bottom = bottom;
 
   final $js.Insets _wrapped;
 
@@ -245,6 +338,13 @@ class Insets {
 class Point {
   Point.fromJS(this._wrapped);
 
+  Point({
+    required int x,
+    required int y,
+  }) : _wrapped = $js.Point()
+          ..x = x
+          ..y = y;
+
   final $js.Point _wrapped;
 
   $js.Point get toJS => _wrapped;
@@ -265,6 +365,13 @@ class Point {
 class TouchCalibrationPair {
   TouchCalibrationPair.fromJS(this._wrapped);
 
+  TouchCalibrationPair({
+    required Point displayPoint,
+    required Point touchPoint,
+  }) : _wrapped = $js.TouchCalibrationPair()
+          ..displayPoint = displayPoint.toJS
+          ..touchPoint = touchPoint.toJS;
+
   final $js.TouchCalibrationPair _wrapped;
 
   $js.TouchCalibrationPair get toJS => _wrapped;
@@ -284,6 +391,17 @@ class TouchCalibrationPair {
 
 class TouchCalibrationPairQuad {
   TouchCalibrationPairQuad.fromJS(this._wrapped);
+
+  TouchCalibrationPairQuad({
+    required TouchCalibrationPair pair1,
+    required TouchCalibrationPair pair2,
+    required TouchCalibrationPair pair3,
+    required TouchCalibrationPair pair4,
+  }) : _wrapped = $js.TouchCalibrationPairQuad()
+          ..pair1 = pair1.toJS
+          ..pair2 = pair2.toJS
+          ..pair3 = pair3.toJS
+          ..pair4 = pair4.toJS;
 
   final $js.TouchCalibrationPairQuad _wrapped;
 
@@ -316,6 +434,29 @@ class TouchCalibrationPairQuad {
 
 class DisplayMode {
   DisplayMode.fromJS(this._wrapped);
+
+  DisplayMode({
+    required int width,
+    required int height,
+    required int widthInNativePixels,
+    required int heightInNativePixels,
+    double? uiScale,
+    required double deviceScaleFactor,
+    required double refreshRate,
+    required bool isNative,
+    required bool isSelected,
+    bool? isInterlaced,
+  }) : _wrapped = $js.DisplayMode()
+          ..width = width
+          ..height = height
+          ..widthInNativePixels = widthInNativePixels
+          ..heightInNativePixels = heightInNativePixels
+          ..uiScale = uiScale
+          ..deviceScaleFactor = deviceScaleFactor
+          ..refreshRate = refreshRate
+          ..isNative = isNative
+          ..isSelected = isSelected
+          ..isInterlaced = isInterlaced;
 
   final $js.DisplayMode _wrapped;
 
@@ -385,6 +526,17 @@ class DisplayMode {
 class DisplayLayout {
   DisplayLayout.fromJS(this._wrapped);
 
+  DisplayLayout({
+    required String id,
+    required String parentId,
+    required LayoutPosition position,
+    required int offset,
+  }) : _wrapped = $js.DisplayLayout()
+          ..id = id
+          ..parentId = parentId
+          ..position = position.toJS
+          ..offset = offset;
+
   final $js.DisplayLayout _wrapped;
 
   $js.DisplayLayout get toJS => _wrapped;
@@ -419,6 +571,15 @@ class DisplayLayout {
 class Edid {
   Edid.fromJS(this._wrapped);
 
+  Edid({
+    required String manufacturerId,
+    required String productId,
+    required int yearOfManufacture,
+  }) : _wrapped = $js.Edid()
+          ..manufacturerId = manufacturerId
+          ..productId = productId
+          ..yearOfManufacture = yearOfManufacture;
+
   final $js.Edid _wrapped;
 
   $js.Edid get toJS => _wrapped;
@@ -444,6 +605,51 @@ class Edid {
 
 class DisplayUnitInfo {
   DisplayUnitInfo.fromJS(this._wrapped);
+
+  DisplayUnitInfo({
+    required String id,
+    required String name,
+    Edid? edid,
+    required String mirroringSourceId,
+    required List<String> mirroringDestinationIds,
+    required bool isPrimary,
+    required bool isInternal,
+    required bool isEnabled,
+    required bool isUnified,
+    bool? isAutoRotationAllowed,
+    required double dpiX,
+    required double dpiY,
+    required int rotation,
+    required Bounds bounds,
+    required Insets overscan,
+    required Bounds workArea,
+    required List<DisplayMode> modes,
+    required bool hasTouchSupport,
+    required bool hasAccelerometerSupport,
+    required List<double> availableDisplayZoomFactors,
+    required double displayZoomFactor,
+  }) : _wrapped = $js.DisplayUnitInfo()
+          ..id = id
+          ..name = name
+          ..edid = edid?.toJS
+          ..mirroringSourceId = mirroringSourceId
+          ..mirroringDestinationIds = throw UnimplementedError()
+          ..isPrimary = isPrimary
+          ..isInternal = isInternal
+          ..isEnabled = isEnabled
+          ..isUnified = isUnified
+          ..isAutoRotationAllowed = isAutoRotationAllowed
+          ..dpiX = dpiX
+          ..dpiY = dpiY
+          ..rotation = rotation
+          ..bounds = bounds.toJS
+          ..overscan = overscan.toJS
+          ..workArea = workArea.toJS
+          ..modes = throw UnimplementedError()
+          ..hasTouchSupport = hasTouchSupport
+          ..hasAccelerometerSupport = hasAccelerometerSupport
+          ..availableDisplayZoomFactors = throw UnimplementedError()
+          ..displayZoomFactor = displayZoomFactor;
 
   final $js.DisplayUnitInfo _wrapped;
 
@@ -613,6 +819,27 @@ class DisplayUnitInfo {
 class DisplayProperties {
   DisplayProperties.fromJS(this._wrapped);
 
+  DisplayProperties({
+    bool? isUnified,
+    String? mirroringSourceId,
+    bool? isPrimary,
+    Insets? overscan,
+    int? rotation,
+    int? boundsOriginX,
+    int? boundsOriginY,
+    DisplayMode? displayMode,
+    double? displayZoomFactor,
+  }) : _wrapped = $js.DisplayProperties()
+          ..isUnified = isUnified
+          ..mirroringSourceId = mirroringSourceId
+          ..isPrimary = isPrimary
+          ..overscan = overscan?.toJS
+          ..rotation = rotation
+          ..boundsOriginX = boundsOriginX
+          ..boundsOriginY = boundsOriginY
+          ..displayMode = displayMode?.toJS
+          ..displayZoomFactor = displayZoomFactor;
+
   final $js.DisplayProperties _wrapped;
 
   $js.DisplayProperties get toJS => _wrapped;
@@ -701,6 +928,9 @@ class DisplayProperties {
 class GetInfoFlags {
   GetInfoFlags.fromJS(this._wrapped);
 
+  GetInfoFlags({bool? singleUnified})
+      : _wrapped = $js.GetInfoFlags()..singleUnified = singleUnified;
+
   final $js.GetInfoFlags _wrapped;
 
   $js.GetInfoFlags get toJS => _wrapped;
@@ -716,6 +946,15 @@ class GetInfoFlags {
 
 class MirrorModeInfo {
   MirrorModeInfo.fromJS(this._wrapped);
+
+  MirrorModeInfo({
+    required MirrorMode mode,
+    String? mirroringSourceId,
+    List<String>? mirroringDestinationIds,
+  }) : _wrapped = $js.MirrorModeInfo()
+          ..mode = mode.toJS
+          ..mirroringSourceId = mirroringSourceId
+          ..mirroringDestinationIds = throw UnimplementedError();
 
   final $js.MirrorModeInfo _wrapped;
 

@@ -1,7 +1,8 @@
 import 'src/internal_helpers.dart';
-import 'tts.dart';
 import 'src/js/tts_engine.dart' as $js;
-export 'chrome.dart';
+import 'tts.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _ttsEngine = ChromeTtsEngine._();
 
@@ -14,21 +15,31 @@ class ChromeTtsEngine {
 
   /// Called by an engine to update its list of voices. This list overrides any
   /// voices declared in this extension's manifest.
-  void updateVoices(List<TtsVoice> voices) => throw UnimplementedError();
+  void updateVoices(List<TtsVoice> voices) {
+    $js.chrome.ttsEngine.updateVoices(throw UnimplementedError());
+  }
 
   /// Routes a TTS event from a speech engine to a client.
   void sendTtsEvent(
     int requestId,
     TtsEvent event,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.ttsEngine.sendTtsEvent(
+      requestId,
+      event.toJS,
+    );
+  }
 
   /// Routes TTS audio from a speech engine to a client.
   void sendTtsAudio(
     int requestId,
     AudioBuffer audio,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    $js.chrome.ttsEngine.sendTtsAudio(
+      requestId,
+      audio.toJS,
+    );
+  }
 
   /// Called when the user makes a call to tts.speak() and one of the voices
   /// from this extension's manifest is the first to match the options object.
@@ -73,6 +84,21 @@ enum VoiceGender {
 
 class SpeakOptions {
   SpeakOptions.fromJS(this._wrapped);
+
+  SpeakOptions({
+    String? voiceName,
+    String? lang,
+    VoiceGender? gender,
+    double? rate,
+    double? pitch,
+    double? volume,
+  }) : _wrapped = $js.SpeakOptions()
+          ..voiceName = voiceName
+          ..lang = lang
+          ..gender = gender?.toJS
+          ..rate = rate
+          ..pitch = pitch
+          ..volume = volume;
 
   final $js.SpeakOptions _wrapped;
 
@@ -126,6 +152,13 @@ class SpeakOptions {
 class AudioStreamOptions {
   AudioStreamOptions.fromJS(this._wrapped);
 
+  AudioStreamOptions({
+    required int sampleRate,
+    required int bufferSize,
+  }) : _wrapped = $js.AudioStreamOptions()
+          ..sampleRate = sampleRate
+          ..bufferSize = bufferSize;
+
   final $js.AudioStreamOptions _wrapped;
 
   $js.AudioStreamOptions get toJS => _wrapped;
@@ -145,6 +178,15 @@ class AudioStreamOptions {
 
 class AudioBuffer {
   AudioBuffer.fromJS(this._wrapped);
+
+  AudioBuffer({
+    required JSAny audioBuffer,
+    int? charIndex,
+    bool? isLastBuffer,
+  }) : _wrapped = $js.AudioBuffer()
+          ..audioBuffer = audioBuffer
+          ..charIndex = charIndex
+          ..isLastBuffer = isLastBuffer;
 
   final $js.AudioBuffer _wrapped;
 
@@ -193,7 +235,7 @@ class OnSpeakEvent {
 
   /// Call this function with events that occur in the process of speaking the
   /// utterance.
-  final JSAny sendTtsEvent;
+  final JFFunction sendTtsEvent;
 }
 
 class OnSpeakWithAudioStreamEvent {
@@ -222,8 +264,8 @@ class OnSpeakWithAudioStreamEvent {
 
   /// Call this function with audio that occur in the process of speaking the
   /// utterance.
-  final JSAny sendTtsAudio;
+  final JFFunction sendTtsAudio;
 
   /// Call this function to indicate an error with rendering this utterance.
-  final JSAny sendError;
+  final JFFunction sendError;
 }

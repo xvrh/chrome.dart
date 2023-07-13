@@ -1,7 +1,8 @@
-import 'src/internal_helpers.dart';
 import 'extension_types.dart';
+import 'src/internal_helpers.dart';
 import 'src/js/web_request.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _webRequest = ChromeWebRequest._();
 
@@ -15,14 +16,16 @@ class ChromeWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  void handlerBehaviorChanged(JSAny? callback) => throw UnimplementedError();
+  void handlerBehaviorChanged(JFFunction? callback) {
+    $js.chrome.webRequest.handlerBehaviorChanged(callback);
+  }
 
   /// The maximum number of times that `handlerBehaviorChanged` can be called
   /// per 10 minute sustained interval. `handlerBehaviorChanged` is an expensive
   /// function call that shouldn't be called often.
   int get maxHandlerBehaviorChangedCallsPer10Minutes =>
-      $js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES
-          as dynamic;
+      ($js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES
+          as dynamic);
 
   /// Fired when a request is about to occur.
   Stream<OnBeforeRequestDetails> get onBeforeRequest =>
@@ -249,6 +252,17 @@ typedef FormDataItem = JSAny;
 class RequestFilter {
   RequestFilter.fromJS(this._wrapped);
 
+  RequestFilter({
+    required List<String> urls,
+    List<ResourceType>? types,
+    int? tabId,
+    int? windowId,
+  }) : _wrapped = $js.RequestFilter()
+          ..urls = throw UnimplementedError()
+          ..types = throw UnimplementedError()
+          ..tabId = tabId
+          ..windowId = windowId;
+
   final $js.RequestFilter _wrapped;
 
   $js.RequestFilter get toJS => _wrapped;
@@ -285,6 +299,19 @@ class RequestFilter {
 class BlockingResponse {
   BlockingResponse.fromJS(this._wrapped);
 
+  BlockingResponse({
+    bool? cancel,
+    String? redirectUrl,
+    HttpHeaders? requestHeaders,
+    HttpHeaders? responseHeaders,
+    BlockingResponseAuthCredentials? authCredentials,
+  }) : _wrapped = $js.BlockingResponse()
+          ..cancel = cancel
+          ..redirectUrl = redirectUrl
+          ..requestHeaders = throw UnimplementedError()
+          ..responseHeaders = throw UnimplementedError()
+          ..authCredentials = authCredentials?.toJS;
+
   final $js.BlockingResponse _wrapped;
 
   $js.BlockingResponse get toJS => _wrapped;
@@ -312,7 +339,7 @@ class BlockingResponse {
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the
   /// request is made with these request headers instead.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -325,7 +352,7 @@ class BlockingResponse {
   /// return `responseHeaders` if you really want to modify the headers in order
   /// to limit the number of conflicts (only one extension may modify
   /// `responseHeaders` for each request).
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -344,6 +371,13 @@ class BlockingResponse {
 
 class UploadData {
   UploadData.fromJS(this._wrapped);
+
+  UploadData({
+    JSAny? bytes,
+    String? file,
+  }) : _wrapped = $js.UploadData()
+          ..bytes = bytes
+          ..file = file;
 
   final $js.UploadData _wrapped;
 
@@ -364,6 +398,15 @@ class UploadData {
 
 class HttpHeadersItems {
   HttpHeadersItems.fromJS(this._wrapped);
+
+  HttpHeadersItems({
+    required String name,
+    String? value,
+    List<int>? binaryValue,
+  }) : _wrapped = $js.HttpHeadersItems()
+          ..name = name
+          ..value = value
+          ..binaryValue = throw UnimplementedError();
 
   final $js.HttpHeadersItems _wrapped;
 
@@ -392,6 +435,37 @@ class HttpHeadersItems {
 
 class OnBeforeRequestDetails {
   OnBeforeRequestDetails.fromJS(this._wrapped);
+
+  OnBeforeRequestDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    String? documentId,
+    String? parentDocumentId,
+    DocumentLifecycle? documentLifecycle,
+    FrameType? frameType,
+    OnBeforeRequestDetailsRequestBody? requestBody,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+  }) : _wrapped = $js.OnBeforeRequestDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle?.toJS
+          ..frameType = frameType?.toJS
+          ..requestBody = requestBody?.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp;
 
   final $js.OnBeforeRequestDetails _wrapped;
 
@@ -497,6 +571,37 @@ class OnBeforeRequestDetails {
 class OnBeforeSendHeadersDetails {
   OnBeforeSendHeadersDetails.fromJS(this._wrapped);
 
+  OnBeforeSendHeadersDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    String? initiator,
+    required ResourceType type,
+    required double timeStamp,
+    HttpHeaders? requestHeaders,
+  }) : _wrapped = $js.OnBeforeSendHeadersDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..initiator = initiator
+          ..type = type.toJS
+          ..timeStamp = timeStamp
+          ..requestHeaders = throw UnimplementedError();
+
   final $js.OnBeforeSendHeadersDetails _wrapped;
 
   $js.OnBeforeSendHeadersDetails get toJS => _wrapped;
@@ -590,7 +695,7 @@ class OnBeforeSendHeadersDetails {
   }
 
   /// The HTTP request headers that are going to be sent out with this request.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -601,6 +706,37 @@ class OnBeforeSendHeadersDetails {
 
 class OnSendHeadersDetails {
   OnSendHeadersDetails.fromJS(this._wrapped);
+
+  OnSendHeadersDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    HttpHeaders? requestHeaders,
+  }) : _wrapped = $js.OnSendHeadersDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..requestHeaders = throw UnimplementedError();
 
   final $js.OnSendHeadersDetails _wrapped;
 
@@ -695,7 +831,7 @@ class OnSendHeadersDetails {
   }
 
   /// The HTTP request headers that have been sent out with this request.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders.toDart
+  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -706,6 +842,41 @@ class OnSendHeadersDetails {
 
 class OnHeadersReceivedDetails {
   OnHeadersReceivedDetails.fromJS(this._wrapped);
+
+  OnHeadersReceivedDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    required String statusLine,
+    HttpHeaders? responseHeaders,
+    required int statusCode,
+  }) : _wrapped = $js.OnHeadersReceivedDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..statusLine = statusLine
+          ..responseHeaders = throw UnimplementedError()
+          ..statusCode = statusCode;
 
   final $js.OnHeadersReceivedDetails _wrapped;
 
@@ -807,7 +978,7 @@ class OnHeadersReceivedDetails {
   }
 
   /// The HTTP response headers that have been received with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -824,6 +995,49 @@ class OnHeadersReceivedDetails {
 
 class OnAuthRequiredDetails {
   OnAuthRequiredDetails.fromJS(this._wrapped);
+
+  OnAuthRequiredDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    required String scheme,
+    String? realm,
+    required OnAuthRequiredDetailsChallenger challenger,
+    required bool isProxy,
+    HttpHeaders? responseHeaders,
+    required String statusLine,
+    required int statusCode,
+  }) : _wrapped = $js.OnAuthRequiredDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..scheme = scheme
+          ..realm = realm
+          ..challenger = challenger.toJS
+          ..isProxy = isProxy
+          ..responseHeaders = throw UnimplementedError()
+          ..statusLine = statusLine
+          ..statusCode = statusCode;
 
   final $js.OnAuthRequiredDetails _wrapped;
 
@@ -943,7 +1157,7 @@ class OnAuthRequiredDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -968,6 +1182,45 @@ class OnAuthRequiredDetails {
 
 class OnResponseStartedDetails {
   OnResponseStartedDetails.fromJS(this._wrapped);
+
+  OnResponseStartedDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    String? ip,
+    required bool fromCache,
+    required int statusCode,
+    HttpHeaders? responseHeaders,
+    required String statusLine,
+  }) : _wrapped = $js.OnResponseStartedDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..ip = ip
+          ..fromCache = fromCache
+          ..statusCode = statusCode
+          ..responseHeaders = throw UnimplementedError()
+          ..statusLine = statusLine;
 
   final $js.OnResponseStartedDetails _wrapped;
 
@@ -1081,7 +1334,7 @@ class OnResponseStartedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -1100,6 +1353,47 @@ class OnResponseStartedDetails {
 
 class OnBeforeRedirectDetails {
   OnBeforeRedirectDetails.fromJS(this._wrapped);
+
+  OnBeforeRedirectDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    String? ip,
+    required bool fromCache,
+    required int statusCode,
+    required String redirectUrl,
+    HttpHeaders? responseHeaders,
+    required String statusLine,
+  }) : _wrapped = $js.OnBeforeRedirectDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..ip = ip
+          ..fromCache = fromCache
+          ..statusCode = statusCode
+          ..redirectUrl = redirectUrl
+          ..responseHeaders = throw UnimplementedError()
+          ..statusLine = statusLine;
 
   final $js.OnBeforeRedirectDetails _wrapped;
 
@@ -1219,7 +1513,7 @@ class OnBeforeRedirectDetails {
   }
 
   /// The HTTP response headers that were received along with this redirect.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -1238,6 +1532,45 @@ class OnBeforeRedirectDetails {
 
 class OnCompletedDetails {
   OnCompletedDetails.fromJS(this._wrapped);
+
+  OnCompletedDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    String? ip,
+    required bool fromCache,
+    required int statusCode,
+    HttpHeaders? responseHeaders,
+    required String statusLine,
+  }) : _wrapped = $js.OnCompletedDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..ip = ip
+          ..fromCache = fromCache
+          ..statusCode = statusCode
+          ..responseHeaders = throw UnimplementedError()
+          ..statusLine = statusLine;
 
   final $js.OnCompletedDetails _wrapped;
 
@@ -1351,7 +1684,7 @@ class OnCompletedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders.toDart
+  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
@@ -1370,6 +1703,41 @@ class OnCompletedDetails {
 
 class OnErrorOccurredDetails {
   OnErrorOccurredDetails.fromJS(this._wrapped);
+
+  OnErrorOccurredDetails({
+    required String requestId,
+    required String url,
+    required String method,
+    required int frameId,
+    required int parentFrameId,
+    required String documentId,
+    String? parentDocumentId,
+    required DocumentLifecycle documentLifecycle,
+    required FrameType frameType,
+    required int tabId,
+    required ResourceType type,
+    String? initiator,
+    required double timeStamp,
+    String? ip,
+    required bool fromCache,
+    required String error,
+  }) : _wrapped = $js.OnErrorOccurredDetails()
+          ..requestId = requestId
+          ..url = url
+          ..method = method
+          ..frameId = frameId
+          ..parentFrameId = parentFrameId
+          ..documentId = documentId
+          ..parentDocumentId = parentDocumentId
+          ..documentLifecycle = documentLifecycle.toJS
+          ..frameType = frameType.toJS
+          ..tabId = tabId
+          ..type = type.toJS
+          ..initiator = initiator
+          ..timeStamp = timeStamp
+          ..ip = ip
+          ..fromCache = fromCache
+          ..error = error;
 
   final $js.OnErrorOccurredDetails _wrapped;
 
@@ -1489,6 +1857,13 @@ class OnErrorOccurredDetails {
 class OnActionIgnoredDetails {
   OnActionIgnoredDetails.fromJS(this._wrapped);
 
+  OnActionIgnoredDetails({
+    required String requestId,
+    required IgnoredActionType action,
+  }) : _wrapped = $js.OnActionIgnoredDetails()
+          ..requestId = requestId
+          ..action = action.toJS;
+
   final $js.OnActionIgnoredDetails _wrapped;
 
   $js.OnActionIgnoredDetails get toJS => _wrapped;
@@ -1511,6 +1886,13 @@ class OnActionIgnoredDetails {
 class BlockingResponseAuthCredentials {
   BlockingResponseAuthCredentials.fromJS(this._wrapped);
 
+  BlockingResponseAuthCredentials({
+    required String username,
+    required String password,
+  }) : _wrapped = $js.BlockingResponseAuthCredentials()
+          ..username = username
+          ..password = password;
+
   final $js.BlockingResponseAuthCredentials _wrapped;
 
   $js.BlockingResponseAuthCredentials get toJS => _wrapped;
@@ -1528,6 +1910,15 @@ class BlockingResponseAuthCredentials {
 
 class OnBeforeRequestDetailsRequestBody {
   OnBeforeRequestDetailsRequestBody.fromJS(this._wrapped);
+
+  OnBeforeRequestDetailsRequestBody({
+    String? error,
+    OnBeforeRequestDetailsRequestBodyFormData? formData,
+    List<UploadData>? raw,
+  }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody()
+          ..error = error
+          ..formData = formData?.toJS
+          ..raw = throw UnimplementedError();
 
   final $js.OnBeforeRequestDetailsRequestBody _wrapped;
 
@@ -1566,6 +1957,13 @@ class OnBeforeRequestDetailsRequestBody {
 class OnAuthRequiredDetailsChallenger {
   OnAuthRequiredDetailsChallenger.fromJS(this._wrapped);
 
+  OnAuthRequiredDetailsChallenger({
+    required String host,
+    required int port,
+  }) : _wrapped = $js.OnAuthRequiredDetailsChallenger()
+          ..host = host
+          ..port = port;
+
   final $js.OnAuthRequiredDetailsChallenger _wrapped;
 
   $js.OnAuthRequiredDetailsChallenger get toJS => _wrapped;
@@ -1584,6 +1982,9 @@ class OnAuthRequiredDetailsChallenger {
 class OnBeforeRequestDetailsRequestBodyFormData {
   OnBeforeRequestDetailsRequestBodyFormData.fromJS(this._wrapped);
 
+  OnBeforeRequestDetailsRequestBodyFormData()
+      : _wrapped = $js.OnBeforeRequestDetailsRequestBodyFormData();
+
   final $js.OnBeforeRequestDetailsRequestBodyFormData _wrapped;
 
   $js.OnBeforeRequestDetailsRequestBodyFormData get toJS => _wrapped;
@@ -1599,5 +2000,5 @@ class OnAuthRequiredEvent {
 
   /// Only valid if `'asyncBlocking'` is specified as one of the
   /// `OnAuthRequiredOptions`.
-  final JSAny? asyncCallback;
+  final JFFunction? asyncCallback;
 }

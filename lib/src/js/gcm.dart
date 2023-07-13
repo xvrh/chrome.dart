@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSGcmExtension on JSChrome {
@@ -19,16 +21,16 @@ extension JSGcmExtension on JSGcm {
   /// `senderIds`, the same registration ID will be returned.
   external void register(
     JSArray senderIds,
-    JSAny callback,
+    JFFunction callback,
   );
 
   /// Unregisters the application from FCM.
-  external void unregister(JSAny callback);
+  external void unregister(JFFunction callback);
 
   /// Sends a message according to its contents.
   external void send(
     SendMessage message,
-    JSAny callback,
+    JFFunction callback,
   );
 
   /// Fired when a message is received through FCM.

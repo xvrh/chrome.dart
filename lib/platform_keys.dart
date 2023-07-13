@@ -1,7 +1,9 @@
-import 'src/internal_helpers.dart';
 import 'dart:typed_data';
+
+import 'src/internal_helpers.dart';
 import 'src/js/platform_keys.dart' as $js;
-export 'chrome.dart';
+
+export 'src/chrome.dart' show chrome;
 
 final _platformKeys = ChromePlatformKeys._();
 
@@ -20,8 +22,16 @@ class ChromePlatformKeys {
   /// to the certificate.
   /// The selected/filtered client certificates will be passed to
   /// `callback`.
-  Future<List<Match>> selectClientCertificates(SelectDetails details) =>
-      throw UnimplementedError();
+  Future<List<Match>> selectClientCertificates(SelectDetails details) {
+    var $completer = Completer<List<Match>>();
+    $js.chrome.platformKeys.selectClientCertificates(
+      details.toJS,
+      (JSArray matches) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Passes the key pair of `certificate` for usage with
   /// [platformKeys.subtleCrypto] to `callback`.
@@ -43,8 +53,20 @@ class ChromePlatformKeys {
   Future<GetKeyPairResult> getKeyPair(
     ByteBuffer certificate,
     JSAny parameters,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<GetKeyPairResult>();
+    $js.chrome.platformKeys.getKeyPair(
+      certificate.toJS,
+      parameters,
+      (
+        JSAny publicKey,
+        JSAny? privateKey,
+      ) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// Passes the key pair identified by `publicKeySpkiDer` for
   /// usage with [platformKeys.subtleCrypto] to `callback`.
@@ -68,15 +90,29 @@ class ChromePlatformKeys {
   Future<GetKeyPairBySpkiResult> getKeyPairBySpki(
     ByteBuffer publicKeySpkiDer,
     JSAny parameters,
-  ) =>
-      throw UnimplementedError();
+  ) {
+    var $completer = Completer<GetKeyPairBySpkiResult>();
+    $js.chrome.platformKeys.getKeyPairBySpki(
+      publicKeySpkiDer.toJS,
+      parameters,
+      (
+        JSAny publicKey,
+        JSAny? privateKey,
+      ) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 
   /// An implementation of WebCrypto's
   /// <a href="http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface">
   /// SubtleCrypto</a>
   /// that allows crypto operations on keys of client certificates that are
   /// available to this extension.
-  JSAny subtleCrypto() => throw UnimplementedError();
+  JSAny subtleCrypto() {
+    return $js.chrome.platformKeys.subtleCrypto();
+  }
 
   /// Checks whether `details.serverCertificateChain` can be trusted
   /// for `details.hostname` according to the trust settings of the
@@ -88,8 +124,16 @@ class ChromePlatformKeys {
   /// The implementation is supposed to respect the EKU serverAuth and to
   /// support subject alternative names.
   Future<VerificationResult> verifyTLSServerCertificate(
-          VerificationDetails details) =>
-      throw UnimplementedError();
+      VerificationDetails details) {
+    var $completer = Completer<VerificationResult>();
+    $js.chrome.platformKeys.verifyTLSServerCertificate(
+      details.toJS,
+      (VerificationResult result) {
+        $completer.complete(null);
+      }.toJS,
+    );
+    return $completer.future;
+  }
 }
 
 enum ClientCertificateType {
@@ -107,6 +151,13 @@ enum ClientCertificateType {
 
 class Match {
   Match.fromJS(this._wrapped);
+
+  Match({
+    required ByteBuffer certificate,
+    required JSAny keyAlgorithm,
+  }) : _wrapped = $js.Match()
+          ..certificate = certificate.toJS
+          ..keyAlgorithm = keyAlgorithm;
 
   final $js.Match _wrapped;
 
@@ -132,6 +183,13 @@ class Match {
 
 class ClientCertificateRequest {
   ClientCertificateRequest.fromJS(this._wrapped);
+
+  ClientCertificateRequest({
+    required List<ClientCertificateType> certificateTypes,
+    required List<ByteBuffer> certificateAuthorities,
+  }) : _wrapped = $js.ClientCertificateRequest()
+          ..certificateTypes = throw UnimplementedError()
+          ..certificateAuthorities = throw UnimplementedError();
 
   final $js.ClientCertificateRequest _wrapped;
 
@@ -164,6 +222,15 @@ class ClientCertificateRequest {
 
 class SelectDetails {
   SelectDetails.fromJS(this._wrapped);
+
+  SelectDetails({
+    required ClientCertificateRequest request,
+    List<ByteBuffer>? clientCerts,
+    required bool interactive,
+  }) : _wrapped = $js.SelectDetails()
+          ..request = request.toJS
+          ..clientCerts = throw UnimplementedError()
+          ..interactive = interactive;
 
   final $js.SelectDetails _wrapped;
 
@@ -203,6 +270,13 @@ class SelectDetails {
 class VerificationDetails {
   VerificationDetails.fromJS(this._wrapped);
 
+  VerificationDetails({
+    required List<ByteBuffer> serverCertificateChain,
+    required String hostname,
+  }) : _wrapped = $js.VerificationDetails()
+          ..serverCertificateChain = throw UnimplementedError()
+          ..hostname = hostname;
+
   final $js.VerificationDetails _wrapped;
 
   $js.VerificationDetails get toJS => _wrapped;
@@ -229,6 +303,13 @@ class VerificationDetails {
 
 class VerificationResult {
   VerificationResult.fromJS(this._wrapped);
+
+  VerificationResult({
+    required bool trusted,
+    required List<String> debug_errors,
+  }) : _wrapped = $js.VerificationResult()
+          ..trusted = trusted
+          ..debug_errors = throw UnimplementedError();
 
   final $js.VerificationResult _wrapped;
 

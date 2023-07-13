@@ -1,6 +1,11 @@
 import 'chrome_type.dart';
+import 'utils/string.dart';
 
 export 'chrome_type.dart';
+
+String apiNameToFileName(String apiName) => apiName.snakeCase;
+String apiNameToClassName(String apiName) => apiName.upperCamel;
+String apiNameToVariableName(String apiName) => apiName.lowerCamel;
 
 class ChromeApi {
   final String name;
@@ -22,6 +27,21 @@ class ChromeApi {
     required this.enumerations,
     required this.typedefs,
   });
+
+  String? get group {
+    var split = name.split('.');
+    if (split.length > 1) {
+      return split.first;
+    }
+    return null;
+  }
+
+  String get nameWithoutGroup => name.split('.').last;
+
+  String get classNameWithGroup => name.upperCamel;
+  String get classNameWithoutGroup => nameWithoutGroup.upperCamel;
+
+  String get fileName => '${apiNameToFileName(name)}.dart';
 }
 
 class Event {

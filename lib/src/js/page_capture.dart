@@ -1,5 +1,7 @@
-import 'chrome.dart';
 import 'dart:js_interop';
+
+import 'chrome.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSPageCaptureExtension on JSChrome {
@@ -14,16 +16,16 @@ class JSPageCapture {}
 extension JSPageCaptureExtension on JSPageCapture {
   /// Saves the content of the tab with given id as MHTML.
   external void saveAsMHTML(
-    SaveAsMHTMLDetails details,
-    JSAny callback,
+    SaveAsMhtmlDetails details,
+    JFFunction callback,
   );
 }
 
 @JS()
 @staticInterop
 @anonymous
-class SaveAsMHTMLDetails {
-  external factory SaveAsMHTMLDetails(
+class SaveAsMhtmlDetails {
+  external factory SaveAsMhtmlDetails(
       {
       /// The id of the tab to save as MHTML.
       int tabId});

@@ -1,7 +1,9 @@
-import 'chrome.dart';
 import 'dart:js_interop';
-import 'runtime.dart';
+
+import 'chrome.dart';
 import 'extension_types.dart';
+import 'runtime.dart';
+
 export 'chrome.dart';
 
 extension JSChromeJSTabsExtension on JSChrome {

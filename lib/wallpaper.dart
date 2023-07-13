@@ -19,7 +19,7 @@ class ChromeWallpaper {
     $js.chrome.wallpaper.setWallpaper(
       details.toJS,
       (JSAny? thumbnail) {
-        $completer.complete(null);
+        $completer.complete(thumbnail);
       }.toJS,
     );
     return $completer.future;

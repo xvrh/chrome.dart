@@ -33,8 +33,8 @@ class ChromeSidePanel {
     var $completer = Completer<PanelOptions>();
     $js.chrome.sidePanel.getOptions(
       options.toJS,
-      (PanelOptions options) {
-        $completer.complete(null);
+      ($js.PanelOptions options) {
+        $completer.complete(PanelOptions.fromJS(options));
       }.toJS,
     );
     return $completer.future;
@@ -59,8 +59,8 @@ class ChromeSidePanel {
   /// |callback|: Called with the extension's side panel behavior.
   Future<PanelBehavior> getPanelBehavior() {
     var $completer = Completer<PanelBehavior>();
-    $js.chrome.sidePanel.getPanelBehavior((PanelBehavior behavior) {
-      $completer.complete(null);
+    $js.chrome.sidePanel.getPanelBehavior(($js.PanelBehavior behavior) {
+      $completer.complete(PanelBehavior.fromJS(behavior));
     }.toJS);
     return $completer.future;
   }

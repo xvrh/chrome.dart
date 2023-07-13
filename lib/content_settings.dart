@@ -391,8 +391,8 @@ class ContentSetting {
     var $completer = Completer<GetCallbackDetails>();
     _wrapped.get(
       details.toJS,
-      (GetCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetCallbackDetails details) {
+        $completer.complete(GetCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;
@@ -413,7 +413,10 @@ class ContentSetting {
   Future<List<ResourceIdentifier>?> getResourceIdentifiers() {
     var $completer = Completer<List<ResourceIdentifier>?>();
     _wrapped.getResourceIdentifiers((JSArray? resourceIdentifiers) {
-      $completer.complete(null);
+      $completer.complete(resourceIdentifiers?.toDart
+          .cast<$js.ResourceIdentifier>()
+          .map((e) => ResourceIdentifier.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

@@ -30,7 +30,7 @@ class ChromeTabCapture {
     $js.chrome.tabCapture.capture(
       options.toJS,
       (JSObject stream) {
-        $completer.complete(null);
+        $completer.complete(stream);
       }.toJS,
     );
     return $completer.future;
@@ -45,7 +45,10 @@ class ChromeTabCapture {
   Future<List<CaptureInfo>> getCapturedTabs() {
     var $completer = Completer<List<CaptureInfo>>();
     $js.chrome.tabCapture.getCapturedTabs((JSArray result) {
-      $completer.complete(null);
+      $completer.complete(result.toDart
+          .cast<$js.CaptureInfo>()
+          .map((e) => CaptureInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -65,7 +68,7 @@ class ChromeTabCapture {
     $js.chrome.tabCapture.getMediaStreamId(
       options?.toJS,
       (String streamId) {
-        $completer.complete(null);
+        $completer.complete(streamId);
       }.toJS,
     );
     return $completer.future;

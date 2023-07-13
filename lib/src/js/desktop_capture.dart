@@ -21,7 +21,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
     JSArray sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JFFunction callback,
+    JSFunction callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().

@@ -24,7 +24,7 @@ class ChromeWindows {
       windowId,
       queryOptions?.toJS,
       (JSObject window) {
-        $completer.complete(null);
+        $completer.complete(window);
       }.toJS,
     );
     return $completer.future;
@@ -36,7 +36,7 @@ class ChromeWindows {
     $js.chrome.windows.getCurrent(
       queryOptions?.toJS,
       (JSObject window) {
-        $completer.complete(null);
+        $completer.complete(window);
       }.toJS,
     );
     return $completer.future;
@@ -49,7 +49,7 @@ class ChromeWindows {
     $js.chrome.windows.getLastFocused(
       queryOptions?.toJS,
       (JSObject window) {
-        $completer.complete(null);
+        $completer.complete(window);
       }.toJS,
     );
     return $completer.future;
@@ -61,7 +61,8 @@ class ChromeWindows {
     $js.chrome.windows.getAll(
       queryOptions?.toJS,
       (JSArray windows) {
-        $completer.complete(null);
+        $completer
+            .complete(windows.toDart.cast<JSObject>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -74,7 +75,7 @@ class ChromeWindows {
     $js.chrome.windows.create(
       createData?.toJS,
       (JSObject? window) {
-        $completer.complete(null);
+        $completer.complete(window);
       }.toJS,
     );
     return $completer.future;
@@ -91,7 +92,7 @@ class ChromeWindows {
       windowId,
       updateInfo.toJS,
       (JSObject window) {
-        $completer.complete(null);
+        $completer.complete(window);
       }.toJS,
     );
     return $completer.future;

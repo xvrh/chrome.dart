@@ -21,8 +21,8 @@ class ChromeEnterpriseHardwarePlatform {
   Future<HardwarePlatformInfo> getHardwarePlatformInfo() {
     var $completer = Completer<HardwarePlatformInfo>();
     $js.chrome.enterprise.hardwarePlatform
-        .getHardwarePlatformInfo((HardwarePlatformInfo info) {
-      $completer.complete(null);
+        .getHardwarePlatformInfo(($js.HardwarePlatformInfo info) {
+      $completer.complete(HardwarePlatformInfo.fromJS(info));
     }.toJS);
     return $completer.future;
   }

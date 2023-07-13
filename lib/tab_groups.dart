@@ -17,8 +17,8 @@ class ChromeTabGroups {
     var $completer = Completer<TabGroup>();
     $js.chrome.tabGroups.get(
       groupId,
-      (TabGroup group) {
-        $completer.complete(null);
+      ($js.TabGroup group) {
+        $completer.complete(TabGroup.fromJS(group));
       }.toJS,
     );
     return $completer.future;
@@ -31,7 +31,10 @@ class ChromeTabGroups {
     $js.chrome.tabGroups.query(
       queryInfo.toJS,
       (JSArray result) {
-        $completer.complete(null);
+        $completer.complete(result.toDart
+            .cast<$js.TabGroup>()
+            .map((e) => TabGroup.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -47,8 +50,8 @@ class ChromeTabGroups {
     $js.chrome.tabGroups.update(
       groupId,
       updateProperties.toJS,
-      (TabGroup? group) {
-        $completer.complete(null);
+      ($js.TabGroup? group) {
+        $completer.complete(group?.let(TabGroup.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -63,8 +66,8 @@ class ChromeTabGroups {
     $js.chrome.tabGroups.move(
       groupId,
       moveProperties.toJS,
-      (TabGroup? group) {
-        $completer.complete(null);
+      ($js.TabGroup? group) {
+        $completer.complete(group?.let(TabGroup.fromJS));
       }.toJS,
     );
     return $completer.future;

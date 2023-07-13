@@ -223,7 +223,7 @@ class OnInputChangedEvent {
 
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
-  final JFFunction suggest;
+  final JSFunction suggest;
 }
 
 class OnInputEnteredEvent {

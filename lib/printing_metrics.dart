@@ -17,7 +17,10 @@ class ChromePrintingMetrics {
   Future<List<PrintJobInfo>> getPrintJobs() {
     var $completer = Completer<List<PrintJobInfo>>();
     $js.chrome.printingMetrics.getPrintJobs((JSArray jobs) {
-      $completer.complete(null);
+      $completer.complete(jobs.toDart
+          .cast<$js.PrintJobInfo>()
+          .map((e) => PrintJobInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

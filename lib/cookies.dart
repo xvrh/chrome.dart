@@ -20,8 +20,8 @@ class ChromeCookies {
     var $completer = Completer<Cookie?>();
     $js.chrome.cookies.get(
       details.toJS,
-      (Cookie? cookie) {
-        $completer.complete(null);
+      ($js.Cookie? cookie) {
+        $completer.complete(cookie?.let(Cookie.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -36,7 +36,10 @@ class ChromeCookies {
     $js.chrome.cookies.getAll(
       details.toJS,
       (JSArray cookies) {
-        $completer.complete(null);
+        $completer.complete(cookies.toDart
+            .cast<$js.Cookie>()
+            .map((e) => Cookie.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -48,8 +51,8 @@ class ChromeCookies {
     var $completer = Completer<Cookie?>();
     $js.chrome.cookies.set(
       details.toJS,
-      (Cookie? cookie) {
-        $completer.complete(null);
+      ($js.Cookie? cookie) {
+        $completer.complete(cookie?.let(Cookie.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -60,8 +63,8 @@ class ChromeCookies {
     var $completer = Completer<RemoveCallbackDetails?>();
     $js.chrome.cookies.remove(
       details.toJS,
-      (RemoveCallbackDetails? details) {
-        $completer.complete(null);
+      ($js.RemoveCallbackDetails? details) {
+        $completer.complete(details?.let(RemoveCallbackDetails.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -71,7 +74,10 @@ class ChromeCookies {
   Future<List<CookieStore>> getAllCookieStores() {
     var $completer = Completer<List<CookieStore>>();
     $js.chrome.cookies.getAllCookieStores((JSArray cookieStores) {
-      $completer.complete(null);
+      $completer.complete(cookieStores.toDart
+          .cast<$js.CookieStore>()
+          .map((e) => CookieStore.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

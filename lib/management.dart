@@ -16,7 +16,10 @@ class ChromeManagement {
   Future<List<ExtensionInfo>> getAll() {
     var $completer = Completer<List<ExtensionInfo>>();
     $js.chrome.management.getAll((JSArray result) {
-      $completer.complete(null);
+      $completer.complete(result.toDart
+          .cast<$js.ExtensionInfo>()
+          .map((e) => ExtensionInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -27,8 +30,8 @@ class ChromeManagement {
     var $completer = Completer<ExtensionInfo>();
     $js.chrome.management.get(
       id,
-      (ExtensionInfo result) {
-        $completer.complete(null);
+      ($js.ExtensionInfo result) {
+        $completer.complete(ExtensionInfo.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -39,8 +42,8 @@ class ChromeManagement {
   /// manifest.
   Future<ExtensionInfo> getSelf() {
     var $completer = Completer<ExtensionInfo>();
-    $js.chrome.management.getSelf((ExtensionInfo result) {
-      $completer.complete(null);
+    $js.chrome.management.getSelf(($js.ExtensionInfo result) {
+      $completer.complete(ExtensionInfo.fromJS(result));
     }.toJS);
     return $completer.future;
   }
@@ -52,7 +55,8 @@ class ChromeManagement {
     $js.chrome.management.getPermissionWarningsById(
       id,
       (JSArray permissionWarnings) {
-        $completer.complete(null);
+        $completer.complete(
+            permissionWarnings.toDart.cast<String>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -66,7 +70,8 @@ class ChromeManagement {
     $js.chrome.management.getPermissionWarningsByManifest(
       manifestStr,
       (JSArray permissionWarnings) {
-        $completer.complete(null);
+        $completer.complete(
+            permissionWarnings.toDart.cast<String>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -176,8 +181,8 @@ class ChromeManagement {
     $js.chrome.management.generateAppForLink(
       url,
       title,
-      (ExtensionInfo result) {
-        $completer.complete(null);
+      ($js.ExtensionInfo result) {
+        $completer.complete(ExtensionInfo.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -189,7 +194,7 @@ class ChromeManagement {
   Future<bool> canInstallReplacementAndroidApp() {
     var $completer = Completer<bool>();
     $js.chrome.management.canInstallReplacementAndroidApp((bool result) {
-      $completer.complete(null);
+      $completer.complete(result);
     }.toJS);
     return $completer.future;
   }

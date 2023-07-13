@@ -19,7 +19,7 @@ class ChromeDevtoolsPanels {
     String title,
     String iconPath,
     String pagePath,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.devtools.panels.create(
       title,
@@ -32,7 +32,7 @@ class ChromeDevtoolsPanels {
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  void setOpenResourceHandler(JFFunction? callback) {
+  void setOpenResourceHandler(JSFunction? callback) {
     $js.chrome.devtools.panels.setOpenResourceHandler(callback);
   }
 
@@ -41,7 +41,7 @@ class ChromeDevtoolsPanels {
     String url,
     int lineNumber,
     int? columnNumber,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.devtools.panels.openResource(
       url,
@@ -75,7 +75,7 @@ class ElementsPanel {
   /// Creates a pane within panel's sidebar.
   void createSidebarPane(
     String title,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.createSidebarPane(
       title,
@@ -99,7 +99,7 @@ class SourcesPanel {
   /// Creates a pane within panel's sidebar.
   void createSidebarPane(
     String title,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.createSidebarPane(
       title,
@@ -164,7 +164,7 @@ class ExtensionSidebarPane {
   void setExpression(
     String expression,
     String? rootTitle,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.setExpression(
       expression,
@@ -177,7 +177,7 @@ class ExtensionSidebarPane {
   void setObject(
     String jsonObject,
     String? rootTitle,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.setObject(
       jsonObject,

@@ -18,7 +18,7 @@ class ChromeInstanceId {
   Future<String> getID() {
     var $completer = Completer<String>();
     $js.chrome.instanceId.getID((String instanceID) {
-      $completer.complete(null);
+      $completer.complete(instanceID);
     }.toJS);
     return $completer.future;
   }
@@ -28,7 +28,7 @@ class ChromeInstanceId {
   Future<double> getCreationTime() {
     var $completer = Completer<double>();
     $js.chrome.instanceId.getCreationTime((double creationTime) {
-      $completer.complete(null);
+      $completer.complete(creationTime);
     }.toJS);
     return $completer.future;
   }
@@ -40,7 +40,7 @@ class ChromeInstanceId {
     $js.chrome.instanceId.getToken(
       getTokenParams.toJS,
       (String token) {
-        $completer.complete(null);
+        $completer.complete(token);
       }.toJS,
     );
     return $completer.future;

@@ -52,7 +52,7 @@ class ChromeDebugger {
       method,
       commandParams,
       (JSAny? result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -62,7 +62,10 @@ class ChromeDebugger {
   Future<List<TargetInfo>> getTargets() {
     var $completer = Completer<List<TargetInfo>>();
     $js.chrome.debugger.getTargets((JSArray result) {
-      $completer.complete(null);
+      $completer.complete(result.toDart
+          .cast<$js.TargetInfo>()
+          .map((e) => TargetInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

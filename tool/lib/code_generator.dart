@@ -250,6 +250,16 @@ class DartApiGenerator extends _GeneratorBase {
         ..symbol = 'Future'
         ..types.add(futureType));
 
+      Expression completeParameter = refer('null');
+      if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
+        completeParameter = singleParam.type.toDart(refer(singleParam.name!));
+      } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
+        completeParameter = asyncReturn.dartType.call([
+          for (var jsParam in asyncReturn.jsCallback.positionalParameters)
+            jsParam.type.toDart(refer(jsParam.name!))
+        ]);
+      }
+
       var completerVar = r'$completer';
 
       body = Block.of([
@@ -264,11 +274,11 @@ class DartApiGenerator extends _GeneratorBase {
               for (var jsParam in asyncReturn.jsCallback.positionalParameters)
                 Parameter((b) => b
                   ..name = jsParam.name!
-                  ..type = jsParam.type.jsType)
+                  ..type = jsParam.type.jsTypeReferencedFromDart)
             ])
             ..body = refer(completerVar)
                 .property('complete')
-                .call([refer('null')]).statement).closure.property('toJS')
+                .call([completeParameter]).statement).closure.property('toJS')
         ]).statement,
         refer(completerVar).property('future').returned.statement,
       ]);

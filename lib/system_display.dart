@@ -22,7 +22,10 @@ class ChromeSystemDisplay {
     $js.chrome.system.display.getInfo(
       flags?.toJS,
       (JSArray displayInfo) {
-        $completer.complete(null);
+        $completer.complete(displayInfo.toDart
+            .cast<$js.DisplayUnitInfo>()
+            .map((e) => DisplayUnitInfo.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -34,7 +37,10 @@ class ChromeSystemDisplay {
   Future<List<DisplayLayout>> getDisplayLayout() {
     var $completer = Completer<List<DisplayLayout>>();
     $js.chrome.system.display.getDisplayLayout((JSArray layouts) {
-      $completer.complete(null);
+      $completer.complete(layouts.toDart
+          .cast<$js.DisplayLayout>()
+          .map((e) => DisplayLayout.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -147,7 +153,7 @@ class ChromeSystemDisplay {
     $js.chrome.system.display.showNativeTouchCalibration(
       id,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;

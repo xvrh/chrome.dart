@@ -18,7 +18,7 @@ class ChromeContextMenus {
   /// [runtime.lastError].
   JSAny create(
     CreateProperties createProperties,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     return $js.chrome.contextMenus.create(
       createProperties.toJS,
@@ -30,7 +30,7 @@ class ChromeContextMenus {
   void update(
     JSAny id,
     UpdateProperties updateProperties,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.contextMenus.update(
       id,
@@ -42,7 +42,7 @@ class ChromeContextMenus {
   /// Removes a context menu item.
   void remove(
     JSAny menuItemId,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.contextMenus.remove(
       menuItemId,
@@ -51,7 +51,7 @@ class ChromeContextMenus {
   }
 
   /// Removes all context menu items added by this extension.
-  void removeAll(JFFunction? callback) {
+  void removeAll(JSFunction? callback) {
     $js.chrome.contextMenus.removeAll(callback);
   }
 
@@ -236,7 +236,7 @@ class CreateProperties {
     bool? checked,
     List<ContextType>? contexts,
     bool? visible,
-    JFFunction? onclick,
+    JSFunction? onclick,
     JSAny? parentId,
     List<String>? documentUrlPatterns,
     List<String>? targetUrlPatterns,
@@ -269,7 +269,7 @@ class UpdateProperties {
     bool? checked,
     List<ContextType>? contexts,
     bool? visible,
-    JFFunction? onclick,
+    JSFunction? onclick,
     JSAny? parentId,
     List<String>? documentUrlPatterns,
     List<String>? targetUrlPatterns,

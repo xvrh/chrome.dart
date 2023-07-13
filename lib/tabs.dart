@@ -2,6 +2,7 @@ import 'extension_types.dart';
 import 'runtime.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/tabs.dart' as $js;
+import 'src/js/windows.dart' as $js_windows;
 import 'windows.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -20,8 +21,8 @@ class ChromeTabs {
     var $completer = Completer<Tab>();
     $js.chrome.tabs.get(
       tabId,
-      (Tab tab) {
-        $completer.complete(null);
+      ($js.Tab tab) {
+        $completer.complete(Tab.fromJS(tab));
       }.toJS,
     );
     return $completer.future;
@@ -32,8 +33,8 @@ class ChromeTabs {
   /// view).
   Future<Tab?> getCurrent() {
     var $completer = Completer<Tab?>();
-    $js.chrome.tabs.getCurrent((Tab? tab) {
-      $completer.complete(null);
+    $js.chrome.tabs.getCurrent(($js.Tab? tab) {
+      $completer.complete(tab?.let(Tab.fromJS));
     }.toJS);
     return $completer.future;
   }
@@ -65,7 +66,7 @@ class ChromeTabs {
       tabId,
       request,
       (JSAny response) {
-        $completer.complete(null);
+        $completer.complete(response);
       }.toJS,
     );
     return $completer.future;
@@ -86,7 +87,7 @@ class ChromeTabs {
       message,
       options?.toJS,
       (JSAny response) {
-        $completer.complete(null);
+        $completer.complete(response);
       }.toJS,
     );
     return $completer.future;
@@ -97,8 +98,8 @@ class ChromeTabs {
     var $completer = Completer<Tab>();
     $js.chrome.tabs.getSelected(
       windowId,
-      (Tab tab) {
-        $completer.complete(null);
+      ($js.Tab tab) {
+        $completer.complete(Tab.fromJS(tab));
       }.toJS,
     );
     return $completer.future;
@@ -110,7 +111,8 @@ class ChromeTabs {
     $js.chrome.tabs.getAllInWindow(
       windowId,
       (JSArray tabs) {
-        $completer.complete(null);
+        $completer.complete(
+            tabs.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList());
       }.toJS,
     );
     return $completer.future;
@@ -121,8 +123,8 @@ class ChromeTabs {
     var $completer = Completer<Tab>();
     $js.chrome.tabs.create(
       createProperties.toJS,
-      (Tab tab) {
-        $completer.complete(null);
+      ($js.Tab tab) {
+        $completer.complete(Tab.fromJS(tab));
       }.toJS,
     );
     return $completer.future;
@@ -133,8 +135,8 @@ class ChromeTabs {
     var $completer = Completer<Tab?>();
     $js.chrome.tabs.duplicate(
       tabId,
-      (Tab? tab) {
-        $completer.complete(null);
+      ($js.Tab? tab) {
+        $completer.complete(tab?.let(Tab.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -147,7 +149,8 @@ class ChromeTabs {
     $js.chrome.tabs.query(
       queryInfo.toJS,
       (JSArray result) {
-        $completer.complete(null);
+        $completer.complete(
+            result.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList());
       }.toJS,
     );
     return $completer.future;
@@ -159,8 +162,8 @@ class ChromeTabs {
     var $completer = Completer<Window>();
     $js.chrome.tabs.highlight(
       highlightInfo.toJS,
-      (Window window) {
-        $completer.complete(null);
+      ($js_windows.Window window) {
+        $completer.complete(Window.fromJS(window));
       }.toJS,
     );
     return $completer.future;
@@ -176,8 +179,8 @@ class ChromeTabs {
     $js.chrome.tabs.update(
       tabId,
       updateProperties.toJS,
-      (Tab? tab) {
-        $completer.complete(null);
+      ($js.Tab? tab) {
+        $completer.complete(tab?.let(Tab.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -195,7 +198,7 @@ class ChromeTabs {
       tabIds,
       moveProperties.toJS,
       (JSAny tabs) {
-        $completer.complete(null);
+        $completer.complete(tabs);
       }.toJS,
     );
     return $completer.future;
@@ -236,7 +239,7 @@ class ChromeTabs {
     $js.chrome.tabs.group(
       options.toJS,
       (int groupId) {
-        $completer.complete(null);
+        $completer.complete(groupId);
       }.toJS,
     );
     return $completer.future;
@@ -261,7 +264,7 @@ class ChromeTabs {
     $js.chrome.tabs.detectLanguage(
       tabId,
       (String language) {
-        $completer.complete(null);
+        $completer.complete(language);
       }.toJS,
     );
     return $completer.future;
@@ -285,7 +288,7 @@ class ChromeTabs {
       windowId,
       options?.toJS,
       (String dataUrl) {
-        $completer.complete(null);
+        $completer.complete(dataUrl);
       }.toJS,
     );
     return $completer.future;
@@ -302,7 +305,8 @@ class ChromeTabs {
       tabId,
       details.toJS,
       (JSArray? result) {
-        $completer.complete(null);
+        $completer
+            .complete(result?.toDart.cast<JSAny>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -365,7 +369,7 @@ class ChromeTabs {
     $js.chrome.tabs.getZoom(
       tabId,
       (double zoomFactor) {
-        $completer.complete(null);
+        $completer.complete(zoomFactor);
       }.toJS,
     );
     return $completer.future;
@@ -393,8 +397,8 @@ class ChromeTabs {
     var $completer = Completer<ZoomSettings>();
     $js.chrome.tabs.getZoomSettings(
       tabId,
-      (ZoomSettings zoomSettings) {
-        $completer.complete(null);
+      ($js.ZoomSettings zoomSettings) {
+        $completer.complete(ZoomSettings.fromJS(zoomSettings));
       }.toJS,
     );
     return $completer.future;
@@ -406,8 +410,8 @@ class ChromeTabs {
     var $completer = Completer<Tab?>();
     $js.chrome.tabs.discard(
       tabId,
-      (Tab? tab) {
-        $completer.complete(null);
+      ($js.Tab? tab) {
+        $completer.complete(tab?.let(Tab.fromJS));
       }.toJS,
     );
     return $completer.future;

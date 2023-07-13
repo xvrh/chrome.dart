@@ -19,7 +19,10 @@ class ChromeSystemNetwork {
   Future<List<NetworkInterface>> getNetworkInterfaces() {
     var $completer = Completer<List<NetworkInterface>>();
     $js.chrome.system.network.getNetworkInterfaces((JSArray networkInterfaces) {
-      $completer.complete(null);
+      $completer.complete(networkInterfaces.toDart
+          .cast<$js.NetworkInterface>()
+          .map((e) => NetworkInterface.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

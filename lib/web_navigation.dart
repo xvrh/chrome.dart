@@ -19,8 +19,8 @@ class ChromeWebNavigation {
     var $completer = Completer<GetFrameCallbackDetails?>();
     $js.chrome.webNavigation.getFrame(
       details.toJS,
-      (GetFrameCallbackDetails? details) {
-        $completer.complete(null);
+      ($js.GetFrameCallbackDetails? details) {
+        $completer.complete(details?.let(GetFrameCallbackDetails.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -32,8 +32,8 @@ class ChromeWebNavigation {
     var $completer = Completer<GetAllFramesCallbackDetails?>();
     $js.chrome.webNavigation.getAllFrames(
       details.toJS,
-      (GetAllFramesCallbackDetails? details) {
-        $completer.complete(null);
+      ($js.GetAllFramesCallbackDetails? details) {
+        $completer.complete(details?.let(GetAllFramesCallbackDetails.fromJS));
       }.toJS,
     );
     return $completer.future;

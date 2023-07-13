@@ -20,7 +20,7 @@ class ChromeRuntime {
   Future<JSObject?> getBackgroundPage() {
     var $completer = Completer<JSObject?>();
     $js.chrome.runtime.getBackgroundPage((JSObject? backgroundPage) {
-      $completer.complete(null);
+      $completer.complete(backgroundPage);
     }.toJS);
     return $completer.future;
   }
@@ -95,8 +95,8 @@ class ChromeRuntime {
   Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() {
     var $completer = Completer<RequestUpdateCheckCallbackResult>();
     $js.chrome.runtime
-        .requestUpdateCheck((RequestUpdateCheckCallbackResult result) {
-      $completer.complete(null);
+        .requestUpdateCheck(($js.RequestUpdateCheckCallbackResult result) {
+      $completer.complete(RequestUpdateCheckCallbackResult.fromJS(result));
     }.toJS);
     return $completer.future;
   }
@@ -165,7 +165,7 @@ class ChromeRuntime {
       message,
       options?.toJS,
       (JSAny response) {
-        $completer.complete(null);
+        $completer.complete(response);
       }.toJS,
     );
     return $completer.future;
@@ -181,7 +181,7 @@ class ChromeRuntime {
       application,
       message,
       (JSAny response) {
-        $completer.complete(null);
+        $completer.complete(response);
       }.toJS,
     );
     return $completer.future;
@@ -190,14 +190,14 @@ class ChromeRuntime {
   /// Returns information about the current platform.
   Future<PlatformInfo> getPlatformInfo() {
     var $completer = Completer<PlatformInfo>();
-    $js.chrome.runtime.getPlatformInfo((PlatformInfo platformInfo) {
-      $completer.complete(null);
+    $js.chrome.runtime.getPlatformInfo(($js.PlatformInfo platformInfo) {
+      $completer.complete(PlatformInfo.fromJS(platformInfo));
     }.toJS);
     return $completer.future;
   }
 
   /// Returns a DirectoryEntry for the package directory.
-  void getPackageDirectoryEntry(JFFunction callback) {
+  void getPackageDirectoryEntry(JSFunction callback) {
     $js.chrome.runtime.getPackageDirectoryEntry(callback);
   }
 
@@ -207,7 +207,10 @@ class ChromeRuntime {
     $js.chrome.runtime.getContexts(
       filter.toJS,
       (JSArray contexts) {
-        $completer.complete(null);
+        $completer.complete(contexts.toDart
+            .cast<$js.ExtensionContext>()
+            .map((e) => ExtensionContext.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -411,8 +414,8 @@ class Port {
 
   Port({
     required String name,
-    required JFFunction disconnect,
-    required JFFunction postMessage,
+    required JSFunction disconnect,
+    required JSFunction postMessage,
     MessageSender? sender,
   }) : _wrapped = $js.Port()
           ..name = name
@@ -433,15 +436,15 @@ class Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  JFFunction get disconnect => _wrapped.disconnect;
-  set disconnect(JFFunction v) {
+  JSFunction get disconnect => _wrapped.disconnect;
+  set disconnect(JSFunction v) {
     _wrapped.disconnect = v;
   }
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  JFFunction get postMessage => _wrapped.postMessage;
-  set postMessage(JFFunction v) {
+  JSFunction get postMessage => _wrapped.postMessage;
+  set postMessage(JSFunction v) {
     _wrapped.postMessage = v;
   }
 
@@ -945,7 +948,7 @@ class OnMessageEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final JFFunction sendResponse;
+  final JSFunction sendResponse;
 }
 
 class OnMessageExternalEvent {
@@ -967,7 +970,7 @@ class OnMessageExternalEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final JFFunction sendResponse;
+  final JSFunction sendResponse;
 }
 
 class PortOnMessageEvent {

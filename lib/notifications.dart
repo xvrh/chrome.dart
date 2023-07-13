@@ -36,7 +36,7 @@ class ChromeNotifications {
       notificationId,
       options.toJS,
       (String notificationId) {
-        $completer.complete(null);
+        $completer.complete(notificationId);
       }.toJS,
     );
     return $completer.future;
@@ -58,7 +58,7 @@ class ChromeNotifications {
       notificationId,
       options.toJS,
       (bool wasUpdated) {
-        $completer.complete(null);
+        $completer.complete(wasUpdated);
       }.toJS,
     );
     return $completer.future;
@@ -75,7 +75,7 @@ class ChromeNotifications {
     $js.chrome.notifications.clear(
       notificationId,
       (bool wasCleared) {
-        $completer.complete(null);
+        $completer.complete(wasCleared);
       }.toJS,
     );
     return $completer.future;
@@ -86,7 +86,7 @@ class ChromeNotifications {
   Future<JSAny> getAll() {
     var $completer = Completer<JSAny>();
     $js.chrome.notifications.getAll((JSAny notifications) {
-      $completer.complete(null);
+      $completer.complete(notifications);
     }.toJS);
     return $completer.future;
   }
@@ -96,8 +96,8 @@ class ChromeNotifications {
   /// |callback|: Returns the current permission level.
   Future<PermissionLevel> getPermissionLevel() {
     var $completer = Completer<PermissionLevel>();
-    $js.chrome.notifications.getPermissionLevel((PermissionLevel level) {
-      $completer.complete(null);
+    $js.chrome.notifications.getPermissionLevel(($js.PermissionLevel level) {
+      $completer.complete(PermissionLevel.fromJS(level));
     }.toJS);
     return $completer.future;
   }

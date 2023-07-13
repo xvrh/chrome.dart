@@ -31,7 +31,7 @@ class ChromeBrowserAction {
     $js.chrome.browserAction.getTitle(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -43,7 +43,7 @@ class ChromeBrowserAction {
   /// must be specified.
   void setIcon(
     SetIconDetails details,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.browserAction.setIcon(
       details.toJS,
@@ -70,7 +70,7 @@ class ChromeBrowserAction {
     $js.chrome.browserAction.getPopup(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -96,7 +96,7 @@ class ChromeBrowserAction {
     $js.chrome.browserAction.getBadgeText(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -120,7 +120,7 @@ class ChromeBrowserAction {
     $js.chrome.browserAction.getBadgeBackgroundColor(
       details.toJS,
       (ColorArray result) {
-        $completer.complete(null);
+        $completer.complete(result.toDart.cast<int>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -152,7 +152,7 @@ class ChromeBrowserAction {
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  void openPopup(JFFunction callback) {
+  void openPopup(JSFunction callback) {
     $js.chrome.browserAction.openPopup(callback);
   }
 

@@ -17,8 +17,8 @@ class ChromeSystemMemory {
   /// Get physical memory information.
   Future<MemoryInfo> getInfo() {
     var $completer = Completer<MemoryInfo>();
-    $js.chrome.system.memory.getInfo((MemoryInfo info) {
-      $completer.complete(null);
+    $js.chrome.system.memory.getInfo(($js.MemoryInfo info) {
+      $completer.complete(MemoryInfo.fromJS(info));
     }.toJS);
     return $completer.future;
   }

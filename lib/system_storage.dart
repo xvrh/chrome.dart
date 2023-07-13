@@ -19,7 +19,10 @@ class ChromeSystemStorage {
   Future<List<StorageUnitInfo>> getInfo() {
     var $completer = Completer<List<StorageUnitInfo>>();
     $js.chrome.system.storage.getInfo((JSArray info) {
-      $completer.complete(null);
+      $completer.complete(info.toDart
+          .cast<$js.StorageUnitInfo>()
+          .map((e) => StorageUnitInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -29,8 +32,8 @@ class ChromeSystemStorage {
     var $completer = Completer<EjectDeviceResultCode>();
     $js.chrome.system.storage.ejectDevice(
       id,
-      (EjectDeviceResultCode result) {
-        $completer.complete(null);
+      ($js.EjectDeviceResultCode result) {
+        $completer.complete(EjectDeviceResultCode.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -42,8 +45,8 @@ class ChromeSystemStorage {
     var $completer = Completer<StorageAvailableCapacityInfo>();
     $js.chrome.system.storage.getAvailableCapacity(
       id,
-      (StorageAvailableCapacityInfo info) {
-        $completer.complete(null);
+      ($js.StorageAvailableCapacityInfo info) {
+        $completer.complete(StorageAvailableCapacityInfo.fromJS(info));
       }.toJS,
     );
     return $completer.future;

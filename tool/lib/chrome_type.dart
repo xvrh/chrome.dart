@@ -23,7 +23,7 @@ sealed class ChromeType {
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     return PrimitiveType.tryParse(input, isNullable: isNullable) ??
         WebType.tryParse(input, isNullable: isNullable) ??
-        JFFunctionType.tryParse(input, isNullable: isNullable) ??
+        JSFunctionType.tryParse(input, isNullable: isNullable) ??
         VariousType.tryParse(input, isNullable: isNullable);
   }
 }
@@ -226,21 +226,21 @@ class VariousType extends ChromeType {
       VariousType(isNullable: isNullable);
 }
 
-class JFFunctionType extends ChromeType {
-  JFFunctionType({required super.isNullable});
+class JSFunctionType extends ChromeType {
+  JSFunctionType({required super.isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
       'function',
     }.contains(input)) {
-      return JFFunctionType(isNullable: isNullable);
+      return JSFunctionType(isNullable: isNullable);
     }
     return null;
   }
 
   @override
   code.Reference get dartType => code.TypeReference((b) => b
-    ..symbol = 'JFFunction'
+    ..symbol = 'JSFunction'
     ..isNullable = isNullable);
 
   @override
@@ -254,7 +254,7 @@ class JFFunctionType extends ChromeType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      JFFunctionType(isNullable: isNullable);
+      JSFunctionType(isNullable: isNullable);
 }
 
 class LocalType extends ChromeType {

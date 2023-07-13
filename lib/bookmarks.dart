@@ -18,7 +18,10 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.get(
       idOrIdList,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.BookmarkTreeNode>()
+            .map((e) => BookmarkTreeNode.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -30,7 +33,10 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.getChildren(
       id,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.BookmarkTreeNode>()
+            .map((e) => BookmarkTreeNode.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -42,7 +48,10 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.getRecent(
       numberOfItems,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.BookmarkTreeNode>()
+            .map((e) => BookmarkTreeNode.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -52,7 +61,10 @@ class ChromeBookmarks {
   Future<List<BookmarkTreeNode>> getTree() {
     var $completer = Completer<List<BookmarkTreeNode>>();
     $js.chrome.bookmarks.getTree((JSArray results) {
-      $completer.complete(null);
+      $completer.complete(results.toDart
+          .cast<$js.BookmarkTreeNode>()
+          .map((e) => BookmarkTreeNode.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -63,7 +75,10 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.getSubTree(
       id,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.BookmarkTreeNode>()
+            .map((e) => BookmarkTreeNode.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -77,7 +92,10 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.search(
       query,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.BookmarkTreeNode>()
+            .map((e) => BookmarkTreeNode.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -89,8 +107,8 @@ class ChromeBookmarks {
     var $completer = Completer<BookmarkTreeNode>();
     $js.chrome.bookmarks.create(
       bookmark.toJS,
-      (BookmarkTreeNode result) {
-        $completer.complete(null);
+      ($js.BookmarkTreeNode result) {
+        $completer.complete(BookmarkTreeNode.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -105,8 +123,8 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.move(
       id,
       destination.toJS,
-      (BookmarkTreeNode result) {
-        $completer.complete(null);
+      ($js.BookmarkTreeNode result) {
+        $completer.complete(BookmarkTreeNode.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -123,8 +141,8 @@ class ChromeBookmarks {
     $js.chrome.bookmarks.update(
       id,
       changes.toJS,
-      (BookmarkTreeNode result) {
-        $completer.complete(null);
+      ($js.BookmarkTreeNode result) {
+        $completer.complete(BookmarkTreeNode.fromJS(result));
       }.toJS,
     );
     return $completer.future;

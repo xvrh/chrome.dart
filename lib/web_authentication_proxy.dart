@@ -80,7 +80,7 @@ class ChromeWebAuthenticationProxy {
   Future<String?> attach() {
     var $completer = Completer<String?>();
     $js.chrome.webAuthenticationProxy.attach((String? error) {
-      $completer.complete(null);
+      $completer.complete(error);
     }.toJS);
     return $completer.future;
   }
@@ -98,7 +98,7 @@ class ChromeWebAuthenticationProxy {
   Future<String?> detach() {
     var $completer = Completer<String?>();
     $js.chrome.webAuthenticationProxy.detach((String? error) {
-      $completer.complete(null);
+      $completer.complete(error);
     }.toJS);
     return $completer.future;
   }

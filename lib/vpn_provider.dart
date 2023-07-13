@@ -24,7 +24,7 @@ class ChromeVpnProvider {
     $js.chrome.vpnProvider.createConfig(
       name,
       (String id) {
-        $completer.complete(null);
+        $completer.complete(id);
       }.toJS,
     );
     return $completer.future;

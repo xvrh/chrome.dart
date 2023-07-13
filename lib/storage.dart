@@ -87,7 +87,7 @@ class StorageArea {
     _wrapped.get(
       keys,
       (JSAny items) {
-        $completer.complete(null);
+        $completer.complete(items);
       }.toJS,
     );
     return $completer.future;
@@ -99,7 +99,7 @@ class StorageArea {
     _wrapped.getBytesInUse(
       keys,
       (int bytesInUse) {
-        $completer.complete(null);
+        $completer.complete(bytesInUse);
       }.toJS,
     );
     return $completer.future;

@@ -52,7 +52,7 @@ class ChromeTts {
   Future<bool> isSpeaking() {
     var $completer = Completer<bool>();
     $js.chrome.tts.isSpeaking((bool speaking) {
-      $completer.complete(null);
+      $completer.complete(speaking);
     }.toJS);
     return $completer.future;
   }
@@ -61,7 +61,10 @@ class ChromeTts {
   Future<List<TtsVoice>> getVoices() {
     var $completer = Completer<List<TtsVoice>>();
     $js.chrome.tts.getVoices((JSArray voices) {
-      $completer.complete(null);
+      $completer.complete(voices.toDart
+          .cast<$js.TtsVoice>()
+          .map((e) => TtsVoice.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -118,7 +121,7 @@ class TtsOptions {
     double? volume,
     List<String>? requiredEventTypes,
     List<String>? desiredEventTypes,
-    JFFunction? onEvent,
+    JSFunction? onEvent,
   }) : _wrapped = $js.TtsOptions()
           ..enqueue = enqueue
           ..voiceName = voiceName
@@ -212,8 +215,8 @@ class TtsOptions {
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  JFFunction? get onEvent => _wrapped.onEvent;
-  set onEvent(JFFunction? v) {
+  JSFunction? get onEvent => _wrapped.onEvent;
+  set onEvent(JSFunction? v) {
     _wrapped.onEvent = v;
   }
 }

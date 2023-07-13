@@ -19,7 +19,10 @@ class ChromeHistory {
     $js.chrome.history.search(
       query.toJS,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.HistoryItem>()
+            .map((e) => HistoryItem.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -31,7 +34,10 @@ class ChromeHistory {
     $js.chrome.history.getVisits(
       details.toJS,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.VisitItem>()
+            .map((e) => VisitItem.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;

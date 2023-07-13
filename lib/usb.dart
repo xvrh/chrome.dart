@@ -21,7 +21,10 @@ class ChromeUsb {
     $js.chrome.usb.getDevices(
       options.toJS,
       (JSArray devices) {
-        $completer.complete(null);
+        $completer.complete(devices.toDart
+            .cast<$js.Device>()
+            .map((e) => Device.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -39,7 +42,10 @@ class ChromeUsb {
     $js.chrome.usb.getUserSelectedDevices(
       options.toJS,
       (JSArray devices) {
-        $completer.complete(null);
+        $completer.complete(devices.toDart
+            .cast<$js.Device>()
+            .map((e) => Device.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -52,7 +58,10 @@ class ChromeUsb {
     $js.chrome.usb.getConfigurations(
       device.toJS,
       (JSArray configs) {
-        $completer.complete(null);
+        $completer.complete(configs.toDart
+            .cast<$js.ConfigDescriptor>()
+            .map((e) => ConfigDescriptor.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -72,7 +81,7 @@ class ChromeUsb {
       device.toJS,
       interfaceId,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -84,8 +93,8 @@ class ChromeUsb {
     var $completer = Completer<ConnectionHandle>();
     $js.chrome.usb.openDevice(
       device.toJS,
-      (ConnectionHandle handle) {
-        $completer.complete(null);
+      ($js.ConnectionHandle handle) {
+        $completer.complete(ConnectionHandle.fromJS(handle));
       }.toJS,
     );
     return $completer.future;
@@ -107,7 +116,10 @@ class ChromeUsb {
     $js.chrome.usb.findDevices(
       options.toJS,
       (JSArray handles) {
-        $completer.complete(null);
+        $completer.complete(handles.toDart
+            .cast<$js.ConnectionHandle>()
+            .map((e) => ConnectionHandle.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -156,8 +168,8 @@ class ChromeUsb {
     var $completer = Completer<ConfigDescriptor>();
     $js.chrome.usb.getConfiguration(
       handle.toJS,
-      (ConfigDescriptor config) {
-        $completer.complete(null);
+      ($js.ConfigDescriptor config) {
+        $completer.complete(ConfigDescriptor.fromJS(config));
       }.toJS,
     );
     return $completer.future;
@@ -170,7 +182,10 @@ class ChromeUsb {
     $js.chrome.usb.listInterfaces(
       handle.toJS,
       (JSArray descriptors) {
-        $completer.complete(null);
+        $completer.complete(descriptors.toDart
+            .cast<$js.InterfaceDescriptor>()
+            .map((e) => InterfaceDescriptor.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -257,8 +272,8 @@ class ChromeUsb {
     $js.chrome.usb.controlTransfer(
       handle.toJS,
       transferInfo.toJS,
-      (TransferResultInfo info) {
-        $completer.complete(null);
+      ($js.TransferResultInfo info) {
+        $completer.complete(TransferResultInfo.fromJS(info));
       }.toJS,
     );
     return $completer.future;
@@ -275,8 +290,8 @@ class ChromeUsb {
     $js.chrome.usb.bulkTransfer(
       handle.toJS,
       transferInfo.toJS,
-      (TransferResultInfo info) {
-        $completer.complete(null);
+      ($js.TransferResultInfo info) {
+        $completer.complete(TransferResultInfo.fromJS(info));
       }.toJS,
     );
     return $completer.future;
@@ -293,8 +308,8 @@ class ChromeUsb {
     $js.chrome.usb.interruptTransfer(
       handle.toJS,
       transferInfo.toJS,
-      (TransferResultInfo info) {
-        $completer.complete(null);
+      ($js.TransferResultInfo info) {
+        $completer.complete(TransferResultInfo.fromJS(info));
       }.toJS,
     );
     return $completer.future;
@@ -310,8 +325,8 @@ class ChromeUsb {
     $js.chrome.usb.isochronousTransfer(
       handle.toJS,
       transferInfo.toJS,
-      (TransferResultInfo info) {
-        $completer.complete(null);
+      ($js.TransferResultInfo info) {
+        $completer.complete(TransferResultInfo.fromJS(info));
       }.toJS,
     );
     return $completer.future;
@@ -329,7 +344,7 @@ class ChromeUsb {
     $js.chrome.usb.resetDevice(
       handle.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;

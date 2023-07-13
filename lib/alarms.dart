@@ -59,8 +59,8 @@ class ChromeAlarms {
     var $completer = Completer<Alarm?>();
     $js.chrome.alarms.get(
       name,
-      (Alarm? alarm) {
-        $completer.complete(null);
+      ($js.Alarm? alarm) {
+        $completer.complete(alarm?.let(Alarm.fromJS));
       }.toJS,
     );
     return $completer.future;
@@ -70,7 +70,8 @@ class ChromeAlarms {
   Future<List<Alarm>> getAll() {
     var $completer = Completer<List<Alarm>>();
     $js.chrome.alarms.getAll((JSArray alarms) {
-      $completer.complete(null);
+      $completer.complete(
+          alarms.toDart.cast<$js.Alarm>().map((e) => Alarm.fromJS(e)).toList());
     }.toJS);
     return $completer.future;
   }
@@ -82,7 +83,7 @@ class ChromeAlarms {
     $js.chrome.alarms.clear(
       name,
       (bool wasCleared) {
-        $completer.complete(null);
+        $completer.complete(wasCleared);
       }.toJS,
     );
     return $completer.future;
@@ -92,7 +93,7 @@ class ChromeAlarms {
   Future<bool> clearAll() {
     var $completer = Completer<bool>();
     $js.chrome.alarms.clearAll((bool wasCleared) {
-      $completer.complete(null);
+      $completer.complete(wasCleared);
     }.toJS);
     return $completer.future;
   }

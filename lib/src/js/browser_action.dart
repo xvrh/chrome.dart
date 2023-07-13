@@ -35,7 +35,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// must be specified.
   external void setIcon(
     SetIconDetails details,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
@@ -91,7 +91,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  external void openPopup(JFFunction callback);
+  external void openPopup(JSFunction callback);
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser
   /// action has a popup.

@@ -20,7 +20,7 @@ class ChromeProcesses {
     $js.chrome.processes.getProcessIdForTab(
       tabId,
       (int processId) {
-        $completer.complete(null);
+        $completer.complete(processId);
       }.toJS,
     );
     return $completer.future;
@@ -34,7 +34,7 @@ class ChromeProcesses {
     $js.chrome.processes.terminate(
       processId,
       (bool didTerminate) {
-        $completer.complete(null);
+        $completer.complete(didTerminate);
       }.toJS,
     );
     return $completer.future;
@@ -56,7 +56,7 @@ class ChromeProcesses {
       processIds,
       includeMemory,
       (JSAny processes) {
-        $completer.complete(null);
+        $completer.complete(processes);
       }.toJS,
     );
     return $completer.future;

@@ -15,8 +15,8 @@ class ChromeLoginState {
   /// Gets the type of the profile the extension is in.
   Future<ProfileType> getProfileType() {
     var $completer = Completer<ProfileType>();
-    $js.chrome.loginState.getProfileType((ProfileType result) {
-      $completer.complete(null);
+    $js.chrome.loginState.getProfileType(($js.ProfileType result) {
+      $completer.complete(ProfileType.fromJS(result));
     }.toJS);
     return $completer.future;
   }
@@ -24,8 +24,8 @@ class ChromeLoginState {
   /// Gets the current session state.
   Future<SessionState> getSessionState() {
     var $completer = Completer<SessionState>();
-    $js.chrome.loginState.getSessionState((SessionState result) {
-      $completer.complete(null);
+    $js.chrome.loginState.getSessionState(($js.SessionState result) {
+      $completer.complete(SessionState.fromJS(result));
     }.toJS);
     return $completer.future;
   }

@@ -15,8 +15,8 @@ class ChromePermissions {
   /// Gets the extension's current set of permissions.
   Future<Permissions> getAll() {
     var $completer = Completer<Permissions>();
-    $js.chrome.permissions.getAll((Permissions permissions) {
-      $completer.complete(null);
+    $js.chrome.permissions.getAll(($js.Permissions permissions) {
+      $completer.complete(Permissions.fromJS(permissions));
     }.toJS);
     return $completer.future;
   }
@@ -27,7 +27,7 @@ class ChromePermissions {
     $js.chrome.permissions.contains(
       permissions.toJS,
       (bool result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -46,7 +46,7 @@ class ChromePermissions {
     $js.chrome.permissions.request(
       permissions.toJS,
       (bool granted) {
-        $completer.complete(null);
+        $completer.complete(granted);
       }.toJS,
     );
     return $completer.future;
@@ -59,7 +59,7 @@ class ChromePermissions {
     $js.chrome.permissions.remove(
       permissions.toJS,
       (bool removed) {
-        $completer.complete(null);
+        $completer.complete(removed);
       }.toJS,
     );
     return $completer.future;

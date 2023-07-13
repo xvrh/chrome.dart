@@ -78,16 +78,16 @@ class Event {
   $js.Event get toJS => _wrapped;
 
   /// Registers an event listener _callback_ to an event.
-  void addListener(JFFunction callback) {
+  void addListener(JSFunction callback) {
     _wrapped.addListener(callback);
   }
 
   /// Deregisters an event listener _callback_ from an event.
-  void removeListener(JFFunction callback) {
+  void removeListener(JSFunction callback) {
     _wrapped.removeListener(callback);
   }
 
-  bool hasListener(JFFunction callback) {
+  bool hasListener(JSFunction callback) {
     return _wrapped.hasListener(callback);
   }
 
@@ -100,7 +100,7 @@ class Event {
     String eventName,
     int webViewInstanceId,
     List<Rule> rules,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.addRules(
       eventName,
@@ -115,7 +115,7 @@ class Event {
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     _wrapped.getRules(
       eventName,
@@ -130,7 +130,7 @@ class Event {
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.removeRules(
       eventName,

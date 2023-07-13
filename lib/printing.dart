@@ -20,8 +20,8 @@ class ChromePrinting {
     var $completer = Completer<SubmitJobResponse>();
     $js.chrome.printing.submitJob(
       request.toJS,
-      (SubmitJobResponse response) {
-        $completer.complete(null);
+      ($js.SubmitJobResponse response) {
+        $completer.complete(SubmitJobResponse.fromJS(response));
       }.toJS,
     );
     return $completer.future;
@@ -46,7 +46,10 @@ class ChromePrinting {
   Future<List<Printer>> getPrinters() {
     var $completer = Completer<List<Printer>>();
     $js.chrome.printing.getPrinters((JSArray printers) {
-      $completer.complete(null);
+      $completer.complete(printers.toDart
+          .cast<$js.Printer>()
+          .map((e) => Printer.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -60,8 +63,8 @@ class ChromePrinting {
     var $completer = Completer<GetPrinterInfoResponse>();
     $js.chrome.printing.getPrinterInfo(
       printerId,
-      (GetPrinterInfoResponse response) {
-        $completer.complete(null);
+      ($js.GetPrinterInfoResponse response) {
+        $completer.complete(GetPrinterInfoResponse.fromJS(response));
       }.toJS,
     );
     return $completer.future;

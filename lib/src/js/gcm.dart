@@ -21,16 +21,16 @@ extension JSGcmExtension on JSGcm {
   /// `senderIds`, the same registration ID will be returned.
   external void register(
     JSArray senderIds,
-    JFFunction callback,
+    JSFunction callback,
   );
 
   /// Unregisters the application from FCM.
-  external void unregister(JFFunction callback);
+  external void unregister(JSFunction callback);
 
   /// Sends a message according to its contents.
   external void send(
     SendMessage message,
-    JFFunction callback,
+    JSFunction callback,
   );
 
   /// Fired when a message is received through FCM.

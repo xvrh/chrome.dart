@@ -44,12 +44,12 @@ class Event {}
 
 extension EventExtension on Event {
   /// Registers an event listener _callback_ to an event.
-  external void addListener(JFFunction callback);
+  external void addListener(JSFunction callback);
 
   /// Deregisters an event listener _callback_ from an event.
-  external void removeListener(JFFunction callback);
+  external void removeListener(JSFunction callback);
 
-  external bool hasListener(JFFunction callback);
+  external bool hasListener(JSFunction callback);
 
   external bool hasListeners();
 
@@ -58,7 +58,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray rules,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Returns currently registered rules.
@@ -66,7 +66,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JFFunction callback,
+    JSFunction callback,
   );
 
   /// Unregisters currently registered rules.
@@ -74,7 +74,7 @@ extension EventExtension on Event {
     String eventName,
     int webViewInstanceId,
     JSArray? ruleIdentifiers,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 }
 

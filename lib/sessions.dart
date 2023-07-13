@@ -20,7 +20,10 @@ class ChromeSessions {
     $js.chrome.sessions.getRecentlyClosed(
       filter?.toJS,
       (JSArray sessions) {
-        $completer.complete(null);
+        $completer.complete(sessions.toDart
+            .cast<$js.Session>()
+            .map((e) => Session.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -32,7 +35,10 @@ class ChromeSessions {
     $js.chrome.sessions.getDevices(
       filter?.toJS,
       (JSArray devices) {
-        $completer.complete(null);
+        $completer.complete(devices.toDart
+            .cast<$js.Device>()
+            .map((e) => Device.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -44,8 +50,8 @@ class ChromeSessions {
     var $completer = Completer<Session>();
     $js.chrome.sessions.restore(
       sessionId,
-      (Session restoredSession) {
-        $completer.complete(null);
+      ($js.Session restoredSession) {
+        $completer.complete(Session.fromJS(restoredSession));
       }.toJS,
     );
     return $completer.future;

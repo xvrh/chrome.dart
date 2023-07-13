@@ -18,7 +18,7 @@ class ChromeDesktopCapture {
     List<DesktopCaptureSourceType> sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     return $js.chrome.desktopCapture.chooseDesktopMedia(
       throw UnimplementedError(),

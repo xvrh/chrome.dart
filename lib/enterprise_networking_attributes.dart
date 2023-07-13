@@ -24,8 +24,8 @@ class ChromeEnterpriseNetworkingAttributes {
   Future<NetworkDetails> getNetworkDetails() {
     var $completer = Completer<NetworkDetails>();
     $js.chrome.enterprise.networkingAttributes
-        .getNetworkDetails((NetworkDetails networkAddresses) {
-      $completer.complete(null);
+        .getNetworkDetails(($js.NetworkDetails networkAddresses) {
+      $completer.complete(NetworkDetails.fromJS(networkAddresses));
     }.toJS);
     return $completer.future;
   }

@@ -16,7 +16,10 @@ class ChromeTopSites {
   Future<List<MostVisitedURL>> get() {
     var $completer = Completer<List<MostVisitedURL>>();
     $js.chrome.topSites.get((JSArray data) {
-      $completer.complete(null);
+      $completer.complete(data.toDart
+          .cast<$js.MostVisitedURL>()
+          .map((e) => MostVisitedURL.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

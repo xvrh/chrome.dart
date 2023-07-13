@@ -17,7 +17,7 @@ class ChromeIdle {
   /// otherwise.
   void queryState(
     int detectionIntervalInSeconds,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     $js.chrome.idle.queryState(
       detectionIntervalInSeconds,
@@ -34,7 +34,7 @@ class ChromeIdle {
   /// Gets the time, in seconds, it takes until the screen is locked
   /// automatically while idle. Returns a zero duration if the screen is never
   /// locked automatically. Currently supported on Chrome OS only.
-  void getAutoLockDelay(JFFunction callback) {
+  void getAutoLockDelay(JSFunction callback) {
     $js.chrome.idle.getAutoLockDelay(callback);
   }
 

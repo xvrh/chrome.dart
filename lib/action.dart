@@ -1,6 +1,7 @@
 import 'browser_action.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/action.dart' as $js;
+import 'src/js/browser_action.dart' as $js_browser_action;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -32,7 +33,7 @@ class ChromeAction {
     $js.chrome.action.getTitle(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -72,7 +73,7 @@ class ChromeAction {
     $js.chrome.action.getPopup(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -102,7 +103,7 @@ class ChromeAction {
     $js.chrome.action.getBadgeText(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -125,8 +126,8 @@ class ChromeAction {
     var $completer = Completer<ColorArray>();
     $js.chrome.action.getBadgeBackgroundColor(
       details.toJS,
-      (ColorArray result) {
-        $completer.complete(null);
+      ($js_browser_action.ColorArray result) {
+        $completer.complete(ColorArray.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -149,8 +150,8 @@ class ChromeAction {
     var $completer = Completer<ColorArray>();
     $js.chrome.action.getBadgeTextColor(
       details.toJS,
-      (ColorArray result) {
-        $completer.complete(null);
+      ($js_browser_action.ColorArray result) {
+        $completer.complete(ColorArray.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -188,7 +189,7 @@ class ChromeAction {
     $js.chrome.action.isEnabled(
       tabId,
       (bool isEnabled) {
-        $completer.complete(null);
+        $completer.complete(isEnabled);
       }.toJS,
     );
     return $completer.future;
@@ -197,8 +198,8 @@ class ChromeAction {
   /// Returns the user-specified settings relating to an extension's action.
   Future<UserSettings> getUserSettings() {
     var $completer = Completer<UserSettings>();
-    $js.chrome.action.getUserSettings((UserSettings userSettings) {
-      $completer.complete(null);
+    $js.chrome.action.getUserSettings(($js.UserSettings userSettings) {
+      $completer.complete(UserSettings.fromJS(userSettings));
     }.toJS);
     return $completer.future;
   }

@@ -101,7 +101,7 @@ extension TtsOptionsExtension on TtsOptions {
 
   /// This function is called with events that occur in the process of speaking
   /// the utterance.
-  external JFFunction? onEvent;
+  external JSFunction? onEvent;
 }
 
 @JS()

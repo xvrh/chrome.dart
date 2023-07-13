@@ -16,7 +16,7 @@ class ChromeWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  void handlerBehaviorChanged(JFFunction? callback) {
+  void handlerBehaviorChanged(JSFunction? callback) {
     $js.chrome.webRequest.handlerBehaviorChanged(callback);
   }
 
@@ -2000,5 +2000,5 @@ class OnAuthRequiredEvent {
 
   /// Only valid if `'asyncBlocking'` is specified as one of the
   /// `OnAuthRequiredOptions`.
-  final JFFunction? asyncCallback;
+  final JSFunction? asyncCallback;
 }

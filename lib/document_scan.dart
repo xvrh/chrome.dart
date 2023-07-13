@@ -20,8 +20,8 @@ class ChromeDocumentScan {
     var $completer = Completer<ScanResults>();
     $js.chrome.documentScan.scan(
       options.toJS,
-      (ScanResults result) {
-        $completer.complete(null);
+      ($js.ScanResults result) {
+        $completer.complete(ScanResults.fromJS(result));
       }.toJS,
     );
     return $completer.future;

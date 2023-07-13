@@ -30,7 +30,7 @@ class ChromeDownloads {
     $js.chrome.downloads.download(
       options.toJS,
       (int downloadId) {
-        $completer.complete(null);
+        $completer.complete(downloadId);
       }.toJS,
     );
     return $completer.future;
@@ -47,7 +47,10 @@ class ChromeDownloads {
     $js.chrome.downloads.search(
       query.toJS,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.DownloadItem>()
+            .map((e) => DownloadItem.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -120,7 +123,7 @@ class ChromeDownloads {
       downloadId,
       options?.toJS,
       (String? iconURL) {
-        $completer.complete(null);
+        $completer.complete(iconURL);
       }.toJS,
     );
     return $completer.future;
@@ -156,7 +159,8 @@ class ChromeDownloads {
     $js.chrome.downloads.erase(
       query.toJS,
       (JSArray erasedIds) {
-        $completer.complete(null);
+        $completer
+            .complete(erasedIds.toDart.cast<int>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;

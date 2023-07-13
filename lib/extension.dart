@@ -26,7 +26,7 @@ class ChromeExtension {
       extensionId,
       request,
       (JSAny response) {
-        $completer.complete(null);
+        $completer.complete(response);
       }.toJS,
     );
     return $completer.future;
@@ -74,7 +74,7 @@ class ChromeExtension {
   Future<bool> isAllowedIncognitoAccess() {
     var $completer = Completer<bool>();
     $js.chrome.extension.isAllowedIncognitoAccess((bool isAllowedAccess) {
-      $completer.complete(null);
+      $completer.complete(isAllowedAccess);
     }.toJS);
     return $completer.future;
   }
@@ -85,7 +85,7 @@ class ChromeExtension {
   Future<bool> isAllowedFileSchemeAccess() {
     var $completer = Completer<bool>();
     $js.chrome.extension.isAllowedFileSchemeAccess((bool isAllowedAccess) {
-      $completer.complete(null);
+      $completer.complete(isAllowedAccess);
     }.toJS);
     return $completer.future;
   }
@@ -183,7 +183,7 @@ class OnRequestEvent {
   /// should be any JSON-ifiable object, or undefined if there is no response.
   /// If you have more than one `onRequest` listener in the same document, then
   /// only one may send a response.
-  final JFFunction sendResponse;
+  final JSFunction sendResponse;
 }
 
 class OnRequestExternalEvent {
@@ -200,5 +200,5 @@ class OnRequestExternalEvent {
 
   /// Function to call when you have a response. The argument should be any
   /// JSON-ifiable object, or undefined if there is no response.
-  final JFFunction sendResponse;
+  final JSFunction sendResponse;
 }

@@ -26,7 +26,7 @@ class ChromeDevtoolsInspectedWindow {
   void eval(
     String expression,
     EvalOptions? options,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     $js.chrome.devtools.inspectedWindow.eval(
       expression,
@@ -41,7 +41,7 @@ class ChromeDevtoolsInspectedWindow {
   }
 
   /// Retrieves the list of resources from the inspected page.
-  void getResources(JFFunction callback) {
+  void getResources(JSFunction callback) {
     $js.chrome.devtools.inspectedWindow.getResources(callback);
   }
 
@@ -74,7 +74,7 @@ class Resource {
   }
 
   /// Gets the content of the resource.
-  void getContent(JFFunction callback) {
+  void getContent(JSFunction callback) {
     _wrapped.getContent(callback);
   }
 
@@ -82,7 +82,7 @@ class Resource {
   void setContent(
     String content,
     bool commit,
-    JFFunction? callback,
+    JSFunction? callback,
   ) {
     _wrapped.setContent(
       content,

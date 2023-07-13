@@ -15,7 +15,7 @@ class ChromeDevtoolsNetwork {
   ChromeDevtoolsNetwork._();
 
   /// Returns HAR log that contains all known network requests.
-  void getHAR(JFFunction callback) {
+  void getHAR(JSFunction callback) {
     $js.chrome.devtools.network.getHAR(callback);
   }
 
@@ -37,7 +37,7 @@ class Request {
   $js.Request get toJS => _wrapped;
 
   /// Returns content of the response body.
-  void getContent(JFFunction callback) {
+  void getContent(JSFunction callback) {
     _wrapped.getContent(callback);
   }
 }

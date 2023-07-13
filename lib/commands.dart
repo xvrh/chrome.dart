@@ -18,7 +18,10 @@ class ChromeCommands {
   Future<List<Command>> getAll() {
     var $completer = Completer<List<Command>>();
     $js.chrome.commands.getAll((JSArray commands) {
-      $completer.complete(null);
+      $completer.complete(commands.toDart
+          .cast<$js.Command>()
+          .map((e) => Command.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }

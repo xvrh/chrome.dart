@@ -23,20 +23,20 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
     String title,
     String iconPath,
     String pagePath,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
-  external void setOpenResourceHandler(JFFunction? callback);
+  external void setOpenResourceHandler(JSFunction? callback);
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
   external void openResource(
     String url,
     int lineNumber,
     int? columnNumber,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Elements panel.
@@ -58,7 +58,7 @@ extension ElementsPanelExtension on ElementsPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
     String title,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Fired when an object is selected in the panel.
@@ -73,7 +73,7 @@ extension SourcesPanelExtension on SourcesPanel {
   /// Creates a pane within panel's sidebar.
   external void createSidebarPane(
     String title,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Fired when an object is selected in the panel.
@@ -116,14 +116,14 @@ extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
   external void setExpression(
     String expression,
     String? rootTitle,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Sets a JSON-compliant object to be displayed in the sidebar pane.
   external void setObject(
     String jsonObject,
     String? rootTitle,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Sets an HTML page to be displayed in the sidebar pane.

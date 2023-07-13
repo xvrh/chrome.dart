@@ -31,14 +31,14 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   external void eval(
     String expression,
     EvalOptions? options,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 
   /// Reloads the inspected page.
   external void reload(ReloadOptions? reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
-  external void getResources(JFFunction callback);
+  external void getResources(JSFunction callback);
 
   /// Fired when a new resource is added to the inspected page.
   external ChromeEvent get onResourceAdded;
@@ -61,13 +61,13 @@ extension ResourceExtension on Resource {
   external String url;
 
   /// Gets the content of the resource.
-  external void getContent(JFFunction callback);
+  external void getContent(JSFunction callback);
 
   /// Sets the content of the resource.
   external void setContent(
     String content,
     bool commit,
-    JFFunction? callback,
+    JSFunction? callback,
   );
 }
 

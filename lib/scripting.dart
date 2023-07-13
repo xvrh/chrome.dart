@@ -26,7 +26,10 @@ class ChromeScripting {
     $js.chrome.scripting.executeScript(
       injection.toJS,
       (JSArray results) {
-        $completer.complete(null);
+        $completer.complete(results.toDart
+            .cast<$js.InjectionResult>()
+            .map((e) => InjectionResult.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -92,7 +95,10 @@ class ChromeScripting {
     $js.chrome.scripting.getRegisteredContentScripts(
       filter?.toJS,
       (JSArray scripts) {
-        $completer.complete(null);
+        $completer.complete(scripts.toDart
+            .cast<$js.RegisteredContentScript>()
+            .map((e) => RegisteredContentScript.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;

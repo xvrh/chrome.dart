@@ -15,7 +15,7 @@ class ChromePageCapture {
   /// Saves the content of the tab with given id as MHTML.
   void saveAsMHTML(
     SaveAsMhtmlDetails details,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     $js.chrome.pageCapture.saveAsMHTML(
       details.toJS,

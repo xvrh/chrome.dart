@@ -29,8 +29,8 @@ class ChromeFontSettings {
     var $completer = Completer<GetFontCallbackDetails>();
     $js.chrome.fontSettings.getFont(
       details.toJS,
-      (GetFontCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetFontCallbackDetails details) {
+        $completer.complete(GetFontCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;
@@ -52,7 +52,10 @@ class ChromeFontSettings {
   Future<List<FontName>> getFontList() {
     var $completer = Completer<List<FontName>>();
     $js.chrome.fontSettings.getFontList((JSArray results) {
-      $completer.complete(null);
+      $completer.complete(results.toDart
+          .cast<$js.FontName>()
+          .map((e) => FontName.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -75,8 +78,8 @@ class ChromeFontSettings {
     var $completer = Completer<GetDefaultFontSizeCallbackDetails>();
     $js.chrome.fontSettings.getDefaultFontSize(
       details?.toJS,
-      (GetDefaultFontSizeCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetDefaultFontSizeCallbackDetails details) {
+        $completer.complete(GetDefaultFontSizeCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;
@@ -113,8 +116,9 @@ class ChromeFontSettings {
     var $completer = Completer<GetDefaultFixedFontSizeCallbackDetails>();
     $js.chrome.fontSettings.getDefaultFixedFontSize(
       details?.toJS,
-      (GetDefaultFixedFontSizeCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetDefaultFixedFontSizeCallbackDetails details) {
+        $completer
+            .complete(GetDefaultFixedFontSizeCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;
@@ -150,8 +154,8 @@ class ChromeFontSettings {
     var $completer = Completer<GetMinimumFontSizeCallbackDetails>();
     $js.chrome.fontSettings.getMinimumFontSize(
       details?.toJS,
-      (GetMinimumFontSizeCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetMinimumFontSizeCallbackDetails details) {
+        $completer.complete(GetMinimumFontSizeCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;

@@ -21,7 +21,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.setComposition(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -34,7 +34,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.clearComposition(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -46,7 +46,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.commitText(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -80,7 +80,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.setCandidateWindowProperties(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -93,7 +93,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.setCandidates(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -106,7 +106,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.setCursorPosition(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;
@@ -119,7 +119,7 @@ class ChromeInputIme {
     $js.chrome.input.ime.setAssistiveWindowProperties(
       parameters.toJS,
       (bool success) {
-        $completer.complete(null);
+        $completer.complete(success);
       }.toJS,
     );
     return $completer.future;

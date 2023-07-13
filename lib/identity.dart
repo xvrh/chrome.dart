@@ -19,7 +19,10 @@ class ChromeIdentity {
   Future<List<AccountInfo>> getAccounts() {
     var $completer = Completer<List<AccountInfo>>();
     $js.chrome.identity.getAccounts((JSArray accounts) {
-      $completer.complete(null);
+      $completer.complete(accounts.toDart
+          .cast<$js.AccountInfo>()
+          .map((e) => AccountInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -54,8 +57,8 @@ class ChromeIdentity {
     var $completer = Completer<GetAuthTokenResult>();
     $js.chrome.identity.getAuthToken(
       details?.toJS,
-      (GetAuthTokenResult result) {
-        $completer.complete(null);
+      ($js.GetAuthTokenResult result) {
+        $completer.complete(GetAuthTokenResult.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -79,8 +82,8 @@ class ChromeIdentity {
     var $completer = Completer<ProfileUserInfo>();
     $js.chrome.identity.getProfileUserInfo(
       details?.toJS,
-      (ProfileUserInfo userInfo) {
-        $completer.complete(null);
+      ($js.ProfileUserInfo userInfo) {
+        $completer.complete(ProfileUserInfo.fromJS(userInfo));
       }.toJS,
     );
     return $completer.future;
@@ -145,7 +148,7 @@ class ChromeIdentity {
     $js.chrome.identity.launchWebAuthFlow(
       details.toJS,
       (String? responseUrl) {
-        $completer.complete(null);
+        $completer.complete(responseUrl);
       }.toJS,
     );
     return $completer.future;

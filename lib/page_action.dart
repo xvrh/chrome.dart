@@ -58,7 +58,7 @@ class ChromePageAction {
     $js.chrome.pageAction.getTitle(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;
@@ -98,7 +98,7 @@ class ChromePageAction {
     $js.chrome.pageAction.getPopup(
       details.toJS,
       (String result) {
-        $completer.complete(null);
+        $completer.complete(result);
       }.toJS,
     );
     return $completer.future;

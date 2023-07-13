@@ -22,7 +22,10 @@ class ChromeAudio {
     $js.chrome.audio.getDevices(
       filter?.toJS,
       (JSArray devices) {
-        $completer.complete(null);
+        $completer.complete(devices.toDart
+            .cast<$js.AudioDeviceInfo>()
+            .map((e) => AudioDeviceInfo.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -70,7 +73,7 @@ class ChromeAudio {
     $js.chrome.audio.getMute(
       streamType.toJS,
       (bool value) {
-        $completer.complete(null);
+        $completer.complete(value);
       }.toJS,
     );
     return $completer.future;

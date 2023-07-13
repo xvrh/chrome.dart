@@ -17,8 +17,8 @@ class ChromeSystemCpu {
   /// Queries basic CPU information of the system.
   Future<CpuInfo> getInfo() {
     var $completer = Completer<CpuInfo>();
-    $js.chrome.system.cpu.getInfo((CpuInfo info) {
-      $completer.complete(null);
+    $js.chrome.system.cpu.getInfo(($js.CpuInfo info) {
+      $completer.complete(CpuInfo.fromJS(info));
     }.toJS);
     return $completer.future;
   }

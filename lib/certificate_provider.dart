@@ -26,8 +26,8 @@ class ChromeCertificateProvider {
     var $completer = Completer<PinResponseDetails?>();
     $js.chrome.certificateProvider.requestPin(
       details.toJS,
-      (PinResponseDetails? details) {
-        $completer.complete(null);
+      ($js.PinResponseDetails? details) {
+        $completer.complete(details?.let(PinResponseDetails.fromJS));
       }.toJS,
     );
     return $completer.future;

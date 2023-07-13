@@ -27,7 +27,10 @@ class ChromePlatformKeys {
     $js.chrome.platformKeys.selectClientCertificates(
       details.toJS,
       (JSArray matches) {
-        $completer.complete(null);
+        $completer.complete(matches.toDart
+            .cast<$js.Match>()
+            .map((e) => Match.fromJS(e))
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -62,7 +65,10 @@ class ChromePlatformKeys {
         JSAny publicKey,
         JSAny? privateKey,
       ) {
-        $completer.complete(null);
+        $completer.complete(GetKeyPairResult(
+          publicKey,
+          privateKey,
+        ));
       }.toJS,
     );
     return $completer.future;
@@ -99,7 +105,10 @@ class ChromePlatformKeys {
         JSAny publicKey,
         JSAny? privateKey,
       ) {
-        $completer.complete(null);
+        $completer.complete(GetKeyPairBySpkiResult(
+          publicKey,
+          privateKey,
+        ));
       }.toJS,
     );
     return $completer.future;
@@ -128,8 +137,8 @@ class ChromePlatformKeys {
     var $completer = Completer<VerificationResult>();
     $js.chrome.platformKeys.verifyTLSServerCertificate(
       details.toJS,
-      (VerificationResult result) {
-        $completer.complete(null);
+      ($js.VerificationResult result) {
+        $completer.complete(VerificationResult.fromJS(result));
       }.toJS,
     );
     return $completer.future;

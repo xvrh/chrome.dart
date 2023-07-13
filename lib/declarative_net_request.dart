@@ -55,7 +55,8 @@ class ChromeDeclarativeNetRequest {
     $js.chrome.declarativeNetRequest.getDynamicRules(
       filter?.toJS,
       (JSArray rules) {
-        $completer.complete(null);
+        $completer.complete(
+            rules.toDart.cast<$js.Rule>().map((e) => Rule.fromJS(e)).toList());
       }.toJS,
     );
     return $completer.future;
@@ -98,7 +99,8 @@ class ChromeDeclarativeNetRequest {
     $js.chrome.declarativeNetRequest.getSessionRules(
       filter?.toJS,
       (JSArray rules) {
-        $completer.complete(null);
+        $completer.complete(
+            rules.toDart.cast<$js.Rule>().map((e) => Rule.fromJS(e)).toList());
       }.toJS,
     );
     return $completer.future;
@@ -133,7 +135,8 @@ class ChromeDeclarativeNetRequest {
   Future<List<String>> getEnabledRulesets() {
     var $completer = Completer<List<String>>();
     $js.chrome.declarativeNetRequest.getEnabledRulesets((JSArray rulesetIds) {
-      $completer.complete(null);
+      $completer
+          .complete(rulesetIds.toDart.cast<String>().map((e) => e).toList());
     }.toJS);
     return $completer.future;
   }
@@ -165,7 +168,8 @@ class ChromeDeclarativeNetRequest {
     $js.chrome.declarativeNetRequest.getDisabledRuleIds(
       options.toJS,
       (JSArray disabledRuleIds) {
-        $completer.complete(null);
+        $completer.complete(
+            disabledRuleIds.toDart.cast<int>().map((e) => e).toList());
       }.toJS,
     );
     return $completer.future;
@@ -188,8 +192,8 @@ class ChromeDeclarativeNetRequest {
     var $completer = Completer<RulesMatchedDetails>();
     $js.chrome.declarativeNetRequest.getMatchedRules(
       filter?.toJS,
-      (RulesMatchedDetails details) {
-        $completer.complete(null);
+      ($js.RulesMatchedDetails details) {
+        $completer.complete(RulesMatchedDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;
@@ -218,8 +222,8 @@ class ChromeDeclarativeNetRequest {
     var $completer = Completer<IsRegexSupportedResult>();
     $js.chrome.declarativeNetRequest.isRegexSupported(
       regexOptions.toJS,
-      (IsRegexSupportedResult result) {
-        $completer.complete(null);
+      ($js.IsRegexSupportedResult result) {
+        $completer.complete(IsRegexSupportedResult.fromJS(result));
       }.toJS,
     );
     return $completer.future;
@@ -231,7 +235,7 @@ class ChromeDeclarativeNetRequest {
   Future<int> getAvailableStaticRuleCount() {
     var $completer = Completer<int>();
     $js.chrome.declarativeNetRequest.getAvailableStaticRuleCount((int count) {
-      $completer.complete(null);
+      $completer.complete(count);
     }.toJS);
     return $completer.future;
   }
@@ -247,8 +251,8 @@ class ChromeDeclarativeNetRequest {
     var $completer = Completer<TestMatchOutcomeResult>();
     $js.chrome.declarativeNetRequest.testMatchOutcome(
       request.toJS,
-      (TestMatchOutcomeResult result) {
-        $completer.complete(null);
+      ($js.TestMatchOutcomeResult result) {
+        $completer.complete(TestMatchOutcomeResult.fromJS(result));
       }.toJS,
     );
     return $completer.future;

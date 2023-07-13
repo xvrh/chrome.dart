@@ -131,7 +131,7 @@ extension JSRuntimeExtension on JSRuntime {
   external void getPlatformInfo(JSFunction callback);
 
   /// Returns a DirectoryEntry for the package directory.
-  external void getPackageDirectoryEntry(JFFunction callback);
+  external void getPackageDirectoryEntry(JSFunction callback);
 
   /// Fetches information about active contexts associated with this extension
   external void getContexts(
@@ -245,11 +245,11 @@ extension PortExtension on Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  external JFFunction disconnect;
+  external JSFunction disconnect;
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  external JFFunction postMessage;
+  external JSFunction postMessage;
 
   /// This property will **only** be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal

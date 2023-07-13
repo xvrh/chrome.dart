@@ -72,8 +72,8 @@ class ChromeSetting {
     var $completer = Completer<GetCallbackDetails>();
     _wrapped.get(
       details.toJS,
-      (GetCallbackDetails details) {
-        $completer.complete(null);
+      ($js.GetCallbackDetails details) {
+        $completer.complete(GetCallbackDetails.fromJS(details));
       }.toJS,
     );
     return $completer.future;

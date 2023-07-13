@@ -59,7 +59,10 @@ class ChromeFileSystemProvider {
   Future<List<FileSystemInfo>> getAll() {
     var $completer = Completer<List<FileSystemInfo>>();
     $js.chrome.fileSystemProvider.getAll((JSArray fileSystems) {
-      $completer.complete(null);
+      $completer.complete(fileSystems.toDart
+          .cast<$js.FileSystemInfo>()
+          .map((e) => FileSystemInfo.fromJS(e))
+          .toList());
     }.toJS);
     return $completer.future;
   }
@@ -70,8 +73,8 @@ class ChromeFileSystemProvider {
     var $completer = Completer<FileSystemInfo>();
     $js.chrome.fileSystemProvider.get(
       fileSystemId,
-      (FileSystemInfo fileSystem) {
-        $completer.complete(null);
+      ($js.FileSystemInfo fileSystem) {
+        $completer.complete(FileSystemInfo.fromJS(fileSystem));
       }.toJS,
     );
     return $completer.future;

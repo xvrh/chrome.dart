@@ -17,7 +17,7 @@ class ChromeGcm {
   /// `senderIds`, the same registration ID will be returned.
   void register(
     List<String> senderIds,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     $js.chrome.gcm.register(
       throw UnimplementedError(),
@@ -26,14 +26,14 @@ class ChromeGcm {
   }
 
   /// Unregisters the application from FCM.
-  void unregister(JFFunction callback) {
+  void unregister(JSFunction callback) {
     $js.chrome.gcm.unregister(callback);
   }
 
   /// Sends a message according to its contents.
   void send(
     SendMessage message,
-    JFFunction callback,
+    JSFunction callback,
   ) {
     $js.chrome.gcm.send(
       message.toJS,

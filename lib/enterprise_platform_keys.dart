@@ -25,7 +25,8 @@ class ChromeEnterprisePlatformKeys {
   Future<List<Token>> getTokens() {
     var $completer = Completer<List<Token>>();
     $js.chrome.enterprise.platformKeys.getTokens((JSArray tokens) {
-      $completer.complete(null);
+      $completer.complete(
+          tokens.toDart.cast<$js.Token>().map((e) => Token.fromJS(e)).toList());
     }.toJS);
     return $completer.future;
   }
@@ -40,7 +41,10 @@ class ChromeEnterprisePlatformKeys {
     $js.chrome.enterprise.platformKeys.getCertificates(
       tokenId,
       (JSArray certificates) {
-        $completer.complete(null);
+        $completer.complete(certificates.toDart
+            .cast<JSArrayBuffer>()
+            .map((e) => e.toDart)
+            .toList());
       }.toJS,
     );
     return $completer.future;
@@ -122,7 +126,7 @@ class ChromeEnterprisePlatformKeys {
     $js.chrome.enterprise.platformKeys.challengeKey(
       options.toJS,
       (JSArrayBuffer response) {
-        $completer.complete(null);
+        $completer.complete(response.toDart);
       }.toJS,
     );
     return $completer.future;
@@ -166,7 +170,7 @@ class ChromeEnterprisePlatformKeys {
       challenge.toJS,
       registerKey,
       (JSArrayBuffer response) {
-        $completer.complete(null);
+        $completer.complete(response.toDart);
       }.toJS,
     );
     return $completer.future;
@@ -209,7 +213,7 @@ class ChromeEnterprisePlatformKeys {
       challenge.toJS,
       registerKey,
       (JSArrayBuffer response) {
-        $completer.complete(null);
+        $completer.complete(response.toDart);
       }.toJS,
     );
     return $completer.future;

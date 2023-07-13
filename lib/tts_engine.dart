@@ -235,7 +235,7 @@ class OnSpeakEvent {
 
   /// Call this function with events that occur in the process of speaking the
   /// utterance.
-  final JFFunction sendTtsEvent;
+  final JSFunction sendTtsEvent;
 }
 
 class OnSpeakWithAudioStreamEvent {
@@ -264,8 +264,8 @@ class OnSpeakWithAudioStreamEvent {
 
   /// Call this function with audio that occur in the process of speaking the
   /// utterance.
-  final JFFunction sendTtsAudio;
+  final JSFunction sendTtsAudio;
 
   /// Call this function to indicate an error with rendering this utterance.
-  final JFFunction sendError;
+  final JSFunction sendError;
 }

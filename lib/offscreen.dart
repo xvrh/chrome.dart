@@ -47,7 +47,7 @@ class ChromeOffscreen {
   Future<bool> hasDocument() {
     var $completer = Completer<bool>();
     $js.chrome.offscreen.hasDocument((bool result) {
-      $completer.complete(null);
+      $completer.complete(result);
     }.toJS);
     return $completer.future;
   }

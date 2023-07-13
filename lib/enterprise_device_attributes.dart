@@ -27,7 +27,7 @@ class ChromeEnterpriseDeviceAttributes {
     var $completer = Completer<String>();
     $js.chrome.enterprise.deviceAttributes
         .getDirectoryDeviceId((String deviceId) {
-      $completer.complete(null);
+      $completer.complete(deviceId);
     }.toJS);
     return $completer.future;
   }
@@ -42,7 +42,7 @@ class ChromeEnterpriseDeviceAttributes {
     var $completer = Completer<String>();
     $js.chrome.enterprise.deviceAttributes
         .getDeviceSerialNumber((String serialNumber) {
-      $completer.complete(null);
+      $completer.complete(serialNumber);
     }.toJS);
     return $completer.future;
   }
@@ -54,7 +54,7 @@ class ChromeEnterpriseDeviceAttributes {
   Future<String> getDeviceAssetId() {
     var $completer = Completer<String>();
     $js.chrome.enterprise.deviceAttributes.getDeviceAssetId((String assetId) {
-      $completer.complete(null);
+      $completer.complete(assetId);
     }.toJS);
     return $completer.future;
   }
@@ -67,7 +67,7 @@ class ChromeEnterpriseDeviceAttributes {
     var $completer = Completer<String>();
     $js.chrome.enterprise.deviceAttributes
         .getDeviceAnnotatedLocation((String annotatedLocation) {
-      $completer.complete(null);
+      $completer.complete(annotatedLocation);
     }.toJS);
     return $completer.future;
   }
@@ -79,7 +79,7 @@ class ChromeEnterpriseDeviceAttributes {
   Future<String> getDeviceHostname() {
     var $completer = Completer<String>();
     $js.chrome.enterprise.deviceAttributes.getDeviceHostname((String hostname) {
-      $completer.complete(null);
+      $completer.complete(hostname);
     }.toJS);
     return $completer.future;
   }

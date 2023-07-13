@@ -18,8 +18,8 @@ class ChromeBrowsingData {
   /// one data type listed here.
   Future<SettingsCallbackResult> settings() {
     var $completer = Completer<SettingsCallbackResult>();
-    $js.chrome.browsingData.settings((SettingsCallbackResult result) {
-      $completer.complete(null);
+    $js.chrome.browsingData.settings(($js.SettingsCallbackResult result) {
+      $completer.complete(SettingsCallbackResult.fromJS(result));
     }.toJS);
     return $completer.future;
   }

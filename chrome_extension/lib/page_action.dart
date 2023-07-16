@@ -15,6 +15,7 @@ class ChromePageAction {
 
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
+  /// [tabId] The id of the tab for which you want to modify the page action.
   Future<void> show(int tabId) {
     var $completer = Completer<void>();
     $js.chrome.pageAction.show(
@@ -30,6 +31,7 @@ class ChromePageAction {
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
+  /// [tabId] The id of the tab for which you want to modify the page action.
   Future<void> hide(int tabId) {
     var $completer = Completer<void>();
     $js.chrome.pageAction.hide(

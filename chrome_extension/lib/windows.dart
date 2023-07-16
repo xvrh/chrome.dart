@@ -246,7 +246,7 @@ class Window {
           ..left = left
           ..width = width
           ..height = height
-          ..tabs = throw UnimplementedError()
+          ..tabs = tabs?.toJSArray((e) => e.toJS)
           ..incognito = incognito
           ..type = type?.toJS
           ..state = state?.toJS
@@ -310,7 +310,7 @@ class Window {
       .map((e) => Tab.fromJS(e))
       .toList();
   set tabs(List<Tab>? v) {
-    _wrapped.tabs = throw UnimplementedError();
+    _wrapped.tabs = v?.toJSArray((e) => e.toJS);
   }
 
   /// Whether the window is incognito.
@@ -353,7 +353,7 @@ class QueryOptions {
     List<WindowType>? windowTypes,
   }) : _wrapped = $js.QueryOptions()
           ..populate = populate
-          ..windowTypes = throw UnimplementedError();
+          ..windowTypes = windowTypes?.toJSArray((e) => e.toJS);
 
   final $js.QueryOptions _wrapped;
 
@@ -375,7 +375,7 @@ class QueryOptions {
       .map((e) => WindowType.fromJS(e))
       .toList();
   set windowTypes(List<WindowType>? v) {
-    _wrapped.windowTypes = throw UnimplementedError();
+    _wrapped.windowTypes = v?.toJSArray((e) => e.toJS);
   }
 }
 

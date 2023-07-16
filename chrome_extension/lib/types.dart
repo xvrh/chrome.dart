@@ -68,6 +68,7 @@ class ChromeSetting {
   $js.ChromeSetting get toJS => _wrapped;
 
   /// Gets the value of a setting.
+  /// [details] Which setting to consider.
   Future<GetCallbackDetails> get(GetDetails details) {
     var $completer = Completer<GetCallbackDetails>();
     _wrapped.get(
@@ -82,6 +83,7 @@ class ChromeSetting {
   }
 
   /// Sets the value of a setting.
+  /// [details] Which setting to change.
   Future<void> set(SetDetails details) {
     var $completer = Completer<void>();
     _wrapped.set(
@@ -96,6 +98,7 @@ class ChromeSetting {
   }
 
   /// Clears the setting, restoring any default value.
+  /// [details] Which setting to clear.
   Future<void> clear(ClearDetails details) {
     var $completer = Completer<void>();
     _wrapped.clear(

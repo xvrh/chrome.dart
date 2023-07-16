@@ -55,6 +55,8 @@ class ChromeRuntime {
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
+  /// [path] A path to a resource within an app/extension expressed relative
+  /// to its install directory.
   String getURL(String path) {
     return $js.chrome.runtime.getURL(path);
   }
@@ -62,6 +64,9 @@ class ChromeRuntime {
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
+  /// [url] URL to be opened after the extension is uninstalled. This URL must
+  /// have an http: or https: scheme. Set an empty string to not open a new
+  /// tab upon uninstallation.
   Future<void> setUninstallURL(String url) {
     var $completer = Completer<void>();
     $js.chrome.runtime.setUninstallURL(
@@ -120,6 +125,8 @@ class ChromeRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
+  /// [seconds] Time to wait in seconds before rebooting the device, or -1 to
+  /// cancel a scheduled reboot.
   Future<void> restartAfterDelay(int seconds) {
     var $completer = Completer<void>();
     $js.chrome.runtime.restartAfterDelay(
@@ -140,6 +147,10 @@ class ChromeRuntime {
   /// Note that this does not connect to any listeners in a content script.
   /// Extensions may connect to content scripts embedded in tabs via
   /// [tabs.connect].
+  /// [extensionId] The ID of the extension or app to connect to. If omitted,
+  /// a connection will be attempted with your own extension. Required if
+  /// sending messages from a web page for [web
+  /// messaging](manifest/externally_connectable.html).
   Port connect(
     String? extensionId,
     ConnectInfo? connectInfo,
@@ -152,6 +163,7 @@ class ChromeRuntime {
 
   /// Connects to a native application in the host machine. See [Native
   /// Messaging](nativeMessaging) for more information.
+  /// [application] The name of the registered application to connect to.
   Port connectNative(String application) {
     return Port.fromJS($js.chrome.runtime.connectNative(application));
   }
@@ -164,6 +176,12 @@ class ChromeRuntime {
   /// if a different extension. Note that extensions cannot send messages to
   /// content scripts using this method. To send messages to content scripts,
   /// use [tabs.sendMessage].
+  /// [extensionId] The ID of the extension/app to send the message to. If
+  /// omitted, the message will be sent to your own extension/app. Required if
+  /// sending messages from a web page for [web
+  /// messaging](manifest/externally_connectable.html).
+  /// [message] The message to send. This message should be a JSON-ifiable
+  /// object.
   Future<Object> sendMessage(
     String? extensionId,
     Object message,
@@ -184,6 +202,8 @@ class ChromeRuntime {
   }
 
   /// Send a single message to a native application.
+  /// [application] The name of the native messaging host.
+  /// [message] The message that will be passed to the native messaging host.
   Future<Object> sendNativeMessage(
     String application,
     Object message,
@@ -213,11 +233,21 @@ class ChromeRuntime {
   }
 
   /// Returns a DirectoryEntry for the package directory.
-  void getPackageDirectoryEntry(JSFunction callback) {
-    $js.chrome.runtime.getPackageDirectoryEntry(callback);
+  Future<DirectoryEntry> getPackageDirectoryEntry() {
+    var $completer = Completer<DirectoryEntry>();
+    $js.chrome.runtime
+        .getPackageDirectoryEntry(($js.DirectoryEntry directoryEntry) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(DirectoryEntry.fromJS(directoryEntry));
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Fetches information about active contexts associated with this extension
+  /// [filter] A filter to find matching contexts. A context matches if it
+  /// matches all specified fields in the filter. Any unspecified field in the
+  /// filter matches all contexts.
   Future<List<ExtensionContext>> getContexts(ContextFilter filter) {
     var $completer = Completer<List<ExtensionContext>>();
     $js.chrome.runtime.getContexts(
@@ -739,14 +769,14 @@ class ContextFilter {
     List<String>? documentOrigins,
     bool? incognito,
   }) : _wrapped = $js.ContextFilter()
-          ..contextTypes = throw UnimplementedError()
-          ..contextIds = throw UnimplementedError()
-          ..tabIds = throw UnimplementedError()
-          ..windowIds = throw UnimplementedError()
-          ..documentIds = throw UnimplementedError()
-          ..frameIds = throw UnimplementedError()
-          ..documentUrls = throw UnimplementedError()
-          ..documentOrigins = throw UnimplementedError()
+          ..contextTypes = contextTypes?.toJSArray((e) => e.toJS)
+          ..contextIds = contextIds?.toJSArray((e) => e)
+          ..tabIds = tabIds?.toJSArray((e) => e)
+          ..windowIds = windowIds?.toJSArray((e) => e)
+          ..documentIds = documentIds?.toJSArray((e) => e)
+          ..frameIds = frameIds?.toJSArray((e) => e)
+          ..documentUrls = documentUrls?.toJSArray((e) => e)
+          ..documentOrigins = documentOrigins?.toJSArray((e) => e)
           ..incognito = incognito;
 
   final $js.ContextFilter _wrapped;
@@ -758,49 +788,49 @@ class ContextFilter {
       .map((e) => ContextType.fromJS(e))
       .toList();
   set contextTypes(List<ContextType>? v) {
-    _wrapped.contextTypes = throw UnimplementedError();
+    _wrapped.contextTypes = v?.toJSArray((e) => e.toJS);
   }
 
   List<String>? get contextIds =>
       _wrapped.contextIds?.toDart.cast<String>().map((e) => e).toList();
   set contextIds(List<String>? v) {
-    _wrapped.contextIds = throw UnimplementedError();
+    _wrapped.contextIds = v?.toJSArray((e) => e);
   }
 
   List<int>? get tabIds =>
       _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int>? v) {
-    _wrapped.tabIds = throw UnimplementedError();
+    _wrapped.tabIds = v?.toJSArray((e) => e);
   }
 
   List<int>? get windowIds =>
       _wrapped.windowIds?.toDart.cast<int>().map((e) => e).toList();
   set windowIds(List<int>? v) {
-    _wrapped.windowIds = throw UnimplementedError();
+    _wrapped.windowIds = v?.toJSArray((e) => e);
   }
 
   List<String>? get documentIds =>
       _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
   set documentIds(List<String>? v) {
-    _wrapped.documentIds = throw UnimplementedError();
+    _wrapped.documentIds = v?.toJSArray((e) => e);
   }
 
   List<int>? get frameIds =>
       _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
   set frameIds(List<int>? v) {
-    _wrapped.frameIds = throw UnimplementedError();
+    _wrapped.frameIds = v?.toJSArray((e) => e);
   }
 
   List<String>? get documentUrls =>
       _wrapped.documentUrls?.toDart.cast<String>().map((e) => e).toList();
   set documentUrls(List<String>? v) {
-    _wrapped.documentUrls = throw UnimplementedError();
+    _wrapped.documentUrls = v?.toJSArray((e) => e);
   }
 
   List<String>? get documentOrigins =>
       _wrapped.documentOrigins?.toDart.cast<String>().map((e) => e).toList();
   set documentOrigins(List<String>? v) {
-    _wrapped.documentOrigins = throw UnimplementedError();
+    _wrapped.documentOrigins = v?.toJSArray((e) => e);
   }
 
   bool? get incognito => _wrapped.incognito;

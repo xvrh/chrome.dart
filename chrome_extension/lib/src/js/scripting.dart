@@ -26,7 +26,7 @@ extension JSScriptingExtension on JSScripting {
   /// injection succeeded.
   external void executeScript(
     ScriptInjection injection,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Inserts a CSS stylesheet into a target context.
@@ -35,7 +35,7 @@ extension JSScriptingExtension on JSScripting {
   /// |callback|: Invoked upon completion of the insertion.
   external void insertCSS(
     CSSInjection injection,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes a CSS stylesheet that was previously inserted by this extension
@@ -47,7 +47,7 @@ extension JSScriptingExtension on JSScripting {
   /// |callback|: A callback to be invoked upon the completion of the removal.
   external void removeCSS(
     CSSInjection injection,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Registers one or more content scripts for this extension.
@@ -58,7 +58,7 @@ extension JSScriptingExtension on JSScripting {
   /// registered or if an error has occurred.
   external void registerContentScripts(
     JSArray scripts,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns all dynamically registered content scripts for this extension
@@ -78,7 +78,7 @@ extension JSScriptingExtension on JSScripting {
   /// or if an error has occurred.
   external void unregisterContentScripts(
     ContentScriptFilter? filter,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Updates one or more content scripts for this extension.
@@ -91,7 +91,7 @@ extension JSScriptingExtension on JSScripting {
   /// if an error has occurred.
   external void updateContentScripts(
     JSArray scripts,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// An object available for content scripts running in isolated worlds to use

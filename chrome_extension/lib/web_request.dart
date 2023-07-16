@@ -16,8 +16,14 @@ class ChromeWebRequest {
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call
   /// is expensive. Don't call it often.
-  void handlerBehaviorChanged(JSFunction? callback) {
-    $js.chrome.webRequest.handlerBehaviorChanged(callback);
+  Future<void> handlerBehaviorChanged() {
+    var $completer = Completer<void>();
+    $js.chrome.webRequest.handlerBehaviorChanged(() {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(null);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// The maximum number of times that `handlerBehaviorChanged` can be called
@@ -258,8 +264,8 @@ class RequestFilter {
     int? tabId,
     int? windowId,
   }) : _wrapped = $js.RequestFilter()
-          ..urls = throw UnimplementedError()
-          ..types = throw UnimplementedError()
+          ..urls = urls.toJSArray((e) => e)
+          ..types = types?.toJSArray((e) => e.toJS)
           ..tabId = tabId
           ..windowId = windowId;
 
@@ -272,7 +278,7 @@ class RequestFilter {
   List<String> get urls =>
       _wrapped.urls.toDart.cast<String>().map((e) => e).toList();
   set urls(List<String> v) {
-    _wrapped.urls = throw UnimplementedError();
+    _wrapped.urls = v.toJSArray((e) => e);
   }
 
   /// A list of request types. Requests that cannot match any of the types will
@@ -282,7 +288,7 @@ class RequestFilter {
       .map((e) => ResourceType.fromJS(e))
       .toList();
   set types(List<ResourceType>? v) {
-    _wrapped.types = throw UnimplementedError();
+    _wrapped.types = v?.toJSArray((e) => e.toJS);
   }
 
   int? get tabId => _wrapped.tabId;
@@ -308,8 +314,8 @@ class BlockingResponse {
   }) : _wrapped = $js.BlockingResponse()
           ..cancel = cancel
           ..redirectUrl = redirectUrl
-          ..requestHeaders = throw UnimplementedError()
-          ..responseHeaders = throw UnimplementedError()
+          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS)
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..authCredentials = authCredentials?.toJS;
 
   final $js.BlockingResponse _wrapped;
@@ -344,7 +350,7 @@ class BlockingResponse {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set requestHeaders(HttpHeaders? v) {
-    _wrapped.requestHeaders = throw UnimplementedError();
+    _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// Only used as a response to the onHeadersReceived event. If set, the server
@@ -357,7 +363,7 @@ class BlockingResponse {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// Only used as a response to the onAuthRequired event. If set, the request
@@ -406,7 +412,7 @@ class HttpHeadersItems {
   }) : _wrapped = $js.HttpHeadersItems()
           ..name = name
           ..value = value
-          ..binaryValue = throw UnimplementedError();
+          ..binaryValue = binaryValue?.toJSArray((e) => e);
 
   final $js.HttpHeadersItems _wrapped;
 
@@ -429,7 +435,7 @@ class HttpHeadersItems {
   List<int>? get binaryValue =>
       _wrapped.binaryValue?.toDart.cast<int>().map((e) => e).toList();
   set binaryValue(List<int>? v) {
-    _wrapped.binaryValue = throw UnimplementedError();
+    _wrapped.binaryValue = v?.toJSArray((e) => e);
   }
 }
 
@@ -600,7 +606,7 @@ class OnBeforeSendHeadersDetails {
           ..initiator = initiator
           ..type = type.toJS
           ..timeStamp = timeStamp
-          ..requestHeaders = throw UnimplementedError();
+          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS);
 
   final $js.OnBeforeSendHeadersDetails _wrapped;
 
@@ -700,7 +706,7 @@ class OnBeforeSendHeadersDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set requestHeaders(HttpHeaders? v) {
-    _wrapped.requestHeaders = throw UnimplementedError();
+    _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 }
 
@@ -736,7 +742,7 @@ class OnSendHeadersDetails {
           ..type = type.toJS
           ..initiator = initiator
           ..timeStamp = timeStamp
-          ..requestHeaders = throw UnimplementedError();
+          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS);
 
   final $js.OnSendHeadersDetails _wrapped;
 
@@ -836,7 +842,7 @@ class OnSendHeadersDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set requestHeaders(HttpHeaders? v) {
-    _wrapped.requestHeaders = throw UnimplementedError();
+    _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 }
 
@@ -875,7 +881,7 @@ class OnHeadersReceivedDetails {
           ..initiator = initiator
           ..timeStamp = timeStamp
           ..statusLine = statusLine
-          ..responseHeaders = throw UnimplementedError()
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..statusCode = statusCode;
 
   final $js.OnHeadersReceivedDetails _wrapped;
@@ -983,7 +989,7 @@ class OnHeadersReceivedDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// Standard HTTP status code returned by the server.
@@ -1035,7 +1041,7 @@ class OnAuthRequiredDetails {
           ..realm = realm
           ..challenger = challenger.toJS
           ..isProxy = isProxy
-          ..responseHeaders = throw UnimplementedError()
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..statusLine = statusLine
           ..statusCode = statusCode;
 
@@ -1162,7 +1168,7 @@ class OnAuthRequiredDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
@@ -1219,7 +1225,7 @@ class OnResponseStartedDetails {
           ..ip = ip
           ..fromCache = fromCache
           ..statusCode = statusCode
-          ..responseHeaders = throw UnimplementedError()
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..statusLine = statusLine;
 
   final $js.OnResponseStartedDetails _wrapped;
@@ -1339,7 +1345,7 @@ class OnResponseStartedDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
@@ -1392,7 +1398,7 @@ class OnBeforeRedirectDetails {
           ..fromCache = fromCache
           ..statusCode = statusCode
           ..redirectUrl = redirectUrl
-          ..responseHeaders = throw UnimplementedError()
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..statusLine = statusLine;
 
   final $js.OnBeforeRedirectDetails _wrapped;
@@ -1518,7 +1524,7 @@ class OnBeforeRedirectDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
@@ -1569,7 +1575,7 @@ class OnCompletedDetails {
           ..ip = ip
           ..fromCache = fromCache
           ..statusCode = statusCode
-          ..responseHeaders = throw UnimplementedError()
+          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
           ..statusLine = statusLine;
 
   final $js.OnCompletedDetails _wrapped;
@@ -1689,7 +1695,7 @@ class OnCompletedDetails {
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
   set responseHeaders(HttpHeaders? v) {
-    _wrapped.responseHeaders = throw UnimplementedError();
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
   /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
@@ -1918,7 +1924,7 @@ class OnBeforeRequestDetailsRequestBody {
   }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody()
           ..error = error
           ..formData = formData?.toJS
-          ..raw = throw UnimplementedError();
+          ..raw = raw?.toJSArray((e) => e.toJS);
 
   final $js.OnBeforeRequestDetailsRequestBody _wrapped;
 
@@ -1950,7 +1956,7 @@ class OnBeforeRequestDetailsRequestBody {
       .map((e) => UploadData.fromJS(e))
       .toList();
   set raw(List<UploadData>? v) {
-    _wrapped.raw = throw UnimplementedError();
+    _wrapped.raw = v?.toJSArray((e) => e.toJS);
   }
 }
 

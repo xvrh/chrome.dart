@@ -22,14 +22,20 @@ extension JSExtensionExtension on JSExtension {
   /// response. The [extension.onRequest] event is fired in each page of the
   /// extension.
   external void sendRequest(
+    /// The extension ID of the extension you want to connect to. If omitted,
+    /// default is your own extension.
     String? extensionId,
     JSAny request,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
-  external String getURL(String path);
+  external String getURL(
+
+      /// A path to a resource within an extension expressed relative to its
+      /// install directory.
+      String path);
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.

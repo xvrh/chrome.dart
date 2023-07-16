@@ -106,7 +106,7 @@ class ProxyRules {
           ..proxyForHttps = proxyForHttps?.toJS
           ..proxyForFtp = proxyForFtp?.toJS
           ..fallbackProxy = fallbackProxy?.toJS
-          ..bypassList = throw UnimplementedError();
+          ..bypassList = bypassList?.toJSArray((e) => e);
 
   final $js.ProxyRules _wrapped;
 
@@ -151,7 +151,7 @@ class ProxyRules {
   List<String>? get bypassList =>
       _wrapped.bypassList?.toDart.cast<String>().map((e) => e).toList();
   set bypassList(List<String>? v) {
-    _wrapped.bypassList = throw UnimplementedError();
+    _wrapped.bypassList = v?.toJSArray((e) => e);
   }
 }
 

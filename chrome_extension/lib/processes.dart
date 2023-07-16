@@ -212,7 +212,7 @@ class Process {
           ..type = type.toJS
           ..profile = profile
           ..naclDebugPort = naclDebugPort
-          ..tasks = throw UnimplementedError()
+          ..tasks = tasks.toJSArray((e) => e.toJS)
           ..cpu = cpu
           ..network = network
           ..privateMemory = privateMemory
@@ -264,7 +264,7 @@ class Process {
       .map((e) => TaskInfo.fromJS(e))
       .toList();
   set tasks(List<TaskInfo> v) {
-    _wrapped.tasks = throw UnimplementedError();
+    _wrapped.tasks = v.toJSArray((e) => e.toJS);
   }
 
   /// The most recent measurement of the process's CPU usage, expressed as the

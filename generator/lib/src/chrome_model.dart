@@ -65,10 +65,12 @@ class Method {
 class MethodReturn {
   final ChromeType? type;
   final String? name;
+  final String? documentation;
 
   MethodReturn({
     required this.type,
     this.name,
+    required this.documentation,
   });
 
   bool get isAsync => type is AsyncReturnType;

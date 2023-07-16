@@ -28,6 +28,7 @@ class ChromeManagement {
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
+  /// [id] The ID from an item of [management.ExtensionInfo].
   Future<ExtensionInfo> get(String id) {
     var $completer = Completer<ExtensionInfo>();
     $js.chrome.management.get(
@@ -56,6 +57,7 @@ class ChromeManagement {
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension id.
+  /// [id] The ID of an already installed extension.
   Future<List<String>> getPermissionWarningsById(String id) {
     var $completer = Completer<List<String>>();
     $js.chrome.management.getPermissionWarningsById(
@@ -73,6 +75,7 @@ class ChromeManagement {
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension manifest string. Note: This function can be used without
   /// requesting the 'management' permission in the manifest.
+  /// [manifestStr] Extension manifest JSON string.
   Future<List<String>> getPermissionWarningsByManifest(String manifestStr) {
     var $completer = Completer<List<String>>();
     $js.chrome.management.getPermissionWarningsByManifest(
@@ -91,6 +94,8 @@ class ChromeManagement {
   /// be called in the context of a user gesture (e.g. an onclick handler for a
   /// button), and may present the user with a native confirmation UI as a way
   /// of preventing abuse.
+  /// [id] This should be the id from an item of [management.ExtensionInfo].
+  /// [enabled] Whether this item should be enabled or disabled.
   Future<void> setEnabled(
     String id,
     bool enabled,
@@ -113,6 +118,7 @@ class ChromeManagement {
   /// uninstall the specified extension/app. If the uninstall fails (e.g. the
   /// user cancels the dialog) the promise will be rejected or the callback will
   /// be called with [runtime.lastError] set.
+  /// [id] This should be the id from an item of [management.ExtensionInfo].
   Future<void> uninstall(
     String id,
     UninstallOptions? options,
@@ -148,6 +154,7 @@ class ChromeManagement {
   }
 
   /// Launches an application.
+  /// [id] The extension id of the application.
   Future<void> launchApp(String id) {
     var $completer = Completer<void>();
     $js.chrome.management.launchApp(
@@ -163,6 +170,8 @@ class ChromeManagement {
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
+  /// [id] This should be the id from an app item of
+  /// [management.ExtensionInfo].
   Future<void> createAppShortcut(String id) {
     var $completer = Completer<void>();
     $js.chrome.management.createAppShortcut(
@@ -177,6 +186,11 @@ class ChromeManagement {
   }
 
   /// Set the launch type of an app.
+  /// [id] This should be the id from an app item of
+  /// [management.ExtensionInfo].
+  /// [launchType] The target launch type. Always check and make sure this
+  /// launch type is in [ExtensionInfo.availableLaunchTypes], because the
+  /// available launch types vary on different platforms and configurations.
   Future<void> setLaunchType(
     String id,
     LaunchType launchType,
@@ -195,6 +209,9 @@ class ChromeManagement {
   }
 
   /// Generate an app for a URL. Returns the generated bookmark app.
+  /// [url] The URL of a web page. The scheme of the URL can only be "http" or
+  /// "https".
+  /// [title] The title of the generated app.
   Future<ExtensionInfo> generateAppForLink(
     String url,
     String title,
@@ -408,12 +425,13 @@ class ExtensionInfo {
           ..updateUrl = updateUrl
           ..offlineEnabled = offlineEnabled
           ..optionsUrl = optionsUrl
-          ..icons = throw UnimplementedError()
-          ..permissions = throw UnimplementedError()
-          ..hostPermissions = throw UnimplementedError()
+          ..icons = icons?.toJSArray((e) => e.toJS)
+          ..permissions = permissions.toJSArray((e) => e)
+          ..hostPermissions = hostPermissions.toJSArray((e) => e)
           ..installType = installType.toJS
           ..launchType = launchType?.toJS
-          ..availableLaunchTypes = throw UnimplementedError();
+          ..availableLaunchTypes =
+              availableLaunchTypes?.toJSArray((e) => e.toJS);
 
   final $js.ExtensionInfo _wrapped;
 
@@ -534,21 +552,21 @@ class ExtensionInfo {
       .map((e) => IconInfo.fromJS(e))
       .toList();
   set icons(List<IconInfo>? v) {
-    _wrapped.icons = throw UnimplementedError();
+    _wrapped.icons = v?.toJSArray((e) => e.toJS);
   }
 
   /// Returns a list of API based permissions.
   List<String> get permissions =>
       _wrapped.permissions.toDart.cast<String>().map((e) => e).toList();
   set permissions(List<String> v) {
-    _wrapped.permissions = throw UnimplementedError();
+    _wrapped.permissions = v.toJSArray((e) => e);
   }
 
   /// Returns a list of host based permissions.
   List<String> get hostPermissions =>
       _wrapped.hostPermissions.toDart.cast<String>().map((e) => e).toList();
   set hostPermissions(List<String> v) {
-    _wrapped.hostPermissions = throw UnimplementedError();
+    _wrapped.hostPermissions = v.toJSArray((e) => e);
   }
 
   /// How the extension was installed.
@@ -571,7 +589,7 @@ class ExtensionInfo {
           .map((e) => LaunchType.fromJS(e))
           .toList();
   set availableLaunchTypes(List<LaunchType>? v) {
-    _wrapped.availableLaunchTypes = throw UnimplementedError();
+    _wrapped.availableLaunchTypes = v?.toJSArray((e) => e.toJS);
   }
 }
 

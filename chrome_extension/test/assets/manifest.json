@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "simple_extension",
+  "version": "1.0",
+  "description": "unit tests for chrome extension APIs",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "tabs",
+    "notifications",
+    "system",
+    "system.memory"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  }
+}
+

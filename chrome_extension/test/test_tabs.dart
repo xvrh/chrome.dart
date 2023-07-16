@@ -1,0 +1,340 @@
+
+
+import 'dart:async';
+
+import 'package:chrome_apis/tabs.dart';
+import 'package:chrome_apis/windows.dart';
+import 'package:test/test.dart';
+
+void testTabs() {
+    late Window window;
+
+    setUp(() async {
+      "";
+      //TODO: don't recognize window as JSObject
+      window = Window.fromJS(await chrome.windows
+          .create(CreateData(focused: true, type: CreateType.normal))
+      as dynamic);
+    });
+
+    tearDown(() {
+      Future closeFuture = chrome.windows.remove(window.id!);
+      return closeFuture;
+    });
+
+    test('tab getters', () {
+      var tab = window.tabs!.first;
+      expect(tab.id, isPositive);
+      expect(tab.index, 0);
+      expect(tab.windowId, window.id);
+      expect(tab.highlighted, isTrue);
+      expect(tab.active, isTrue);
+      expect(tab.pinned, isFalse);
+      expect(tab.url, '');
+      expect(tab.title, 'New Tab');
+      expect(tab.favIconUrl, isNull);
+      expect(tab.status, TabStatus.loading);
+      expect(tab.incognito, isFalse);
+      expect(tab.openerTabId, isNull);
+    });
+
+    test('get', () async {
+      var tab = await chrome.tabs.get(window.tabs!.first.id!);
+      expect(tab.windowId, window.id);
+      expect(tab.id, window.tabs!.first.id);
+    });
+
+    test('getCurrent', () async {
+      // We know that current doesn't work (the callback is never called).
+      // The test expect it to timeout
+      try {
+        var tab = await chrome.tabs
+            .getCurrent()
+            .timeout(const Duration(milliseconds: 200));
+        fail('Should timeout');
+      } on TimeoutException catch (e) {
+        // Success
+      }
+    }, timeout: Timeout(const Duration(seconds: 2)));
+
+    test('create -- default options', () async {
+      var tab = await chrome.tabs.create(CreateProperties(windowId: window.id));
+      expect(tab.id, isPositive);
+      expect(tab.index, 1);
+      expect(tab.url, '');
+      expect(tab.active, isTrue);
+      expect(tab.pinned, isFalse);
+      expect(tab.openerTabId, isNull);
+    });
+
+    test('create -- non-default options', () async {
+      var createProperties = CreateProperties(
+          windowId: window.id,
+          index: 0,
+          url: 'https://www.google.com/',
+          active: false,
+          pinned: true,
+          openerTabId: window.tabs!.first.id);
+
+      var tab = await chrome.tabs.create(createProperties);
+      expect(tab.id, isPositive);
+      expect(tab.index, 0);
+      expect(tab.url, '');
+      expect(tab.active, isFalse);
+      expect(tab.pinned, isTrue);
+      expect(tab.openerTabId, window.tabs!.first.id);
+
+      "";
+      //TODO(what): updated to get the correct url
+    });
+
+    test('duplicate', () async {
+      var original = window.tabs!.first;
+      var tab = await chrome.tabs.duplicate(original.id!);
+      expect(tab!.id, isPositive);
+      expect(tab.index, 1);
+      expect(tab.pinned, original.pinned);
+      expect(tab.windowId, original.windowId);
+    });
+
+    test('query -- one tab', () async {
+      var queryInfo = QueryInfo(windowId: window.id);
+      var foundTabs = await chrome.tabs.query(queryInfo);
+      expect(foundTabs, hasLength(1));
+      expect(foundTabs.first.id, window.tabs!.first.id);
+    });
+
+    test('query -- two tabs', () async {
+      var createProperties = CreateProperties(windowId: window.id);
+      var queryInfo = QueryInfo(windowId: window.id);
+      var newTab = await chrome.tabs.create(createProperties);
+      var foundTabs = await chrome.tabs.query(queryInfo);
+      expect(foundTabs, hasLength(2));
+      expect(foundTabs[0].id, anyOf(window.tabs!.first.id, newTab.id));
+      expect(foundTabs[1].id, anyOf(window.tabs!.first.id, newTab.id));
+    });
+
+    test('highlight', () async {
+      var highlightInfo = new HighlightInfo(
+          windowId: window.id, tabs: [window.tabs!.first.index]);
+      var newWindow = await chrome.tabs.highlight(highlightInfo);
+      expect(newWindow.id, window.id);
+      expect(newWindow.tabs!.first.highlighted, isTrue);
+    });
+
+    test('update', () async {
+      var updateProperties = UpdateProperties(
+          url: 'https://www.google.com/',
+          active: true,
+          highlighted: true,
+          pinned: true);
+      var tab =
+      await chrome.tabs.update(window.tabs!.first.id, updateProperties);
+      //expect(tab!.url, 'https://www.google.com/');
+      expect(tab!.active, isTrue);
+      expect(tab.highlighted, isTrue);
+      expect(tab.pinned, isTrue);
+    });
+
+    test('move 1 tab', () async {
+      var createProperties = CreateProperties(windowId: window.id, index: 0);
+      var moveProperties = MoveProperties(index: -1);
+
+      var newTab = await chrome.tabs.create(createProperties);
+      var movedTabs = await chrome.tabs.move([newTab.id], moveProperties);
+      expect(movedTabs, isNotNull);
+      "";
+      //expect(movedTabs, isA<Tab>());
+      //expect(movedTabs, hasLength(1));
+      //expect(movedTabs.first.id, newTab.id);
+      //expect(movedTabs.first.index, 1);
+    });
+
+    test('move 2 tabs', () async {
+      var createProperties = CreateProperties(windowId: window.id, index: 0);
+      var createProperties2 = CreateProperties(windowId: window.id, index: 1);
+      var moveProperties = MoveProperties(index: -1);
+
+      var newTab1 = await chrome.tabs.create(createProperties);
+      var newTab2 = await chrome.tabs.create(createProperties2);
+      var movedTabs =
+      await chrome.tabs.move([newTab1.id, newTab2.id], moveProperties);
+      expect(movedTabs, isNotNull);
+
+      "";
+      //expect(movedTabs, isA<List<Tab>>());
+//              expect(movedTabs, hasLength(2));
+//              expect(movedTabs[0].id, anyOf(newTab1.id, newTab2.id));
+//              expect(movedTabs[1].id, anyOf(newTab1.id, newTab2.id));
+//              expect(movedTabs[0].index, anyOf(1, 2));
+//              expect(movedTabs[1].index, anyOf(1, 2));
+    });
+
+    test('reload', () async {
+      await chrome.tabs.reload(window.tabs!.first.id, null);
+    });
+
+    test('remove 1 tab', () async {
+      var createProperties = CreateProperties(windowId: window.id, index: 0);
+      var queryInfo = QueryInfo(windowId: window.id);
+      var tab = await chrome.tabs.create(createProperties);
+      await chrome.tabs.remove([tab.id]);
+      var currentTabs = await chrome.tabs.query(queryInfo);
+      expect(currentTabs, hasLength(1));
+    });
+
+    test('remove 2 tabs', () async {
+      var createProperties = CreateProperties(windowId: window.id, index: 0);
+      var createProperties2 = CreateProperties(windowId: window.id, index: 1);
+      var queryInfo = QueryInfo(windowId: window.id);
+      var newTab1 = await chrome.tabs.create(createProperties);
+      var newTab2 = await chrome.tabs.create(createProperties2);
+      await chrome.tabs.remove([newTab1.id, newTab2.id]);
+      var currentTabs = await chrome.tabs.query(queryInfo);
+      expect(currentTabs, hasLength(1));
+    });
+
+    test('detectLanguage', () async {
+      var language = await chrome.tabs.detectLanguage(window.tabs!.first.id);
+      expect(language, isA<String>());
+    });
+
+    "";
+    /*
+    test('onCreated', () {
+      var subscription;
+      subscription = chrome.tabs.onCreated.listen(expectAsync((chrome.Tab tab) {
+        expect(tab.windowId, window.id);
+        subscription.cancel();
+      }));
+
+      chrome.TabsCreateParams createProperties =
+          new chrome.TabsCreateParams(windowId: window.id);
+      chrome.tabs.create(createProperties).then(expectAsync((_) {}));
+    });
+
+    test('onUpdated', () {
+      var subscription;
+      subscription =
+          chrome.tabs.onUpdated.listen(expectAsync((chrome.OnUpdatedEvent evt) {
+        expect(evt.tab.windowId, window.id);
+        expect(evt.changeInfo["status"], anyOf(isNull, "loading"));
+        expect(evt.changeInfo["url"], contains('www.google.com'));
+        subscription.cancel();
+      }));
+      chrome.TabsUpdateParams updateProperties =
+          new chrome.TabsUpdateParams(url: 'http://www.google.com/');
+      chrome.tabs
+          .update(updateProperties, window.tabs.first.id)
+          .then(expectAsync((_) {}));
+    });
+
+    test('onMoved', () {
+      chrome.TabsCreateParams createProperties =
+          new chrome.TabsCreateParams(windowId: window.id, index: 0);
+      chrome.tabs.create(createProperties).then((chrome.Tab tab) {
+        var subscription;
+        subscription = chrome.tabs.onMoved
+            .listen(expectAsync((chrome.TabsOnMovedEvent evt) {
+          expect(evt.tabId, tab.id);
+          expect(evt.moveInfo["windowId"], equals(window.id));
+          expect(evt.moveInfo["fromIndex"], equals(0));
+          expect(evt.moveInfo["toIndex"], equals(1));
+          subscription.cancel();
+        }));
+        chrome.TabsMoveParams moveProperties =
+            new chrome.TabsMoveParams(index: -1);
+        return chrome.tabs.move([tab.id], moveProperties);
+      }).then(expectAsync((_) {}));
+    });
+
+    test('onActivated', () {
+      chrome.TabsCreateParams createProperties = new chrome.TabsCreateParams(
+          windowId: window.id, index: 0, active: false);
+      chrome.tabs.create(createProperties).then((chrome.Tab tab) {
+        var subscription;
+        subscription = chrome.tabs.onActivated
+            .listen(expectAsync((Map<dynamic, dynamic> evt) {
+          expect(evt["tabId"], tab.id);
+          expect(evt["windowId"], window.id);
+          subscription.cancel();
+        }));
+        chrome.TabsUpdateParams updateProperties =
+            new chrome.TabsUpdateParams(active: true);
+        return chrome.tabs.update(updateProperties, tab.id);
+      }).then(expectAsync((_) {}));
+    });
+
+    // TODO(DrMarcII): Figure out why highlighting tabs doesn't work
+    test('onHighlighted', () {
+      chrome.tabs.onHighlighted.listen((_) {}).cancel();
+    });
+
+    test('onDetached', () {
+      chrome.TabsCreateParams createProperties =
+          new chrome.TabsCreateParams(windowId: window.id);
+      chrome.tabs
+          .create(createProperties)
+          .then((chrome.Tab tab) {
+            var subscription;
+            subscription = chrome.tabs.onDetached
+                .listen(expectAsync((chrome.OnDetachedEvent evt) {
+              expect(evt.tabId, tab.id);
+              expect(evt.detachInfo["oldWindowId"], window.id);
+              expect(evt.detachInfo["oldPosition"], 1);
+              subscription.cancel();
+            }));
+            chrome.WindowsCreateParams createData =
+                new chrome.WindowsCreateParams(tabId: tab.id);
+            return chrome.windows.create(createData);
+          })
+          .then(
+              (chrome.Window newWindow) => chrome.windows.remove(newWindow.id))
+          .then(expectAsync((_) {}));
+    });
+
+    test('onAttached', () {
+      chrome.TabsCreateParams createProperties =
+          new chrome.TabsCreateParams(windowId: window.id);
+      chrome.tabs
+          .create(createProperties)
+          .then((chrome.Tab tab) {
+            var subscription;
+            subscription = chrome.tabs.onAttached
+                .listen(expectAsync((chrome.OnAttachedEvent evt) {
+              expect(evt.tabId, tab.id);
+              expect(evt.attachInfo["windowId"], isNot(window.id));
+              expect(evt.attachInfo["newPosition"], 0);
+              subscription.cancel();
+            }));
+            chrome.WindowsCreateParams createData =
+                new chrome.WindowsCreateParams(tabId: tab.id);
+            return chrome.windows.create(createData);
+          })
+          .then(
+              (chrome.Window newWindow) => chrome.windows.remove(newWindow.id))
+          .then(expectAsync((_) {}));
+    });
+
+    test('onRemoved', () {
+      chrome.TabsCreateParams createProperties =
+          new chrome.TabsCreateParams(windowId: window.id);
+      chrome.tabs.create(createProperties).then((chrome.Tab tab) {
+        var subscription;
+        subscription = chrome.tabs.onRemoved
+            .listen(expectAsync((chrome.TabsOnRemovedEvent evt) {
+          expect(evt.tabId, tab.id);
+          expect(evt.removeInfo["windowId"], window.id);
+          expect(evt.removeInfo["isWindowClosing"], isFalse);
+          subscription.cancel();
+        }));
+        return chrome.tabs.remove([tab.id]);
+      }).then(expectAsync((_) {}));
+    });
+
+    // TODO(DrMarcII): Figure out how to force a tab replacement
+    test('onReplaced', () {
+      chrome.tabs.onReplaced.listen((_) {}).cancel();
+    });
+     */
+}

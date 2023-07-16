@@ -19,6 +19,8 @@ extension JSOmniboxExtension on JSOmnibox {
   /// back to the browser.
   external void sendSuggestions(
     int requestId,
+
+    /// An array of suggest results
     JSArray suggestResults,
   );
 
@@ -26,8 +28,9 @@ extension JSOmniboxExtension on JSOmnibox {
   /// suggestion is the text that is displayed in the first suggestion row
   /// underneath the URL bar.
   external void setDefaultSuggestion(
+    /// A partial SuggestResult object, without the 'content' parameter.
     DefaultSuggestResult suggestion,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// User has started a keyword input session by typing the extension's

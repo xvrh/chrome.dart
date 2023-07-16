@@ -22,20 +22,29 @@ extension JSInputImeExtension on JSInputIme {
   /// IME, this fails.
   external void setComposition(
     SetCompositionParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes with a boolean indicating if the
+    /// text was accepted or not. On failure, [runtime.lastError] is set.
+    JSFunction? callback,
   );
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
   external void clearComposition(
     ClearCompositionParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes with a boolean indicating if the
+    /// text was accepted or not. On failure, [runtime.lastError] is set.
+    JSFunction? callback,
   );
 
   /// Commits the provided text to the current input.
   external void commitText(
     CommitTextParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes with a boolean indicating if the
+    /// text was accepted or not. On failure, [runtime.lastError] is set.
+    JSFunction? callback,
   );
 
   /// Sends the key events.  This function is expected to be used by virtual
@@ -43,7 +52,9 @@ extension JSInputImeExtension on JSInputIme {
   /// function is used to propagate that event to the system.
   external void sendKeyEvents(
     SendKeyEventsParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes.
+    JSFunction? callback,
   );
 
   /// Hides the input view window, which is popped up automatically by system.
@@ -54,57 +65,76 @@ extension JSInputImeExtension on JSInputIme {
   /// doesn't own the active IME
   external void setCandidateWindowProperties(
     SetCandidateWindowPropertiesParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes.
+    JSFunction? callback,
   );
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
   external void setCandidates(
     SetCandidatesParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes.
+    JSFunction? callback,
   );
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
   external void setCursorPosition(
     SetCursorPositionParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes
+    JSFunction? callback,
   );
 
   /// Shows/Hides an assistive window with the given properties.
   external void setAssistiveWindowProperties(
     SetAssistiveWindowPropertiesParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes.
+    JSFunction? callback,
   );
 
   /// Highlights/Unhighlights a button in an assistive window.
   external void setAssistiveWindowButtonHighlighted(
     SetAssistiveWindowButtonHighlightedParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes. On failure, [runtime.lastError] is
+    /// set.
+    JSFunction? callback,
   );
 
   /// Adds the provided menu items to the language menu when this IME is active.
   external void setMenuItems(
     MenuParameters parameters,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Updates the state of the MenuItems specified
   external void updateMenuItems(
     MenuParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes
+    JSFunction? callback,
   );
 
   /// Deletes the text around the caret.
   external void deleteSurroundingText(
     DeleteSurroundingTextParameters parameters,
-    JSFunction callback,
+
+    /// Called when the operation completes.
+    JSFunction? callback,
   );
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
   external void keyEventHandled(
+    /// Request id of the event that was handled.  This should come from
+    /// keyEvent.requestId
     String requestId,
+
+    /// True if the keystroke was handled, false if not
     bool response,
   );
 

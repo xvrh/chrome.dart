@@ -15,8 +15,14 @@ class ChromeDevtoolsNetwork {
   ChromeDevtoolsNetwork._();
 
   /// Returns HAR log that contains all known network requests.
-  void getHAR(JSFunction callback) {
-    $js.chrome.devtools.network.getHAR(callback);
+  Future<Object> getHAR() {
+    var $completer = Completer<Object>();
+    $js.chrome.devtools.network.getHAR((JSAny harLog) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(harLog);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Fired when a network request is finished and all request data are
@@ -37,7 +43,33 @@ class Request {
   $js.Request get toJS => _wrapped;
 
   /// Returns content of the response body.
-  void getContent(JSFunction callback) {
-    _wrapped.getContent(callback);
+  Future<GetContentResult> getContent() {
+    var $completer = Completer<GetContentResult>();
+    _wrapped.getContent((
+      String content,
+      String encoding,
+    ) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(GetContentResult(
+          content: content,
+          encoding: encoding,
+        ));
+      }
+    }.toJS);
+    return $completer.future;
   }
+}
+
+class GetContentResult {
+  GetContentResult({
+    required this.content,
+    required this.encoding,
+  });
+
+  /// Content of the response body (potentially encoded).
+  final String content;
+
+  /// Empty if content is not encoded, encoding name otherwise. Currently, only
+  /// base64 is supported.
+  final String encoding;
 }

@@ -205,8 +205,9 @@ class ClientCertificateRequest {
     required List<ClientCertificateType> certificateTypes,
     required List<ByteBuffer> certificateAuthorities,
   }) : _wrapped = $js.ClientCertificateRequest()
-          ..certificateTypes = throw UnimplementedError()
-          ..certificateAuthorities = throw UnimplementedError();
+          ..certificateTypes = certificateTypes.toJSArray((e) => e.toJS)
+          ..certificateAuthorities =
+              certificateAuthorities.toJSArray((e) => e.toJS);
 
   final $js.ClientCertificateRequest _wrapped;
 
@@ -222,7 +223,7 @@ class ClientCertificateRequest {
           .map((e) => ClientCertificateType.fromJS(e))
           .toList();
   set certificateTypes(List<ClientCertificateType> v) {
-    _wrapped.certificateTypes = throw UnimplementedError();
+    _wrapped.certificateTypes = v.toJSArray((e) => e.toJS);
   }
 
   /// List of distinguished names of certificate authorities allowed by the
@@ -233,7 +234,7 @@ class ClientCertificateRequest {
           .map((e) => e.toDart)
           .toList();
   set certificateAuthorities(List<ByteBuffer> v) {
-    _wrapped.certificateAuthorities = throw UnimplementedError();
+    _wrapped.certificateAuthorities = v.toJSArray((e) => e.toJS);
   }
 }
 
@@ -246,7 +247,7 @@ class SelectDetails {
     required bool interactive,
   }) : _wrapped = $js.SelectDetails()
           ..request = request.toJS
-          ..clientCerts = throw UnimplementedError()
+          ..clientCerts = clientCerts?.toJSArray((e) => e.toJS)
           ..interactive = interactive;
 
   final $js.SelectDetails _wrapped;
@@ -270,7 +271,7 @@ class SelectDetails {
       .map((e) => e.toDart)
       .toList();
   set clientCerts(List<ByteBuffer>? v) {
-    _wrapped.clientCerts = throw UnimplementedError();
+    _wrapped.clientCerts = v?.toJSArray((e) => e.toJS);
   }
 
   /// If true, the filtered list is presented to the user to manually select a
@@ -291,7 +292,8 @@ class VerificationDetails {
     required List<ByteBuffer> serverCertificateChain,
     required String hostname,
   }) : _wrapped = $js.VerificationDetails()
-          ..serverCertificateChain = throw UnimplementedError()
+          ..serverCertificateChain =
+              serverCertificateChain.toJSArray((e) => e.toJS)
           ..hostname = hostname;
 
   final $js.VerificationDetails _wrapped;
@@ -307,7 +309,7 @@ class VerificationDetails {
           .map((e) => e.toDart)
           .toList();
   set serverCertificateChain(List<ByteBuffer> v) {
-    _wrapped.serverCertificateChain = throw UnimplementedError();
+    _wrapped.serverCertificateChain = v.toJSArray((e) => e.toJS);
   }
 
   /// The hostname of the server to verify the certificate for, e.g. the server
@@ -326,7 +328,7 @@ class VerificationResult {
     required List<String> debug_errors,
   }) : _wrapped = $js.VerificationResult()
           ..trusted = trusted
-          ..debug_errors = throw UnimplementedError();
+          ..debug_errors = debug_errors.toJSArray((e) => e);
 
   final $js.VerificationResult _wrapped;
 
@@ -350,7 +352,7 @@ class VerificationResult {
   List<String> get debug_errors =>
       _wrapped.debug_errors.toDart.cast<String>().map((e) => e).toList();
   set debug_errors(List<String> v) {
-    _wrapped.debug_errors = throw UnimplementedError();
+    _wrapped.debug_errors = v.toJSArray((e) => e);
   }
 }
 

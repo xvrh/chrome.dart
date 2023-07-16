@@ -82,6 +82,10 @@ class StorageArea {
   $js.StorageArea get toJS => _wrapped;
 
   /// Gets one or more items from storage.
+  /// [keys] A single key to get, list of keys to get, or a dictionary
+  /// specifying default values (see description of the object).  An empty
+  /// list or object will return an empty result object.  Pass in `null` to
+  /// get the entire contents of storage.
   Future<Object> get(Object? keys) {
     var $completer = Completer<Object>();
     _wrapped.get(
@@ -96,6 +100,9 @@ class StorageArea {
   }
 
   /// Gets the amount of space (in bytes) being used by one or more items.
+  /// [keys] A single key or list of keys to get the total usage for. An empty
+  /// list will return 0. Pass in `null` to get the total usage of all of
+  /// storage.
   Future<int> getBytesInUse(Object? keys) {
     var $completer = Completer<int>();
     _wrapped.getBytesInUse(
@@ -110,6 +117,13 @@ class StorageArea {
   }
 
   /// Sets multiple items.
+  /// [items] An object which gives each key/value pair to update storage
+  /// with. Any other key/value pairs in storage will not be affected.
+  ///
+  /// Primitive values such as numbers will serialize as expected. Values with
+  /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
+  /// with the exception of `Array` (serializes as expected), `Date`, and
+  /// `Regex` (serialize using their `String` representation).
   Future<void> set(Object items) {
     var $completer = Completer<void>();
     _wrapped.set(
@@ -124,6 +138,7 @@ class StorageArea {
   }
 
   /// Removes one or more items from storage.
+  /// [keys] A single key or a list of keys for items to remove.
   Future<void> remove(Object keys) {
     var $completer = Completer<void>();
     _wrapped.remove(

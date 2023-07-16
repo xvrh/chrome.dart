@@ -19,7 +19,7 @@ extension JSSearchExtension on JSSearch {
   /// [runtime.lastError] will be set.
   external void query(
     QueryInfo queryInfo,
-    JSFunction callback,
+    JSFunction? callback,
   );
 }
 

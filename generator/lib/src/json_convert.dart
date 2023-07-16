@@ -4,6 +4,10 @@ import 'chrome_model.dart';
 import 'json_model.dart';
 import 'utils/string.dart';
 
+final _autoCallbackToReturnFalsePositives = <String>{
+  'devtools.panels.setOpenResourceHandler',
+};
+
 class JsonModelConverter {
   final JsonNamespace model;
   late final _enumsToConvert =
@@ -78,32 +82,73 @@ class JsonModelConverter {
     }
   }
 
-  Method _convertFunction(JsonFunction f) {
-    var jsonReturns = f.returnsAsync ?? f.returns;
-    var returns = MethodReturn(type: null);
+  Method _convertFunction(JsonFunction function) {
+    var jsonReturns = function.returnsAsync ?? function.returns;
+
+    if (jsonReturns == null) {
+      var callbacks =
+          function.parameters.where((p) => p.type == 'function' && p.parameters != null).toList();
+      if (callbacks.length == 1) {
+        if (!_autoCallbackToReturnFalsePositives.contains('${model.namespace}.${function.name}')) {
+          jsonReturns = callbacks.first;
+        }
+      }
+    }
+
+    var returns =
+        MethodReturn(type: null, documentation: jsonReturns?.description);
+
     ChromeType returnType;
     if (jsonReturns != null) {
-      if (f.returnsAsync != null && jsonReturns.parameters == null) {
-        throw StateError('Not a function in ${model.namespace} ${f.name}');
+      if (function.returnsAsync != null && jsonReturns.parameters == null) {
+        throw StateError(
+            'Not a function in ${model.namespace} ${function.name}');
       }
 
       if (jsonReturns.parameters != null) {
         FunctionParameter? singleParameter;
+        var allParameters = <FunctionParameter>[];
         if (jsonReturns.parameters!.length > 1) {
-          throw UnimplementedError();
+          var syntheticTypeName = '${function.name.upperCamel}Result';
+
+          var syntheticProperties = <Property>[];
+          for (var param in jsonReturns.parameters!) {
+            var syntheticProperty = _addSyntheticTypeIfNeeded(
+                    param, param.name!, function.name,
+                    anonymous: false, isNullable: param.optional ?? false) ??
+                _propertyType(param);
+            syntheticProperties.add(Property(param.name!,
+                type: syntheticProperty, documentation: param.description));
+            allParameters
+                .add(FunctionParameter(param.name ?? 'e', syntheticProperty));
+          }
+
+          singleParameter = FunctionParameter(
+              'e',
+              LocalType(syntheticTypeName,
+                  declarationFile: _targetFileName, isNullable: false));
+          var syntheticType = Dictionary(syntheticTypeName,
+              properties: syntheticProperties,
+              methods: [],
+              events: [],
+              documentation: '',
+              isAnonymous: false,
+              isSyntheticEvent: true);
+          _syntheticDictionaries.add(syntheticType);
         } else if (jsonReturns.parameters case [var p]) {
           var type = _addSyntheticTypeIfNeeded(
-                  p, '${jsonReturns.name!}_${p.name!}', f.name,
+                  p, '${jsonReturns.name!}_${p.name!}', function.name,
                   anonymous: false, isNullable: p.optional ?? false) ??
               _propertyType(p);
-          singleParameter = FunctionParameter(p.name, type);
+          singleParameter = FunctionParameter(p.name!, type);
+          allParameters.add(singleParameter);
         }
-        var jsReturnType = FunctionType(
-            null, [if (singleParameter != null) singleParameter],
+        var jsReturnType = FunctionType(null, allParameters,
             isNullable: jsonReturns.optional ?? false);
         returnType = AsyncReturnType(singleParameter?.type, jsReturnType);
       } else {
-        returnType = _addSyntheticTypeIfNeeded(jsonReturns, 'Return', f.name,
+        returnType = _addSyntheticTypeIfNeeded(
+                jsonReturns, 'Return', function.name,
                 anonymous: false, isNullable: jsonReturns.optional ?? false) ??
             _propertyType(jsonReturns);
       }
@@ -111,19 +156,25 @@ class JsonModelConverter {
       returns = MethodReturn(
         name: jsonReturns.name,
         type: returnType,
+        documentation: jsonReturns.description,
       );
     }
 
     return Method(
-      f.name,
+      function.name,
       returns: returns,
-      parameters: _functionParameters(f).toList(),
-      documentation: f.description,
+      parameters: _functionParameters(function, returns: jsonReturns).toList(),
+      documentation: function.description,
     );
   }
 
-  Iterable<Property> _functionParameters(JsonFunction function) sync* {
+  Iterable<Property> _functionParameters(JsonFunction function,
+      {required JsonProperty? returns}) sync* {
     for (var param in function.parameters) {
+      if (param == returns) {
+        continue;
+      }
+
       var name = param.name!;
       var parameterType = _addSyntheticTypeIfNeeded(param, name, function.name,
               anonymous: true, isNullable: param.optional ?? false) ??
@@ -290,7 +341,8 @@ class JsonModelConverter {
     ChromeType? type;
     if (_typedefs.firstWhereOrNull((e) => e.alias == typeName)
         case var typedef?) {
-      type = AliasedType(typeName, typedef.target,declarationFile:_targetFileName, isNullable: nullable);
+      type = AliasedType(typeName, typedef.target,
+          declarationFile: _targetFileName, isNullable: nullable);
     }
 
     type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??

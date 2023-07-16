@@ -201,6 +201,9 @@ class ChromeInputIme {
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.
+  /// [requestId] Request id of the event that was handled.  This should come
+  /// from keyEvent.requestId
+  /// [response] True if the keystroke was handled, false if not
   void keyEventHandled(
     String requestId,
     bool response,
@@ -689,7 +692,7 @@ class MenuParameters {
     required List<MenuItem> items,
   }) : _wrapped = $js.MenuParameters()
           ..engineID = engineID
-          ..items = throw UnimplementedError();
+          ..items = items.toJSArray((e) => e.toJS);
 
   final $js.MenuParameters _wrapped;
 
@@ -708,7 +711,7 @@ class MenuParameters {
       .map((e) => MenuItem.fromJS(e))
       .toList();
   set items(List<MenuItem> v) {
-    _wrapped.items = throw UnimplementedError();
+    _wrapped.items = v.toJSArray((e) => e.toJS);
   }
 }
 
@@ -848,7 +851,7 @@ class SendKeyEventsParameters {
     required List<KeyboardEvent> keyData,
   }) : _wrapped = $js.SendKeyEventsParameters(
           contextID: contextID,
-          keyData: throw UnimplementedError(),
+          keyData: keyData.toJSArray((e) => e.toJS),
         );
 
   final $js.SendKeyEventsParameters _wrapped;

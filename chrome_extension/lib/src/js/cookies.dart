@@ -29,6 +29,7 @@ extension JSCookiesExtension on JSCookies {
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
   external void getAll(
+    /// Information to filter the cookies being retrieved.
     GetAllDetails details,
     JSFunction callback,
   );
@@ -36,14 +37,15 @@ extension JSCookiesExtension on JSCookies {
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
   external void set(
+    /// Details about the cookie being set.
     SetDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Deletes a cookie by name.
   external void remove(
     CookieDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Lists all existing cookie stores.

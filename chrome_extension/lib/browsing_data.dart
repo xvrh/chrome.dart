@@ -27,6 +27,7 @@ class ChromeBrowsingData {
   }
 
   /// Clears various types of browsing data stored in a user's profile.
+  /// [dataToRemove] The set of data types to remove.
   Future<void> remove(
     RemovalOptions options,
     DataTypeSet dataToRemove,
@@ -254,8 +255,8 @@ class RemovalOptions {
   }) : _wrapped = $js.RemovalOptions()
           ..since = since
           ..originTypes = originTypes?.toJS
-          ..origins = throw UnimplementedError()
-          ..excludeOrigins = throw UnimplementedError();
+          ..origins = origins?.toJSArray((e) => e)
+          ..excludeOrigins = excludeOrigins?.toJSArray((e) => e);
 
   final $js.RemovalOptions _wrapped;
 
@@ -286,7 +287,7 @@ class RemovalOptions {
   List<String>? get origins =>
       _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
   set origins(List<String>? v) {
-    _wrapped.origins = throw UnimplementedError();
+    _wrapped.origins = v?.toJSArray((e) => e);
   }
 
   /// When present, data for origins in this list is excluded from deletion.
@@ -295,7 +296,7 @@ class RemovalOptions {
   List<String>? get excludeOrigins =>
       _wrapped.excludeOrigins?.toDart.cast<String>().map((e) => e).toList();
   set excludeOrigins(List<String>? v) {
-    _wrapped.excludeOrigins = throw UnimplementedError();
+    _wrapped.excludeOrigins = v?.toJSArray((e) => e);
   }
 }
 

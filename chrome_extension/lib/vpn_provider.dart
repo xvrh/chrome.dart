@@ -232,10 +232,10 @@ class Parameters {
           ..address = address
           ..broadcastAddress = broadcastAddress
           ..mtu = mtu
-          ..exclusionList = throw UnimplementedError()
-          ..inclusionList = throw UnimplementedError()
-          ..domainSearch = throw UnimplementedError()
-          ..dnsServers = throw UnimplementedError()
+          ..exclusionList = exclusionList.toJSArray((e) => e)
+          ..inclusionList = inclusionList.toJSArray((e) => e)
+          ..domainSearch = domainSearch?.toJSArray((e) => e)
+          ..dnsServers = dnsServers.toJSArray((e) => e)
           ..reconnect = reconnect;
 
   final $js.Parameters _wrapped;
@@ -274,7 +274,7 @@ class Parameters {
   List<String> get exclusionList =>
       _wrapped.exclusionList.toDart.cast<String>().map((e) => e).toList();
   set exclusionList(List<String> v) {
-    _wrapped.exclusionList = throw UnimplementedError();
+    _wrapped.exclusionList = v.toJSArray((e) => e);
   }
 
   /// Include network traffic to the list of IP blocks in CIDR notation to the
@@ -290,21 +290,21 @@ class Parameters {
   List<String> get inclusionList =>
       _wrapped.inclusionList.toDart.cast<String>().map((e) => e).toList();
   set inclusionList(List<String> v) {
-    _wrapped.inclusionList = throw UnimplementedError();
+    _wrapped.inclusionList = v.toJSArray((e) => e);
   }
 
   /// A list of search domains. (default: no search domain)
   List<String>? get domainSearch =>
       _wrapped.domainSearch?.toDart.cast<String>().map((e) => e).toList();
   set domainSearch(List<String>? v) {
-    _wrapped.domainSearch = throw UnimplementedError();
+    _wrapped.domainSearch = v?.toJSArray((e) => e);
   }
 
   /// A list of IPs for the DNS servers.
   List<String> get dnsServers =>
       _wrapped.dnsServers.toDart.cast<String>().map((e) => e).toList();
   set dnsServers(List<String> v) {
-    _wrapped.dnsServers = throw UnimplementedError();
+    _wrapped.dnsServers = v.toJSArray((e) => e);
   }
 
   /// Whether or not the VPN extension implements auto-reconnection.

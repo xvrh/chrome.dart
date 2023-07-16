@@ -34,7 +34,7 @@ extension JSRuntimeExtension on JSRuntime {
   ///
   /// If your Extension does not declare an options page, or Chrome failed to
   /// create one for some other reason, the callback will set [lastError].
-  external void openOptionsPage(JSFunction callback);
+  external void openOptionsPage(JSFunction? callback);
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
@@ -42,14 +42,24 @@ extension JSRuntimeExtension on JSRuntime {
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
-  external String getURL(String path);
+  external String getURL(
+
+      /// A path to a resource within an app/extension expressed relative to its
+      /// install directory.
+      String path);
 
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
   external void setUninstallURL(
+    /// URL to be opened after the extension is uninstalled. This URL must have
+    /// an http: or https: scheme. Set an empty string to not open a new tab
+    /// upon uninstallation.
     String url,
-    JSFunction callback,
+
+    /// Called when the uninstall URL is set. If the given URL is invalid,
+    /// [runtime.lastError] will be set.
+    JSFunction? callback,
   );
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
@@ -85,8 +95,13 @@ extension JSRuntimeExtension on JSRuntime {
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
   external void restartAfterDelay(
+    /// Time to wait in seconds before rebooting the device, or -1 to cancel a
+    /// scheduled reboot.
     int seconds,
-    JSFunction callback,
+
+    /// A callback to be invoked when a restart request was successfully
+    /// rescheduled.
+    JSFunction? callback,
   );
 
   /// Attempts to connect listeners within an extension/app (such as the
@@ -97,13 +112,20 @@ extension JSRuntimeExtension on JSRuntime {
   /// Extensions may connect to content scripts embedded in tabs via
   /// [tabs.connect].
   external Port connect(
+    /// The ID of the extension or app to connect to. If omitted, a connection
+    /// will be attempted with your own extension. Required if sending messages
+    /// from a web page for [web
+    /// messaging](manifest/externally_connectable.html).
     String? extensionId,
     ConnectInfo? connectInfo,
   );
 
   /// Connects to a native application in the host machine. See [Native
   /// Messaging](nativeMessaging) for more information.
-  external Port connectNative(String application);
+  external Port connectNative(
+
+      /// The name of the registered application to connect to.
+      String application);
 
   /// Sends a single message to event listeners within your extension/app or a
   /// different extension/app. Similar to [runtime.connect] but only sends a
@@ -114,28 +136,45 @@ extension JSRuntimeExtension on JSRuntime {
   /// content scripts using this method. To send messages to content scripts,
   /// use [tabs.sendMessage].
   external void sendMessage(
+    /// The ID of the extension/app to send the message to. If omitted, the
+    /// message will be sent to your own extension/app. Required if sending
+    /// messages from a web page for [web
+    /// messaging](manifest/externally_connectable.html).
     String? extensionId,
+
+    /// The message to send. This message should be a JSON-ifiable object.
     JSAny message,
     SendMessageOptions? options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Send a single message to a native application.
   external void sendNativeMessage(
+    /// The name of the native messaging host.
     String application,
+
+    /// The message that will be passed to the native messaging host.
     JSAny message,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns information about the current platform.
-  external void getPlatformInfo(JSFunction callback);
+  external void getPlatformInfo(
+
+      /// Called with results
+      JSFunction callback);
 
   /// Returns a DirectoryEntry for the package directory.
   external void getPackageDirectoryEntry(JSFunction callback);
 
   /// Fetches information about active contexts associated with this extension
   external void getContexts(
+    /// A filter to find matching contexts. A context matches if it matches all
+    /// specified fields in the filter. Any unspecified field in the filter
+    /// matches all contexts.
     ContextFilter filter,
+
+    /// Invoked with the matching contexts, if any.
     JSFunction callback,
   );
 

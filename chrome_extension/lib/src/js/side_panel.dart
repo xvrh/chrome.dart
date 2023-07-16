@@ -19,7 +19,7 @@ extension JSSidePanelExtension on JSSidePanel {
   /// |callback|: Invoked when the options have been set.
   external void setOptions(
     PanelOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the active panel configuration.
@@ -36,7 +36,7 @@ extension JSSidePanelExtension on JSSidePanel {
   /// |callback|: Called when the new behavior has been set.
   external void setPanelBehavior(
     PanelBehavior behavior,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the extension's current side panel behavior.

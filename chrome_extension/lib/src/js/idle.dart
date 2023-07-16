@@ -18,13 +18,19 @@ extension JSIdleExtension on JSIdle {
   /// generated any input for a specified number of seconds, or "active"
   /// otherwise.
   external void queryState(
+    /// The system is considered idle if detectionIntervalInSeconds seconds have
+    /// elapsed since the last user input detected.
     int detectionIntervalInSeconds,
     JSFunction callback,
   );
 
   /// Sets the interval, in seconds, used to determine when the system is in an
   /// idle state for onStateChanged events. The default interval is 60 seconds.
-  external void setDetectionInterval(int intervalInSeconds);
+  external void setDetectionInterval(
+
+      /// Threshold, in seconds, used to determine when the system is in an idle
+      /// state.
+      int intervalInSeconds);
 
   /// Gets the time, in seconds, it takes until the screen is locked
   /// automatically while idle. Returns a zero duration if the screen is never

@@ -187,7 +187,7 @@ extension ContentSettingExtension on ContentSetting {
   /// Clear all content setting rules set by this extension.
   external void clear(
     ClearDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the current content setting for a given pair of URLs.
@@ -199,7 +199,7 @@ extension ContentSettingExtension on ContentSetting {
   /// Applies a new content setting rule.
   external void set(
     SetDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   external void getResourceIdentifiers(JSFunction callback);

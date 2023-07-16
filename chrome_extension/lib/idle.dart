@@ -15,18 +15,26 @@ class ChromeIdle {
   /// Returns "locked" if the system is locked, "idle" if the user has not
   /// generated any input for a specified number of seconds, or "active"
   /// otherwise.
-  void queryState(
-    int detectionIntervalInSeconds,
-    JSFunction callback,
-  ) {
+  /// [detectionIntervalInSeconds] The system is considered idle if
+  /// detectionIntervalInSeconds seconds have elapsed since the last user
+  /// input detected.
+  Future<IdleState> queryState(int detectionIntervalInSeconds) {
+    var $completer = Completer<IdleState>();
     $js.chrome.idle.queryState(
       detectionIntervalInSeconds,
-      callback,
+      ($js.IdleState newState) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(IdleState.fromJS(newState));
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Sets the interval, in seconds, used to determine when the system is in an
   /// idle state for onStateChanged events. The default interval is 60 seconds.
+  /// [intervalInSeconds] Threshold, in seconds, used to determine when the
+  /// system is in an idle state.
   void setDetectionInterval(int intervalInSeconds) {
     $js.chrome.idle.setDetectionInterval(intervalInSeconds);
   }
@@ -34,8 +42,14 @@ class ChromeIdle {
   /// Gets the time, in seconds, it takes until the screen is locked
   /// automatically while idle. Returns a zero duration if the screen is never
   /// locked automatically. Currently supported on Chrome OS only.
-  void getAutoLockDelay(JSFunction callback) {
-    $js.chrome.idle.getAutoLockDelay(callback);
+  Future<int> getAutoLockDelay() {
+    var $completer = Completer<int>();
+    $js.chrome.idle.getAutoLockDelay((int delay) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(delay);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Fired when the system changes to an active, idle or locked state. The

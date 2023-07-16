@@ -19,12 +19,14 @@ extension JSWebNavigationExtension on JSWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
   external void getFrame(
+    /// Information about the frame to retrieve information about.
     GetFrameDetails details,
     JSFunction callback,
   );
 
   /// Retrieves information about all frames of a given tab.
   external void getAllFrames(
+    /// Information about the tab to retrieve all frames from.
     GetAllFramesDetails details,
     JSFunction callback,
   );

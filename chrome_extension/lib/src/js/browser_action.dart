@@ -20,7 +20,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// Sets the title of the browser action. This title appears in the tooltip.
   external void setTitle(
     SetTitleDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the title of the browser action.
@@ -42,7 +42,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// browser action icon.
   external void setPopup(
     SetPopupDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the HTML document that is set as the popup for this browser action.
@@ -55,7 +55,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// of the icon.
   external void setBadgeText(
     SetBadgeTextDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the badge text of the browser action. If no tab is specified, the
@@ -68,7 +68,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
   /// Sets the background color for the badge.
   external void setBadgeBackgroundColor(
     SetBadgeBackgroundColorDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the background color of the browser action.
@@ -79,14 +79,16 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
   /// Enables the browser action for a tab. Defaults to enabled.
   external void enable(
+    /// The ID of the tab for which to modify the browser action.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Disables the browser action for a tab.
   external void disable(
+    /// The ID of the tab for which to modify the browser action.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Opens the extension popup window in the active window but does not grant

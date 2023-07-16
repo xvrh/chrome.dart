@@ -18,7 +18,7 @@ extension JSActionExtension on JSAction {
   /// Sets the title of the action. This shows up in the tooltip.
   external void setTitle(
     SetTitleDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the title of the action.
@@ -33,14 +33,14 @@ extension JSActionExtension on JSAction {
   /// **imageData** property must be specified.
   external void setIcon(
     SetIconDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// action's icon.
   external void setPopup(
     SetPopupDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the html document set as the popup for this action.
@@ -53,7 +53,7 @@ extension JSActionExtension on JSAction {
   /// icon.
   external void setBadgeText(
     SetBadgeTextDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the badge text of the action. If no tab is specified, the
@@ -70,7 +70,7 @@ extension JSActionExtension on JSAction {
   /// Sets the background color for the badge.
   external void setBadgeBackgroundColor(
     SetBadgeBackgroundColorDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the background color of the action.
@@ -82,7 +82,7 @@ extension JSActionExtension on JSAction {
   /// Sets the text color for the badge.
   external void setBadgeTextColor(
     SetBadgeTextColorDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the text color of the action.
@@ -93,20 +93,23 @@ extension JSActionExtension on JSAction {
 
   /// Enables the action for a tab. By default, actions are enabled.
   external void enable(
+    /// The id of the tab for which you want to modify the action.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Disables the action for a tab.
   external void disable(
+    /// The id of the tab for which you want to modify the action.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// [declarativeContent] always return false.
   external void isEnabled(
+    /// The id of the tab for which you want check enabled status.
     int? tabId,
     JSFunction callback,
   );
@@ -116,6 +119,7 @@ extension JSActionExtension on JSAction {
 
   /// Opens the extension's popup.
   external void openPopup(
+    /// Specifies options for opening the popup.
     OpenPopupOptions? options,
     JSFunction callback,
   );

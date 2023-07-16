@@ -278,7 +278,7 @@ class TokenDetails {
   }) : _wrapped = $js.TokenDetails()
           ..interactive = interactive
           ..account = account?.toJS
-          ..scopes = throw UnimplementedError()
+          ..scopes = scopes?.toJSArray((e) => e)
           ..enableGranularPermissions = enableGranularPermissions;
 
   final $js.TokenDetails _wrapped;
@@ -311,7 +311,7 @@ class TokenDetails {
   List<String>? get scopes =>
       _wrapped.scopes?.toDart.cast<String>().map((e) => e).toList();
   set scopes(List<String>? v) {
-    _wrapped.scopes = throw UnimplementedError();
+    _wrapped.scopes = v?.toJSArray((e) => e);
   }
 
   /// The `enableGranularPermissions` flag allows extensions to
@@ -419,7 +419,7 @@ class GetAuthTokenResult {
     List<String>? grantedScopes,
   }) : _wrapped = $js.GetAuthTokenResult()
           ..token = token
-          ..grantedScopes = throw UnimplementedError();
+          ..grantedScopes = grantedScopes?.toJSArray((e) => e);
 
   final $js.GetAuthTokenResult _wrapped;
 
@@ -435,7 +435,7 @@ class GetAuthTokenResult {
   List<String>? get grantedScopes =>
       _wrapped.grantedScopes?.toDart.cast<String>().map((e) => e).toList();
   set grantedScopes(List<String>? v) {
-    _wrapped.grantedScopes = throw UnimplementedError();
+    _wrapped.grantedScopes = v?.toJSArray((e) => e);
   }
 }
 

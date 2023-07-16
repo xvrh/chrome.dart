@@ -247,7 +247,7 @@ class DeviceFilter {
     List<StreamType>? streamTypes,
     bool? isActive,
   }) : _wrapped = $js.DeviceFilter()
-          ..streamTypes = throw UnimplementedError()
+          ..streamTypes = streamTypes?.toJSArray((e) => e.toJS)
           ..isActive = isActive;
 
   final $js.DeviceFilter _wrapped;
@@ -261,7 +261,7 @@ class DeviceFilter {
       .map((e) => StreamType.fromJS(e))
       .toList();
   set streamTypes(List<StreamType>? v) {
-    _wrapped.streamTypes = throw UnimplementedError();
+    _wrapped.streamTypes = v?.toJSArray((e) => e.toJS);
   }
 
   /// If set, only audio devices whose active state matches this value will
@@ -301,8 +301,8 @@ class DeviceIdLists {
     List<String>? input,
     List<String>? output,
   }) : _wrapped = $js.DeviceIdLists()
-          ..input = throw UnimplementedError()
-          ..output = throw UnimplementedError();
+          ..input = input?.toJSArray((e) => e)
+          ..output = output?.toJSArray((e) => e);
 
   final $js.DeviceIdLists _wrapped;
 
@@ -314,7 +314,7 @@ class DeviceIdLists {
   List<String>? get input =>
       _wrapped.input?.toDart.cast<String>().map((e) => e).toList();
   set input(List<String>? v) {
-    _wrapped.input = throw UnimplementedError();
+    _wrapped.input = v?.toJSArray((e) => e);
   }
 
   /// List of output devices specified by their ID.
@@ -323,7 +323,7 @@ class DeviceIdLists {
   List<String>? get output =>
       _wrapped.output?.toDart.cast<String>().map((e) => e).toList();
   set output(List<String>? v) {
-    _wrapped.output = throw UnimplementedError();
+    _wrapped.output = v?.toJSArray((e) => e);
   }
 }
 

@@ -86,7 +86,7 @@ extension JSUsbExtension on JSUsb {
   /// |handle|: The [ConnectionHandle] to close.
   external void closeDevice(
     ConnectionHandle handle,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Select a device configuration.

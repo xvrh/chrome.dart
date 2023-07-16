@@ -30,6 +30,10 @@ class ChromeI18n {
   /// `getMessage()` call is wrong - for example, _messageName_ is not a string
   /// or the _substitutions_ array has more than 9 elements - this method
   /// returns `undefined`.
+  /// [messageName] The name of the message, as specified in the <a
+  /// href='i18n-messages'>`messages.json`</a> file.
+  /// [substitutions] Up to 9 substitution strings, if the message requires
+  /// any.
   String getMessage(
     String messageName,
     Object? substitutions,
@@ -49,6 +53,7 @@ class ChromeI18n {
   }
 
   /// Detects the language of the provided text using CLD.
+  /// [text] User input string to be translated.
   Future<DetectLanguageCallbackResult> detectLanguage(String text) {
     var $completer = Completer<DetectLanguageCallbackResult>();
     $js.chrome.i18n.detectLanguage(

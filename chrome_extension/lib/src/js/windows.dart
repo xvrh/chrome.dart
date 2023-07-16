@@ -45,7 +45,7 @@ extension JSWindowsExtension on JSWindows {
   /// or default URL provided.
   external void create(
     CreateData? createData,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Updates the properties of a window. Specify only the properties that to be
@@ -53,13 +53,13 @@ extension JSWindowsExtension on JSWindows {
   external void update(
     int windowId,
     UpdateInfo updateInfo,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
   external void remove(
     int windowId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when a window is created.

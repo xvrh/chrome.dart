@@ -69,6 +69,7 @@ class ChromeFontSettings {
   }
 
   /// Clears the default font size set by this extension, if any.
+  /// [details] This parameter is currently unused.
   Future<void> clearDefaultFontSize(ClearDefaultFontSizeDetails? details) {
     var $completer = Completer<void>();
     $js.chrome.fontSettings.clearDefaultFontSize(
@@ -83,6 +84,7 @@ class ChromeFontSettings {
   }
 
   /// Gets the default font size.
+  /// [details] This parameter is currently unused.
   Future<GetDefaultFontSizeCallbackDetails> getDefaultFontSize(
       GetDefaultFontSizeDetails? details) {
     var $completer = Completer<GetDefaultFontSizeCallbackDetails>();
@@ -113,6 +115,7 @@ class ChromeFontSettings {
   }
 
   /// Clears the default fixed font size set by this extension, if any.
+  /// [details] This parameter is currently unused.
   Future<void> clearDefaultFixedFontSize(
       ClearDefaultFixedFontSizeDetails? details) {
     var $completer = Completer<void>();
@@ -128,6 +131,7 @@ class ChromeFontSettings {
   }
 
   /// Gets the default size for fixed width fonts.
+  /// [details] This parameter is currently unused.
   Future<GetDefaultFixedFontSizeCallbackDetails> getDefaultFixedFontSize(
       GetDefaultFixedFontSizeDetails? details) {
     var $completer = Completer<GetDefaultFixedFontSizeCallbackDetails>();
@@ -158,6 +162,7 @@ class ChromeFontSettings {
   }
 
   /// Clears the minimum font size set by this extension, if any.
+  /// [details] This parameter is currently unused.
   Future<void> clearMinimumFontSize(ClearMinimumFontSizeDetails? details) {
     var $completer = Completer<void>();
     $js.chrome.fontSettings.clearMinimumFontSize(
@@ -172,6 +177,7 @@ class ChromeFontSettings {
   }
 
   /// Gets the minimum font size.
+  /// [details] This parameter is currently unused.
   Future<GetMinimumFontSizeCallbackDetails> getMinimumFontSize(
       GetMinimumFontSizeDetails? details) {
     var $completer = Completer<GetMinimumFontSizeCallbackDetails>();

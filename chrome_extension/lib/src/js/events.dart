@@ -44,36 +44,73 @@ class Event {}
 
 extension EventExtension on Event {
   /// Registers an event listener _callback_ to an event.
-  external void addListener(JSFunction callback);
+  external void addListener(
+
+      /// Called when an event occurs. The parameters of this function depend on
+      /// the type of event.
+      JSFunction callback);
 
   /// Deregisters an event listener _callback_ from an event.
-  external void removeListener(JSFunction callback);
+  external void removeListener(
 
-  external bool hasListener(JSFunction callback);
+      /// Listener that shall be unregistered.
+      JSFunction callback);
+
+  external bool hasListener(
+
+      /// Listener whose registration status shall be tested.
+      JSFunction callback);
 
   external bool hasListeners();
 
   /// Registers rules to handle events.
   external void addRules(
+    /// Name of the event this function affects.
     String eventName,
+
+    /// If provided, this is an integer that uniquely identfies the <webview>
+    /// associated with this function call.
     int webViewInstanceId,
+
+    /// Rules to be registered. These do not replace previously registered
+    /// rules.
     JSArray rules,
+
+    /// Called with registered rules.
     JSFunction? callback,
   );
 
   /// Returns currently registered rules.
   external void getRules(
+    /// Name of the event this function affects.
     String eventName,
+
+    /// If provided, this is an integer that uniquely identfies the <webview>
+    /// associated with this function call.
     int webViewInstanceId,
+
+    /// If an array is passed, only rules with identifiers contained in this
+    /// array are returned.
     JSArray? ruleIdentifiers,
+
+    /// Called with registered rules.
     JSFunction callback,
   );
 
   /// Unregisters currently registered rules.
   external void removeRules(
+    /// Name of the event this function affects.
     String eventName,
+
+    /// If provided, this is an integer that uniquely identfies the <webview>
+    /// associated with this function call.
     int webViewInstanceId,
+
+    /// If an array is passed, only rules with identifiers contained in this
+    /// array are unregistered.
     JSArray? ruleIdentifiers,
+
+    /// Called when rules were unregistered.
     JSFunction? callback,
   );
 }

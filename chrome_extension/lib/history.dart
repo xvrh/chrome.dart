@@ -273,7 +273,7 @@ class OnVisitRemovedRemoved {
     List<String>? urls,
   }) : _wrapped = $js.OnVisitRemovedRemoved()
           ..allHistory = allHistory
-          ..urls = throw UnimplementedError();
+          ..urls = urls?.toJSArray((e) => e);
 
   final $js.OnVisitRemovedRemoved _wrapped;
 
@@ -288,7 +288,7 @@ class OnVisitRemovedRemoved {
   List<String>? get urls =>
       _wrapped.urls?.toDart.cast<String>().map((e) => e).toList();
   set urls(List<String>? v) {
-    _wrapped.urls = throw UnimplementedError();
+    _wrapped.urls = v?.toJSArray((e) => e);
   }
 }
 

@@ -49,7 +49,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   external void importCertificate(
     String tokenId,
     JSArrayBuffer certificate,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes `certificate` from the given token if present.
@@ -62,7 +62,7 @@ extension JSEnterprisePlatformKeysExtension on JSEnterprisePlatformKeys {
   external void removeCertificate(
     String tokenId,
     JSArrayBuffer certificate,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Similar to `challengeMachineKey` and

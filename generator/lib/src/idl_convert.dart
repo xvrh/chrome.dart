@@ -167,7 +167,7 @@ class IdlModelConverter {
             }
 
             singleParameter = FunctionParameter(
-                null,
+                'e',
                 LocalType(syntheticTypeName,
                     declarationFile: _targetFileName, isNullable: false));
             var syntheticType = Dictionary(syntheticTypeName,
@@ -206,6 +206,7 @@ class IdlModelConverter {
             (function.returnType.name != 'void'
                 ? _typeFromName(function.returnType, isNullable: false)
                 : null),
+        documentation: null,
       );
 
       yield Method(

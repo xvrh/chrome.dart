@@ -33,16 +33,18 @@ extension JSTabGroupsExtension on JSTabGroups {
   /// Modifies the properties of a group. Properties that are not specified in
   /// [updateProperties] are not modified.
   external void update(
+    /// The ID of the group to modify.
     int groupId,
     UpdateProperties updateProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Moves the group and all its tabs within its window, or to a new window.
   external void move(
+    /// The ID of the group to move.
     int groupId,
     MoveProperties moveProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when a group is created.

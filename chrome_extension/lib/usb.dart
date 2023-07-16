@@ -691,7 +691,7 @@ class InterfaceDescriptor {
           ..interfaceSubclass = interfaceSubclass
           ..interfaceProtocol = interfaceProtocol
           ..description = description
-          ..endpoints = throw UnimplementedError()
+          ..endpoints = endpoints.toJSArray((e) => e.toJS)
           ..extra_data = extra_data.toJS;
 
   final $js.InterfaceDescriptor _wrapped;
@@ -740,7 +740,7 @@ class InterfaceDescriptor {
       .map((e) => EndpointDescriptor.fromJS(e))
       .toList();
   set endpoints(List<EndpointDescriptor> v) {
-    _wrapped.endpoints = throw UnimplementedError();
+    _wrapped.endpoints = v.toJSArray((e) => e.toJS);
   }
 
   /// Extra descriptor data associated with this interface.
@@ -769,7 +769,7 @@ class ConfigDescriptor {
           ..selfPowered = selfPowered
           ..remoteWakeup = remoteWakeup
           ..maxPower = maxPower
-          ..interfaces = throw UnimplementedError()
+          ..interfaces = interfaces.toJSArray((e) => e.toJS)
           ..extra_data = extra_data.toJS;
 
   final $js.ConfigDescriptor _wrapped;
@@ -818,7 +818,7 @@ class ConfigDescriptor {
       .map((e) => InterfaceDescriptor.fromJS(e))
       .toList();
   set interfaces(List<InterfaceDescriptor> v) {
-    _wrapped.interfaces = throw UnimplementedError();
+    _wrapped.interfaces = v.toJSArray((e) => e.toJS);
   }
 
   /// Extra descriptor data associated with this configuration.
@@ -1097,7 +1097,7 @@ class EnumerateDevicesOptions {
   }) : _wrapped = $js.EnumerateDevicesOptions()
           ..vendorId = vendorId
           ..productId = productId
-          ..filters = throw UnimplementedError();
+          ..filters = filters?.toJSArray((e) => e.toJS);
 
   final $js.EnumerateDevicesOptions _wrapped;
 
@@ -1120,7 +1120,7 @@ class EnumerateDevicesOptions {
       .map((e) => DeviceFilter.fromJS(e))
       .toList();
   set filters(List<DeviceFilter>? v) {
-    _wrapped.filters = throw UnimplementedError();
+    _wrapped.filters = v?.toJSArray((e) => e.toJS);
   }
 }
 
@@ -1168,7 +1168,7 @@ class DevicePromptOptions {
     List<DeviceFilter>? filters,
   }) : _wrapped = $js.DevicePromptOptions()
           ..multiple = multiple
-          ..filters = throw UnimplementedError();
+          ..filters = filters?.toJSArray((e) => e.toJS);
 
   final $js.DevicePromptOptions _wrapped;
 
@@ -1187,6 +1187,6 @@ class DevicePromptOptions {
       .map((e) => DeviceFilter.fromJS(e))
       .toList();
   set filters(List<DeviceFilter>? v) {
-    _wrapped.filters = throw UnimplementedError();
+    _wrapped.filters = v?.toJSArray((e) => e.toJS);
   }
 }

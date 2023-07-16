@@ -48,7 +48,7 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// |callback|: Called upon completion.
   external void setCertificates(
     SetCertificatesDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Should be called as a response to [onSignatureRequested].
@@ -58,7 +58,7 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// error when this function is called.
   external void reportSignature(
     ReportSignatureDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// This event fires if the certificates set via [setCertificates]

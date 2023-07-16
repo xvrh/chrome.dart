@@ -22,23 +22,50 @@ class JSDebugger {}
 extension JSDebuggerExtension on JSDebugger {
   /// Attaches debugger to the given target.
   external void attach(
+    /// Debugging target to which you want to attach.
     Debuggee target,
+
+    /// Required debugging protocol version ("0.1"). One can only attach to the
+    /// debuggee with matching major version and greater or equal minor version.
+    /// List of the protocol versions can be obtained
+    /// [here](https://developer.chrome.com/devtools/docs/debugger-protocol).
     String requiredVersion,
-    JSFunction callback,
+
+    /// Called once the attach operation succeeds or fails. Callback receives no
+    /// arguments. If the attach fails, [runtime.lastError] will be set to the
+    /// error message.
+    JSFunction? callback,
   );
 
   /// Detaches debugger from the given target.
   external void detach(
+    /// Debugging target from which you want to detach.
     Debuggee target,
-    JSFunction callback,
+
+    /// Called once the detach operation succeeds or fails. Callback receives no
+    /// arguments. If the detach fails, [runtime.lastError] will be set to the
+    /// error message.
+    JSFunction? callback,
   );
 
   /// Sends given command to the debugging target.
   external void sendCommand(
+    /// Debugging target to which you want to send the command.
     Debuggee target,
+
+    /// Method name. Should be one of the methods defined by the [remote
+    /// debugging
+    /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
     String method,
+
+    /// JSON object with request parameters. This object must conform to the
+    /// remote debugging params scheme for given method.
     JSAny? commandParams,
-    JSFunction callback,
+
+    /// Response body. If an error occurs while posting the message, the
+    /// callback will be called with no arguments and [runtime.lastError] will
+    /// be set to the error message.
+    JSFunction? callback,
   );
 
   /// Returns the list of available debug targets.

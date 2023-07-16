@@ -40,7 +40,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// errors, and others.
   external void updateDynamicRules(
     UpdateRuleOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the current set of dynamic rules for the extension. Callers can
@@ -72,7 +72,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// rule format, duplicate rule ID, rule count limit exceeded, and others.
   external void updateSessionRules(
     UpdateRuleOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the current set of session scoped rules for the extension.
@@ -99,7 +99,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// ruleset IDs, rule count limit exceeded, or internal errors.
   external void updateEnabledRulesets(
     UpdateRulesetOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the ids for the current set of enabled static rulesets.
@@ -115,7 +115,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// enabled static rules.
   external void updateStaticRules(
     UpdateStaticRulesOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns the list of static rules in the given [Ruleset] that are
@@ -151,7 +151,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// be incremented.
   external void setExtensionActionOptions(
     ExtensionActionOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Checks if the given regular expression will be supported as a

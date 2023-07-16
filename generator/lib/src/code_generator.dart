@@ -81,17 +81,23 @@ class JsBindingGenerator extends _GeneratorBase {
     var parameters = method.parameters
         .map((p) => Parameter((b) => b
           ..name = p.name
-          ..type = p.type.jsType))
+          ..type = p.type.jsType
+          ..docs.add(documentationComment(p.documentation, indent: 4))))
         .toList();
 
     Reference returns;
-    if (!method.returns.isAsync) {
-      returns = method.returns.type?.jsType ?? refer('void');
-    } else {
+    if (method.returns.type case model.AsyncReturnType asyncType) {
       returns = refer('void');
       parameters.add(Parameter((b) => b
+        ..docs.addAll([
+          if (method.returns.documentation case var returnDoc?)
+            documentationComment(returnDoc, indent: 4)
+        ])
         ..name = method.returns.name ?? 'callback'
-        ..type = refer('JSFunction')));
+        ..type = asyncType.jsType));
+    } else {
+      returns = method.returns.type?.jsType ?? refer('void');
+
     }
 
     return Method((b) => b
@@ -302,6 +308,11 @@ class DartApiGenerator extends _GeneratorBase {
 
     return Method((b) => b
       ..docs.add(documentationComment(method.documentation, indent: 2))
+      ..docs.addAll([
+        for (var param in method.parameters)
+          if (param.documentation.isNotEmpty)
+          parameterDocumentation(param.name, param.documentation, indent: 4)
+      ])
       ..name = method.name
       ..returns = returns
       ..body = body

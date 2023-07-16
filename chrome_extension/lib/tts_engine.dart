@@ -15,11 +15,15 @@ class ChromeTtsEngine {
 
   /// Called by an engine to update its list of voices. This list overrides any
   /// voices declared in this extension's manifest.
+  /// [voices] Array of [tts.TtsVoice] objects representing the available
+  /// voices for speech synthesis.
   void updateVoices(List<TtsVoice> voices) {
-    $js.chrome.ttsEngine.updateVoices(throw UnimplementedError());
+    $js.chrome.ttsEngine.updateVoices(voices.toJSArray((e) => e.toJS));
   }
 
   /// Routes a TTS event from a speech engine to a client.
+  /// [event] The update event from the text-to-speech engine indicating the
+  /// status of this utterance.
   void sendTtsEvent(
     int requestId,
     TtsEvent event,
@@ -31,6 +35,7 @@ class ChromeTtsEngine {
   }
 
   /// Routes TTS audio from a speech engine to a client.
+  /// [audio] An audio buffer from the text-to-speech engine.
   void sendTtsAudio(
     int requestId,
     AudioBuffer audio,

@@ -46,6 +46,7 @@ class ChromeTabGroups {
 
   /// Modifies the properties of a group. Properties that are not specified in
   /// [updateProperties] are not modified.
+  /// [groupId] The ID of the group to modify.
   Future<TabGroup?> update(
     int groupId,
     UpdateProperties updateProperties,
@@ -64,6 +65,7 @@ class ChromeTabGroups {
   }
 
   /// Moves the group and all its tabs within its window, or to a new window.
+  /// [groupId] The ID of the group to move.
   Future<TabGroup?> move(
     int groupId,
     MoveProperties moveProperties,

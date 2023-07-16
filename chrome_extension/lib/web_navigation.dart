@@ -15,6 +15,7 @@ class ChromeWebNavigation {
 
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
+  /// [details] Information about the frame to retrieve information about.
   Future<GetFrameCallbackDetails?> getFrame(GetFrameDetails details) {
     var $completer = Completer<GetFrameCallbackDetails?>();
     $js.chrome.webNavigation.getFrame(
@@ -29,6 +30,7 @@ class ChromeWebNavigation {
   }
 
   /// Retrieves information about all frames of a given tab.
+  /// [details] Information about the tab to retrieve all frames from.
   Future<GetAllFramesCallbackDetails?> getAllFrames(
       GetAllFramesDetails details) {
     var $completer = Completer<GetAllFramesCallbackDetails?>();
@@ -238,7 +240,7 @@ class OnCommittedDetails {
           ..frameId = frameId
           ..parentFrameId = parentFrameId
           ..transitionType = transitionType.toJS
-          ..transitionQualifiers = throw UnimplementedError()
+          ..transitionQualifiers = transitionQualifiers.toJSArray((e) => e.toJS)
           ..timeStamp = timeStamp
           ..documentId = documentId
           ..parentDocumentId = parentDocumentId
@@ -294,7 +296,7 @@ class OnCommittedDetails {
           .map((e) => TransitionQualifier.fromJS(e))
           .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
-    _wrapped.transitionQualifiers = throw UnimplementedError();
+    _wrapped.transitionQualifiers = v.toJSArray((e) => e.toJS);
   }
 
   /// The time when the navigation was committed, in milliseconds since the
@@ -707,7 +709,7 @@ class OnReferenceFragmentUpdatedDetails {
           ..frameId = frameId
           ..parentFrameId = parentFrameId
           ..transitionType = transitionType.toJS
-          ..transitionQualifiers = throw UnimplementedError()
+          ..transitionQualifiers = transitionQualifiers.toJSArray((e) => e.toJS)
           ..timeStamp = timeStamp
           ..documentId = documentId
           ..parentDocumentId = parentDocumentId
@@ -763,7 +765,7 @@ class OnReferenceFragmentUpdatedDetails {
           .map((e) => TransitionQualifier.fromJS(e))
           .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
-    _wrapped.transitionQualifiers = throw UnimplementedError();
+    _wrapped.transitionQualifiers = v.toJSArray((e) => e.toJS);
   }
 
   /// The time when the navigation was committed, in milliseconds since the
@@ -858,7 +860,7 @@ class OnHistoryStateUpdatedDetails {
           ..frameId = frameId
           ..parentFrameId = parentFrameId
           ..transitionType = transitionType.toJS
-          ..transitionQualifiers = throw UnimplementedError()
+          ..transitionQualifiers = transitionQualifiers.toJSArray((e) => e.toJS)
           ..timeStamp = timeStamp
           ..documentId = documentId
           ..parentDocumentId = parentDocumentId
@@ -914,7 +916,7 @@ class OnHistoryStateUpdatedDetails {
           .map((e) => TransitionQualifier.fromJS(e))
           .toList();
   set transitionQualifiers(List<TransitionQualifier> v) {
-    _wrapped.transitionQualifiers = throw UnimplementedError();
+    _wrapped.transitionQualifiers = v.toJSArray((e) => e.toJS);
   }
 
   /// The time when the navigation was committed, in milliseconds since the

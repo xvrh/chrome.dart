@@ -523,9 +523,9 @@ class FileSystemInfo {
           ..displayName = displayName
           ..writable = writable
           ..openedFilesLimit = openedFilesLimit
-          ..openedFiles = throw UnimplementedError()
+          ..openedFiles = openedFiles.toJSArray((e) => e.toJS)
           ..supportsNotifyTag = supportsNotifyTag
-          ..watchers = throw UnimplementedError();
+          ..watchers = watchers.toJSArray((e) => e.toJS);
 
   final $js.FileSystemInfo _wrapped;
 
@@ -563,7 +563,7 @@ class FileSystemInfo {
       .map((e) => OpenedFile.fromJS(e))
       .toList();
   set openedFiles(List<OpenedFile> v) {
-    _wrapped.openedFiles = throw UnimplementedError();
+    _wrapped.openedFiles = v.toJSArray((e) => e.toJS);
   }
 
   /// Whether the file system supports the `tag` field for observing
@@ -579,7 +579,7 @@ class FileSystemInfo {
       .map((e) => Watcher.fromJS(e))
       .toList();
   set watchers(List<Watcher> v) {
-    _wrapped.watchers = throw UnimplementedError();
+    _wrapped.watchers = v.toJSArray((e) => e.toJS);
   }
 }
 
@@ -785,7 +785,7 @@ class GetActionsRequestedOptions {
   }) : _wrapped = $js.GetActionsRequestedOptions()
           ..fileSystemId = fileSystemId
           ..requestId = requestId
-          ..entryPaths = throw UnimplementedError();
+          ..entryPaths = entryPaths.toJSArray((e) => e);
 
   final $js.GetActionsRequestedOptions _wrapped;
 
@@ -807,7 +807,7 @@ class GetActionsRequestedOptions {
   List<String> get entryPaths =>
       _wrapped.entryPaths.toDart.cast<String>().map((e) => e).toList();
   set entryPaths(List<String> v) {
-    _wrapped.entryPaths = throw UnimplementedError();
+    _wrapped.entryPaths = v.toJSArray((e) => e);
   }
 }
 
@@ -1487,7 +1487,7 @@ class ExecuteActionRequestedOptions {
   }) : _wrapped = $js.ExecuteActionRequestedOptions()
           ..fileSystemId = fileSystemId
           ..requestId = requestId
-          ..entryPaths = throw UnimplementedError()
+          ..entryPaths = entryPaths.toJSArray((e) => e)
           ..actionId = actionId;
 
   final $js.ExecuteActionRequestedOptions _wrapped;
@@ -1510,7 +1510,7 @@ class ExecuteActionRequestedOptions {
   List<String> get entryPaths =>
       _wrapped.entryPaths.toDart.cast<String>().map((e) => e).toList();
   set entryPaths(List<String> v) {
-    _wrapped.entryPaths = throw UnimplementedError();
+    _wrapped.entryPaths = v.toJSArray((e) => e);
   }
 
   /// The identifier of the action to be executed.
@@ -1562,7 +1562,7 @@ class NotifyOptions {
           ..observedPath = observedPath
           ..recursive = recursive
           ..changeType = changeType.toJS
-          ..changes = throw UnimplementedError()
+          ..changes = changes?.toJSArray((e) => e.toJS)
           ..tag = tag;
 
   final $js.NotifyOptions _wrapped;
@@ -1602,7 +1602,7 @@ class NotifyOptions {
       .map((e) => Change.fromJS(e))
       .toList();
   set changes(List<Change>? v) {
-    _wrapped.changes = throw UnimplementedError();
+    _wrapped.changes = v?.toJSArray((e) => e.toJS);
   }
 
   /// Tag for the notification. Required if the file system was mounted with

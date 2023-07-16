@@ -90,7 +90,7 @@ class ChromeSystemDisplay {
   Future<void> setDisplayLayout(List<DisplayLayout> layouts) {
     var $completer = Completer<void>();
     $js.chrome.system.display.setDisplayLayout(
-      throw UnimplementedError(),
+      layouts.toJSArray((e) => e.toJS),
       () {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(null);
@@ -651,7 +651,8 @@ class DisplayUnitInfo {
           ..name = name
           ..edid = edid?.toJS
           ..mirroringSourceId = mirroringSourceId
-          ..mirroringDestinationIds = throw UnimplementedError()
+          ..mirroringDestinationIds =
+              mirroringDestinationIds.toJSArray((e) => e)
           ..isPrimary = isPrimary
           ..isInternal = isInternal
           ..isEnabled = isEnabled
@@ -663,10 +664,11 @@ class DisplayUnitInfo {
           ..bounds = bounds.toJS
           ..overscan = overscan.toJS
           ..workArea = workArea.toJS
-          ..modes = throw UnimplementedError()
+          ..modes = modes.toJSArray((e) => e.toJS)
           ..hasTouchSupport = hasTouchSupport
           ..hasAccelerometerSupport = hasAccelerometerSupport
-          ..availableDisplayZoomFactors = throw UnimplementedError()
+          ..availableDisplayZoomFactors =
+              availableDisplayZoomFactors.toJSArray((e) => e)
           ..displayZoomFactor = displayZoomFactor;
 
   final $js.DisplayUnitInfo _wrapped;
@@ -709,7 +711,7 @@ class DisplayUnitInfo {
           .map((e) => e)
           .toList();
   set mirroringDestinationIds(List<String> v) {
-    _wrapped.mirroringDestinationIds = throw UnimplementedError();
+    _wrapped.mirroringDestinationIds = v.toJSArray((e) => e);
   }
 
   /// True if this is the primary display.
@@ -798,7 +800,7 @@ class DisplayUnitInfo {
       .map((e) => DisplayMode.fromJS(e))
       .toList();
   set modes(List<DisplayMode> v) {
-    _wrapped.modes = throw UnimplementedError();
+    _wrapped.modes = v.toJSArray((e) => e.toJS);
   }
 
   /// True if this display has a touch input device associated with it.
@@ -822,7 +824,7 @@ class DisplayUnitInfo {
           .map((e) => e)
           .toList();
   set availableDisplayZoomFactors(List<double> v) {
-    _wrapped.availableDisplayZoomFactors = throw UnimplementedError();
+    _wrapped.availableDisplayZoomFactors = v.toJSArray((e) => e);
   }
 
   /// The ratio between the display's current and default zoom.
@@ -972,7 +974,8 @@ class MirrorModeInfo {
   }) : _wrapped = $js.MirrorModeInfo()
           ..mode = mode.toJS
           ..mirroringSourceId = mirroringSourceId
-          ..mirroringDestinationIds = throw UnimplementedError();
+          ..mirroringDestinationIds =
+              mirroringDestinationIds?.toJSArray((e) => e);
 
   final $js.MirrorModeInfo _wrapped;
 
@@ -998,6 +1001,6 @@ class MirrorModeInfo {
           .map((e) => e)
           .toList();
   set mirroringDestinationIds(List<String>? v) {
-    _wrapped.mirroringDestinationIds = throw UnimplementedError();
+    _wrapped.mirroringDestinationIds = v?.toJSArray((e) => e);
   }
 }

@@ -23,7 +23,7 @@ class FileHandlerExecuteEventDetails {
     required List<Object> entries,
     int? tab_id,
   }) : _wrapped = $js.FileHandlerExecuteEventDetails()
-          ..entries = throw UnimplementedError()
+          ..entries = entries.toJSArray((e) => e.toJS)
           ..tab_id = tab_id;
 
   final $js.FileHandlerExecuteEventDetails _wrapped;
@@ -35,7 +35,7 @@ class FileHandlerExecuteEventDetails {
   List<Object> get entries =>
       _wrapped.entries.toDart.cast<JSAny>().map((e) => e).toList();
   set entries(List<Object> v) {
-    _wrapped.entries = throw UnimplementedError();
+    _wrapped.entries = v.toJSArray((e) => e.toJS);
   }
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a

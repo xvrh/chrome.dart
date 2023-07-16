@@ -16,6 +16,9 @@ class ChromeContextMenus {
   /// Creates a new context menu item. If an error occurs during creation, it
   /// may not be detected until the creation callback fires; details will be in
   /// [runtime.lastError].
+  /// [callback] Called when the item has been created in the browser. If an
+  /// error occurs during creation, details will be available in
+  /// [runtime.lastError].
   Object create(
     CreateProperties createProperties,
     JSFunction? callback,
@@ -27,32 +30,50 @@ class ChromeContextMenus {
   }
 
   /// Updates a previously created context menu item.
-  void update(
+  /// [id] The ID of the item to update.
+  /// [updateProperties] The properties to update. Accepts the same values as
+  /// the [contextMenus.create] function.
+  Future<void> update(
     Object id,
     UpdateProperties updateProperties,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<void>();
     $js.chrome.contextMenus.update(
       id.toJS,
       updateProperties.toJS,
-      callback,
+      () {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(null);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Removes a context menu item.
-  void remove(
-    Object menuItemId,
-    JSFunction? callback,
-  ) {
+  /// [menuItemId] The ID of the context menu item to remove.
+  Future<void> remove(Object menuItemId) {
+    var $completer = Completer<void>();
     $js.chrome.contextMenus.remove(
       menuItemId.toJS,
-      callback,
+      () {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(null);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Removes all context menu items added by this extension.
-  void removeAll(JSFunction? callback) {
-    $js.chrome.contextMenus.removeAll(callback);
+  Future<void> removeAll() {
+    var $completer = Completer<void>();
+    $js.chrome.contextMenus.removeAll(() {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(null);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// The maximum number of top level extension items that can be added to an
@@ -246,12 +267,12 @@ class CreateProperties {
           id: id,
           title: title,
           checked: checked,
-          contexts: throw UnimplementedError(),
+          contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
           parentId: parentId?.toJS,
-          documentUrlPatterns: throw UnimplementedError(),
-          targetUrlPatterns: throw UnimplementedError(),
+          documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
+          targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,
         );
 
@@ -278,12 +299,12 @@ class UpdateProperties {
           type: type?.toJS,
           title: title,
           checked: checked,
-          contexts: throw UnimplementedError(),
+          contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
           parentId: parentId?.toJS,
-          documentUrlPatterns: throw UnimplementedError(),
-          targetUrlPatterns: throw UnimplementedError(),
+          documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
+          targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,
         );
 

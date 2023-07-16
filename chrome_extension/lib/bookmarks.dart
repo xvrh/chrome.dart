@@ -13,6 +13,7 @@ class ChromeBookmarks {
   ChromeBookmarks._();
 
   /// Retrieves the specified BookmarkTreeNode(s).
+  /// [idOrIdList] A single string-valued id, or an array of string-valued ids
   Future<List<BookmarkTreeNode>> get(Object idOrIdList) {
     var $completer = Completer<List<BookmarkTreeNode>>();
     $js.chrome.bookmarks.get(
@@ -47,6 +48,7 @@ class ChromeBookmarks {
   }
 
   /// Retrieves the recently added bookmarks.
+  /// [numberOfItems] The maximum number of items to return.
   Future<List<BookmarkTreeNode>> getRecent(int numberOfItems) {
     var $completer = Completer<List<BookmarkTreeNode>>();
     $js.chrome.bookmarks.getRecent(
@@ -78,6 +80,7 @@ class ChromeBookmarks {
   }
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
+  /// [id] The ID of the root of the subtree to retrieve.
   Future<List<BookmarkTreeNode>> getSubTree(String id) {
     var $completer = Completer<List<BookmarkTreeNode>>();
     $js.chrome.bookmarks.getSubTree(
@@ -97,6 +100,10 @@ class ChromeBookmarks {
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
   /// with an object produce BookmarkTreeNodes matching all specified
   /// properties.
+  /// [query] Either a string of words and quoted phrases that are matched
+  /// against bookmark URLs and titles, or an object. If an object, the
+  /// properties `query`, `url`, and `title` may be specified and bookmarks
+  /// matching all specified properties will be produced.
   Future<List<BookmarkTreeNode>> search(Object query) {
     var $completer = Completer<List<BookmarkTreeNode>>();
     $js.chrome.bookmarks.search(
@@ -269,7 +276,7 @@ class BookmarkTreeNode {
           ..dateLastUsed = dateLastUsed
           ..dateGroupModified = dateGroupModified
           ..unmodifiable = unmodifiable?.toJS
-          ..children = throw UnimplementedError();
+          ..children = children?.toJSArray((e) => e.toJS);
 
   final $js.BookmarkTreeNode _wrapped;
 
@@ -343,7 +350,7 @@ class BookmarkTreeNode {
       .map((e) => BookmarkTreeNode.fromJS(e))
       .toList();
   set children(List<BookmarkTreeNode>? v) {
-    _wrapped.children = throw UnimplementedError();
+    _wrapped.children = v?.toJSArray((e) => e.toJS);
   }
 }
 
@@ -488,7 +495,7 @@ class OnChildrenReorderedReorderInfo {
 
   OnChildrenReorderedReorderInfo({required List<String> childIds})
       : _wrapped = $js.OnChildrenReorderedReorderInfo()
-          ..childIds = throw UnimplementedError();
+          ..childIds = childIds.toJSArray((e) => e);
 
   final $js.OnChildrenReorderedReorderInfo _wrapped;
 
@@ -497,7 +504,7 @@ class OnChildrenReorderedReorderInfo {
   List<String> get childIds =>
       _wrapped.childIds.toDart.cast<String>().map((e) => e).toList();
   set childIds(List<String> v) {
-    _wrapped.childIds = throw UnimplementedError();
+    _wrapped.childIds = v.toJSArray((e) => e);
   }
 }
 

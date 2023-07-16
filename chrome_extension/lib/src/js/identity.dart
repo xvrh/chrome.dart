@@ -48,7 +48,7 @@ extension JSIdentityExtension on JSIdentity {
   /// corresponding with the returned token.
   external void getAuthToken(
     TokenDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Retrieves email address and obfuscated gaia id of the user
@@ -81,7 +81,7 @@ extension JSIdentityExtension on JSIdentity {
   /// |callback| : Called when the token has been removed from the cache.
   external void removeCachedAuthToken(
     InvalidTokenDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Resets the state of the Identity API:

@@ -24,9 +24,9 @@ class Rule {
     int? priority,
   }) : _wrapped = $js.Rule()
           ..id = id
-          ..tags = throw UnimplementedError()
-          ..conditions = throw UnimplementedError()
-          ..actions = throw UnimplementedError()
+          ..tags = tags?.toJSArray((e) => e)
+          ..conditions = conditions.toJSArray((e) => e.toJS)
+          ..actions = actions.toJSArray((e) => e.toJS)
           ..priority = priority;
 
   final $js.Rule _wrapped;
@@ -44,21 +44,21 @@ class Rule {
   List<String>? get tags =>
       _wrapped.tags?.toDart.cast<String>().map((e) => e).toList();
   set tags(List<String>? v) {
-    _wrapped.tags = throw UnimplementedError();
+    _wrapped.tags = v?.toJSArray((e) => e);
   }
 
   /// List of conditions that can trigger the actions.
   List<Object> get conditions =>
       _wrapped.conditions.toDart.cast<JSAny>().map((e) => e).toList();
   set conditions(List<Object> v) {
-    _wrapped.conditions = throw UnimplementedError();
+    _wrapped.conditions = v.toJSArray((e) => e.toJS);
   }
 
   /// List of actions that are triggered if one of the conditions is fulfilled.
   List<Object> get actions =>
       _wrapped.actions.toDart.cast<JSAny>().map((e) => e).toList();
   set actions(List<Object> v) {
-    _wrapped.actions = throw UnimplementedError();
+    _wrapped.actions = v.toJSArray((e) => e.toJS);
   }
 
   /// Optional priority of this rule. Defaults to 100.
@@ -78,15 +78,19 @@ class Event {
   $js.Event get toJS => _wrapped;
 
   /// Registers an event listener _callback_ to an event.
+  /// [callback] Called when an event occurs. The parameters of this function
+  /// depend on the type of event.
   void addListener(JSFunction callback) {
     _wrapped.addListener(callback);
   }
 
   /// Deregisters an event listener _callback_ from an event.
+  /// [callback] Listener that shall be unregistered.
   void removeListener(JSFunction callback) {
     _wrapped.removeListener(callback);
   }
 
+  /// [callback] Listener whose registration status shall be tested.
   bool hasListener(JSFunction callback) {
     return _wrapped.hasListener(callback);
   }
@@ -96,48 +100,84 @@ class Event {
   }
 
   /// Registers rules to handle events.
-  void addRules(
+  /// [eventName] Name of the event this function affects.
+  /// [webViewInstanceId] If provided, this is an integer that uniquely
+  /// identfies the <webview> associated with this function call.
+  /// [rules] Rules to be registered. These do not replace previously
+  /// registered rules.
+  Future<List<Rule>> addRules(
     String eventName,
     int webViewInstanceId,
     List<Rule> rules,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<List<Rule>>();
     _wrapped.addRules(
       eventName,
       webViewInstanceId,
-      throw UnimplementedError(),
-      callback,
+      rules.toJSArray((e) => e.toJS),
+      (JSArray rules) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(rules.toDart
+              .cast<$js.Rule>()
+              .map((e) => Rule.fromJS(e))
+              .toList());
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Returns currently registered rules.
-  void getRules(
+  /// [eventName] Name of the event this function affects.
+  /// [webViewInstanceId] If provided, this is an integer that uniquely
+  /// identfies the <webview> associated with this function call.
+  /// [ruleIdentifiers] If an array is passed, only rules with identifiers
+  /// contained in this array are returned.
+  Future<List<Rule>> getRules(
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JSFunction callback,
   ) {
+    var $completer = Completer<List<Rule>>();
     _wrapped.getRules(
       eventName,
       webViewInstanceId,
-      throw UnimplementedError(),
-      callback,
+      ruleIdentifiers?.toJSArray((e) => e),
+      (JSArray rules) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(rules.toDart
+              .cast<$js.Rule>()
+              .map((e) => Rule.fromJS(e))
+              .toList());
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Unregisters currently registered rules.
-  void removeRules(
+  /// [eventName] Name of the event this function affects.
+  /// [webViewInstanceId] If provided, this is an integer that uniquely
+  /// identfies the <webview> associated with this function call.
+  /// [ruleIdentifiers] If an array is passed, only rules with identifiers
+  /// contained in this array are unregistered.
+  Future<void> removeRules(
     String eventName,
     int webViewInstanceId,
     List<String>? ruleIdentifiers,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<void>();
     _wrapped.removeRules(
       eventName,
       webViewInstanceId,
-      throw UnimplementedError(),
-      callback,
+      ruleIdentifiers?.toJSArray((e) => e),
+      () {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(null);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 }
 
@@ -184,8 +224,8 @@ class UrlFilter {
           ..originAndPathMatches = originAndPathMatches
           ..urlPrefix = urlPrefix
           ..urlSuffix = urlSuffix
-          ..schemes = throw UnimplementedError()
-          ..ports = throw UnimplementedError();
+          ..schemes = schemes?.toJSArray((e) => e)
+          ..ports = ports?.toJSArray((e) => e.toJS);
 
   final $js.UrlFilter _wrapped;
 
@@ -325,7 +365,7 @@ class UrlFilter {
   List<String>? get schemes =>
       _wrapped.schemes?.toDart.cast<String>().map((e) => e).toList();
   set schemes(List<String>? v) {
-    _wrapped.schemes = throw UnimplementedError();
+    _wrapped.schemes = v?.toJSArray((e) => e);
   }
 
   /// Matches if the port of the URL is contained in any of the specified port
@@ -334,6 +374,6 @@ class UrlFilter {
   List<Object>? get ports =>
       _wrapped.ports?.toDart.cast<JSAny>().map((e) => e).toList();
   set ports(List<Object>? v) {
-    _wrapped.ports = throw UnimplementedError();
+    _wrapped.ports = v?.toJSArray((e) => e.toJS);
   }
 }

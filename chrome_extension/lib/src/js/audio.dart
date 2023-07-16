@@ -61,7 +61,7 @@ extension JSAudioExtension on JSAudio {
   external void setMute(
     StreamType streamType,
     bool isMuted,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when sound level changes for an active audio device.

@@ -299,11 +299,11 @@ class NotificationOptions {
           ..contextMessage = contextMessage
           ..priority = priority
           ..eventTime = eventTime
-          ..buttons = throw UnimplementedError()
+          ..buttons = buttons?.toJSArray((e) => e.toJS)
           ..expandedMessage = expandedMessage
           ..imageUrl = imageUrl
           ..imageBitmap = imageBitmap?.toJS
-          ..items = throw UnimplementedError()
+          ..items = items?.toJSArray((e) => e.toJS)
           ..progress = progress
           ..isClickable = isClickable
           ..requireInteraction = requireInteraction
@@ -395,7 +395,7 @@ class NotificationOptions {
       .map((e) => NotificationButton.fromJS(e))
       .toList();
   set buttons(List<NotificationButton>? v) {
-    _wrapped.buttons = throw UnimplementedError();
+    _wrapped.buttons = v?.toJSArray((e) => e.toJS);
   }
 
   /// Secondary notification content.
@@ -425,7 +425,7 @@ class NotificationOptions {
       .map((e) => NotificationItem.fromJS(e))
       .toList();
   set items(List<NotificationItem>? v) {
-    _wrapped.items = throw UnimplementedError();
+    _wrapped.items = v?.toJSArray((e) => e.toJS);
   }
 
   /// Current progress ranges from 0 to 100.

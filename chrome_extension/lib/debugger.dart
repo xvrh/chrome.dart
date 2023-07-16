@@ -13,6 +13,11 @@ class ChromeDebugger {
   ChromeDebugger._();
 
   /// Attaches debugger to the given target.
+  /// [target] Debugging target to which you want to attach.
+  /// [requiredVersion] Required debugging protocol version ("0.1"). One can
+  /// only attach to the debuggee with matching major version and greater or
+  /// equal minor version. List of the protocol versions can be obtained
+  /// [here](https://developer.chrome.com/devtools/docs/debugger-protocol).
   Future<void> attach(
     Debuggee target,
     String requiredVersion,
@@ -31,6 +36,7 @@ class ChromeDebugger {
   }
 
   /// Detaches debugger from the given target.
+  /// [target] Debugging target from which you want to detach.
   Future<void> detach(Debuggee target) {
     var $completer = Completer<void>();
     $js.chrome.debugger.detach(
@@ -45,6 +51,12 @@ class ChromeDebugger {
   }
 
   /// Sends given command to the debugging target.
+  /// [target] Debugging target to which you want to send the command.
+  /// [method] Method name. Should be one of the methods defined by the
+  /// [remote debugging
+  /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
+  /// [commandParams] JSON object with request parameters. This object must
+  /// conform to the remote debugging params scheme for given method.
   Future<Object?> sendCommand(
     Debuggee target,
     String method,

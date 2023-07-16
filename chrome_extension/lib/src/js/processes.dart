@@ -28,7 +28,7 @@ extension JSProcessesExtension on JSProcesses {
   /// |processId|: The ID of the process to be terminated.
   external void terminate(
     int processId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Retrieves the process information for each process ID specified.

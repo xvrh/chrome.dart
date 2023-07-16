@@ -32,8 +32,11 @@ extension JSSessionsExtension on JSSessions {
   /// Reopens a [windows.Window] or [tabs.Tab], with an optional callback to run
   /// when the entry has been restored.
   external void restore(
+    /// The [windows.Window.sessionId], or [tabs.Tab.sessionId] to restore. If
+    /// this parameter is not specified, the most recently closed session is
+    /// restored.
     String? sessionId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when recently closed tabs and/or windows are changed. This event

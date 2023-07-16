@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:js_interop';
 
 export 'chrome.dart';
 export 'dart:js_interop';
 export 'dart:async' show Completer;
+import '../runtime.dart';
 
 extension ScopingFunctions<T extends Object?> on T {
   /// Calls the specified function [block] with `this` value
@@ -11,7 +13,15 @@ extension ScopingFunctions<T extends Object?> on T {
 }
 
 bool checkRuntimeLastError(Completer completer) {
-  //TODO: check runtime.lastError and complete the completer with an error if
-  // needed
+  if (chrome.runtime.lastError case var error?) {
+    completer.completeError(Exception('RuntimeLastError: ${error.message}'));
+    return false;
+  }
   return true;
+}
+
+extension ListToJsExtension<T> on List<T> {
+  JSArray toJSArray(Object Function(T) mapper) {
+    return map(mapper).cast<JSAny>().toList().toJS;
+  }
 }

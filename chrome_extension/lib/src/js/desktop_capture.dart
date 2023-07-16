@@ -18,14 +18,30 @@ class JSDesktopCapture {}
 extension JSDesktopCaptureExtension on JSDesktopCapture {
   /// Shows desktop media picker UI with the specified set of sources.
   external int chooseDesktopMedia(
+    /// Set of sources that should be shown to the user. The sources order in
+    /// the set decides the tab order in the picker.
     JSArray sources,
+
+    /// Optional tab for which the stream is created. If not specified then the
+    /// resulting stream can be used only by the calling extension. The stream
+    /// can only be used by frames in the given tab whose security origin
+    /// matches `tab.url`. The tab's origin must be a secure origin, e.g. HTTPS.
     Tab? targetTab,
+
+    /// Mirrors members of
+    /// [DisplayMediaStreamConstraints](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints)
+    /// which need to be applied before the user makes their selection, and must
+    /// therefore be provided to chooseDesktopMedia() rather than be deferred to
+    /// getUserMedia().
     ChooseDesktopMediaOptions? options,
     JSFunction callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
-  external void cancelChooseDesktopMedia(int desktopMediaRequestId);
+  external void cancelChooseDesktopMedia(
+
+      /// Id returned by chooseDesktopMedia()
+      int desktopMediaRequestId);
 }
 
 /// Enum used to define set of desktop media sources used in

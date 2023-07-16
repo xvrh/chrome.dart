@@ -37,7 +37,7 @@ class ScanOptions {
     List<String>? mimeTypes,
     int? maxImages,
   }) : _wrapped = $js.ScanOptions()
-          ..mimeTypes = throw UnimplementedError()
+          ..mimeTypes = mimeTypes?.toJSArray((e) => e)
           ..maxImages = maxImages;
 
   final $js.ScanOptions _wrapped;
@@ -48,7 +48,7 @@ class ScanOptions {
   List<String>? get mimeTypes =>
       _wrapped.mimeTypes?.toDart.cast<String>().map((e) => e).toList();
   set mimeTypes(List<String>? v) {
-    _wrapped.mimeTypes = throw UnimplementedError();
+    _wrapped.mimeTypes = v?.toJSArray((e) => e);
   }
 
   /// The number of scanned images allowed (defaults to 1).
@@ -65,7 +65,7 @@ class ScanResults {
     required List<String> dataUrls,
     required String mimeType,
   }) : _wrapped = $js.ScanResults()
-          ..dataUrls = throw UnimplementedError()
+          ..dataUrls = dataUrls.toJSArray((e) => e)
           ..mimeType = mimeType;
 
   final $js.ScanResults _wrapped;
@@ -77,7 +77,7 @@ class ScanResults {
   List<String> get dataUrls =>
       _wrapped.dataUrls.toDart.cast<String>().map((e) => e).toList();
   set dataUrls(List<String> v) {
-    _wrapped.dataUrls = throw UnimplementedError();
+    _wrapped.dataUrls = v.toJSArray((e) => e);
   }
 
   /// The MIME type of `dataUrls`.

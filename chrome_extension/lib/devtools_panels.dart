@@ -15,28 +15,48 @@ class ChromeDevtoolsPanels {
   ChromeDevtoolsPanels._();
 
   /// Creates an extension panel.
-  void create(
+  /// [title] Title that is displayed next to the extension icon in the
+  /// Developer Tools toolbar.
+  /// [iconPath] Path of the panel's icon relative to the extension directory.
+  /// [pagePath] Path of the panel's HTML page relative to the extension
+  /// directory.
+  Future<ExtensionPanel> create(
     String title,
     String iconPath,
     String pagePath,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<ExtensionPanel>();
     $js.chrome.devtools.panels.create(
       title,
       iconPath,
       pagePath,
-      callback,
+      ($js.ExtensionPanel panel) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(ExtensionPanel.fromJS(panel));
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Specifies the function to be called when the user clicks a resource link
   /// in the Developer Tools window. To unset the handler, either call the
   /// method with no parameters or pass null as the parameter.
+  /// [callback] A function that is called when the user clicks on a valid
+  /// resource link in Developer Tools window. Note that if the user clicks an
+  /// invalid URL or an XHR, this function is not called.
   void setOpenResourceHandler(JSFunction? callback) {
     $js.chrome.devtools.panels.setOpenResourceHandler(callback);
   }
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
+  /// [url] The URL of the resource to open.
+  /// [lineNumber] Specifies the line number to scroll to when the resource is
+  /// loaded.
+  /// [columnNumber] Specifies the column number to scroll to when the
+  /// resource is loaded.
+  /// [callback] A function that is called when the resource has been
+  /// successfully loaded.
   void openResource(
     String url,
     int lineNumber,
@@ -73,14 +93,18 @@ class ElementsPanel {
   $js.ElementsPanel get toJS => _wrapped;
 
   /// Creates a pane within panel's sidebar.
-  void createSidebarPane(
-    String title,
-    JSFunction? callback,
-  ) {
+  /// [title] Text that is displayed in sidebar caption.
+  Future<ExtensionSidebarPane> createSidebarPane(String title) {
+    var $completer = Completer<ExtensionSidebarPane>();
     _wrapped.createSidebarPane(
       title,
-      callback,
+      ($js.ExtensionSidebarPane result) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(ExtensionSidebarPane.fromJS(result));
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Fired when an object is selected in the panel.
@@ -97,14 +121,18 @@ class SourcesPanel {
   $js.SourcesPanel get toJS => _wrapped;
 
   /// Creates a pane within panel's sidebar.
-  void createSidebarPane(
-    String title,
-    JSFunction? callback,
-  ) {
+  /// [title] Text that is displayed in sidebar caption.
+  Future<ExtensionSidebarPane> createSidebarPane(String title) {
+    var $completer = Completer<ExtensionSidebarPane>();
     _wrapped.createSidebarPane(
       title,
-      callback,
+      ($js.ExtensionSidebarPane result) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(ExtensionSidebarPane.fromJS(result));
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Fired when an object is selected in the panel.
@@ -121,6 +149,13 @@ class ExtensionPanel {
   $js.ExtensionPanel get toJS => _wrapped;
 
   /// Appends a button to the status bar of the panel.
+  /// [iconPath] Path to the icon of the button. The file should contain a
+  /// 64x24-pixel image composed of two 32x24 icons. The left icon is used
+  /// when the button is inactive; the right icon is displayed when the button
+  /// is pressed.
+  /// [tooltipText] Text shown as a tooltip when user hovers the mouse over
+  /// the button.
+  /// [disabled] Whether the button is disabled.
   Button createStatusBarButton(
     String iconPath,
     String tooltipText,
@@ -155,12 +190,19 @@ class ExtensionSidebarPane {
   $js.ExtensionSidebarPane get toJS => _wrapped;
 
   /// Sets the height of the sidebar.
+  /// [height] A CSS-like size specification, such as `'100px'` or `'12ex'`.
   void setHeight(String height) {
     _wrapped.setHeight(height);
   }
 
   /// Sets an expression that is evaluated within the inspected page. The result
   /// is displayed in the sidebar pane.
+  /// [expression] An expression to be evaluated in context of the inspected
+  /// page. JavaScript objects and DOM nodes are displayed in an expandable
+  /// tree similar to the console/watch.
+  /// [rootTitle] An optional title for the root of the expression tree.
+  /// [callback] A callback invoked after the sidebar pane is updated with the
+  /// expression evaluation results.
   void setExpression(
     String expression,
     String? rootTitle,
@@ -174,6 +216,11 @@ class ExtensionSidebarPane {
   }
 
   /// Sets a JSON-compliant object to be displayed in the sidebar pane.
+  /// [jsonObject] An object to be displayed in context of the inspected page.
+  /// Evaluated in the context of the caller (API client).
+  /// [rootTitle] An optional title for the root of the expression tree.
+  /// [callback] A callback invoked after the sidebar is updated with the
+  /// object.
   void setObject(
     String jsonObject,
     String? rootTitle,
@@ -187,6 +234,7 @@ class ExtensionSidebarPane {
   }
 
   /// Sets an HTML page to be displayed in the sidebar pane.
+  /// [path] Relative path of an extension page to display within the sidebar.
   void setPage(String path) {
     _wrapped.setPage(path);
   }
@@ -211,6 +259,10 @@ class Button {
 
   /// Updates the attributes of the button. If some of the arguments are omitted
   /// or `null`, the corresponding attributes are not updated.
+  /// [iconPath] Path to the new icon of the button.
+  /// [tooltipText] Text shown as a tooltip when user hovers the mouse over
+  /// the button.
+  /// [disabled] Whether the button is disabled.
   void update(
     String? iconPath,
     String? tooltipText,

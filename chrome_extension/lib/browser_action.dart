@@ -45,14 +45,17 @@ class ChromeBrowserAction {
   /// path to an image file, as the pixel data from a canvas element, or as a
   /// dictionary of one of those. Either the `path` or the `imageData` property
   /// must be specified.
-  void setIcon(
-    SetIconDetails details,
-    JSFunction? callback,
-  ) {
+  Future<void> setIcon(SetIconDetails details) {
+    var $completer = Completer<void>();
     $js.chrome.browserAction.setIcon(
       details.toJS,
-      callback,
+      () {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(null);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
@@ -143,6 +146,7 @@ class ChromeBrowserAction {
   }
 
   /// Enables the browser action for a tab. Defaults to enabled.
+  /// [tabId] The ID of the tab for which to modify the browser action.
   Future<void> enable(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.browserAction.enable(
@@ -157,6 +161,7 @@ class ChromeBrowserAction {
   }
 
   /// Disables the browser action for a tab.
+  /// [tabId] The ID of the tab for which to modify the browser action.
   Future<void> disable(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.browserAction.disable(
@@ -172,8 +177,14 @@ class ChromeBrowserAction {
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  void openPopup(JSFunction callback) {
-    $js.chrome.browserAction.openPopup(callback);
+  Future<Object?> openPopup() {
+    var $completer = Completer<Object?>();
+    $js.chrome.browserAction.openPopup((JSAny? popupView) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(popupView);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser

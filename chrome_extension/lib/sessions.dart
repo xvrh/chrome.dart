@@ -50,6 +50,9 @@ class ChromeSessions {
 
   /// Reopens a [windows.Window] or [tabs.Tab], with an optional callback to run
   /// when the entry has been restored.
+  /// [sessionId] The [windows.Window.sessionId], or [tabs.Tab.sessionId] to
+  /// restore. If this parameter is not specified, the most recently closed
+  /// session is restored.
   Future<Session> restore(String? sessionId) {
     var $completer = Completer<Session>();
     $js.chrome.sessions.restore(
@@ -139,7 +142,7 @@ class Device {
   }) : _wrapped = $js.Device()
           ..info = info
           ..deviceName = deviceName
-          ..sessions = throw UnimplementedError();
+          ..sessions = sessions.toJSArray((e) => e.toJS);
 
   final $js.Device _wrapped;
 
@@ -163,6 +166,6 @@ class Device {
       .map((e) => Session.fromJS(e))
       .toList();
   set sessions(List<Session> v) {
-    _wrapped.sessions = throw UnimplementedError();
+    _wrapped.sessions = v.toJSArray((e) => e.toJS);
   }
 }

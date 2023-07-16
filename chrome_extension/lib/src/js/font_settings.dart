@@ -17,19 +17,19 @@ extension JSFontSettingsExtension on JSFontSettings {
   /// Clears the font set by this extension, if any.
   external void clearFont(
     ClearFontDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the font for a given script and generic font family.
   external void getFont(
     GetFontDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the font for a given script and generic font family.
   external void setFont(
     SetFontDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets a list of fonts on the system.
@@ -37,56 +37,62 @@ extension JSFontSettingsExtension on JSFontSettings {
 
   /// Clears the default font size set by this extension, if any.
   external void clearDefaultFontSize(
+    /// This parameter is currently unused.
     ClearDefaultFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the default font size.
   external void getDefaultFontSize(
+    /// This parameter is currently unused.
     GetDefaultFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the default font size.
   external void setDefaultFontSize(
     SetDefaultFontSizeDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Clears the default fixed font size set by this extension, if any.
   external void clearDefaultFixedFontSize(
+    /// This parameter is currently unused.
     ClearDefaultFixedFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the default size for fixed width fonts.
   external void getDefaultFixedFontSize(
+    /// This parameter is currently unused.
     GetDefaultFixedFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the default size for fixed width fonts.
   external void setDefaultFixedFontSize(
     SetDefaultFixedFontSizeDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Clears the minimum font size set by this extension, if any.
   external void clearMinimumFontSize(
+    /// This parameter is currently unused.
     ClearMinimumFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the minimum font size.
   external void getMinimumFontSize(
+    /// This parameter is currently unused.
     GetMinimumFontSizeDetails? details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the minimum font size.
   external void setMinimumFontSize(
     SetMinimumFontSizeDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when a font setting changes.

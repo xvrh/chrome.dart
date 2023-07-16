@@ -20,22 +20,24 @@ extension JSPageActionExtension on JSPageAction {
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
   external void show(
+    /// The id of the tab for which you want to modify the page action.
     int tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
   external void hide(
+    /// The id of the tab for which you want to modify the page action.
     int tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
   external void setTitle(
     SetTitleDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the title of the page action.
@@ -50,14 +52,14 @@ extension JSPageActionExtension on JSPageAction {
   /// **imageData** property must be specified.
   external void setIcon(
     SetIconDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// page action's icon.
   external void setPopup(
     SetPopupDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the html document set as the popup for this page action.

@@ -44,7 +44,7 @@ extension JSTabsExtension on JSTabs {
   external void sendRequest(
     int tabId,
     JSAny request,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sends a single message to the content script(s) in the specified tab, with
@@ -53,19 +53,23 @@ extension JSTabsExtension on JSTabs {
   /// specified tab for the current extension.
   external void sendMessage(
     int tabId,
+
+    /// The message to send. This message should be a JSON-ifiable object.
     JSAny message,
     SendMessageOptions? options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets the tab that is selected in the specified window.
   external void getSelected(
+    /// Defaults to the [current window](windows#current-window).
     int? windowId,
     JSFunction callback,
   );
 
   /// Gets details about all tabs in the specified window.
   external void getAllInWindow(
+    /// Defaults to the [current window](windows#current-window).
     int? windowId,
     JSFunction callback,
   );
@@ -73,13 +77,14 @@ extension JSTabsExtension on JSTabs {
   /// Creates a new tab.
   external void create(
     CreateProperties createProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Duplicates a tab.
   external void duplicate(
+    /// The ID of the tab to duplicate.
     int tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Gets all tabs that have the specified properties, or all tabs if no
@@ -93,55 +98,64 @@ extension JSTabsExtension on JSTabs {
   /// to do nothing if the specified tab is currently active.
   external void highlight(
     HighlightInfo highlightInfo,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Modifies the properties of a tab. Properties that are not specified in
   /// [updateProperties] are not modified.
   external void update(
+    /// Defaults to the selected tab of the [current
+    /// window](windows#current-window).
     int? tabId,
     UpdateProperties updateProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
   /// === "normal") windows.
   external void move(
+    /// The tab ID or list of tab IDs to move.
     JSAny tabIds,
     MoveProperties moveProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Reload a tab.
   external void reload(
+    /// The ID of the tab to reload; defaults to the selected tab of the current
+    /// window.
     int? tabId,
     ReloadProperties? reloadProperties,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Closes one or more tabs.
   external void remove(
+    /// The tab ID or list of tab IDs to close.
     JSAny tabIds,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
   external void group(
     GroupOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
   external void ungroup(
+    /// The tab ID or list of tab IDs to remove from their respective groups.
     JSAny tabIds,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Detects the primary language of the content in a tab.
   external void detectLanguage(
+    /// Defaults to the active tab of the [current
+    /// window](windows#current-window).
     int? tabId,
     JSFunction callback,
   );
@@ -156,6 +170,8 @@ extension JSTabsExtension on JSTabs {
   /// captured with the activeTab permission. File URLs may be captured only if
   /// the extension has been granted file access.
   external void captureVisibleTab(
+    /// The target window. Defaults to the [current
+    /// window](windows#current-window).
     int? windowId,
     ImageDetails? options,
     JSFunction callback,
@@ -164,72 +180,125 @@ extension JSTabsExtension on JSTabs {
   /// Injects JavaScript code into a page. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
   external void executeScript(
+    /// The ID of the tab in which to run the script; defaults to the active tab
+    /// of the current window.
     int? tabId,
+
+    /// Details of the script to run. Either the code or the file property must
+    /// be set, but both may not be set at the same time.
     InjectDetails details,
-    JSFunction callback,
+
+    /// Called after all the JavaScript has been executed.
+    JSFunction? callback,
   );
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with [scripting.removeCSS]. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
   external void insertCSS(
+    /// The ID of the tab in which to insert the CSS; defaults to the active tab
+    /// of the current window.
     int? tabId,
+
+    /// Details of the CSS text to insert. Either the code or the file property
+    /// must be set, but both may not be set at the same time.
     InjectDetails details,
-    JSFunction callback,
+
+    /// Called when all the CSS has been inserted.
+    JSFunction? callback,
   );
 
   /// Removes from a page CSS that was previously injected by a call to
   /// [scripting.insertCSS].
   external void removeCSS(
+    /// The ID of the tab from which to remove the CSS; defaults to the active
+    /// tab of the current window.
     int? tabId,
+
+    /// Details of the CSS text to remove. Either the code or the file property
+    /// must be set, but both may not be set at the same time.
     DeleteInjectionDetails details,
-    JSFunction callback,
+
+    /// Called when all the CSS has been removed.
+    JSFunction? callback,
   );
 
   /// Zooms a specified tab.
   external void setZoom(
+    /// The ID of the tab to zoom; defaults to the active tab of the current
+    /// window.
     int? tabId,
+
+    /// The new zoom factor. A value of `0` sets the tab to its current default
+    /// zoom factor. Values greater than `0` specify a (possibly non-default)
+    /// zoom factor for the tab.
     double zoomFactor,
-    JSFunction callback,
+
+    /// Called after the zoom factor has been changed.
+    JSFunction? callback,
   );
 
   /// Gets the current zoom factor of a specified tab.
   external void getZoom(
+    /// The ID of the tab to get the current zoom factor from; defaults to the
+    /// active tab of the current window.
     int? tabId,
+
+    /// Called with the tab's current zoom factor after it has been fetched.
     JSFunction callback,
   );
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
   external void setZoomSettings(
+    /// The ID of the tab to change the zoom settings for; defaults to the
+    /// active tab of the current window.
     int? tabId,
+
+    /// Defines how zoom changes are handled and at what scope.
     ZoomSettings zoomSettings,
-    JSFunction callback,
+
+    /// Called after the zoom settings are changed.
+    JSFunction? callback,
   );
 
   /// Gets the current zoom settings of a specified tab.
   external void getZoomSettings(
+    /// The ID of the tab to get the current zoom settings from; defaults to the
+    /// active tab of the current window.
     int? tabId,
+
+    /// Called with the tab's current zoom settings.
     JSFunction callback,
   );
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
   external void discard(
+    /// The ID of the tab to be discarded. If specified, the tab is discarded
+    /// unless it is active or already discarded. If omitted, the browser
+    /// discards the least important tab. This can fail if no discardable tabs
+    /// exist.
     int? tabId,
-    JSFunction callback,
+
+    /// Called after the operation is completed.
+    JSFunction? callback,
   );
 
   /// Go foward to the next page, if one is available.
   external void goForward(
+    /// The ID of the tab to navigate forward; defaults to the selected tab of
+    /// the current window.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Go back to the previous page, if one is available.
   external void goBack(
+    /// The ID of the tab to navigate back; defaults to the selected tab of the
+    /// current window.
     int? tabId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when a tab is created. Note that the tab's URL and tab group

@@ -23,16 +23,29 @@ class ChromeDevtoolsInspectedWindow {
   /// parameter is non-null and has `isError` set to true and `code` set to an
   /// error code. In the case of a JavaScript error, `isException` is set to
   /// true and `value` is set to the string value of thrown object.
-  void eval(
+  /// [expression] An expression to evaluate.
+  /// [options] The options parameter can contain one or more options.
+  Future<EvalResult> eval(
     String expression,
     EvalOptions? options,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<EvalResult>();
     $js.chrome.devtools.inspectedWindow.eval(
       expression,
       options?.toJS,
-      callback,
+      (
+        JSAny result,
+        $js.EvalExceptionInfo exceptionInfo,
+      ) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(EvalResult(
+            result: result,
+            exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
+          ));
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Reloads the inspected page.
@@ -41,8 +54,17 @@ class ChromeDevtoolsInspectedWindow {
   }
 
   /// Retrieves the list of resources from the inspected page.
-  void getResources(JSFunction callback) {
-    $js.chrome.devtools.inspectedWindow.getResources(callback);
+  Future<List<Resource>> getResources() {
+    var $completer = Completer<List<Resource>>();
+    $js.chrome.devtools.inspectedWindow.getResources((JSArray resources) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(resources.toDart
+            .cast<$js.Resource>()
+            .map((e) => Resource.fromJS(e))
+            .toList());
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// The ID of the tab being inspected. This ID may be used with chrome.tabs.*
@@ -74,21 +96,109 @@ class Resource {
   }
 
   /// Gets the content of the resource.
-  void getContent(JSFunction callback) {
-    _wrapped.getContent(callback);
+  Future<GetContentResult> getContent() {
+    var $completer = Completer<GetContentResult>();
+    _wrapped.getContent((
+      String content,
+      String encoding,
+    ) {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(GetContentResult(
+          content: content,
+          encoding: encoding,
+        ));
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Sets the content of the resource.
-  void setContent(
+  /// [content] New content of the resource. Only resources with the text type
+  /// are currently supported.
+  /// [commit] True if the user has finished editing the resource, and the new
+  /// content of the resource should be persisted; false if this is a minor
+  /// change sent in progress of the user editing the resource.
+  Future<Object?> setContent(
     String content,
     bool commit,
-    JSFunction? callback,
   ) {
+    var $completer = Completer<Object?>();
     _wrapped.setContent(
       content,
       commit,
-      callback,
+      (JSAny? error) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(error);
+        }
+      }.toJS,
     );
+    return $completer.future;
+  }
+}
+
+class EvalExceptionInfo {
+  EvalExceptionInfo.fromJS(this._wrapped);
+
+  EvalExceptionInfo({
+    required bool isError,
+    required String code,
+    required String description,
+    required List<Object> details,
+    required bool isException,
+    required String value,
+  }) : _wrapped = $js.EvalExceptionInfo()
+          ..isError = isError
+          ..code = code
+          ..description = description
+          ..details = details.toJSArray((e) => e.toJS)
+          ..isException = isException
+          ..value = value;
+
+  final $js.EvalExceptionInfo _wrapped;
+
+  $js.EvalExceptionInfo get toJS => _wrapped;
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  bool get isError => _wrapped.isError;
+  set isError(bool v) {
+    _wrapped.isError = v;
+  }
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  String get code => _wrapped.code;
+  set code(String v) {
+    _wrapped.code = v;
+  }
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  String get description => _wrapped.description;
+  set description(String v) {
+    _wrapped.description = v;
+  }
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated, contains the array of the values that may be substituted into
+  /// the description string to provide more information about the cause of the
+  /// error.
+  List<Object> get details =>
+      _wrapped.details.toDart.cast<JSAny>().map((e) => e).toList();
+  set details(List<Object> v) {
+    _wrapped.details = v.toJSArray((e) => e.toJS);
+  }
+
+  /// Set if the evaluated code produces an unhandled exception.
+  bool get isException => _wrapped.isException;
+  set isException(bool v) {
+    _wrapped.isException = v;
+  }
+
+  /// Set if the evaluated code produces an unhandled exception.
+  String get value => _wrapped.value;
+  set value(String v) {
+    _wrapped.value = v;
   }
 }
 
@@ -138,4 +248,32 @@ class OnResourceContentCommittedEvent {
 
   /// New content of the resource.
   final String content;
+}
+
+class EvalResult {
+  EvalResult({
+    required this.result,
+    required this.exceptionInfo,
+  });
+
+  /// The result of evaluation.
+  final Object result;
+
+  /// An object providing details if an exception occurred while evaluating the
+  /// expression.
+  final EvalExceptionInfo exceptionInfo;
+}
+
+class GetContentResult {
+  GetContentResult({
+    required this.content,
+    required this.encoding,
+  });
+
+  /// Content of the resource (potentially encoded).
+  final String content;
+
+  /// Empty if the content is not encoded, encoding name otherwise. Currently,
+  /// only base64 is supported.
+  final String encoding;
 }

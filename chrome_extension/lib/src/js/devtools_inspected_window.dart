@@ -29,8 +29,13 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   /// error code. In the case of a JavaScript error, `isException` is set to
   /// true and `value` is set to the string value of thrown object.
   external void eval(
+    /// An expression to evaluate.
     String expression,
+
+    /// The options parameter can contain one or more options.
     EvalOptions? options,
+
+    /// A function called when evaluation completes.
     JSFunction? callback,
   );
 
@@ -38,7 +43,11 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
   external void reload(ReloadOptions? reloadOptions);
 
   /// Retrieves the list of resources from the inspected page.
-  external void getResources(JSFunction callback);
+  external void getResources(
+
+      /// A function that receives the list of resources when the request
+      /// completes.
+      JSFunction callback);
 
   /// Fired when a new resource is added to the inspected page.
   external ChromeEvent get onResourceAdded;
@@ -61,14 +70,55 @@ extension ResourceExtension on Resource {
   external String url;
 
   /// Gets the content of the resource.
-  external void getContent(JSFunction callback);
+  external void getContent(
+
+      /// A function that receives resource content when the request completes.
+      JSFunction callback);
 
   /// Sets the content of the resource.
   external void setContent(
+    /// New content of the resource. Only resources with the text type are
+    /// currently supported.
     String content,
+
+    /// True if the user has finished editing the resource, and the new content
+    /// of the resource should be persisted; false if this is a minor change
+    /// sent in progress of the user editing the resource.
     bool commit,
+
+    /// A function called upon request completion.
     JSFunction? callback,
   );
+}
+
+@JS()
+@staticInterop
+class EvalExceptionInfo {}
+
+extension EvalExceptionInfoExtension on EvalExceptionInfo {
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  external bool isError;
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  external String code;
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated.
+  external String description;
+
+  /// Set if the error occurred on the DevTools side before the expression is
+  /// evaluated, contains the array of the values that may be substituted into
+  /// the description string to provide more information about the cause of the
+  /// error.
+  external JSArray details;
+
+  /// Set if the evaluated code produces an unhandled exception.
+  external bool isException;
+
+  /// Set if the evaluated code produces an unhandled exception.
+  external String value;
 }
 
 @JS()

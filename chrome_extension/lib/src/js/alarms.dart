@@ -44,7 +44,7 @@ extension JSAlarmsExtension on JSAlarms {
   external void create(
     String? name,
     AlarmCreateInfo alarmInfo,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Retrieves details about the specified alarm.
@@ -61,11 +61,11 @@ extension JSAlarmsExtension on JSAlarms {
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
   external void clear(
     String? name,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Clears all alarms.
-  external void clearAll(JSFunction callback);
+  external void clearAll(JSFunction? callback);
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.

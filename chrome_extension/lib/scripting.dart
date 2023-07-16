@@ -83,7 +83,7 @@ class ChromeScripting {
   Future<void> registerContentScripts(List<RegisteredContentScript> scripts) {
     var $completer = Completer<void>();
     $js.chrome.scripting.registerContentScripts(
-      throw UnimplementedError(),
+      scripts.toJSArray((e) => e.toJS),
       () {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(null);
@@ -144,7 +144,7 @@ class ChromeScripting {
   Future<void> updateContentScripts(List<RegisteredContentScript> scripts) {
     var $completer = Completer<void>();
     $js.chrome.scripting.updateContentScripts(
-      throw UnimplementedError(),
+      scripts.toJSArray((e) => e.toJS),
       () {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(null);
@@ -206,8 +206,8 @@ class InjectionTarget {
     bool? allFrames,
   }) : _wrapped = $js.InjectionTarget()
           ..tabId = tabId
-          ..frameIds = throw UnimplementedError()
-          ..documentIds = throw UnimplementedError()
+          ..frameIds = frameIds?.toJSArray((e) => e)
+          ..documentIds = documentIds?.toJSArray((e) => e)
           ..allFrames = allFrames;
 
   final $js.InjectionTarget _wrapped;
@@ -225,7 +225,7 @@ class InjectionTarget {
   List<int>? get frameIds =>
       _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
   set frameIds(List<int>? v) {
-    _wrapped.frameIds = throw UnimplementedError();
+    _wrapped.frameIds = v?.toJSArray((e) => e);
   }
 
   /// The
@@ -235,7 +235,7 @@ class InjectionTarget {
   List<String>? get documentIds =>
       _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
   set documentIds(List<String>? v) {
-    _wrapped.documentIds = throw UnimplementedError();
+    _wrapped.documentIds = v?.toJSArray((e) => e);
   }
 
   /// Whether the script should inject into all frames within the tab. Defaults
@@ -260,9 +260,9 @@ class ScriptInjection {
     bool? injectImmediately,
   }) : _wrapped = $js.ScriptInjection()
           ..func = func?.toJS
-          ..args = throw UnimplementedError()
+          ..args = args?.toJSArray((e) => e.toJS)
           ..function = function?.toJS
-          ..files = throw UnimplementedError()
+          ..files = files?.toJSArray((e) => e)
           ..target = target.toJS
           ..world = world?.toJS
           ..injectImmediately = injectImmediately;
@@ -287,7 +287,7 @@ class ScriptInjection {
   List<Object>? get args =>
       _wrapped.args?.toDart.cast<JSAny>().map((e) => e).toList();
   set args(List<Object>? v) {
-    _wrapped.args = throw UnimplementedError();
+    _wrapped.args = v?.toJSArray((e) => e.toJS);
   }
 
   /// We used to call the injected function `function`, but this is
@@ -307,7 +307,7 @@ class ScriptInjection {
   List<String>? get files =>
       _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
   set files(List<String>? v) {
-    _wrapped.files = throw UnimplementedError();
+    _wrapped.files = v?.toJSArray((e) => e);
   }
 
   /// Details specifying the target into which to inject the script.
@@ -344,7 +344,7 @@ class CSSInjection {
   }) : _wrapped = $js.CSSInjection()
           ..target = target.toJS
           ..css = css
-          ..files = throw UnimplementedError()
+          ..files = files?.toJSArray((e) => e)
           ..origin = origin?.toJS;
 
   final $js.CSSInjection _wrapped;
@@ -372,7 +372,7 @@ class CSSInjection {
   List<String>? get files =>
       _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
   set files(List<String>? v) {
-    _wrapped.files = throw UnimplementedError();
+    _wrapped.files = v?.toJSArray((e) => e);
   }
 
   /// The style origin for the injection. Defaults to `'AUTHOR'`.
@@ -433,10 +433,10 @@ class RegisteredContentScript {
     ExecutionWorld? world,
   }) : _wrapped = $js.RegisteredContentScript()
           ..id = id
-          ..matches = throw UnimplementedError()
-          ..excludeMatches = throw UnimplementedError()
-          ..css = throw UnimplementedError()
-          ..js = throw UnimplementedError()
+          ..matches = matches?.toJSArray((e) => e)
+          ..excludeMatches = excludeMatches?.toJSArray((e) => e)
+          ..css = css?.toJSArray((e) => e)
+          ..js = js?.toJSArray((e) => e)
           ..allFrames = allFrames
           ..matchOriginAsFallback = matchOriginAsFallback
           ..runAt = runAt?.toJS
@@ -461,7 +461,7 @@ class RegisteredContentScript {
   List<String>? get matches =>
       _wrapped.matches?.toDart.cast<String>().map((e) => e).toList();
   set matches(List<String>? v) {
-    _wrapped.matches = throw UnimplementedError();
+    _wrapped.matches = v?.toJSArray((e) => e);
   }
 
   /// Excludes pages that this content script would otherwise be injected into.
@@ -470,7 +470,7 @@ class RegisteredContentScript {
   List<String>? get excludeMatches =>
       _wrapped.excludeMatches?.toDart.cast<String>().map((e) => e).toList();
   set excludeMatches(List<String>? v) {
-    _wrapped.excludeMatches = throw UnimplementedError();
+    _wrapped.excludeMatches = v?.toJSArray((e) => e);
   }
 
   /// The list of CSS files to be injected into matching pages. These are
@@ -479,7 +479,7 @@ class RegisteredContentScript {
   List<String>? get css =>
       _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
-    _wrapped.css = throw UnimplementedError();
+    _wrapped.css = v?.toJSArray((e) => e);
   }
 
   /// The list of JavaScript files to be injected into matching pages. These
@@ -487,7 +487,7 @@ class RegisteredContentScript {
   List<String>? get js =>
       _wrapped.js?.toDart.cast<String>().map((e) => e).toList();
   set js(List<String>? v) {
-    _wrapped.js = throw UnimplementedError();
+    _wrapped.js = v?.toJSArray((e) => e);
   }
 
   /// If specified true, it will inject into all frames, even if the frame is
@@ -533,7 +533,7 @@ class ContentScriptFilter {
   ContentScriptFilter.fromJS(this._wrapped);
 
   ContentScriptFilter({List<String>? ids})
-      : _wrapped = $js.ContentScriptFilter()..ids = throw UnimplementedError();
+      : _wrapped = $js.ContentScriptFilter()..ids = ids?.toJSArray((e) => e);
 
   final $js.ContentScriptFilter _wrapped;
 
@@ -544,6 +544,6 @@ class ContentScriptFilter {
   List<String>? get ids =>
       _wrapped.ids?.toDart.cast<String>().map((e) => e).toList();
   set ids(List<String>? v) {
-    _wrapped.ids = throw UnimplementedError();
+    _wrapped.ids = v?.toJSArray((e) => e);
   }
 }

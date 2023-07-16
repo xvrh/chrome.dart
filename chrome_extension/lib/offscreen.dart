@@ -120,7 +120,7 @@ class CreateParameters {
     required String url,
     required String justification,
   }) : _wrapped = $js.CreateParameters()
-          ..reasons = throw UnimplementedError()
+          ..reasons = reasons.toJSArray((e) => e.toJS)
           ..url = url
           ..justification = justification;
 
@@ -134,7 +134,7 @@ class CreateParameters {
       .map((e) => Reason.fromJS(e))
       .toList();
   set reasons(List<Reason> v) {
-    _wrapped.reasons = throw UnimplementedError();
+    _wrapped.reasons = v.toJSArray((e) => e.toJS);
   }
 
   /// The (relative) URL to load in the document.

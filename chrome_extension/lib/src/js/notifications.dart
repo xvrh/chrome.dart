@@ -31,7 +31,7 @@ extension JSNotificationsExtension on JSNotifications {
   external void create(
     String? notificationId,
     NotificationOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Updates an existing notification.
@@ -44,7 +44,7 @@ extension JSNotificationsExtension on JSNotifications {
   external void update(
     String notificationId,
     NotificationOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Clears the specified notification.
@@ -55,7 +55,7 @@ extension JSNotificationsExtension on JSNotifications {
   /// The callback is required before Chrome 42.
   external void clear(
     String notificationId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Retrieves all the notifications of this app or extension.

@@ -19,9 +19,19 @@ class JSTts {}
 extension JSTtsExtension on JSTts {
   /// Speaks text using a text-to-speech engine.
   external void speak(
+    /// The text to speak, either plain text or a complete, well-formed SSML
+    /// document. Speech engines that do not support SSML will strip away the
+    /// tags and speak the text. The maximum length of the text is 32,768
+    /// characters.
     String utterance,
+
+    /// The speech options.
     TtsOptions? options,
-    JSFunction callback,
+
+    /// Called right away, before speech finishes. Check [runtime.lastError] to
+    /// make sure there were no errors. Use options.onEvent to get more detailed
+    /// feedback.
+    JSFunction? callback,
   );
 
   /// Stops any current speech and flushes the queue of any pending utterances.
@@ -39,10 +49,10 @@ extension JSTtsExtension on JSTts {
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  external void isSpeaking(JSFunction callback);
+  external void isSpeaking(JSFunction? callback);
 
   /// Gets an array of all available voices.
-  external void getVoices(JSFunction callback);
+  external void getVoices(JSFunction? callback);
 
   /// Used to pass events back to the function calling speak().
   external ChromeEvent get onEvent;

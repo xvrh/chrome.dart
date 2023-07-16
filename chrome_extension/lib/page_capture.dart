@@ -13,14 +13,17 @@ class ChromePageCapture {
   ChromePageCapture._();
 
   /// Saves the content of the tab with given id as MHTML.
-  void saveAsMHTML(
-    SaveAsMhtmlDetails details,
-    JSFunction callback,
-  ) {
+  Future<Object?> saveAsMHTML(SaveAsMhtmlDetails details) {
+    var $completer = Completer<Object?>();
     $js.chrome.pageCapture.saveAsMHTML(
       details.toJS,
-      callback,
+      (JSAny? mhtmlData) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(mhtmlData);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 }
 

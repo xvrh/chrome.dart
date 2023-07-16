@@ -263,8 +263,8 @@ class ClientCertificateInfo {
     required List<ByteBuffer> certificateChain,
     required List<Algorithm> supportedAlgorithms,
   }) : _wrapped = $js.ClientCertificateInfo()
-          ..certificateChain = throw UnimplementedError()
-          ..supportedAlgorithms = throw UnimplementedError();
+          ..certificateChain = certificateChain.toJSArray((e) => e.toJS)
+          ..supportedAlgorithms = supportedAlgorithms.toJSArray((e) => e.toJS);
 
   final $js.ClientCertificateInfo _wrapped;
 
@@ -278,7 +278,7 @@ class ClientCertificateInfo {
       .map((e) => e.toDart)
       .toList();
   set certificateChain(List<ByteBuffer> v) {
-    _wrapped.certificateChain = throw UnimplementedError();
+    _wrapped.certificateChain = v.toJSArray((e) => e.toJS);
   }
 
   /// All algorithms supported for this certificate. The extension will only be
@@ -288,7 +288,7 @@ class ClientCertificateInfo {
       .map((e) => Algorithm.fromJS(e))
       .toList();
   set supportedAlgorithms(List<Algorithm> v) {
-    _wrapped.supportedAlgorithms = throw UnimplementedError();
+    _wrapped.supportedAlgorithms = v.toJSArray((e) => e.toJS);
   }
 }
 
@@ -302,7 +302,7 @@ class SetCertificatesDetails {
   }) : _wrapped = $js.SetCertificatesDetails()
           ..certificatesRequestId = certificatesRequestId
           ..error = error?.toJS
-          ..clientCertificates = throw UnimplementedError();
+          ..clientCertificates = clientCertificates.toJSArray((e) => e.toJS);
 
   final $js.SetCertificatesDetails _wrapped;
 
@@ -330,7 +330,7 @@ class SetCertificatesDetails {
           .map((e) => ClientCertificateInfo.fromJS(e))
           .toList();
   set clientCertificates(List<ClientCertificateInfo> v) {
-    _wrapped.clientCertificates = throw UnimplementedError();
+    _wrapped.clientCertificates = v.toJSArray((e) => e.toJS);
   }
 }
 
@@ -440,7 +440,7 @@ class CertificateInfo {
     required List<Hash> supportedHashes,
   }) : _wrapped = $js.CertificateInfo()
           ..certificate = certificate.toJS
-          ..supportedHashes = throw UnimplementedError();
+          ..supportedHashes = supportedHashes.toJSArray((e) => e.toJS);
 
   final $js.CertificateInfo _wrapped;
 
@@ -461,7 +461,7 @@ class CertificateInfo {
       .map((e) => Hash.fromJS(e))
       .toList();
   set supportedHashes(List<Hash> v) {
-    _wrapped.supportedHashes = throw UnimplementedError();
+    _wrapped.supportedHashes = v.toJSArray((e) => e.toJS);
   }
 }
 

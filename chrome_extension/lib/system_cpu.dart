@@ -101,9 +101,9 @@ class CpuInfo {
           ..numOfProcessors = numOfProcessors
           ..archName = archName
           ..modelName = modelName
-          ..features = throw UnimplementedError()
-          ..processors = throw UnimplementedError()
-          ..temperatures = throw UnimplementedError();
+          ..features = features.toJSArray((e) => e)
+          ..processors = processors.toJSArray((e) => e.toJS)
+          ..temperatures = temperatures.toJSArray((e) => e);
 
   final $js.CpuInfo _wrapped;
 
@@ -133,7 +133,7 @@ class CpuInfo {
   List<String> get features =>
       _wrapped.features.toDart.cast<String>().map((e) => e).toList();
   set features(List<String> v) {
-    _wrapped.features = throw UnimplementedError();
+    _wrapped.features = v.toJSArray((e) => e);
   }
 
   /// Information about each logical processor.
@@ -142,7 +142,7 @@ class CpuInfo {
       .map((e) => ProcessorInfo.fromJS(e))
       .toList();
   set processors(List<ProcessorInfo> v) {
-    _wrapped.processors = throw UnimplementedError();
+    _wrapped.processors = v.toJSArray((e) => e.toJS);
   }
 
   /// List of CPU temperature readings from each thermal zone of the CPU.
@@ -152,6 +152,6 @@ class CpuInfo {
   List<double> get temperatures =>
       _wrapped.temperatures.toDart.cast<double>().map((e) => e).toList();
   set temperatures(List<double> v) {
-    _wrapped.temperatures = throw UnimplementedError();
+    _wrapped.temperatures = v.toJSArray((e) => e);
   }
 }

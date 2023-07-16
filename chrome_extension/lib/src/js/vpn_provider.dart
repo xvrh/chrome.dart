@@ -31,7 +31,7 @@ extension JSVpnProviderExtension on JSVpnProvider {
   /// error.
   external void destroyConfig(
     String id,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Sets the parameters for the VPN session. This should be called
@@ -50,7 +50,7 @@ extension JSVpnProviderExtension on JSVpnProvider {
   /// |callback|: Called when the packet is sent or if there is an error.
   external void sendPacket(
     JSArrayBuffer data,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Notifies the VPN session state to the platform.
@@ -60,7 +60,7 @@ extension JSVpnProviderExtension on JSVpnProvider {
   /// error.
   external void notifyConnectionStateChanged(
     VpnConnectionState state,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Triggered when a message is received from the platform for a

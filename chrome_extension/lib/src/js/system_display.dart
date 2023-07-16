@@ -43,7 +43,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   external void setDisplayProperties(
     String id,
     DisplayProperties info,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Set the layout for all displays. Any display not included will use the
@@ -58,7 +58,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///     queried.
   external void setDisplayLayout(
     JSArray layouts,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Enables/disables the unified desktop feature. If enabled while mirroring
@@ -106,7 +106,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///      calibration was a success or not.
   external void showNativeTouchCalibration(
     String id,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Starts custom touch calibration for a display. This should be called when
@@ -145,7 +145,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   ///     queried.
   external void setMirrorMode(
     MirrorModeInfo info,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when anything changes to the display configuration.

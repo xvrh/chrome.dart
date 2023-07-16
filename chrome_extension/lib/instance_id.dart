@@ -39,6 +39,7 @@ class ChromeInstanceId {
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
+  /// [getTokenParams] Parameters for getToken.
   Future<String> getToken(GetTokenParams getTokenParams) {
     var $completer = Completer<String>();
     $js.chrome.instanceId.getToken(
@@ -53,6 +54,7 @@ class ChromeInstanceId {
   }
 
   /// Revokes a granted token.
+  /// [deleteTokenParams] Parameters for deleteToken.
   Future<void> deleteToken(DeleteTokenParams deleteTokenParams) {
     var $completer = Completer<void>();
     $js.chrome.instanceId.deleteToken(

@@ -180,6 +180,7 @@ class ChromeAction {
   }
 
   /// Enables the action for a tab. By default, actions are enabled.
+  /// [tabId] The id of the tab for which you want to modify the action.
   Future<void> enable(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.action.enable(
@@ -194,6 +195,7 @@ class ChromeAction {
   }
 
   /// Disables the action for a tab.
+  /// [tabId] The id of the tab for which you want to modify the action.
   Future<void> disable(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.action.disable(
@@ -210,6 +212,7 @@ class ChromeAction {
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// [declarativeContent] always return false.
+  /// [tabId] The id of the tab for which you want check enabled status.
   Future<bool> isEnabled(int? tabId) {
     var $completer = Completer<bool>();
     $js.chrome.action.isEnabled(
@@ -235,6 +238,7 @@ class ChromeAction {
   }
 
   /// Opens the extension's popup.
+  /// [options] Specifies options for opening the popup.
   Future<void> openPopup(OpenPopupOptions? options) {
     var $completer = Completer<void>();
     $js.chrome.action.openPopup(

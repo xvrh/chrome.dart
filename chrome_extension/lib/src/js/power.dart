@@ -27,7 +27,7 @@ extension JSPowerExtension on JSPower {
   /// Reports a user activity in order to awake the screen from a dimmed or
   /// turned off state or from a screensaver. Exits the screensaver if it is
   /// currently active.
-  external void reportActivity(JSFunction callback);
+  external void reportActivity(JSFunction? callback);
 }
 
 typedef Level = String;

@@ -34,13 +34,13 @@ extension JSHistoryExtension on JSHistory {
   /// type](#transition_types) of "link".
   external void addUrl(
     UrlDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes all occurrences of the given URL from the history.
   external void deleteUrl(
     UrlDetails details,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes all items within the specified date range from the history.  Pages

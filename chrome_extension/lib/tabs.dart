@@ -82,6 +82,8 @@ class ChromeTabs {
   /// an optional callback to run when a response is sent back.  The
   /// [runtime.onMessage] event is fired in each content script running in the
   /// specified tab for the current extension.
+  /// [message] The message to send. This message should be a JSON-ifiable
+  /// object.
   Future<Object> sendMessage(
     int tabId,
     Object message,
@@ -102,6 +104,7 @@ class ChromeTabs {
   }
 
   /// Gets the tab that is selected in the specified window.
+  /// [windowId] Defaults to the [current window](windows#current-window).
   Future<Tab> getSelected(int? windowId) {
     var $completer = Completer<Tab>();
     $js.chrome.tabs.getSelected(
@@ -116,6 +119,7 @@ class ChromeTabs {
   }
 
   /// Gets details about all tabs in the specified window.
+  /// [windowId] Defaults to the [current window](windows#current-window).
   Future<List<Tab>> getAllInWindow(int? windowId) {
     var $completer = Completer<List<Tab>>();
     $js.chrome.tabs.getAllInWindow(
@@ -145,6 +149,7 @@ class ChromeTabs {
   }
 
   /// Duplicates a tab.
+  /// [tabId] The ID of the tab to duplicate.
   Future<Tab?> duplicate(int tabId) {
     var $completer = Completer<Tab?>();
     $js.chrome.tabs.duplicate(
@@ -191,6 +196,8 @@ class ChromeTabs {
 
   /// Modifies the properties of a tab. Properties that are not specified in
   /// [updateProperties] are not modified.
+  /// [tabId] Defaults to the selected tab of the [current
+  /// window](windows#current-window).
   Future<Tab?> update(
     int? tabId,
     UpdateProperties updateProperties,
@@ -211,6 +218,7 @@ class ChromeTabs {
   /// Moves one or more tabs to a new position within its window, or to a new
   /// window. Note that tabs can only be moved to and from normal (window.type
   /// === "normal") windows.
+  /// [tabIds] The tab ID or list of tab IDs to move.
   Future<Object> move(
     Object tabIds,
     MoveProperties moveProperties,
@@ -229,6 +237,8 @@ class ChromeTabs {
   }
 
   /// Reload a tab.
+  /// [tabId] The ID of the tab to reload; defaults to the selected tab of the
+  /// current window.
   Future<void> reload(
     int? tabId,
     ReloadProperties? reloadProperties,
@@ -247,6 +257,7 @@ class ChromeTabs {
   }
 
   /// Closes one or more tabs.
+  /// [tabIds] The tab ID or list of tab IDs to close.
   Future<void> remove(Object tabIds) {
     var $completer = Completer<void>();
     $js.chrome.tabs.remove(
@@ -277,6 +288,8 @@ class ChromeTabs {
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
+  /// [tabIds] The tab ID or list of tab IDs to remove from their respective
+  /// groups.
   Future<void> ungroup(Object tabIds) {
     var $completer = Completer<void>();
     $js.chrome.tabs.ungroup(
@@ -291,6 +304,8 @@ class ChromeTabs {
   }
 
   /// Detects the primary language of the content in a tab.
+  /// [tabId] Defaults to the active tab of the [current
+  /// window](windows#current-window).
   Future<String> detectLanguage(int? tabId) {
     var $completer = Completer<String>();
     $js.chrome.tabs.detectLanguage(
@@ -313,6 +328,8 @@ class ChromeTabs {
   /// extensions' pages, and data: URLs. These sensitive sites can only be
   /// captured with the activeTab permission. File URLs may be captured only if
   /// the extension has been granted file access.
+  /// [windowId] The target window. Defaults to the [current
+  /// window](windows#current-window).
   Future<String> captureVisibleTab(
     int? windowId,
     ImageDetails? options,
@@ -332,6 +349,10 @@ class ChromeTabs {
 
   /// Injects JavaScript code into a page. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
+  /// [tabId] The ID of the tab in which to run the script; defaults to the
+  /// active tab of the current window.
+  /// [details] Details of the script to run. Either the code or the file
+  /// property must be set, but both may not be set at the same time.
   Future<List<Object>?> executeScript(
     int? tabId,
     InjectDetails details,
@@ -353,6 +374,10 @@ class ChromeTabs {
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with [scripting.removeCSS]. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
+  /// [tabId] The ID of the tab in which to insert the CSS; defaults to the
+  /// active tab of the current window.
+  /// [details] Details of the CSS text to insert. Either the code or the file
+  /// property must be set, but both may not be set at the same time.
   Future<void> insertCSS(
     int? tabId,
     InjectDetails details,
@@ -372,6 +397,10 @@ class ChromeTabs {
 
   /// Removes from a page CSS that was previously injected by a call to
   /// [scripting.insertCSS].
+  /// [tabId] The ID of the tab from which to remove the CSS; defaults to the
+  /// active tab of the current window.
+  /// [details] Details of the CSS text to remove. Either the code or the file
+  /// property must be set, but both may not be set at the same time.
   Future<void> removeCSS(
     int? tabId,
     DeleteInjectionDetails details,
@@ -390,6 +419,11 @@ class ChromeTabs {
   }
 
   /// Zooms a specified tab.
+  /// [tabId] The ID of the tab to zoom; defaults to the active tab of the
+  /// current window.
+  /// [zoomFactor] The new zoom factor. A value of `0` sets the tab to its
+  /// current default zoom factor. Values greater than `0` specify a (possibly
+  /// non-default) zoom factor for the tab.
   Future<void> setZoom(
     int? tabId,
     double zoomFactor,
@@ -408,6 +442,8 @@ class ChromeTabs {
   }
 
   /// Gets the current zoom factor of a specified tab.
+  /// [tabId] The ID of the tab to get the current zoom factor from; defaults
+  /// to the active tab of the current window.
   Future<double> getZoom(int? tabId) {
     var $completer = Completer<double>();
     $js.chrome.tabs.getZoom(
@@ -423,6 +459,9 @@ class ChromeTabs {
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
   /// are handled. These settings are reset to defaults upon navigating the tab.
+  /// [tabId] The ID of the tab to change the zoom settings for; defaults to
+  /// the active tab of the current window.
+  /// [zoomSettings] Defines how zoom changes are handled and at what scope.
   Future<void> setZoomSettings(
     int? tabId,
     ZoomSettings zoomSettings,
@@ -441,6 +480,8 @@ class ChromeTabs {
   }
 
   /// Gets the current zoom settings of a specified tab.
+  /// [tabId] The ID of the tab to get the current zoom settings from;
+  /// defaults to the active tab of the current window.
   Future<ZoomSettings> getZoomSettings(int? tabId) {
     var $completer = Completer<ZoomSettings>();
     $js.chrome.tabs.getZoomSettings(
@@ -456,6 +497,10 @@ class ChromeTabs {
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
   /// strip and are reloaded when activated.
+  /// [tabId] The ID of the tab to be discarded. If specified, the tab is
+  /// discarded unless it is active or already discarded. If omitted, the
+  /// browser discards the least important tab. This can fail if no
+  /// discardable tabs exist.
   Future<Tab?> discard(int? tabId) {
     var $completer = Completer<Tab?>();
     $js.chrome.tabs.discard(
@@ -470,6 +515,8 @@ class ChromeTabs {
   }
 
   /// Go foward to the next page, if one is available.
+  /// [tabId] The ID of the tab to navigate forward; defaults to the selected
+  /// tab of the current window.
   Future<void> goForward(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.tabs.goForward(
@@ -484,6 +531,8 @@ class ChromeTabs {
   }
 
   /// Go back to the previous page, if one is available.
+  /// [tabId] The ID of the tab to navigate back; defaults to the selected tab
+  /// of the current window.
   Future<void> goBack(int? tabId) {
     var $completer = Completer<void>();
     $js.chrome.tabs.goBack(
@@ -1146,7 +1195,7 @@ class OnHighlightChangedSelectInfo {
     required List<int> tabIds,
   }) : _wrapped = $js.OnHighlightChangedSelectInfo()
           ..windowId = windowId
-          ..tabIds = throw UnimplementedError();
+          ..tabIds = tabIds.toJSArray((e) => e);
 
   final $js.OnHighlightChangedSelectInfo _wrapped;
 
@@ -1162,7 +1211,7 @@ class OnHighlightChangedSelectInfo {
   List<int> get tabIds =>
       _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
-    _wrapped.tabIds = throw UnimplementedError();
+    _wrapped.tabIds = v.toJSArray((e) => e);
   }
 }
 
@@ -1174,7 +1223,7 @@ class OnHighlightedHighlightInfo {
     required List<int> tabIds,
   }) : _wrapped = $js.OnHighlightedHighlightInfo()
           ..windowId = windowId
-          ..tabIds = throw UnimplementedError();
+          ..tabIds = tabIds.toJSArray((e) => e);
 
   final $js.OnHighlightedHighlightInfo _wrapped;
 
@@ -1190,7 +1239,7 @@ class OnHighlightedHighlightInfo {
   List<int> get tabIds =>
       _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
-    _wrapped.tabIds = throw UnimplementedError();
+    _wrapped.tabIds = v.toJSArray((e) => e);
   }
 }
 

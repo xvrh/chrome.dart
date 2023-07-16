@@ -33,6 +33,7 @@ class ChromeCookies {
   /// information.  The cookies returned will be sorted, with those with the
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
+  /// [details] Information to filter the cookies being retrieved.
   Future<List<Cookie>> getAll(GetAllDetails details) {
     var $completer = Completer<List<Cookie>>();
     $js.chrome.cookies.getAll(
@@ -51,6 +52,7 @@ class ChromeCookies {
 
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
+  /// [details] Details about the cookie being set.
   Future<Cookie?> set(SetDetails details) {
     var $completer = Completer<Cookie?>();
     $js.chrome.cookies.set(
@@ -260,7 +262,7 @@ class CookieStore {
     required List<int> tabIds,
   }) : _wrapped = $js.CookieStore()
           ..id = id
-          ..tabIds = throw UnimplementedError();
+          ..tabIds = tabIds.toJSArray((e) => e);
 
   final $js.CookieStore _wrapped;
 
@@ -276,7 +278,7 @@ class CookieStore {
   List<int> get tabIds =>
       _wrapped.tabIds.toDart.cast<int>().map((e) => e).toList();
   set tabIds(List<int> v) {
-    _wrapped.tabIds = throw UnimplementedError();
+    _wrapped.tabIds = v.toJSArray((e) => e);
   }
 }
 

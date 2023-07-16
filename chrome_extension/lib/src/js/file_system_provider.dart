@@ -29,7 +29,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// corresponding error code.
   external void mount(
     MountOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Unmounts a file system with the given `fileSystemId`. It
@@ -41,7 +41,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// corresponding error code.
   external void unmount(
     UnmountOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Returns all file systems mounted by the extension.
@@ -85,7 +85,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// will a corresponding error code.
   external void notify(
     NotifyOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Raised when unmounting for the file system with the

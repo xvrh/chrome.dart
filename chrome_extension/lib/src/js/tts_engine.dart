@@ -23,17 +23,26 @@ class JSTtsEngine {}
 extension JSTtsEngineExtension on JSTtsEngine {
   /// Called by an engine to update its list of voices. This list overrides any
   /// voices declared in this extension's manifest.
-  external void updateVoices(JSArray voices);
+  external void updateVoices(
+
+      /// Array of [tts.TtsVoice] objects representing the available voices for
+      /// speech synthesis.
+      JSArray voices);
 
   /// Routes a TTS event from a speech engine to a client.
   external void sendTtsEvent(
     int requestId,
+
+    /// The update event from the text-to-speech engine indicating the status of
+    /// this utterance.
     TtsEvent event,
   );
 
   /// Routes TTS audio from a speech engine to a client.
   external void sendTtsAudio(
     int requestId,
+
+    /// An audio buffer from the text-to-speech engine.
     AudioBuffer audio,
   );
 

@@ -24,94 +24,127 @@ extension JSBrowsingDataExtension on JSBrowsingData {
   /// Clears various types of browsing data stored in a user's profile.
   external void remove(
     RemovalOptions options,
+
+    /// The set of data types to remove.
     DataTypeSet dataToRemove,
-    JSFunction callback,
+
+    /// Called when deletion has completed.
+    JSFunction? callback,
   );
 
   /// Clears websites' appcache data.
   external void removeAppcache(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' appcache data has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's cache.
   external void removeCache(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's cache has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' cache storage data.
   external void removeCacheStorage(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' cache storage has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
   external void removeCookies(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's cookies and server-bound certificates have
+    /// been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's list of downloaded files (_not_ the downloaded files
   /// themselves).
   external void removeDownloads(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's list of downloaded files has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' file system data.
   external void removeFileSystems(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' file systems have been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's stored form data (autofill).
   external void removeFormData(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's form data has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's history.
   external void removeHistory(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's history has cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' IndexedDB data.
   external void removeIndexedDB(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' IndexedDB data has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' local storage data.
   external void removeLocalStorage(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' local storage has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears plugins' data.
   external void removePluginData(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when plugins' data has been cleared.
+    JSFunction? callback,
   );
 
   /// Clears the browser's stored passwords.
   external void removePasswords(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when the browser's passwords have been cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' service workers.
   external void removeServiceWorkers(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' service workers have been cleared.
+    JSFunction? callback,
   );
 
   /// Clears websites' WebSQL data.
   external void removeWebSQL(
     RemovalOptions options,
-    JSFunction callback,
+
+    /// Called when websites' WebSQL databases have been cleared.
+    JSFunction? callback,
   );
 }
 

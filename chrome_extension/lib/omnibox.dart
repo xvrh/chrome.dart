@@ -14,19 +14,22 @@ class ChromeOmnibox {
 
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
+  /// [suggestResults] An array of suggest results
   void sendSuggestions(
     int requestId,
     List<SuggestResult> suggestResults,
   ) {
     $js.chrome.omnibox.sendSuggestions(
       requestId,
-      throw UnimplementedError(),
+      suggestResults.toJSArray((e) => e.toJS),
     );
   }
 
   /// Sets the description and styling for the default suggestion. The default
   /// suggestion is the text that is displayed in the first suggestion row
   /// underneath the URL bar.
+  /// [suggestion] A partial SuggestResult object, without the 'content'
+  /// parameter.
   Future<void> setDefaultSuggestion(DefaultSuggestResult suggestion) {
     var $completer = Completer<void>();
     $js.chrome.omnibox.setDefaultSuggestion(
@@ -136,7 +139,7 @@ class SuggestResult {
           ..content = content
           ..description = description
           ..deletable = deletable
-          ..descriptionStyles = throw UnimplementedError();
+          ..descriptionStyles = descriptionStyles?.toJSArray((e) => e.toJS);
 
   final $js.SuggestResult _wrapped;
 
@@ -175,7 +178,7 @@ class SuggestResult {
           .map((e) => MatchClassification.fromJS(e))
           .toList();
   set descriptionStyles(List<MatchClassification>? v) {
-    _wrapped.descriptionStyles = throw UnimplementedError();
+    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
   }
 }
 
@@ -187,7 +190,7 @@ class DefaultSuggestResult {
     List<MatchClassification>? descriptionStyles,
   }) : _wrapped = $js.DefaultSuggestResult()
           ..description = description
-          ..descriptionStyles = throw UnimplementedError();
+          ..descriptionStyles = descriptionStyles?.toJSArray((e) => e.toJS);
 
   final $js.DefaultSuggestResult _wrapped;
 
@@ -211,7 +214,7 @@ class DefaultSuggestResult {
           .map((e) => MatchClassification.fromJS(e))
           .toList();
   set descriptionStyles(List<MatchClassification>? v) {
-    _wrapped.descriptionStyles = throw UnimplementedError();
+    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
   }
 }
 

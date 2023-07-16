@@ -36,14 +36,14 @@ extension JSPermissionsExtension on JSPermissions {
   /// requesting the permissions, [runtime.lastError] will be set.
   external void request(
     Permissions permissions,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Removes access to the specified permissions. If there are any problems
   /// removing the permissions, [runtime.lastError] will be set.
   external void remove(
     Permissions permissions,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Fired when the extension acquires new permissions.

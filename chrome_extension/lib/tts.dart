@@ -13,6 +13,11 @@ class ChromeTts {
   ChromeTts._();
 
   /// Speaks text using a text-to-speech engine.
+  /// [utterance] The text to speak, either plain text or a complete,
+  /// well-formed SSML document. Speech engines that do not support SSML will
+  /// strip away the tags and speak the text. The maximum length of the text
+  /// is 32,768 characters.
+  /// [options] The speech options.
   Future<void> speak(
     String utterance,
     TtsOptions? options,
@@ -137,8 +142,8 @@ class TtsOptions {
           ..rate = rate
           ..pitch = pitch
           ..volume = volume
-          ..requiredEventTypes = throw UnimplementedError()
-          ..desiredEventTypes = throw UnimplementedError()
+          ..requiredEventTypes = requiredEventTypes?.toJSArray((e) => e)
+          ..desiredEventTypes = desiredEventTypes?.toJSArray((e) => e)
           ..onEvent = onEvent;
 
   final $js.TtsOptions _wrapped;
@@ -208,7 +213,7 @@ class TtsOptions {
   List<String>? get requiredEventTypes =>
       _wrapped.requiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
   set requiredEventTypes(List<String>? v) {
-    _wrapped.requiredEventTypes = throw UnimplementedError();
+    _wrapped.requiredEventTypes = v?.toJSArray((e) => e);
   }
 
   /// The TTS event types that you are interested in listening to. If missing,
@@ -216,7 +221,7 @@ class TtsOptions {
   List<String>? get desiredEventTypes =>
       _wrapped.desiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
   set desiredEventTypes(List<String>? v) {
-    _wrapped.desiredEventTypes = throw UnimplementedError();
+    _wrapped.desiredEventTypes = v?.toJSArray((e) => e);
   }
 
   /// This function is called with events that occur in the process of speaking
@@ -317,7 +322,7 @@ class TtsVoice {
           ..gender = gender?.toJS
           ..remote = remote
           ..extensionId = extensionId
-          ..eventTypes = throw UnimplementedError();
+          ..eventTypes = eventTypes?.toJSArray((e) => e.toJS);
 
   final $js.TtsVoice _wrapped;
 
@@ -361,6 +366,6 @@ class TtsVoice {
       .map((e) => EventType.fromJS(e))
       .toList();
   set eventTypes(List<EventType>? v) {
-    _wrapped.eventTypes = throw UnimplementedError();
+    _wrapped.eventTypes = v?.toJSArray((e) => e.toJS);
   }
 }

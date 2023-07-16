@@ -14,6 +14,18 @@ class ChromeDesktopCapture {
   ChromeDesktopCapture._();
 
   /// Shows desktop media picker UI with the specified set of sources.
+  /// [sources] Set of sources that should be shown to the user. The sources
+  /// order in the set decides the tab order in the picker.
+  /// [targetTab] Optional tab for which the stream is created. If not
+  /// specified then the resulting stream can be used only by the calling
+  /// extension. The stream can only be used by frames in the given tab whose
+  /// security origin matches `tab.url`. The tab's origin must be a secure
+  /// origin, e.g. HTTPS.
+  /// [options] Mirrors members of
+  /// [DisplayMediaStreamConstraints](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints)
+  /// which need to be applied before the user makes their selection, and must
+  /// therefore be provided to chooseDesktopMedia() rather than be deferred to
+  /// getUserMedia().
   int chooseDesktopMedia(
     List<DesktopCaptureSourceType> sources,
     Tab? targetTab,
@@ -21,7 +33,7 @@ class ChromeDesktopCapture {
     JSFunction callback,
   ) {
     return $js.chrome.desktopCapture.chooseDesktopMedia(
-      throw UnimplementedError(),
+      sources.toJSArray((e) => e.toJS),
       targetTab?.toJS,
       options?.toJS,
       callback,
@@ -29,6 +41,7 @@ class ChromeDesktopCapture {
   }
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().
+  /// [desktopMediaRequestId] Id returned by chooseDesktopMedia()
   void cancelChooseDesktopMedia(int desktopMediaRequestId) {
     $js.chrome.desktopCapture.cancelChooseDesktopMedia(desktopMediaRequestId);
   }

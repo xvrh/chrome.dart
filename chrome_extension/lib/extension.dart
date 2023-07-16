@@ -17,6 +17,8 @@ class ChromeExtension {
   /// [runtime.connect], but only sends a single request with an optional
   /// response. The [extension.onRequest] event is fired in each page of the
   /// extension.
+  /// [extensionId] The extension ID of the extension you want to connect to.
+  /// If omitted, default is your own extension.
   Future<Object> sendRequest(
     String? extensionId,
     Object request,
@@ -36,6 +38,8 @@ class ChromeExtension {
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
+  /// [path] A path to a resource within an extension expressed relative to
+  /// its install directory.
   String getURL(String path) {
     return $js.chrome.extension.getURL(path);
   }

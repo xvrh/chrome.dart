@@ -30,7 +30,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called with the id of the new [DownloadItem].
   external void download(
     DownloadOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Find [DownloadItem]. Set `query` to the empty object to get
@@ -51,7 +51,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called when the pause request is completed.
   external void pause(
     int downloadId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Resume a paused download. If the request was successful the download is
@@ -61,7 +61,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called when the resume request is completed.
   external void resume(
     int downloadId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Cancel a download. When `callback` is run, the download is
@@ -70,7 +70,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called when the cancel request is completed.
   external void cancel(
     int downloadId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Retrieve an icon for the specified download. For new downloads, file
@@ -111,14 +111,14 @@ extension JSDownloadsExtension on JSDownloads {
   /// `callback` will be called.
   external void erase(
     DownloadQuery query,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Remove the downloaded file if it exists and the [DownloadItem] is
   /// complete; otherwise return an error through [runtime.lastError].
   external void removeFile(
     int downloadId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Prompt the user to accept a dangerous download. Can only be called from a
@@ -133,7 +133,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called when the danger prompt dialog closes.
   external void acceptDanger(
     int downloadId,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// Enable or disable the gray shelf at the bottom of every window associated
@@ -155,7 +155,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// |callback|: Called when the UI update is completed.
   external void setUiOptions(
     UiOptions options,
-    JSFunction callback,
+    JSFunction? callback,
   );
 
   /// This event fires with the [DownloadItem] object when a download

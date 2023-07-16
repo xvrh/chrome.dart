@@ -15,30 +15,46 @@ class ChromeGcm {
   /// Registers the application with FCM. The registration ID will be returned
   /// by the `callback`. If `register` is called again with the same list of
   /// `senderIds`, the same registration ID will be returned.
-  void register(
-    List<String> senderIds,
-    JSFunction callback,
-  ) {
+  /// [senderIds] A list of server IDs that are allowed to send messages to
+  /// the application. It should contain at least one and no more than 100
+  /// sender IDs.
+  Future<String> register(List<String> senderIds) {
+    var $completer = Completer<String>();
     $js.chrome.gcm.register(
-      throw UnimplementedError(),
-      callback,
+      senderIds.toJSArray((e) => e),
+      (String registrationId) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(registrationId);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// Unregisters the application from FCM.
-  void unregister(JSFunction callback) {
-    $js.chrome.gcm.unregister(callback);
+  Future<void> unregister() {
+    var $completer = Completer<void>();
+    $js.chrome.gcm.unregister(() {
+      if (checkRuntimeLastError($completer)) {
+        $completer.complete(null);
+      }
+    }.toJS);
+    return $completer.future;
   }
 
   /// Sends a message according to its contents.
-  void send(
-    SendMessage message,
-    JSFunction callback,
-  ) {
+  /// [message] A message to send to the other party via FCM.
+  Future<String> send(SendMessage message) {
+    var $completer = Completer<String>();
     $js.chrome.gcm.send(
       message.toJS,
-      callback,
+      (String messageId) {
+        if (checkRuntimeLastError($completer)) {
+          $completer.complete(messageId);
+        }
+      }.toJS,
     );
+    return $completer.future;
   }
 
   /// The maximum size (in bytes) of all key/value pairs in a message.

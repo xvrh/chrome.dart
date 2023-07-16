@@ -7,6 +7,10 @@ String documentationComment(String documentation, {required int indent}) {
   return _toComment(documentation, indent: indent);
 }
 
+String parameterDocumentation(String paramName, String documentation, {required int indent}) {
+  return documentationComment('[$paramName] $documentation', indent: indent);
+}
+
 final _nonBreakingSpace = '\u00A0';
 String _toComment(String? comment, {int indent = 0, int lineLength = 80}) {
   if (comment != null && comment.isNotEmpty) {

@@ -371,7 +371,7 @@ class FunctionType extends ChromeType {
 }
 
 class FunctionParameter {
-  final String? name;
+  final String name;
   final ChromeType type;
 
   FunctionParameter(this.name, this.type);
@@ -415,17 +415,22 @@ class ListType extends ChromeType {
         .property('toList')
         .call([]);
 
-    // TODO: remove this uggly hack
+    // TODO:
     // remove map((e) => e)
     // try to tear-off result (when end with (e))
     // check if cast<int>() is correct or need cast<JSNumber>()
-    //return '$accessor$questionMark.toDart.cast<$jsTypeName>().map((e) => ${item.toDart('e')}).toList()';
   }
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    // Need to wrap with a function taking JS parameters and convert them to Dart
-    return code.refer('UnimplementedError').call([]).thrown;
+    return accessor
+        .nullSafePropertyIf('toJSArray', isNullable)
+        .call([
+      code.Method((b) => b
+        ..requiredParameters.add(code.Parameter((b) => b..name = 'e'))
+        ..lambda = true
+        ..body = item.toJS(code.refer('e')).code).closure
+    ]);
   }
 }
 

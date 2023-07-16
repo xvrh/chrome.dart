@@ -91,7 +91,7 @@ class PageStateMatcher {
     required PageStateMatcherInstanceType instanceType,
   }) : _wrapped = $js.PageStateMatcher()
           ..pageUrl = pageUrl?.toJS
-          ..css = throw UnimplementedError()
+          ..css = css?.toJSArray((e) => e)
           ..isBookmarked = isBookmarked
           ..instanceType = instanceType.toJS;
 
@@ -115,7 +115,7 @@ class PageStateMatcher {
   List<String>? get css =>
       _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
-    _wrapped.css = throw UnimplementedError();
+    _wrapped.css = v?.toJSArray((e) => e);
   }
 
   /// Matches if the bookmarked state of the page is equal to the specified
@@ -210,8 +210,8 @@ class RequestContentScript {
     bool? matchAboutBlank,
     required RequestContentScriptInstanceType instanceType,
   }) : _wrapped = $js.RequestContentScript()
-          ..css = throw UnimplementedError()
-          ..js = throw UnimplementedError()
+          ..css = css?.toJSArray((e) => e)
+          ..js = js?.toJSArray((e) => e)
           ..allFrames = allFrames
           ..matchAboutBlank = matchAboutBlank
           ..instanceType = instanceType.toJS;
@@ -224,14 +224,14 @@ class RequestContentScript {
   List<String>? get css =>
       _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
   set css(List<String>? v) {
-    _wrapped.css = throw UnimplementedError();
+    _wrapped.css = v?.toJSArray((e) => e);
   }
 
   /// Names of JavaScript files to be injected as a part of the content script.
   List<String>? get js =>
       _wrapped.js?.toDart.cast<String>().map((e) => e).toList();
   set js(List<String>? v) {
-    _wrapped.js = throw UnimplementedError();
+    _wrapped.js = v?.toJSArray((e) => e);
   }
 
   /// Whether the content script runs in all frames of the matching page, or in

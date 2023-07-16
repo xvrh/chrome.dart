@@ -516,7 +516,7 @@ class DownloadOptions {
           ..conflictAction = conflictAction?.toJS
           ..saveAs = saveAs
           ..method = method?.toJS
-          ..headers = throw UnimplementedError()
+          ..headers = headers?.toJSArray((e) => e.toJS)
           ..body = body;
 
   final $js.DownloadOptions _wrapped;
@@ -568,7 +568,7 @@ class DownloadOptions {
       .map((e) => HeaderNameValuePair.fromJS(e))
       .toList();
   set headers(List<HeaderNameValuePair>? v) {
-    _wrapped.headers = throw UnimplementedError();
+    _wrapped.headers = v?.toJSArray((e) => e.toJS);
   }
 
   /// Post body.
@@ -823,7 +823,7 @@ class DownloadQuery {
     double? fileSize,
     bool? exists,
   }) : _wrapped = $js.DownloadQuery()
-          ..query = throw UnimplementedError()
+          ..query = query?.toJSArray((e) => e)
           ..startedBefore = startedBefore
           ..startedAfter = startedAfter
           ..endedBefore = endedBefore
@@ -834,7 +834,7 @@ class DownloadQuery {
           ..urlRegex = urlRegex
           ..finalUrlRegex = finalUrlRegex
           ..limit = limit
-          ..orderBy = throw UnimplementedError()
+          ..orderBy = orderBy?.toJSArray((e) => e)
           ..id = id
           ..url = url
           ..finalUrl = finalUrl
@@ -862,7 +862,7 @@ class DownloadQuery {
   List<String>? get query =>
       _wrapped.query?.toDart.cast<String>().map((e) => e).toList();
   set query(List<String>? v) {
-    _wrapped.query = throw UnimplementedError();
+    _wrapped.query = v?.toJSArray((e) => e);
   }
 
   /// Limits results to [DownloadItem] that
@@ -944,7 +944,7 @@ class DownloadQuery {
   List<String>? get orderBy =>
       _wrapped.orderBy?.toDart.cast<String>().map((e) => e).toList();
   set orderBy(List<String>? v) {
-    _wrapped.orderBy = throw UnimplementedError();
+    _wrapped.orderBy = v?.toJSArray((e) => e);
   }
 
   /// The `id` of the [DownloadItem] to query.

@@ -21,24 +21,39 @@ extension JSContextMenusExtension on JSContextMenus {
   /// [runtime.lastError].
   external JSAny create(
     CreateProperties createProperties,
+
+    /// Called when the item has been created in the browser. If an error occurs
+    /// during creation, details will be available in [runtime.lastError].
     JSFunction? callback,
   );
 
   /// Updates a previously created context menu item.
   external void update(
+    /// The ID of the item to update.
     JSAny id,
+
+    /// The properties to update. Accepts the same values as the
+    /// [contextMenus.create] function.
     UpdateProperties updateProperties,
+
+    /// Called when the context menu has been updated.
     JSFunction? callback,
   );
 
   /// Removes a context menu item.
   external void remove(
+    /// The ID of the context menu item to remove.
     JSAny menuItemId,
+
+    /// Called when the context menu has been removed.
     JSFunction? callback,
   );
 
   /// Removes all context menu items added by this extension.
-  external void removeAll(JSFunction? callback);
+  external void removeAll(
+
+      /// Called when removal is complete.
+      JSFunction? callback);
 
   /// Fired when a context menu item is clicked.
   external ChromeEvent get onClicked;

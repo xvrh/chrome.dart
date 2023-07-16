@@ -25,7 +25,11 @@ extension JSI18nExtension on JSI18n {
   /// or the _substitutions_ array has more than 9 elements - this method
   /// returns `undefined`.
   external String getMessage(
+    /// The name of the message, as specified in the <a
+    /// href='i18n-messages'>`messages.json`</a> file.
     String messageName,
+
+    /// Up to 9 substitution strings, if the message requires any.
     JSAny? substitutions,
     GetMessageOptions? options,
   );
@@ -36,6 +40,7 @@ extension JSI18nExtension on JSI18n {
 
   /// Detects the language of the provided text using CLD.
   external void detectLanguage(
+    /// User input string to be translated.
     String text,
     JSFunction callback,
   );

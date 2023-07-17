@@ -33,42 +33,48 @@ class IdlModelConverter {
     );
   }
 
+  AsyncReturnType _asyncTypeFromParameter(List<IDLParameter> parameters,
+      {required String parentName, required bool jsIsNullable}) {
+    ChromeType? dartType;
+    var allParameters = <FunctionParameter>[];
+    if (parameters.length == 1) {
+      var createdProperty = _convertSyntheticParam(parameters.first);
+      dartType = createdProperty.type;
+      allParameters
+          .add(FunctionParameter(createdProperty.name, createdProperty.type));
+    } else if (parameters.length > 1) {
+      var newTypeName = parentName;
+
+      var properties = <Property>[];
+      for (var param in parameters) {
+        var syntheticProperty = _convertSyntheticParam(param);
+        properties.add(syntheticProperty);
+        allParameters.add(
+            FunctionParameter(syntheticProperty.name, syntheticProperty.type));
+      }
+
+      var syntheticType = Dictionary(newTypeName,
+          properties: properties,
+          methods: [],
+          events: [],
+          documentation: '',
+          isAnonymous: false,
+          isSyntheticEvent: true);
+      dartType = LocalType(newTypeName,
+          declarationFile: _targetFileName, isNullable: false);
+      _syntheticDictionaries.add(syntheticType);
+    }
+    var jsCallback =
+        FunctionType(null, allParameters, isNullable: jsIsNullable);
+    return AsyncReturnType(dartType, jsCallback);
+  }
+
   Iterable<Event> _convertEvents() sync* {
     if (model.eventDeclaration == null) return;
 
     for (var e in model.eventDeclaration!.methods) {
-      var parameters = e.parameters;
-      ChromeType? dartType;
-      var allParameters = <FunctionParameter>[];
-      if (parameters.length == 1) {
-        var createdProperty = _convertSyntheticParam(parameters.first);
-        dartType = createdProperty.type;
-        allParameters
-            .add(FunctionParameter(createdProperty.name, createdProperty.type));
-      } else if (parameters.length > 1) {
-        var newTypeName = '${e.name.upperCamel}Event';
-
-        var properties = <Property>[];
-        for (var param in parameters) {
-          var syntheticProperty = _convertSyntheticParam(param);
-          properties.add(syntheticProperty);
-          allParameters.add(FunctionParameter(
-              syntheticProperty.name, syntheticProperty.type));
-        }
-
-        var syntheticType = Dictionary(newTypeName,
-            properties: properties,
-            methods: [],
-            events: [],
-            documentation: '',
-            isAnonymous: false,
-            isSyntheticEvent: true);
-        dartType = LocalType(newTypeName,
-            declarationFile: _targetFileName, isNullable: false);
-        _syntheticDictionaries.add(syntheticType);
-      }
-      var jsCallback = FunctionType(null, allParameters, isNullable: false);
-      var callback = AsyncReturnType(dartType, jsCallback);
+      var callback = _asyncTypeFromParameter(e.parameters,
+          parentName: '${e.name.upperCamel}Event', jsIsNullable: false);
       yield Event(e.name,
           type: callback, documentation: _toDocumentation(e.documentation));
     }
@@ -165,40 +171,9 @@ class IdlModelConverter {
               orElse: () => throw StateError(
                   'Look for callback ${paramDecl.type.name} ${model.name} ${function.name}'));
 
-          FunctionParameter? singleParameter;
-          var allParameters = <FunctionParameter>[];
-          if (callbackDeclaration.parameters.length > 1) {
-            var syntheticTypeName = '${function.name.upperCamel}Result';
-
-            var syntheticProperties = <Property>[];
-            for (var param in callbackDeclaration.parameters) {
-              var syntheticProperty = _convertSyntheticParam(param);
-              syntheticProperties.add(syntheticProperty);
-              allParameters.add(FunctionParameter(
-                  syntheticProperty.name, syntheticProperty.type));
-            }
-
-            singleParameter = FunctionParameter(
-                'e',
-                LocalType(syntheticTypeName,
-                    declarationFile: _targetFileName, isNullable: false));
-            var syntheticType = Dictionary(syntheticTypeName,
-                properties: syntheticProperties,
-                methods: [],
-                events: [],
-                documentation: '',
-                isAnonymous: false,
-                isSyntheticEvent: true);
-            _syntheticDictionaries.add(syntheticType);
-          } else if (callbackDeclaration.parameters case [var param]) {
-            singleParameter = FunctionParameter(param.name,
-                _typeFromName(param.type, isNullable: param.isOptional));
-            allParameters.add(singleParameter);
-          }
-
-          var jsCallback = FunctionType(null, allParameters,
-              isNullable: paramDecl.isOptional);
-          callback = AsyncReturnType(singleParameter?.type, jsCallback);
+          callback = _asyncTypeFromParameter(callbackDeclaration.parameters,
+              parentName: '${function.name.upperCamel}Result',
+              jsIsNullable: paramDecl.isOptional);
           if (function.returnType.name != 'void') {
             throw UnimplementedError(
                 'Async with non void function ${model.name} / ${function.name}');

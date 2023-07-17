@@ -42,41 +42,57 @@ class JsonModelConverter {
     }
   }
 
-  Event _toEvent(JsonFunction event, {String? parent}) {
-    var parameters = <JsonProperty, ChromeType>{};
+  AsyncReturnType _asyncFromParameters(List<JsonProperty> functionParameters,
+      {required String parentName,
+      required String syntheticTypeName,
+      required bool jsIsNullable,
+      required String? returnName}) {
+    FunctionParameter? singleParameter;
     var allParameters = <FunctionParameter>[];
-    for (var param in event.parameters) {
-      var name = param.name!;
-      var parameterType = _addSyntheticTypeIfNeeded(param, name, event.name,
-              anonymous: false, isNullable: param.optional ?? false) ??
-          _propertyType(param);
-      parameters[param] = parameterType;
-      allParameters.add(FunctionParameter(name, parameterType));
-    }
-    ChromeType? dartType;
-    if (parameters.length == 1) {
-      dartType = parameters.values.first;
-    } else if (parameters.length > 1) {
-      var syntheticTypeName = '${parent ?? ''} ${event.name} Event'.upperCamel;
+    if (functionParameters.length > 1) {
+      var syntheticProperties = <Property>[];
+      for (var param in functionParameters) {
+        var syntheticProperty = _addSyntheticTypeIfNeeded(
+                param, param.name!, parentName,
+                anonymous: false, isNullable: param.optional ?? false) ??
+            _propertyType(param);
+        syntheticProperties.add(Property(param.name!,
+            type: syntheticProperty, documentation: param.description));
+        allParameters
+            .add(FunctionParameter(param.name ?? 'e', syntheticProperty));
+      }
+
+      singleParameter = FunctionParameter(
+          'e',
+          LocalType(syntheticTypeName,
+              declarationFile: _targetFileName, isNullable: false));
       var syntheticType = Dictionary(syntheticTypeName,
-          properties: [
-            for (var param in parameters.entries)
-              Property(param.key.name!,
-                  type: param.value, documentation: param.key.description)
-          ],
+          properties: syntheticProperties,
           methods: [],
           events: [],
           documentation: '',
           isAnonymous: false,
           isSyntheticEvent: true);
-      assert(syntheticType.properties.length > 1);
       _syntheticDictionaries.add(syntheticType);
-      dartType = _newLocalType(syntheticTypeName, isNullable: false);
+    } else if (functionParameters case [var p]) {
+      var type = _addSyntheticTypeIfNeeded(
+              p, '${returnName ?? ''}_${p.name!}', parentName,
+              anonymous: false, isNullable: p.optional ?? false) ??
+          _propertyType(p);
+      singleParameter = FunctionParameter(p.name!, type);
+      allParameters.add(singleParameter);
     }
+    var jsReturnType =
+        FunctionType(null, allParameters, isNullable: jsIsNullable);
+    return AsyncReturnType(singleParameter?.type, jsReturnType);
+  }
 
-    var jsReturnType = FunctionType(null, allParameters,
-        isNullable: false);
-     var returnType = AsyncReturnType(dartType, jsReturnType);
+  Event _toEvent(JsonFunction event, {String? parent}) {
+    var returnType = _asyncFromParameters(event.parameters,
+        parentName: event.name,
+        syntheticTypeName: '${parent ?? ''} ${event.name} Event'.upperCamel,
+        returnName: null,
+        jsIsNullable: false);
     return Event(event.name,
         type: returnType, documentation: event.description);
   }
@@ -91,10 +107,12 @@ class JsonModelConverter {
     var jsonReturns = function.returnsAsync ?? function.returns;
 
     if (jsonReturns == null) {
-      var callbacks =
-          function.parameters.where((p) => p.type == 'function' && p.parameters != null).toList();
+      var callbacks = function.parameters
+          .where((p) => p.type == 'function' && p.parameters != null)
+          .toList();
       if (callbacks.length == 1) {
-        if (!_autoCallbackToReturnFalsePositives.contains('${model.namespace}.${function.name}')) {
+        if (!_autoCallbackToReturnFalsePositives
+            .contains('${model.namespace}.${function.name}')) {
           jsonReturns = callbacks.first;
         }
       }
@@ -111,46 +129,11 @@ class JsonModelConverter {
       }
 
       if (jsonReturns.parameters != null) {
-        FunctionParameter? singleParameter;
-        var allParameters = <FunctionParameter>[];
-        if (jsonReturns.parameters!.length > 1) {
-          var syntheticTypeName = '${function.name.upperCamel}Result';
-
-          var syntheticProperties = <Property>[];
-          for (var param in jsonReturns.parameters!) {
-            var syntheticProperty = _addSyntheticTypeIfNeeded(
-                    param, param.name!, function.name,
-                    anonymous: false, isNullable: param.optional ?? false) ??
-                _propertyType(param);
-            syntheticProperties.add(Property(param.name!,
-                type: syntheticProperty, documentation: param.description));
-            allParameters
-                .add(FunctionParameter(param.name ?? 'e', syntheticProperty));
-          }
-
-          singleParameter = FunctionParameter(
-              'e',
-              LocalType(syntheticTypeName,
-                  declarationFile: _targetFileName, isNullable: false));
-          var syntheticType = Dictionary(syntheticTypeName,
-              properties: syntheticProperties,
-              methods: [],
-              events: [],
-              documentation: '',
-              isAnonymous: false,
-              isSyntheticEvent: true);
-          _syntheticDictionaries.add(syntheticType);
-        } else if (jsonReturns.parameters case [var p]) {
-          var type = _addSyntheticTypeIfNeeded(
-                  p, '${jsonReturns.name!}_${p.name!}', function.name,
-                  anonymous: false, isNullable: p.optional ?? false) ??
-              _propertyType(p);
-          singleParameter = FunctionParameter(p.name!, type);
-          allParameters.add(singleParameter);
-        }
-        var jsReturnType = FunctionType(null, allParameters,
-            isNullable: jsonReturns.optional ?? false);
-        returnType = AsyncReturnType(singleParameter?.type, jsReturnType);
+        returnType = _asyncFromParameters(jsonReturns.parameters!,
+            parentName: function.name,
+            returnName: jsonReturns.name!,
+            syntheticTypeName: '${function.name.upperCamel}Result',
+            jsIsNullable: jsonReturns.optional ?? false);
       } else {
         returnType = _addSyntheticTypeIfNeeded(
                 jsonReturns, 'Return', function.name,

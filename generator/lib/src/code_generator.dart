@@ -1,3 +1,4 @@
+import 'package:chrome_extension_generator/src/chrome_type.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:code_builder/code_builder.dart';
 import 'chrome_model.dart' as model;
@@ -207,7 +208,8 @@ class DartApiGenerator extends _GeneratorBase {
           ..methods.addAll(
               api.functions.map((f) => _function(f, source: _referJsBinding())))
           ..methods.addAll(api.properties.map(_property))
-          ..methods.addAll(api.events.map((e) => _event(e, source: _referJsBinding())))),
+          ..methods.addAll(
+              api.events.map((e) => _event(e, source: _referJsBinding())))),
         for (var enumeration in api.enumerations) _enum(enumeration),
         for (var type in api.typedefs)
           TypeDef((b) => b
@@ -239,6 +241,19 @@ class DartApiGenerator extends _GeneratorBase {
     return referTo.property(api.nameWithoutGroup.lowerCamel);
   }
 
+  Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
+    Expression completeParameter = refer('null');
+    if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
+      completeParameter = singleParam.type.toDart(refer(singleParam.name));
+    } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
+      completeParameter = asyncReturn.dartType.call([], {
+        for (var jsParam in asyncReturn.jsCallback.positionalParameters)
+          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
+      });
+    }
+    return completeParameter;
+  }
+
   Method _function(model.Method method, {required Expression source}) {
     Reference returns;
     Block body;
@@ -254,15 +269,7 @@ class DartApiGenerator extends _GeneratorBase {
         ..symbol = 'Future'
         ..types.add(futureType));
 
-      Expression completeParameter = refer('null');
-      if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-        completeParameter = singleParam.type.toDart(refer(singleParam.name));
-      } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
-        completeParameter = asyncReturn.dartType.call([], {
-          for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-            jsParam.name: jsParam.type.toDart(refer(jsParam.name))
-        });
-      }
+      var completeParameter = _asyncCompletionParameter(asyncReturn);
 
       var completerVar = r'$completer';
 
@@ -322,15 +329,7 @@ class DartApiGenerator extends _GeneratorBase {
   }
 
   Method _event(model.Event event, {required Expression source}) {
-    Expression completeParameter = refer('null');
-    if (event.type.jsCallback.positionalParameters case [var singleParam]) {
-      completeParameter = singleParam.type.toDart(refer(singleParam.name));
-    } else if (event.type.jsCallback.positionalParameters.length > 1) {
-      completeParameter = event.type.dartType.call([], {
-        for (var jsParam in event.type.jsCallback.positionalParameters)
-          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
-      });
-    }
+    var completeParameter = _asyncCompletionParameter(event.type);
 
     return Method((b) => b
       ..name = event.name
@@ -338,8 +337,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = TypeReference((b) => b
         ..symbol = 'Stream'
         ..types.add(event.type.dartType))
-      ..body =
-          source.property(event.name).property('asStream').call([
+      ..body = source.property(event.name).property('asStream').call([
         Method((b) => b
           ..lambda = true
           ..requiredParameters.add(Parameter((b) => b..name = r'$c'))
@@ -351,8 +349,7 @@ class DartApiGenerator extends _GeneratorBase {
                   ..type = jsParam.type.jsTypeReferencedFromDart)
             ])
             ..body = Block.of([
-              refer(r'$c').property('add').call(
-                  [completeParameter]).statement
+              refer(r'$c').property('add').call([completeParameter]).statement
             ])).closure.property('toJS').code).closure
       ]).code
       ..lambda = true
@@ -479,7 +476,8 @@ class DartApiGenerator extends _GeneratorBase {
               dictionary.properties.map(_wrappingProperty).expand((e) => e))
           ..methods.addAll(dictionary.methods
               .map((f) => _function(f, source: refer(wrappedVariable))))
-          ..methods.addAll(dictionary.events.map((e) => _event(e, source: refer(wrappedVariable))));
+          ..methods.addAll(dictionary.events
+              .map((e) => _event(e, source: refer(wrappedVariable))));
       }
     });
   }

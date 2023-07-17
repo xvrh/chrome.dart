@@ -68,22 +68,22 @@ extension JSNotificationsExtension on JSNotifications {
   external void getPermissionLevel(JSFunction callback);
 
   /// The notification closed, either by the system or by user action.
-  external ChromeEvent get onClosed;
+  external Event get onClosed;
 
   /// The user clicked in a non-button area of the notification.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 
   /// The user pressed a button in the notification.
-  external ChromeEvent get onButtonClicked;
+  external Event get onButtonClicked;
 
   /// The user changes the permission level.  As of Chrome 47, only ChromeOS
   /// has UI that dispatches this event.
-  external ChromeEvent get onPermissionLevelChanged;
+  external Event get onPermissionLevelChanged;
 
   /// The user clicked on a link for the app's notification settings.  As of
   /// Chrome 47, only ChromeOS has UI that dispatches this event.
   /// As of Chrome 65, that UI has been removed from ChromeOS, too.
-  external ChromeEvent get onShowSettings;
+  external Event get onShowSettings;
 }
 
 typedef TemplateType = String;

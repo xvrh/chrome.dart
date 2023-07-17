@@ -136,16 +136,16 @@ extension JSManagementExtension on JSManagement {
   external void installReplacementWebApp(JSFunction? callback);
 
   /// Fired when an app or extension has been installed.
-  external ChromeEvent get onInstalled;
+  external Event get onInstalled;
 
   /// Fired when an app or extension has been uninstalled.
-  external ChromeEvent get onUninstalled;
+  external Event get onUninstalled;
 
   /// Fired when an app or extension has been enabled.
-  external ChromeEvent get onEnabled;
+  external Event get onEnabled;
 
   /// Fired when an app or extension has been disabled.
-  external ChromeEvent get onDisabled;
+  external Event get onDisabled;
 }
 
 /// These are all possible app launch types.

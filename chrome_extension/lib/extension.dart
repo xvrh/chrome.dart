@@ -1,6 +1,7 @@
 import 'runtime.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/extension.dart' as $js;
+import 'src/js/runtime.dart' as $js_runtime;
 
 export 'src/chrome.dart' show chrome;
 
@@ -111,21 +112,41 @@ class ChromeExtension {
   /// resulted in an error. If no error has occured lastError will be
   /// [undefined].
   ExtensionLastError? get lastError =>
-      ($js.chrome.extension.lastError as dynamic);
+      $js.chrome.extension.lastError?.let(ExtensionLastError.fromJS);
 
   /// True for content scripts running inside incognito tabs, and for extension
   /// pages running inside an incognito process. The latter only applies to
   /// extensions with 'split' incognito_behavior.
-  bool? get inIncognitoContext =>
-      ($js.chrome.extension.inIncognitoContext as dynamic);
+  bool? get inIncognitoContext => $js.chrome.extension.inIncognitoContext;
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.
-  Stream<OnRequestEvent> get onRequest => throw UnimplementedError();
+  Stream<OnRequestEvent> get onRequest =>
+      $js.chrome.extension.onRequest.asStream(($c) => (
+            JSAny? request,
+            $js_runtime.MessageSender sender,
+            JSFunction sendResponse,
+          ) {
+            $c.add(OnRequestEvent(
+              request: request,
+              sender: MessageSender.fromJS(sender),
+              sendResponse: sendResponse,
+            ));
+          }.toJS);
 
   /// Fired when a request is sent from another extension.
   Stream<OnRequestExternalEvent> get onRequestExternal =>
-      throw UnimplementedError();
+      $js.chrome.extension.onRequestExternal.asStream(($c) => (
+            JSAny? request,
+            $js_runtime.MessageSender sender,
+            JSFunction sendResponse,
+          ) {
+            $c.add(OnRequestExternalEvent(
+              request: request,
+              sender: MessageSender.fromJS(sender),
+              sendResponse: sendResponse,
+            ));
+          }.toJS);
 }
 
 /// The type of extension view.

@@ -2,6 +2,7 @@ import 'browser_action.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/action.dart' as $js;
 import 'src/js/browser_action.dart' as $js_browser_action;
+import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -254,7 +255,10 @@ class ChromeAction {
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.
-  Stream<Tab> get onClicked => throw UnimplementedError();
+  Stream<Tab> get onClicked =>
+      $js.chrome.action.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
+            $c.add(Tab.fromJS(tab));
+          }.toJS);
 }
 
 class TabDetails {

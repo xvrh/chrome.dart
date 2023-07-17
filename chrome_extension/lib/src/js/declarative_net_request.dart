@@ -185,7 +185,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// as this is intended to be used for debugging purposes only.
   /// |info|: The rule that has been matched along with information about the
   /// associated request.
-  external ChromeEvent get onRuleMatchedDebug;
+  external Event get onRuleMatchedDebug;
 
   /// The minimum number of static rules guaranteed to an extension across its
   /// enabled static rulesets. Any rules above this limit will count towards

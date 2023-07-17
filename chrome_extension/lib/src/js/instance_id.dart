@@ -61,7 +61,7 @@ extension JSInstanceIdExtension on JSInstanceId {
       JSFunction callback);
 
   /// Fired when all the granted tokens need to be refreshed.
-  external ChromeEvent get onTokenRefresh;
+  external Event get onTokenRefresh;
 }
 
 @JS()

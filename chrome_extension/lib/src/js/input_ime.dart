@@ -140,24 +140,24 @@ extension JSInputImeExtension on JSInputIme {
 
   /// This event is sent when an IME is activated. It signals that the IME will
   /// be receiving onKeyPress events.
-  external ChromeEvent get onActivate;
+  external Event get onActivate;
 
   /// This event is sent when an IME is deactivated. It signals that the IME
   /// will no longer be receiving onKeyPress events.
-  external ChromeEvent get onDeactivated;
+  external Event get onDeactivated;
 
   /// This event is sent when focus enters a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  external ChromeEvent get onFocus;
+  external Event get onFocus;
 
   /// This event is sent when focus leaves a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  external ChromeEvent get onBlur;
+  external Event get onBlur;
 
   /// This event is sent when the properties of the current InputContext change,
   /// such as the the type. It is sent to all extensions that are listening to
   /// this event, and enabled by the user.
-  external ChromeEvent get onInputContextUpdate;
+  external Event get onInputContextUpdate;
 
   /// Fired when a key event is sent from the operating system. The event will
   /// be sent to the extension if this extension owns the active IME. The
@@ -165,24 +165,24 @@ extension JSInputImeExtension on JSInputIme {
   /// was not.  If the event will be evaluated asynchronously, this function
   /// must return undefined and the IME must later call keyEventHandled() with
   /// the result.
-  external ChromeEvent get onKeyEvent;
+  external Event get onKeyEvent;
 
   /// This event is sent if this extension owns the active IME.
-  external ChromeEvent get onCandidateClicked;
+  external Event get onCandidateClicked;
 
   /// Called when the user selects a menu item
-  external ChromeEvent get onMenuItemActivated;
+  external Event get onMenuItemActivated;
 
   /// Called when the editable string around caret is changed or when the caret
   /// position is moved. The text length is limited to 100 characters for each
   /// back and forth direction.
-  external ChromeEvent get onSurroundingTextChanged;
+  external Event get onSurroundingTextChanged;
 
   /// This event is sent when chrome terminates ongoing text input session.
-  external ChromeEvent get onReset;
+  external Event get onReset;
 
   /// This event is sent when a button in an assistive window is clicked.
-  external ChromeEvent get onAssistiveWindowButtonClicked;
+  external Event get onAssistiveWindowButtonClicked;
 }
 
 typedef KeyboardEventType = String;

@@ -18,7 +18,7 @@ class JSProxy {}
 
 extension JSProxyExtension on JSProxy {
   /// Notifies about proxy errors.
-  external ChromeEvent get onProxyError;
+  external Event get onProxyError;
 
   /// Proxy settings to be used. The value of this setting is a ProxyConfig
   /// object.

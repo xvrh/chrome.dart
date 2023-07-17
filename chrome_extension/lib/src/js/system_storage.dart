@@ -37,10 +37,10 @@ extension JSSystemStorageExtension on JSSystemStorage {
   );
 
   /// Fired when a new removable storage is attached to the system.
-  external ChromeEvent get onAttached;
+  external Event get onAttached;
 
   /// Fired when a removable storage is detached from the system.
-  external ChromeEvent get onDetached;
+  external Event get onDetached;
 }
 
 typedef StorageUnitType = String;

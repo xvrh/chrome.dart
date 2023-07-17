@@ -57,7 +57,7 @@ extension JSCookiesExtension on JSCookies {
   /// with "cause" of "overwrite" .  Afterwards, a new cookie is written with
   /// the updated values, generating a second notification with "cause"
   /// "explicit".
-  external ChromeEvent get onChanged;
+  external Event get onChanged;
 }
 
 /// A cookie's 'SameSite' state

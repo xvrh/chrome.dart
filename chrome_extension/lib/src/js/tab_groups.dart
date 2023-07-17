@@ -48,20 +48,20 @@ extension JSTabGroupsExtension on JSTabGroups {
   );
 
   /// Fired when a group is created.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fired when a group is updated.
-  external ChromeEvent get onUpdated;
+  external Event get onUpdated;
 
   /// Fired when a group is moved within a window. Move events are still fired
   /// for the individual tabs within the group, as well as for the group itself.
   /// This event is not fired when a group is moved between windows; instead, it
   /// will be removed from one window and created in another.
-  external ChromeEvent get onMoved;
+  external Event get onMoved;
 
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
-  external ChromeEvent get onRemoved;
+  external Event get onRemoved;
 
   /// An ID that represents the absence of a group.
   external int get TAB_GROUP_ID_NONE;

@@ -97,7 +97,6 @@ class JsBindingGenerator extends _GeneratorBase {
         ..type = asyncType.jsType));
     } else {
       returns = method.returns.type?.jsType ?? refer('void');
-
     }
 
     return Method((b) => b
@@ -113,7 +112,7 @@ class JsBindingGenerator extends _GeneratorBase {
       ..name = event.name
       ..docs.add(documentationComment(event.documentation, indent: 2))
       ..external = true
-      ..returns = refer('ChromeEvent', _sharedBinding)
+      ..returns = refer('Event', _sharedBinding)
       ..type = MethodType.getter);
   }
 
@@ -208,7 +207,7 @@ class DartApiGenerator extends _GeneratorBase {
           ..methods.addAll(
               api.functions.map((f) => _function(f, source: _referJsBinding())))
           ..methods.addAll(api.properties.map(_property))
-          ..methods.addAll(api.events.map(_event))),
+          ..methods.addAll(api.events.map((e) => _event(e, source: _referJsBinding())))),
         for (var enumeration in api.enumerations) _enum(enumeration),
         for (var type in api.typedefs)
           TypeDef((b) => b
@@ -257,11 +256,11 @@ class DartApiGenerator extends _GeneratorBase {
 
       Expression completeParameter = refer('null');
       if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-        completeParameter = singleParam.type.toDart(refer(singleParam.name!));
+        completeParameter = singleParam.type.toDart(refer(singleParam.name));
       } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
         completeParameter = asyncReturn.dartType.call([], {
           for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-            jsParam.name!: jsParam.type.toDart(refer(jsParam.name!))
+            jsParam.name: jsParam.type.toDart(refer(jsParam.name))
         });
       }
 
@@ -285,7 +284,7 @@ class DartApiGenerator extends _GeneratorBase {
             ..requiredParameters.addAll([
               for (var jsParam in asyncReturn.jsCallback.positionalParameters)
                 Parameter((b) => b
-                  ..name = jsParam.name!
+                  ..name = jsParam.name
                   ..type = jsParam.type.jsTypeReferencedFromDart)
             ])
             ..body = Code('''if (checkRuntimeLastError($completerVar)) {
@@ -311,7 +310,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..docs.addAll([
         for (var param in method.parameters)
           if (param.documentation.isNotEmpty)
-          parameterDocumentation(param.name, param.documentation, indent: 4)
+            parameterDocumentation(param.name, param.documentation, indent: 4)
       ])
       ..name = method.name
       ..returns = returns
@@ -322,14 +321,40 @@ class DartApiGenerator extends _GeneratorBase {
             ..type = p.type.dartType))));
   }
 
-  Method _event(model.Event event) {
+  Method _event(model.Event event, {required Expression source}) {
+    Expression completeParameter = refer('null');
+    if (event.type.jsCallback.positionalParameters case [var singleParam]) {
+      completeParameter = singleParam.type.toDart(refer(singleParam.name));
+    } else if (event.type.jsCallback.positionalParameters.length > 1) {
+      completeParameter = event.type.dartType.call([], {
+        for (var jsParam in event.type.jsCallback.positionalParameters)
+          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
+      });
+    }
+
     return Method((b) => b
       ..name = event.name
       ..docs.add(documentationComment(event.documentation, indent: 2))
       ..returns = TypeReference((b) => b
         ..symbol = 'Stream'
-        ..types.add(event.type?.dartType ?? refer('void')))
-      ..body = const Code('throw UnimplementedError()')
+        ..types.add(event.type.dartType))
+      ..body =
+          source.property(event.name).property('asStream').call([
+        Method((b) => b
+          ..lambda = true
+          ..requiredParameters.add(Parameter((b) => b..name = r'$c'))
+          ..body = Method((b) => b
+            ..requiredParameters.addAll([
+              for (var jsParam in event.type.jsCallback.positionalParameters)
+                Parameter((b) => b
+                  ..name = jsParam.name
+                  ..type = jsParam.type.jsTypeReferencedFromDart)
+            ])
+            ..body = Block.of([
+              refer(r'$c').property('add').call(
+                  [completeParameter]).statement
+            ])).closure.property('toJS').code).closure
+      ]).code
       ..lambda = true
       ..type = MethodType.getter);
   }
@@ -342,7 +367,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = prop.type.dartType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..type = MethodType.getter
-      ..body = referTo.asA(refer('dynamic')).code
+      ..body = prop.type.toDart(referTo).code
       ..lambda = true);
   }
 
@@ -454,7 +479,7 @@ class DartApiGenerator extends _GeneratorBase {
               dictionary.properties.map(_wrappingProperty).expand((e) => e))
           ..methods.addAll(dictionary.methods
               .map((f) => _function(f, source: refer(wrappedVariable))))
-          ..methods.addAll(dictionary.events.map(_event));
+          ..methods.addAll(dictionary.events.map((e) => _event(e, source: refer(wrappedVariable))));
       }
     });
   }

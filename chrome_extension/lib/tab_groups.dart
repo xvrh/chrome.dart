@@ -84,23 +84,35 @@ class ChromeTabGroups {
   }
 
   /// An ID that represents the absence of a group.
-  int get tabGroupIdNone => ($js.chrome.tabGroups.TAB_GROUP_ID_NONE as dynamic);
+  int get tabGroupIdNone => $js.chrome.tabGroups.TAB_GROUP_ID_NONE;
 
   /// Fired when a group is created.
-  Stream<TabGroup> get onCreated => throw UnimplementedError();
+  Stream<TabGroup> get onCreated =>
+      $js.chrome.tabGroups.onCreated.asStream(($c) => ($js.TabGroup group) {
+            $c.add(TabGroup.fromJS(group));
+          }.toJS);
 
   /// Fired when a group is updated.
-  Stream<TabGroup> get onUpdated => throw UnimplementedError();
+  Stream<TabGroup> get onUpdated =>
+      $js.chrome.tabGroups.onUpdated.asStream(($c) => ($js.TabGroup group) {
+            $c.add(TabGroup.fromJS(group));
+          }.toJS);
 
   /// Fired when a group is moved within a window. Move events are still fired
   /// for the individual tabs within the group, as well as for the group itself.
   /// This event is not fired when a group is moved between windows; instead, it
   /// will be removed from one window and created in another.
-  Stream<TabGroup> get onMoved => throw UnimplementedError();
+  Stream<TabGroup> get onMoved =>
+      $js.chrome.tabGroups.onMoved.asStream(($c) => ($js.TabGroup group) {
+            $c.add(TabGroup.fromJS(group));
+          }.toJS);
 
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
-  Stream<TabGroup> get onRemoved => throw UnimplementedError();
+  Stream<TabGroup> get onRemoved =>
+      $js.chrome.tabGroups.onRemoved.asStream(($c) => ($js.TabGroup group) {
+            $c.add(TabGroup.fromJS(group));
+          }.toJS);
 }
 
 /// The group's color.

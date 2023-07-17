@@ -36,19 +36,19 @@ extension JSOmniboxExtension on JSOmnibox {
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and
   /// before any onInputChanged events.
-  external ChromeEvent get onInputStarted;
+  external Event get onInputStarted;
 
   /// User has changed what is typed into the omnibox.
-  external ChromeEvent get onInputChanged;
+  external Event get onInputChanged;
 
   /// User has accepted what is typed into the omnibox.
-  external ChromeEvent get onInputEntered;
+  external Event get onInputEntered;
 
   /// User has ended the keyword input session without accepting the input.
-  external ChromeEvent get onInputCancelled;
+  external Event get onInputCancelled;
 
   /// User has deleted a suggested result.
-  external ChromeEvent get onDeleteSuggestion;
+  external Event get onDeleteSuggestion;
 }
 
 /// The style type.

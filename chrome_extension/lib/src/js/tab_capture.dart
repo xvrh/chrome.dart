@@ -60,7 +60,7 @@ extension JSTabCaptureExtension on JSTabCapture {
   /// This allows extension authors to keep track of the capture status of
   /// tabs to keep UI elements like page actions in sync.
   /// |info| : CaptureInfo with new capture status for the tab.
-  external ChromeEvent get onStatusChanged;
+  external Event get onStatusChanged;
 }
 
 typedef TabCaptureState = String;

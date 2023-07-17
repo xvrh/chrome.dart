@@ -65,7 +65,7 @@ extension ChromeSettingExtension on ChromeSetting {
   );
 
   /// Fired after the setting changes.
-  external ChromeEvent get onChange;
+  external Event get onChange;
 }
 
 @JS()

@@ -58,19 +58,28 @@ class ChromeGcm {
   }
 
   /// The maximum size (in bytes) of all key/value pairs in a message.
-  int get maxMessageSize => ($js.chrome.gcm.MAX_MESSAGE_SIZE as dynamic);
+  int get maxMessageSize => $js.chrome.gcm.MAX_MESSAGE_SIZE;
 
   /// Fired when a message is received through FCM.
-  Stream<OnMessageMessage> get onMessage => throw UnimplementedError();
+  Stream<OnMessageMessage> get onMessage =>
+      $js.chrome.gcm.onMessage.asStream(($c) => ($js.OnMessageMessage message) {
+            $c.add(OnMessageMessage.fromJS(message));
+          }.toJS);
 
   /// Fired when a FCM server had to delete messages sent by an app server to
   /// the application. See [Lifetime of a
   /// message](https://firebase.google.com/docs/cloud-messaging/concept-options#lifetime)
   /// for details on handling this event.
-  Stream<void> get onMessagesDeleted => throw UnimplementedError();
+  Stream<void> get onMessagesDeleted =>
+      $js.chrome.gcm.onMessagesDeleted.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// Fired when it was not possible to send a message to the FCM server.
-  Stream<OnSendErrorError> get onSendError => throw UnimplementedError();
+  Stream<OnSendErrorError> get onSendError =>
+      $js.chrome.gcm.onSendError.asStream(($c) => ($js.OnSendErrorError error) {
+            $c.add(OnSendErrorError.fromJS(error));
+          }.toJS);
 }
 
 class OnMessageMessage {

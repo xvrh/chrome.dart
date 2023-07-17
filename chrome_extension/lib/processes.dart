@@ -74,7 +74,10 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Metrics requiring
   /// aggregation over time will be populated in each Process object.
-  Stream<Object> get onUpdated => throw UnimplementedError();
+  Stream<Object> get onUpdated =>
+      $js.chrome.processes.onUpdated.asStream(($c) => (JSAny processes) {
+            $c.add(processes);
+          }.toJS);
 
   /// Fired each time the Task Manager updates its process statistics,
   /// providing the dictionary of updated Process objects, indexed by process
@@ -85,20 +88,30 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Memory usage details will
   /// be included in each Process object.
-  Stream<Object> get onUpdatedWithMemory => throw UnimplementedError();
+  Stream<Object> get onUpdatedWithMemory =>
+      $js.chrome.processes.onUpdatedWithMemory
+          .asStream(($c) => (JSAny processes) {
+                $c.add(processes);
+              }.toJS);
 
   /// Fired each time a process is created, providing the corrseponding Process
   /// object.
   /// |process|: Details of the process that was created. Metrics requiring
   /// aggregation over time will not be populated in the object.
-  Stream<Process> get onCreated => throw UnimplementedError();
+  Stream<Process> get onCreated =>
+      $js.chrome.processes.onCreated.asStream(($c) => ($js.Process process) {
+            $c.add(Process.fromJS(process));
+          }.toJS);
 
   /// Fired each time a process becomes unresponsive, providing the
   /// corrseponding Process object.
   /// |process|: Details of the unresponsive process. Metrics requiring
   /// aggregation over time will not be populated in the object. Only available
   /// for renderer processes.
-  Stream<Process> get onUnresponsive => throw UnimplementedError();
+  Stream<Process> get onUnresponsive => $js.chrome.processes.onUnresponsive
+      .asStream(($c) => ($js.Process process) {
+            $c.add(Process.fromJS(process));
+          }.toJS);
 
   /// Fired each time a process is terminated, providing the type of exit.
   /// |processId|: The ID of the process that exited.
@@ -106,7 +119,18 @@ class ChromeProcesses {
   /// abnormal, killed, crashed. Only available for renderer processes.
   /// |exitCode|: The exit code if the process exited abnormally. Only
   /// available for renderer processes.
-  Stream<OnExitedEvent> get onExited => throw UnimplementedError();
+  Stream<OnExitedEvent> get onExited =>
+      $js.chrome.processes.onExited.asStream(($c) => (
+            int processId,
+            int exitType,
+            int exitCode,
+          ) {
+            $c.add(OnExitedEvent(
+              processId: processId,
+              exitType: exitType,
+              exitCode: exitCode,
+            ));
+          }.toJS);
 }
 
 /// The types of the browser processes.

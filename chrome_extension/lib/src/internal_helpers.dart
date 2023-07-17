@@ -5,6 +5,7 @@ export 'chrome.dart';
 export 'dart:js_interop';
 export 'dart:async' show Completer;
 import '../runtime.dart';
+import 'js/events.dart' as js;
 
 extension ScopingFunctions<T extends Object?> on T {
   /// Calls the specified function [block] with `this` value
@@ -23,5 +24,23 @@ bool checkRuntimeLastError(Completer completer) {
 extension ListToJsExtension<T> on List<T> {
   JSArray toJSArray(Object Function(T) mapper) {
     return map(mapper).cast<JSAny>().toList().toJS;
+  }
+}
+
+extension EventStreamExtension on js.Event {
+  Stream<T> asStream<T>(
+      JSFunction Function(StreamController) callbackFactory) {
+    var controller = StreamController<T>();
+    var listener = callbackFactory(controller);
+    controller
+      ..onListen = () {
+        addListener(listener);
+      }
+      ..onCancel = () {
+        removeListener(listener);
+        controller.close();
+      };
+
+    return controller.stream;
   }
 }

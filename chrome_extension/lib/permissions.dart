@@ -74,10 +74,16 @@ class ChromePermissions {
   }
 
   /// Fired when the extension acquires new permissions.
-  Stream<Permissions> get onAdded => throw UnimplementedError();
+  Stream<Permissions> get onAdded => $js.chrome.permissions.onAdded
+      .asStream(($c) => ($js.Permissions permissions) {
+            $c.add(Permissions.fromJS(permissions));
+          }.toJS);
 
   /// Fired when access to permissions has been removed from the extension.
-  Stream<Permissions> get onRemoved => throw UnimplementedError();
+  Stream<Permissions> get onRemoved => $js.chrome.permissions.onRemoved
+      .asStream(($c) => ($js.Permissions permissions) {
+            $c.add(Permissions.fromJS(permissions));
+          }.toJS);
 }
 
 class Permissions {

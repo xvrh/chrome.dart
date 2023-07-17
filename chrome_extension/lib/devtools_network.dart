@@ -27,10 +27,17 @@ class ChromeDevtoolsNetwork {
 
   /// Fired when a network request is finished and all request data are
   /// available.
-  Stream<Request> get onRequestFinished => throw UnimplementedError();
+  Stream<Request> get onRequestFinished =>
+      $js.chrome.devtools.network.onRequestFinished
+          .asStream(($c) => ($js.Request request) {
+                $c.add(Request.fromJS(request));
+              }.toJS);
 
   /// Fired when the inspected window navigates to a new page.
-  Stream<String> get onNavigated => throw UnimplementedError();
+  Stream<String> get onNavigated =>
+      $js.chrome.devtools.network.onNavigated.asStream(($c) => (String url) {
+            $c.add(url);
+          }.toJS);
 }
 
 class Request {

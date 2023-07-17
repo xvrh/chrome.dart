@@ -178,7 +178,15 @@ class ChromeIdentity {
 
   /// Fired when signin state changes for an account on the user's profile.
   Stream<OnSignInChangedEvent> get onSignInChanged =>
-      throw UnimplementedError();
+      $js.chrome.identity.onSignInChanged.asStream(($c) => (
+            $js.AccountInfo account,
+            bool signedIn,
+          ) {
+            $c.add(OnSignInChangedEvent(
+              account: AccountInfo.fromJS(account),
+              signedIn: signedIn,
+            ));
+          }.toJS);
 }
 
 enum AccountStatus {

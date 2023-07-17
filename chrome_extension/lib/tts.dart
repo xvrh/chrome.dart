@@ -81,7 +81,10 @@ class ChromeTts {
   }
 
   /// Used to pass events back to the function calling speak().
-  Stream<TtsEvent> get onEvent => throw UnimplementedError();
+  Stream<TtsEvent> get onEvent =>
+      $js.chrome.tts.onEvent.asStream(($c) => ($js.TtsEvent event) {
+            $c.add(TtsEvent.fromJS(event));
+          }.toJS);
 }
 
 enum EventType {

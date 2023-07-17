@@ -69,15 +69,28 @@ class ChromeDevtoolsInspectedWindow {
 
   /// The ID of the tab being inspected. This ID may be used with chrome.tabs.*
   /// API.
-  int get tabId => ($js.chrome.devtools.inspectedWindow.tabId as dynamic);
+  int get tabId => $js.chrome.devtools.inspectedWindow.tabId;
 
   /// Fired when a new resource is added to the inspected page.
-  Stream<Resource> get onResourceAdded => throw UnimplementedError();
+  Stream<Resource> get onResourceAdded =>
+      $js.chrome.devtools.inspectedWindow.onResourceAdded
+          .asStream(($c) => ($js.Resource resource) {
+                $c.add(Resource.fromJS(resource));
+              }.toJS);
 
   /// Fired when a new revision of the resource is committed (e.g. user saves an
   /// edited version of the resource in the Developer Tools).
   Stream<OnResourceContentCommittedEvent> get onResourceContentCommitted =>
-      throw UnimplementedError();
+      $js.chrome.devtools.inspectedWindow.onResourceContentCommitted
+          .asStream(($c) => (
+                $js.Resource resource,
+                String content,
+              ) {
+                $c.add(OnResourceContentCommittedEvent(
+                  resource: Resource.fromJS(resource),
+                  content: content,
+                ));
+              }.toJS);
 }
 
 class Resource {

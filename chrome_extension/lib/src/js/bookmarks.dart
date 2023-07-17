@@ -94,31 +94,31 @@ extension JSBookmarksExtension on JSBookmarks {
   );
 
   /// Fired when a bookmark or folder is created.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fired when a bookmark or folder is removed.  When a folder is removed
   /// recursively, a single notification is fired for the folder, and none for
   /// its contents.
-  external ChromeEvent get onRemoved;
+  external Event get onRemoved;
 
   /// Fired when a bookmark or folder changes.  **Note:** Currently, only title
   /// and url changes trigger this.
-  external ChromeEvent get onChanged;
+  external Event get onChanged;
 
   /// Fired when a bookmark or folder is moved to a different parent folder.
-  external ChromeEvent get onMoved;
+  external Event get onMoved;
 
   /// Fired when the children of a folder have changed their order due to the
   /// order being sorted in the UI.  This is not called as a result of a move().
-  external ChromeEvent get onChildrenReordered;
+  external Event get onChildrenReordered;
 
   /// Fired when a bookmark import session is begun.  Expensive observers should
   /// ignore onCreated updates until onImportEnded is fired.  Observers should
   /// still handle other notifications immediately.
-  external ChromeEvent get onImportBegan;
+  external Event get onImportBegan;
 
   /// Fired when a bookmark import session is ended.
-  external ChromeEvent get onImportEnded;
+  external Event get onImportEnded;
 
   external int get MAX_WRITE_OPERATIONS_PER_HOUR;
 

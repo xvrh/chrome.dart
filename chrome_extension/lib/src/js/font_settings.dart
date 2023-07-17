@@ -96,16 +96,16 @@ extension JSFontSettingsExtension on JSFontSettings {
   );
 
   /// Fired when a font setting changes.
-  external ChromeEvent get onFontChanged;
+  external Event get onFontChanged;
 
   /// Fired when the default font size setting changes.
-  external ChromeEvent get onDefaultFontSizeChanged;
+  external Event get onDefaultFontSizeChanged;
 
   /// Fired when the default fixed font size setting changes.
-  external ChromeEvent get onDefaultFixedFontSizeChanged;
+  external Event get onDefaultFixedFontSizeChanged;
 
   /// Fired when the minimum font size setting changes.
-  external ChromeEvent get onMinimumFontSizeChanged;
+  external Event get onMinimumFontSizeChanged;
 }
 
 /// An ISO 15924 script code. The default, or global, script is represented by

@@ -97,7 +97,10 @@ class ChromeCertificateProvider {
   /// extension must call [setCertificates] with the updated list of
   /// certificates and the received `certificatesRequestId`.
   Stream<CertificatesUpdateRequest> get onCertificatesUpdateRequested =>
-      throw UnimplementedError();
+      $js.chrome.certificateProvider.onCertificatesUpdateRequested
+          .asStream(($c) => ($js.CertificatesUpdateRequest request) {
+                $c.add(CertificatesUpdateRequest.fromJS(request));
+              }.toJS);
 
   /// This event fires every time the browser needs to sign a message using a
   /// certificate provided by this extension via [setCertificates].
@@ -105,14 +108,20 @@ class ChromeCertificateProvider {
   /// the appropriate algorithm and private key and return it by calling
   /// [reportSignature] with the received `signRequestId`.
   Stream<SignatureRequest> get onSignatureRequested =>
-      throw UnimplementedError();
+      $js.chrome.certificateProvider.onSignatureRequested
+          .asStream(($c) => ($js.SignatureRequest request) {
+                $c.add(SignatureRequest.fromJS(request));
+              }.toJS);
 
   /// This event fires every time the browser requests the current list of
   /// certificates provided by this extension. The extension must call
   /// `reportCallback` exactly once with the current list of
   /// certificates.
   Stream<CertificatesCallback> get onCertificatesRequested =>
-      throw UnimplementedError();
+      $js.chrome.certificateProvider.onCertificatesRequested
+          .asStream(($c) => ($js.CertificatesCallback reportCallback) {
+                $c.add(throw UnimplementedError());
+              }.toJS);
 
   /// This event fires every time the browser needs to sign a message using
   /// a certificate provided by this extension in reply to an
@@ -123,7 +132,15 @@ class ChromeCertificateProvider {
   /// exactly once.
   /// |request|: Contains the details about the sign request.
   Stream<OnSignDigestRequestedEvent> get onSignDigestRequested =>
-      throw UnimplementedError();
+      $js.chrome.certificateProvider.onSignDigestRequested.asStream(($c) => (
+            $js.SignRequest request,
+            $js.SignCallback reportCallback,
+          ) {
+            $c.add(OnSignDigestRequestedEvent(
+              request: SignRequest.fromJS(request),
+              reportCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 }
 
 /// Types of supported cryptographic signature algorithms.

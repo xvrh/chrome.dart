@@ -1,5 +1,6 @@
 import 'src/internal_helpers.dart';
 import 'src/js/context_menus.dart' as $js;
+import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -80,10 +81,19 @@ class ChromeContextMenus {
   /// extension action context menu. Any items beyond this limit will be
   /// ignored.
   int get actionMenuTopLevelLimit =>
-      ($js.chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT as dynamic);
+      $js.chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
 
   /// Fired when a context menu item is clicked.
-  Stream<OnClickedEvent> get onClicked => throw UnimplementedError();
+  Stream<OnClickedEvent> get onClicked =>
+      $js.chrome.contextMenus.onClicked.asStream(($c) => (
+            $js.OnClickData info,
+            $js_tabs.Tab? tab,
+          ) {
+            $c.add(OnClickedEvent(
+              info: OnClickData.fromJS(info),
+              tab: tab?.let(Tab.fromJS),
+            ));
+          }.toJS);
 }
 
 /// The different contexts a menu can appear in. Specifying 'all' is equivalent

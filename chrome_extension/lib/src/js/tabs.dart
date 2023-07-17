@@ -305,54 +305,54 @@ extension JSTabsExtension on JSTabs {
   /// membership may not be set at the time this event is fired, but you can
   /// listen to onUpdated events so as to be notified when a URL is set or the
   /// tab is added to a tab group.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fired when a tab is updated.
-  external ChromeEvent get onUpdated;
+  external Event get onUpdated;
 
   /// Fired when a tab is moved within a window. Only one move event is fired,
   /// representing the tab the user directly moved. Move events are not fired
   /// for the other tabs that must move in response to the manually-moved tab.
   /// This event is not fired when a tab is moved between windows; for details,
   /// see [tabs.onDetached].
-  external ChromeEvent get onMoved;
+  external Event get onMoved;
 
   /// Fires when the selected tab in a window changes.
-  external ChromeEvent get onSelectionChanged;
+  external Event get onSelectionChanged;
 
   /// Fires when the selected tab in a window changes. Note that the tab's URL
   /// may not be set at the time this event fired, but you can listen to
   /// [tabs.onUpdated] events so as to be notified when a URL is set.
-  external ChromeEvent get onActiveChanged;
+  external Event get onActiveChanged;
 
   /// Fires when the active tab in a window changes. Note that the tab's URL may
   /// not be set at the time this event fired, but you can listen to onUpdated
   /// events so as to be notified when a URL is set.
-  external ChromeEvent get onActivated;
+  external Event get onActivated;
 
   /// Fired when the highlighted or selected tabs in a window changes.
-  external ChromeEvent get onHighlightChanged;
+  external Event get onHighlightChanged;
 
   /// Fired when the highlighted or selected tabs in a window changes.
-  external ChromeEvent get onHighlighted;
+  external Event get onHighlighted;
 
   /// Fired when a tab is detached from a window; for example, because it was
   /// moved between windows.
-  external ChromeEvent get onDetached;
+  external Event get onDetached;
 
   /// Fired when a tab is attached to a window; for example, because it was
   /// moved between windows.
-  external ChromeEvent get onAttached;
+  external Event get onAttached;
 
   /// Fired when a tab is closed.
-  external ChromeEvent get onRemoved;
+  external Event get onRemoved;
 
   /// Fired when a tab is replaced with another tab due to prerendering or
   /// instant.
-  external ChromeEvent get onReplaced;
+  external Event get onReplaced;
 
   /// Fired when a tab is zoomed.
-  external ChromeEvent get onZoomChange;
+  external Event get onZoomChange;
 
   /// The maximum number of times that [captureVisibleTab] can be called per
   /// second. [captureVisibleTab] is expensive and should not be called too

@@ -1,5 +1,6 @@
 import 'src/internal_helpers.dart';
 import 'src/js/commands.dart' as $js;
+import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -29,7 +30,16 @@ class ChromeCommands {
   }
 
   /// Fired when a registered command is activated using a keyboard shortcut.
-  Stream<OnCommandEvent> get onCommand => throw UnimplementedError();
+  Stream<OnCommandEvent> get onCommand =>
+      $js.chrome.commands.onCommand.asStream(($c) => (
+            String command,
+            $js_tabs.Tab? tab,
+          ) {
+            $c.add(OnCommandEvent(
+              command: command,
+              tab: tab?.let(Tab.fromJS),
+            ));
+          }.toJS);
 }
 
 class Command {

@@ -68,10 +68,10 @@ extension JSExtensionExtension on JSExtension {
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.
-  external ChromeEvent get onRequest;
+  external Event get onRequest;
 
   /// Fired when a request is sent from another extension.
-  external ChromeEvent get onRequestExternal;
+  external Event get onRequestExternal;
 
   /// Set for the lifetime of a callback if an ansychronous extension api has
   /// resulted in an error. If no error has occured lastError will be

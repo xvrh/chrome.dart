@@ -181,11 +181,11 @@ extension JSRuntimeExtension on JSRuntime {
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
   /// extension is operating in 'split' incognito mode.
-  external ChromeEvent get onStartup;
+  external Event get onStartup;
 
   /// Fired when the extension is first installed, when the extension is updated
   /// to a new version, and when Chrome is updated to a new version.
-  external ChromeEvent get onInstalled;
+  external Event get onInstalled;
 
   /// Sent to the event page just before it is unloaded. This gives the
   /// extension opportunity to do some clean up. Note that since the page is
@@ -193,10 +193,10 @@ extension JSRuntimeExtension on JSRuntime {
   /// are not guaranteed to complete. If more activity for the event page occurs
   /// before it gets unloaded the onSuspendCanceled event will be sent and the
   /// page won't be unloaded.
-  external ChromeEvent get onSuspend;
+  external Event get onSuspend;
 
   /// Sent after onSuspend to indicate that the app won't be unloaded after all.
-  external ChromeEvent get onSuspendCanceled;
+  external Event get onSuspendCanceled;
 
   /// Fired when an update is available, but isn't installed immediately because
   /// the app is currently running. If you do nothing, the update will be
@@ -208,38 +208,38 @@ extension JSRuntimeExtension on JSRuntime {
   /// the next time Chrome itself restarts. If no handlers are listening for
   /// this event, and your extension has a persistent background page, it
   /// behaves as if chrome.runtime.reload() is called in response to this event.
-  external ChromeEvent get onUpdateAvailable;
+  external Event get onUpdateAvailable;
 
   /// Fired when a Chrome update is available, but isn't installed immediately
   /// because a browser restart is required.
-  external ChromeEvent get onBrowserUpdateAvailable;
+  external Event get onBrowserUpdateAvailable;
 
   /// Fired when a connection is made from either an extension process or a
   /// content script (by [runtime.connect]).
-  external ChromeEvent get onConnect;
+  external Event get onConnect;
 
   /// Fired when a connection is made from another extension (by
   /// [runtime.connect]).
-  external ChromeEvent get onConnectExternal;
+  external Event get onConnectExternal;
 
   /// Fired when a connection is made from a native application. Currently only
   /// supported on Chrome OS.
-  external ChromeEvent get onConnectNative;
+  external Event get onConnectNative;
 
   /// Fired when a message is sent from either an extension process (by
   /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
-  external ChromeEvent get onMessage;
+  external Event get onMessage;
 
   /// Fired when a message is sent from another extension/app (by
   /// [runtime.sendMessage]). Cannot be used in a content script.
-  external ChromeEvent get onMessageExternal;
+  external Event get onMessageExternal;
 
   /// Fired when an app or the device that it runs on needs to be restarted. The
   /// app should close all its windows at its earliest convenient time to let
   /// the restart to happen. If the app does nothing, a restart will be enforced
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
-  external ChromeEvent get onRestartRequired;
+  external Event get onRestartRequired;
 
   /// This will be defined during an API method callback if there was an error
   external RuntimeLastError? get lastError;
@@ -301,11 +301,11 @@ extension PortExtension on Port {
   /// If the port is closed via $(ref:Port.disconnect disconnect), then this
   /// event is _only_ fired on the other end. This event is fired at most once
   /// (see also [Port lifetime](messaging#port-lifetime)).
-  external ChromeEvent get onDisconnect;
+  external Event get onDisconnect;
 
   /// This event is fired when $(ref:Port.postMessage postMessage) is called by
   /// the other end of the port.
-  external ChromeEvent get onMessage;
+  external Event get onMessage;
 }
 
 @JS()

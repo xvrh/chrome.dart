@@ -16,7 +16,7 @@ class JSStorage {}
 
 extension JSStorageExtension on JSStorage {
   /// Fired when one or more items change.
-  external ChromeEvent get onChanged;
+  external Event get onChanged;
 
   /// Items in the `sync` storage area are synced using Chrome Sync.
   external StorageSync get sync;
@@ -122,7 +122,7 @@ extension StorageAreaExtension on StorageArea {
   );
 
   /// Fired when one or more items change.
-  external ChromeEvent get onChanged;
+  external Event get onChanged;
 }
 
 @JS()

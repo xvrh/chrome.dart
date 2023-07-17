@@ -1,5 +1,6 @@
 import 'src/internal_helpers.dart';
 import 'src/js/printer_provider.dart' as $js;
+import 'src/js/usb.dart' as $js_usb;
 import 'usb.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -17,7 +18,10 @@ class ChromePrinterProvider {
   /// |resultCallback|: Callback to return printer list. Every listener must
   /// call callback exactly once.
   Stream<PrintersCallback> get onGetPrintersRequested =>
-      throw UnimplementedError();
+      $js.chrome.printerProvider.onGetPrintersRequested
+          .asStream(($c) => ($js.PrintersCallback resultCallback) {
+                $c.add(throw UnimplementedError());
+              }.toJS);
 
   /// Event fired when print manager requests information about a USB device
   /// that may be a printer.
@@ -30,7 +34,15 @@ class ChromePrinterProvider {
   /// undefined that indicates that the application has determined that the
   /// device is not supported.
   Stream<OnGetUsbPrinterInfoRequestedEvent> get onGetUsbPrinterInfoRequested =>
-      throw UnimplementedError();
+      $js.chrome.printerProvider.onGetUsbPrinterInfoRequested.asStream(($c) => (
+            $js_usb.Device device,
+            $js.PrinterInfoCallback resultCallback,
+          ) {
+            $c.add(OnGetUsbPrinterInfoRequestedEvent(
+              device: Device.fromJS(device),
+              resultCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Event fired when print manager requests printer capabilities.
   /// |printerId|: Unique ID of the printer whose capabilities are requested.
@@ -39,14 +51,30 @@ class ChromePrinterProvider {
   /// format</a>.
   /// The receiving listener must call callback exectly once.
   Stream<OnGetCapabilityRequestedEvent> get onGetCapabilityRequested =>
-      throw UnimplementedError();
+      $js.chrome.printerProvider.onGetCapabilityRequested.asStream(($c) => (
+            String printerId,
+            $js.CapabilitiesCallback resultCallback,
+          ) {
+            $c.add(OnGetCapabilityRequestedEvent(
+              printerId: printerId,
+              resultCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Event fired when print manager requests printing.
   /// |printJob|: The printing request parameters.
   /// |resultCallback|: Callback that should be called when the printing
   /// request is completed.
   Stream<OnPrintRequestedEvent> get onPrintRequested =>
-      throw UnimplementedError();
+      $js.chrome.printerProvider.onPrintRequested.asStream(($c) => (
+            $js.PrintJob printJob,
+            $js.PrintCallback resultCallback,
+          ) {
+            $c.add(OnPrintRequestedEvent(
+              printJob: PrintJob.fromJS(printJob),
+              resultCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 }
 
 /// Error codes returned in response to [onPrintRequested] event.

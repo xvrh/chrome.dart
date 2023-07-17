@@ -68,12 +68,14 @@ class ChromeSessions {
 
   /// The maximum number of [sessions.Session] that will be included in a
   /// requested list.
-  int get maxSessionResults =>
-      ($js.chrome.sessions.MAX_SESSION_RESULTS as dynamic);
+  int get maxSessionResults => $js.chrome.sessions.MAX_SESSION_RESULTS;
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
-  Stream<void> get onChanged => throw UnimplementedError();
+  Stream<void> get onChanged =>
+      $js.chrome.sessions.onChanged.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 }
 
 class Filter {

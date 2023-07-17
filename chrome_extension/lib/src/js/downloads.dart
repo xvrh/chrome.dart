@@ -160,19 +160,19 @@ extension JSDownloadsExtension on JSDownloads {
 
   /// This event fires with the [DownloadItem] object when a download
   /// begins.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fires with the `downloadId` when a download is erased from
   /// history.
   /// |downloadId|: The `id` of the [DownloadItem] that was
   /// erased.
-  external ChromeEvent get onErased;
+  external Event get onErased;
 
   /// When any of a [DownloadItem]'s properties except
   /// `bytesReceived` and `estimatedEndTime` changes,
   /// this event fires with the `downloadId` and an object
   /// containing the properties that changed.
-  external ChromeEvent get onChanged;
+  external Event get onChanged;
 
   /// During the filename determination process, extensions will be given the
   /// opportunity to override the target [DownloadItem.filename]. Each
@@ -195,7 +195,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// [download] and the target filename is known before the MIME type and
   /// tentative filename have been determined, pass `filename` to
   /// [download] instead.
-  external ChromeEvent get onDeterminingFilename;
+  external Event get onDeterminingFilename;
 }
 
 /// <dl><dt>uniquify</dt>

@@ -15,15 +15,18 @@ class ChromePrivacy {
 
   /// Settings that influence Chrome's handling of network connections in
   /// general.
-  PrivacyNetwork get network => ($js.chrome.privacy.network as dynamic);
+  PrivacyNetwork get network =>
+      PrivacyNetwork.fromJS($js.chrome.privacy.network);
 
   /// Settings that enable or disable features that require third-party network
   /// services provided by Google and your default search provider.
-  PrivacyServices get services => ($js.chrome.privacy.services as dynamic);
+  PrivacyServices get services =>
+      PrivacyServices.fromJS($js.chrome.privacy.services);
 
   /// Settings that determine what information Chrome makes available to
   /// websites.
-  PrivacyWebsites get websites => ($js.chrome.privacy.websites as dynamic);
+  PrivacyWebsites get websites =>
+      PrivacyWebsites.fromJS($js.chrome.privacy.websites);
 }
 
 /// The IP handling policy of WebRTC.

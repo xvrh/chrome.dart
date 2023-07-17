@@ -113,24 +113,50 @@ class ChromeNotifications {
   }
 
   /// The notification closed, either by the system or by user action.
-  Stream<OnClosedEvent> get onClosed => throw UnimplementedError();
+  Stream<OnClosedEvent> get onClosed =>
+      $js.chrome.notifications.onClosed.asStream(($c) => (
+            String notificationId,
+            bool byUser,
+          ) {
+            $c.add(OnClosedEvent(
+              notificationId: notificationId,
+              byUser: byUser,
+            ));
+          }.toJS);
 
   /// The user clicked in a non-button area of the notification.
-  Stream<String> get onClicked => throw UnimplementedError();
+  Stream<String> get onClicked => $js.chrome.notifications.onClicked
+      .asStream(($c) => (String notificationId) {
+            $c.add(notificationId);
+          }.toJS);
 
   /// The user pressed a button in the notification.
   Stream<OnButtonClickedEvent> get onButtonClicked =>
-      throw UnimplementedError();
+      $js.chrome.notifications.onButtonClicked.asStream(($c) => (
+            String notificationId,
+            int buttonIndex,
+          ) {
+            $c.add(OnButtonClickedEvent(
+              notificationId: notificationId,
+              buttonIndex: buttonIndex,
+            ));
+          }.toJS);
 
   /// The user changes the permission level.  As of Chrome 47, only ChromeOS
   /// has UI that dispatches this event.
   Stream<PermissionLevel> get onPermissionLevelChanged =>
-      throw UnimplementedError();
+      $js.chrome.notifications.onPermissionLevelChanged
+          .asStream(($c) => ($js.PermissionLevel level) {
+                $c.add(PermissionLevel.fromJS(level));
+              }.toJS);
 
   /// The user clicked on a link for the app's notification settings.  As of
   /// Chrome 47, only ChromeOS has UI that dispatches this event.
   /// As of Chrome 65, that UI has been removed from ChromeOS, too.
-  Stream<void> get onShowSettings => throw UnimplementedError();
+  Stream<void> get onShowSettings =>
+      $js.chrome.notifications.onShowSettings.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 }
 
 enum TemplateType {

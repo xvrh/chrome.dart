@@ -42,7 +42,7 @@ extension JSIdleExtension on JSIdle {
   /// activates, "idle" if the system is unlocked and the user has not generated
   /// any input for a specified number of seconds, and "active" when the user
   /// generates input on an idle system.
-  external ChromeEvent get onStateChanged;
+  external Event get onStateChanged;
 }
 
 typedef IdleState = String;

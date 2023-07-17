@@ -22,7 +22,7 @@ class ChromeContentSettings {
   /// not used. NOTE: When calling `set()`, the primary pattern must be
   /// `<all_urls>`.
   ContentSetting get autoVerify =>
-      ($js.chrome.contentSettings.autoVerify as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.autoVerify);
 
   /// Whether to allow cookies and other local data to be set by websites. One
   /// of
@@ -32,7 +32,8 @@ class ChromeContentSettings {
   /// Default is [allow].
   /// The primary URL is the URL representing the cookie origin. The secondary
   /// URL is the URL of the top-level frame.
-  ContentSetting get cookies => ($js.chrome.contentSettings.cookies as dynamic);
+  ContentSetting get cookies =>
+      ContentSetting.fromJS($js.chrome.contentSettings.cookies);
 
   /// Whether to show images. One of
   /// [allow]: Show images,
@@ -40,7 +41,8 @@ class ChromeContentSettings {
   /// Default is [allow].
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// the URL of the image.
-  ContentSetting get images => ($js.chrome.contentSettings.images as dynamic);
+  ContentSetting get images =>
+      ContentSetting.fromJS($js.chrome.contentSettings.images);
 
   /// Whether to run JavaScript. One of
   /// [allow]: Run JavaScript,
@@ -49,7 +51,7 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
   ContentSetting get javascript =>
-      ($js.chrome.contentSettings.javascript as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.javascript);
 
   /// Whether to allow Geolocation. One of
   /// [allow]: Allow sites to track your physical location,
@@ -60,12 +62,13 @@ class ChromeContentSettings {
   /// The secondary URL is the URL of the top-level frame (which may or may not
   /// differ from the requesting URL).
   ContentSetting get location =>
-      ($js.chrome.contentSettings.location as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.location);
 
   /// <i>Deprecated.</i> With Flash support removed in Chrome 88, this
   /// permission no longer has any effect. Value is always [block]. Calls to
   /// `set()` and `clear()` will be ignored.
-  ContentSetting get plugins => ($js.chrome.contentSettings.plugins as dynamic);
+  ContentSetting get plugins =>
+      ContentSetting.fromJS($js.chrome.contentSettings.plugins);
 
   /// Whether to allow sites to show pop-ups. One of
   /// [allow]: Allow sites to show pop-ups,
@@ -73,7 +76,8 @@ class ChromeContentSettings {
   /// Default is [block].
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
-  ContentSetting get popups => ($js.chrome.contentSettings.popups as dynamic);
+  ContentSetting get popups =>
+      ContentSetting.fromJS($js.chrome.contentSettings.popups);
 
   /// Whether to allow sites to show desktop notifications. One of
   /// [allow]: Allow sites to show desktop notifications,
@@ -83,17 +87,17 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the document which wants to show the
   /// notification. The secondary URL is not used.
   ContentSetting get notifications =>
-      ($js.chrome.contentSettings.notifications as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.notifications);
 
   /// <i>Deprecated.</i> No longer has any effect. Fullscreen permission is now
   /// automatically granted for all sites. Value is always [allow].
   ContentSetting get fullscreen =>
-      ($js.chrome.contentSettings.fullscreen as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.fullscreen);
 
   /// <i>Deprecated.</i> No longer has any effect. Mouse lock permission is now
   /// automatically granted for all sites. Value is always [allow].
   ContentSetting get mouselock =>
-      ($js.chrome.contentSettings.mouselock as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.mouselock);
 
   /// Whether to allow sites to access the microphone. One of
   /// [allow]: Allow sites to access the microphone,
@@ -104,7 +108,7 @@ class ChromeContentSettings {
   /// access. The secondary URL is not used.
   /// NOTE: The 'allow' setting is not valid if both patterns are '<all_urls>'.
   ContentSetting get microphone =>
-      ($js.chrome.contentSettings.microphone as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.microphone);
 
   /// Whether to allow sites to access the camera. One of
   /// [allow]: Allow sites to access the camera,
@@ -114,14 +118,15 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the document which requested camera access.
   /// The secondary URL is not used.
   /// NOTE: The 'allow' setting is not valid if both patterns are '<all_urls>'.
-  ContentSetting get camera => ($js.chrome.contentSettings.camera as dynamic);
+  ContentSetting get camera =>
+      ContentSetting.fromJS($js.chrome.contentSettings.camera);
 
   /// <i>Deprecated.</i> Previously, controlled whether to allow sites to run
   /// plugins unsandboxed, however, with the Flash broker process removed in
   /// Chrome 88, this permission no longer has any effect. Value is always
   /// [block]. Calls to `set()` and `clear()` will be ignored.
   ContentSetting get unsandboxedPlugins =>
-      ($js.chrome.contentSettings.unsandboxedPlugins as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.unsandboxedPlugins);
 
   /// Whether to allow sites to download multiple files automatically. One of
   /// [allow]: Allow sites to download multiple files automatically,
@@ -132,7 +137,7 @@ class ChromeContentSettings {
   /// The primary URL is the URL of the top-level frame. The secondary URL is
   /// not used.
   ContentSetting get automaticDownloads =>
-      ($js.chrome.contentSettings.automaticDownloads as dynamic);
+      ContentSetting.fromJS($js.chrome.contentSettings.automaticDownloads);
 }
 
 /// The scope of the ContentSetting. One of

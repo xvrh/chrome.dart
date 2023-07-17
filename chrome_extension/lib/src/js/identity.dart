@@ -126,7 +126,7 @@ extension JSIdentityExtension on JSIdentity {
   external String getRedirectURL(String? path);
 
   /// Fired when signin state changes for an account on the user's profile.
-  external ChromeEvent get onSignInChanged;
+  external Event get onSignInChanged;
 }
 
 typedef AccountStatus = String;

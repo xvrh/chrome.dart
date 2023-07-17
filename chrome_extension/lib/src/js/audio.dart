@@ -65,17 +65,17 @@ extension JSAudioExtension on JSAudio {
   );
 
   /// Fired when sound level changes for an active audio device.
-  external ChromeEvent get onLevelChanged;
+  external Event get onLevelChanged;
 
   /// Fired when the mute state of the audio input or output changes.
   /// Note that mute state is system-wide and the new value applies to every
   /// audio device with specified stream type.
-  external ChromeEvent get onMuteChanged;
+  external Event get onMuteChanged;
 
   /// Fired when audio devices change, either new devices being added, or
   /// existing devices being removed.
   /// |devices|: List of all present audio devices after the change.
-  external ChromeEvent get onDeviceListChanged;
+  external Event get onDeviceListChanged;
 }
 
 /// Type of stream an audio device provides.

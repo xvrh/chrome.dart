@@ -233,12 +233,11 @@ class ChromeRuntime {
   }
 
   /// Returns a DirectoryEntry for the package directory.
-  Future<DirectoryEntry> getPackageDirectoryEntry() {
-    var $completer = Completer<DirectoryEntry>();
-    $js.chrome.runtime
-        .getPackageDirectoryEntry(($js.DirectoryEntry directoryEntry) {
+  Future<JSObject> getPackageDirectoryEntry() {
+    var $completer = Completer<JSObject>();
+    $js.chrome.runtime.getPackageDirectoryEntry((JSObject directoryEntry) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete(DirectoryEntry.fromJS(directoryEntry));
+        $completer.complete(directoryEntry);
       }
     }.toJS);
     return $completer.future;
@@ -265,19 +264,26 @@ class ChromeRuntime {
   }
 
   /// This will be defined during an API method callback if there was an error
-  RuntimeLastError? get lastError => ($js.chrome.runtime.lastError as dynamic);
+  RuntimeLastError? get lastError =>
+      $js.chrome.runtime.lastError?.let(RuntimeLastError.fromJS);
 
   /// The ID of the extension/app.
-  String get id => ($js.chrome.runtime.id as dynamic);
+  String get id => $js.chrome.runtime.id;
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
   /// extension is operating in 'split' incognito mode.
-  Stream<void> get onStartup => throw UnimplementedError();
+  Stream<void> get onStartup =>
+      $js.chrome.runtime.onStartup.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// Fired when the extension is first installed, when the extension is updated
   /// to a new version, and when Chrome is updated to a new version.
-  Stream<OnInstalledDetails> get onInstalled => throw UnimplementedError();
+  Stream<OnInstalledDetails> get onInstalled => $js.chrome.runtime.onInstalled
+      .asStream(($c) => ($js.OnInstalledDetails details) {
+            $c.add(OnInstalledDetails.fromJS(details));
+          }.toJS);
 
   /// Sent to the event page just before it is unloaded. This gives the
   /// extension opportunity to do some clean up. Note that since the page is
@@ -285,10 +291,16 @@ class ChromeRuntime {
   /// are not guaranteed to complete. If more activity for the event page occurs
   /// before it gets unloaded the onSuspendCanceled event will be sent and the
   /// page won't be unloaded.
-  Stream<void> get onSuspend => throw UnimplementedError();
+  Stream<void> get onSuspend =>
+      $js.chrome.runtime.onSuspend.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// Sent after onSuspend to indicate that the app won't be unloaded after all.
-  Stream<void> get onSuspendCanceled => throw UnimplementedError();
+  Stream<void> get onSuspendCanceled =>
+      $js.chrome.runtime.onSuspendCanceled.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// Fired when an update is available, but isn't installed immediately because
   /// the app is currently running. If you do nothing, the update will be
@@ -301,32 +313,68 @@ class ChromeRuntime {
   /// this event, and your extension has a persistent background page, it
   /// behaves as if chrome.runtime.reload() is called in response to this event.
   Stream<OnUpdateAvailableDetails> get onUpdateAvailable =>
-      throw UnimplementedError();
+      $js.chrome.runtime.onUpdateAvailable
+          .asStream(($c) => ($js.OnUpdateAvailableDetails details) {
+                $c.add(OnUpdateAvailableDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when a Chrome update is available, but isn't installed immediately
   /// because a browser restart is required.
-  Stream<void> get onBrowserUpdateAvailable => throw UnimplementedError();
+  Stream<void> get onBrowserUpdateAvailable =>
+      $js.chrome.runtime.onBrowserUpdateAvailable.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// Fired when a connection is made from either an extension process or a
   /// content script (by [runtime.connect]).
-  Stream<Port> get onConnect => throw UnimplementedError();
+  Stream<Port> get onConnect =>
+      $js.chrome.runtime.onConnect.asStream(($c) => ($js.Port port) {
+            $c.add(Port.fromJS(port));
+          }.toJS);
 
   /// Fired when a connection is made from another extension (by
   /// [runtime.connect]).
-  Stream<Port> get onConnectExternal => throw UnimplementedError();
+  Stream<Port> get onConnectExternal =>
+      $js.chrome.runtime.onConnectExternal.asStream(($c) => ($js.Port port) {
+            $c.add(Port.fromJS(port));
+          }.toJS);
 
   /// Fired when a connection is made from a native application. Currently only
   /// supported on Chrome OS.
-  Stream<Port> get onConnectNative => throw UnimplementedError();
+  Stream<Port> get onConnectNative =>
+      $js.chrome.runtime.onConnectNative.asStream(($c) => ($js.Port port) {
+            $c.add(Port.fromJS(port));
+          }.toJS);
 
   /// Fired when a message is sent from either an extension process (by
   /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
-  Stream<OnMessageEvent> get onMessage => throw UnimplementedError();
+  Stream<OnMessageEvent> get onMessage =>
+      $js.chrome.runtime.onMessage.asStream(($c) => (
+            JSAny? message,
+            $js.MessageSender sender,
+            JSFunction sendResponse,
+          ) {
+            $c.add(OnMessageEvent(
+              message: message,
+              sender: MessageSender.fromJS(sender),
+              sendResponse: sendResponse,
+            ));
+          }.toJS);
 
   /// Fired when a message is sent from another extension/app (by
   /// [runtime.sendMessage]). Cannot be used in a content script.
   Stream<OnMessageExternalEvent> get onMessageExternal =>
-      throw UnimplementedError();
+      $js.chrome.runtime.onMessageExternal.asStream(($c) => (
+            JSAny? message,
+            $js.MessageSender sender,
+            JSFunction sendResponse,
+          ) {
+            $c.add(OnMessageExternalEvent(
+              message: message,
+              sender: MessageSender.fromJS(sender),
+              sendResponse: sendResponse,
+            ));
+          }.toJS);
 
   /// Fired when an app or the device that it runs on needs to be restarted. The
   /// app should close all its windows at its earliest convenient time to let
@@ -334,7 +382,10 @@ class ChromeRuntime {
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
   Stream<OnRestartRequiredReason> get onRestartRequired =>
-      throw UnimplementedError();
+      $js.chrome.runtime.onRestartRequired
+          .asStream(($c) => ($js.OnRestartRequiredReason reason) {
+                $c.add(OnRestartRequiredReason.fromJS(reason));
+              }.toJS);
 }
 
 /// The operating system Chrome is running on.
@@ -510,11 +561,23 @@ class Port {
   /// If the port is closed via $(ref:Port.disconnect disconnect), then this
   /// event is _only_ fired on the other end. This event is fired at most once
   /// (see also [Port lifetime](messaging#port-lifetime)).
-  Stream<Port> get onDisconnect => throw UnimplementedError();
+  Stream<Port> get onDisconnect =>
+      _wrapped.onDisconnect.asStream(($c) => ($js.Port port) {
+            $c.add(Port.fromJS(port));
+          }.toJS);
 
   /// This event is fired when $(ref:Port.postMessage postMessage) is called by
   /// the other end of the port.
-  Stream<PortOnMessageEvent> get onMessage => throw UnimplementedError();
+  Stream<PortOnMessageEvent> get onMessage =>
+      _wrapped.onMessage.asStream(($c) => (
+            JSAny message,
+            $js.Port port,
+          ) {
+            $c.add(PortOnMessageEvent(
+              message: message,
+              port: Port.fromJS(port),
+            ));
+          }.toJS);
 }
 
 class MessageSender {

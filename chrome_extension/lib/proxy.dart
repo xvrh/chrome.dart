@@ -15,10 +15,13 @@ class ChromeProxy {
 
   /// Proxy settings to be used. The value of this setting is a ProxyConfig
   /// object.
-  ChromeSetting get settings => ($js.chrome.proxy.settings as dynamic);
+  ChromeSetting get settings => ChromeSetting.fromJS($js.chrome.proxy.settings);
 
   /// Notifies about proxy errors.
-  Stream<OnProxyErrorDetails> get onProxyError => throw UnimplementedError();
+  Stream<OnProxyErrorDetails> get onProxyError => $js.chrome.proxy.onProxyError
+      .asStream(($c) => ($js.OnProxyErrorDetails details) {
+            $c.add(OnProxyErrorDetails.fromJS(details));
+          }.toJS);
 }
 
 enum Scheme {

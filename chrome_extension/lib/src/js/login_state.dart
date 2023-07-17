@@ -23,7 +23,7 @@ extension JSLoginStateExtension on JSLoginState {
 
   /// Dispatched when the session state changes. `sessionState`
   /// is the new session state.
-  external ChromeEvent get onSessionStateChanged;
+  external Event get onSessionStateChanged;
 }
 
 typedef ProfileType = String;

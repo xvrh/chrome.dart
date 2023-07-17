@@ -86,7 +86,7 @@ extension ElementsPanelExtension on ElementsPanel {
   );
 
   /// Fired when an object is selected in the panel.
-  external ChromeEvent get onSelectionChanged;
+  external Event get onSelectionChanged;
 }
 
 @JS()
@@ -104,7 +104,7 @@ extension SourcesPanelExtension on SourcesPanel {
   );
 
   /// Fired when an object is selected in the panel.
-  external ChromeEvent get onSelectionChanged;
+  external Event get onSelectionChanged;
 }
 
 @JS()
@@ -128,13 +128,13 @@ extension ExtensionPanelExtension on ExtensionPanel {
 
   /// Fired upon a search action (start of a new search, search result
   /// navigation, or search being canceled).
-  external ChromeEvent get onSearch;
+  external Event get onSearch;
 
   /// Fired when the user switches to the panel.
-  external ChromeEvent get onShown;
+  external Event get onShown;
 
   /// Fired when the user switches away from the panel.
-  external ChromeEvent get onHidden;
+  external Event get onHidden;
 }
 
 @JS()
@@ -185,11 +185,11 @@ extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
-  external ChromeEvent get onShown;
+  external Event get onShown;
 
   /// Fired when the sidebar pane becomes hidden as a result of the user
   /// switching away from the panel that hosts the sidebar pane.
-  external ChromeEvent get onHidden;
+  external Event get onHidden;
 }
 
 @JS()
@@ -211,5 +211,5 @@ extension ButtonExtension on Button {
   );
 
   /// Fired when the button is clicked.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 }

@@ -19,7 +19,7 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   /// Event fired when print manager requests printers provided by extensions.
   /// |resultCallback|: Callback to return printer list. Every listener must
   /// call callback exactly once.
-  external ChromeEvent get onGetPrintersRequested;
+  external Event get onGetPrintersRequested;
 
   /// Event fired when print manager requests information about a USB device
   /// that may be a printer.
@@ -31,7 +31,7 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   /// must call callback exactly once. If the parameter to this callback is
   /// undefined that indicates that the application has determined that the
   /// device is not supported.
-  external ChromeEvent get onGetUsbPrinterInfoRequested;
+  external Event get onGetUsbPrinterInfoRequested;
 
   /// Event fired when print manager requests printer capabilities.
   /// |printerId|: Unique ID of the printer whose capabilities are requested.
@@ -39,13 +39,13 @@ extension JSPrinterProviderExtension on JSPrinterProvider {
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">CDD
   /// format</a>.
   /// The receiving listener must call callback exectly once.
-  external ChromeEvent get onGetCapabilityRequested;
+  external Event get onGetCapabilityRequested;
 
   /// Event fired when print manager requests printing.
   /// |printJob|: The printing request parameters.
   /// |resultCallback|: Callback that should be called when the printing
   /// request is completed.
-  external ChromeEvent get onPrintRequested;
+  external Event get onPrintRequested;
 }
 
 /// Error codes returned in response to [onPrintRequested] event.

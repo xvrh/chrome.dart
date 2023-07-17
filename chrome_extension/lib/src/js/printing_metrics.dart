@@ -21,7 +21,7 @@ extension JSPrintingMetricsExtension on JSPrintingMetrics {
 
   /// Event fired when the print job is finished.
   /// This includes any of termination statuses: FAILED, CANCELED and PRINTED.
-  external ChromeEvent get onPrintJobFinished;
+  external Event get onPrintJobFinished;
 }
 
 /// The source of the print job.

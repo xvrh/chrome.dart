@@ -211,11 +211,11 @@ extension JSUsbExtension on JSUsb {
   /// device. Permission may have been granted at install time, when the user
   /// accepted an optional permission (see [permissions.request]), or
   /// through [getUserSelectedDevices].
-  external ChromeEvent get onDeviceAdded;
+  external Event get onDeviceAdded;
 
   /// Event generated when a device is removed from the system. See
   /// [onDeviceAdded] for which events are delivered.
-  external ChromeEvent get onDeviceRemoved;
+  external Event get onDeviceRemoved;
 }
 
 /// Direction, Recipient, RequestType, and TransferType all map to their

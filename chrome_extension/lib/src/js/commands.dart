@@ -24,7 +24,7 @@ extension JSCommandsExtension on JSCommands {
       JSFunction? callback);
 
   /// Fired when a registered command is activated using a keyboard shortcut.
-  external ChromeEvent get onCommand;
+  external Event get onCommand;
 }
 
 @JS()

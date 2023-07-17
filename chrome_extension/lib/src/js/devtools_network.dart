@@ -25,10 +25,10 @@ extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
 
   /// Fired when a network request is finished and all request data are
   /// available.
-  external ChromeEvent get onRequestFinished;
+  external Event get onRequestFinished;
 
   /// Fired when the inspected window navigates to a new page.
-  external ChromeEvent get onNavigated;
+  external Event get onNavigated;
 }
 
 @JS()

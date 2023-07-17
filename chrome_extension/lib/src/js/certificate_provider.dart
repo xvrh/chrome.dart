@@ -65,20 +65,20 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// are insufficient or the browser requests updated information. The
   /// extension must call [setCertificates] with the updated list of
   /// certificates and the received `certificatesRequestId`.
-  external ChromeEvent get onCertificatesUpdateRequested;
+  external Event get onCertificatesUpdateRequested;
 
   /// This event fires every time the browser needs to sign a message using a
   /// certificate provided by this extension via [setCertificates].
   /// The extension must sign the input data from `request` using
   /// the appropriate algorithm and private key and return it by calling
   /// [reportSignature] with the received `signRequestId`.
-  external ChromeEvent get onSignatureRequested;
+  external Event get onSignatureRequested;
 
   /// This event fires every time the browser requests the current list of
   /// certificates provided by this extension. The extension must call
   /// `reportCallback` exactly once with the current list of
   /// certificates.
-  external ChromeEvent get onCertificatesRequested;
+  external Event get onCertificatesRequested;
 
   /// This event fires every time the browser needs to sign a message using
   /// a certificate provided by this extension in reply to an
@@ -88,7 +88,7 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// `reportCallback`. `reportCallback` must be called
   /// exactly once.
   /// |request|: Contains the details about the sign request.
-  external ChromeEvent get onSignDigestRequested;
+  external Event get onSignDigestRequested;
 }
 
 /// Types of supported cryptographic signature algorithms.

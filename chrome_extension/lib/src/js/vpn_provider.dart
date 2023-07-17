@@ -70,31 +70,31 @@ extension JSVpnProviderExtension on JSVpnProvider {
   /// message types may be added in future Chrome versions to support new
   /// features.
   /// |error|: Error message when there is an error.
-  external ChromeEvent get onPlatformMessage;
+  external Event get onPlatformMessage;
 
   /// Triggered when an IP packet is received via the tunnel for the VPN
   /// session owned by the extension.
   /// |data|: The IP packet received from the platform.
-  external ChromeEvent get onPacketReceived;
+  external Event get onPacketReceived;
 
   /// Triggered when a configuration created by the extension is removed by the
   /// platform.
   /// |id|: ID of the removed configuration.
-  external ChromeEvent get onConfigRemoved;
+  external Event get onConfigRemoved;
 
   /// Triggered when a configuration is created by the platform for the
   /// extension.
   /// |id|: ID of the configuration created.
   /// |name|: Name of the configuration created.
   /// |data|: Configuration data provided by the administrator.
-  external ChromeEvent get onConfigCreated;
+  external Event get onConfigCreated;
 
   /// Triggered when there is a UI event for the extension. UI events are
   /// signals from the platform that indicate to the app that a UI dialog
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  external ChromeEvent get onUIEvent;
+  external Event get onUIEvent;
 }
 
 /// The enum is used by the platform to notify the client of the VPN session

@@ -149,7 +149,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   );
 
   /// Fired when anything changes to the display configuration.
-  external ChromeEvent get onDisplayChanged;
+  external Event get onDisplayChanged;
 }
 
 /// Layout position, i.e. edge of parent that the display is attached to.

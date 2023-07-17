@@ -1,5 +1,6 @@
 import 'src/internal_helpers.dart';
 import 'src/js/page_action.dart' as $js;
+import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -122,7 +123,10 @@ class ChromePageAction {
 
   /// Fired when a page action icon is clicked.  This event will not fire if the
   /// page action has a popup.
-  Stream<Tab> get onClicked => throw UnimplementedError();
+  Stream<Tab> get onClicked =>
+      $js.chrome.pageAction.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
+            $c.add(Tab.fromJS(tab));
+          }.toJS);
 }
 
 class ImageDataType {

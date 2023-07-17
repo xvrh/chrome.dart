@@ -550,68 +550,154 @@ class ChromeTabs {
   /// second. [captureVisibleTab] is expensive and should not be called too
   /// often.
   int get maxCaptureVisibleTabCallsPerSecond =>
-      ($js.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND as dynamic);
+      $js.chrome.tabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND;
 
   /// An ID that represents the absence of a browser tab.
-  int get tabIdNone => ($js.chrome.tabs.TAB_ID_NONE as dynamic);
+  int get tabIdNone => $js.chrome.tabs.TAB_ID_NONE;
 
   /// Fired when a tab is created. Note that the tab's URL and tab group
   /// membership may not be set at the time this event is fired, but you can
   /// listen to onUpdated events so as to be notified when a URL is set or the
   /// tab is added to a tab group.
-  Stream<Tab> get onCreated => throw UnimplementedError();
+  Stream<Tab> get onCreated =>
+      $js.chrome.tabs.onCreated.asStream(($c) => ($js.Tab tab) {
+            $c.add(Tab.fromJS(tab));
+          }.toJS);
 
   /// Fired when a tab is updated.
-  Stream<OnUpdatedEvent> get onUpdated => throw UnimplementedError();
+  Stream<OnUpdatedEvent> get onUpdated =>
+      $js.chrome.tabs.onUpdated.asStream(($c) => (
+            int tabId,
+            $js.OnUpdatedChangeInfo changeInfo,
+            $js.Tab tab,
+          ) {
+            $c.add(OnUpdatedEvent(
+              tabId: tabId,
+              changeInfo: OnUpdatedChangeInfo.fromJS(changeInfo),
+              tab: Tab.fromJS(tab),
+            ));
+          }.toJS);
 
   /// Fired when a tab is moved within a window. Only one move event is fired,
   /// representing the tab the user directly moved. Move events are not fired
   /// for the other tabs that must move in response to the manually-moved tab.
   /// This event is not fired when a tab is moved between windows; for details,
   /// see [tabs.onDetached].
-  Stream<OnMovedEvent> get onMoved => throw UnimplementedError();
+  Stream<OnMovedEvent> get onMoved => $js.chrome.tabs.onMoved.asStream(($c) => (
+        int tabId,
+        $js.OnMovedMoveInfo moveInfo,
+      ) {
+        $c.add(OnMovedEvent(
+          tabId: tabId,
+          moveInfo: OnMovedMoveInfo.fromJS(moveInfo),
+        ));
+      }.toJS);
 
   /// Fires when the selected tab in a window changes.
   Stream<OnSelectionChangedEvent> get onSelectionChanged =>
-      throw UnimplementedError();
+      $js.chrome.tabs.onSelectionChanged.asStream(($c) => (
+            int tabId,
+            $js.OnSelectionChangedSelectInfo selectInfo,
+          ) {
+            $c.add(OnSelectionChangedEvent(
+              tabId: tabId,
+              selectInfo: OnSelectionChangedSelectInfo.fromJS(selectInfo),
+            ));
+          }.toJS);
 
   /// Fires when the selected tab in a window changes. Note that the tab's URL
   /// may not be set at the time this event fired, but you can listen to
   /// [tabs.onUpdated] events so as to be notified when a URL is set.
   Stream<OnActiveChangedEvent> get onActiveChanged =>
-      throw UnimplementedError();
+      $js.chrome.tabs.onActiveChanged.asStream(($c) => (
+            int tabId,
+            $js.OnActiveChangedSelectInfo selectInfo,
+          ) {
+            $c.add(OnActiveChangedEvent(
+              tabId: tabId,
+              selectInfo: OnActiveChangedSelectInfo.fromJS(selectInfo),
+            ));
+          }.toJS);
 
   /// Fires when the active tab in a window changes. Note that the tab's URL may
   /// not be set at the time this event fired, but you can listen to onUpdated
   /// events so as to be notified when a URL is set.
-  Stream<OnActivatedActiveInfo> get onActivated => throw UnimplementedError();
+  Stream<OnActivatedActiveInfo> get onActivated => $js.chrome.tabs.onActivated
+      .asStream(($c) => ($js.OnActivatedActiveInfo activeInfo) {
+            $c.add(OnActivatedActiveInfo.fromJS(activeInfo));
+          }.toJS);
 
   /// Fired when the highlighted or selected tabs in a window changes.
   Stream<OnHighlightChangedSelectInfo> get onHighlightChanged =>
-      throw UnimplementedError();
+      $js.chrome.tabs.onHighlightChanged
+          .asStream(($c) => ($js.OnHighlightChangedSelectInfo selectInfo) {
+                $c.add(OnHighlightChangedSelectInfo.fromJS(selectInfo));
+              }.toJS);
 
   /// Fired when the highlighted or selected tabs in a window changes.
   Stream<OnHighlightedHighlightInfo> get onHighlighted =>
-      throw UnimplementedError();
+      $js.chrome.tabs.onHighlighted
+          .asStream(($c) => ($js.OnHighlightedHighlightInfo highlightInfo) {
+                $c.add(OnHighlightedHighlightInfo.fromJS(highlightInfo));
+              }.toJS);
 
   /// Fired when a tab is detached from a window; for example, because it was
   /// moved between windows.
-  Stream<OnDetachedEvent> get onDetached => throw UnimplementedError();
+  Stream<OnDetachedEvent> get onDetached =>
+      $js.chrome.tabs.onDetached.asStream(($c) => (
+            int tabId,
+            $js.OnDetachedDetachInfo detachInfo,
+          ) {
+            $c.add(OnDetachedEvent(
+              tabId: tabId,
+              detachInfo: OnDetachedDetachInfo.fromJS(detachInfo),
+            ));
+          }.toJS);
 
   /// Fired when a tab is attached to a window; for example, because it was
   /// moved between windows.
-  Stream<OnAttachedEvent> get onAttached => throw UnimplementedError();
+  Stream<OnAttachedEvent> get onAttached =>
+      $js.chrome.tabs.onAttached.asStream(($c) => (
+            int tabId,
+            $js.OnAttachedAttachInfo attachInfo,
+          ) {
+            $c.add(OnAttachedEvent(
+              tabId: tabId,
+              attachInfo: OnAttachedAttachInfo.fromJS(attachInfo),
+            ));
+          }.toJS);
 
   /// Fired when a tab is closed.
-  Stream<OnRemovedEvent> get onRemoved => throw UnimplementedError();
+  Stream<OnRemovedEvent> get onRemoved =>
+      $js.chrome.tabs.onRemoved.asStream(($c) => (
+            int tabId,
+            $js.OnRemovedRemoveInfo removeInfo,
+          ) {
+            $c.add(OnRemovedEvent(
+              tabId: tabId,
+              removeInfo: OnRemovedRemoveInfo.fromJS(removeInfo),
+            ));
+          }.toJS);
 
   /// Fired when a tab is replaced with another tab due to prerendering or
   /// instant.
-  Stream<OnReplacedEvent> get onReplaced => throw UnimplementedError();
+  Stream<OnReplacedEvent> get onReplaced =>
+      $js.chrome.tabs.onReplaced.asStream(($c) => (
+            int addedTabId,
+            int removedTabId,
+          ) {
+            $c.add(OnReplacedEvent(
+              addedTabId: addedTabId,
+              removedTabId: removedTabId,
+            ));
+          }.toJS);
 
   /// Fired when a tab is zoomed.
   Stream<OnZoomChangeZoomChangeInfo> get onZoomChange =>
-      throw UnimplementedError();
+      $js.chrome.tabs.onZoomChange
+          .asStream(($c) => ($js.OnZoomChangeZoomChangeInfo ZoomChangeInfo) {
+                $c.add(OnZoomChangeZoomChangeInfo.fromJS(ZoomChangeInfo));
+              }.toJS);
 }
 
 /// The tab's loading status.

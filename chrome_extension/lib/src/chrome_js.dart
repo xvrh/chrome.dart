@@ -1,4 +1,5 @@
 import 'dart:js_interop';
+export 'js/events.dart' show Event;
 
 @JS()
 external JSChrome get chrome;
@@ -7,12 +8,3 @@ external JSChrome get chrome;
 @staticInterop
 class JSChrome {}
 
-// TODO: use generated Event class
-@JS()
-@staticInterop
-class ChromeEvent {}
-
-extension ChromeEventExtension on ChromeEvent {
-  external void addListener(JSFunction callback);
-  external void removeListener(JSFunction callback);
-}

@@ -29,7 +29,11 @@ class ChromePrintingMetrics {
 
   /// Event fired when the print job is finished.
   /// This includes any of termination statuses: FAILED, CANCELED and PRINTED.
-  Stream<PrintJobInfo> get onPrintJobFinished => throw UnimplementedError();
+  Stream<PrintJobInfo> get onPrintJobFinished =>
+      $js.chrome.printingMetrics.onPrintJobFinished
+          .asStream(($c) => ($js.PrintJobInfo jobInfo) {
+                $c.add(PrintJobInfo.fromJS(jobInfo));
+              }.toJS);
 }
 
 /// The source of the print job.

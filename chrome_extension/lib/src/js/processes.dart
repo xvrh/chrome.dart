@@ -50,7 +50,7 @@ extension JSProcessesExtension on JSProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Metrics requiring
   /// aggregation over time will be populated in each Process object.
-  external ChromeEvent get onUpdated;
+  external Event get onUpdated;
 
   /// Fired each time the Task Manager updates its process statistics,
   /// providing the dictionary of updated Process objects, indexed by process
@@ -61,20 +61,20 @@ extension JSProcessesExtension on JSProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Memory usage details will
   /// be included in each Process object.
-  external ChromeEvent get onUpdatedWithMemory;
+  external Event get onUpdatedWithMemory;
 
   /// Fired each time a process is created, providing the corrseponding Process
   /// object.
   /// |process|: Details of the process that was created. Metrics requiring
   /// aggregation over time will not be populated in the object.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fired each time a process becomes unresponsive, providing the
   /// corrseponding Process object.
   /// |process|: Details of the unresponsive process. Metrics requiring
   /// aggregation over time will not be populated in the object. Only available
   /// for renderer processes.
-  external ChromeEvent get onUnresponsive;
+  external Event get onUnresponsive;
 
   /// Fired each time a process is terminated, providing the type of exit.
   /// |processId|: The ID of the process that exited.
@@ -82,7 +82,7 @@ extension JSProcessesExtension on JSProcesses {
   /// abnormal, killed, crashed. Only available for renderer processes.
   /// |exitCode|: The exit code if the process exited abnormally. Only
   /// available for renderer processes.
-  external ChromeEvent get onExited;
+  external Event get onExited;
 }
 
 /// The types of the browser processes.

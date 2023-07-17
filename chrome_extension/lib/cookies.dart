@@ -100,7 +100,10 @@ class ChromeCookies {
   /// with "cause" of "overwrite" .  Afterwards, a new cookie is written with
   /// the updated values, generating a second notification with "cause"
   /// "explicit".
-  Stream<OnChangedChangeInfo> get onChanged => throw UnimplementedError();
+  Stream<OnChangedChangeInfo> get onChanged => $js.chrome.cookies.onChanged
+      .asStream(($c) => ($js.OnChangedChangeInfo changeInfo) {
+            $c.add(OnChangedChangeInfo.fromJS(changeInfo));
+          }.toJS);
 }
 
 /// A cookie's 'SameSite' state

@@ -110,17 +110,34 @@ class ChromeVpnProvider {
   /// features.
   /// |error|: Error message when there is an error.
   Stream<OnPlatformMessageEvent> get onPlatformMessage =>
-      throw UnimplementedError();
+      $js.chrome.vpnProvider.onPlatformMessage.asStream(($c) => (
+            String id,
+            $js.PlatformMessage message,
+            String error,
+          ) {
+            $c.add(OnPlatformMessageEvent(
+              id: id,
+              message: PlatformMessage.fromJS(message),
+              error: error,
+            ));
+          }.toJS);
 
   /// Triggered when an IP packet is received via the tunnel for the VPN
   /// session owned by the extension.
   /// |data|: The IP packet received from the platform.
-  Stream<ByteBuffer> get onPacketReceived => throw UnimplementedError();
+  Stream<ByteBuffer> get onPacketReceived =>
+      $js.chrome.vpnProvider.onPacketReceived
+          .asStream(($c) => (JSArrayBuffer data) {
+                $c.add(data.toDart);
+              }.toJS);
 
   /// Triggered when a configuration created by the extension is removed by the
   /// platform.
   /// |id|: ID of the removed configuration.
-  Stream<String> get onConfigRemoved => throw UnimplementedError();
+  Stream<String> get onConfigRemoved =>
+      $js.chrome.vpnProvider.onConfigRemoved.asStream(($c) => (String id) {
+            $c.add(id);
+          }.toJS);
 
   /// Triggered when a configuration is created by the platform for the
   /// extension.
@@ -128,14 +145,33 @@ class ChromeVpnProvider {
   /// |name|: Name of the configuration created.
   /// |data|: Configuration data provided by the administrator.
   Stream<OnConfigCreatedEvent> get onConfigCreated =>
-      throw UnimplementedError();
+      $js.chrome.vpnProvider.onConfigCreated.asStream(($c) => (
+            String id,
+            String name,
+            JSAny data,
+          ) {
+            $c.add(OnConfigCreatedEvent(
+              id: id,
+              name: name,
+              data: data,
+            ));
+          }.toJS);
 
   /// Triggered when there is a UI event for the extension. UI events are
   /// signals from the platform that indicate to the app that a UI dialog
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  Stream<OnUIEventEvent> get onUIEvent => throw UnimplementedError();
+  Stream<OnUIEventEvent> get onUIEvent =>
+      $js.chrome.vpnProvider.onUIEvent.asStream(($c) => (
+            $js.UIEvent event,
+            String? id,
+          ) {
+            $c.add(OnUIEventEvent(
+              event: UIEvent.fromJS(event),
+              id: id,
+            ));
+          }.toJS);
 }
 
 /// The enum is used by the platform to notify the client of the VPN session

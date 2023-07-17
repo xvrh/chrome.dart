@@ -72,12 +72,12 @@ extension JSDebuggerExtension on JSDebugger {
   external void getTargets(JSFunction callback);
 
   /// Fired whenever debugging target issues instrumentation event.
-  external ChromeEvent get onEvent;
+  external Event get onEvent;
 
   /// Fired when browser terminates debugging session for the tab. This happens
   /// when either the tab is being closed or Chrome DevTools is being invoked
   /// for the attached tab.
-  external ChromeEvent get onDetach;
+  external Event get onDetach;
 }
 
 /// Target type.

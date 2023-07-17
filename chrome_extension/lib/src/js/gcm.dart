@@ -49,16 +49,16 @@ extension JSGcmExtension on JSGcm {
   );
 
   /// Fired when a message is received through FCM.
-  external ChromeEvent get onMessage;
+  external Event get onMessage;
 
   /// Fired when a FCM server had to delete messages sent by an app server to
   /// the application. See [Lifetime of a
   /// message](https://firebase.google.com/docs/cloud-messaging/concept-options#lifetime)
   /// for details on handling this event.
-  external ChromeEvent get onMessagesDeleted;
+  external Event get onMessagesDeleted;
 
   /// Fired when it was not possible to send a message to the FCM server.
-  external ChromeEvent get onSendError;
+  external Event get onSendError;
 
   /// The maximum size (in bytes) of all key/value pairs in a message.
   external int get MAX_MESSAGE_SIZE;

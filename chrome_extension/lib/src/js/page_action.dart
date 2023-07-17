@@ -70,7 +70,7 @@ extension JSPageActionExtension on JSPageAction {
 
   /// Fired when a page action icon is clicked.  This event will not fire if the
   /// page action has a popup.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 }
 
 @JS()

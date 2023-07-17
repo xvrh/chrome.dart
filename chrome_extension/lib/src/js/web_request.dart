@@ -22,20 +22,20 @@ extension JSWebRequestExtension on JSWebRequest {
   external void handlerBehaviorChanged(JSFunction? callback);
 
   /// Fired when a request is about to occur.
-  external ChromeEvent get onBeforeRequest;
+  external Event get onBeforeRequest;
 
   /// Fired before sending an HTTP request, once the request headers are
   /// available. This may occur after a TCP connection is made to the server,
   /// but before any HTTP data is sent.
-  external ChromeEvent get onBeforeSendHeaders;
+  external Event get onBeforeSendHeaders;
 
   /// Fired just before a request is going to be sent to the server
   /// (modifications of previous onBeforeSendHeaders callbacks are visible by
   /// the time onSendHeaders is fired).
-  external ChromeEvent get onSendHeaders;
+  external Event get onSendHeaders;
 
   /// Fired when HTTP response headers of a request have been received.
-  external ChromeEvent get onHeadersReceived;
+  external Event get onHeadersReceived;
 
   /// Fired when an authentication failure is received. The listener has three
   /// options: it can provide authentication credentials, it can cancel the
@@ -44,25 +44,25 @@ extension JSWebRequestExtension on JSWebRequest {
   /// multiple times for the same request. Note, only one of `'blocking'` or
   /// `'asyncBlocking'` modes must be specified in the `extraInfoSpec`
   /// parameter.
-  external ChromeEvent get onAuthRequired;
+  external Event get onAuthRequired;
 
   /// Fired when the first byte of the response body is received. For HTTP
   /// requests, this means that the status line and response headers are
   /// available.
-  external ChromeEvent get onResponseStarted;
+  external Event get onResponseStarted;
 
   /// Fired when a server-initiated redirect is about to occur.
-  external ChromeEvent get onBeforeRedirect;
+  external Event get onBeforeRedirect;
 
   /// Fired when a request is completed.
-  external ChromeEvent get onCompleted;
+  external Event get onCompleted;
 
   /// Fired when an error occurs.
-  external ChromeEvent get onErrorOccurred;
+  external Event get onErrorOccurred;
 
   /// Fired when an extension's proposed modification to a network request is
   /// ignored. This happens in case of conflicts with other extensions.
-  external ChromeEvent get onActionIgnored;
+  external Event get onActionIgnored;
 
   /// The maximum number of times that `handlerBehaviorChanged` can be called
   /// per 10 minute sustained interval. `handlerBehaviorChanged` is an expensive

@@ -113,7 +113,10 @@ class ChromeSetting {
   }
 
   /// Fired after the setting changes.
-  Stream<OnChangeDetails> get onChange => throw UnimplementedError();
+  Stream<OnChangeDetails> get onChange =>
+      _wrapped.onChange.asStream(($c) => ($js.OnChangeDetails details) {
+            $c.add(OnChangeDetails.fromJS(details));
+          }.toJS);
 }
 
 class GetCallbackDetails {

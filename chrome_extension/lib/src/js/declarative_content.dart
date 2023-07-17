@@ -17,7 +17,7 @@ extension JSChromeJSDeclarativeContentExtension on JSChrome {
 class JSDeclarativeContent {}
 
 extension JSDeclarativeContentExtension on JSDeclarativeContent {
-  external ChromeEvent get onPageChanged;
+  external Event get onPageChanged;
 }
 
 typedef PageStateMatcherInstanceType = String;

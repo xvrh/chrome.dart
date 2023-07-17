@@ -57,7 +57,10 @@ class ChromeIdle {
   /// activates, "idle" if the system is unlocked and the user has not generated
   /// any input for a specified number of seconds, and "active" when the user
   /// generates input on an idle system.
-  Stream<IdleState> get onStateChanged => throw UnimplementedError();
+  Stream<IdleState> get onStateChanged =>
+      $js.chrome.idle.onStateChanged.asStream(($c) => ($js.IdleState newState) {
+            $c.add(IdleState.fromJS(newState));
+          }.toJS);
 }
 
 enum IdleState {

@@ -252,19 +252,28 @@ class ChromeDownloads {
 
   /// This event fires with the [DownloadItem] object when a download
   /// begins.
-  Stream<DownloadItem> get onCreated => throw UnimplementedError();
+  Stream<DownloadItem> get onCreated => $js.chrome.downloads.onCreated
+      .asStream(($c) => ($js.DownloadItem downloadItem) {
+            $c.add(DownloadItem.fromJS(downloadItem));
+          }.toJS);
 
   /// Fires with the `downloadId` when a download is erased from
   /// history.
   /// |downloadId|: The `id` of the [DownloadItem] that was
   /// erased.
-  Stream<int> get onErased => throw UnimplementedError();
+  Stream<int> get onErased =>
+      $js.chrome.downloads.onErased.asStream(($c) => (int downloadId) {
+            $c.add(downloadId);
+          }.toJS);
 
   /// When any of a [DownloadItem]'s properties except
   /// `bytesReceived` and `estimatedEndTime` changes,
   /// this event fires with the `downloadId` and an object
   /// containing the properties that changed.
-  Stream<DownloadDelta> get onChanged => throw UnimplementedError();
+  Stream<DownloadDelta> get onChanged => $js.chrome.downloads.onChanged
+      .asStream(($c) => ($js.DownloadDelta downloadDelta) {
+            $c.add(DownloadDelta.fromJS(downloadDelta));
+          }.toJS);
 
   /// During the filename determination process, extensions will be given the
   /// opportunity to override the target [DownloadItem.filename]. Each
@@ -288,7 +297,15 @@ class ChromeDownloads {
   /// tentative filename have been determined, pass `filename` to
   /// [download] instead.
   Stream<OnDeterminingFilenameEvent> get onDeterminingFilename =>
-      throw UnimplementedError();
+      $js.chrome.downloads.onDeterminingFilename.asStream(($c) => (
+            $js.DownloadItem downloadItem,
+            $js.SuggestFilenameCallback suggest,
+          ) {
+            $c.add(OnDeterminingFilenameEvent(
+              downloadItem: DownloadItem.fromJS(downloadItem),
+              suggest: throw UnimplementedError(),
+            ));
+          }.toJS);
 }
 
 /// <dl><dt>uniquify</dt>

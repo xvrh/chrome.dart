@@ -81,17 +81,25 @@ class ChromePrinting {
   /// The maximum number of times that [submitJob] can be called per
   /// minute.
   int get maxSubmitJobCallsPerMinute =>
-      ($js.chrome.printing.MAX_SUBMIT_JOB_CALLS_PER_MINUTE as dynamic);
+      $js.chrome.printing.MAX_SUBMIT_JOB_CALLS_PER_MINUTE;
 
   /// The maximum number of times that [getPrinterInfo] can be called per
   /// minute.
   int get maxGetPrinterInfoCallsPerMinute =>
-      ($js.chrome.printing.MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE as dynamic);
+      $js.chrome.printing.MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE;
 
   /// Event fired when the status of the job is changed.
   /// This is only fired for the jobs created by this extension.
   Stream<OnJobStatusChangedEvent> get onJobStatusChanged =>
-      throw UnimplementedError();
+      $js.chrome.printing.onJobStatusChanged.asStream(($c) => (
+            String jobId,
+            $js.JobStatus status,
+          ) {
+            $c.add(OnJobStatusChangedEvent(
+              jobId: jobId,
+              status: JobStatus.fromJS(status),
+            ));
+          }.toJS);
 }
 
 /// The status of [submitJob] request.

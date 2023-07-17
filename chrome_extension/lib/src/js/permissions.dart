@@ -47,10 +47,10 @@ extension JSPermissionsExtension on JSPermissions {
   );
 
   /// Fired when the extension acquires new permissions.
-  external ChromeEvent get onAdded;
+  external Event get onAdded;
 
   /// Fired when access to permissions has been removed from the extension.
-  external ChromeEvent get onRemoved;
+  external Event get onRemoved;
 }
 
 @JS()

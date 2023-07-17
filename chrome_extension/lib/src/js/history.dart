@@ -56,11 +56,11 @@ extension JSHistoryExtension on JSHistory {
 
   /// Fired when a URL is visited, providing the HistoryItem data for that URL.
   /// This event fires before the page has loaded.
-  external ChromeEvent get onVisited;
+  external Event get onVisited;
 
   /// Fired when one or more URLs are removed from the history service.  When
   /// all visits have been removed the URL is purged from history.
-  external ChromeEvent get onVisitRemoved;
+  external Event get onVisitRemoved;
 }
 
 /// The [transition type](#transition_types) for this visit from its referrer.

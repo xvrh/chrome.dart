@@ -94,26 +94,26 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   /// `attach()` or `detach()` API methods accordingly.
   ///
   /// The event listener must be registered synchronously at load time.
-  external ChromeEvent get onRemoteSessionStateChange;
+  external Event get onRemoteSessionStateChange;
 
   /// Fires when a WebAuthn `navigator.credentials.create()` call
   /// occurs. The extension must supply a response by calling
   /// `completeCreateRequest()` with the `requestId` from
   /// `requestInfo`.
-  external ChromeEvent get onCreateRequest;
+  external Event get onCreateRequest;
 
   /// Fires when a WebAuthn navigator.credentials.get() call occurs. The
   /// extension must supply a response by calling
   /// `completeGetRequest()` with the `requestId` from
   /// `requestInfo`
-  external ChromeEvent get onGetRequest;
+  external Event get onGetRequest;
 
   /// Fires when a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()`
   /// call occurs. The extension must supply a response by calling
   /// `completeIsUvpaaRequest()` with the `requestId`
   /// from `requestInfo`
-  external ChromeEvent get onIsUvpaaRequest;
+  external Event get onIsUvpaaRequest;
 
   /// Fires when a `onCreateRequest` or `onGetRequest`
   /// event is canceled (because the WebAuthn request was aborted by the
@@ -121,7 +121,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   /// extension should cancel processing of the corresponding request on the
   /// client side. Extensions cannot complete a request once it has been
   /// canceled.
-  external ChromeEvent get onRequestCanceled;
+  external Event get onRequestCanceled;
 }
 
 @JS()

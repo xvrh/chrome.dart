@@ -1,5 +1,6 @@
 import 'src/internal_helpers.dart';
 import 'src/js/browser_action.dart' as $js;
+import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
 export 'src/chrome.dart' show chrome;
@@ -189,7 +190,10 @@ class ChromeBrowserAction {
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser
   /// action has a popup.
-  Stream<Tab> get onClicked => throw UnimplementedError();
+  Stream<Tab> get onClicked =>
+      $js.chrome.browserAction.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
+            $c.add(Tab.fromJS(tab));
+          }.toJS);
 }
 
 typedef ColorArray = List<int>;

@@ -46,19 +46,46 @@ class ChromeOmnibox {
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and
   /// before any onInputChanged events.
-  Stream<void> get onInputStarted => throw UnimplementedError();
+  Stream<void> get onInputStarted =>
+      $js.chrome.omnibox.onInputStarted.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// User has changed what is typed into the omnibox.
-  Stream<OnInputChangedEvent> get onInputChanged => throw UnimplementedError();
+  Stream<OnInputChangedEvent> get onInputChanged =>
+      $js.chrome.omnibox.onInputChanged.asStream(($c) => (
+            String text,
+            JSFunction suggest,
+          ) {
+            $c.add(OnInputChangedEvent(
+              text: text,
+              suggest: suggest,
+            ));
+          }.toJS);
 
   /// User has accepted what is typed into the omnibox.
-  Stream<OnInputEnteredEvent> get onInputEntered => throw UnimplementedError();
+  Stream<OnInputEnteredEvent> get onInputEntered =>
+      $js.chrome.omnibox.onInputEntered.asStream(($c) => (
+            String text,
+            $js.OnInputEnteredDisposition disposition,
+          ) {
+            $c.add(OnInputEnteredEvent(
+              text: text,
+              disposition: OnInputEnteredDisposition.fromJS(disposition),
+            ));
+          }.toJS);
 
   /// User has ended the keyword input session without accepting the input.
-  Stream<void> get onInputCancelled => throw UnimplementedError();
+  Stream<void> get onInputCancelled =>
+      $js.chrome.omnibox.onInputCancelled.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 
   /// User has deleted a suggested result.
-  Stream<String> get onDeleteSuggestion => throw UnimplementedError();
+  Stream<String> get onDeleteSuggestion =>
+      $js.chrome.omnibox.onDeleteSuggestion.asStream(($c) => (String text) {
+            $c.add(text);
+          }.toJS);
 }
 
 /// The style type.

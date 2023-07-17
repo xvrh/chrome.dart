@@ -13,22 +13,32 @@ class ChromeStorage {
   ChromeStorage._();
 
   /// Items in the `sync` storage area are synced using Chrome Sync.
-  StorageSync get sync => ($js.chrome.storage.sync as dynamic);
+  StorageSync get sync => StorageSync.fromJS($js.chrome.storage.sync);
 
   /// Items in the `local` storage area are local to each machine.
-  StorageLocal get local => ($js.chrome.storage.local as dynamic);
+  StorageLocal get local => StorageLocal.fromJS($js.chrome.storage.local);
 
   /// Items in the `managed` storage area are set by the domain administrator,
   /// and are read-only for the extension; trying to modify this namespace
   /// results in an error.
-  StorageArea get managed => ($js.chrome.storage.managed as dynamic);
+  StorageArea get managed => StorageArea.fromJS($js.chrome.storage.managed);
 
   /// Items in the `session` storage area are stored in-memory and will not be
   /// persisted to disk.
-  StorageSession get session => ($js.chrome.storage.session as dynamic);
+  StorageSession get session =>
+      StorageSession.fromJS($js.chrome.storage.session);
 
   /// Fired when one or more items change.
-  Stream<OnChangedEvent> get onChanged => throw UnimplementedError();
+  Stream<OnChangedEvent> get onChanged =>
+      $js.chrome.storage.onChanged.asStream(($c) => (
+            JSAny changes,
+            String areaName,
+          ) {
+            $c.add(OnChangedEvent(
+              changes: changes,
+              areaName: areaName,
+            ));
+          }.toJS);
 }
 
 /// The storage area's access level.
@@ -179,7 +189,10 @@ class StorageArea {
   }
 
   /// Fired when one or more items change.
-  Stream<Object> get onChanged => throw UnimplementedError();
+  Stream<Object> get onChanged =>
+      _wrapped.onChanged.asStream(($c) => (JSAny changes) {
+            $c.add(changes);
+          }.toJS);
 }
 
 class StorageSync {

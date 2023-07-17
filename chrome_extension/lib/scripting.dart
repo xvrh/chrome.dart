@@ -159,7 +159,7 @@ class ChromeScripting {
   /// between all content scripts for a given extension. This object is
   /// initialized when the frame is created, before document_start.
   /// TODO(crbug.com/1054624): Enable this once implementation is complete.
-  int get globalParams => ($js.chrome.scripting.globalParams as dynamic);
+  int get globalParams => $js.chrome.scripting.globalParams;
 }
 
 /// The origin for a style change.

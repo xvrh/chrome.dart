@@ -32,41 +32,41 @@ extension JSWebNavigationExtension on JSWebNavigation {
   );
 
   /// Fired when a navigation is about to occur.
-  external ChromeEvent get onBeforeNavigate;
+  external Event get onBeforeNavigate;
 
   /// Fired when a navigation is committed. The document (and the resources it
   /// refers to, such as images and subframes) might still be downloading, but
   /// at least part of the document has been received from the server and the
   /// browser has decided to switch to the new document.
-  external ChromeEvent get onCommitted;
+  external Event get onCommitted;
 
   /// Fired when the page's DOM is fully constructed, but the referenced
   /// resources may not finish loading.
-  external ChromeEvent get onDOMContentLoaded;
+  external Event get onDOMContentLoaded;
 
   /// Fired when a document, including the resources it refers to, is completely
   /// loaded and initialized.
-  external ChromeEvent get onCompleted;
+  external Event get onCompleted;
 
   /// Fired when an error occurs and the navigation is aborted. This can happen
   /// if either a network error occurred, or the user aborted the navigation.
-  external ChromeEvent get onErrorOccurred;
+  external Event get onErrorOccurred;
 
   /// Fired when a new window, or a new tab in an existing window, is created to
   /// host a navigation.
-  external ChromeEvent get onCreatedNavigationTarget;
+  external Event get onCreatedNavigationTarget;
 
   /// Fired when the reference fragment of a frame was updated. All future
   /// events for that frame will use the updated URL.
-  external ChromeEvent get onReferenceFragmentUpdated;
+  external Event get onReferenceFragmentUpdated;
 
   /// Fired when the contents of the tab is replaced by a different (usually
   /// previously pre-rendered) tab.
-  external ChromeEvent get onTabReplaced;
+  external Event get onTabReplaced;
 
   /// Fired when the frame's history was updated to a new URL. All future events
   /// for that frame will use the updated URL.
-  external ChromeEvent get onHistoryStateUpdated;
+  external Event get onHistoryStateUpdated;
 }
 
 /// Cause of the navigation. The same transition types as defined in the history

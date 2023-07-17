@@ -30,27 +30,39 @@ class ChromeWebRequest {
   /// per 10 minute sustained interval. `handlerBehaviorChanged` is an expensive
   /// function call that shouldn't be called often.
   int get maxHandlerBehaviorChangedCallsPer10Minutes =>
-      ($js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES
-          as dynamic);
+      $js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES;
 
   /// Fired when a request is about to occur.
   Stream<OnBeforeRequestDetails> get onBeforeRequest =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onBeforeRequest
+          .asStream(($c) => ($js.OnBeforeRequestDetails details) {
+                $c.add(OnBeforeRequestDetails.fromJS(details));
+              }.toJS);
 
   /// Fired before sending an HTTP request, once the request headers are
   /// available. This may occur after a TCP connection is made to the server,
   /// but before any HTTP data is sent.
   Stream<OnBeforeSendHeadersDetails> get onBeforeSendHeaders =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onBeforeSendHeaders
+          .asStream(($c) => ($js.OnBeforeSendHeadersDetails details) {
+                $c.add(OnBeforeSendHeadersDetails.fromJS(details));
+              }.toJS);
 
   /// Fired just before a request is going to be sent to the server
   /// (modifications of previous onBeforeSendHeaders callbacks are visible by
   /// the time onSendHeaders is fired).
-  Stream<OnSendHeadersDetails> get onSendHeaders => throw UnimplementedError();
+  Stream<OnSendHeadersDetails> get onSendHeaders =>
+      $js.chrome.webRequest.onSendHeaders
+          .asStream(($c) => ($js.OnSendHeadersDetails details) {
+                $c.add(OnSendHeadersDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when HTTP response headers of a request have been received.
   Stream<OnHeadersReceivedDetails> get onHeadersReceived =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onHeadersReceived
+          .asStream(($c) => ($js.OnHeadersReceivedDetails details) {
+                $c.add(OnHeadersReceivedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when an authentication failure is received. The listener has three
   /// options: it can provide authentication credentials, it can cancel the
@@ -59,29 +71,54 @@ class ChromeWebRequest {
   /// multiple times for the same request. Note, only one of `'blocking'` or
   /// `'asyncBlocking'` modes must be specified in the `extraInfoSpec`
   /// parameter.
-  Stream<OnAuthRequiredEvent> get onAuthRequired => throw UnimplementedError();
+  Stream<OnAuthRequiredEvent> get onAuthRequired =>
+      $js.chrome.webRequest.onAuthRequired.asStream(($c) => (
+            $js.OnAuthRequiredDetails details,
+            JSFunction? asyncCallback,
+          ) {
+            $c.add(OnAuthRequiredEvent(
+              details: OnAuthRequiredDetails.fromJS(details),
+              asyncCallback: asyncCallback,
+            ));
+          }.toJS);
 
   /// Fired when the first byte of the response body is received. For HTTP
   /// requests, this means that the status line and response headers are
   /// available.
   Stream<OnResponseStartedDetails> get onResponseStarted =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onResponseStarted
+          .asStream(($c) => ($js.OnResponseStartedDetails details) {
+                $c.add(OnResponseStartedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when a server-initiated redirect is about to occur.
   Stream<OnBeforeRedirectDetails> get onBeforeRedirect =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onBeforeRedirect
+          .asStream(($c) => ($js.OnBeforeRedirectDetails details) {
+                $c.add(OnBeforeRedirectDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when a request is completed.
-  Stream<OnCompletedDetails> get onCompleted => throw UnimplementedError();
+  Stream<OnCompletedDetails> get onCompleted =>
+      $js.chrome.webRequest.onCompleted
+          .asStream(($c) => ($js.OnCompletedDetails details) {
+                $c.add(OnCompletedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when an error occurs.
   Stream<OnErrorOccurredDetails> get onErrorOccurred =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onErrorOccurred
+          .asStream(($c) => ($js.OnErrorOccurredDetails details) {
+                $c.add(OnErrorOccurredDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when an extension's proposed modification to a network request is
   /// ignored. This happens in case of conflicts with other extensions.
   Stream<OnActionIgnoredDetails> get onActionIgnored =>
-      throw UnimplementedError();
+      $js.chrome.webRequest.onActionIgnored
+          .asStream(($c) => ($js.OnActionIgnoredDetails details) {
+                $c.add(OnActionIgnoredDetails.fromJS(details));
+              }.toJS);
 }
 
 enum ResourceType {

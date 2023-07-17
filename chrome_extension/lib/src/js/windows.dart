@@ -63,20 +63,20 @@ extension JSWindowsExtension on JSWindows {
   );
 
   /// Fired when a window is created.
-  external ChromeEvent get onCreated;
+  external Event get onCreated;
 
   /// Fired when a window is removed (closed).
-  external ChromeEvent get onRemoved;
+  external Event get onRemoved;
 
   /// Fired when the currently focused window changes. Returns
   /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
   /// **Note:** On some Linux window managers, `WINDOW_ID_NONE` is always sent
   /// immediately preceding a switch from one Chrome window to another.
-  external ChromeEvent get onFocusChanged;
+  external Event get onFocusChanged;
 
   /// Fired when a window has been resized; this event is only dispatched when
   /// the new bounds are committed, and not for in-progress changes.
-  external ChromeEvent get onBoundsChanged;
+  external Event get onBoundsChanged;
 
   /// The windowId value that represents the absence of a Chrome browser window.
   external int get WINDOW_ID_NONE;

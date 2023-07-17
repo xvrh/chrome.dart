@@ -126,7 +126,7 @@ extension JSActionExtension on JSAction {
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 }
 
 @JS()

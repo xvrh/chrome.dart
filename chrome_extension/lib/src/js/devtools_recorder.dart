@@ -83,8 +83,8 @@ extension RecorderViewExtension on RecorderView {
   external void show();
 
   /// Fired when the view is shown.
-  external ChromeEvent get onShown;
+  external Event get onShown;
 
   /// Fired when the view is hidden.
-  external ChromeEvent get onHidden;
+  external Event get onHidden;
 }

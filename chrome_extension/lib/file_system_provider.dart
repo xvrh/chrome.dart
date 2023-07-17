@@ -136,14 +136,34 @@ class ChromeFileSystemProvider {
   /// `successCallback`. If unmounting is not possible (eg. due to
   /// a pending operation), then `errorCallback` must be called.
   Stream<OnUnmountRequestedEvent> get onUnmountRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onUnmountRequested.asStream(($c) => (
+            $js.UnmountRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnUnmountRequestedEvent(
+              options: UnmountRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when metadata of a file or a directory at `entryPath`
   /// is requested. The metadata must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
   Stream<OnGetMetadataRequestedEvent> get onGetMetadataRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onGetMetadataRequested.asStream(($c) => (
+            $js.GetMetadataRequestedOptions options,
+            $js.MetadataCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnGetMetadataRequestedEvent(
+              options: GetMetadataRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when a list of actions for a set of files or directories at
   /// `entryPaths` is requested. All of the returned actions must
@@ -152,71 +172,192 @@ class ChromeFileSystemProvider {
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
   Stream<OnGetActionsRequestedEvent> get onGetActionsRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onGetActionsRequested.asStream(($c) => (
+            $js.GetActionsRequestedOptions options,
+            $js.ActionsCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnGetActionsRequestedEvent(
+              options: GetActionsRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when contents of a directory at `directoryPath` are
   /// requested. The results must be returned in chunks by calling the
   /// `successCallback` several times. In case of an error,
   /// `errorCallback` must be called.
   Stream<OnReadDirectoryRequestedEvent> get onReadDirectoryRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onReadDirectoryRequested.asStream(($c) => (
+            $js.ReadDirectoryRequestedOptions options,
+            $js.EntriesCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnReadDirectoryRequestedEvent(
+              options: ReadDirectoryRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when opening a file at `filePath` is requested. If the
   /// file does not exist, then the operation must fail. Maximum number of
   /// files opened at once can be specified with `MountOptions`.
   Stream<OnOpenFileRequestedEvent> get onOpenFileRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onOpenFileRequested.asStream(($c) => (
+            $js.OpenFileRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnOpenFileRequestedEvent(
+              options: OpenFileRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when opening a file previously opened with
   /// `openRequestId` is requested to be closed.
   Stream<OnCloseFileRequestedEvent> get onCloseFileRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onCloseFileRequested.asStream(($c) => (
+            $js.CloseFileRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnCloseFileRequestedEvent(
+              options: CloseFileRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when reading contents of a file opened previously with
   /// `openRequestId` is requested. The results must be returned in
   /// chunks by calling `successCallback` several times. In case of
   /// an error, `errorCallback` must be called.
   Stream<OnReadFileRequestedEvent> get onReadFileRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onReadFileRequested.asStream(($c) => (
+            $js.ReadFileRequestedOptions options,
+            $js.FileDataCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnReadFileRequestedEvent(
+              options: ReadFileRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when creating a directory is requested. The operation must fail
   /// with the EXISTS error if the target directory already exists.
   /// If `recursive` is true, then all of the missing directories
   /// on the directory path must be created.
   Stream<OnCreateDirectoryRequestedEvent> get onCreateDirectoryRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onCreateDirectoryRequested
+          .asStream(($c) => (
+                $js.CreateDirectoryRequestedOptions options,
+                $js.ProviderSuccessCallback successCallback,
+                $js.ProviderErrorCallback errorCallback,
+              ) {
+                $c.add(OnCreateDirectoryRequestedEvent(
+                  options: CreateDirectoryRequestedOptions.fromJS(options),
+                  successCallback: throw UnimplementedError(),
+                  errorCallback: throw UnimplementedError(),
+                ));
+              }.toJS);
 
   /// Raised when deleting an entry is requested. If `recursive` is
   /// true, and the entry is a directory, then all of the entries inside
   /// must be recursively deleted as well.
   Stream<OnDeleteEntryRequestedEvent> get onDeleteEntryRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onDeleteEntryRequested.asStream(($c) => (
+            $js.DeleteEntryRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnDeleteEntryRequestedEvent(
+              options: DeleteEntryRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when creating a file is requested. If the file already exists,
   /// then `errorCallback` must be called with the
   /// `"EXISTS"` error code.
   Stream<OnCreateFileRequestedEvent> get onCreateFileRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onCreateFileRequested.asStream(($c) => (
+            $js.CreateFileRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnCreateFileRequestedEvent(
+              options: CreateFileRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when copying an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
   Stream<OnCopyEntryRequestedEvent> get onCopyEntryRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onCopyEntryRequested.asStream(($c) => (
+            $js.CopyEntryRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnCopyEntryRequestedEvent(
+              options: CopyEntryRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when moving an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
   Stream<OnMoveEntryRequestedEvent> get onMoveEntryRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onMoveEntryRequested.asStream(($c) => (
+            $js.MoveEntryRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnMoveEntryRequestedEvent(
+              options: MoveEntryRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when truncating a file to a desired length is requested.
   /// If an error occurs, then `errorCallback` must be called.
   Stream<OnTruncateRequestedEvent> get onTruncateRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onTruncateRequested.asStream(($c) => (
+            $js.TruncateRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnTruncateRequestedEvent(
+              options: TruncateRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when writing contents to a file opened previously with
   /// `openRequestId` is requested.
   Stream<OnWriteFileRequestedEvent> get onWriteFileRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onWriteFileRequested.asStream(($c) => (
+            $js.WriteFileRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnWriteFileRequestedEvent(
+              options: WriteFileRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when aborting an operation with `operationRequestId`
   /// is requested. The operation executed with `operationRequestId`
@@ -226,14 +367,34 @@ class ChromeFileSystemProvider {
   /// aborted operation must not be called, as they will be ignored. Despite
   /// calling `errorCallback`, the request may be forcibly aborted.
   Stream<OnAbortRequestedEvent> get onAbortRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onAbortRequested.asStream(($c) => (
+            $js.AbortRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnAbortRequestedEvent(
+              options: AbortRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when showing a configuration dialog for `fileSystemId`
   /// is requested. If it's handled, the
   /// `file_system_provider.configurable` manfiest option must be
   /// set to true.
   Stream<OnConfigureRequestedEvent> get onConfigureRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onConfigureRequested.asStream(($c) => (
+            $js.ConfigureRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnConfigureRequestedEvent(
+              options: ConfigureRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when showing a dialog for mounting a new file system is requested.
   /// If the extension/app is a file handler, then this event shouldn't be
@@ -242,23 +403,61 @@ class ChromeFileSystemProvider {
   /// mounts, the `file_system_provider.multiple_mounts` manifest
   /// option must be set to true.
   Stream<OnMountRequestedEvent> get onMountRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onMountRequested.asStream(($c) => (
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnMountRequestedEvent(
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when setting a new directory watcher is requested. If an error
   /// occurs, then `errorCallback` must be called.
   Stream<OnAddWatcherRequestedEvent> get onAddWatcherRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onAddWatcherRequested.asStream(($c) => (
+            $js.AddWatcherRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnAddWatcherRequestedEvent(
+              options: AddWatcherRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when the watcher should be removed. If an error occurs, then
   /// `errorCallback` must be called.
   Stream<OnRemoveWatcherRequestedEvent> get onRemoveWatcherRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onRemoveWatcherRequested.asStream(($c) => (
+            $js.RemoveWatcherRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnRemoveWatcherRequestedEvent(
+              options: RemoveWatcherRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 
   /// Raised when executing an action for a set of files or directories is\
   /// requested. After the action is completed, `successCallback`
   /// must be called. On error, `errorCallback` must be called.
   Stream<OnExecuteActionRequestedEvent> get onExecuteActionRequested =>
-      throw UnimplementedError();
+      $js.chrome.fileSystemProvider.onExecuteActionRequested.asStream(($c) => (
+            $js.ExecuteActionRequestedOptions options,
+            $js.ProviderSuccessCallback successCallback,
+            $js.ProviderErrorCallback errorCallback,
+          ) {
+            $c.add(OnExecuteActionRequestedEvent(
+              options: ExecuteActionRequestedOptions.fromJS(options),
+              successCallback: throw UnimplementedError(),
+              errorCallback: throw UnimplementedError(),
+            ));
+          }.toJS);
 }
 
 /// Error codes used by providing extensions in response to requests as well

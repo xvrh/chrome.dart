@@ -55,7 +55,7 @@ extension JSTtsExtension on JSTts {
   external void getVoices(JSFunction? callback);
 
   /// Used to pass events back to the function calling speak().
-  external ChromeEvent get onEvent;
+  external Event get onEvent;
 }
 
 typedef EventType = String;

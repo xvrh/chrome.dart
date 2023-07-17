@@ -216,24 +216,46 @@ class ChromeInputIme {
 
   /// This event is sent when an IME is activated. It signals that the IME will
   /// be receiving onKeyPress events.
-  Stream<OnActivateEvent> get onActivate => throw UnimplementedError();
+  Stream<OnActivateEvent> get onActivate =>
+      $js.chrome.input.ime.onActivate.asStream(($c) => (
+            String engineID,
+            $js.ScreenType screen,
+          ) {
+            $c.add(OnActivateEvent(
+              engineID: engineID,
+              screen: ScreenType.fromJS(screen),
+            ));
+          }.toJS);
 
   /// This event is sent when an IME is deactivated. It signals that the IME
   /// will no longer be receiving onKeyPress events.
-  Stream<String> get onDeactivated => throw UnimplementedError();
+  Stream<String> get onDeactivated =>
+      $js.chrome.input.ime.onDeactivated.asStream(($c) => (String engineID) {
+            $c.add(engineID);
+          }.toJS);
 
   /// This event is sent when focus enters a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  Stream<InputContext> get onFocus => throw UnimplementedError();
+  Stream<InputContext> get onFocus =>
+      $js.chrome.input.ime.onFocus.asStream(($c) => ($js.InputContext context) {
+            $c.add(InputContext.fromJS(context));
+          }.toJS);
 
   /// This event is sent when focus leaves a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  Stream<int> get onBlur => throw UnimplementedError();
+  Stream<int> get onBlur =>
+      $js.chrome.input.ime.onBlur.asStream(($c) => (int contextID) {
+            $c.add(contextID);
+          }.toJS);
 
   /// This event is sent when the properties of the current InputContext change,
   /// such as the the type. It is sent to all extensions that are listening to
   /// this event, and enabled by the user.
-  Stream<InputContext> get onInputContextUpdate => throw UnimplementedError();
+  Stream<InputContext> get onInputContextUpdate =>
+      $js.chrome.input.ime.onInputContextUpdate
+          .asStream(($c) => ($js.InputContext context) {
+                $c.add(InputContext.fromJS(context));
+              }.toJS);
 
   /// Fired when a key event is sent from the operating system. The event will
   /// be sent to the extension if this extension owns the active IME. The
@@ -241,28 +263,73 @@ class ChromeInputIme {
   /// was not.  If the event will be evaluated asynchronously, this function
   /// must return undefined and the IME must later call keyEventHandled() with
   /// the result.
-  Stream<OnKeyEventEvent> get onKeyEvent => throw UnimplementedError();
+  Stream<OnKeyEventEvent> get onKeyEvent =>
+      $js.chrome.input.ime.onKeyEvent.asStream(($c) => (
+            String engineID,
+            $js.KeyboardEvent keyData,
+            String requestId,
+          ) {
+            $c.add(OnKeyEventEvent(
+              engineID: engineID,
+              keyData: KeyboardEvent.fromJS(keyData),
+              requestId: requestId,
+            ));
+          }.toJS);
 
   /// This event is sent if this extension owns the active IME.
   Stream<OnCandidateClickedEvent> get onCandidateClicked =>
-      throw UnimplementedError();
+      $js.chrome.input.ime.onCandidateClicked.asStream(($c) => (
+            String engineID,
+            int candidateID,
+            $js.MouseButton button,
+          ) {
+            $c.add(OnCandidateClickedEvent(
+              engineID: engineID,
+              candidateID: candidateID,
+              button: MouseButton.fromJS(button),
+            ));
+          }.toJS);
 
   /// Called when the user selects a menu item
   Stream<OnMenuItemActivatedEvent> get onMenuItemActivated =>
-      throw UnimplementedError();
+      $js.chrome.input.ime.onMenuItemActivated.asStream(($c) => (
+            String engineID,
+            String name,
+          ) {
+            $c.add(OnMenuItemActivatedEvent(
+              engineID: engineID,
+              name: name,
+            ));
+          }.toJS);
 
   /// Called when the editable string around caret is changed or when the caret
   /// position is moved. The text length is limited to 100 characters for each
   /// back and forth direction.
   Stream<OnSurroundingTextChangedEvent> get onSurroundingTextChanged =>
-      throw UnimplementedError();
+      $js.chrome.input.ime.onSurroundingTextChanged.asStream(($c) => (
+            String engineID,
+            $js.OnSurroundingTextChangedSurroundingInfo surroundingInfo,
+          ) {
+            $c.add(OnSurroundingTextChangedEvent(
+              engineID: engineID,
+              surroundingInfo: OnSurroundingTextChangedSurroundingInfo.fromJS(
+                  surroundingInfo),
+            ));
+          }.toJS);
 
   /// This event is sent when chrome terminates ongoing text input session.
-  Stream<String> get onReset => throw UnimplementedError();
+  Stream<String> get onReset =>
+      $js.chrome.input.ime.onReset.asStream(($c) => (String engineID) {
+            $c.add(engineID);
+          }.toJS);
 
   /// This event is sent when a button in an assistive window is clicked.
   Stream<OnAssistiveWindowButtonClickedDetails>
-      get onAssistiveWindowButtonClicked => throw UnimplementedError();
+      get onAssistiveWindowButtonClicked =>
+          $js.chrome.input.ime.onAssistiveWindowButtonClicked.asStream(($c) =>
+              ($js.OnAssistiveWindowButtonClickedDetails details) {
+                $c.add(OnAssistiveWindowButtonClickedDetails.fromJS(details));
+              }.toJS);
 }
 
 enum KeyboardEventType {

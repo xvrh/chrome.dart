@@ -17,7 +17,7 @@ class JSFileBrowserHandler {}
 
 extension JSFileBrowserHandlerExtension on JSFileBrowserHandler {
   /// Fired when file system action is executed from ChromeOS file browser.
-  external ChromeEvent get onExecute;
+  external Event get onExecute;
 }
 
 @JS()

@@ -208,19 +208,33 @@ class ChromeFontSettings {
   }
 
   /// Fired when a font setting changes.
-  Stream<OnFontChangedDetails> get onFontChanged => throw UnimplementedError();
+  Stream<OnFontChangedDetails> get onFontChanged =>
+      $js.chrome.fontSettings.onFontChanged
+          .asStream(($c) => ($js.OnFontChangedDetails details) {
+                $c.add(OnFontChangedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when the default font size setting changes.
   Stream<OnDefaultFontSizeChangedDetails> get onDefaultFontSizeChanged =>
-      throw UnimplementedError();
+      $js.chrome.fontSettings.onDefaultFontSizeChanged
+          .asStream(($c) => ($js.OnDefaultFontSizeChangedDetails details) {
+                $c.add(OnDefaultFontSizeChangedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when the default fixed font size setting changes.
   Stream<OnDefaultFixedFontSizeChangedDetails>
-      get onDefaultFixedFontSizeChanged => throw UnimplementedError();
+      get onDefaultFixedFontSizeChanged => $js
+          .chrome.fontSettings.onDefaultFixedFontSizeChanged
+          .asStream(($c) => ($js.OnDefaultFixedFontSizeChangedDetails details) {
+                $c.add(OnDefaultFixedFontSizeChangedDetails.fromJS(details));
+              }.toJS);
 
   /// Fired when the minimum font size setting changes.
   Stream<OnMinimumFontSizeChangedDetails> get onMinimumFontSizeChanged =>
-      throw UnimplementedError();
+      $js.chrome.fontSettings.onMinimumFontSizeChanged
+          .asStream(($c) => ($js.OnMinimumFontSizeChangedDetails details) {
+                $c.add(OnMinimumFontSizeChangedDetails.fromJS(details));
+              }.toJS);
 }
 
 /// An ISO 15924 script code. The default, or global, script is represented by

@@ -391,11 +391,17 @@ class ChromeUsb {
   /// device. Permission may have been granted at install time, when the user
   /// accepted an optional permission (see [permissions.request]), or
   /// through [getUserSelectedDevices].
-  Stream<Device> get onDeviceAdded => throw UnimplementedError();
+  Stream<Device> get onDeviceAdded =>
+      $js.chrome.usb.onDeviceAdded.asStream(($c) => ($js.Device device) {
+            $c.add(Device.fromJS(device));
+          }.toJS);
 
   /// Event generated when a device is removed from the system. See
   /// [onDeviceAdded] for which events are delivered.
-  Stream<Device> get onDeviceRemoved => throw UnimplementedError();
+  Stream<Device> get onDeviceRemoved =>
+      $js.chrome.usb.onDeviceRemoved.asStream(($c) => ($js.Device device) {
+            $c.add(Device.fromJS(device));
+          }.toJS);
 }
 
 /// Direction, Recipient, RequestType, and TransferType all map to their

@@ -1,4 +1,4 @@
-library test_context_menus;
+library;
 
 import 'package:chrome_apis/runtime.dart' as runtime;
 import 'package:chrome_apis/src/internal_helpers.dart';
@@ -85,7 +85,7 @@ void testContextMenus() {
     test('update -- failure', () async {
       var updateProperties = UpdateProperties();
 
-      expect(() => chrome.contextMenus
+      expect(() async => await chrome.contextMenus
           .update('not a real id', updateProperties), throwsA(isA<Exception>()));
     });
 
@@ -94,9 +94,9 @@ void testContextMenus() {
     });
 
     test('remove -- failure', () async {
-      expect(() => chrome.contextMenus.remove('not a real id'),
+      expect(() async => await chrome.contextMenus.remove('not a real id'),
           throwsA(isA<Exception>()));
-    });
+    }, timeout: Timeout(Duration(seconds: 2)));
 
     "";
     //test('onClicked', () {

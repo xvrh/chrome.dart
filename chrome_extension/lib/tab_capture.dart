@@ -84,7 +84,11 @@ class ChromeTabCapture {
   /// This allows extension authors to keep track of the capture status of
   /// tabs to keep UI elements like page actions in sync.
   /// |info| : CaptureInfo with new capture status for the tab.
-  Stream<CaptureInfo> get onStatusChanged => throw UnimplementedError();
+  Stream<CaptureInfo> get onStatusChanged =>
+      $js.chrome.tabCapture.onStatusChanged
+          .asStream(($c) => ($js.CaptureInfo info) {
+                $c.add(CaptureInfo.fromJS(info));
+              }.toJS);
 }
 
 enum TabCaptureState {

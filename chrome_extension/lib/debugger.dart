@@ -91,12 +91,32 @@ class ChromeDebugger {
   }
 
   /// Fired whenever debugging target issues instrumentation event.
-  Stream<OnEventEvent> get onEvent => throw UnimplementedError();
+  Stream<OnEventEvent> get onEvent =>
+      $js.chrome.debugger.onEvent.asStream(($c) => (
+            $js.Debuggee source,
+            String method,
+            JSAny? params,
+          ) {
+            $c.add(OnEventEvent(
+              source: Debuggee.fromJS(source),
+              method: method,
+              params: params,
+            ));
+          }.toJS);
 
   /// Fired when browser terminates debugging session for the tab. This happens
   /// when either the tab is being closed or Chrome DevTools is being invoked
   /// for the attached tab.
-  Stream<OnDetachEvent> get onDetach => throw UnimplementedError();
+  Stream<OnDetachEvent> get onDetach =>
+      $js.chrome.debugger.onDetach.asStream(($c) => (
+            $js.Debuggee source,
+            $js.DetachReason reason,
+          ) {
+            $c.add(OnDetachEvent(
+              source: Debuggee.fromJS(source),
+              reason: DetachReason.fromJS(reason),
+            ));
+          }.toJS);
 }
 
 /// Target type.

@@ -93,13 +93,13 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// [unmount] API method must be called together with
   /// `successCallback`. If unmounting is not possible (eg. due to
   /// a pending operation), then `errorCallback` must be called.
-  external ChromeEvent get onUnmountRequested;
+  external Event get onUnmountRequested;
 
   /// Raised when metadata of a file or a directory at `entryPath`
   /// is requested. The metadata must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  external ChromeEvent get onGetMetadataRequested;
+  external Event get onGetMetadataRequested;
 
   /// Raised when a list of actions for a set of files or directories at
   /// `entryPaths` is requested. All of the returned actions must
@@ -107,60 +107,60 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// should be returned. The actions must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  external ChromeEvent get onGetActionsRequested;
+  external Event get onGetActionsRequested;
 
   /// Raised when contents of a directory at `directoryPath` are
   /// requested. The results must be returned in chunks by calling the
   /// `successCallback` several times. In case of an error,
   /// `errorCallback` must be called.
-  external ChromeEvent get onReadDirectoryRequested;
+  external Event get onReadDirectoryRequested;
 
   /// Raised when opening a file at `filePath` is requested. If the
   /// file does not exist, then the operation must fail. Maximum number of
   /// files opened at once can be specified with `MountOptions`.
-  external ChromeEvent get onOpenFileRequested;
+  external Event get onOpenFileRequested;
 
   /// Raised when opening a file previously opened with
   /// `openRequestId` is requested to be closed.
-  external ChromeEvent get onCloseFileRequested;
+  external Event get onCloseFileRequested;
 
   /// Raised when reading contents of a file opened previously with
   /// `openRequestId` is requested. The results must be returned in
   /// chunks by calling `successCallback` several times. In case of
   /// an error, `errorCallback` must be called.
-  external ChromeEvent get onReadFileRequested;
+  external Event get onReadFileRequested;
 
   /// Raised when creating a directory is requested. The operation must fail
   /// with the EXISTS error if the target directory already exists.
   /// If `recursive` is true, then all of the missing directories
   /// on the directory path must be created.
-  external ChromeEvent get onCreateDirectoryRequested;
+  external Event get onCreateDirectoryRequested;
 
   /// Raised when deleting an entry is requested. If `recursive` is
   /// true, and the entry is a directory, then all of the entries inside
   /// must be recursively deleted as well.
-  external ChromeEvent get onDeleteEntryRequested;
+  external Event get onDeleteEntryRequested;
 
   /// Raised when creating a file is requested. If the file already exists,
   /// then `errorCallback` must be called with the
   /// `"EXISTS"` error code.
-  external ChromeEvent get onCreateFileRequested;
+  external Event get onCreateFileRequested;
 
   /// Raised when copying an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  external ChromeEvent get onCopyEntryRequested;
+  external Event get onCopyEntryRequested;
 
   /// Raised when moving an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  external ChromeEvent get onMoveEntryRequested;
+  external Event get onMoveEntryRequested;
 
   /// Raised when truncating a file to a desired length is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  external ChromeEvent get onTruncateRequested;
+  external Event get onTruncateRequested;
 
   /// Raised when writing contents to a file opened previously with
   /// `openRequestId` is requested.
-  external ChromeEvent get onWriteFileRequested;
+  external Event get onWriteFileRequested;
 
   /// Raised when aborting an operation with `operationRequestId`
   /// is requested. The operation executed with `operationRequestId`
@@ -169,13 +169,13 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// `errorCallback` must be called. Note, that callbacks of the
   /// aborted operation must not be called, as they will be ignored. Despite
   /// calling `errorCallback`, the request may be forcibly aborted.
-  external ChromeEvent get onAbortRequested;
+  external Event get onAbortRequested;
 
   /// Raised when showing a configuration dialog for `fileSystemId`
   /// is requested. If it's handled, the
   /// `file_system_provider.configurable` manfiest option must be
   /// set to true.
-  external ChromeEvent get onConfigureRequested;
+  external Event get onConfigureRequested;
 
   /// Raised when showing a dialog for mounting a new file system is requested.
   /// If the extension/app is a file handler, then this event shouldn't be
@@ -183,20 +183,20 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   /// order to mount new file systems when a file is opened. For multiple
   /// mounts, the `file_system_provider.multiple_mounts` manifest
   /// option must be set to true.
-  external ChromeEvent get onMountRequested;
+  external Event get onMountRequested;
 
   /// Raised when setting a new directory watcher is requested. If an error
   /// occurs, then `errorCallback` must be called.
-  external ChromeEvent get onAddWatcherRequested;
+  external Event get onAddWatcherRequested;
 
   /// Raised when the watcher should be removed. If an error occurs, then
   /// `errorCallback` must be called.
-  external ChromeEvent get onRemoveWatcherRequested;
+  external Event get onRemoveWatcherRequested;
 
   /// Raised when executing an action for a set of files or directories is\
   /// requested. After the action is completed, `successCallback`
   /// must be called. On error, `errorCallback` must be called.
-  external ChromeEvent get onExecuteActionRequested;
+  external Event get onExecuteActionRequested;
 }
 
 /// Error codes used by providing extensions in response to requests as well

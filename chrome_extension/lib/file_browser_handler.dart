@@ -13,7 +13,16 @@ class ChromeFileBrowserHandler {
   ChromeFileBrowserHandler._();
 
   /// Fired when file system action is executed from ChromeOS file browser.
-  Stream<OnExecuteEvent> get onExecute => throw UnimplementedError();
+  Stream<OnExecuteEvent> get onExecute =>
+      $js.chrome.fileBrowserHandler.onExecute.asStream(($c) => (
+            String id,
+            $js.FileHandlerExecuteEventDetails details,
+          ) {
+            $c.add(OnExecuteEvent(
+              id: id,
+              details: FileHandlerExecuteEventDetails.fromJS(details),
+            ));
+          }.toJS);
 }
 
 class FileHandlerExecuteEventDetails {

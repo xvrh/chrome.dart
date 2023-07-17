@@ -38,27 +38,39 @@ class IdlModelConverter {
 
     for (var e in model.eventDeclaration!.methods) {
       var parameters = e.parameters;
-      ChromeType? type;
+      ChromeType? dartType;
+      var allParameters = <FunctionParameter>[];
       if (parameters.length == 1) {
         var createdProperty = _convertSyntheticParam(parameters.first);
-        type = createdProperty.type;
+        dartType = createdProperty.type;
+        allParameters
+            .add(FunctionParameter(createdProperty.name, createdProperty.type));
       } else if (parameters.length > 1) {
         var newTypeName = '${e.name.upperCamel}Event';
+
+        var properties = <Property>[];
+        for (var param in parameters) {
+          var syntheticProperty = _convertSyntheticParam(param);
+          properties.add(syntheticProperty);
+          allParameters.add(FunctionParameter(
+              syntheticProperty.name, syntheticProperty.type));
+        }
+
         var syntheticType = Dictionary(newTypeName,
-            properties: [
-              for (var param in parameters) _convertSyntheticParam(param)
-            ],
+            properties: properties,
             methods: [],
             events: [],
             documentation: '',
             isAnonymous: false,
             isSyntheticEvent: true);
-        type = LocalType(newTypeName,
+        dartType = LocalType(newTypeName,
             declarationFile: _targetFileName, isNullable: false);
         _syntheticDictionaries.add(syntheticType);
       }
+      var jsCallback = FunctionType(null, allParameters, isNullable: false);
+      var callback = AsyncReturnType(dartType, jsCallback);
       yield Event(e.name,
-          type: type, documentation: _toDocumentation(e.documentation));
+          type: callback, documentation: _toDocumentation(e.documentation));
     }
   }
 

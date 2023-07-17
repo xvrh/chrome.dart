@@ -13,7 +13,10 @@ extension ChromeDeclarativeContentExtension on Chrome {
 class ChromeDeclarativeContent {
   ChromeDeclarativeContent._();
 
-  Stream<void> get onPageChanged => throw UnimplementedError();
+  Stream<void> get onPageChanged =>
+      $js.chrome.declarativeContent.onPageChanged.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 }
 
 enum PageStateMatcherInstanceType {

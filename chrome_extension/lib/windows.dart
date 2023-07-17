@@ -125,27 +125,39 @@ class ChromeWindows {
   }
 
   /// The windowId value that represents the absence of a Chrome browser window.
-  int get windowIdNone => ($js.chrome.windows.WINDOW_ID_NONE as dynamic);
+  int get windowIdNone => $js.chrome.windows.WINDOW_ID_NONE;
 
   /// The windowId value that represents the [current
   /// window](windows#current-window).
-  int get windowIdCurrent => ($js.chrome.windows.WINDOW_ID_CURRENT as dynamic);
+  int get windowIdCurrent => $js.chrome.windows.WINDOW_ID_CURRENT;
 
   /// Fired when a window is created.
-  Stream<JSObject> get onCreated => throw UnimplementedError();
+  Stream<JSObject> get onCreated =>
+      $js.chrome.windows.onCreated.asStream(($c) => (JSObject window) {
+            $c.add(window);
+          }.toJS);
 
   /// Fired when a window is removed (closed).
-  Stream<int> get onRemoved => throw UnimplementedError();
+  Stream<int> get onRemoved =>
+      $js.chrome.windows.onRemoved.asStream(($c) => (int windowId) {
+            $c.add(windowId);
+          }.toJS);
 
   /// Fired when the currently focused window changes. Returns
   /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
   /// **Note:** On some Linux window managers, `WINDOW_ID_NONE` is always sent
   /// immediately preceding a switch from one Chrome window to another.
-  Stream<int> get onFocusChanged => throw UnimplementedError();
+  Stream<int> get onFocusChanged =>
+      $js.chrome.windows.onFocusChanged.asStream(($c) => (int windowId) {
+            $c.add(windowId);
+          }.toJS);
 
   /// Fired when a window has been resized; this event is only dispatched when
   /// the new bounds are committed, and not for in-progress changes.
-  Stream<JSObject> get onBoundsChanged => throw UnimplementedError();
+  Stream<JSObject> get onBoundsChanged =>
+      $js.chrome.windows.onBoundsChanged.asStream(($c) => (JSObject window) {
+            $c.add(window);
+          }.toJS);
 }
 
 /// The type of browser window this is. In some circumstances a window may not

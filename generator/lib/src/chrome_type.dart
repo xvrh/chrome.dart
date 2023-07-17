@@ -159,11 +159,12 @@ class WebType extends ChromeType {
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
       'HTMLElement',
-      'Window',
+      "Window",
       'SubtleCrypto',
       'Blob',
       'ImageData',
-      'LocalMediaStream'
+      'LocalMediaStream',
+      'DirectoryEntry',
     }.contains(input)) {
       return WebType(isNullable: isNullable);
     }
@@ -261,7 +262,7 @@ class JSFunctionType extends ChromeType {
       JSFunctionType(isNullable: isNullable);
 }
 
-// TODO: replace with LazyType which will do it's resolutation based on a Context
+// TODO: replace with LazyType which will do it's resolution based on a Context
 // class only when code-generating
 class LocalType extends ChromeType {
   final String name;

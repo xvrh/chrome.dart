@@ -43,7 +43,7 @@ class ChromeApi {
 class Event {
   final String name;
   final String documentation;
-  final ChromeType? type;
+  final AsyncReturnType type;
 
   Event(this.name, {required this.type, required this.documentation});
 }

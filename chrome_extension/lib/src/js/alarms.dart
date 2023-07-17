@@ -69,7 +69,7 @@ extension JSAlarmsExtension on JSAlarms {
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.
-  external ChromeEvent get onAlarm;
+  external Event get onAlarm;
 }
 
 @JS()

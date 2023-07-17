@@ -48,29 +48,29 @@ extension JSTtsEngineExtension on JSTtsEngine {
 
   /// Called when the user makes a call to tts.speak() and one of the voices
   /// from this extension's manifest is the first to match the options object.
-  external ChromeEvent get onSpeak;
+  external Event get onSpeak;
 
   /// Called when the user makes a call to tts.speak() and one of the voices
   /// from this extension's manifest is the first to match the options object.
   /// Differs from ttsEngine.onSpeak in that Chrome provides audio playback
   /// services and handles dispatching tts events.
-  external ChromeEvent get onSpeakWithAudioStream;
+  external Event get onSpeakWithAudioStream;
 
   /// Fired when a call is made to tts.stop and this extension may be in the
   /// middle of speaking. If an extension receives a call to onStop and speech
   /// is already stopped, it should do nothing (not raise an error). If speech
   /// is in the paused state, this should cancel the paused state.
-  external ChromeEvent get onStop;
+  external Event get onStop;
 
   /// Optional: if an engine supports the pause event, it should pause the
   /// current utterance being spoken, if any, until it receives a resume event
   /// or stop event. Note that a stop event should also clear the paused state.
-  external ChromeEvent get onPause;
+  external Event get onPause;
 
   /// Optional: if an engine supports the pause event, it should also support
   /// the resume event, to continue speaking the current utterance, if any. Note
   /// that a stop event should also clear the paused state.
-  external ChromeEvent get onResume;
+  external Event get onResume;
 }
 
 typedef VoiceGender = String;

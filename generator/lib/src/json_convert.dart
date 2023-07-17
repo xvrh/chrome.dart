@@ -44,16 +44,18 @@ class JsonModelConverter {
 
   Event _toEvent(JsonFunction event, {String? parent}) {
     var parameters = <JsonProperty, ChromeType>{};
+    var allParameters = <FunctionParameter>[];
     for (var param in event.parameters) {
       var name = param.name!;
       var parameterType = _addSyntheticTypeIfNeeded(param, name, event.name,
               anonymous: false, isNullable: param.optional ?? false) ??
           _propertyType(param);
       parameters[param] = parameterType;
+      allParameters.add(FunctionParameter(name, parameterType));
     }
-    ChromeType? parameterType;
+    ChromeType? dartType;
     if (parameters.length == 1) {
-      parameterType = parameters.values.first;
+      dartType = parameters.values.first;
     } else if (parameters.length > 1) {
       var syntheticTypeName = '${parent ?? ''} ${event.name} Event'.upperCamel;
       var syntheticType = Dictionary(syntheticTypeName,
@@ -69,11 +71,14 @@ class JsonModelConverter {
           isSyntheticEvent: true);
       assert(syntheticType.properties.length > 1);
       _syntheticDictionaries.add(syntheticType);
-      parameterType = _newLocalType(syntheticTypeName, isNullable: false);
+      dartType = _newLocalType(syntheticTypeName, isNullable: false);
     }
 
+    var jsReturnType = FunctionType(null, allParameters,
+        isNullable: false);
+     var returnType = AsyncReturnType(dartType, jsReturnType);
     return Event(event.name,
-        type: parameterType, documentation: event.description);
+        type: returnType, documentation: event.description);
   }
 
   Iterable<Method> _convertFunctions() sync* {

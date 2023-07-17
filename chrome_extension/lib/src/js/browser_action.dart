@@ -97,7 +97,7 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
   /// Fired when a browser action icon is clicked. Does not fire if the browser
   /// action has a popup.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 }
 
 typedef ColorArray = JSArray;

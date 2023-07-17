@@ -56,7 +56,7 @@ extension JSContextMenusExtension on JSContextMenus {
       JSFunction? callback);
 
   /// Fired when a context menu item is clicked.
-  external ChromeEvent get onClicked;
+  external Event get onClicked;
 
   /// The maximum number of top level extension items that can be added to an
   /// extension action context menu. Any items beyond this limit will be

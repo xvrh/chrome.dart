@@ -112,7 +112,10 @@ class ChromeAlarms {
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.
-  Stream<Alarm> get onAlarm => throw UnimplementedError();
+  Stream<Alarm> get onAlarm =>
+      $js.chrome.alarms.onAlarm.asStream(($c) => ($js.Alarm alarm) {
+            $c.add(Alarm.fromJS(alarm));
+          }.toJS);
 }
 
 class Alarm {

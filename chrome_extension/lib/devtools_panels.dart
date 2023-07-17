@@ -73,14 +73,15 @@ class ChromeDevtoolsPanels {
 
   /// Elements panel.
   ElementsPanel get elements =>
-      ($js.chrome.devtools.panels.elements as dynamic);
+      ElementsPanel.fromJS($js.chrome.devtools.panels.elements);
 
   /// Sources panel.
-  SourcesPanel get sources => ($js.chrome.devtools.panels.sources as dynamic);
+  SourcesPanel get sources =>
+      SourcesPanel.fromJS($js.chrome.devtools.panels.sources);
 
   /// The name of the color theme set in user's DevTools settings. Possible
   /// values: `default` (the default) and `dark`.
-  String get themeName => ($js.chrome.devtools.panels.themeName as dynamic);
+  String get themeName => $js.chrome.devtools.panels.themeName;
 }
 
 class ElementsPanel {
@@ -108,7 +109,10 @@ class ElementsPanel {
   }
 
   /// Fired when an object is selected in the panel.
-  Stream<void> get onSelectionChanged => throw UnimplementedError();
+  Stream<void> get onSelectionChanged =>
+      _wrapped.onSelectionChanged.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 }
 
 class SourcesPanel {
@@ -136,7 +140,10 @@ class SourcesPanel {
   }
 
   /// Fired when an object is selected in the panel.
-  Stream<void> get onSelectionChanged => throw UnimplementedError();
+  Stream<void> get onSelectionChanged =>
+      _wrapped.onSelectionChanged.asStream(($c) => () {
+            $c.add(null);
+          }.toJS);
 }
 
 class ExtensionPanel {
@@ -171,13 +178,26 @@ class ExtensionPanel {
   /// Fired upon a search action (start of a new search, search result
   /// navigation, or search being canceled).
   Stream<ExtensionPanelOnSearchEvent> get onSearch =>
-      throw UnimplementedError();
+      _wrapped.onSearch.asStream(($c) => (
+            String action,
+            String? queryString,
+          ) {
+            $c.add(ExtensionPanelOnSearchEvent(
+              action: action,
+              queryString: queryString,
+            ));
+          }.toJS);
 
   /// Fired when the user switches to the panel.
-  Stream<Object> get onShown => throw UnimplementedError();
+  Stream<Object> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSAny window) {
+            $c.add(window);
+          }.toJS);
 
   /// Fired when the user switches away from the panel.
-  Stream<void> get onHidden => throw UnimplementedError();
+  Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
+        $c.add(null);
+      }.toJS);
 }
 
 class ExtensionSidebarPane {
@@ -241,11 +261,16 @@ class ExtensionSidebarPane {
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
-  Stream<Object> get onShown => throw UnimplementedError();
+  Stream<Object> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSAny window) {
+            $c.add(window);
+          }.toJS);
 
   /// Fired when the sidebar pane becomes hidden as a result of the user
   /// switching away from the panel that hosts the sidebar pane.
-  Stream<void> get onHidden => throw UnimplementedError();
+  Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
+        $c.add(null);
+      }.toJS);
 }
 
 class Button {
@@ -276,7 +301,9 @@ class Button {
   }
 
   /// Fired when the button is clicked.
-  Stream<void> get onClicked => throw UnimplementedError();
+  Stream<void> get onClicked => _wrapped.onClicked.asStream(($c) => () {
+        $c.add(null);
+      }.toJS);
 }
 
 class ExtensionPanelOnSearchEvent {

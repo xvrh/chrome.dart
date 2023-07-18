@@ -17,6 +17,14 @@ class _GeneratorBase {
   final model.ChromeApi api;
 
   _GeneratorBase(this.api);
+
+  bool isDictionaryAnonymous(model.Dictionary dictionary) {
+    if (dictionary.isAnonymous) return true;
+
+    var onlyUsedInInput;
+    // Loop in Events, Methods return type, Properties
+    //   Loop inside all types 
+  }
 }
 
 class JsBindingGenerator extends _GeneratorBase {
@@ -131,7 +139,7 @@ class JsBindingGenerator extends _GeneratorBase {
   }
 
   Iterable<Spec> _dictionary(model.Dictionary type) sync* {
-    if (type.isAnonymous) {
+    if (isDictionaryAnonymous(type)) {
       yield Class((b) => b
         ..annotations.addAll([
           _jsAnnotation(),
@@ -472,7 +480,7 @@ class DartApiGenerator extends _GeneratorBase {
         // at the root of the input function
 
         Expression constructorSetter;
-        if (dictionary.isAnonymous) {
+        if (isDictionaryAnonymous(dictionary)) {
           constructorSetter = type.jsTypeReferencedFromDart.call([], {
             for (var property in dictionary.properties)
               property.name: property.type.toJS(refer(property.name)),
@@ -523,7 +531,7 @@ class DartApiGenerator extends _GeneratorBase {
           ..fields.addAll(dictionary.properties.map(_syntheticProperty));
       }
 
-      if (!dictionary.isSyntheticEvent && !dictionary.isAnonymous) {
+      if (!dictionary.isSyntheticEvent && !isDictionaryAnonymous(dictionary)) {
         b
           ..methods.addAll(
               dictionary.properties.map(_wrappingProperty).expand((e) => e))

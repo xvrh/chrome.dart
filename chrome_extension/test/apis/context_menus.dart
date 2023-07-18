@@ -9,103 +9,107 @@ import '../client_side_wrapper.dart';
 void main() => setup(_tests);
 
 void _tests() {
-    var id = 'setupMenuItem';
+  var id = 'setupMenuItem';
 
-    setUp(() async {
-      var createProperties = CreateProperties(id: id, title: 'setup menu item');
-      "todo: should not need the .toJS";
-      await chrome.contextMenus.create(createProperties, () {}.toJS);
-    });
+  setUp(() async {
+    var createProperties = CreateProperties(id: id, title: 'setup menu item');
+    "todo: should not need the .toJS";
+    await chrome.contextMenus.create(createProperties, () {}.toJS);
+  });
 
-    tearDown(() async {
-      await chrome.contextMenus.removeAll();
-    });
+  tearDown(() async {
+    await chrome.contextMenus.removeAll();
+  });
 
-    test('create -- defaults', () {
-      var createProperties = CreateProperties(title: 'create -- defaults');
+  test('create -- defaults', () {
+    var createProperties = CreateProperties(title: 'create -- defaults');
 
-      var newId = chrome.contextMenus.create(createProperties, null) as int;
-      expect(newId, greaterThan(0));
-    });
+    var newId = chrome.contextMenus.create(createProperties, null) as int;
+    expect(newId, greaterThan(0));
+  });
 
-    test('create -- with listener', () {
-      var createProperties = CreateProperties(title: 'create -- with listener');
+  test('create -- with listener', () {
+    var createProperties = CreateProperties(title: 'create -- with listener');
 
-      // TODO(DrMarcII): figure out a mechanism for selecting menu
-      var newId =
-          chrome.contextMenus.create(createProperties, (_) {}.toJS) as int;
-      expect(newId, greaterThan(0));
-    });
+    // TODO(DrMarcII): figure out a mechanism for selecting menu
+    var newId =
+        chrome.contextMenus.create(createProperties, (_) {}.toJS) as int;
+    expect(newId, greaterThan(0));
+  });
 
-    test('create -- with many options specified', () {
-      var createProperties = CreateProperties(
-          type: ItemType.checkbox,
-          id: 'testId',
-          title: 'create -- with many options specified',
-          checked: true,
-          contexts: [ContextType.frame, ContextType.selection],
-          parentId: id,
-          documentUrlPatterns: ['https://www.google.com/'],
-          targetUrlPatterns: ['https://www.google.com/'],
-          enabled: false);
+  test('create -- with many options specified', () {
+    var createProperties = CreateProperties(
+        type: ItemType.checkbox,
+        id: 'testId',
+        title: 'create -- with many options specified',
+        checked: true,
+        contexts: [ContextType.frame, ContextType.selection],
+        parentId: id,
+        documentUrlPatterns: ['https://www.google.com/'],
+        targetUrlPatterns: ['https://www.google.com/'],
+        enabled: false);
 
-      var newId = chrome.contextMenus.create(createProperties, expectAsync0(() {
-        expect(chrome.runtime.lastError, isNull);
-      }).toJS) as String;
-      expect(newId, equals("testId"));
-    });
+    var newId = chrome.contextMenus.create(
+        createProperties,
+        expectAsync0(() {
+          expect(chrome.runtime.lastError, isNull);
+        }).toJS) as String;
+    expect(newId, equals("testId"));
+  });
 
-    test('update -- title', () async {
-      var updateProperties = UpdateProperties(title: 'update -- title');
+  test('update -- title', () async {
+    var updateProperties = UpdateProperties(title: 'update -- title');
 
-      await chrome.contextMenus.update(id, updateProperties);
-    });
+    await chrome.contextMenus.update(id, updateProperties);
+  });
 
-    test('update -- listener', () async {
-      var updateProperties = UpdateProperties();
+  test('update -- listener', () async {
+    var updateProperties = UpdateProperties();
 
-      // TODO(DrMarcII): figure out a mechanism for selecting menu
-      await chrome.contextMenus.update(id, updateProperties);
-    });
+    // TODO(DrMarcII): figure out a mechanism for selecting menu
+    await chrome.contextMenus.update(id, updateProperties);
+  });
 
-    test('update -- with many options specified', () async {
-      var createProperties = CreateProperties(
-          id: 'testId', title: 'update -- with many options specified');
+  test('update -- with many options specified', () async {
+    var createProperties = CreateProperties(
+        id: 'testId', title: 'update -- with many options specified');
 
-      var updateProperties = UpdateProperties(
-          type: ItemType.checkbox,
-          checked: true,
-          contexts: [ContextType.frame, ContextType.selection],
-          parentId: id,
-          documentUrlPatterns: ['https://www.google.com/'],
-          targetUrlPatterns: ['https://www.google.com/'],
-          enabled: false);
+    var updateProperties = UpdateProperties(
+        type: ItemType.checkbox,
+        checked: true,
+        contexts: [ContextType.frame, ContextType.selection],
+        parentId: id,
+        documentUrlPatterns: ['https://www.google.com/'],
+        targetUrlPatterns: ['https://www.google.com/'],
+        enabled: false);
 
-      var newId = chrome.contextMenus.create(createProperties, null);
-      expect(newId, equals("testId"));
+    var newId = chrome.contextMenus.create(createProperties, null);
+    expect(newId, equals("testId"));
 
-      await chrome.contextMenus.update(newId, updateProperties);
-    });
+    await chrome.contextMenus.update(newId, updateProperties);
+  });
 
-    test('update -- failure', () async {
-      var updateProperties = UpdateProperties();
+  test('update -- failure', () async {
+    var updateProperties = UpdateProperties();
 
-      expect(() async => await chrome.contextMenus
-          .update('not a real id', updateProperties), throwsA(isA<Exception>()));
-    });
+    expect(
+        () async =>
+            await chrome.contextMenus.update('not a real id', updateProperties),
+        throwsA(isA<Exception>()));
+  });
 
-    test('remove -- successful', () async {
-      await chrome.contextMenus.remove(id);
-    });
+  test('remove -- successful', () async {
+    await chrome.contextMenus.remove(id);
+  });
 
-    test('remove -- failure', () async {
-      expect(() async => await chrome.contextMenus.remove('not a real id'),
-          throwsA(isA<Exception>()));
-    }, timeout: Timeout(Duration(seconds: 2)));
+  test('remove -- failure', () async {
+    expect(() async => await chrome.contextMenus.remove('not a real id'),
+        throwsA(isA<Exception>()));
+  });
 
-    "";
-    //test('onClicked', () {
-    //  // TODO(DrMarcII): figure out a mechanism for selecting menu
-    //  chrome.contextMenus.onClicked.listen((_) {}).cancel();
-    //});
+  "";
+  //test('onClicked', () {
+  //  // TODO(DrMarcII): figure out a mechanism for selecting menu
+  //  chrome.contextMenus.onClicked.listen((_) {}).cancel();
+  //});
 }

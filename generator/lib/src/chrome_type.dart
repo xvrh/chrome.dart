@@ -64,16 +64,6 @@ sealed class PrimitiveType extends ChromeType {
   code.Expression toJS(code.Expression accessor) {
     return accessor;
   }
-
-  @override
-  String toDartFromExternal(String accessor) {
-    return '$accessor$questionMark.$toDartMethod';
-  }
-
-  @override
-  String toJSFromExternal(String accessor) {
-    return '$accessor$questionMark.toJS';
-  }
 }
 
 class StringType extends PrimitiveType {
@@ -424,9 +414,7 @@ class ListType extends ChromeType {
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    return accessor
-        .nullSafePropertyIf('toJSArray', isNullable)
-        .call([
+    return accessor.nullSafePropertyIf('toJSArray', isNullable).call([
       code.Method((b) => b
         ..requiredParameters.add(code.Parameter((b) => b..name = 'e'))
         ..lambda = true

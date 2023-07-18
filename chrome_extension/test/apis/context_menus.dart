@@ -1,11 +1,14 @@
-library;
+import 'dart:js_interop';
 
 import 'package:chrome_apis/runtime.dart' as runtime;
-import 'package:chrome_apis/src/internal_helpers.dart';
 import 'package:test/test.dart';
 import 'package:chrome_apis/context_menus.dart';
 
-void testContextMenus() {
+import '../client_side_wrapper.dart';
+
+void main() => setup(_tests);
+
+void _tests() {
     var id = 'setupMenuItem';
 
     setUp(() async {
@@ -46,7 +49,9 @@ void testContextMenus() {
           targetUrlPatterns: ['https://www.google.com/'],
           enabled: false);
 
-      var newId = chrome.contextMenus.create(createProperties, null) as String;
+      var newId = chrome.contextMenus.create(createProperties, expectAsync0(() {
+        expect(chrome.runtime.lastError, isNull);
+      }).toJS) as String;
       expect(newId, equals("testId"));
     });
 

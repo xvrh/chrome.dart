@@ -6,6 +6,7 @@ environment:
   sdk: '^3.0.0'
 
 dev_dependencies:
+  checks:
   collection:
   puppeteer:
   test:

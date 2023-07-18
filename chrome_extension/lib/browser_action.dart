@@ -18,7 +18,7 @@ class ChromeBrowserAction {
 
   /// Sets the title of the browser action. This title appears in the tooltip.
   Future<void> setTitle(SetTitleDetails details) async {
-    await promiseToFuture<void>(
+    await promiseToFuture(
         $js.chrome.browserAction.setTitle(details.toJS));
   }
 

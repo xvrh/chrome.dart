@@ -5,6 +5,7 @@
   "description": "unit tests for chrome extension APIs",
   "permissions": [
     "activeTab",
+    "action",
     "contextMenus",
     "tabs",
     "notifications",
@@ -16,6 +17,7 @@
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
-  }
+  },
+  "action": {}
 }
 

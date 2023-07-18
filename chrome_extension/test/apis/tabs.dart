@@ -1,12 +1,13 @@
 import 'dart:async';
-
-import 'package:chrome_apis/events.dart';
-import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/tabs.dart';
 import 'package:chrome_apis/windows.dart';
 import 'package:test/test.dart';
 
-void testTabs() {
+import '../client_side_wrapper.dart';
+
+void main() => setup(_tests);
+
+void _tests() {
   late Window window;
 
   setUp(() async {
@@ -244,8 +245,10 @@ void testTabs() {
   test('highlight throw exception if pass id', () async {
     var newTab1 = await chrome.tabs.create(CreateProperties(
         windowId: window.id, index: 0, url: 'https://google.com'));
-    expect(() => chrome.tabs.highlight(HighlightInfo(
-        windowId: window.id, tabs: newTab1.id!)), throwsA(anything));
+    expect(
+        () => chrome.tabs
+            .highlight(HighlightInfo(windowId: window.id, tabs: newTab1.id!)),
+        throwsA(anything));
   });
 
   test('onHighlighted', () async {
@@ -259,72 +262,59 @@ void testTabs() {
     var result = await onHighlighted;
     expect(result.tabIds, [newTab1.id, newTab2.id]);
   });
-/*
-    test('onDetached', () {
-      chrome.TabsCreateParams createProperties =
-          new chrome.TabsCreateParams(windowId: window.id);
-      chrome.tabs
-          .create(createProperties)
-          .then((chrome.Tab tab) {
-            var subscription;
-            subscription = chrome.tabs.onDetached
-                .listen(expectAsync((chrome.OnDetachedEvent evt) {
-              expect(evt.tabId, tab.id);
-              expect(evt.detachInfo["oldWindowId"], window.id);
-              expect(evt.detachInfo["oldPosition"], 1);
-              subscription.cancel();
-            }));
-            chrome.WindowsCreateParams createData =
-                new chrome.WindowsCreateParams(tabId: tab.id);
-            return chrome.windows.create(createData);
-          })
-          .then(
-              (chrome.Window newWindow) => chrome.windows.remove(newWindow.id))
-          .then(expectAsync((_) {}));
-    });
 
-    test('onAttached', () {
-      chrome.TabsCreateParams createProperties =
-          new chrome.TabsCreateParams(windowId: window.id);
-      chrome.tabs
-          .create(createProperties)
-          .then((chrome.Tab tab) {
-            var subscription;
-            subscription = chrome.tabs.onAttached
-                .listen(expectAsync((chrome.OnAttachedEvent evt) {
-              expect(evt.tabId, tab.id);
-              expect(evt.attachInfo["windowId"], isNot(window.id));
-              expect(evt.attachInfo["newPosition"], 0);
-              subscription.cancel();
-            }));
-            chrome.WindowsCreateParams createData =
-                new chrome.WindowsCreateParams(tabId: tab.id);
-            return chrome.windows.create(createData);
-          })
-          .then(
-              (chrome.Window newWindow) => chrome.windows.remove(newWindow.id))
-          .then(expectAsync((_) {}));
-    });
+  test('onDetached', () async {
+    var createProperties = CreateProperties(windowId: window.id);
+    var tab = await chrome.tabs.create(createProperties);
+    late StreamSubscription subscription;
+    subscription =
+        chrome.tabs.onDetached.listen(expectAsync1((OnDetachedEvent evt) {
+      expect(evt.tabId, tab.id);
+      expect(evt.detachInfo.oldWindowId, window.id);
+      expect(evt.detachInfo.oldPosition, 1);
+      subscription.cancel();
+    }));
+    var createData = CreateData(tabId: tab.id);
+    "";
+    var newWindow =
+        Window.fromJS((await chrome.windows.create(createData)) as dynamic);
+    await chrome.windows.remove(newWindow.id!);
+  });
 
-    test('onRemoved', () {
-      chrome.TabsCreateParams createProperties =
-          new chrome.TabsCreateParams(windowId: window.id);
-      chrome.tabs.create(createProperties).then((chrome.Tab tab) {
-        var subscription;
-        subscription = chrome.tabs.onRemoved
-            .listen(expectAsync((chrome.TabsOnRemovedEvent evt) {
-          expect(evt.tabId, tab.id);
-          expect(evt.removeInfo["windowId"], window.id);
-          expect(evt.removeInfo["isWindowClosing"], isFalse);
-          subscription.cancel();
-        }));
-        return chrome.tabs.remove([tab.id]);
-      }).then(expectAsync((_) {}));
-    });
+  test('onAttached', () async {
+    var createProperties = CreateProperties(windowId: window.id);
+    var tab = await chrome.tabs.create(createProperties);
+    late StreamSubscription subscription;
+    subscription =
+        chrome.tabs.onAttached.listen(expectAsync1((OnAttachedEvent evt) {
+      expect(evt.tabId, tab.id);
+      expect(evt.attachInfo.newWindowId, isNot(window.id));
+      expect(evt.attachInfo.newPosition, 0);
+      subscription.cancel();
+    }));
+    var createData = CreateData(tabId: tab.id);
+    "";
+    var newWindow =
+        Window.fromJS((await chrome.windows.create(createData)) as dynamic);
+    await chrome.windows.remove(newWindow.id!);
+  });
 
-    // TODO(DrMarcII): Figure out how to force a tab replacement
-    test('onReplaced', () {
-      chrome.tabs.onReplaced.listen((_) {}).cancel();
-    });
-     */
+  test('onRemoved', () async {
+    var createProperties = CreateProperties(windowId: window.id);
+    var tab = await chrome.tabs.create(createProperties);
+    late StreamSubscription subscription;
+    subscription =
+        chrome.tabs.onRemoved.listen(expectAsync1((OnRemovedEvent evt) {
+      expect(evt.tabId, tab.id);
+      expect(evt.removeInfo.windowId, window.id);
+      expect(evt.removeInfo.isWindowClosing, isFalse);
+      subscription.cancel();
+    }));
+    await chrome.tabs.remove([tab.id]);
+  });
+
+  // TODO(DrMarcII): Figure out how to force a tab replacement
+  test('onReplaced', () {
+    chrome.tabs.onReplaced.listen((_) {}).cancel();
+  }, skip: 'Figure out how to force a tab replacement');
 }

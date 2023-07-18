@@ -80,7 +80,8 @@ class ChromeAction {
   Future<ColorArray> getBadgeBackgroundColor(TabDetails details) async {
     var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeBackgroundColor(details.toJS));
-    return ColorArray.fromJS($res);
+    //return ColorArray.fromJS($res);
+    throw UnimplementedError();
   }
 
   /// Sets the text color for the badge.
@@ -93,8 +94,7 @@ class ChromeAction {
   Future<ColorArray> getBadgeTextColor(TabDetails details) async {
     var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeTextColor(details.toJS));
-    return ColorArray.fromJS($res);
-  }
+    throw UnimplementedError();  }
 
   /// Enables the action for a tab. By default, actions are enabled.
   /// [tabId] The id of the tab for which you want to modify the action.

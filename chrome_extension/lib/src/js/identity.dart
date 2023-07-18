@@ -18,7 +18,7 @@ extension JSIdentityExtension on JSIdentity {
   /// present on the profile.
   ///
   /// `getAccounts` is only supported on dev channel.
-  external void getAccounts(JSFunction callback);
+  external JSPromise getAccounts();
 
   /// Gets an OAuth2 access token using the client ID and scopes
   /// specified in the <a
@@ -46,10 +46,7 @@ extension JSIdentityExtension on JSIdentity {
   /// `grantedScopes` parameter is populated since Chrome 87. When
   /// available, this parameter contains the list of granted scopes
   /// corresponding with the returned token.
-  external void getAuthToken(
-    TokenDetails? details,
-    JSFunction? callback,
-  );
+  external JSPromise getAuthToken(TokenDetails? details);
 
   /// Retrieves email address and obfuscated gaia id of the user
   /// signed into a profile.
@@ -65,10 +62,7 @@ extension JSIdentityExtension on JSIdentity {
   /// |callback|: Called with the `ProfileUserInfo` of the primary
   /// Chrome account, of an empty `ProfileUserInfo` if the account
   /// with given `details` doesn't exist.
-  external void getProfileUserInfo(
-    ProfileDetails? details,
-    JSFunction callback,
-  );
+  external JSPromise getProfileUserInfo(ProfileDetails? details);
 
   /// Removes an OAuth2 access token from the Identity API's token cache.
   ///
@@ -79,10 +73,7 @@ extension JSIdentityExtension on JSIdentity {
   ///
   /// |details| : Token information.
   /// |callback| : Called when the token has been removed from the cache.
-  external void removeCachedAuthToken(
-    InvalidTokenDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise removeCachedAuthToken(InvalidTokenDetails details);
 
   /// Resets the state of the Identity API:
   /// <ul>
@@ -92,7 +83,7 @@ extension JSIdentityExtension on JSIdentity {
   /// </ul>
   ///
   /// |callback| : Called when the state has been cleared.
-  external void clearAllCachedAuthTokens(JSFunction callback);
+  external JSPromise clearAllCachedAuthTokens();
 
   /// Starts an auth flow at the specified URL.
   ///
@@ -112,10 +103,7 @@ extension JSIdentityExtension on JSIdentity {
   ///
   /// |details| : WebAuth flow options.
   /// |callback| : Called with the URL redirected back to your application.
-  external void launchWebAuthFlow(
-    WebAuthFlowDetails details,
-    JSFunction callback,
-  );
+  external JSPromise launchWebAuthFlow(WebAuthFlowDetails details);
 
   /// Generates a redirect URL to be used in |launchWebAuthFlow|.
   ///

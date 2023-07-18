@@ -16,10 +16,7 @@ class JSWallpaper {}
 extension JSWallpaperExtension on JSWallpaper {
   /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
   /// _layout_
-  external void setWallpaper(
-    SetWallpaperDetails details,
-    JSFunction callback,
-  );
+  external JSPromise setWallpaper(SetWallpaperDetails details);
 }
 
 /// The supported wallpaper layouts.

@@ -133,7 +133,8 @@ class JsonModelConverter {
             parentName: function.name,
             returnName: jsonReturns.name!,
             syntheticTypeName: '${function.name.upperCamel}Result',
-            jsIsNullable: jsonReturns.optional ?? false);
+            jsIsNullable: jsonReturns.optional ?? false)
+          ..supportsPromises = function.returnsAsync != null;
       } else {
         returnType = _addSyntheticTypeIfNeeded(
                 jsonReturns, 'Return', function.name,

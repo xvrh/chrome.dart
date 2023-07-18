@@ -21,12 +21,11 @@ extension JSExtensionExtension on JSExtension {
   /// [runtime.connect], but only sends a single request with an optional
   /// response. The [extension.onRequest] event is fired in each page of the
   /// extension.
-  external void sendRequest(
+  external JSPromise sendRequest(
     /// The extension ID of the extension you want to connect to. If omitted,
     /// default is your own extension.
     String? extensionId,
     JSAny request,
-    JSFunction? callback,
   );
 
   /// Converts a relative path within an extension install directory to a
@@ -54,12 +53,12 @@ extension JSExtensionExtension on JSExtension {
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
   /// setting accessible via the chrome://extensions page.
-  external void isAllowedIncognitoAccess(JSFunction callback);
+  external JSPromise isAllowedIncognitoAccess();
 
   /// Retrieves the state of the extension's access to the 'file://' scheme.
   /// This corresponds to the user-controlled per-extension 'Allow access to
   /// File URLs' setting accessible via the chrome://extensions page.
-  external void isAllowedFileSchemeAccess(JSFunction callback);
+  external JSPromise isAllowedFileSchemeAccess();
 
   /// Sets the value of the ap CGI parameter used in the extension's update URL.
   ///  This value is ignored for extensions that are hosted in the Chrome

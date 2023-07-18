@@ -19,133 +19,59 @@ extension JSBrowsingDataExtension on JSBrowsingData {
   /// data' settings UI.  Note: some of the data types included in this API are
   /// not available in the settings UI, and some UI settings control more than
   /// one data type listed here.
-  external void settings(JSFunction callback);
+  external JSPromise settings();
 
   /// Clears various types of browsing data stored in a user's profile.
-  external void remove(
+  external JSPromise remove(
     RemovalOptions options,
 
     /// The set of data types to remove.
     DataTypeSet dataToRemove,
-
-    /// Called when deletion has completed.
-    JSFunction? callback,
   );
 
   /// Clears websites' appcache data.
-  external void removeAppcache(
-    RemovalOptions options,
-
-    /// Called when websites' appcache data has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeAppcache(RemovalOptions options);
 
   /// Clears the browser's cache.
-  external void removeCache(
-    RemovalOptions options,
-
-    /// Called when the browser's cache has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeCache(RemovalOptions options);
 
   /// Clears websites' cache storage data.
-  external void removeCacheStorage(
-    RemovalOptions options,
-
-    /// Called when websites' cache storage has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeCacheStorage(RemovalOptions options);
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
-  external void removeCookies(
-    RemovalOptions options,
-
-    /// Called when the browser's cookies and server-bound certificates have
-    /// been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeCookies(RemovalOptions options);
 
   /// Clears the browser's list of downloaded files (_not_ the downloaded files
   /// themselves).
-  external void removeDownloads(
-    RemovalOptions options,
-
-    /// Called when the browser's list of downloaded files has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeDownloads(RemovalOptions options);
 
   /// Clears websites' file system data.
-  external void removeFileSystems(
-    RemovalOptions options,
-
-    /// Called when websites' file systems have been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeFileSystems(RemovalOptions options);
 
   /// Clears the browser's stored form data (autofill).
-  external void removeFormData(
-    RemovalOptions options,
-
-    /// Called when the browser's form data has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeFormData(RemovalOptions options);
 
   /// Clears the browser's history.
-  external void removeHistory(
-    RemovalOptions options,
-
-    /// Called when the browser's history has cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeHistory(RemovalOptions options);
 
   /// Clears websites' IndexedDB data.
-  external void removeIndexedDB(
-    RemovalOptions options,
-
-    /// Called when websites' IndexedDB data has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeIndexedDB(RemovalOptions options);
 
   /// Clears websites' local storage data.
-  external void removeLocalStorage(
-    RemovalOptions options,
-
-    /// Called when websites' local storage has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeLocalStorage(RemovalOptions options);
 
   /// Clears plugins' data.
-  external void removePluginData(
-    RemovalOptions options,
-
-    /// Called when plugins' data has been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removePluginData(RemovalOptions options);
 
   /// Clears the browser's stored passwords.
-  external void removePasswords(
-    RemovalOptions options,
-
-    /// Called when the browser's passwords have been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removePasswords(RemovalOptions options);
 
   /// Clears websites' service workers.
-  external void removeServiceWorkers(
-    RemovalOptions options,
-
-    /// Called when websites' service workers have been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeServiceWorkers(RemovalOptions options);
 
   /// Clears websites' WebSQL data.
-  external void removeWebSQL(
-    RemovalOptions options,
-
-    /// Called when websites' WebSQL databases have been cleared.
-    JSFunction? callback,
-  );
+  external JSPromise removeWebSQL(RemovalOptions options);
 }
 
 @JS()

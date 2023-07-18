@@ -17,10 +17,7 @@ extension JSSearchExtension on JSSearch {
   /// Used to query the default search provider.
   /// In case of an error,
   /// [runtime.lastError] will be set.
-  external void query(
-    QueryInfo queryInfo,
-    JSFunction? callback,
-  );
+  external JSPromise query(QueryInfo queryInfo);
 }
 
 typedef Disposition = String;

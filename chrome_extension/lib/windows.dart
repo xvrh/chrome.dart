@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/tabs.dart' as $js_tabs;
 import 'src/js/windows.dart' as $js;
@@ -18,77 +20,42 @@ class ChromeWindows {
   Future<JSObject> get(
     int windowId,
     QueryOptions? queryOptions,
-  ) {
-    var $completer = Completer<JSObject>();
-    $js.chrome.windows.get(
+  ) async {
+    var $res = await promiseToFuture<JSObject>($js.chrome.windows.get(
       windowId,
       queryOptions?.toJS,
-      (JSObject window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(window);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Gets the [current window](#current-window).
-  Future<JSObject> getCurrent(QueryOptions? queryOptions) {
-    var $completer = Completer<JSObject>();
-    $js.chrome.windows.getCurrent(
-      queryOptions?.toJS,
-      (JSObject window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(window);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<JSObject> getCurrent(QueryOptions? queryOptions) async {
+    var $res = await promiseToFuture<JSObject>(
+        $js.chrome.windows.getCurrent(queryOptions?.toJS));
+    return $res;
   }
 
   /// Gets the window that was most recently focused - typically the window 'on
   /// top'.
-  Future<JSObject> getLastFocused(QueryOptions? queryOptions) {
-    var $completer = Completer<JSObject>();
-    $js.chrome.windows.getLastFocused(
-      queryOptions?.toJS,
-      (JSObject window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(window);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<JSObject> getLastFocused(QueryOptions? queryOptions) async {
+    var $res = await promiseToFuture<JSObject>(
+        $js.chrome.windows.getLastFocused(queryOptions?.toJS));
+    return $res;
   }
 
   /// Gets all windows.
-  Future<List<JSObject>> getAll(QueryOptions? queryOptions) {
-    var $completer = Completer<List<JSObject>>();
-    $js.chrome.windows.getAll(
-      queryOptions?.toJS,
-      (JSArray windows) {
-        if (checkRuntimeLastError($completer)) {
-          $completer
-              .complete(windows.toDart.cast<JSObject>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<JSObject>> getAll(QueryOptions? queryOptions) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.windows.getAll(queryOptions?.toJS));
+    return $res.toDart.cast<JSObject>().map((e) => e).toList();
   }
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  Future<JSObject?> create(CreateData? createData) {
-    var $completer = Completer<JSObject?>();
-    $js.chrome.windows.create(
-      createData?.toJS,
-      (JSObject? window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(window);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<JSObject?> create(CreateData? createData) async {
+    var $res = await promiseToFuture<JSObject?>(
+        $js.chrome.windows.create(createData?.toJS));
+    return $res;
   }
 
   /// Updates the properties of a window. Specify only the properties that to be
@@ -96,32 +63,17 @@ class ChromeWindows {
   Future<JSObject> update(
     int windowId,
     UpdateInfo updateInfo,
-  ) {
-    var $completer = Completer<JSObject>();
-    $js.chrome.windows.update(
+  ) async {
+    var $res = await promiseToFuture<JSObject>($js.chrome.windows.update(
       windowId,
       updateInfo.toJS,
-      (JSObject window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(window);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Removes (closes) a window and all the tabs inside it.
-  Future<void> remove(int windowId) {
-    var $completer = Completer<void>();
-    $js.chrome.windows.remove(
-      windowId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> remove(int windowId) async {
+    await promiseToFuture<void>($js.chrome.windows.remove(windowId));
   }
 
   /// The windowId value that represents the absence of a Chrome browser window.

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'extension_types.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/declarative_net_request.dart' as $js;
@@ -33,17 +35,9 @@ class ChromeDeclarativeNetRequest {
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, internal
   /// errors, and others.
-  Future<void> updateDynamicRules(UpdateRuleOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.declarativeNetRequest.updateDynamicRules(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateDynamicRules(UpdateRuleOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.declarativeNetRequest.updateDynamicRules(options.toJS));
   }
 
   /// Returns the current set of dynamic rules for the extension. Callers can
@@ -52,20 +46,10 @@ class ChromeDeclarativeNetRequest {
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of dynamic rules. An error might be
   /// raised in case of transient internal errors.
-  Future<List<Rule>> getDynamicRules(GetRulesFilter? filter) {
-    var $completer = Completer<List<Rule>>();
-    $js.chrome.declarativeNetRequest.getDynamicRules(
-      filter?.toJS,
-      (JSArray rules) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(rules.toDart
-              .cast<$js.Rule>()
-              .map((e) => Rule.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Rule>> getDynamicRules(GetRulesFilter? filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.declarativeNetRequest.getDynamicRules(filter?.toJS));
+    return $res.toDart.cast<$js.Rule>().map((e) => Rule.fromJS(e)).toList();
   }
 
   /// Modifies the current set of session scoped rules for the extension.
@@ -84,17 +68,9 @@ class ChromeDeclarativeNetRequest {
   /// an error, [runtime.lastError] will be set and no change will be made
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, and others.
-  Future<void> updateSessionRules(UpdateRuleOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.declarativeNetRequest.updateSessionRules(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateSessionRules(UpdateRuleOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.declarativeNetRequest.updateSessionRules(options.toJS));
   }
 
   /// Returns the current set of session scoped rules for the extension.
@@ -102,20 +78,10 @@ class ChromeDeclarativeNetRequest {
   /// `filter`.
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of session scoped rules.
-  Future<List<Rule>> getSessionRules(GetRulesFilter? filter) {
-    var $completer = Completer<List<Rule>>();
-    $js.chrome.declarativeNetRequest.getSessionRules(
-      filter?.toJS,
-      (JSArray rules) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(rules.toDart
-              .cast<$js.Rule>()
-              .map((e) => Rule.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Rule>> getSessionRules(GetRulesFilter? filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.declarativeNetRequest.getSessionRules(filter?.toJS));
+    return $res.toDart.cast<$js.Rule>().map((e) => Rule.fromJS(e)).toList();
   }
 
   /// Updates the set of enabled static rulesets for the extension. The
@@ -130,31 +96,18 @@ class ChromeDeclarativeNetRequest {
   /// [runtime.lastError] will be set and no change will be made to set of
   /// enabled rulesets. This can happen for multiple reasons, such as invalid
   /// ruleset IDs, rule count limit exceeded, or internal errors.
-  Future<void> updateEnabledRulesets(UpdateRulesetOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.declarativeNetRequest.updateEnabledRulesets(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateEnabledRulesets(UpdateRulesetOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.declarativeNetRequest.updateEnabledRulesets(options.toJS));
   }
 
   /// Returns the ids for the current set of enabled static rulesets.
   /// |callback|: Called with a list of ids, where each id corresponds to an
   /// enabled static [Ruleset].
-  Future<List<String>> getEnabledRulesets() {
-    var $completer = Completer<List<String>>();
-    $js.chrome.declarativeNetRequest.getEnabledRulesets((JSArray rulesetIds) {
-      if (checkRuntimeLastError($completer)) {
-        $completer
-            .complete(rulesetIds.toDart.cast<String>().map((e) => e).toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<String>> getEnabledRulesets() async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.declarativeNetRequest.getEnabledRulesets());
+    return $res.toDart.cast<String>().map((e) => e).toList();
   }
 
   /// Disables and enables individual static rules in a [Ruleset].
@@ -163,17 +116,9 @@ class ChromeDeclarativeNetRequest {
   /// |callback|: Called once the update is complete. In case of an error,
   /// [runtime.lastError] will be set and no change will be made to the
   /// enabled static rules.
-  Future<void> updateStaticRules(UpdateStaticRulesOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.declarativeNetRequest.updateStaticRules(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateStaticRules(UpdateStaticRulesOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.declarativeNetRequest.updateStaticRules(options.toJS));
   }
 
   /// Returns the list of static rules in the given [Ruleset] that are
@@ -181,18 +126,11 @@ class ChromeDeclarativeNetRequest {
   /// |options|: Specifies the ruleset to query.
   /// |callback|: Called with a list of ids that correspond to the disabled
   /// rules in that ruleset.
-  Future<List<int>> getDisabledRuleIds(GetDisabledRuleIdsOptions options) {
-    var $completer = Completer<List<int>>();
-    $js.chrome.declarativeNetRequest.getDisabledRuleIds(
-      options.toJS,
-      (JSArray disabledRuleIds) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(
-              disabledRuleIds.toDart.cast<int>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<int>> getDisabledRuleIds(
+      GetDisabledRuleIdsOptions options) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.declarativeNetRequest.getDisabledRuleIds(options.toJS));
+    return $res.toDart.cast<int>().map((e) => e).toList();
   }
 
   /// Returns all rules matched for the extension. Callers can optionally
@@ -208,33 +146,19 @@ class ChromeDeclarativeNetRequest {
   /// case of an error, [runtime.lastError] will be set and no rules will
   /// be returned. This can happen for multiple reasons, such as insufficient
   /// permissions, or exceeding the quota.
-  Future<RulesMatchedDetails> getMatchedRules(MatchedRulesFilter? filter) {
-    var $completer = Completer<RulesMatchedDetails>();
-    $js.chrome.declarativeNetRequest.getMatchedRules(
-      filter?.toJS,
-      ($js.RulesMatchedDetails details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(RulesMatchedDetails.fromJS(details));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<RulesMatchedDetails> getMatchedRules(
+      MatchedRulesFilter? filter) async {
+    var $res = await promiseToFuture<$js.RulesMatchedDetails>(
+        $js.chrome.declarativeNetRequest.getMatchedRules(filter?.toJS));
+    return RulesMatchedDetails.fromJS($res);
   }
 
   /// Configures if the action count for tabs should be displayed as the
   /// extension action's badge text and provides a way for that action count to
   /// be incremented.
-  Future<void> setExtensionActionOptions(ExtensionActionOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.declarativeNetRequest.setExtensionActionOptions(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setExtensionActionOptions(ExtensionActionOptions options) async {
+    await promiseToFuture<void>($js.chrome.declarativeNetRequest
+        .setExtensionActionOptions(options.toJS));
   }
 
   /// Checks if the given regular expression will be supported as a
@@ -242,30 +166,20 @@ class ChromeDeclarativeNetRequest {
   /// |regexOptions|: The regular expression to check.
   /// |callback|: Called with details consisting of whether the regular
   /// expression is supported and the reason if not.
-  Future<IsRegexSupportedResult> isRegexSupported(RegexOptions regexOptions) {
-    var $completer = Completer<IsRegexSupportedResult>();
-    $js.chrome.declarativeNetRequest.isRegexSupported(
-      regexOptions.toJS,
-      ($js.IsRegexSupportedResult result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(IsRegexSupportedResult.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<IsRegexSupportedResult> isRegexSupported(
+      RegexOptions regexOptions) async {
+    var $res = await promiseToFuture<$js.IsRegexSupportedResult>(
+        $js.chrome.declarativeNetRequest.isRegexSupported(regexOptions.toJS));
+    return IsRegexSupportedResult.fromJS($res);
   }
 
   /// Returns the number of static rules an extension can enable before the
   /// [global static rule limit](#global-static-rule-limit) is
   /// reached.
-  Future<int> getAvailableStaticRuleCount() {
-    var $completer = Completer<int>();
-    $js.chrome.declarativeNetRequest.getAvailableStaticRuleCount((int count) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(count);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<int> getAvailableStaticRuleCount() async {
+    var $res = await promiseToFuture<int>(
+        $js.chrome.declarativeNetRequest.getAvailableStaticRuleCount());
+    return $res;
   }
 
   /// Checks if any of the extension's declarativeNetRequest rules would match
@@ -275,17 +189,10 @@ class ChromeDeclarativeNetRequest {
   /// |requestDetails|: The request details to test.
   /// |callback|: Called with the details of matched rules.
   Future<TestMatchOutcomeResult> testMatchOutcome(
-      TestMatchRequestDetails request) {
-    var $completer = Completer<TestMatchOutcomeResult>();
-    $js.chrome.declarativeNetRequest.testMatchOutcome(
-      request.toJS,
-      ($js.TestMatchOutcomeResult result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(TestMatchOutcomeResult.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      TestMatchRequestDetails request) async {
+    var $res = await promiseToFuture<$js.TestMatchOutcomeResult>(
+        $js.chrome.declarativeNetRequest.testMatchOutcome(request.toJS));
+    return TestMatchOutcomeResult.fromJS($res);
   }
 
   /// The minimum number of static rules guaranteed to an extension across its

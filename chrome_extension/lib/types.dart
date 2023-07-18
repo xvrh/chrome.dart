@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/types.dart' as $js;
 
@@ -69,47 +71,22 @@ class ChromeSetting {
 
   /// Gets the value of a setting.
   /// [details] Which setting to consider.
-  Future<GetCallbackDetails> get(GetDetails details) {
-    var $completer = Completer<GetCallbackDetails>();
-    _wrapped.get(
-      details.toJS,
-      ($js.GetCallbackDetails details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(GetCallbackDetails.fromJS(details));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<GetCallbackDetails> get(GetDetails details) async {
+    var $res = await promiseToFuture<$js.GetCallbackDetails>(
+        _wrapped.get(details.toJS));
+    return GetCallbackDetails.fromJS($res);
   }
 
   /// Sets the value of a setting.
   /// [details] Which setting to change.
-  Future<void> set(SetDetails details) {
-    var $completer = Completer<void>();
-    _wrapped.set(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> set(SetDetails details) async {
+    await promiseToFuture<void>(_wrapped.set(details.toJS));
   }
 
   /// Clears the setting, restoring any default value.
   /// [details] Which setting to clear.
-  Future<void> clear(ClearDetails details) {
-    var $completer = Completer<void>();
-    _wrapped.clear(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> clear(ClearDetails details) async {
+    await promiseToFuture<void>(_wrapped.clear(details.toJS));
   }
 
   /// Fired after the setting changes.

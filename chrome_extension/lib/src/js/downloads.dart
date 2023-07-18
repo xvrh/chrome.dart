@@ -28,10 +28,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// backwards compatible between releases. Extensions must not parse it.
   /// |options|: What to download and how.
   /// |callback|: Called with the id of the new [DownloadItem].
-  external void download(
-    DownloadOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise download(DownloadOptions options);
 
   /// Find [DownloadItem]. Set `query` to the empty object to get
   /// all [DownloadItem]. To get a specific [DownloadItem], set only the
@@ -39,39 +36,27 @@ extension JSDownloadsExtension on JSDownloads {
   /// `orderBy: ['-startTime']`, set `limit` to the
   /// number of items per page, and set `startedAfter` to the
   /// `startTime` of the last item from the last page.
-  external void search(
-    DownloadQuery query,
-    JSFunction callback,
-  );
+  external JSPromise search(DownloadQuery query);
 
   /// Pause the download. If the request was successful the download is in a
   /// paused state. Otherwise [runtime.lastError] contains an error message.
   /// The request will fail if the download is not active.
   /// |downloadId|: The id of the download to pause.
   /// |callback|: Called when the pause request is completed.
-  external void pause(
-    int downloadId,
-    JSFunction? callback,
-  );
+  external JSPromise pause(int downloadId);
 
   /// Resume a paused download. If the request was successful the download is
   /// in progress and unpaused. Otherwise [runtime.lastError] contains an
   /// error message. The request will fail if the download is not active.
   /// |downloadId|: The id of the download to resume.
   /// |callback|: Called when the resume request is completed.
-  external void resume(
-    int downloadId,
-    JSFunction? callback,
-  );
+  external JSPromise resume(int downloadId);
 
   /// Cancel a download. When `callback` is run, the download is
   /// cancelled, completed, interrupted or doesn't exist anymore.
   /// |downloadId|: The id of the download to cancel.
   /// |callback|: Called when the cancel request is completed.
-  external void cancel(
-    int downloadId,
-    JSFunction? callback,
-  );
+  external JSPromise cancel(int downloadId);
 
   /// Retrieve an icon for the specified download. For new downloads, file
   /// icons are available after the [onCreated] event has been received. The
@@ -84,10 +69,9 @@ extension JSDownloadsExtension on JSDownloads {
   /// determined, [runtime.lastError] will contain an error message.
   /// |downloadId|: The identifier for the download.
   /// |callback|: A URL to an image that represents the download.
-  external void getFileIcon(
+  external JSPromise getFileIcon(
     int downloadId,
     GetFileIconOptions? options,
-    JSFunction callback,
   );
 
   /// Open the downloaded file now if the [DownloadItem] is complete;
@@ -109,17 +93,11 @@ extension JSDownloadsExtension on JSDownloads {
   /// downloaded file. An [onErased] event will fire for each
   /// [DownloadItem] that matches `query`, then
   /// `callback` will be called.
-  external void erase(
-    DownloadQuery query,
-    JSFunction? callback,
-  );
+  external JSPromise erase(DownloadQuery query);
 
   /// Remove the downloaded file if it exists and the [DownloadItem] is
   /// complete; otherwise return an error through [runtime.lastError].
-  external void removeFile(
-    int downloadId,
-    JSFunction? callback,
-  );
+  external JSPromise removeFile(int downloadId);
 
   /// Prompt the user to accept a dangerous download. Can only be called from a
   /// visible context (tab, window, or page/browser action popup). Does not
@@ -131,10 +109,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// 'complete', and [onChanged] fires.
   /// |downloadId|: The identifier for the [DownloadItem].
   /// |callback|: Called when the danger prompt dialog closes.
-  external void acceptDanger(
-    int downloadId,
-    JSFunction? callback,
-  );
+  external JSPromise acceptDanger(int downloadId);
 
   /// Enable or disable the gray shelf at the bottom of every window associated
   /// with the current browser profile. The shelf will be disabled as long as
@@ -153,10 +128,7 @@ extension JSDownloadsExtension on JSDownloads {
   /// permission in addition to the `"downloads"` permission.
   /// |options|: Encapsulate a change to the download UI.
   /// |callback|: Called when the UI update is completed.
-  external void setUiOptions(
-    UiOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise setUiOptions(UiOptions options);
 
   /// This event fires with the [DownloadItem] object when a download
   /// begins.

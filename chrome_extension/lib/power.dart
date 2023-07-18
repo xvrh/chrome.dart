@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/power.dart' as $js;
 
@@ -28,14 +30,8 @@ class ChromePower {
   /// Reports a user activity in order to awake the screen from a dimmed or
   /// turned off state or from a screensaver. Exits the screensaver if it is
   /// currently active.
-  Future<void> reportActivity() {
-    var $completer = Completer<void>();
-    $js.chrome.power.reportActivity(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> reportActivity() async {
+    await promiseToFuture<void>($js.chrome.power.reportActivity());
   }
 }
 

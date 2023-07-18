@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_networking_attributes.dart' as $js;
@@ -21,15 +23,10 @@ class ChromeEnterpriseNetworkingAttributes {
   /// network, [runtime.lastError] will be set with a failure reason.
   /// |callback| : Called with the device's default network's
   /// [NetworkDetails].
-  Future<NetworkDetails> getNetworkDetails() {
-    var $completer = Completer<NetworkDetails>();
-    $js.chrome.enterprise.networkingAttributes
-        .getNetworkDetails(($js.NetworkDetails networkAddresses) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(NetworkDetails.fromJS(networkAddresses));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<NetworkDetails> getNetworkDetails() async {
+    var $res = await promiseToFuture<$js.NetworkDetails>(
+        $js.chrome.enterprise.networkingAttributes.getNetworkDetails());
+    return NetworkDetails.fromJS($res);
   }
 }
 

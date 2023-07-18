@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/page_action.dart' as $js;
 import 'src/js/tabs.dart' as $js_tabs;
@@ -17,108 +19,49 @@ class ChromePageAction {
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
   /// [tabId] The id of the tab for which you want to modify the page action.
-  Future<void> show(int tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.pageAction.show(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> show(int tabId) async {
+    await promiseToFuture<void>($js.chrome.pageAction.show(tabId));
   }
 
   /// Hides the page action. Hidden page actions still appear in the Chrome
   /// toolbar, but are grayed out.
   /// [tabId] The id of the tab for which you want to modify the page action.
-  Future<void> hide(int tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.pageAction.hide(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> hide(int tabId) async {
+    await promiseToFuture<void>($js.chrome.pageAction.hide(tabId));
   }
 
   /// Sets the title of the page action. This is displayed in a tooltip over the
   /// page action.
-  Future<void> setTitle(SetTitleDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.pageAction.setTitle(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setTitle(SetTitleDetails details) async {
+    await promiseToFuture<void>($js.chrome.pageAction.setTitle(details.toJS));
   }
 
   /// Gets the title of the page action.
-  Future<String> getTitle(TabDetails details) {
-    var $completer = Completer<String>();
-    $js.chrome.pageAction.getTitle(
-      details.toJS,
-      (String result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getTitle(TabDetails details) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.pageAction.getTitle(details.toJS));
+    return $res;
   }
 
   /// Sets the icon for the page action. The icon can be specified either as the
   /// path to an image file or as the pixel data from a canvas element, or as
   /// dictionary of either one of those. Either the **path** or the
   /// **imageData** property must be specified.
-  Future<void> setIcon(SetIconDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.pageAction.setIcon(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setIcon(SetIconDetails details) async {
+    await promiseToFuture<void>($js.chrome.pageAction.setIcon(details.toJS));
   }
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// page action's icon.
-  Future<void> setPopup(SetPopupDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.pageAction.setPopup(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setPopup(SetPopupDetails details) async {
+    await promiseToFuture<void>($js.chrome.pageAction.setPopup(details.toJS));
   }
 
   /// Gets the html document set as the popup for this page action.
-  Future<String> getPopup(TabDetails details) {
-    var $completer = Completer<String>();
-    $js.chrome.pageAction.getPopup(
-      details.toJS,
-      (String result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getPopup(TabDetails details) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.pageAction.getPopup(details.toJS));
+    return $res;
   }
 
   /// Fired when a page action icon is clicked.  This event will not fire if the

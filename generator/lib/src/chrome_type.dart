@@ -483,6 +483,7 @@ class AliasedType extends ChromeType {
 class AsyncReturnType extends ChromeType {
   final ChromeType? _dart;
   final FunctionType jsCallback;
+  bool supportsPromises = false;
 
   AsyncReturnType(this._dart, this.jsCallback)
       : super(isNullable: _dart?.isNullable ?? false);

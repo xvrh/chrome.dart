@@ -26,7 +26,7 @@ extension JSEnterpriseNetworkingAttributesExtension
   /// network, [runtime.lastError] will be set with a failure reason.
   /// |callback| : Called with the device's default network's
   /// [NetworkDetails].
-  external void getNetworkDetails(JSFunction callback);
+  external JSPromise getNetworkDetails();
 }
 
 @JS()

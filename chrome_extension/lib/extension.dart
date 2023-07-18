@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'runtime.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/extension.dart' as $js;
@@ -23,18 +25,12 @@ class ChromeExtension {
   Future<Object> sendRequest(
     String? extensionId,
     Object request,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.extension.sendRequest(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.extension.sendRequest(
       extensionId,
       request.toJS,
-      (JSAny response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(response);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Converts a relative path within an extension install directory to a
@@ -78,27 +74,19 @@ class ChromeExtension {
   /// Retrieves the state of the extension's access to Incognito-mode. This
   /// corresponds to the user-controlled per-extension 'Allowed in Incognito'
   /// setting accessible via the chrome://extensions page.
-  Future<bool> isAllowedIncognitoAccess() {
-    var $completer = Completer<bool>();
-    $js.chrome.extension.isAllowedIncognitoAccess((bool isAllowedAccess) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(isAllowedAccess);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> isAllowedIncognitoAccess() async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.extension.isAllowedIncognitoAccess());
+    return $res;
   }
 
   /// Retrieves the state of the extension's access to the 'file://' scheme.
   /// This corresponds to the user-controlled per-extension 'Allow access to
   /// File URLs' setting accessible via the chrome://extensions page.
-  Future<bool> isAllowedFileSchemeAccess() {
-    var $completer = Completer<bool>();
-    $js.chrome.extension.isAllowedFileSchemeAccess((bool isAllowedAccess) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(isAllowedAccess);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> isAllowedFileSchemeAccess() async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.extension.isAllowedFileSchemeAccess());
+    return $res;
   }
 
   /// Sets the value of the ap CGI parameter used in the extension's update URL.

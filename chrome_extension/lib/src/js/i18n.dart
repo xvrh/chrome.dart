@@ -17,7 +17,7 @@ class JSI18n {}
 extension JSI18nExtension on JSI18n {
   /// Gets the accept-languages of the browser. This is different from the
   /// locale used by the browser; to get the locale, use [i18n.getUILanguage].
-  external void getAcceptLanguages(JSFunction callback);
+  external JSPromise getAcceptLanguages();
 
   /// Gets the localized string for the specified message. If the message is
   /// missing, this method returns an empty string (''). If the format of the
@@ -39,11 +39,10 @@ extension JSI18nExtension on JSI18n {
   external String getUILanguage();
 
   /// Detects the language of the provided text using CLD.
-  external void detectLanguage(
-    /// User input string to be translated.
-    String text,
-    JSFunction callback,
-  );
+  external JSPromise detectLanguage(
+
+      /// User input string to be translated.
+      String text);
 }
 
 /// An ISO language code such as `en` or `fr`. For a complete list of languages

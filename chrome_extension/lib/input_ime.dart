@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'input.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/input_ime.dart' as $js;
@@ -16,62 +18,33 @@ class ChromeInputIme {
 
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  Future<bool> setComposition(SetCompositionParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.setComposition(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> setComposition(SetCompositionParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.setComposition(parameters.toJS));
+    return $res;
   }
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  Future<bool> clearComposition(ClearCompositionParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.clearComposition(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> clearComposition(ClearCompositionParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.clearComposition(parameters.toJS));
+    return $res;
   }
 
   /// Commits the provided text to the current input.
-  Future<bool> commitText(CommitTextParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.commitText(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> commitText(CommitTextParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.commitText(parameters.toJS));
+    return $res;
   }
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  Future<void> sendKeyEvents(SendKeyEventsParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.input.ime.sendKeyEvents(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> sendKeyEvents(SendKeyEventsParameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.input.ime.sendKeyEvents(parameters.toJS));
   }
 
   /// Hides the input view window, which is popped up automatically by system.
@@ -83,120 +56,60 @@ class ChromeInputIme {
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
   Future<bool> setCandidateWindowProperties(
-      SetCandidateWindowPropertiesParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.setCandidateWindowProperties(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      SetCandidateWindowPropertiesParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.setCandidateWindowProperties(parameters.toJS));
+    return $res;
   }
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  Future<bool> setCandidates(SetCandidatesParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.setCandidates(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> setCandidates(SetCandidatesParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.setCandidates(parameters.toJS));
+    return $res;
   }
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  Future<bool> setCursorPosition(SetCursorPositionParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.setCursorPosition(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> setCursorPosition(SetCursorPositionParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.setCursorPosition(parameters.toJS));
+    return $res;
   }
 
   /// Shows/Hides an assistive window with the given properties.
   Future<bool> setAssistiveWindowProperties(
-      SetAssistiveWindowPropertiesParameters parameters) {
-    var $completer = Completer<bool>();
-    $js.chrome.input.ime.setAssistiveWindowProperties(
-      parameters.toJS,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      SetAssistiveWindowPropertiesParameters parameters) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.input.ime.setAssistiveWindowProperties(parameters.toJS));
+    return $res;
   }
 
   /// Highlights/Unhighlights a button in an assistive window.
   Future<void> setAssistiveWindowButtonHighlighted(
-      SetAssistiveWindowButtonHighlightedParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.input.ime.setAssistiveWindowButtonHighlighted(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      SetAssistiveWindowButtonHighlightedParameters parameters) async {
+    await promiseToFuture<void>($js.chrome.input.ime
+        .setAssistiveWindowButtonHighlighted(parameters.toJS));
   }
 
   /// Adds the provided menu items to the language menu when this IME is active.
-  Future<void> setMenuItems(MenuParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.input.ime.setMenuItems(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setMenuItems(MenuParameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.input.ime.setMenuItems(parameters.toJS));
   }
 
   /// Updates the state of the MenuItems specified
-  Future<void> updateMenuItems(MenuParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.input.ime.updateMenuItems(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateMenuItems(MenuParameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.input.ime.updateMenuItems(parameters.toJS));
   }
 
   /// Deletes the text around the caret.
   Future<void> deleteSurroundingText(
-      DeleteSurroundingTextParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.input.ime.deleteSurroundingText(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      DeleteSurroundingTextParameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.input.ime.deleteSurroundingText(parameters.toJS));
   }
 
   /// Indicates that the key event received by onKeyEvent is handled.  This

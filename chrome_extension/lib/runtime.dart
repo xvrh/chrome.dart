@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/runtime.dart' as $js;
 import 'tabs.dart';
@@ -17,14 +19,10 @@ class ChromeRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  Future<JSObject?> getBackgroundPage() {
-    var $completer = Completer<JSObject?>();
-    $js.chrome.runtime.getBackgroundPage((JSObject? backgroundPage) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(backgroundPage);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<JSObject?> getBackgroundPage() async {
+    var $res = await promiseToFuture<JSObject?>(
+        $js.chrome.runtime.getBackgroundPage());
+    return $res;
   }
 
   /// Open your Extension's options page, if possible.
@@ -37,14 +35,8 @@ class ChromeRuntime {
   ///
   /// If your Extension does not declare an options page, or Chrome failed to
   /// create one for some other reason, the callback will set [lastError].
-  Future<void> openOptionsPage() {
-    var $completer = Completer<void>();
-    $js.chrome.runtime.openOptionsPage(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> openOptionsPage() async {
+    await promiseToFuture<void>($js.chrome.runtime.openOptionsPage());
   }
 
   /// Returns details about the app or extension from the manifest. The object
@@ -67,17 +59,8 @@ class ChromeRuntime {
   /// [url] URL to be opened after the extension is uninstalled. This URL must
   /// have an http: or https: scheme. Set an empty string to not open a new
   /// tab upon uninstallation.
-  Future<void> setUninstallURL(String url) {
-    var $completer = Completer<void>();
-    $js.chrome.runtime.setUninstallURL(
-      url,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setUninstallURL(String url) async {
+    await promiseToFuture<void>($js.chrome.runtime.setUninstallURL(url));
   }
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
@@ -103,15 +86,10 @@ class ChromeRuntime {
   /// Note: When called with a callback, instead of returning an object this
   /// function will return the two properties as separate arguments passed to
   /// the callback.
-  Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() {
-    var $completer = Completer<RequestUpdateCheckCallbackResult>();
-    $js.chrome.runtime
-        .requestUpdateCheck(($js.RequestUpdateCheckCallbackResult result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(RequestUpdateCheckCallbackResult.fromJS(result));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<RequestUpdateCheckCallbackResult> requestUpdateCheck() async {
+    var $res = await promiseToFuture<$js.RequestUpdateCheckCallbackResult>(
+        $js.chrome.runtime.requestUpdateCheck());
+    return RequestUpdateCheckCallbackResult.fromJS($res);
   }
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
@@ -127,17 +105,8 @@ class ChromeRuntime {
   /// the first extension to invoke this API.
   /// [seconds] Time to wait in seconds before rebooting the device, or -1 to
   /// cancel a scheduled reboot.
-  Future<void> restartAfterDelay(int seconds) {
-    var $completer = Completer<void>();
-    $js.chrome.runtime.restartAfterDelay(
-      seconds,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> restartAfterDelay(int seconds) async {
+    await promiseToFuture<void>($js.chrome.runtime.restartAfterDelay(seconds));
   }
 
   /// Attempts to connect listeners within an extension/app (such as the
@@ -186,19 +155,13 @@ class ChromeRuntime {
     String? extensionId,
     Object message,
     SendMessageOptions? options,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.runtime.sendMessage(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.runtime.sendMessage(
       extensionId,
       message.toJS,
       options?.toJS,
-      (JSAny response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(response);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Send a single message to a native application.
@@ -207,29 +170,20 @@ class ChromeRuntime {
   Future<Object> sendNativeMessage(
     String application,
     Object message,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.runtime.sendNativeMessage(
+  ) async {
+    var $res =
+        await promiseToFuture<JSAny>($js.chrome.runtime.sendNativeMessage(
       application,
       message.toJS,
-      (JSAny response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(response);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Returns information about the current platform.
-  Future<PlatformInfo> getPlatformInfo() {
-    var $completer = Completer<PlatformInfo>();
-    $js.chrome.runtime.getPlatformInfo(($js.PlatformInfo platformInfo) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(PlatformInfo.fromJS(platformInfo));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<PlatformInfo> getPlatformInfo() async {
+    var $res = await promiseToFuture<$js.PlatformInfo>(
+        $js.chrome.runtime.getPlatformInfo());
+    return PlatformInfo.fromJS($res);
   }
 
   /// Returns a DirectoryEntry for the package directory.
@@ -247,20 +201,13 @@ class ChromeRuntime {
   /// [filter] A filter to find matching contexts. A context matches if it
   /// matches all specified fields in the filter. Any unspecified field in the
   /// filter matches all contexts.
-  Future<List<ExtensionContext>> getContexts(ContextFilter filter) {
-    var $completer = Completer<List<ExtensionContext>>();
-    $js.chrome.runtime.getContexts(
-      filter.toJS,
-      (JSArray contexts) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(contexts.toDart
-              .cast<$js.ExtensionContext>()
-              .map((e) => ExtensionContext.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<ExtensionContext>> getContexts(ContextFilter filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.runtime.getContexts(filter.toJS));
+    return $res.toDart
+        .cast<$js.ExtensionContext>()
+        .map((e) => ExtensionContext.fromJS(e))
+        .toList();
   }
 
   /// This will be defined during an API method callback if there was an error

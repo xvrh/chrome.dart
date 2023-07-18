@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/offscreen.dart' as $js;
 
@@ -16,29 +18,15 @@ class ChromeOffscreen {
   /// |parameters|: The parameters describing the offscreen document to create.
   /// |callback|: Invoked when the offscreen document is created and has
   /// completed its initial page load.
-  Future<void> createDocument(CreateParameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.offscreen.createDocument(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> createDocument(CreateParameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.offscreen.createDocument(parameters.toJS));
   }
 
   /// Closes the currently-open offscreen document for the extension.
   /// |callback|: Invoked when the offscreen document has been closed.
-  Future<void> closeDocument() {
-    var $completer = Completer<void>();
-    $js.chrome.offscreen.closeDocument(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> closeDocument() async {
+    await promiseToFuture<void>($js.chrome.offscreen.closeDocument());
   }
 
   /// Determines whether the extension has an active document.
@@ -48,14 +36,9 @@ class ChromeOffscreen {
   /// alternative. But this is pretty useful in testing environments.
   /// |callback|: Invoked with the result of whether the extension has an
   /// active offscreen document.
-  Future<bool> hasDocument() {
-    var $completer = Completer<bool>();
-    $js.chrome.offscreen.hasDocument((bool result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(result);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> hasDocument() async {
+    var $res = await promiseToFuture<bool>($js.chrome.offscreen.hasDocument());
+    return $res;
   }
 }
 

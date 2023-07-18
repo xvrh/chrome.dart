@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/document_scan.dart' as $js;
 
@@ -16,17 +18,10 @@ class ChromeDocumentScan {
   /// sent to the callback.
   /// |options| : Object containing scan parameters.
   /// |callback| : Called with the result and data from the scan.
-  Future<ScanResults> scan(ScanOptions options) {
-    var $completer = Completer<ScanResults>();
-    $js.chrome.documentScan.scan(
-      options.toJS,
-      ($js.ScanResults result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(ScanResults.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<ScanResults> scan(ScanOptions options) async {
+    var $res = await promiseToFuture<$js.ScanResults>(
+        $js.chrome.documentScan.scan(options.toJS));
+    return ScanResults.fromJS($res);
   }
 }
 

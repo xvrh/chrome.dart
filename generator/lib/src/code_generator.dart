@@ -88,14 +88,18 @@ class JsBindingGenerator extends _GeneratorBase {
 
     Reference returns;
     if (method.returns.type case model.AsyncReturnType asyncType) {
-      returns = refer('void');
-      parameters.add(Parameter((b) => b
-        ..docs.addAll([
-          if (method.returns.documentation case var returnDoc?)
-            documentationComment(returnDoc, indent: 4)
-        ])
-        ..name = method.returns.name ?? 'callback'
-        ..type = asyncType.jsType));
+      if (asyncType.supportsPromises) {
+        returns = refer('JSPromise');
+      } else {
+        returns = refer('void');
+        parameters.add(Parameter((b) => b
+          ..docs.addAll([
+            if (method.returns.documentation case var returnDoc?)
+              documentationComment(returnDoc, indent: 4)
+          ])
+          ..name = method.returns.name ?? 'callback'
+          ..type = asyncType.jsType));
+      }
     } else {
       returns = method.returns.type?.jsType ?? refer('void');
     }
@@ -241,22 +245,10 @@ class DartApiGenerator extends _GeneratorBase {
     return referTo.property(api.nameWithoutGroup.lowerCamel);
   }
 
-  Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
-    Expression completeParameter = refer('null');
-    if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-      completeParameter = singleParam.type.toDart(refer(singleParam.name));
-    } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
-      completeParameter = asyncReturn.dartType.call([], {
-        for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
-      });
-    }
-    return completeParameter;
-  }
-
   Method _function(model.Method method, {required Expression source}) {
     Reference returns;
-    Block body;
+    Code body;
+    MethodModifier? methodModifier;
 
     var referTo = source.property(method.name);
     var callParameters = <Expression>[
@@ -269,37 +261,18 @@ class DartApiGenerator extends _GeneratorBase {
         ..symbol = 'Future'
         ..types.add(futureType));
 
-      var completeParameter = _asyncCompletionParameter(asyncReturn);
-
-      var completerVar = r'$completer';
-
-      final emitter = DartEmitter(
-          allocator: _PrefixedAllocator(api.fileName),
-          useNullSafetySyntax: true);
-      var completeCompleterCode = refer(completerVar)
-          .property('complete')
-          .call([completeParameter]).accept(emitter);
-
-      body = Block.of([
-        declareVar(completerVar)
-            .assign(refer('Completer').call([], {}, [futureType]))
-            .statement,
-        referTo.call([
-          ...callParameters,
-          Method((b) => b
-            ..lambda = false
-            ..requiredParameters.addAll([
-              for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-                Parameter((b) => b
-                  ..name = jsParam.name
-                  ..type = jsParam.type.jsTypeReferencedFromDart)
-            ])
-            ..body = Code('''if (checkRuntimeLastError($completerVar)) {
-              $completeCompleterCode;
-            }''')).closure.property('toJS')
-        ]).statement,
-        refer(completerVar).property('future').returned.statement,
-      ]);
+      if (asyncReturn.supportsPromises) {
+        methodModifier = MethodModifier.async;
+        body = _asyncReturnCodeWithPromise(asyncReturn,
+            referTo: referTo,
+            callParameters: callParameters,
+            futureType: futureType);
+      } else {
+        body = _asyncReturnCodeWithCallback(asyncReturn,
+            referTo: referTo,
+            callParameters: callParameters,
+            futureType: futureType);
+      }
     } else {
       var callExpression = referTo.call(callParameters);
       if (method.returns.type case var returnType?) {
@@ -321,11 +294,91 @@ class DartApiGenerator extends _GeneratorBase {
       ])
       ..name = method.name
       ..returns = returns
+      ..modifier = methodModifier
       ..body = body
       ..requiredParameters
           .addAll(method.parameters.map((p) => Parameter((b) => b
             ..name = p.name
             ..type = p.type.dartType))));
+  }
+
+  Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
+    Expression completeParameter = refer('null');
+    if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
+      completeParameter = singleParam.type.toDart(refer(singleParam.name));
+    } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
+      completeParameter = asyncReturn.dartType.call([], {
+        for (var jsParam in asyncReturn.jsCallback.positionalParameters)
+          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
+      });
+    }
+    return completeParameter;
+  }
+
+  Block _asyncReturnCodeWithCallback(AsyncReturnType asyncReturn,
+      {required Reference futureType,
+      required Expression referTo,
+      required List<Expression> callParameters}) {
+    var completeParameter = _asyncCompletionParameter(asyncReturn);
+
+    var completerVar = r'$completer';
+
+    final emitter = DartEmitter(
+        allocator: _PrefixedAllocator(api.fileName), useNullSafetySyntax: true);
+    var completeCompleterCode = refer(completerVar)
+        .property('complete')
+        .call([completeParameter]).accept(emitter);
+
+    var body = Block.of([
+      declareVar(completerVar)
+          .assign(refer('Completer').call([], {}, [futureType]))
+          .statement,
+      referTo.call([
+        ...callParameters,
+        Method((b) => b
+          ..lambda = false
+          ..requiredParameters.addAll([
+            for (var jsParam in asyncReturn.jsCallback.positionalParameters)
+              Parameter((b) => b
+                ..name = jsParam.name
+                ..type = jsParam.type.jsTypeReferencedFromDart)
+          ])
+          ..body = Code('''if (checkRuntimeLastError($completerVar)) {
+              $completeCompleterCode;
+            }''')).closure.property('toJS')
+      ]).statement,
+      refer(completerVar).property('future').returned.statement,
+    ]);
+    return body;
+  }
+
+  Code _asyncReturnCodeWithPromise(AsyncReturnType asyncReturn,
+      {required Reference futureType,
+      required Expression referTo,
+      required List<Expression> callParameters}) {
+    ChromeType? jsReturnType;
+    if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
+      jsReturnType = singleParam.type;
+    } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
+      throw UnimplementedError('Multi result in JSPromise is not implemented');
+    }
+
+    var resultVariable = r'$res';
+    var callJsExpression = refer('promiseToFuture', 'dart:js_util').call([
+      referTo.call(callParameters)
+    ], {}, [
+      asyncReturn.jsCallback.positionalParameters.firstOrNull?.type.jsTypeReferencedFromDart ??
+          refer('void')
+    ]).awaited;
+
+    if (jsReturnType != null) {
+      return Block.of([
+        declareVar(resultVariable).assign(callJsExpression).statement,
+        jsReturnType.toDart(refer(resultVariable)).returned.statement,
+      ]);
+    } else {
+      return callJsExpression.statement;
+    }
   }
 
   Method _event(model.Event event, {required Expression source}) {

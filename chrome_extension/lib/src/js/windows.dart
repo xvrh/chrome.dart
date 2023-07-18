@@ -16,51 +16,34 @@ class JSWindows {}
 
 extension JSWindowsExtension on JSWindows {
   /// Gets details about a window.
-  external void get(
+  external JSPromise get(
     int windowId,
     QueryOptions? queryOptions,
-    JSFunction callback,
   );
 
   /// Gets the [current window](#current-window).
-  external void getCurrent(
-    QueryOptions? queryOptions,
-    JSFunction callback,
-  );
+  external JSPromise getCurrent(QueryOptions? queryOptions);
 
   /// Gets the window that was most recently focused - typically the window 'on
   /// top'.
-  external void getLastFocused(
-    QueryOptions? queryOptions,
-    JSFunction callback,
-  );
+  external JSPromise getLastFocused(QueryOptions? queryOptions);
 
   /// Gets all windows.
-  external void getAll(
-    QueryOptions? queryOptions,
-    JSFunction callback,
-  );
+  external JSPromise getAll(QueryOptions? queryOptions);
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  external void create(
-    CreateData? createData,
-    JSFunction? callback,
-  );
+  external JSPromise create(CreateData? createData);
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
-  external void update(
+  external JSPromise update(
     int windowId,
     UpdateInfo updateInfo,
-    JSFunction? callback,
   );
 
   /// Removes (closes) a window and all the tabs inside it.
-  external void remove(
-    int windowId,
-    JSFunction? callback,
-  );
+  external JSPromise remove(int windowId);
 
   /// Fired when a window is created.
   external Event get onCreated;

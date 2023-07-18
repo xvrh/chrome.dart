@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/wallpaper.dart' as $js;
 
@@ -14,17 +16,10 @@ class ChromeWallpaper {
 
   /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
   /// _layout_
-  Future<Object?> setWallpaper(SetWallpaperDetails details) {
-    var $completer = Completer<Object?>();
-    $js.chrome.wallpaper.setWallpaper(
-      details.toJS,
-      (JSAny? thumbnail) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(thumbnail);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Object?> setWallpaper(SetWallpaperDetails details) async {
+    var $res = await promiseToFuture<JSAny?>(
+        $js.chrome.wallpaper.setWallpaper(details.toJS));
+    return $res;
   }
 }
 

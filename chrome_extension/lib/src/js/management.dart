@@ -17,49 +17,45 @@ class JSManagement {}
 
 extension JSManagementExtension on JSManagement {
   /// Returns a list of information about installed extensions and apps.
-  external void getAll(JSFunction? callback);
+  external JSPromise getAll();
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
-  external void get(
-    /// The ID from an item of [management.ExtensionInfo].
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise get(
+
+      /// The ID from an item of [management.ExtensionInfo].
+      String id);
 
   /// Returns information about the calling extension, app, or theme. Note: This
   /// function can be used without requesting the 'management' permission in the
   /// manifest.
-  external void getSelf(JSFunction? callback);
+  external JSPromise getSelf();
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension id.
-  external void getPermissionWarningsById(
-    /// The ID of an already installed extension.
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise getPermissionWarningsById(
+
+      /// The ID of an already installed extension.
+      String id);
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension manifest string. Note: This function can be used without
   /// requesting the 'management' permission in the manifest.
-  external void getPermissionWarningsByManifest(
-    /// Extension manifest JSON string.
-    String manifestStr,
-    JSFunction? callback,
-  );
+  external JSPromise getPermissionWarningsByManifest(
+
+      /// Extension manifest JSON string.
+      String manifestStr);
 
   /// Enables or disables an app or extension. In most cases this function must
   /// be called in the context of a user gesture (e.g. an onclick handler for a
   /// button), and may present the user with a native confirmation UI as a way
   /// of preventing abuse.
-  external void setEnabled(
+  external JSPromise setEnabled(
     /// This should be the id from an item of [management.ExtensionInfo].
     String id,
 
     /// Whether this item should be enabled or disabled.
     bool enabled,
-    JSFunction? callback,
   );
 
   /// Uninstalls a currently installed app or extension. Note: This function
@@ -67,39 +63,33 @@ extension JSManagementExtension on JSManagement {
   /// uninstall the specified extension/app. If the uninstall fails (e.g. the
   /// user cancels the dialog) the promise will be rejected or the callback will
   /// be called with [runtime.lastError] set.
-  external void uninstall(
+  external JSPromise uninstall(
     /// This should be the id from an item of [management.ExtensionInfo].
     String id,
     UninstallOptions? options,
-    JSFunction? callback,
   );
 
   /// Uninstalls the calling extension. Note: This function can be used without
   /// requesting the 'management' permission in the manifest. This function does
   /// not work in managed environments when the user is not allowed to uninstall
   /// the specified extension/app.
-  external void uninstallSelf(
-    UninstallOptions? options,
-    JSFunction? callback,
-  );
+  external JSPromise uninstallSelf(UninstallOptions? options);
 
   /// Launches an application.
-  external void launchApp(
-    /// The extension id of the application.
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise launchApp(
+
+      /// The extension id of the application.
+      String id);
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
-  external void createAppShortcut(
-    /// This should be the id from an app item of [management.ExtensionInfo].
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise createAppShortcut(
+
+      /// This should be the id from an app item of [management.ExtensionInfo].
+      String id);
 
   /// Set the launch type of an app.
-  external void setLaunchType(
+  external JSPromise setLaunchType(
     /// This should be the id from an app item of [management.ExtensionInfo].
     String id,
 
@@ -107,33 +97,31 @@ extension JSManagementExtension on JSManagement {
     /// in [ExtensionInfo.availableLaunchTypes], because the available launch
     /// types vary on different platforms and configurations.
     LaunchType launchType,
-    JSFunction? callback,
   );
 
   /// Generate an app for a URL. Returns the generated bookmark app.
-  external void generateAppForLink(
+  external JSPromise generateAppForLink(
     /// The URL of a web page. The scheme of the URL can only be "http" or
     /// "https".
     String url,
 
     /// The title of the generated app.
     String title,
-    JSFunction? callback,
   );
 
   /// Checks if the replacement android app can be installed. Errors generated
   /// by this API are reported by setting [runtime.lastError] and executing the
   /// function's regular callback.
-  external void canInstallReplacementAndroidApp(JSFunction callback);
+  external JSPromise canInstallReplacementAndroidApp();
 
   /// Prompts the user to install the replacement Android app from the manifest.
   /// Errors generated by this API are reported by setting [runtime.lastError]
   /// and executing the function's regular callback.
-  external void installReplacementAndroidApp(JSFunction? callback);
+  external JSPromise installReplacementAndroidApp();
 
   /// Launches the replacement_web_app specified in the manifest. Prompts the
   /// user to install if not already installed.
-  external void installReplacementWebApp(JSFunction? callback);
+  external JSPromise installReplacementWebApp();
 
   /// Fired when an app or extension has been installed.
   external Event get onInstalled;

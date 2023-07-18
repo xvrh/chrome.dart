@@ -19,32 +19,23 @@ extension JSPrintingExtension on JSPrinting {
   /// Submits the job for print.
   /// If the extension is not listed in PrintingAPIExtensionsAllowlist policy,
   /// the user will be prompted to accept the print job.
-  external void submitJob(
-    SubmitJobRequest request,
-    JSFunction callback,
-  );
+  external JSPromise submitJob(SubmitJobRequest request);
 
   /// Cancels previously submitted job.
   /// |jobId|: The id of the print job to cancel. This should be the same id
   /// received in a [SubmitJobResponse].
-  external void cancelJob(
-    String jobId,
-    JSFunction callback,
-  );
+  external JSPromise cancelJob(String jobId);
 
   /// Returns the list of available printers on the device. This includes
   /// manually added, enterprise and discovered printers.
-  external void getPrinters(JSFunction callback);
+  external JSPromise getPrinters();
 
   /// Returns the status and capabilities of the printer in
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   /// CDD format</a>.
   /// This call will fail with a runtime error if no printers with given id are
   /// installed.
-  external void getPrinterInfo(
-    String printerId,
-    JSFunction callback,
-  );
+  external JSPromise getPrinterInfo(String printerId);
 
   /// Event fired when the status of the job is changed.
   /// This is only fired for the jobs created by this extension.

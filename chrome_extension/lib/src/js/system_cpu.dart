@@ -16,7 +16,7 @@ class JSSystemCpu {}
 
 extension JSSystemCpuExtension on JSSystemCpu {
   /// Queries basic CPU information of the system.
-  external void getInfo(JSFunction callback);
+  external JSPromise getInfo();
 }
 
 @JS()

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/i18n.dart' as $js;
 
@@ -14,15 +16,10 @@ class ChromeI18n {
 
   /// Gets the accept-languages of the browser. This is different from the
   /// locale used by the browser; to get the locale, use [i18n.getUILanguage].
-  Future<List<LanguageCode>> getAcceptLanguages() {
-    var $completer = Completer<List<LanguageCode>>();
-    $js.chrome.i18n.getAcceptLanguages((JSArray languages) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(
-            languages.toDart.cast<$js.LanguageCode>().map((e) => e).toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<LanguageCode>> getAcceptLanguages() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.i18n.getAcceptLanguages());
+    return $res.toDart.cast<$js.LanguageCode>().map((e) => e).toList();
   }
 
   /// Gets the localized string for the specified message. If the message is
@@ -54,17 +51,10 @@ class ChromeI18n {
 
   /// Detects the language of the provided text using CLD.
   /// [text] User input string to be translated.
-  Future<DetectLanguageCallbackResult> detectLanguage(String text) {
-    var $completer = Completer<DetectLanguageCallbackResult>();
-    $js.chrome.i18n.detectLanguage(
-      text,
-      ($js.DetectLanguageCallbackResult result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(DetectLanguageCallbackResult.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<DetectLanguageCallbackResult> detectLanguage(String text) async {
+    var $res = await promiseToFuture<$js.DetectLanguageCallbackResult>(
+        $js.chrome.i18n.detectLanguage(text));
+    return DetectLanguageCallbackResult.fromJS($res);
   }
 }
 

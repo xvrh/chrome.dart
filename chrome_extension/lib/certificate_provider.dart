@@ -1,3 +1,4 @@
+import 'dart:js_util';
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -22,17 +23,10 @@ class ChromeCertificateProvider {
   /// |callback|: Is called when the dialog is resolved with the user input, or
   /// when the dialog request finishes unsuccessfully (e.g. the dialog was
   /// canceled by the user or was not allowed to be shown).
-  Future<PinResponseDetails?> requestPin(RequestPinDetails details) {
-    var $completer = Completer<PinResponseDetails?>();
-    $js.chrome.certificateProvider.requestPin(
-      details.toJS,
-      ($js.PinResponseDetails? details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(details?.let(PinResponseDetails.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<PinResponseDetails?> requestPin(RequestPinDetails details) async {
+    var $res = await promiseToFuture<$js.PinResponseDetails?>(
+        $js.chrome.certificateProvider.requestPin(details.toJS));
+    return $res?.let(PinResponseDetails.fromJS);
   }
 
   /// Stops the pin request started by the [requestPin] function.
@@ -40,17 +34,9 @@ class ChromeCertificateProvider {
   /// request flow.
   /// |callback|: To be used by Chrome to send to the extension the status from
   /// their request to close PIN dialog for user.
-  Future<void> stopPinRequest(StopPinRequestDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.certificateProvider.stopPinRequest(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> stopPinRequest(StopPinRequestDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.certificateProvider.stopPinRequest(details.toJS));
   }
 
   /// Sets a list of certificates to use in the browser.
@@ -61,17 +47,9 @@ class ChromeCertificateProvider {
   /// received.
   /// |details|: The certificates to set. Invalid certificates will be ignored.
   /// |callback|: Called upon completion.
-  Future<void> setCertificates(SetCertificatesDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.certificateProvider.setCertificates(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setCertificates(SetCertificatesDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.certificateProvider.setCertificates(details.toJS));
   }
 
   /// Should be called as a response to [onSignatureRequested].
@@ -79,17 +57,9 @@ class ChromeCertificateProvider {
   /// [onSignatureRequested] event; the API implementation will stop
   /// waiting for this call after some time and respond with a timeout
   /// error when this function is called.
-  Future<void> reportSignature(ReportSignatureDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.certificateProvider.reportSignature(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> reportSignature(ReportSignatureDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.certificateProvider.reportSignature(details.toJS));
   }
 
   /// This event fires if the certificates set via [setCertificates]

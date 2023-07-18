@@ -24,19 +24,13 @@ extension JSScriptingExtension on JSScripting {
   /// |callback|: Invoked upon completion of the injection. The resulting
   /// array contains the result of execution for each frame where the
   /// injection succeeded.
-  external void executeScript(
-    ScriptInjection injection,
-    JSFunction? callback,
-  );
+  external JSPromise executeScript(ScriptInjection injection);
 
   /// Inserts a CSS stylesheet into a target context.
   /// If multiple frames are specified, unsuccessful injections are ignored.
   /// |injection|: The details of the styles to insert.
   /// |callback|: Invoked upon completion of the insertion.
-  external void insertCSS(
-    CSSInjection injection,
-    JSFunction? callback,
-  );
+  external JSPromise insertCSS(CSSInjection injection);
 
   /// Removes a CSS stylesheet that was previously inserted by this extension
   /// from a target context.
@@ -45,10 +39,7 @@ extension JSScriptingExtension on JSScripting {
   /// must exactly match the stylesheet inserted through [insertCSS].
   /// Attempting to remove a non-existent stylesheet is a no-op.
   /// |callback|: A callback to be invoked upon the completion of the removal.
-  external void removeCSS(
-    CSSInjection injection,
-    JSFunction? callback,
-  );
+  external JSPromise removeCSS(CSSInjection injection);
 
   /// Registers one or more content scripts for this extension.
   /// |scripts|: Contains a list of scripts to be registered. If there are
@@ -56,19 +47,13 @@ extension JSScriptingExtension on JSScripting {
   /// already exist, then no scripts are registered.
   /// |callback|: A callback to be invoked once scripts have been fully
   /// registered or if an error has occurred.
-  external void registerContentScripts(
-    JSArray scripts,
-    JSFunction? callback,
-  );
+  external JSPromise registerContentScripts(JSArray scripts);
 
   /// Returns all dynamically registered content scripts for this extension
   /// that match the given filter.
   /// |filter|: An object to filter the extension's dynamically registered
   /// scripts.
-  external void getRegisteredContentScripts(
-    ContentScriptFilter? filter,
-    JSFunction callback,
-  );
+  external JSPromise getRegisteredContentScripts(ContentScriptFilter? filter);
 
   /// Unregisters content scripts for this extension.
   /// |filter|: If specified, only unregisters dynamic content scripts which
@@ -76,10 +61,7 @@ extension JSScriptingExtension on JSScripting {
   /// scripts are unregistered.
   /// |callback|: A callback to be invoked once scripts have been unregistered
   /// or if an error has occurred.
-  external void unregisterContentScripts(
-    ContentScriptFilter? filter,
-    JSFunction? callback,
-  );
+  external JSPromise unregisterContentScripts(ContentScriptFilter? filter);
 
   /// Updates one or more content scripts for this extension.
   /// |scripts|: Contains a list of scripts to be updated. A property is only
@@ -89,10 +71,7 @@ extension JSScriptingExtension on JSScripting {
   /// are updated.
   /// |callback|: A callback to be invoked once scripts have been updated or
   /// if an error has occurred.
-  external void updateContentScripts(
-    JSArray scripts,
-    JSFunction? callback,
-  );
+  external JSPromise updateContentScripts(JSArray scripts);
 
   /// An object available for content scripts running in isolated worlds to use
   /// and modify as a JS object. One instance exists per frame and is shared

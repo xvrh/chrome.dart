@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/storage.dart' as $js;
 
@@ -96,34 +98,18 @@ class StorageArea {
   /// specifying default values (see description of the object).  An empty
   /// list or object will return an empty result object.  Pass in `null` to
   /// get the entire contents of storage.
-  Future<Object> get(Object? keys) {
-    var $completer = Completer<Object>();
-    _wrapped.get(
-      keys?.toJS,
-      (JSAny items) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(items);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Object> get(Object? keys) async {
+    var $res = await promiseToFuture<JSAny>(_wrapped.get(keys?.toJS));
+    return $res;
   }
 
   /// Gets the amount of space (in bytes) being used by one or more items.
   /// [keys] A single key or list of keys to get the total usage for. An empty
   /// list will return 0. Pass in `null` to get the total usage of all of
   /// storage.
-  Future<int> getBytesInUse(Object? keys) {
-    var $completer = Completer<int>();
-    _wrapped.getBytesInUse(
-      keys?.toJS,
-      (int bytesInUse) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(bytesInUse);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<int> getBytesInUse(Object? keys) async {
+    var $res = await promiseToFuture<int>(_wrapped.getBytesInUse(keys?.toJS));
+    return $res;
   }
 
   /// Sets multiple items.
@@ -134,58 +120,25 @@ class StorageArea {
   /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
   /// with the exception of `Array` (serializes as expected), `Date`, and
   /// `Regex` (serialize using their `String` representation).
-  Future<void> set(Object items) {
-    var $completer = Completer<void>();
-    _wrapped.set(
-      items.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> set(Object items) async {
+    await promiseToFuture<void>(_wrapped.set(items.toJS));
   }
 
   /// Removes one or more items from storage.
   /// [keys] A single key or a list of keys for items to remove.
-  Future<void> remove(Object keys) {
-    var $completer = Completer<void>();
-    _wrapped.remove(
-      keys.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> remove(Object keys) async {
+    await promiseToFuture<void>(_wrapped.remove(keys.toJS));
   }
 
   /// Removes all items from storage.
-  Future<void> clear() {
-    var $completer = Completer<void>();
-    _wrapped.clear(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> clear() async {
+    await promiseToFuture<void>(_wrapped.clear());
   }
 
   /// Sets the desired access level for the storage area. The default will be
   /// only trusted contexts.
-  Future<void> setAccessLevel(SetAccessLevelAccessOptions accessOptions) {
-    var $completer = Completer<void>();
-    _wrapped.setAccessLevel(
-      accessOptions.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setAccessLevel(SetAccessLevelAccessOptions accessOptions) async {
+    await promiseToFuture<void>(_wrapped.setAccessLevel(accessOptions.toJS));
   }
 
   /// Fired when one or more items change.

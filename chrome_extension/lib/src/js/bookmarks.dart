@@ -17,81 +17,63 @@ class JSBookmarks {}
 
 extension JSBookmarksExtension on JSBookmarks {
   /// Retrieves the specified BookmarkTreeNode(s).
-  external void get(
-    /// A single string-valued id, or an array of string-valued ids
-    JSAny idOrIdList,
-    JSFunction callback,
-  );
+  external JSPromise get(
+
+      /// A single string-valued id, or an array of string-valued ids
+      JSAny idOrIdList);
 
   /// Retrieves the children of the specified BookmarkTreeNode id.
-  external void getChildren(
-    String id,
-    JSFunction callback,
-  );
+  external JSPromise getChildren(String id);
 
   /// Retrieves the recently added bookmarks.
-  external void getRecent(
-    /// The maximum number of items to return.
-    int numberOfItems,
-    JSFunction callback,
-  );
+  external JSPromise getRecent(
+
+      /// The maximum number of items to return.
+      int numberOfItems);
 
   /// Retrieves the entire Bookmarks hierarchy.
-  external void getTree(JSFunction callback);
+  external JSPromise getTree();
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
-  external void getSubTree(
-    /// The ID of the root of the subtree to retrieve.
-    String id,
-    JSFunction callback,
-  );
+  external JSPromise getSubTree(
+
+      /// The ID of the root of the subtree to retrieve.
+      String id);
 
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
   /// with an object produce BookmarkTreeNodes matching all specified
   /// properties.
-  external void search(
-    /// Either a string of words and quoted phrases that are matched against
-    /// bookmark URLs and titles, or an object. If an object, the properties
-    /// `query`, `url`, and `title` may be specified and bookmarks matching all
-    /// specified properties will be produced.
-    JSAny query,
-    JSFunction callback,
-  );
+  external JSPromise search(
+
+      /// Either a string of words and quoted phrases that are matched against
+      /// bookmark URLs and titles, or an object. If an object, the properties
+      /// `query`, `url`, and `title` may be specified and bookmarks matching all
+      /// specified properties will be produced.
+      JSAny query);
 
   /// Creates a bookmark or folder under the specified parentId.  If url is NULL
   /// or missing, it will be a folder.
-  external void create(
-    CreateDetails bookmark,
-    JSFunction? callback,
-  );
+  external JSPromise create(CreateDetails bookmark);
 
   /// Moves the specified BookmarkTreeNode to the provided location.
-  external void move(
+  external JSPromise move(
     String id,
     MoveDestination destination,
-    JSFunction? callback,
   );
 
   /// Updates the properties of a bookmark or folder. Specify only the
   /// properties that you want to change; unspecified properties will be left
   /// unchanged.  **Note:** Currently, only 'title' and 'url' are supported.
-  external void update(
+  external JSPromise update(
     String id,
     UpdateChanges changes,
-    JSFunction? callback,
   );
 
   /// Removes a bookmark or an empty bookmark folder.
-  external void remove(
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise remove(String id);
 
   /// Recursively removes a bookmark folder.
-  external void removeTree(
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise removeTree(String id);
 
   /// Fired when a bookmark or folder is created.
   external Event get onCreated;

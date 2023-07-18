@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/top_sites.dart' as $js;
 
@@ -13,17 +15,12 @@ class ChromeTopSites {
   ChromeTopSites._();
 
   /// Gets a list of top sites.
-  Future<List<MostVisitedURL>> get() {
-    var $completer = Completer<List<MostVisitedURL>>();
-    $js.chrome.topSites.get((JSArray data) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(data.toDart
-            .cast<$js.MostVisitedURL>()
-            .map((e) => MostVisitedURL.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<MostVisitedURL>> get() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.topSites.get());
+    return $res.toDart
+        .cast<$js.MostVisitedURL>()
+        .map((e) => MostVisitedURL.fromJS(e))
+        .toList();
   }
 }
 

@@ -55,71 +55,45 @@ class StorageArea {}
 
 extension StorageAreaExtension on StorageArea {
   /// Gets one or more items from storage.
-  external void get(
-    /// A single key to get, list of keys to get, or a dictionary specifying
-    /// default values (see description of the object).  An empty list or object
-    /// will return an empty result object.  Pass in `null` to get the entire
-    /// contents of storage.
-    JSAny? keys,
+  external JSPromise get(
 
-    /// Callback with storage items, or on failure (in which case
-    /// [runtime.lastError] will be set).
-    JSFunction callback,
-  );
+      /// A single key to get, list of keys to get, or a dictionary specifying
+      /// default values (see description of the object).  An empty list or object
+      /// will return an empty result object.  Pass in `null` to get the entire
+      /// contents of storage.
+      JSAny? keys);
 
   /// Gets the amount of space (in bytes) being used by one or more items.
-  external void getBytesInUse(
-    /// A single key or list of keys to get the total usage for. An empty list
-    /// will return 0. Pass in `null` to get the total usage of all of storage.
-    JSAny? keys,
+  external JSPromise getBytesInUse(
 
-    /// Callback with the amount of space being used by storage, or on failure
-    /// (in which case [runtime.lastError] will be set).
-    JSFunction callback,
-  );
+      /// A single key or list of keys to get the total usage for. An empty list
+      /// will return 0. Pass in `null` to get the total usage of all of storage.
+      JSAny? keys);
 
   /// Sets multiple items.
-  external void set(
-    /// An object which gives each key/value pair to update storage with. Any
-    /// other key/value pairs in storage will not be affected.
-    ///
-    /// Primitive values such as numbers will serialize as expected. Values with
-    /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
-    /// with the exception of `Array` (serializes as expected), `Date`, and
-    /// `Regex` (serialize using their `String` representation).
-    JSAny items,
+  external JSPromise set(
 
-    /// Callback on success, or on failure (in which case [runtime.lastError]
-    /// will be set).
-    JSFunction? callback,
-  );
+      /// An object which gives each key/value pair to update storage with. Any
+      /// other key/value pairs in storage will not be affected.
+      ///
+      /// Primitive values such as numbers will serialize as expected. Values with
+      /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
+      /// with the exception of `Array` (serializes as expected), `Date`, and
+      /// `Regex` (serialize using their `String` representation).
+      JSAny items);
 
   /// Removes one or more items from storage.
-  external void remove(
-    /// A single key or a list of keys for items to remove.
-    JSAny keys,
+  external JSPromise remove(
 
-    /// Callback on success, or on failure (in which case [runtime.lastError]
-    /// will be set).
-    JSFunction? callback,
-  );
+      /// A single key or a list of keys for items to remove.
+      JSAny keys);
 
   /// Removes all items from storage.
-  external void clear(
-
-      /// Callback on success, or on failure (in which case [runtime.lastError]
-      /// will be set).
-      JSFunction? callback);
+  external JSPromise clear();
 
   /// Sets the desired access level for the storage area. The default will be
   /// only trusted contexts.
-  external void setAccessLevel(
-    SetAccessLevelAccessOptions accessOptions,
-
-    /// Callback on success, or on failure (in which case [runtime.lastError]
-    /// will be set).
-    JSFunction? callback,
-  );
+  external JSPromise setAccessLevel(SetAccessLevelAccessOptions accessOptions);
 
   /// Fired when one or more items change.
   external Event get onChanged;

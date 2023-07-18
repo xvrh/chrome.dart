@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/browsing_data.dart' as $js;
 
@@ -16,14 +18,10 @@ class ChromeBrowsingData {
   /// data' settings UI.  Note: some of the data types included in this API are
   /// not available in the settings UI, and some UI settings control more than
   /// one data type listed here.
-  Future<SettingsCallbackResult> settings() {
-    var $completer = Completer<SettingsCallbackResult>();
-    $js.chrome.browsingData.settings(($js.SettingsCallbackResult result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(SettingsCallbackResult.fromJS(result));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<SettingsCallbackResult> settings() async {
+    var $res = await promiseToFuture<$js.SettingsCallbackResult>(
+        $js.chrome.browsingData.settings());
+    return SettingsCallbackResult.fromJS($res);
   }
 
   /// Clears various types of browsing data stored in a user's profile.
@@ -31,216 +29,97 @@ class ChromeBrowsingData {
   Future<void> remove(
     RemovalOptions options,
     DataTypeSet dataToRemove,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.remove(
+  ) async {
+    await promiseToFuture<void>($js.chrome.browsingData.remove(
       options.toJS,
       dataToRemove.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Clears websites' appcache data.
-  Future<void> removeAppcache(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeAppcache(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeAppcache(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeAppcache(options.toJS));
   }
 
   /// Clears the browser's cache.
-  Future<void> removeCache(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeCache(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeCache(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeCache(options.toJS));
   }
 
   /// Clears websites' cache storage data.
-  Future<void> removeCacheStorage(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeCacheStorage(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeCacheStorage(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeCacheStorage(options.toJS));
   }
 
   /// Clears the browser's cookies and server-bound certificates modified within
   /// a particular timeframe.
-  Future<void> removeCookies(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeCookies(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeCookies(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeCookies(options.toJS));
   }
 
   /// Clears the browser's list of downloaded files (_not_ the downloaded files
   /// themselves).
-  Future<void> removeDownloads(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeDownloads(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeDownloads(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeDownloads(options.toJS));
   }
 
   /// Clears websites' file system data.
-  Future<void> removeFileSystems(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeFileSystems(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeFileSystems(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeFileSystems(options.toJS));
   }
 
   /// Clears the browser's stored form data (autofill).
-  Future<void> removeFormData(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeFormData(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeFormData(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeFormData(options.toJS));
   }
 
   /// Clears the browser's history.
-  Future<void> removeHistory(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeHistory(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeHistory(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeHistory(options.toJS));
   }
 
   /// Clears websites' IndexedDB data.
-  Future<void> removeIndexedDB(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeIndexedDB(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeIndexedDB(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeIndexedDB(options.toJS));
   }
 
   /// Clears websites' local storage data.
-  Future<void> removeLocalStorage(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeLocalStorage(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeLocalStorage(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeLocalStorage(options.toJS));
   }
 
   /// Clears plugins' data.
-  Future<void> removePluginData(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removePluginData(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removePluginData(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removePluginData(options.toJS));
   }
 
   /// Clears the browser's stored passwords.
-  Future<void> removePasswords(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removePasswords(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removePasswords(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removePasswords(options.toJS));
   }
 
   /// Clears websites' service workers.
-  Future<void> removeServiceWorkers(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeServiceWorkers(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeServiceWorkers(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeServiceWorkers(options.toJS));
   }
 
   /// Clears websites' WebSQL data.
-  Future<void> removeWebSQL(RemovalOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.browsingData.removeWebSQL(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeWebSQL(RemovalOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.browsingData.removeWebSQL(options.toJS));
   }
 }
 

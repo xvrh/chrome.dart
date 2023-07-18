@@ -16,7 +16,7 @@ class JSSystemMemory {}
 
 extension JSSystemMemoryExtension on JSSystemMemory {
   /// Get physical memory information.
-  external void getInfo(JSFunction callback);
+  external JSPromise getInfo();
 }
 
 @JS()

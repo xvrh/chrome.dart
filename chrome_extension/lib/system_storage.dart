@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/system_storage.dart' as $js;
 import 'system.dart';
@@ -16,46 +18,28 @@ class ChromeSystemStorage {
 
   /// Get the storage information from the system. The argument passed to the
   /// callback is an array of StorageUnitInfo objects.
-  Future<List<StorageUnitInfo>> getInfo() {
-    var $completer = Completer<List<StorageUnitInfo>>();
-    $js.chrome.system.storage.getInfo((JSArray info) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(info.toDart
-            .cast<$js.StorageUnitInfo>()
-            .map((e) => StorageUnitInfo.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<StorageUnitInfo>> getInfo() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.system.storage.getInfo());
+    return $res.toDart
+        .cast<$js.StorageUnitInfo>()
+        .map((e) => StorageUnitInfo.fromJS(e))
+        .toList();
   }
 
   /// Ejects a removable storage device.
-  Future<EjectDeviceResultCode> ejectDevice(String id) {
-    var $completer = Completer<EjectDeviceResultCode>();
-    $js.chrome.system.storage.ejectDevice(
-      id,
-      ($js.EjectDeviceResultCode result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(EjectDeviceResultCode.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<EjectDeviceResultCode> ejectDevice(String id) async {
+    var $res = await promiseToFuture<$js.EjectDeviceResultCode>(
+        $js.chrome.system.storage.ejectDevice(id));
+    return EjectDeviceResultCode.fromJS($res);
   }
 
   /// Get the available capacity of a specified |id| storage device.
   /// The |id| is the transient device ID from StorageUnitInfo.
-  Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) {
-    var $completer = Completer<StorageAvailableCapacityInfo>();
-    $js.chrome.system.storage.getAvailableCapacity(
-      id,
-      ($js.StorageAvailableCapacityInfo info) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(StorageAvailableCapacityInfo.fromJS(info));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<StorageAvailableCapacityInfo> getAvailableCapacity(String id) async {
+    var $res = await promiseToFuture<$js.StorageAvailableCapacityInfo>(
+        $js.chrome.system.storage.getAvailableCapacity(id));
+    return StorageAvailableCapacityInfo.fromJS($res);
   }
 
   /// Fired when a new removable storage is attached to the system.

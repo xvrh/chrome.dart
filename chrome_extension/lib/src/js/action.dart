@@ -16,45 +16,27 @@ class JSAction {}
 
 extension JSActionExtension on JSAction {
   /// Sets the title of the action. This shows up in the tooltip.
-  external void setTitle(
-    SetTitleDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setTitle(SetTitleDetails details);
 
   /// Gets the title of the action.
-  external void getTitle(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getTitle(TabDetails details);
 
   /// Sets the icon for the action. The icon can be specified either as the path
   /// to an image file or as the pixel data from a canvas element, or as
   /// dictionary of either one of those. Either the **path** or the
   /// **imageData** property must be specified.
-  external void setIcon(
-    SetIconDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setIcon(SetIconDetails details);
 
   /// Sets the HTML document to be opened as a popup when the user clicks on the
   /// action's icon.
-  external void setPopup(
-    SetPopupDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setPopup(SetPopupDetails details);
 
   /// Gets the html document set as the popup for this action.
-  external void getPopup(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getPopup(TabDetails details);
 
   /// Sets the badge text for the action. The badge is displayed on top of the
   /// icon.
-  external void setBadgeText(
-    SetBadgeTextDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setBadgeText(SetBadgeTextDetails details);
 
   /// Gets the badge text of the action. If no tab is specified, the
   /// non-tab-specific badge text is returned. If
@@ -62,67 +44,49 @@ extension JSActionExtension on JSAction {
   /// is enabled, a placeholder text will be returned unless the
   /// [declarativeNetRequestFeedback](declare_permissions#declarativeNetRequestFeedback)
   /// permission is present or tab-specific badge text was provided.
-  external void getBadgeText(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getBadgeText(TabDetails details);
 
   /// Sets the background color for the badge.
-  external void setBadgeBackgroundColor(
-    SetBadgeBackgroundColorDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setBadgeBackgroundColor(
+      SetBadgeBackgroundColorDetails details);
 
   /// Gets the background color of the action.
-  external void getBadgeBackgroundColor(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getBadgeBackgroundColor(TabDetails details);
 
   /// Sets the text color for the badge.
-  external void setBadgeTextColor(
-    SetBadgeTextColorDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setBadgeTextColor(SetBadgeTextColorDetails details);
 
   /// Gets the text color of the action.
-  external void getBadgeTextColor(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getBadgeTextColor(TabDetails details);
 
   /// Enables the action for a tab. By default, actions are enabled.
-  external void enable(
-    /// The id of the tab for which you want to modify the action.
-    int? tabId,
-    JSFunction? callback,
-  );
+  external JSPromise enable(
+
+      /// The id of the tab for which you want to modify the action.
+      int? tabId);
 
   /// Disables the action for a tab.
-  external void disable(
-    /// The id of the tab for which you want to modify the action.
-    int? tabId,
-    JSFunction? callback,
-  );
+  external JSPromise disable(
+
+      /// The id of the tab for which you want to modify the action.
+      int? tabId);
 
   /// Indicates whether the extension action is enabled for a tab (or globally
   /// if no `tabId` is provided). Actions enabled using only
   /// [declarativeContent] always return false.
-  external void isEnabled(
-    /// The id of the tab for which you want check enabled status.
-    int? tabId,
-    JSFunction callback,
-  );
+  external JSPromise isEnabled(
+
+      /// The id of the tab for which you want check enabled status.
+      int? tabId);
 
   /// Returns the user-specified settings relating to an extension's action.
-  external void getUserSettings(JSFunction callback);
+  external JSPromise getUserSettings();
 
   /// Opens the extension's popup.
-  external void openPopup(
-    /// Specifies options for opening the popup.
-    OpenPopupOptions? options,
-    JSFunction callback,
-  );
+  external JSPromise openPopup(
+
+      /// Specifies options for opening the popup.
+      OpenPopupOptions? options);
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.

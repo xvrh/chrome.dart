@@ -16,10 +16,10 @@ class JSLoginState {}
 
 extension JSLoginStateExtension on JSLoginState {
   /// Gets the type of the profile the extension is in.
-  external void getProfileType(JSFunction callback);
+  external JSPromise getProfileType();
 
   /// Gets the current session state.
-  external void getSessionState(JSFunction callback);
+  external JSPromise getSessionState();
 
   /// Dispatched when the session state changes. `sessionState`
   /// is the new session state.

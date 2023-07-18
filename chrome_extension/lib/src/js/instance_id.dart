@@ -17,48 +17,28 @@ extension JSInstanceIdExtension on JSInstanceId {
   /// Retrieves an identifier for the app instance. The instance ID will be
   /// returned by the `callback`. The same ID will be returned as long as the
   /// application identity has not been revoked or expired.
-  external void getID(
-
-      /// Function called when the retrieval completes. It should check
-      /// [runtime.lastError] for error when instanceID is empty.
-      JSFunction callback);
+  external JSPromise getID();
 
   /// Retrieves the time when the InstanceID has been generated. The creation
   /// time will be returned by the `callback`.
-  external void getCreationTime(
-
-      /// Function called when the retrieval completes. It should check
-      /// [runtime.lastError] for error when creationTime is zero.
-      JSFunction callback);
+  external JSPromise getCreationTime();
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
-  external void getToken(
-    /// Parameters for getToken.
-    GetTokenParams getTokenParams,
+  external JSPromise getToken(
 
-    /// Function called when the retrieval completes. It should check
-    /// [runtime.lastError] for error when token is empty.
-    JSFunction callback,
-  );
+      /// Parameters for getToken.
+      GetTokenParams getTokenParams);
 
   /// Revokes a granted token.
-  external void deleteToken(
-    /// Parameters for deleteToken.
-    DeleteTokenParams deleteTokenParams,
+  external JSPromise deleteToken(
 
-    /// Function called when the token deletion completes. The token was revoked
-    /// successfully if [runtime.lastError] is not set.
-    JSFunction callback,
-  );
+      /// Parameters for deleteToken.
+      DeleteTokenParams deleteTokenParams);
 
   /// Resets the app instance identifier and revokes all tokens associated with
   /// it.
-  external void deleteID(
-
-      /// Function called when the deletion completes. The instance identifier was
-      /// revoked successfully if [runtime.lastError] is not set.
-      JSFunction callback);
+  external JSPromise deleteID();
 
   /// Fired when all the granted tokens need to be refreshed.
   external Event get onTokenRefresh;

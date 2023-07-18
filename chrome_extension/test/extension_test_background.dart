@@ -14,7 +14,7 @@ void main() async {
 
   isReady = true;
   startFunction = () {
-    group('chrome.tabs', testTabs);
+    group('chrome.tabs', testTabs, timeout: Timeout(Duration(seconds: 5)));
     group('chrome.context_menus', testContextMenus);
   }.toJS;
 }

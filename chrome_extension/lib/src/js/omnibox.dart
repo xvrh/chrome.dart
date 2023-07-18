@@ -27,11 +27,10 @@ extension JSOmniboxExtension on JSOmnibox {
   /// Sets the description and styling for the default suggestion. The default
   /// suggestion is the text that is displayed in the first suggestion row
   /// underneath the URL bar.
-  external void setDefaultSuggestion(
-    /// A partial SuggestResult object, without the 'content' parameter.
-    DefaultSuggestResult suggestion,
-    JSFunction? callback,
-  );
+  external JSPromise setDefaultSuggestion(
+
+      /// A partial SuggestResult object, without the 'content' parameter.
+      DefaultSuggestResult suggestion);
 
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and

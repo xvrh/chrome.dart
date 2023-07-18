@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/permissions.dart' as $js;
 
@@ -13,28 +15,17 @@ class ChromePermissions {
   ChromePermissions._();
 
   /// Gets the extension's current set of permissions.
-  Future<Permissions> getAll() {
-    var $completer = Completer<Permissions>();
-    $js.chrome.permissions.getAll(($js.Permissions permissions) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(Permissions.fromJS(permissions));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<Permissions> getAll() async {
+    var $res =
+        await promiseToFuture<$js.Permissions>($js.chrome.permissions.getAll());
+    return Permissions.fromJS($res);
   }
 
   /// Checks if the extension has the specified permissions.
-  Future<bool> contains(Permissions permissions) {
-    var $completer = Completer<bool>();
-    $js.chrome.permissions.contains(
-      permissions.toJS,
-      (bool result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> contains(Permissions permissions) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.permissions.contains(permissions.toJS));
+    return $res;
   }
 
   /// Requests access to the specified permissions, displaying a prompt to the
@@ -45,32 +36,18 @@ class ChromePermissions {
   /// you specify `*://*/*` in the `optional_permissions` section of the
   /// manifest, you can request `http://example.com/`. If there are any problems
   /// requesting the permissions, [runtime.lastError] will be set.
-  Future<bool> request(Permissions permissions) {
-    var $completer = Completer<bool>();
-    $js.chrome.permissions.request(
-      permissions.toJS,
-      (bool granted) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(granted);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> request(Permissions permissions) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.permissions.request(permissions.toJS));
+    return $res;
   }
 
   /// Removes access to the specified permissions. If there are any problems
   /// removing the permissions, [runtime.lastError] will be set.
-  Future<bool> remove(Permissions permissions) {
-    var $completer = Completer<bool>();
-    $js.chrome.permissions.remove(
-      permissions.toJS,
-      (bool removed) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(removed);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> remove(Permissions permissions) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.permissions.remove(permissions.toJS));
+    return $res;
   }
 
   /// Fired when the extension acquires new permissions.

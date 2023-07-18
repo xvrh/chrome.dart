@@ -22,7 +22,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  external void getBackgroundPage(JSFunction callback);
+  external JSPromise getBackgroundPage();
 
   /// Open your Extension's options page, if possible.
   ///
@@ -34,7 +34,7 @@ extension JSRuntimeExtension on JSRuntime {
   ///
   /// If your Extension does not declare an options page, or Chrome failed to
   /// create one for some other reason, the callback will set [lastError].
-  external void openOptionsPage(JSFunction? callback);
+  external JSPromise openOptionsPage();
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
@@ -51,16 +51,12 @@ extension JSRuntimeExtension on JSRuntime {
   /// Sets the URL to be visited upon uninstallation. This may be used to clean
   /// up server-side data, do analytics, and implement surveys. Maximum 255
   /// characters.
-  external void setUninstallURL(
-    /// URL to be opened after the extension is uninstalled. This URL must have
-    /// an http: or https: scheme. Set an empty string to not open a new tab
-    /// upon uninstallation.
-    String url,
+  external JSPromise setUninstallURL(
 
-    /// Called when the uninstall URL is set. If the given URL is invalid,
-    /// [runtime.lastError] will be set.
-    JSFunction? callback,
-  );
+      /// URL to be opened after the extension is uninstalled. This URL must have
+      /// an http: or https: scheme. Set an empty string to not open a new tab
+      /// upon uninstallation.
+      String url);
 
   /// Reloads the app or extension. This method is not supported in kiosk mode.
   /// For kiosk mode, use chrome.runtime.restart() method.
@@ -83,7 +79,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// Note: When called with a callback, instead of returning an object this
   /// function will return the two properties as separate arguments passed to
   /// the callback.
-  external void requestUpdateCheck(JSFunction callback);
+  external JSPromise requestUpdateCheck();
 
   /// Restart the ChromeOS device when the app runs in kiosk mode. Otherwise,
   /// it's no-op.
@@ -94,15 +90,11 @@ extension JSRuntimeExtension on JSRuntime {
   /// delayed. If called with a value of -1, the reboot will be cancelled. It's
   /// a no-op in non-kiosk mode. It's only allowed to be called repeatedly by
   /// the first extension to invoke this API.
-  external void restartAfterDelay(
-    /// Time to wait in seconds before rebooting the device, or -1 to cancel a
-    /// scheduled reboot.
-    int seconds,
+  external JSPromise restartAfterDelay(
 
-    /// A callback to be invoked when a restart request was successfully
-    /// rescheduled.
-    JSFunction? callback,
-  );
+      /// Time to wait in seconds before rebooting the device, or -1 to cancel a
+      /// scheduled reboot.
+      int seconds);
 
   /// Attempts to connect listeners within an extension/app (such as the
   /// background page), or other extensions/apps. This is useful for content
@@ -135,7 +127,7 @@ extension JSRuntimeExtension on JSRuntime {
   /// if a different extension. Note that extensions cannot send messages to
   /// content scripts using this method. To send messages to content scripts,
   /// use [tabs.sendMessage].
-  external void sendMessage(
+  external JSPromise sendMessage(
     /// The ID of the extension/app to send the message to. If omitted, the
     /// message will be sent to your own extension/app. Required if sending
     /// messages from a web page for [web
@@ -145,38 +137,30 @@ extension JSRuntimeExtension on JSRuntime {
     /// The message to send. This message should be a JSON-ifiable object.
     JSAny message,
     SendMessageOptions? options,
-    JSFunction? callback,
   );
 
   /// Send a single message to a native application.
-  external void sendNativeMessage(
+  external JSPromise sendNativeMessage(
     /// The name of the native messaging host.
     String application,
 
     /// The message that will be passed to the native messaging host.
     JSAny message,
-    JSFunction? callback,
   );
 
   /// Returns information about the current platform.
-  external void getPlatformInfo(
-
-      /// Called with results
-      JSFunction callback);
+  external JSPromise getPlatformInfo();
 
   /// Returns a DirectoryEntry for the package directory.
   external void getPackageDirectoryEntry(JSFunction callback);
 
   /// Fetches information about active contexts associated with this extension
-  external void getContexts(
-    /// A filter to find matching contexts. A context matches if it matches all
-    /// specified fields in the filter. Any unspecified field in the filter
-    /// matches all contexts.
-    ContextFilter filter,
+  external JSPromise getContexts(
 
-    /// Invoked with the matching contexts, if any.
-    JSFunction callback,
-  );
+      /// A filter to find matching contexts. A context matches if it matches all
+      /// specified fields in the filter. Any unspecified field in the filter
+      /// matches all contexts.
+      ContextFilter filter);
 
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this

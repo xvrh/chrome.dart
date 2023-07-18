@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/side_panel.dart' as $js;
 
@@ -15,62 +17,34 @@ class ChromeSidePanel {
   /// Configures the side panel.
   /// |options|: The configuration options to apply to the panel.
   /// |callback|: Invoked when the options have been set.
-  Future<void> setOptions(PanelOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.sidePanel.setOptions(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setOptions(PanelOptions options) async {
+    await promiseToFuture<void>($js.chrome.sidePanel.setOptions(options.toJS));
   }
 
   /// Returns the active panel configuration.
   /// |options|: Specifies the context to return the configuration for.
   /// |callback|: Called with the active panel configuration.
-  Future<PanelOptions> getOptions(GetPanelOptions options) {
-    var $completer = Completer<PanelOptions>();
-    $js.chrome.sidePanel.getOptions(
-      options.toJS,
-      ($js.PanelOptions options) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(PanelOptions.fromJS(options));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<PanelOptions> getOptions(GetPanelOptions options) async {
+    var $res = await promiseToFuture<$js.PanelOptions>(
+        $js.chrome.sidePanel.getOptions(options.toJS));
+    return PanelOptions.fromJS($res);
   }
 
   /// Configures the extension's side panel behavior. This is an upsert
   /// operation.
   /// |behavior|: The new behavior to be set.
   /// |callback|: Called when the new behavior has been set.
-  Future<void> setPanelBehavior(PanelBehavior behavior) {
-    var $completer = Completer<void>();
-    $js.chrome.sidePanel.setPanelBehavior(
-      behavior.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setPanelBehavior(PanelBehavior behavior) async {
+    await promiseToFuture<void>(
+        $js.chrome.sidePanel.setPanelBehavior(behavior.toJS));
   }
 
   /// Returns the extension's current side panel behavior.
   /// |callback|: Called with the extension's side panel behavior.
-  Future<PanelBehavior> getPanelBehavior() {
-    var $completer = Completer<PanelBehavior>();
-    $js.chrome.sidePanel.getPanelBehavior(($js.PanelBehavior behavior) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(PanelBehavior.fromJS(behavior));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<PanelBehavior> getPanelBehavior() async {
+    var $res = await promiseToFuture<$js.PanelBehavior>(
+        $js.chrome.sidePanel.getPanelBehavior());
+    return PanelBehavior.fromJS($res);
   }
 }
 

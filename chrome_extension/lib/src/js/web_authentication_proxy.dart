@@ -21,28 +21,19 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   /// `onCreateRequest` event it has received, unless the request
   /// was canceled (in which case, an `onRequestCanceled` event is
   /// fired).
-  external void completeCreateRequest(
-    CreateResponseDetails details,
-    JSFunction callback,
-  );
+  external JSPromise completeCreateRequest(CreateResponseDetails details);
 
   /// Reports the result of a `navigator.credentials.get()` call.
   /// The extension must call this for every `onGetRequest` event
   /// it has received, unless the request was canceled (in which case, an
   /// `onRequestCanceled` event is fired).
-  external void completeGetRequest(
-    GetResponseDetails details,
-    JSFunction callback,
-  );
+  external JSPromise completeGetRequest(GetResponseDetails details);
 
   /// Reports the result of a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   /// call. The extension must call this for every
   /// `onIsUvpaaRequest` event it has received.
-  external void completeIsUvpaaRequest(
-    IsUvpaaResponseDetails details,
-    JSFunction callback,
-  );
+  external JSPromise completeIsUvpaaRequest(IsUvpaaResponseDetails details);
 
   /// Makes this extension the active Web Authentication API request proxy.
   ///
@@ -62,7 +53,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  external void attach(JSFunction callback);
+  external JSPromise attach();
 
   /// Removes this extension from being the active Web Authentication API
   /// request proxy.
@@ -74,7 +65,7 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  external void detach(JSFunction callback);
+  external JSPromise detach();
 
   /// A native application associated with this extension can cause this
   /// event to be fired by writing to a file with a name equal to the

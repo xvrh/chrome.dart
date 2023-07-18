@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/management.dart' as $js;
 
@@ -13,81 +15,50 @@ class ChromeManagement {
   ChromeManagement._();
 
   /// Returns a list of information about installed extensions and apps.
-  Future<List<ExtensionInfo>> getAll() {
-    var $completer = Completer<List<ExtensionInfo>>();
-    $js.chrome.management.getAll((JSArray result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(result.toDart
-            .cast<$js.ExtensionInfo>()
-            .map((e) => ExtensionInfo.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<ExtensionInfo>> getAll() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.management.getAll());
+    return $res.toDart
+        .cast<$js.ExtensionInfo>()
+        .map((e) => ExtensionInfo.fromJS(e))
+        .toList();
   }
 
   /// Returns information about the installed extension, app, or theme that has
   /// the given ID.
   /// [id] The ID from an item of [management.ExtensionInfo].
-  Future<ExtensionInfo> get(String id) {
-    var $completer = Completer<ExtensionInfo>();
-    $js.chrome.management.get(
-      id,
-      ($js.ExtensionInfo result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(ExtensionInfo.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<ExtensionInfo> get(String id) async {
+    var $res =
+        await promiseToFuture<$js.ExtensionInfo>($js.chrome.management.get(id));
+    return ExtensionInfo.fromJS($res);
   }
 
   /// Returns information about the calling extension, app, or theme. Note: This
   /// function can be used without requesting the 'management' permission in the
   /// manifest.
-  Future<ExtensionInfo> getSelf() {
-    var $completer = Completer<ExtensionInfo>();
-    $js.chrome.management.getSelf(($js.ExtensionInfo result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(ExtensionInfo.fromJS(result));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<ExtensionInfo> getSelf() async {
+    var $res = await promiseToFuture<$js.ExtensionInfo>(
+        $js.chrome.management.getSelf());
+    return ExtensionInfo.fromJS($res);
   }
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension id.
   /// [id] The ID of an already installed extension.
-  Future<List<String>> getPermissionWarningsById(String id) {
-    var $completer = Completer<List<String>>();
-    $js.chrome.management.getPermissionWarningsById(
-      id,
-      (JSArray permissionWarnings) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(
-              permissionWarnings.toDart.cast<String>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<String>> getPermissionWarningsById(String id) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.management.getPermissionWarningsById(id));
+    return $res.toDart.cast<String>().map((e) => e).toList();
   }
 
   /// Returns a list of [permission warnings](permission_warnings) for the given
   /// extension manifest string. Note: This function can be used without
   /// requesting the 'management' permission in the manifest.
   /// [manifestStr] Extension manifest JSON string.
-  Future<List<String>> getPermissionWarningsByManifest(String manifestStr) {
-    var $completer = Completer<List<String>>();
-    $js.chrome.management.getPermissionWarningsByManifest(
-      manifestStr,
-      (JSArray permissionWarnings) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(
-              permissionWarnings.toDart.cast<String>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<String>> getPermissionWarningsByManifest(
+      String manifestStr) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.management.getPermissionWarningsByManifest(manifestStr));
+    return $res.toDart.cast<String>().map((e) => e).toList();
   }
 
   /// Enables or disables an app or extension. In most cases this function must
@@ -99,18 +70,11 @@ class ChromeManagement {
   Future<void> setEnabled(
     String id,
     bool enabled,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.management.setEnabled(
+  ) async {
+    await promiseToFuture<void>($js.chrome.management.setEnabled(
       id,
       enabled,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Uninstalls a currently installed app or extension. Note: This function
@@ -122,67 +86,34 @@ class ChromeManagement {
   Future<void> uninstall(
     String id,
     UninstallOptions? options,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.management.uninstall(
+  ) async {
+    await promiseToFuture<void>($js.chrome.management.uninstall(
       id,
       options?.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Uninstalls the calling extension. Note: This function can be used without
   /// requesting the 'management' permission in the manifest. This function does
   /// not work in managed environments when the user is not allowed to uninstall
   /// the specified extension/app.
-  Future<void> uninstallSelf(UninstallOptions? options) {
-    var $completer = Completer<void>();
-    $js.chrome.management.uninstallSelf(
-      options?.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> uninstallSelf(UninstallOptions? options) async {
+    await promiseToFuture<void>(
+        $js.chrome.management.uninstallSelf(options?.toJS));
   }
 
   /// Launches an application.
   /// [id] The extension id of the application.
-  Future<void> launchApp(String id) {
-    var $completer = Completer<void>();
-    $js.chrome.management.launchApp(
-      id,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> launchApp(String id) async {
+    await promiseToFuture<void>($js.chrome.management.launchApp(id));
   }
 
   /// Display options to create shortcuts for an app. On Mac, only packaged app
   /// shortcuts can be created.
   /// [id] This should be the id from an app item of
   /// [management.ExtensionInfo].
-  Future<void> createAppShortcut(String id) {
-    var $completer = Completer<void>();
-    $js.chrome.management.createAppShortcut(
-      id,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> createAppShortcut(String id) async {
+    await promiseToFuture<void>($js.chrome.management.createAppShortcut(id));
   }
 
   /// Set the launch type of an app.
@@ -194,18 +125,11 @@ class ChromeManagement {
   Future<void> setLaunchType(
     String id,
     LaunchType launchType,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.management.setLaunchType(
+  ) async {
+    await promiseToFuture<void>($js.chrome.management.setLaunchType(
       id,
       launchType.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Generate an app for a URL. Returns the generated bookmark app.
@@ -215,56 +139,37 @@ class ChromeManagement {
   Future<ExtensionInfo> generateAppForLink(
     String url,
     String title,
-  ) {
-    var $completer = Completer<ExtensionInfo>();
-    $js.chrome.management.generateAppForLink(
+  ) async {
+    var $res = await promiseToFuture<$js.ExtensionInfo>(
+        $js.chrome.management.generateAppForLink(
       url,
       title,
-      ($js.ExtensionInfo result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(ExtensionInfo.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return ExtensionInfo.fromJS($res);
   }
 
   /// Checks if the replacement android app can be installed. Errors generated
   /// by this API are reported by setting [runtime.lastError] and executing the
   /// function's regular callback.
-  Future<bool> canInstallReplacementAndroidApp() {
-    var $completer = Completer<bool>();
-    $js.chrome.management.canInstallReplacementAndroidApp((bool result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(result);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> canInstallReplacementAndroidApp() async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.management.canInstallReplacementAndroidApp());
+    return $res;
   }
 
   /// Prompts the user to install the replacement Android app from the manifest.
   /// Errors generated by this API are reported by setting [runtime.lastError]
   /// and executing the function's regular callback.
-  Future<void> installReplacementAndroidApp() {
-    var $completer = Completer<void>();
-    $js.chrome.management.installReplacementAndroidApp(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> installReplacementAndroidApp() async {
+    await promiseToFuture<void>(
+        $js.chrome.management.installReplacementAndroidApp());
   }
 
   /// Launches the replacement_web_app specified in the manifest. Prompts the
   /// user to install if not already installed.
-  Future<void> installReplacementWebApp() {
-    var $completer = Completer<void>();
-    $js.chrome.management.installReplacementWebApp(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> installReplacementWebApp() async {
+    await promiseToFuture<void>(
+        $js.chrome.management.installReplacementWebApp());
   }
 
   /// Fired when an app or extension has been installed.

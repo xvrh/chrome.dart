@@ -20,42 +20,19 @@ class JSInputIme {}
 extension JSInputImeExtension on JSInputIme {
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.
-  external void setComposition(
-    SetCompositionParameters parameters,
-
-    /// Called when the operation completes with a boolean indicating if the
-    /// text was accepted or not. On failure, [runtime.lastError] is set.
-    JSFunction? callback,
-  );
+  external JSPromise setComposition(SetCompositionParameters parameters);
 
   /// Clear the current composition. If this extension does not own the active
   /// IME, this fails.
-  external void clearComposition(
-    ClearCompositionParameters parameters,
-
-    /// Called when the operation completes with a boolean indicating if the
-    /// text was accepted or not. On failure, [runtime.lastError] is set.
-    JSFunction? callback,
-  );
+  external JSPromise clearComposition(ClearCompositionParameters parameters);
 
   /// Commits the provided text to the current input.
-  external void commitText(
-    CommitTextParameters parameters,
-
-    /// Called when the operation completes with a boolean indicating if the
-    /// text was accepted or not. On failure, [runtime.lastError] is set.
-    JSFunction? callback,
-  );
+  external JSPromise commitText(CommitTextParameters parameters);
 
   /// Sends the key events.  This function is expected to be used by virtual
   /// keyboards.  When key(s) on a virtual keyboard is pressed by a user, this
   /// function is used to propagate that event to the system.
-  external void sendKeyEvents(
-    SendKeyEventsParameters parameters,
-
-    /// Called when the operation completes.
-    JSFunction? callback,
-  );
+  external JSPromise sendKeyEvents(SendKeyEventsParameters parameters);
 
   /// Hides the input view window, which is popped up automatically by system.
   /// If the input view window is already hidden, this function will do nothing.
@@ -63,69 +40,34 @@ extension JSInputImeExtension on JSInputIme {
 
   /// Sets the properties of the candidate window. This fails if the extension
   /// doesn't own the active IME
-  external void setCandidateWindowProperties(
-    SetCandidateWindowPropertiesParameters parameters,
-
-    /// Called when the operation completes.
-    JSFunction? callback,
-  );
+  external JSPromise setCandidateWindowProperties(
+      SetCandidateWindowPropertiesParameters parameters);
 
   /// Sets the current candidate list. This fails if this extension doesn't own
   /// the active IME
-  external void setCandidates(
-    SetCandidatesParameters parameters,
-
-    /// Called when the operation completes.
-    JSFunction? callback,
-  );
+  external JSPromise setCandidates(SetCandidatesParameters parameters);
 
   /// Set the position of the cursor in the candidate window. This is a no-op if
   /// this extension does not own the active IME.
-  external void setCursorPosition(
-    SetCursorPositionParameters parameters,
-
-    /// Called when the operation completes
-    JSFunction? callback,
-  );
+  external JSPromise setCursorPosition(SetCursorPositionParameters parameters);
 
   /// Shows/Hides an assistive window with the given properties.
-  external void setAssistiveWindowProperties(
-    SetAssistiveWindowPropertiesParameters parameters,
-
-    /// Called when the operation completes.
-    JSFunction? callback,
-  );
+  external JSPromise setAssistiveWindowProperties(
+      SetAssistiveWindowPropertiesParameters parameters);
 
   /// Highlights/Unhighlights a button in an assistive window.
-  external void setAssistiveWindowButtonHighlighted(
-    SetAssistiveWindowButtonHighlightedParameters parameters,
-
-    /// Called when the operation completes. On failure, [runtime.lastError] is
-    /// set.
-    JSFunction? callback,
-  );
+  external JSPromise setAssistiveWindowButtonHighlighted(
+      SetAssistiveWindowButtonHighlightedParameters parameters);
 
   /// Adds the provided menu items to the language menu when this IME is active.
-  external void setMenuItems(
-    MenuParameters parameters,
-    JSFunction? callback,
-  );
+  external JSPromise setMenuItems(MenuParameters parameters);
 
   /// Updates the state of the MenuItems specified
-  external void updateMenuItems(
-    MenuParameters parameters,
-
-    /// Called when the operation completes
-    JSFunction? callback,
-  );
+  external JSPromise updateMenuItems(MenuParameters parameters);
 
   /// Deletes the text around the caret.
-  external void deleteSurroundingText(
-    DeleteSurroundingTextParameters parameters,
-
-    /// Called when the operation completes.
-    JSFunction? callback,
-  );
+  external JSPromise deleteSurroundingText(
+      DeleteSurroundingTextParameters parameters);
 
   /// Indicates that the key event received by onKeyEvent is handled.  This
   /// should only be called if the onKeyEvent listener is asynchronous.

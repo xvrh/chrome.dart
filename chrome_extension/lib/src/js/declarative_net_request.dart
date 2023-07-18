@@ -38,10 +38,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, internal
   /// errors, and others.
-  external void updateDynamicRules(
-    UpdateRuleOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise updateDynamicRules(UpdateRuleOptions options);
 
   /// Returns the current set of dynamic rules for the extension. Callers can
   /// optionally filter the list of fetched rules by specifying a
@@ -49,10 +46,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of dynamic rules. An error might be
   /// raised in case of transient internal errors.
-  external void getDynamicRules(
-    GetRulesFilter? filter,
-    JSFunction callback,
-  );
+  external JSPromise getDynamicRules(GetRulesFilter? filter);
 
   /// Modifies the current set of session scoped rules for the extension.
   /// The rules with IDs listed in `options.removeRuleIds` are first
@@ -70,20 +64,14 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// an error, [runtime.lastError] will be set and no change will be made
   /// to the rule set. This can happen for multiple reasons, such as invalid
   /// rule format, duplicate rule ID, rule count limit exceeded, and others.
-  external void updateSessionRules(
-    UpdateRuleOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise updateSessionRules(UpdateRuleOptions options);
 
   /// Returns the current set of session scoped rules for the extension.
   /// Callers can optionally filter the list of fetched rules by specifying a
   /// `filter`.
   /// |filter|: An object to filter the list of fetched rules.
   /// |callback|: Called with the set of session scoped rules.
-  external void getSessionRules(
-    GetRulesFilter? filter,
-    JSFunction callback,
-  );
+  external JSPromise getSessionRules(GetRulesFilter? filter);
 
   /// Updates the set of enabled static rulesets for the extension. The
   /// rulesets with IDs listed in `options.disableRulesetIds` are
@@ -97,15 +85,12 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// [runtime.lastError] will be set and no change will be made to set of
   /// enabled rulesets. This can happen for multiple reasons, such as invalid
   /// ruleset IDs, rule count limit exceeded, or internal errors.
-  external void updateEnabledRulesets(
-    UpdateRulesetOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise updateEnabledRulesets(UpdateRulesetOptions options);
 
   /// Returns the ids for the current set of enabled static rulesets.
   /// |callback|: Called with a list of ids, where each id corresponds to an
   /// enabled static [Ruleset].
-  external void getEnabledRulesets(JSFunction callback);
+  external JSPromise getEnabledRulesets();
 
   /// Disables and enables individual static rules in a [Ruleset].
   /// Changes to rules belonging to a disabled [Ruleset] will take
@@ -113,20 +98,14 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// |callback|: Called once the update is complete. In case of an error,
   /// [runtime.lastError] will be set and no change will be made to the
   /// enabled static rules.
-  external void updateStaticRules(
-    UpdateStaticRulesOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise updateStaticRules(UpdateStaticRulesOptions options);
 
   /// Returns the list of static rules in the given [Ruleset] that are
   /// currently disabled.
   /// |options|: Specifies the ruleset to query.
   /// |callback|: Called with a list of ids that correspond to the disabled
   /// rules in that ruleset.
-  external void getDisabledRuleIds(
-    GetDisabledRuleIdsOptions options,
-    JSFunction callback,
-  );
+  external JSPromise getDisabledRuleIds(GetDisabledRuleIdsOptions options);
 
   /// Returns all rules matched for the extension. Callers can optionally
   /// filter the list of matched rules by specifying a `filter`.
@@ -141,33 +120,24 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// case of an error, [runtime.lastError] will be set and no rules will
   /// be returned. This can happen for multiple reasons, such as insufficient
   /// permissions, or exceeding the quota.
-  external void getMatchedRules(
-    MatchedRulesFilter? filter,
-    JSFunction callback,
-  );
+  external JSPromise getMatchedRules(MatchedRulesFilter? filter);
 
   /// Configures if the action count for tabs should be displayed as the
   /// extension action's badge text and provides a way for that action count to
   /// be incremented.
-  external void setExtensionActionOptions(
-    ExtensionActionOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise setExtensionActionOptions(ExtensionActionOptions options);
 
   /// Checks if the given regular expression will be supported as a
   /// `regexFilter` rule condition.
   /// |regexOptions|: The regular expression to check.
   /// |callback|: Called with details consisting of whether the regular
   /// expression is supported and the reason if not.
-  external void isRegexSupported(
-    RegexOptions regexOptions,
-    JSFunction callback,
-  );
+  external JSPromise isRegexSupported(RegexOptions regexOptions);
 
   /// Returns the number of static rules an extension can enable before the
   /// [global static rule limit](#global-static-rule-limit) is
   /// reached.
-  external void getAvailableStaticRuleCount(JSFunction callback);
+  external JSPromise getAvailableStaticRuleCount();
 
   /// Checks if any of the extension's declarativeNetRequest rules would match
   /// a hypothetical request.
@@ -175,10 +145,7 @@ extension JSDeclarativeNetRequestExtension on JSDeclarativeNetRequest {
   /// be used during extension development.
   /// |requestDetails|: The request details to test.
   /// |callback|: Called with the details of matched rules.
-  external void testMatchOutcome(
-    TestMatchRequestDetails request,
-    JSFunction callback,
-  );
+  external JSPromise testMatchOutcome(TestMatchRequestDetails request);
 
   /// Fired when a rule is matched with a request. Only available for unpacked
   /// extensions with the `declarativeNetRequestFeedback` permission

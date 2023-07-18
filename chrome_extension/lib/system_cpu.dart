@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/system_cpu.dart' as $js;
 import 'system.dart';
@@ -15,14 +17,10 @@ class ChromeSystemCpu {
   ChromeSystemCpu._();
 
   /// Queries basic CPU information of the system.
-  Future<CpuInfo> getInfo() {
-    var $completer = Completer<CpuInfo>();
-    $js.chrome.system.cpu.getInfo(($js.CpuInfo info) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(CpuInfo.fromJS(info));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<CpuInfo> getInfo() async {
+    var $res =
+        await promiseToFuture<$js.CpuInfo>($js.chrome.system.cpu.getInfo());
+    return CpuInfo.fromJS($res);
   }
 }
 

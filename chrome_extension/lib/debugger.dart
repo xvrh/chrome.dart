@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/debugger.dart' as $js;
 
@@ -21,33 +23,17 @@ class ChromeDebugger {
   Future<void> attach(
     Debuggee target,
     String requiredVersion,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.debugger.attach(
+  ) async {
+    await promiseToFuture<void>($js.chrome.debugger.attach(
       target.toJS,
       requiredVersion,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Detaches debugger from the given target.
   /// [target] Debugging target from which you want to detach.
-  Future<void> detach(Debuggee target) {
-    var $completer = Completer<void>();
-    $js.chrome.debugger.detach(
-      target.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> detach(Debuggee target) async {
+    await promiseToFuture<void>($js.chrome.debugger.detach(target.toJS));
   }
 
   /// Sends given command to the debugging target.
@@ -61,33 +47,22 @@ class ChromeDebugger {
     Debuggee target,
     String method,
     Object? commandParams,
-  ) {
-    var $completer = Completer<Object?>();
-    $js.chrome.debugger.sendCommand(
+  ) async {
+    var $res = await promiseToFuture<JSAny?>($js.chrome.debugger.sendCommand(
       target.toJS,
       method,
       commandParams?.toJS,
-      (JSAny? result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Returns the list of available debug targets.
-  Future<List<TargetInfo>> getTargets() {
-    var $completer = Completer<List<TargetInfo>>();
-    $js.chrome.debugger.getTargets((JSArray result) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(result.toDart
-            .cast<$js.TargetInfo>()
-            .map((e) => TargetInfo.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<TargetInfo>> getTargets() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.debugger.getTargets());
+    return $res.toDart
+        .cast<$js.TargetInfo>()
+        .map((e) => TargetInfo.fromJS(e))
+        .toList();
   }
 
   /// Fired whenever debugging target issues instrumentation event.

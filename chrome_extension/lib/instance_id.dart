@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/instance_id.dart' as $js;
 
@@ -15,69 +17,39 @@ class ChromeInstanceId {
   /// Retrieves an identifier for the app instance. The instance ID will be
   /// returned by the `callback`. The same ID will be returned as long as the
   /// application identity has not been revoked or expired.
-  Future<String> getID() {
-    var $completer = Completer<String>();
-    $js.chrome.instanceId.getID((String instanceID) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(instanceID);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getID() async {
+    var $res = await promiseToFuture<String>($js.chrome.instanceId.getID());
+    return $res;
   }
 
   /// Retrieves the time when the InstanceID has been generated. The creation
   /// time will be returned by the `callback`.
-  Future<double> getCreationTime() {
-    var $completer = Completer<double>();
-    $js.chrome.instanceId.getCreationTime((double creationTime) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(creationTime);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<double> getCreationTime() async {
+    var $res =
+        await promiseToFuture<double>($js.chrome.instanceId.getCreationTime());
+    return $res;
   }
 
   /// Return a token that allows the authorized entity to access the service
   /// defined by scope.
   /// [getTokenParams] Parameters for getToken.
-  Future<String> getToken(GetTokenParams getTokenParams) {
-    var $completer = Completer<String>();
-    $js.chrome.instanceId.getToken(
-      getTokenParams.toJS,
-      (String token) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(token);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getToken(GetTokenParams getTokenParams) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.instanceId.getToken(getTokenParams.toJS));
+    return $res;
   }
 
   /// Revokes a granted token.
   /// [deleteTokenParams] Parameters for deleteToken.
-  Future<void> deleteToken(DeleteTokenParams deleteTokenParams) {
-    var $completer = Completer<void>();
-    $js.chrome.instanceId.deleteToken(
-      deleteTokenParams.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> deleteToken(DeleteTokenParams deleteTokenParams) async {
+    await promiseToFuture<void>(
+        $js.chrome.instanceId.deleteToken(deleteTokenParams.toJS));
   }
 
   /// Resets the app instance identifier and revokes all tokens associated with
   /// it.
-  Future<void> deleteID() {
-    var $completer = Completer<void>();
-    $js.chrome.instanceId.deleteID(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> deleteID() async {
+    await promiseToFuture<void>($js.chrome.instanceId.deleteID());
   }
 
   /// Fired when all the granted tokens need to be refreshed.

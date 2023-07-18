@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/browser_action.dart' as $js;
 import 'src/js/tabs.dart' as $js_tabs;
@@ -15,31 +17,16 @@ class ChromeBrowserAction {
   ChromeBrowserAction._();
 
   /// Sets the title of the browser action. This title appears in the tooltip.
-  Future<void> setTitle(SetTitleDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.setTitle(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setTitle(SetTitleDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.browserAction.setTitle(details.toJS));
   }
 
   /// Gets the title of the browser action.
-  Future<String> getTitle(TabDetails details) {
-    var $completer = Completer<String>();
-    $js.chrome.browserAction.getTitle(
-      details.toJS,
-      (String result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getTitle(TabDetails details) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.browserAction.getTitle(details.toJS));
+    return $res;
   }
 
   /// Sets the icon for the browser action. The icon can be specified as the
@@ -61,119 +48,57 @@ class ChromeBrowserAction {
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
   /// browser action icon.
-  Future<void> setPopup(SetPopupDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.setPopup(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setPopup(SetPopupDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.browserAction.setPopup(details.toJS));
   }
 
   /// Gets the HTML document that is set as the popup for this browser action.
-  Future<String> getPopup(TabDetails details) {
-    var $completer = Completer<String>();
-    $js.chrome.browserAction.getPopup(
-      details.toJS,
-      (String result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getPopup(TabDetails details) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.browserAction.getPopup(details.toJS));
+    return $res;
   }
 
   /// Sets the badge text for the browser action. The badge is displayed on top
   /// of the icon.
-  Future<void> setBadgeText(SetBadgeTextDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.setBadgeText(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setBadgeText(SetBadgeTextDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.browserAction.setBadgeText(details.toJS));
   }
 
   /// Gets the badge text of the browser action. If no tab is specified, the
   /// non-tab-specific badge text is returned.
-  Future<String> getBadgeText(TabDetails details) {
-    var $completer = Completer<String>();
-    $js.chrome.browserAction.getBadgeText(
-      details.toJS,
-      (String result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> getBadgeText(TabDetails details) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.browserAction.getBadgeText(details.toJS));
+    return $res;
   }
 
   /// Sets the background color for the badge.
-  Future<void> setBadgeBackgroundColor(SetBadgeBackgroundColorDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.setBadgeBackgroundColor(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setBadgeBackgroundColor(
+      SetBadgeBackgroundColorDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.browserAction.setBadgeBackgroundColor(details.toJS));
   }
 
   /// Gets the background color of the browser action.
-  Future<ColorArray> getBadgeBackgroundColor(TabDetails details) {
-    var $completer = Completer<ColorArray>();
-    $js.chrome.browserAction.getBadgeBackgroundColor(
-      details.toJS,
-      ($js.ColorArray result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result.toDart.cast<int>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<ColorArray> getBadgeBackgroundColor(TabDetails details) async {
+    var $res = await promiseToFuture<$js.ColorArray>(
+        $js.chrome.browserAction.getBadgeBackgroundColor(details.toJS));
+    return $res.toDart.cast<int>().map((e) => e).toList();
   }
 
   /// Enables the browser action for a tab. Defaults to enabled.
   /// [tabId] The ID of the tab for which to modify the browser action.
-  Future<void> enable(int? tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.enable(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> enable(int? tabId) async {
+    await promiseToFuture<void>($js.chrome.browserAction.enable(tabId));
   }
 
   /// Disables the browser action for a tab.
   /// [tabId] The ID of the tab for which to modify the browser action.
-  Future<void> disable(int? tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.browserAction.disable(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> disable(int? tabId) async {
+    await promiseToFuture<void>($js.chrome.browserAction.disable(tabId));
   }
 
   /// Opens the extension popup window in the active window but does not grant

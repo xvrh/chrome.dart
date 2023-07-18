@@ -41,31 +41,24 @@ extension JSAlarmsExtension on JSAlarms {
   /// repeating alarm, [periodInMinutes] is used as the default for
   /// [delayInMinutes].
   /// |callback|: Invoked when the alarm has been created.
-  external void create(
+  external JSPromise create(
     String? name,
     AlarmCreateInfo alarmInfo,
-    JSFunction? callback,
   );
 
   /// Retrieves details about the specified alarm.
   /// |name|: The name of the alarm to get. Defaults to the empty string.
-  external void get(
-    String? name,
-    JSFunction callback,
-  );
+  external JSPromise get(String? name);
 
   /// Gets an array of all the alarms.
-  external void getAll(JSFunction callback);
+  external JSPromise getAll();
 
   /// Clears the alarm with the given name.
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
-  external void clear(
-    String? name,
-    JSFunction? callback,
-  );
+  external JSPromise clear(String? name);
 
   /// Clears all alarms.
-  external void clearAll(JSFunction? callback);
+  external JSPromise clearAll();
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.

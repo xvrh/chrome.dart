@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'extension_types.dart';
 import 'runtime.dart';
 import 'src/internal_helpers.dart';
@@ -17,30 +19,17 @@ class ChromeTabs {
   ChromeTabs._();
 
   /// Retrieves details about the specified tab.
-  Future<Tab> get(int tabId) {
-    var $completer = Completer<Tab>();
-    $js.chrome.tabs.get(
-      tabId,
-      ($js.Tab tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(Tab.fromJS(tab));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Tab> get(int tabId) async {
+    var $res = await promiseToFuture<$js.Tab>($js.chrome.tabs.get(tabId));
+    return Tab.fromJS($res);
   }
 
   /// Gets the tab that this script call is being made from. May be undefined if
   /// called from a non-tab context (for example, a background page or popup
   /// view).
-  Future<Tab?> getCurrent() {
-    var $completer = Completer<Tab?>();
-    $js.chrome.tabs.getCurrent(($js.Tab? tab) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(tab?.let(Tab.fromJS));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<Tab?> getCurrent() async {
+    var $res = await promiseToFuture<$js.Tab?>($js.chrome.tabs.getCurrent());
+    return $res?.let(Tab.fromJS);
   }
 
   /// Connects to the content script(s) in the specified tab. The
@@ -64,18 +53,12 @@ class ChromeTabs {
   Future<Object> sendRequest(
     int tabId,
     Object request,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.tabs.sendRequest(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.tabs.sendRequest(
       tabId,
       request.toJS,
-      (JSAny response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(response);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Sends a single message to the content script(s) in the specified tab, with
@@ -88,110 +71,60 @@ class ChromeTabs {
     int tabId,
     Object message,
     SendMessageOptions? options,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.tabs.sendMessage(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.tabs.sendMessage(
       tabId,
       message.toJS,
       options?.toJS,
-      (JSAny response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(response);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Gets the tab that is selected in the specified window.
   /// [windowId] Defaults to the [current window](windows#current-window).
-  Future<Tab> getSelected(int? windowId) {
-    var $completer = Completer<Tab>();
-    $js.chrome.tabs.getSelected(
-      windowId,
-      ($js.Tab tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(Tab.fromJS(tab));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Tab> getSelected(int? windowId) async {
+    var $res =
+        await promiseToFuture<$js.Tab>($js.chrome.tabs.getSelected(windowId));
+    return Tab.fromJS($res);
   }
 
   /// Gets details about all tabs in the specified window.
   /// [windowId] Defaults to the [current window](windows#current-window).
-  Future<List<Tab>> getAllInWindow(int? windowId) {
-    var $completer = Completer<List<Tab>>();
-    $js.chrome.tabs.getAllInWindow(
-      windowId,
-      (JSArray tabs) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(
-              tabs.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Tab>> getAllInWindow(int? windowId) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.tabs.getAllInWindow(windowId));
+    return $res.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList();
   }
 
   /// Creates a new tab.
-  Future<Tab> create(CreateProperties createProperties) {
-    var $completer = Completer<Tab>();
-    $js.chrome.tabs.create(
-      createProperties.toJS,
-      ($js.Tab tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(Tab.fromJS(tab));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Tab> create(CreateProperties createProperties) async {
+    var $res = await promiseToFuture<$js.Tab>(
+        $js.chrome.tabs.create(createProperties.toJS));
+    return Tab.fromJS($res);
   }
 
   /// Duplicates a tab.
   /// [tabId] The ID of the tab to duplicate.
-  Future<Tab?> duplicate(int tabId) {
-    var $completer = Completer<Tab?>();
-    $js.chrome.tabs.duplicate(
-      tabId,
-      ($js.Tab? tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(tab?.let(Tab.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Tab?> duplicate(int tabId) async {
+    var $res =
+        await promiseToFuture<$js.Tab?>($js.chrome.tabs.duplicate(tabId));
+    return $res?.let(Tab.fromJS);
   }
 
   /// Gets all tabs that have the specified properties, or all tabs if no
   /// properties are specified.
-  Future<List<Tab>> query(QueryInfo queryInfo) {
-    var $completer = Completer<List<Tab>>();
-    $js.chrome.tabs.query(
-      queryInfo.toJS,
-      (JSArray result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(
-              result.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Tab>> query(QueryInfo queryInfo) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.tabs.query(queryInfo.toJS));
+    return $res.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList();
   }
 
   /// Highlights the given tabs and focuses on the first of group. Will appear
   /// to do nothing if the specified tab is currently active.
-  Future<Window> highlight(HighlightInfo highlightInfo) {
-    var $completer = Completer<Window>();
-    $js.chrome.tabs.highlight(
-      highlightInfo.toJS,
-      ($js_windows.Window window) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(Window.fromJS(window));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Window> highlight(HighlightInfo highlightInfo) async {
+    var $res = await promiseToFuture<$js_windows.Window>(
+        $js.chrome.tabs.highlight(highlightInfo.toJS));
+    return Window.fromJS($res);
   }
 
   /// Modifies the properties of a tab. Properties that are not specified in
@@ -201,18 +134,12 @@ class ChromeTabs {
   Future<Tab?> update(
     int? tabId,
     UpdateProperties updateProperties,
-  ) {
-    var $completer = Completer<Tab?>();
-    $js.chrome.tabs.update(
+  ) async {
+    var $res = await promiseToFuture<$js.Tab?>($js.chrome.tabs.update(
       tabId,
       updateProperties.toJS,
-      ($js.Tab? tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(tab?.let(Tab.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res?.let(Tab.fromJS);
   }
 
   /// Moves one or more tabs to a new position within its window, or to a new
@@ -222,18 +149,12 @@ class ChromeTabs {
   Future<Object> move(
     Object tabIds,
     MoveProperties moveProperties,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.tabs.move(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.tabs.move(
       tabIds.toJS,
       moveProperties.toJS,
-      (JSAny tabs) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(tabs);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Reload a tab.
@@ -242,81 +163,41 @@ class ChromeTabs {
   Future<void> reload(
     int? tabId,
     ReloadProperties? reloadProperties,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.reload(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tabs.reload(
       tabId,
       reloadProperties?.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Closes one or more tabs.
   /// [tabIds] The tab ID or list of tab IDs to close.
-  Future<void> remove(Object tabIds) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.remove(
-      tabIds.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> remove(Object tabIds) async {
+    await promiseToFuture<void>($js.chrome.tabs.remove(tabIds.toJS));
   }
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
-  Future<int> group(GroupOptions options) {
-    var $completer = Completer<int>();
-    $js.chrome.tabs.group(
-      options.toJS,
-      (int groupId) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(groupId);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<int> group(GroupOptions options) async {
+    var $res = await promiseToFuture<int>($js.chrome.tabs.group(options.toJS));
+    return $res;
   }
 
   /// Removes one or more tabs from their respective groups. If any groups
   /// become empty, they are deleted.
   /// [tabIds] The tab ID or list of tab IDs to remove from their respective
   /// groups.
-  Future<void> ungroup(Object tabIds) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.ungroup(
-      tabIds.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> ungroup(Object tabIds) async {
+    await promiseToFuture<void>($js.chrome.tabs.ungroup(tabIds.toJS));
   }
 
   /// Detects the primary language of the content in a tab.
   /// [tabId] Defaults to the active tab of the [current
   /// window](windows#current-window).
-  Future<String> detectLanguage(int? tabId) {
-    var $completer = Completer<String>();
-    $js.chrome.tabs.detectLanguage(
-      tabId,
-      (String language) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(language);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> detectLanguage(int? tabId) async {
+    var $res =
+        await promiseToFuture<String>($js.chrome.tabs.detectLanguage(tabId));
+    return $res;
   }
 
   /// Captures the visible area of the currently active tab in the specified
@@ -333,18 +214,12 @@ class ChromeTabs {
   Future<String> captureVisibleTab(
     int? windowId,
     ImageDetails? options,
-  ) {
-    var $completer = Completer<String>();
-    $js.chrome.tabs.captureVisibleTab(
+  ) async {
+    var $res = await promiseToFuture<String>($js.chrome.tabs.captureVisibleTab(
       windowId,
       options?.toJS,
-      (String dataUrl) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(dataUrl);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Injects JavaScript code into a page. For details, see the [programmatic
@@ -356,19 +231,12 @@ class ChromeTabs {
   Future<List<Object>?> executeScript(
     int? tabId,
     InjectDetails details,
-  ) {
-    var $completer = Completer<List<Object>?>();
-    $js.chrome.tabs.executeScript(
+  ) async {
+    var $res = await promiseToFuture<JSArray?>($js.chrome.tabs.executeScript(
       tabId,
       details.toJS,
-      (JSArray? result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer
-              .complete(result?.toDart.cast<JSAny>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res?.toDart.cast<JSAny>().map((e) => e).toList();
   }
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
@@ -381,18 +249,11 @@ class ChromeTabs {
   Future<void> insertCSS(
     int? tabId,
     InjectDetails details,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.insertCSS(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tabs.insertCSS(
       tabId,
       details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Removes from a page CSS that was previously injected by a call to
@@ -404,18 +265,11 @@ class ChromeTabs {
   Future<void> removeCSS(
     int? tabId,
     DeleteInjectionDetails details,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.removeCSS(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tabs.removeCSS(
       tabId,
       details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Zooms a specified tab.
@@ -427,34 +281,19 @@ class ChromeTabs {
   Future<void> setZoom(
     int? tabId,
     double zoomFactor,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.setZoom(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tabs.setZoom(
       tabId,
       zoomFactor,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Gets the current zoom factor of a specified tab.
   /// [tabId] The ID of the tab to get the current zoom factor from; defaults
   /// to the active tab of the current window.
-  Future<double> getZoom(int? tabId) {
-    var $completer = Completer<double>();
-    $js.chrome.tabs.getZoom(
-      tabId,
-      (double zoomFactor) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(zoomFactor);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<double> getZoom(int? tabId) async {
+    var $res = await promiseToFuture<double>($js.chrome.tabs.getZoom(tabId));
+    return $res;
   }
 
   /// Sets the zoom settings for a specified tab, which define how zoom changes
@@ -465,34 +304,20 @@ class ChromeTabs {
   Future<void> setZoomSettings(
     int? tabId,
     ZoomSettings zoomSettings,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.setZoomSettings(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tabs.setZoomSettings(
       tabId,
       zoomSettings.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Gets the current zoom settings of a specified tab.
   /// [tabId] The ID of the tab to get the current zoom settings from;
   /// defaults to the active tab of the current window.
-  Future<ZoomSettings> getZoomSettings(int? tabId) {
-    var $completer = Completer<ZoomSettings>();
-    $js.chrome.tabs.getZoomSettings(
-      tabId,
-      ($js.ZoomSettings zoomSettings) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(ZoomSettings.fromJS(zoomSettings));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<ZoomSettings> getZoomSettings(int? tabId) async {
+    var $res = await promiseToFuture<$js.ZoomSettings>(
+        $js.chrome.tabs.getZoomSettings(tabId));
+    return ZoomSettings.fromJS($res);
   }
 
   /// Discards a tab from memory. Discarded tabs are still visible on the tab
@@ -501,49 +326,23 @@ class ChromeTabs {
   /// discarded unless it is active or already discarded. If omitted, the
   /// browser discards the least important tab. This can fail if no
   /// discardable tabs exist.
-  Future<Tab?> discard(int? tabId) {
-    var $completer = Completer<Tab?>();
-    $js.chrome.tabs.discard(
-      tabId,
-      ($js.Tab? tab) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(tab?.let(Tab.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Tab?> discard(int? tabId) async {
+    var $res = await promiseToFuture<$js.Tab?>($js.chrome.tabs.discard(tabId));
+    return $res?.let(Tab.fromJS);
   }
 
   /// Go foward to the next page, if one is available.
   /// [tabId] The ID of the tab to navigate forward; defaults to the selected
   /// tab of the current window.
-  Future<void> goForward(int? tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.goForward(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> goForward(int? tabId) async {
+    await promiseToFuture<void>($js.chrome.tabs.goForward(tabId));
   }
 
   /// Go back to the previous page, if one is available.
   /// [tabId] The ID of the tab to navigate back; defaults to the selected tab
   /// of the current window.
-  Future<void> goBack(int? tabId) {
-    var $completer = Completer<void>();
-    $js.chrome.tabs.goBack(
-      tabId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> goBack(int? tabId) async {
+    await promiseToFuture<void>($js.chrome.tabs.goBack(tabId));
   }
 
   /// The maximum number of times that [captureVisibleTab] can be called per

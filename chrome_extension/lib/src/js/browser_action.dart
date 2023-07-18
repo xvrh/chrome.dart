@@ -18,16 +18,10 @@ class JSBrowserAction {}
 
 extension JSBrowserActionExtension on JSBrowserAction {
   /// Sets the title of the browser action. This title appears in the tooltip.
-  external void setTitle(
-    SetTitleDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setTitle(SetTitleDetails details);
 
   /// Gets the title of the browser action.
-  external void getTitle(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getTitle(TabDetails details);
 
   /// Sets the icon for the browser action. The icon can be specified as the
   /// path to an image file, as the pixel data from a canvas element, or as a
@@ -40,56 +34,37 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
   /// Sets the HTML document to be opened as a popup when the user clicks the
   /// browser action icon.
-  external void setPopup(
-    SetPopupDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setPopup(SetPopupDetails details);
 
   /// Gets the HTML document that is set as the popup for this browser action.
-  external void getPopup(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getPopup(TabDetails details);
 
   /// Sets the badge text for the browser action. The badge is displayed on top
   /// of the icon.
-  external void setBadgeText(
-    SetBadgeTextDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setBadgeText(SetBadgeTextDetails details);
 
   /// Gets the badge text of the browser action. If no tab is specified, the
   /// non-tab-specific badge text is returned.
-  external void getBadgeText(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getBadgeText(TabDetails details);
 
   /// Sets the background color for the badge.
-  external void setBadgeBackgroundColor(
-    SetBadgeBackgroundColorDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setBadgeBackgroundColor(
+      SetBadgeBackgroundColorDetails details);
 
   /// Gets the background color of the browser action.
-  external void getBadgeBackgroundColor(
-    TabDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getBadgeBackgroundColor(TabDetails details);
 
   /// Enables the browser action for a tab. Defaults to enabled.
-  external void enable(
-    /// The ID of the tab for which to modify the browser action.
-    int? tabId,
-    JSFunction? callback,
-  );
+  external JSPromise enable(
+
+      /// The ID of the tab for which to modify the browser action.
+      int? tabId);
 
   /// Disables the browser action for a tab.
-  external void disable(
-    /// The ID of the tab for which to modify the browser action.
-    int? tabId,
-    JSFunction? callback,
-  );
+  external JSPromise disable(
+
+      /// The ID of the tab for which to modify the browser action.
+      int? tabId);
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.

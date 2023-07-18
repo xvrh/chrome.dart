@@ -23,20 +23,14 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// |callback|: Is called when the dialog is resolved with the user input, or
   /// when the dialog request finishes unsuccessfully (e.g. the dialog was
   /// canceled by the user or was not allowed to be shown).
-  external void requestPin(
-    RequestPinDetails details,
-    JSFunction callback,
-  );
+  external JSPromise requestPin(RequestPinDetails details);
 
   /// Stops the pin request started by the [requestPin] function.
   /// |details|: Contains the details about the reason for stopping the
   /// request flow.
   /// |callback|: To be used by Chrome to send to the extension the status from
   /// their request to close PIN dialog for user.
-  external void stopPinRequest(
-    StopPinRequestDetails details,
-    JSFunction callback,
-  );
+  external JSPromise stopPinRequest(StopPinRequestDetails details);
 
   /// Sets a list of certificates to use in the browser.
   /// The extension should call this function after initialization and on
@@ -46,20 +40,14 @@ extension JSCertificateProviderExtension on JSCertificateProvider {
   /// received.
   /// |details|: The certificates to set. Invalid certificates will be ignored.
   /// |callback|: Called upon completion.
-  external void setCertificates(
-    SetCertificatesDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise setCertificates(SetCertificatesDetails details);
 
   /// Should be called as a response to [onSignatureRequested].
   /// The extension must eventually call this function for every
   /// [onSignatureRequested] event; the API implementation will stop
   /// waiting for this call after some time and respond with a timeout
   /// error when this function is called.
-  external void reportSignature(
-    ReportSignatureDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise reportSignature(ReportSignatureDetails details);
 
   /// This event fires if the certificates set via [setCertificates]
   /// are insufficient or the browser requests updated information. The

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/tab_groups.dart' as $js;
 
@@ -13,35 +15,21 @@ class ChromeTabGroups {
   ChromeTabGroups._();
 
   /// Retrieves details about the specified group.
-  Future<TabGroup> get(int groupId) {
-    var $completer = Completer<TabGroup>();
-    $js.chrome.tabGroups.get(
-      groupId,
-      ($js.TabGroup group) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(TabGroup.fromJS(group));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<TabGroup> get(int groupId) async {
+    var $res =
+        await promiseToFuture<$js.TabGroup>($js.chrome.tabGroups.get(groupId));
+    return TabGroup.fromJS($res);
   }
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
-  Future<List<TabGroup>> query(QueryInfo queryInfo) {
-    var $completer = Completer<List<TabGroup>>();
-    $js.chrome.tabGroups.query(
-      queryInfo.toJS,
-      (JSArray result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(result.toDart
-              .cast<$js.TabGroup>()
-              .map((e) => TabGroup.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<TabGroup>> query(QueryInfo queryInfo) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.tabGroups.query(queryInfo.toJS));
+    return $res.toDart
+        .cast<$js.TabGroup>()
+        .map((e) => TabGroup.fromJS(e))
+        .toList();
   }
 
   /// Modifies the properties of a group. Properties that are not specified in
@@ -50,18 +38,12 @@ class ChromeTabGroups {
   Future<TabGroup?> update(
     int groupId,
     UpdateProperties updateProperties,
-  ) {
-    var $completer = Completer<TabGroup?>();
-    $js.chrome.tabGroups.update(
+  ) async {
+    var $res = await promiseToFuture<$js.TabGroup?>($js.chrome.tabGroups.update(
       groupId,
       updateProperties.toJS,
-      ($js.TabGroup? group) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(group?.let(TabGroup.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res?.let(TabGroup.fromJS);
   }
 
   /// Moves the group and all its tabs within its window, or to a new window.
@@ -69,18 +51,12 @@ class ChromeTabGroups {
   Future<TabGroup?> move(
     int groupId,
     MoveProperties moveProperties,
-  ) {
-    var $completer = Completer<TabGroup?>();
-    $js.chrome.tabGroups.move(
+  ) async {
+    var $res = await promiseToFuture<$js.TabGroup?>($js.chrome.tabGroups.move(
       groupId,
       moveProperties.toJS,
-      ($js.TabGroup? group) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(group?.let(TabGroup.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res?.let(TabGroup.fromJS);
   }
 
   /// An ID that represents the absence of a group.

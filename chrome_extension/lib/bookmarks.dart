@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/bookmarks.dart' as $js;
 
@@ -14,87 +16,54 @@ class ChromeBookmarks {
 
   /// Retrieves the specified BookmarkTreeNode(s).
   /// [idOrIdList] A single string-valued id, or an array of string-valued ids
-  Future<List<BookmarkTreeNode>> get(Object idOrIdList) {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.get(
-      idOrIdList.toJS,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.BookmarkTreeNode>()
-              .map((e) => BookmarkTreeNode.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> get(Object idOrIdList) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.bookmarks.get(idOrIdList.toJS));
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Retrieves the children of the specified BookmarkTreeNode id.
-  Future<List<BookmarkTreeNode>> getChildren(String id) {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.getChildren(
-      id,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.BookmarkTreeNode>()
-              .map((e) => BookmarkTreeNode.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> getChildren(String id) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.bookmarks.getChildren(id));
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Retrieves the recently added bookmarks.
   /// [numberOfItems] The maximum number of items to return.
-  Future<List<BookmarkTreeNode>> getRecent(int numberOfItems) {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.getRecent(
-      numberOfItems,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.BookmarkTreeNode>()
-              .map((e) => BookmarkTreeNode.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> getRecent(int numberOfItems) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.bookmarks.getRecent(numberOfItems));
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Retrieves the entire Bookmarks hierarchy.
-  Future<List<BookmarkTreeNode>> getTree() {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.getTree((JSArray results) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(results.toDart
-            .cast<$js.BookmarkTreeNode>()
-            .map((e) => BookmarkTreeNode.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> getTree() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.bookmarks.getTree());
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Retrieves part of the Bookmarks hierarchy, starting at the specified node.
   /// [id] The ID of the root of the subtree to retrieve.
-  Future<List<BookmarkTreeNode>> getSubTree(String id) {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.getSubTree(
-      id,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.BookmarkTreeNode>()
-              .map((e) => BookmarkTreeNode.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> getSubTree(String id) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.bookmarks.getSubTree(id));
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Searches for BookmarkTreeNodes matching the given query. Queries specified
@@ -104,53 +73,34 @@ class ChromeBookmarks {
   /// against bookmark URLs and titles, or an object. If an object, the
   /// properties `query`, `url`, and `title` may be specified and bookmarks
   /// matching all specified properties will be produced.
-  Future<List<BookmarkTreeNode>> search(Object query) {
-    var $completer = Completer<List<BookmarkTreeNode>>();
-    $js.chrome.bookmarks.search(
-      query.toJS,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.BookmarkTreeNode>()
-              .map((e) => BookmarkTreeNode.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<BookmarkTreeNode>> search(Object query) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.bookmarks.search(query.toJS));
+    return $res.toDart
+        .cast<$js.BookmarkTreeNode>()
+        .map((e) => BookmarkTreeNode.fromJS(e))
+        .toList();
   }
 
   /// Creates a bookmark or folder under the specified parentId.  If url is NULL
   /// or missing, it will be a folder.
-  Future<BookmarkTreeNode> create(CreateDetails bookmark) {
-    var $completer = Completer<BookmarkTreeNode>();
-    $js.chrome.bookmarks.create(
-      bookmark.toJS,
-      ($js.BookmarkTreeNode result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(BookmarkTreeNode.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<BookmarkTreeNode> create(CreateDetails bookmark) async {
+    var $res = await promiseToFuture<$js.BookmarkTreeNode>(
+        $js.chrome.bookmarks.create(bookmark.toJS));
+    return BookmarkTreeNode.fromJS($res);
   }
 
   /// Moves the specified BookmarkTreeNode to the provided location.
   Future<BookmarkTreeNode> move(
     String id,
     MoveDestination destination,
-  ) {
-    var $completer = Completer<BookmarkTreeNode>();
-    $js.chrome.bookmarks.move(
+  ) async {
+    var $res =
+        await promiseToFuture<$js.BookmarkTreeNode>($js.chrome.bookmarks.move(
       id,
       destination.toJS,
-      ($js.BookmarkTreeNode result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(BookmarkTreeNode.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return BookmarkTreeNode.fromJS($res);
   }
 
   /// Updates the properties of a bookmark or folder. Specify only the
@@ -159,46 +109,23 @@ class ChromeBookmarks {
   Future<BookmarkTreeNode> update(
     String id,
     UpdateChanges changes,
-  ) {
-    var $completer = Completer<BookmarkTreeNode>();
-    $js.chrome.bookmarks.update(
+  ) async {
+    var $res =
+        await promiseToFuture<$js.BookmarkTreeNode>($js.chrome.bookmarks.update(
       id,
       changes.toJS,
-      ($js.BookmarkTreeNode result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(BookmarkTreeNode.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return BookmarkTreeNode.fromJS($res);
   }
 
   /// Removes a bookmark or an empty bookmark folder.
-  Future<void> remove(String id) {
-    var $completer = Completer<void>();
-    $js.chrome.bookmarks.remove(
-      id,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> remove(String id) async {
+    await promiseToFuture<void>($js.chrome.bookmarks.remove(id));
   }
 
   /// Recursively removes a bookmark folder.
-  Future<void> removeTree(String id) {
-    var $completer = Completer<void>();
-    $js.chrome.bookmarks.removeTree(
-      id,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeTree(String id) async {
+    await promiseToFuture<void>($js.chrome.bookmarks.removeTree(id));
   }
 
   int get maxWriteOperationsPerHour =>

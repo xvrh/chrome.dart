@@ -1,3 +1,4 @@
+import 'dart:js_util';
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -26,17 +27,9 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  Future<void> mount(MountOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.fileSystemProvider.mount(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> mount(MountOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.fileSystemProvider.mount(options.toJS));
   }
 
   /// Unmounts a file system with the given `fileSystemId`. It
@@ -46,46 +39,27 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  Future<void> unmount(UnmountOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.fileSystemProvider.unmount(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> unmount(UnmountOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.fileSystemProvider.unmount(options.toJS));
   }
 
   /// Returns all file systems mounted by the extension.
-  Future<List<FileSystemInfo>> getAll() {
-    var $completer = Completer<List<FileSystemInfo>>();
-    $js.chrome.fileSystemProvider.getAll((JSArray fileSystems) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(fileSystems.toDart
-            .cast<$js.FileSystemInfo>()
-            .map((e) => FileSystemInfo.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<FileSystemInfo>> getAll() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.fileSystemProvider.getAll());
+    return $res.toDart
+        .cast<$js.FileSystemInfo>()
+        .map((e) => FileSystemInfo.fromJS(e))
+        .toList();
   }
 
   /// Returns information about a file system with the passed
   /// `fileSystemId`.
-  Future<FileSystemInfo> get(String fileSystemId) {
-    var $completer = Completer<FileSystemInfo>();
-    $js.chrome.fileSystemProvider.get(
-      fileSystemId,
-      ($js.FileSystemInfo fileSystem) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(FileSystemInfo.fromJS(fileSystem));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<FileSystemInfo> get(String fileSystemId) async {
+    var $res = await promiseToFuture<$js.FileSystemInfo>(
+        $js.chrome.fileSystemProvider.get(fileSystemId));
+    return FileSystemInfo.fromJS($res);
   }
 
   /// Notifies about changes in the watched directory at
@@ -117,17 +91,9 @@ class ChromeFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set
   /// will a corresponding error code.
-  Future<void> notify(NotifyOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.fileSystemProvider.notify(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> notify(NotifyOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.fileSystemProvider.notify(options.toJS));
   }
 
   /// Raised when unmounting for the file system with the

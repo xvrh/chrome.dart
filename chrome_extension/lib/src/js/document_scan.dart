@@ -19,10 +19,7 @@ extension JSDocumentScanExtension on JSDocumentScan {
   /// sent to the callback.
   /// |options| : Object containing scan parameters.
   /// |callback| : Called with the result and data from the scan.
-  external void scan(
-    ScanOptions options,
-    JSFunction callback,
-  );
+  external JSPromise scan(ScanOptions options);
 }
 
 @JS()

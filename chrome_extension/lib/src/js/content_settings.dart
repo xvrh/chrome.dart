@@ -185,24 +185,15 @@ class ContentSetting {}
 
 extension ContentSettingExtension on ContentSetting {
   /// Clear all content setting rules set by this extension.
-  external void clear(
-    ClearDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise clear(ClearDetails details);
 
   /// Gets the current content setting for a given pair of URLs.
-  external void get(
-    GetDetails details,
-    JSFunction callback,
-  );
+  external JSPromise get(GetDetails details);
 
   /// Applies a new content setting rule.
-  external void set(
-    SetDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise set(SetDetails details);
 
-  external void getResourceIdentifiers(JSFunction callback);
+  external JSPromise getResourceIdentifiers();
 }
 
 @JS()

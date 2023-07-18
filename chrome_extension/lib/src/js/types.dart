@@ -40,29 +40,22 @@ class ChromeSetting {}
 
 extension ChromeSettingExtension on ChromeSetting {
   /// Gets the value of a setting.
-  external void get(
-    /// Which setting to consider.
-    GetDetails details,
-    JSFunction callback,
-  );
+  external JSPromise get(
+
+      /// Which setting to consider.
+      GetDetails details);
 
   /// Sets the value of a setting.
-  external void set(
-    /// Which setting to change.
-    SetDetails details,
+  external JSPromise set(
 
-    /// Called at the completion of the set operation.
-    JSFunction? callback,
-  );
+      /// Which setting to change.
+      SetDetails details);
 
   /// Clears the setting, restoring any default value.
-  external void clear(
-    /// Which setting to clear.
-    ClearDetails details,
+  external JSPromise clear(
 
-    /// Called at the completion of the clear operation.
-    JSFunction? callback,
-  );
+      /// Which setting to clear.
+      ClearDetails details);
 
   /// Fired after the setting changes.
   external Event get onChange;

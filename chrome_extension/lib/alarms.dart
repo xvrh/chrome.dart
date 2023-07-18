@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/alarms.dart' as $js;
 
@@ -41,73 +43,37 @@ class ChromeAlarms {
   Future<void> create(
     String? name,
     AlarmCreateInfo alarmInfo,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.alarms.create(
+  ) async {
+    await promiseToFuture<void>($js.chrome.alarms.create(
       name,
       alarmInfo.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Retrieves details about the specified alarm.
   /// |name|: The name of the alarm to get. Defaults to the empty string.
-  Future<Alarm?> get(String? name) {
-    var $completer = Completer<Alarm?>();
-    $js.chrome.alarms.get(
-      name,
-      ($js.Alarm? alarm) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(alarm?.let(Alarm.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Alarm?> get(String? name) async {
+    var $res = await promiseToFuture<$js.Alarm?>($js.chrome.alarms.get(name));
+    return $res?.let(Alarm.fromJS);
   }
 
   /// Gets an array of all the alarms.
-  Future<List<Alarm>> getAll() {
-    var $completer = Completer<List<Alarm>>();
-    $js.chrome.alarms.getAll((JSArray alarms) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(alarms.toDart
-            .cast<$js.Alarm>()
-            .map((e) => Alarm.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<Alarm>> getAll() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.alarms.getAll());
+    return $res.toDart.cast<$js.Alarm>().map((e) => Alarm.fromJS(e)).toList();
   }
 
   /// Clears the alarm with the given name.
   /// |name|: The name of the alarm to clear. Defaults to the empty string.
-  Future<bool> clear(String? name) {
-    var $completer = Completer<bool>();
-    $js.chrome.alarms.clear(
-      name,
-      (bool wasCleared) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(wasCleared);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> clear(String? name) async {
+    var $res = await promiseToFuture<bool>($js.chrome.alarms.clear(name));
+    return $res;
   }
 
   /// Clears all alarms.
-  Future<bool> clearAll() {
-    var $completer = Completer<bool>();
-    $js.chrome.alarms.clearAll((bool wasCleared) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(wasCleared);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> clearAll() async {
+    var $res = await promiseToFuture<bool>($js.chrome.alarms.clearAll());
+    return $res;
   }
 
   /// Fired when an alarm has elapsed. Useful for event pages.

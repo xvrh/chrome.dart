@@ -21,7 +21,7 @@ class JSDebugger {}
 
 extension JSDebuggerExtension on JSDebugger {
   /// Attaches debugger to the given target.
-  external void attach(
+  external JSPromise attach(
     /// Debugging target to which you want to attach.
     Debuggee target,
 
@@ -30,26 +30,16 @@ extension JSDebuggerExtension on JSDebugger {
     /// List of the protocol versions can be obtained
     /// [here](https://developer.chrome.com/devtools/docs/debugger-protocol).
     String requiredVersion,
-
-    /// Called once the attach operation succeeds or fails. Callback receives no
-    /// arguments. If the attach fails, [runtime.lastError] will be set to the
-    /// error message.
-    JSFunction? callback,
   );
 
   /// Detaches debugger from the given target.
-  external void detach(
-    /// Debugging target from which you want to detach.
-    Debuggee target,
+  external JSPromise detach(
 
-    /// Called once the detach operation succeeds or fails. Callback receives no
-    /// arguments. If the detach fails, [runtime.lastError] will be set to the
-    /// error message.
-    JSFunction? callback,
-  );
+      /// Debugging target from which you want to detach.
+      Debuggee target);
 
   /// Sends given command to the debugging target.
-  external void sendCommand(
+  external JSPromise sendCommand(
     /// Debugging target to which you want to send the command.
     Debuggee target,
 
@@ -61,15 +51,10 @@ extension JSDebuggerExtension on JSDebugger {
     /// JSON object with request parameters. This object must conform to the
     /// remote debugging params scheme for given method.
     JSAny? commandParams,
-
-    /// Response body. If an error occurs while posting the message, the
-    /// callback will be called with no arguments and [runtime.lastError] will
-    /// be set to the error message.
-    JSFunction? callback,
   );
 
   /// Returns the list of available debug targets.
-  external void getTargets(JSFunction callback);
+  external JSPromise getTargets();
 
   /// Fired whenever debugging target issues instrumentation event.
   external Event get onEvent;

@@ -277,6 +277,12 @@ enum IDLAttributeTypeEnum {
   const IDLAttributeTypeEnum(this.type);
 }
 
+extension IDLAttributeDeclarationExtension on IDLAttributeDeclaration? {
+  bool get supportsPromises => this
+      ?.attributes
+      .any((e) => e.attributeType == IDLAttributeTypeEnum.SUPPORTS_PROMISES) ?? false;
+}
+
 class IDLAttribute {
   ///The type of attribute.
   final IDLAttributeTypeEnum attributeType;

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/identity.dart' as $js;
 
@@ -16,17 +18,13 @@ class ChromeIdentity {
   /// present on the profile.
   ///
   /// `getAccounts` is only supported on dev channel.
-  Future<List<AccountInfo>> getAccounts() {
-    var $completer = Completer<List<AccountInfo>>();
-    $js.chrome.identity.getAccounts((JSArray accounts) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(accounts.toDart
-            .cast<$js.AccountInfo>()
-            .map((e) => AccountInfo.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<AccountInfo>> getAccounts() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.identity.getAccounts());
+    return $res.toDart
+        .cast<$js.AccountInfo>()
+        .map((e) => AccountInfo.fromJS(e))
+        .toList();
   }
 
   /// Gets an OAuth2 access token using the client ID and scopes
@@ -55,17 +53,10 @@ class ChromeIdentity {
   /// `grantedScopes` parameter is populated since Chrome 87. When
   /// available, this parameter contains the list of granted scopes
   /// corresponding with the returned token.
-  Future<GetAuthTokenResult> getAuthToken(TokenDetails? details) {
-    var $completer = Completer<GetAuthTokenResult>();
-    $js.chrome.identity.getAuthToken(
-      details?.toJS,
-      ($js.GetAuthTokenResult result) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(GetAuthTokenResult.fromJS(result));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<GetAuthTokenResult> getAuthToken(TokenDetails? details) async {
+    var $res = await promiseToFuture<$js.GetAuthTokenResult>(
+        $js.chrome.identity.getAuthToken(details?.toJS));
+    return GetAuthTokenResult.fromJS($res);
   }
 
   /// Retrieves email address and obfuscated gaia id of the user
@@ -82,17 +73,10 @@ class ChromeIdentity {
   /// |callback|: Called with the `ProfileUserInfo` of the primary
   /// Chrome account, of an empty `ProfileUserInfo` if the account
   /// with given `details` doesn't exist.
-  Future<ProfileUserInfo> getProfileUserInfo(ProfileDetails? details) {
-    var $completer = Completer<ProfileUserInfo>();
-    $js.chrome.identity.getProfileUserInfo(
-      details?.toJS,
-      ($js.ProfileUserInfo userInfo) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(ProfileUserInfo.fromJS(userInfo));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<ProfileUserInfo> getProfileUserInfo(ProfileDetails? details) async {
+    var $res = await promiseToFuture<$js.ProfileUserInfo>(
+        $js.chrome.identity.getProfileUserInfo(details?.toJS));
+    return ProfileUserInfo.fromJS($res);
   }
 
   /// Removes an OAuth2 access token from the Identity API's token cache.
@@ -104,17 +88,9 @@ class ChromeIdentity {
   ///
   /// |details| : Token information.
   /// |callback| : Called when the token has been removed from the cache.
-  Future<void> removeCachedAuthToken(InvalidTokenDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.identity.removeCachedAuthToken(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeCachedAuthToken(InvalidTokenDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.identity.removeCachedAuthToken(details.toJS));
   }
 
   /// Resets the state of the Identity API:
@@ -125,14 +101,8 @@ class ChromeIdentity {
   /// </ul>
   ///
   /// |callback| : Called when the state has been cleared.
-  Future<void> clearAllCachedAuthTokens() {
-    var $completer = Completer<void>();
-    $js.chrome.identity.clearAllCachedAuthTokens(() {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(null);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<void> clearAllCachedAuthTokens() async {
+    await promiseToFuture<void>($js.chrome.identity.clearAllCachedAuthTokens());
   }
 
   /// Starts an auth flow at the specified URL.
@@ -153,17 +123,10 @@ class ChromeIdentity {
   ///
   /// |details| : WebAuth flow options.
   /// |callback| : Called with the URL redirected back to your application.
-  Future<String?> launchWebAuthFlow(WebAuthFlowDetails details) {
-    var $completer = Completer<String?>();
-    $js.chrome.identity.launchWebAuthFlow(
-      details.toJS,
-      (String? responseUrl) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(responseUrl);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String?> launchWebAuthFlow(WebAuthFlowDetails details) async {
+    var $res = await promiseToFuture<String?>(
+        $js.chrome.identity.launchWebAuthFlow(details.toJS));
+    return $res;
   }
 
   /// Generates a redirect URL to be used in |launchWebAuthFlow|.

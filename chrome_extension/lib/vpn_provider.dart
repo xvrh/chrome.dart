@@ -1,3 +1,4 @@
+import 'dart:js_util';
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -19,34 +20,18 @@ class ChromeVpnProvider {
   /// |name|: The name of the VPN configuration.
   /// |callback|: Called when the configuration is created or if there is an
   /// error.
-  Future<String> createConfig(String name) {
-    var $completer = Completer<String>();
-    $js.chrome.vpnProvider.createConfig(
-      name,
-      (String id) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(id);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<String> createConfig(String name) async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.vpnProvider.createConfig(name));
+    return $res;
   }
 
   /// Destroys a VPN configuration created by the extension.
   /// |id|: ID of the VPN configuration to destroy.
   /// |callback|: Called when the configuration is destroyed or if there is an
   /// error.
-  Future<void> destroyConfig(String id) {
-    var $completer = Completer<void>();
-    $js.chrome.vpnProvider.destroyConfig(
-      id,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> destroyConfig(String id) async {
+    await promiseToFuture<void>($js.chrome.vpnProvider.destroyConfig(id));
   }
 
   /// Sets the parameters for the VPN session. This should be called
@@ -54,34 +39,17 @@ class ChromeVpnProvider {
   /// This will succeed only when the VPN session is owned by the extension.
   /// |parameters|: The parameters for the VPN session.
   /// |callback|: Called when the parameters are set or if there is an error.
-  Future<void> setParameters(Parameters parameters) {
-    var $completer = Completer<void>();
-    $js.chrome.vpnProvider.setParameters(
-      parameters.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setParameters(Parameters parameters) async {
+    await promiseToFuture<void>(
+        $js.chrome.vpnProvider.setParameters(parameters.toJS));
   }
 
   /// Sends an IP packet through the tunnel created for the VPN session.
   /// This will succeed only when the VPN session is owned by the extension.
   /// |data|: The IP packet to be sent to the platform.
   /// |callback|: Called when the packet is sent or if there is an error.
-  Future<void> sendPacket(ByteBuffer data) {
-    var $completer = Completer<void>();
-    $js.chrome.vpnProvider.sendPacket(
-      data.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> sendPacket(ByteBuffer data) async {
+    await promiseToFuture<void>($js.chrome.vpnProvider.sendPacket(data.toJS));
   }
 
   /// Notifies the VPN session state to the platform.
@@ -89,17 +57,9 @@ class ChromeVpnProvider {
   /// |state|: The VPN session state of the VPN client.
   /// |callback|: Called when the notification is complete or if there is an
   /// error.
-  Future<void> notifyConnectionStateChanged(VpnConnectionState state) {
-    var $completer = Completer<void>();
-    $js.chrome.vpnProvider.notifyConnectionStateChanged(
-      state.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> notifyConnectionStateChanged(VpnConnectionState state) async {
+    await promiseToFuture<void>(
+        $js.chrome.vpnProvider.notifyConnectionStateChanged(state.toJS));
   }
 
   /// Triggered when a message is received from the platform for a

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/processes.dart' as $js;
 
@@ -15,33 +17,19 @@ class ChromeProcesses {
   /// Returns the ID of the renderer process for the specified tab.
   /// |tabId|: The ID of the tab for which the renderer process ID is to be
   /// returned.
-  Future<int> getProcessIdForTab(int tabId) {
-    var $completer = Completer<int>();
-    $js.chrome.processes.getProcessIdForTab(
-      tabId,
-      (int processId) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(processId);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<int> getProcessIdForTab(int tabId) async {
+    var $res = await promiseToFuture<int>(
+        $js.chrome.processes.getProcessIdForTab(tabId));
+    return $res;
   }
 
   /// Terminates the specified renderer process. Equivalent to visiting
   /// about:crash, but without changing the tab's URL.
   /// |processId|: The ID of the process to be terminated.
-  Future<bool> terminate(int processId) {
-    var $completer = Completer<bool>();
-    $js.chrome.processes.terminate(
-      processId,
-      (bool didTerminate) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(didTerminate);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> terminate(int processId) async {
+    var $res =
+        await promiseToFuture<bool>($js.chrome.processes.terminate(processId));
+    return $res;
   }
 
   /// Retrieves the process information for each process ID specified.
@@ -54,18 +42,12 @@ class ChromeProcesses {
   Future<Object> getProcessInfo(
     Object processIds,
     bool includeMemory,
-  ) {
-    var $completer = Completer<Object>();
-    $js.chrome.processes.getProcessInfo(
+  ) async {
+    var $res = await promiseToFuture<JSAny>($js.chrome.processes.getProcessInfo(
       processIds.toJS,
       includeMemory,
-      (JSAny processes) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(processes);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Fired each time the Task Manager updates its process statistics,

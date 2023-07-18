@@ -17,7 +17,7 @@ class JSSystemNetwork {}
 extension JSSystemNetworkExtension on JSSystemNetwork {
   /// Retrieves information about local adapters on this system.
   /// |callback| : Called when local adapter information is available.
-  external void getNetworkInterfaces(JSFunction callback);
+  external JSPromise getNetworkInterfaces();
 }
 
 @JS()

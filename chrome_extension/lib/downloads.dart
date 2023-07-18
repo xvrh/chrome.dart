@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/downloads.dart' as $js;
 
@@ -25,17 +27,10 @@ class ChromeDownloads {
   /// backwards compatible between releases. Extensions must not parse it.
   /// |options|: What to download and how.
   /// |callback|: Called with the id of the new [DownloadItem].
-  Future<int> download(DownloadOptions options) {
-    var $completer = Completer<int>();
-    $js.chrome.downloads.download(
-      options.toJS,
-      (int downloadId) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(downloadId);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<int> download(DownloadOptions options) async {
+    var $res =
+        await promiseToFuture<int>($js.chrome.downloads.download(options.toJS));
+    return $res;
   }
 
   /// Find [DownloadItem]. Set `query` to the empty object to get
@@ -44,20 +39,13 @@ class ChromeDownloads {
   /// `orderBy: ['-startTime']`, set `limit` to the
   /// number of items per page, and set `startedAfter` to the
   /// `startTime` of the last item from the last page.
-  Future<List<DownloadItem>> search(DownloadQuery query) {
-    var $completer = Completer<List<DownloadItem>>();
-    $js.chrome.downloads.search(
-      query.toJS,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.DownloadItem>()
-              .map((e) => DownloadItem.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<DownloadItem>> search(DownloadQuery query) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.downloads.search(query.toJS));
+    return $res.toDart
+        .cast<$js.DownloadItem>()
+        .map((e) => DownloadItem.fromJS(e))
+        .toList();
   }
 
   /// Pause the download. If the request was successful the download is in a
@@ -65,17 +53,8 @@ class ChromeDownloads {
   /// The request will fail if the download is not active.
   /// |downloadId|: The id of the download to pause.
   /// |callback|: Called when the pause request is completed.
-  Future<void> pause(int downloadId) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.pause(
-      downloadId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> pause(int downloadId) async {
+    await promiseToFuture<void>($js.chrome.downloads.pause(downloadId));
   }
 
   /// Resume a paused download. If the request was successful the download is
@@ -83,34 +62,16 @@ class ChromeDownloads {
   /// error message. The request will fail if the download is not active.
   /// |downloadId|: The id of the download to resume.
   /// |callback|: Called when the resume request is completed.
-  Future<void> resume(int downloadId) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.resume(
-      downloadId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> resume(int downloadId) async {
+    await promiseToFuture<void>($js.chrome.downloads.resume(downloadId));
   }
 
   /// Cancel a download. When `callback` is run, the download is
   /// cancelled, completed, interrupted or doesn't exist anymore.
   /// |downloadId|: The id of the download to cancel.
   /// |callback|: Called when the cancel request is completed.
-  Future<void> cancel(int downloadId) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.cancel(
-      downloadId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> cancel(int downloadId) async {
+    await promiseToFuture<void>($js.chrome.downloads.cancel(downloadId));
   }
 
   /// Retrieve an icon for the specified download. For new downloads, file
@@ -127,18 +88,12 @@ class ChromeDownloads {
   Future<String?> getFileIcon(
     int downloadId,
     GetFileIconOptions? options,
-  ) {
-    var $completer = Completer<String?>();
-    $js.chrome.downloads.getFileIcon(
+  ) async {
+    var $res = await promiseToFuture<String?>($js.chrome.downloads.getFileIcon(
       downloadId,
       options?.toJS,
-      (String? iconURL) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(iconURL);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
+    return $res;
   }
 
   /// Open the downloaded file now if the [DownloadItem] is complete;
@@ -166,33 +121,16 @@ class ChromeDownloads {
   /// downloaded file. An [onErased] event will fire for each
   /// [DownloadItem] that matches `query`, then
   /// `callback` will be called.
-  Future<List<int>> erase(DownloadQuery query) {
-    var $completer = Completer<List<int>>();
-    $js.chrome.downloads.erase(
-      query.toJS,
-      (JSArray erasedIds) {
-        if (checkRuntimeLastError($completer)) {
-          $completer
-              .complete(erasedIds.toDart.cast<int>().map((e) => e).toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<int>> erase(DownloadQuery query) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.downloads.erase(query.toJS));
+    return $res.toDart.cast<int>().map((e) => e).toList();
   }
 
   /// Remove the downloaded file if it exists and the [DownloadItem] is
   /// complete; otherwise return an error through [runtime.lastError].
-  Future<void> removeFile(int downloadId) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.removeFile(
-      downloadId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeFile(int downloadId) async {
+    await promiseToFuture<void>($js.chrome.downloads.removeFile(downloadId));
   }
 
   /// Prompt the user to accept a dangerous download. Can only be called from a
@@ -205,17 +143,8 @@ class ChromeDownloads {
   /// 'complete', and [onChanged] fires.
   /// |downloadId|: The identifier for the [DownloadItem].
   /// |callback|: Called when the danger prompt dialog closes.
-  Future<void> acceptDanger(int downloadId) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.acceptDanger(
-      downloadId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> acceptDanger(int downloadId) async {
+    await promiseToFuture<void>($js.chrome.downloads.acceptDanger(downloadId));
   }
 
   /// Enable or disable the gray shelf at the bottom of every window associated
@@ -237,17 +166,9 @@ class ChromeDownloads {
   /// permission in addition to the `"downloads"` permission.
   /// |options|: Encapsulate a change to the download UI.
   /// |callback|: Called when the UI update is completed.
-  Future<void> setUiOptions(UiOptions options) {
-    var $completer = Completer<void>();
-    $js.chrome.downloads.setUiOptions(
-      options.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setUiOptions(UiOptions options) async {
+    await promiseToFuture<void>(
+        $js.chrome.downloads.setUiOptions(options.toJS));
   }
 
   /// This event fires with the [DownloadItem] object when a download

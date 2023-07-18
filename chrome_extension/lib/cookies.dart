@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/cookies.dart' as $js;
 
@@ -16,17 +18,10 @@ class ChromeCookies {
   /// the same name exists for the given URL, the one with the longest path will
   /// be returned. For cookies with the same path length, the cookie with the
   /// earliest creation time will be returned.
-  Future<Cookie?> get(CookieDetails details) {
-    var $completer = Completer<Cookie?>();
-    $js.chrome.cookies.get(
-      details.toJS,
-      ($js.Cookie? cookie) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(cookie?.let(Cookie.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Cookie?> get(CookieDetails details) async {
+    var $res = await promiseToFuture<$js.Cookie?>(
+        $js.chrome.cookies.get(details.toJS));
+    return $res?.let(Cookie.fromJS);
   }
 
   /// Retrieves all cookies from a single cookie store that match the given
@@ -34,64 +29,36 @@ class ChromeCookies {
   /// longest path first.  If multiple cookies have the same path length, those
   /// with the earliest creation time will be first.
   /// [details] Information to filter the cookies being retrieved.
-  Future<List<Cookie>> getAll(GetAllDetails details) {
-    var $completer = Completer<List<Cookie>>();
-    $js.chrome.cookies.getAll(
-      details.toJS,
-      (JSArray cookies) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(cookies.toDart
-              .cast<$js.Cookie>()
-              .map((e) => Cookie.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Cookie>> getAll(GetAllDetails details) async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.cookies.getAll(details.toJS));
+    return $res.toDart.cast<$js.Cookie>().map((e) => Cookie.fromJS(e)).toList();
   }
 
   /// Sets a cookie with the given cookie data; may overwrite equivalent cookies
   /// if they exist.
   /// [details] Details about the cookie being set.
-  Future<Cookie?> set(SetDetails details) {
-    var $completer = Completer<Cookie?>();
-    $js.chrome.cookies.set(
-      details.toJS,
-      ($js.Cookie? cookie) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(cookie?.let(Cookie.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Cookie?> set(SetDetails details) async {
+    var $res = await promiseToFuture<$js.Cookie?>(
+        $js.chrome.cookies.set(details.toJS));
+    return $res?.let(Cookie.fromJS);
   }
 
   /// Deletes a cookie by name.
-  Future<RemoveCallbackDetails?> remove(CookieDetails details) {
-    var $completer = Completer<RemoveCallbackDetails?>();
-    $js.chrome.cookies.remove(
-      details.toJS,
-      ($js.RemoveCallbackDetails? details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(details?.let(RemoveCallbackDetails.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<RemoveCallbackDetails?> remove(CookieDetails details) async {
+    var $res = await promiseToFuture<$js.RemoveCallbackDetails?>(
+        $js.chrome.cookies.remove(details.toJS));
+    return $res?.let(RemoveCallbackDetails.fromJS);
   }
 
   /// Lists all existing cookie stores.
-  Future<List<CookieStore>> getAllCookieStores() {
-    var $completer = Completer<List<CookieStore>>();
-    $js.chrome.cookies.getAllCookieStores((JSArray cookieStores) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(cookieStores.toDart
-            .cast<$js.CookieStore>()
-            .map((e) => CookieStore.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<CookieStore>> getAllCookieStores() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.cookies.getAllCookieStores());
+    return $res.toDart
+        .cast<$js.CookieStore>()
+        .map((e) => CookieStore.fromJS(e))
+        .toList();
   }
 
   /// Fired when a cookie is set or removed. As a special case, note that

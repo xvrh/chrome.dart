@@ -18,33 +18,25 @@ class JSTabGroups {}
 
 extension JSTabGroupsExtension on JSTabGroups {
   /// Retrieves details about the specified group.
-  external void get(
-    int groupId,
-    JSFunction callback,
-  );
+  external JSPromise get(int groupId);
 
   /// Gets all groups that have the specified properties, or all groups if no
   /// properties are specified.
-  external void query(
-    QueryInfo queryInfo,
-    JSFunction callback,
-  );
+  external JSPromise query(QueryInfo queryInfo);
 
   /// Modifies the properties of a group. Properties that are not specified in
   /// [updateProperties] are not modified.
-  external void update(
+  external JSPromise update(
     /// The ID of the group to modify.
     int groupId,
     UpdateProperties updateProperties,
-    JSFunction? callback,
   );
 
   /// Moves the group and all its tabs within its window, or to a new window.
-  external void move(
+  external JSPromise move(
     /// The ID of the group to move.
     int groupId,
     MoveProperties moveProperties,
-    JSFunction? callback,
   );
 
   /// Fired when a group is created.

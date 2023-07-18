@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/system_display.dart' as $js;
 import 'system.dart';
@@ -17,36 +19,25 @@ class ChromeSystemDisplay {
   /// Requests the information for all attached display devices.
   /// |flags|: Options affecting how the information is returned.
   /// |callback|: The callback to invoke with the results.
-  Future<List<DisplayUnitInfo>> getInfo(GetInfoFlags? flags) {
-    var $completer = Completer<List<DisplayUnitInfo>>();
-    $js.chrome.system.display.getInfo(
-      flags?.toJS,
-      (JSArray displayInfo) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(displayInfo.toDart
-              .cast<$js.DisplayUnitInfo>()
-              .map((e) => DisplayUnitInfo.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<DisplayUnitInfo>> getInfo(GetInfoFlags? flags) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.system.display.getInfo(flags?.toJS));
+    return $res.toDart
+        .cast<$js.DisplayUnitInfo>()
+        .map((e) => DisplayUnitInfo.fromJS(e))
+        .toList();
   }
 
   /// Requests the layout info for all displays.
   /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   /// |callback|: The callback to invoke with the results.
-  Future<List<DisplayLayout>> getDisplayLayout() {
-    var $completer = Completer<List<DisplayLayout>>();
-    $js.chrome.system.display.getDisplayLayout((JSArray layouts) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(layouts.toDart
-            .cast<$js.DisplayLayout>()
-            .map((e) => DisplayLayout.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<DisplayLayout>> getDisplayLayout() async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.system.display.getDisplayLayout());
+    return $res.toDart
+        .cast<$js.DisplayLayout>()
+        .map((e) => DisplayLayout.fromJS(e))
+        .toList();
   }
 
   /// Updates the properties for the display specified by |id|, according to
@@ -63,18 +54,11 @@ class ChromeSystemDisplay {
   Future<void> setDisplayProperties(
     String id,
     DisplayProperties info,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.system.display.setDisplayProperties(
+  ) async {
+    await promiseToFuture<void>($js.chrome.system.display.setDisplayProperties(
       id,
       info.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Set the layout for all displays. Any display not included will use the
@@ -87,17 +71,9 @@ class ChromeSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  Future<void> setDisplayLayout(List<DisplayLayout> layouts) {
-    var $completer = Completer<void>();
-    $js.chrome.system.display.setDisplayLayout(
-      layouts.toJSArray((e) => e.toJS),
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setDisplayLayout(List<DisplayLayout> layouts) async {
+    await promiseToFuture<void>($js.chrome.system.display
+        .setDisplayLayout(layouts.toJSArray((e) => e.toJS)));
   }
 
   /// Enables/disables the unified desktop feature. If enabled while mirroring
@@ -156,17 +132,10 @@ class ChromeSystemDisplay {
   /// |callback|: Optional callback to inform the caller that the touch
   ///      calibration has ended. The argument of the callback informs if the
   ///      calibration was a success or not.
-  Future<bool> showNativeTouchCalibration(String id) {
-    var $completer = Completer<bool>();
-    $js.chrome.system.display.showNativeTouchCalibration(
-      id,
-      (bool success) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(success);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<bool> showNativeTouchCalibration(String id) async {
+    var $res = await promiseToFuture<bool>(
+        $js.chrome.system.display.showNativeTouchCalibration(id));
+    return $res;
   }
 
   /// Starts custom touch calibration for a display. This should be called when
@@ -212,17 +181,9 @@ class ChromeSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  Future<void> setMirrorMode(MirrorModeInfo info) {
-    var $completer = Completer<void>();
-    $js.chrome.system.display.setMirrorMode(
-      info.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> setMirrorMode(MirrorModeInfo info) async {
+    await promiseToFuture<void>(
+        $js.chrome.system.display.setMirrorMode(info.toJS));
   }
 
   /// Fired when anything changes to the display configuration.

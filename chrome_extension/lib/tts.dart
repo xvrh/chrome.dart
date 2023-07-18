@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/tts.dart' as $js;
 
@@ -21,18 +23,11 @@ class ChromeTts {
   Future<void> speak(
     String utterance,
     TtsOptions? options,
-  ) {
-    var $completer = Completer<void>();
-    $js.chrome.tts.speak(
+  ) async {
+    await promiseToFuture<void>($js.chrome.tts.speak(
       utterance,
       options?.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+    ));
   }
 
   /// Stops any current speech and flushes the queue of any pending utterances.
@@ -56,28 +51,18 @@ class ChromeTts {
   /// Checks whether the engine is currently speaking. On Mac OS X, the result
   /// is true whenever the system speech engine is speaking, even if the speech
   /// wasn't initiated by Chrome.
-  Future<bool> isSpeaking() {
-    var $completer = Completer<bool>();
-    $js.chrome.tts.isSpeaking((bool speaking) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(speaking);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<bool> isSpeaking() async {
+    var $res = await promiseToFuture<bool>($js.chrome.tts.isSpeaking());
+    return $res;
   }
 
   /// Gets an array of all available voices.
-  Future<List<TtsVoice>> getVoices() {
-    var $completer = Completer<List<TtsVoice>>();
-    $js.chrome.tts.getVoices((JSArray voices) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(voices.toDart
-            .cast<$js.TtsVoice>()
-            .map((e) => TtsVoice.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<TtsVoice>> getVoices() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.tts.getVoices());
+    return $res.toDart
+        .cast<$js.TtsVoice>()
+        .map((e) => TtsVoice.fromJS(e))
+        .toList();
   }
 
   /// Used to pass events back to the function calling speak().

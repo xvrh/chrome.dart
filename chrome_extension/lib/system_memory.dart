@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/system_memory.dart' as $js;
 import 'system.dart';
@@ -15,14 +17,10 @@ class ChromeSystemMemory {
   ChromeSystemMemory._();
 
   /// Get physical memory information.
-  Future<MemoryInfo> getInfo() {
-    var $completer = Completer<MemoryInfo>();
-    $js.chrome.system.memory.getInfo(($js.MemoryInfo info) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(MemoryInfo.fromJS(info));
-      }
-    }.toJS);
-    return $completer.future;
+  Future<MemoryInfo> getInfo() async {
+    var $res = await promiseToFuture<$js.MemoryInfo>(
+        $js.chrome.system.memory.getInfo());
+    return MemoryInfo.fromJS($res);
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'extension_types.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/web_navigation.dart' as $js;
@@ -16,33 +18,19 @@ class ChromeWebNavigation {
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.
   /// [details] Information about the frame to retrieve information about.
-  Future<GetFrameCallbackDetails?> getFrame(GetFrameDetails details) {
-    var $completer = Completer<GetFrameCallbackDetails?>();
-    $js.chrome.webNavigation.getFrame(
-      details.toJS,
-      ($js.GetFrameCallbackDetails? details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(details?.let(GetFrameCallbackDetails.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<GetFrameCallbackDetails?> getFrame(GetFrameDetails details) async {
+    var $res = await promiseToFuture<$js.GetFrameCallbackDetails?>(
+        $js.chrome.webNavigation.getFrame(details.toJS));
+    return $res?.let(GetFrameCallbackDetails.fromJS);
   }
 
   /// Retrieves information about all frames of a given tab.
   /// [details] Information about the tab to retrieve all frames from.
   Future<GetAllFramesCallbackDetails?> getAllFrames(
-      GetAllFramesDetails details) {
-    var $completer = Completer<GetAllFramesCallbackDetails?>();
-    $js.chrome.webNavigation.getAllFrames(
-      details.toJS,
-      ($js.GetAllFramesCallbackDetails? details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(details?.let(GetAllFramesCallbackDetails.fromJS));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      GetAllFramesDetails details) async {
+    var $res = await promiseToFuture<$js.GetAllFramesCallbackDetails?>(
+        $js.chrome.webNavigation.getAllFrames(details.toJS));
+    return $res?.let(GetAllFramesCallbackDetails.fromJS);
   }
 
   /// Fired when a navigation is about to occur.

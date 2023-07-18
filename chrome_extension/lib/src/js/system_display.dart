@@ -19,15 +19,12 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// Requests the information for all attached display devices.
   /// |flags|: Options affecting how the information is returned.
   /// |callback|: The callback to invoke with the results.
-  external void getInfo(
-    GetInfoFlags? flags,
-    JSFunction callback,
-  );
+  external JSPromise getInfo(GetInfoFlags? flags);
 
   /// Requests the layout info for all displays.
   /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
   /// |callback|: The callback to invoke with the results.
-  external void getDisplayLayout(JSFunction callback);
+  external JSPromise getDisplayLayout();
 
   /// Updates the properties for the display specified by |id|, according to
   /// the information provided in |info|. On failure, [runtime.lastError]
@@ -40,10 +37,9 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  external void setDisplayProperties(
+  external JSPromise setDisplayProperties(
     String id,
     DisplayProperties info,
-    JSFunction? callback,
   );
 
   /// Set the layout for all displays. Any display not included will use the
@@ -56,10 +52,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  external void setDisplayLayout(
-    JSArray layouts,
-    JSFunction? callback,
-  );
+  external JSPromise setDisplayLayout(JSArray layouts);
 
   /// Enables/disables the unified desktop feature. If enabled while mirroring
   /// is active, the desktop mode will not change until mirroring is turned
@@ -104,10 +97,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |callback|: Optional callback to inform the caller that the touch
   ///      calibration has ended. The argument of the callback informs if the
   ///      calibration was a success or not.
-  external void showNativeTouchCalibration(
-    String id,
-    JSFunction? callback,
-  );
+  external JSPromise showNativeTouchCalibration(String id);
 
   /// Starts custom touch calibration for a display. This should be called when
   /// using a custom UX for collecting calibration data. If another touch
@@ -143,10 +133,7 @@ extension JSSystemDisplayExtension on JSSystemDisplay {
   /// |callback|: Empty function called when the function finishes. To find out
   ///     whether the function succeeded, [runtime.lastError] should be
   ///     queried.
-  external void setMirrorMode(
-    MirrorModeInfo info,
-    JSFunction? callback,
-  );
+  external JSPromise setMirrorMode(MirrorModeInfo info);
 
   /// Fired when anything changes to the display configuration.
   external Event get onDisplayChanged;

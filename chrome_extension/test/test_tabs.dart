@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:chrome_apis/events.dart';
+import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/tabs.dart';
 import 'package:chrome_apis/windows.dart';
 import 'package:test/test.dart';
@@ -42,15 +44,8 @@ void testTabs() {
   });
 
   test('getCurrent', () async {
-    // The method getCurrent doesn't work (the callback is never called).
-    // The test expect it to timeout
-    try {
-      await chrome.tabs.getCurrent().timeout(const Duration(milliseconds: 200));
-      fail('Should timeout');
-    } on TimeoutException catch (e) {
-      // Success
-    }
-  }, timeout: Timeout(const Duration(seconds: 2)));
+    expect(await chrome.tabs.getCurrent(), isNull);
+  });
 
   test('create -- default options', () async {
     var tab = await chrome.tabs.create(CreateProperties(windowId: window.id));
@@ -244,13 +239,27 @@ void testTabs() {
     }));
     var updateProperties = UpdateProperties(active: true);
     await chrome.tabs.update(tab.id, updateProperties);
-  }, solo: true);
-/*
-    // TODO(DrMarcII): Figure out why highlighting tabs doesn't work
-    test('onHighlighted', () {
-      chrome.tabs.onHighlighted.listen((_) {}).cancel();
-    });
+  });
 
+  test('highlight throw exception if pass id', () async {
+    var newTab1 = await chrome.tabs.create(CreateProperties(
+        windowId: window.id, index: 0, url: 'https://google.com'));
+    expect(() => chrome.tabs.highlight(HighlightInfo(
+        windowId: window.id, tabs: newTab1.id!)), throwsA(anything));
+  });
+
+  test('onHighlighted', () async {
+    var newTab1 = await chrome.tabs.create(CreateProperties(
+        windowId: window.id, index: 0, url: 'https://google.com'));
+    var newTab2 = await chrome.tabs
+        .create(CreateProperties(windowId: window.id, index: 1));
+    var onHighlighted = chrome.tabs.onHighlighted.first;
+    await chrome.tabs.highlight(HighlightInfo(
+        windowId: window.id, tabs: [newTab1.index, newTab2.index]));
+    var result = await onHighlighted;
+    expect(result.tabIds, [newTab1.id, newTab2.id]);
+  });
+/*
     test('onDetached', () {
       chrome.TabsCreateParams createProperties =
           new chrome.TabsCreateParams(windowId: window.id);

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'extension_types.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/scripting.dart' as $js;
@@ -21,37 +23,21 @@ class ChromeScripting {
   /// |callback|: Invoked upon completion of the injection. The resulting
   /// array contains the result of execution for each frame where the
   /// injection succeeded.
-  Future<List<InjectionResult>> executeScript(ScriptInjection injection) {
-    var $completer = Completer<List<InjectionResult>>();
-    $js.chrome.scripting.executeScript(
-      injection.toJS,
-      (JSArray results) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(results.toDart
-              .cast<$js.InjectionResult>()
-              .map((e) => InjectionResult.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<InjectionResult>> executeScript(ScriptInjection injection) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.scripting.executeScript(injection.toJS));
+    return $res.toDart
+        .cast<$js.InjectionResult>()
+        .map((e) => InjectionResult.fromJS(e))
+        .toList();
   }
 
   /// Inserts a CSS stylesheet into a target context.
   /// If multiple frames are specified, unsuccessful injections are ignored.
   /// |injection|: The details of the styles to insert.
   /// |callback|: Invoked upon completion of the insertion.
-  Future<void> insertCSS(CSSInjection injection) {
-    var $completer = Completer<void>();
-    $js.chrome.scripting.insertCSS(
-      injection.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> insertCSS(CSSInjection injection) async {
+    await promiseToFuture<void>($js.chrome.scripting.insertCSS(injection.toJS));
   }
 
   /// Removes a CSS stylesheet that was previously inserted by this extension
@@ -61,17 +47,8 @@ class ChromeScripting {
   /// must exactly match the stylesheet inserted through [insertCSS].
   /// Attempting to remove a non-existent stylesheet is a no-op.
   /// |callback|: A callback to be invoked upon the completion of the removal.
-  Future<void> removeCSS(CSSInjection injection) {
-    var $completer = Completer<void>();
-    $js.chrome.scripting.removeCSS(
-      injection.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> removeCSS(CSSInjection injection) async {
+    await promiseToFuture<void>($js.chrome.scripting.removeCSS(injection.toJS));
   }
 
   /// Registers one or more content scripts for this extension.
@@ -80,17 +57,10 @@ class ChromeScripting {
   /// already exist, then no scripts are registered.
   /// |callback|: A callback to be invoked once scripts have been fully
   /// registered or if an error has occurred.
-  Future<void> registerContentScripts(List<RegisteredContentScript> scripts) {
-    var $completer = Completer<void>();
-    $js.chrome.scripting.registerContentScripts(
-      scripts.toJSArray((e) => e.toJS),
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> registerContentScripts(
+      List<RegisteredContentScript> scripts) async {
+    await promiseToFuture<void>($js.chrome.scripting
+        .registerContentScripts(scripts.toJSArray((e) => e.toJS)));
   }
 
   /// Returns all dynamically registered content scripts for this extension
@@ -98,20 +68,13 @@ class ChromeScripting {
   /// |filter|: An object to filter the extension's dynamically registered
   /// scripts.
   Future<List<RegisteredContentScript>> getRegisteredContentScripts(
-      ContentScriptFilter? filter) {
-    var $completer = Completer<List<RegisteredContentScript>>();
-    $js.chrome.scripting.getRegisteredContentScripts(
-      filter?.toJS,
-      (JSArray scripts) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(scripts.toDart
-              .cast<$js.RegisteredContentScript>()
-              .map((e) => RegisteredContentScript.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+      ContentScriptFilter? filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.scripting.getRegisteredContentScripts(filter?.toJS));
+    return $res.toDart
+        .cast<$js.RegisteredContentScript>()
+        .map((e) => RegisteredContentScript.fromJS(e))
+        .toList();
   }
 
   /// Unregisters content scripts for this extension.
@@ -120,17 +83,9 @@ class ChromeScripting {
   /// scripts are unregistered.
   /// |callback|: A callback to be invoked once scripts have been unregistered
   /// or if an error has occurred.
-  Future<void> unregisterContentScripts(ContentScriptFilter? filter) {
-    var $completer = Completer<void>();
-    $js.chrome.scripting.unregisterContentScripts(
-      filter?.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> unregisterContentScripts(ContentScriptFilter? filter) async {
+    await promiseToFuture<void>(
+        $js.chrome.scripting.unregisterContentScripts(filter?.toJS));
   }
 
   /// Updates one or more content scripts for this extension.
@@ -141,17 +96,10 @@ class ChromeScripting {
   /// are updated.
   /// |callback|: A callback to be invoked once scripts have been updated or
   /// if an error has occurred.
-  Future<void> updateContentScripts(List<RegisteredContentScript> scripts) {
-    var $completer = Completer<void>();
-    $js.chrome.scripting.updateContentScripts(
-      scripts.toJSArray((e) => e.toJS),
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> updateContentScripts(
+      List<RegisteredContentScript> scripts) async {
+    await promiseToFuture<void>($js.chrome.scripting
+        .updateContentScripts(scripts.toJSArray((e) => e.toJS)));
   }
 
   /// An object available for content scripts running in isolated worlds to use

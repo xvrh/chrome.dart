@@ -27,10 +27,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  external void mount(
-    MountOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise mount(MountOptions options);
 
   /// Unmounts a file system with the given `fileSystemId`. It
   /// must be called after [onUnmountRequested] is invoked. Also,
@@ -39,20 +36,14 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set with a
   /// corresponding error code.
-  external void unmount(
-    UnmountOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise unmount(UnmountOptions options);
 
   /// Returns all file systems mounted by the extension.
-  external void getAll(JSFunction callback);
+  external JSPromise getAll();
 
   /// Returns information about a file system with the passed
   /// `fileSystemId`.
-  external void get(
-    String fileSystemId,
-    JSFunction callback,
-  );
+  external JSPromise get(String fileSystemId);
 
   /// Notifies about changes in the watched directory at
   /// `observedPath` in `recursive` mode. If the file
@@ -83,10 +74,7 @@ extension JSFileSystemProviderExtension on JSFileSystemProvider {
   ///
   /// In case of an error, [runtime.lastError] will be set
   /// will a corresponding error code.
-  external void notify(
-    NotifyOptions options,
-    JSFunction? callback,
-  );
+  external JSPromise notify(NotifyOptions options);
 
   /// Raised when unmounting for the file system with the
   /// `fileSystemId` identifier is requested. In the response, the

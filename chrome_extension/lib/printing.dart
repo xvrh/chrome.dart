@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'printer_provider.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/printing.dart' as $js;
@@ -16,48 +18,28 @@ class ChromePrinting {
   /// Submits the job for print.
   /// If the extension is not listed in PrintingAPIExtensionsAllowlist policy,
   /// the user will be prompted to accept the print job.
-  Future<SubmitJobResponse> submitJob(SubmitJobRequest request) {
-    var $completer = Completer<SubmitJobResponse>();
-    $js.chrome.printing.submitJob(
-      request.toJS,
-      ($js.SubmitJobResponse response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(SubmitJobResponse.fromJS(response));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<SubmitJobResponse> submitJob(SubmitJobRequest request) async {
+    var $res = await promiseToFuture<$js.SubmitJobResponse>(
+        $js.chrome.printing.submitJob(request.toJS));
+    return SubmitJobResponse.fromJS($res);
   }
 
   /// Cancels previously submitted job.
   /// |jobId|: The id of the print job to cancel. This should be the same id
   /// received in a [SubmitJobResponse].
-  Future<void> cancelJob(String jobId) {
-    var $completer = Completer<void>();
-    $js.chrome.printing.cancelJob(
-      jobId,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> cancelJob(String jobId) async {
+    await promiseToFuture<void>($js.chrome.printing.cancelJob(jobId));
   }
 
   /// Returns the list of available printers on the device. This includes
   /// manually added, enterprise and discovered printers.
-  Future<List<Printer>> getPrinters() {
-    var $completer = Completer<List<Printer>>();
-    $js.chrome.printing.getPrinters((JSArray printers) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(printers.toDart
-            .cast<$js.Printer>()
-            .map((e) => Printer.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<Printer>> getPrinters() async {
+    var $res =
+        await promiseToFuture<JSArray>($js.chrome.printing.getPrinters());
+    return $res.toDart
+        .cast<$js.Printer>()
+        .map((e) => Printer.fromJS(e))
+        .toList();
   }
 
   /// Returns the status and capabilities of the printer in
@@ -65,17 +47,10 @@ class ChromePrinting {
   /// CDD format</a>.
   /// This call will fail with a runtime error if no printers with given id are
   /// installed.
-  Future<GetPrinterInfoResponse> getPrinterInfo(String printerId) {
-    var $completer = Completer<GetPrinterInfoResponse>();
-    $js.chrome.printing.getPrinterInfo(
-      printerId,
-      ($js.GetPrinterInfoResponse response) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(GetPrinterInfoResponse.fromJS(response));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<GetPrinterInfoResponse> getPrinterInfo(String printerId) async {
+    var $res = await promiseToFuture<$js.GetPrinterInfoResponse>(
+        $js.chrome.printing.getPrinterInfo(printerId));
+    return GetPrinterInfoResponse.fromJS($res);
   }
 
   /// The maximum number of times that [submitJob] can be called per

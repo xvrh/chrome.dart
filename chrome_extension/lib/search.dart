@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/search.dart' as $js;
 
@@ -15,17 +17,8 @@ class ChromeSearch {
   /// Used to query the default search provider.
   /// In case of an error,
   /// [runtime.lastError] will be set.
-  Future<void> query(QueryInfo queryInfo) {
-    var $completer = Completer<void>();
-    $js.chrome.search.query(
-      queryInfo.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> query(QueryInfo queryInfo) async {
+    await promiseToFuture<void>($js.chrome.search.query(queryInfo.toJS));
   }
 }
 

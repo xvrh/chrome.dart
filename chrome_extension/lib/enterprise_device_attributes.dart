@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_device_attributes.dart' as $js;
@@ -23,15 +25,10 @@ class ChromeEnterpriseDeviceAttributes {
   /// If the current user is not affiliated, returns an empty string.
   /// |callback| : Called with the device identifier of the directory API when
   /// received.
-  Future<String> getDirectoryDeviceId() {
-    var $completer = Completer<String>();
-    $js.chrome.enterprise.deviceAttributes
-        .getDirectoryDeviceId((String deviceId) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(deviceId);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getDirectoryDeviceId() async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.enterprise.deviceAttributes.getDirectoryDeviceId());
+    return $res;
   }
 
   /// Fetches the device's serial number. Please note the purpose of this API
@@ -40,57 +37,39 @@ class ChromeEnterpriseDeviceAttributes {
   /// devices without the consent of the device's administrator.
   /// If the current user is not affiliated, returns an empty string.
   /// |callback| : Called with the serial number of the device.
-  Future<String> getDeviceSerialNumber() {
-    var $completer = Completer<String>();
-    $js.chrome.enterprise.deviceAttributes
-        .getDeviceSerialNumber((String serialNumber) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(serialNumber);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getDeviceSerialNumber() async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.enterprise.deviceAttributes.getDeviceSerialNumber());
+    return $res;
   }
 
   /// Fetches the administrator-annotated Asset Id.
   /// If the current user is not affiliated or no Asset Id has been set by the
   /// administrator, returns an empty string.
   /// |callback| : Called with the Asset ID of the device.
-  Future<String> getDeviceAssetId() {
-    var $completer = Completer<String>();
-    $js.chrome.enterprise.deviceAttributes.getDeviceAssetId((String assetId) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(assetId);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getDeviceAssetId() async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.enterprise.deviceAttributes.getDeviceAssetId());
+    return $res;
   }
 
   /// Fetches the administrator-annotated Location.
   /// If the current user is not affiliated or no Annotated Location has been
   /// set by the administrator, returns an empty string.
   /// |callback| : Called with the Annotated Location of the device.
-  Future<String> getDeviceAnnotatedLocation() {
-    var $completer = Completer<String>();
-    $js.chrome.enterprise.deviceAttributes
-        .getDeviceAnnotatedLocation((String annotatedLocation) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(annotatedLocation);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getDeviceAnnotatedLocation() async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.enterprise.deviceAttributes.getDeviceAnnotatedLocation());
+    return $res;
   }
 
   /// Fetches the device's hostname as set by DeviceHostnameTemplate policy.
   /// If the current user is not affiliated or no hostname has been set by the
   /// enterprise policy, returns an empty string.
   /// |callback| : Called with hostname of the device.
-  Future<String> getDeviceHostname() {
-    var $completer = Completer<String>();
-    $js.chrome.enterprise.deviceAttributes.getDeviceHostname((String hostname) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(hostname);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String> getDeviceHostname() async {
+    var $res = await promiseToFuture<String>(
+        $js.chrome.enterprise.deviceAttributes.getDeviceHostname());
+    return $res;
   }
 }

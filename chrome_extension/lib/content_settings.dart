@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/content_settings.dart' as $js;
 
@@ -380,58 +382,29 @@ class ContentSetting {
   $js.ContentSetting get toJS => _wrapped;
 
   /// Clear all content setting rules set by this extension.
-  Future<void> clear(ClearDetails details) {
-    var $completer = Completer<void>();
-    _wrapped.clear(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> clear(ClearDetails details) async {
+    await promiseToFuture<void>(_wrapped.clear(details.toJS));
   }
 
   /// Gets the current content setting for a given pair of URLs.
-  Future<GetCallbackDetails> get(GetDetails details) {
-    var $completer = Completer<GetCallbackDetails>();
-    _wrapped.get(
-      details.toJS,
-      ($js.GetCallbackDetails details) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(GetCallbackDetails.fromJS(details));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<GetCallbackDetails> get(GetDetails details) async {
+    var $res = await promiseToFuture<$js.GetCallbackDetails>(
+        _wrapped.get(details.toJS));
+    return GetCallbackDetails.fromJS($res);
   }
 
   /// Applies a new content setting rule.
-  Future<void> set(SetDetails details) {
-    var $completer = Completer<void>();
-    _wrapped.set(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> set(SetDetails details) async {
+    await promiseToFuture<void>(_wrapped.set(details.toJS));
   }
 
-  Future<List<ResourceIdentifier>?> getResourceIdentifiers() {
-    var $completer = Completer<List<ResourceIdentifier>?>();
-    _wrapped.getResourceIdentifiers((JSArray? resourceIdentifiers) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(resourceIdentifiers?.toDart
-            .cast<$js.ResourceIdentifier>()
-            .map((e) => ResourceIdentifier.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<ResourceIdentifier>?> getResourceIdentifiers() async {
+    var $res =
+        await promiseToFuture<JSArray?>(_wrapped.getResourceIdentifiers());
+    return $res?.toDart
+        .cast<$js.ResourceIdentifier>()
+        .map((e) => ResourceIdentifier.fromJS(e))
+        .toList();
   }
 }
 

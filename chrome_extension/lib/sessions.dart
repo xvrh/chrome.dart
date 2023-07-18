@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/sessions.dart' as $js;
 import 'tabs.dart';
@@ -15,37 +17,20 @@ class ChromeSessions {
   ChromeSessions._();
 
   /// Gets the list of recently closed tabs and/or windows.
-  Future<List<Session>> getRecentlyClosed(Filter? filter) {
-    var $completer = Completer<List<Session>>();
-    $js.chrome.sessions.getRecentlyClosed(
-      filter?.toJS,
-      (JSArray sessions) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(sessions.toDart
-              .cast<$js.Session>()
-              .map((e) => Session.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Session>> getRecentlyClosed(Filter? filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.sessions.getRecentlyClosed(filter?.toJS));
+    return $res.toDart
+        .cast<$js.Session>()
+        .map((e) => Session.fromJS(e))
+        .toList();
   }
 
   /// Retrieves all devices with synced sessions.
-  Future<List<Device>> getDevices(Filter? filter) {
-    var $completer = Completer<List<Device>>();
-    $js.chrome.sessions.getDevices(
-      filter?.toJS,
-      (JSArray devices) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(devices.toDart
-              .cast<$js.Device>()
-              .map((e) => Device.fromJS(e))
-              .toList());
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<List<Device>> getDevices(Filter? filter) async {
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.sessions.getDevices(filter?.toJS));
+    return $res.toDart.cast<$js.Device>().map((e) => Device.fromJS(e)).toList();
   }
 
   /// Reopens a [windows.Window] or [tabs.Tab], with an optional callback to run
@@ -53,17 +38,10 @@ class ChromeSessions {
   /// [sessionId] The [windows.Window.sessionId], or [tabs.Tab.sessionId] to
   /// restore. If this parameter is not specified, the most recently closed
   /// session is restored.
-  Future<Session> restore(String? sessionId) {
-    var $completer = Completer<Session>();
-    $js.chrome.sessions.restore(
-      sessionId,
-      ($js.Session restoredSession) {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(Session.fromJS(restoredSession));
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<Session> restore(String? sessionId) async {
+    var $res = await promiseToFuture<$js.Session>(
+        $js.chrome.sessions.restore(sessionId));
+    return Session.fromJS($res);
   }
 
   /// The maximum number of [sessions.Session] that will be included in a

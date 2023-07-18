@@ -19,40 +19,25 @@ class JSHistory {}
 extension JSHistoryExtension on JSHistory {
   /// Searches the history for the last visit time of each page matching the
   /// query.
-  external void search(
-    SearchQuery query,
-    JSFunction callback,
-  );
+  external JSPromise search(SearchQuery query);
 
   /// Retrieves information about visits to a URL.
-  external void getVisits(
-    UrlDetails details,
-    JSFunction callback,
-  );
+  external JSPromise getVisits(UrlDetails details);
 
   /// Adds a URL to the history at the current time with a [transition
   /// type](#transition_types) of "link".
-  external void addUrl(
-    UrlDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise addUrl(UrlDetails details);
 
   /// Removes all occurrences of the given URL from the history.
-  external void deleteUrl(
-    UrlDetails details,
-    JSFunction? callback,
-  );
+  external JSPromise deleteUrl(UrlDetails details);
 
   /// Removes all items within the specified date range from the history.  Pages
   /// will not be removed from the history unless all visits fall within the
   /// range.
-  external void deleteRange(
-    DeleteRangeRange range,
-    JSFunction callback,
-  );
+  external JSPromise deleteRange(DeleteRangeRange range);
 
   /// Deletes all items from the history.
-  external void deleteAll(JSFunction callback);
+  external JSPromise deleteAll();
 
   /// Fired when a URL is visited, providing the HistoryItem data for that URL.
   /// This event fires before the page has loaded.

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/commands.dart' as $js;
 import 'src/js/tabs.dart' as $js_tabs;
@@ -16,17 +18,12 @@ class ChromeCommands {
 
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).
-  Future<List<Command>> getAll() {
-    var $completer = Completer<List<Command>>();
-    $js.chrome.commands.getAll((JSArray commands) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(commands.toDart
-            .cast<$js.Command>()
-            .map((e) => Command.fromJS(e))
-            .toList());
-      }
-    }.toJS);
-    return $completer.future;
+  Future<List<Command>> getAll() async {
+    var $res = await promiseToFuture<JSArray>($js.chrome.commands.getAll());
+    return $res.toDart
+        .cast<$js.Command>()
+        .map((e) => Command.fromJS(e))
+        .toList();
   }
 
   /// Fired when a registered command is activated using a keyboard shortcut.

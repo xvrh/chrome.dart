@@ -173,7 +173,8 @@ class IdlModelConverter {
 
           callback = _asyncTypeFromParameter(callbackDeclaration.parameters,
               parentName: '${function.name.upperCamel}Result',
-              jsIsNullable: paramDecl.isOptional);
+              jsIsNullable: paramDecl.isOptional)
+            ..supportsPromises = function.attribute.supportsPromises;
           if (function.returnType.name != 'void') {
             throw UnimplementedError(
                 'Async with non void function ${model.name} / ${function.name}');

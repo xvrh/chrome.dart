@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/web_authentication_proxy.dart' as $js;
 
@@ -18,51 +20,27 @@ class ChromeWebAuthenticationProxy {
   /// `onCreateRequest` event it has received, unless the request
   /// was canceled (in which case, an `onRequestCanceled` event is
   /// fired).
-  Future<void> completeCreateRequest(CreateResponseDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.webAuthenticationProxy.completeCreateRequest(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> completeCreateRequest(CreateResponseDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.webAuthenticationProxy.completeCreateRequest(details.toJS));
   }
 
   /// Reports the result of a `navigator.credentials.get()` call.
   /// The extension must call this for every `onGetRequest` event
   /// it has received, unless the request was canceled (in which case, an
   /// `onRequestCanceled` event is fired).
-  Future<void> completeGetRequest(GetResponseDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.webAuthenticationProxy.completeGetRequest(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> completeGetRequest(GetResponseDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.webAuthenticationProxy.completeGetRequest(details.toJS));
   }
 
   /// Reports the result of a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticator()`
   /// call. The extension must call this for every
   /// `onIsUvpaaRequest` event it has received.
-  Future<void> completeIsUvpaaRequest(IsUvpaaResponseDetails details) {
-    var $completer = Completer<void>();
-    $js.chrome.webAuthenticationProxy.completeIsUvpaaRequest(
-      details.toJS,
-      () {
-        if (checkRuntimeLastError($completer)) {
-          $completer.complete(null);
-        }
-      }.toJS,
-    );
-    return $completer.future;
+  Future<void> completeIsUvpaaRequest(IsUvpaaResponseDetails details) async {
+    await promiseToFuture<void>(
+        $js.chrome.webAuthenticationProxy.completeIsUvpaaRequest(details.toJS));
   }
 
   /// Makes this extension the active Web Authentication API request proxy.
@@ -83,14 +61,10 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  Future<String?> attach() {
-    var $completer = Completer<String?>();
-    $js.chrome.webAuthenticationProxy.attach((String? error) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(error);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String?> attach() async {
+    var $res = await promiseToFuture<String?>(
+        $js.chrome.webAuthenticationProxy.attach());
+    return $res;
   }
 
   /// Removes this extension from being the active Web Authentication API
@@ -103,14 +77,10 @@ class ChromeWebAuthenticationProxy {
   /// Refer to the `onRemoteSessionStateChange` event for signaling
   /// a change of remote session attachment from a native application to to
   /// the (possibly suspended) extension.
-  Future<String?> detach() {
-    var $completer = Completer<String?>();
-    $js.chrome.webAuthenticationProxy.detach((String? error) {
-      if (checkRuntimeLastError($completer)) {
-        $completer.complete(error);
-      }
-    }.toJS);
-    return $completer.future;
+  Future<String?> detach() async {
+    var $res = await promiseToFuture<String?>(
+        $js.chrome.webAuthenticationProxy.detach());
+    return $res;
   }
 
   /// A native application associated with this extension can cause this

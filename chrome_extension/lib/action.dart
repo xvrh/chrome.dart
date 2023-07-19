@@ -1,9 +1,7 @@
 import 'dart:js_util';
 
-import 'browser_action.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/action.dart' as $js;
-import 'src/js/browser_action.dart' as $js_browser_action;
 import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
@@ -78,10 +76,9 @@ class ChromeAction {
 
   /// Gets the background color of the action.
   Future<ColorArray> getBadgeBackgroundColor(TabDetails details) async {
-    var $res = await promiseToFuture<$js_browser_action.ColorArray>(
+    var $res = await promiseToFuture<$js.ColorArray>(
         $js.chrome.action.getBadgeBackgroundColor(details.toJS));
-    //return ColorArray.fromJS($res);
-    throw UnimplementedError();
+    return $res.toDart.cast<int>().map((e) => e).toList();
   }
 
   /// Sets the text color for the badge.
@@ -92,9 +89,10 @@ class ChromeAction {
 
   /// Gets the text color of the action.
   Future<ColorArray> getBadgeTextColor(TabDetails details) async {
-    var $res = await promiseToFuture<$js_browser_action.ColorArray>(
+    var $res = await promiseToFuture<$js.ColorArray>(
         $js.chrome.action.getBadgeTextColor(details.toJS));
-    throw UnimplementedError();  }
+    return $res.toDart.cast<int>().map((e) => e).toList();
+  }
 
   /// Enables the action for a tab. By default, actions are enabled.
   /// [tabId] The id of the tab for which you want to modify the action.

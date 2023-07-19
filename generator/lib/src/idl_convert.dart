@@ -100,7 +100,7 @@ class IdlModelConverter {
             documentation: _toDocumentation(callback.documentation)));
       }
       type = AliasedType(callback.name, type,
-          declarationFile: _targetFileName, isNullable: param.isOptional);
+          locationFile: _targetFileName, isNullable: param.isOptional);
     } else {
       type = _typeFromName(param.type, isNullable: param.isOptional);
     }
@@ -226,9 +226,7 @@ class IdlModelConverter {
     if (type.isArray) {
       isNullable = false;
     }
-    var chromeType = ChromeType.tryParse(name, isNullable: isNullable) ??
-        LocalType.parse(name,
-            selfFileName: _targetFileName, isNullable: isNullable);
+    var chromeType = context.createType(name, locationFile: _targetFileName, isNullable: isNullable);
     if (type.isArray) {
       return ListType(chromeType, isNullable: arrayIsNullable);
     }

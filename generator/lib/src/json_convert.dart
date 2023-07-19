@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 
 import 'chrome_model.dart';
@@ -292,7 +294,7 @@ class JsonModelConverter {
 
   Iterable<Typedef> _convertTypedefs() sync* {
     for (var type
-        in model.types.where((t) => t.type != 'object' && t.enums == null)) {
+        in model.types.where((t) => t.type != 'object' && t.enums == null && t.choices == null)) {
       ChromeType? target;
 
       if (type.type == 'array') {
@@ -301,12 +303,16 @@ class JsonModelConverter {
                 anonymous: false, isNullable: false) ??
             _propertyType(items);
         target = ListType(typeRef, isNullable: false);
-      } else if (type.isInstanceOf case var isInstanceOf?) {
-        target = ChromeType.tryParse(isInstanceOf, isNullable: false)!;
-      } else if (type.type case var type?) {
-        target = ChromeType.tryParse(type, isNullable: false)!;
       } else {
-        target = VariousType(isNullable: false);
+        String typeName;
+        if (type.isInstanceOf case var isInstanceOf?) {
+          typeName = isInstanceOf;
+        } else if (type.type case var type?) {
+          typeName = type;
+        } else {
+          throw UnimplementedError('Unknown type in ${model.namespace} ${type.id}');
+        }
+        target = context.createType(typeName, locationFile: _targetFileName, isNullable: false);
       }
 
       yield Typedef(type.id, target: target, documentation: type.description);

@@ -14,33 +14,43 @@ final targetPath = '../chrome_extension/lib';
 
 void main() {
   var groups = <String, List<ChromeApi>>{};
-  var apis = <ChromeApi>[];
+  var context = Context();
   for (var apiName in extensionApis) {
-    var api = generateApi(apiName);
+    var api = _createApi(context, apiName);
     if (api.group case var group?) {
       (groups[group] ??= []).add(api);
     }
-    apis.add(api);
+    context.apis.add(api);
   }
+  context.resolveLazyTypes();
+
+  for (var api in context.apis) {
+    _generateCode(api);
+  }
+
   for (var group in groups.entries) {
     File(p.join(targetPath, '${group.key.snakeCase}.dart'))
         .writeAsStringSync(generateDartGroupCode(group.key, group.value));
   }
   File(p.join(targetPath, 'chrome.dart'))
-      .writeAsStringSync(generateChromeCode(apis, groups.keys.toList()));
+      .writeAsStringSync(generateChromeCode(context.apis, groups.keys.toList()));
 }
 
-ChromeApi generateApi(String apiName) {
+ChromeApi _createApi(Context context, String apiName) {
   var idlFile = _locateDefinitionFile(apiName);
   var content = idlFile.readAsStringSync();
 
   ChromeApi model;
   if (idlFile.path.endsWith('.json')) {
-    model = JsonModelConverter(json.JsonNamespace.parse(content)).convert();
+    model = JsonModelConverter(context, json.JsonNamespace.parse(content)).convert();
   } else {
-    model = idl.IdlModelConverter.fromString(content).convert();
+    model = idl.IdlModelConverter.fromString(context, content).convert();
   }
 
+  return model;
+}
+
+void _generateCode(ChromeApi model) {
   File(p.join(targetPath, 'src', 'js', model.fileName))
       .writeAsStringSync(JsBindingGenerator(model).toCode());
   File(p.join(targetPath, model.fileName))
@@ -50,7 +60,6 @@ ChromeApi generateApi(String apiName) {
     File(p.join(targetPath, 'src', 'js', '${group.snakeCase}.dart'))
         .writeAsStringSync(generateJSGroupCode(group));
   }
-  return model;
 }
 
 File _locateDefinitionFile(String apiName) {

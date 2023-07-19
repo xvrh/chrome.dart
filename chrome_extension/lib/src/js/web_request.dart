@@ -96,12 +96,6 @@ typedef IgnoredActionType = String;
 /// containing the keys `name` and either `value` or `binaryValue`.
 typedef HttpHeaders = JSArray;
 
-/// Contains data passed within form data. For urlencoded form it is stored as
-/// string if data is utf-8 string and as ArrayBuffer otherwise. For form-data
-/// it is ArrayBuffer. If form-data represents uploading file, it is string with
-/// filename, if the filename is provided.
-typedef FormDataItem = JSAny;
-
 @JS()
 @staticInterop
 class RequestFilter {}
@@ -166,22 +160,6 @@ extension UploadDataExtension on UploadData {
 
   /// A string with the file's path and name.
   external String? file;
-}
-
-@JS()
-@staticInterop
-class HttpHeadersItems {}
-
-extension HttpHeadersItemsExtension on HttpHeadersItems {
-  /// Name of the HTTP header.
-  external String name;
-
-  /// Value of the HTTP header if it can be represented by UTF-8.
-  external String? value;
-
-  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
-  /// individual byte values (0..255).
-  external JSArray? binaryValue;
 }
 
 @JS()
@@ -795,6 +773,22 @@ extension OnActionIgnoredDetailsExtension on OnActionIgnoredDetails {
 
   /// The proposed action which was ignored.
   external IgnoredActionType action;
+}
+
+@JS()
+@staticInterop
+class HttpHeadersItems {}
+
+extension HttpHeadersItemsExtension on HttpHeadersItems {
+  /// Name of the HTTP header.
+  external String name;
+
+  /// Value of the HTTP header if it can be represented by UTF-8.
+  external String? value;
+
+  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+  /// individual byte values (0..255).
+  external JSArray? binaryValue;
 }
 
 @JS()

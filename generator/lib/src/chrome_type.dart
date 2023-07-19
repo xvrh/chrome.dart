@@ -4,11 +4,35 @@ import 'utils/string.dart';
 
 class Context {
   final apis = <ChromeApi>[];
-  final lazyTypes = <LazyType>[];
+  final _lazyTypes = <LazyType>[];
 
-  ChromeType createType(String rawName,
+  void resolveLazyTypes() {
+    for (var type in _lazyTypes) {
+      type.resolve(apis);
+    }
+  }
+
+  ChromeType createType(String input,
       {required String locationFile, required bool isNullable}) {
+    var split = input.split('.');
+    String? prefix;
+    if (split.length > 1) {
+      prefix = split.first;
+    }
+    var name = split.last;
 
+    if (prefix == null) {
+      var primitive = _PrimitiveType.tryParse(input, isNullable: isNullable);
+      if (primitive != null) {
+        return primitive;
+      }
+    }
+    return LazyType(
+      context: this,
+        name: name,
+        prefix: prefix,
+        locationFile: locationFile,
+        isNullable: isNullable);
   }
 }
 
@@ -31,7 +55,7 @@ sealed class ChromeType {
 
   ChromeType copyWith({required bool isNullable});
 
-  var a = "";
+  var _ = "";
   //static ChromeType? tryParse(String input, {required bool isNullable}) {
   //  return PrimitiveType.tryParse(input, isNullable: isNullable) ??
   //      WebType.tryParse(input, isNullable: isNullable) ??
@@ -40,33 +64,103 @@ sealed class ChromeType {
   //}
 }
 
-class LazyType {
+class LazyType extends ChromeType {
   final Context context;
   final String name;
   final String? prefix;
   final String locationFile;
+  ChromeType? _resolved;
 
   LazyType({
     required this.context,
     required this.name,
     required this.prefix,
     required this.locationFile,
-  });
-
-  static LazyType parse(String input,
-      {required Context context, required String locationFile}) {
-    var split = input.split('.');
-    String? prefix;
-    if (split.length > 1) {
-      prefix = split.first;
-    }
-    var name = split.last;
-    return LazyType(
-        context: context,
-        name: name,
-        prefix: prefix,
-        locationFile: locationFile);
+    required bool isNullable,
+  }) : super(isNullable: isNullable) {
+    context._lazyTypes.add(this);
   }
+
+  @override
+  ChromeType copyWith({required bool isNullable}) {
+    if (_resolved case var resolved?) {
+      return resolved.copyWith(isNullable: isNullable);
+    } else {
+      return LazyType(
+        context: context,
+          name: name,
+          prefix: prefix,
+          locationFile: locationFile,
+          isNullable: isNullable);
+    }
+  }
+
+  String? get _prefixUrl => prefix != null ? '${prefix!.snakeCase}.dart' : null;
+
+  void resolve(List<ChromeApi> apis) {
+    _resolved = _resolve(apis);
+  }
+
+  ChromeType _resolve(List<ChromeApi> apis) {
+    ChromeType? searchTypeInApi(String name, ChromeApi api) {
+      for (var dict in api.dictionaries) {
+        if (dict.name == name) {
+          return DictionaryType(name,
+              url: _prefixUrl,
+              locationFile: locationFile, isNullable: isNullable);
+        }
+      }
+      if (api.enumerations.any((e) => e.name == name)) {
+        return EnumType(name,
+            url: _prefixUrl,
+            locationFile: locationFile, isNullable: isNullable);
+      }
+      for (var typedef in api.typedefs) {
+        if (typedef.alias == name) {
+          return AliasedType(name, typedef.target, locationFile: locationFile, isNullable: isNullable);
+        }
+      }
+      return null;
+    }
+
+    ChromeType? tryParse(String input) {
+      return _WebType.tryParse(input, isNullable: isNullable) ??
+          JSFunctionType.tryParse(input, isNullable: isNullable) ??
+          _VariousType.tryParse(input, isNullable: isNullable);
+    }
+
+    if (prefix != null) {
+      for (var api in apis) {
+        if (api.group == prefix && api.fileName != locationFile ||
+            api.name == prefix) {
+          var found = searchTypeInApi(name, api);
+          if (found != null) return found;
+        }
+      }
+      throw Exception('Type $name not found');
+    } else {
+      var thisApi = apis.singleWhere((e) => e.fileName == locationFile);
+      var found = searchTypeInApi(name, thisApi) ?? tryParse(name);
+      if (found != null) return found;
+
+      throw Exception('Type $name not found');
+    }
+  }
+
+  @override
+  code.Reference get dartType => _resolved!.dartType;
+
+  @override
+  code.Reference get jsType => _resolved!.jsType;
+
+  @override
+  code.Reference get jsTypeReferencedFromDart => _resolved!.jsTypeReferencedFromDart;
+
+  @override
+  code.Expression toDart(code.Expression accessor) => _resolved!.toDart(accessor);
+
+  @override
+  code.Expression toJS(code.Expression accessor) => _resolved!.toJS(accessor);
 }
 
 sealed class _PrimitiveType extends ChromeType {
@@ -422,20 +516,20 @@ class ListType extends ChromeType {
   }
 }
 
-class _AliasedType extends ChromeType {
+class AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
-  final String declarationFile;
+  final String locationFile;
 
-  _AliasedType(this.alias, ChromeType original,
-      {required this.declarationFile, required bool isNullable})
+  AliasedType(this.alias, ChromeType original,
+      {required this.locationFile, required bool isNullable})
       : original = original.copyWith(isNullable: isNullable),
         super(isNullable: isNullable);
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      _AliasedType(alias, original,
-          declarationFile: declarationFile, isNullable: isNullable);
+      AliasedType(alias, original,
+          locationFile: locationFile, isNullable: isNullable);
 
   @override
   code.Reference get jsType {
@@ -452,7 +546,7 @@ class _AliasedType extends ChromeType {
     if (originalType is code.TypeReference) {
       return originalType.rebuild((b) => b
         ..symbol = alias
-        ..url = 'src/js/$declarationFile');
+        ..url = 'src/js/$locationFile');
     }
     return originalType;
   }
@@ -537,6 +631,33 @@ class AsyncReturnType extends ChromeType {
   code.Expression toJS(code.Expression accessor) =>
       _dart?.toJS(accessor) ?? accessor;
 }
+
+class ChoiceType extends ChromeType {
+  ChoiceType({required super.isNullable});
+
+  @override
+  code.Reference get dartType => code.TypeReference((b) => b
+    ..symbol = 'Object'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'JSAny'
+    ..isNullable = isNullable);
+
+  @override
+  code.Expression toDart(code.Expression accessor) => accessor;
+
+  @override
+  code.Expression toJS(code.Expression accessor) {
+    return accessor.nullSafePropertyIf('toJS', isNullable);
+  }
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      ChoiceType(isNullable: isNullable);
+}
+
 
 extension on code.Expression {
   code.Expression nullSafePropertyIf(String name, bool isNullable) {

@@ -468,8 +468,8 @@ class DartApiGenerator extends _GeneratorBase {
   }
 
   Iterable<Spec> _dictionary(model.Dictionary dictionary) sync* {
-    var type = model.LocalType(dictionary.name,
-        declarationFile: api.fileName, isNullable: false);
+    var type = model.DictionaryType(dictionary.name,
+        locationFile: api.fileName, isNullable: false);
 
     const wrappedVariable = '_wrapped';
 

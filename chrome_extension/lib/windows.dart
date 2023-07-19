@@ -17,58 +17,58 @@ class ChromeWindows {
   ChromeWindows._();
 
   /// Gets details about a window.
-  Future<JSObject> get(
+  Future<Window> get(
     int windowId,
     QueryOptions? queryOptions,
   ) async {
-    var $res = await promiseToFuture<JSObject>($js.chrome.windows.get(
+    var $res = await promiseToFuture<$js.Window>($js.chrome.windows.get(
       windowId,
       queryOptions?.toJS,
     ));
-    return $res;
+    return Window.fromJS($res);
   }
 
   /// Gets the [current window](#current-window).
-  Future<JSObject> getCurrent(QueryOptions? queryOptions) async {
-    var $res = await promiseToFuture<JSObject>(
+  Future<Window> getCurrent(QueryOptions? queryOptions) async {
+    var $res = await promiseToFuture<$js.Window>(
         $js.chrome.windows.getCurrent(queryOptions?.toJS));
-    return $res;
+    return Window.fromJS($res);
   }
 
   /// Gets the window that was most recently focused - typically the window 'on
   /// top'.
-  Future<JSObject> getLastFocused(QueryOptions? queryOptions) async {
-    var $res = await promiseToFuture<JSObject>(
+  Future<Window> getLastFocused(QueryOptions? queryOptions) async {
+    var $res = await promiseToFuture<$js.Window>(
         $js.chrome.windows.getLastFocused(queryOptions?.toJS));
-    return $res;
+    return Window.fromJS($res);
   }
 
   /// Gets all windows.
-  Future<List<JSObject>> getAll(QueryOptions? queryOptions) async {
+  Future<List<Window>> getAll(QueryOptions? queryOptions) async {
     var $res = await promiseToFuture<JSArray>(
         $js.chrome.windows.getAll(queryOptions?.toJS));
-    return $res.toDart.cast<JSObject>().map((e) => e).toList();
+    return $res.toDart.cast<$js.Window>().map((e) => Window.fromJS(e)).toList();
   }
 
   /// Creates (opens) a new browser window with any optional sizing, position,
   /// or default URL provided.
-  Future<JSObject?> create(CreateData? createData) async {
-    var $res = await promiseToFuture<JSObject?>(
+  Future<Window?> create(CreateData? createData) async {
+    var $res = await promiseToFuture<$js.Window?>(
         $js.chrome.windows.create(createData?.toJS));
-    return $res;
+    return $res?.let(Window.fromJS);
   }
 
   /// Updates the properties of a window. Specify only the properties that to be
   /// changed; unspecified properties are unchanged.
-  Future<JSObject> update(
+  Future<Window> update(
     int windowId,
     UpdateInfo updateInfo,
   ) async {
-    var $res = await promiseToFuture<JSObject>($js.chrome.windows.update(
+    var $res = await promiseToFuture<$js.Window>($js.chrome.windows.update(
       windowId,
       updateInfo.toJS,
     ));
-    return $res;
+    return Window.fromJS($res);
   }
 
   /// Removes (closes) a window and all the tabs inside it.
@@ -84,9 +84,9 @@ class ChromeWindows {
   int get windowIdCurrent => $js.chrome.windows.WINDOW_ID_CURRENT;
 
   /// Fired when a window is created.
-  Stream<JSObject> get onCreated =>
-      $js.chrome.windows.onCreated.asStream(($c) => (JSObject window) {
-            $c.add(window);
+  Stream<Window> get onCreated =>
+      $js.chrome.windows.onCreated.asStream(($c) => ($js.Window window) {
+            $c.add(Window.fromJS(window));
           }.toJS);
 
   /// Fired when a window is removed (closed).
@@ -106,9 +106,9 @@ class ChromeWindows {
 
   /// Fired when a window has been resized; this event is only dispatched when
   /// the new bounds are committed, and not for in-progress changes.
-  Stream<JSObject> get onBoundsChanged =>
-      $js.chrome.windows.onBoundsChanged.asStream(($c) => (JSObject window) {
-            $c.add(window);
+  Stream<Window> get onBoundsChanged =>
+      $js.chrome.windows.onBoundsChanged.asStream(($c) => ($js.Window window) {
+            $c.add(Window.fromJS(window));
           }.toJS);
 }
 

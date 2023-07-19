@@ -286,12 +286,6 @@ enum IgnoredActionType {
 /// containing the keys `name` and either `value` or `binaryValue`.
 typedef HttpHeaders = List<HttpHeadersItems>;
 
-/// Contains data passed within form data. For urlencoded form it is stored as
-/// string if data is utf-8 string and as ArrayBuffer otherwise. For form-data
-/// it is ArrayBuffer. If form-data represents uploading file, it is string with
-/// filename, if the filename is provided.
-typedef FormDataItem = Object;
-
 class RequestFilter {
   RequestFilter.fromJS(this._wrapped);
 
@@ -436,43 +430,6 @@ class UploadData {
   String? get file => _wrapped.file;
   set file(String? v) {
     _wrapped.file = v;
-  }
-}
-
-class HttpHeadersItems {
-  HttpHeadersItems.fromJS(this._wrapped);
-
-  HttpHeadersItems({
-    required String name,
-    String? value,
-    List<int>? binaryValue,
-  }) : _wrapped = $js.HttpHeadersItems()
-          ..name = name
-          ..value = value
-          ..binaryValue = binaryValue?.toJSArray((e) => e);
-
-  final $js.HttpHeadersItems _wrapped;
-
-  $js.HttpHeadersItems get toJS => _wrapped;
-
-  /// Name of the HTTP header.
-  String get name => _wrapped.name;
-  set name(String v) {
-    _wrapped.name = v;
-  }
-
-  /// Value of the HTTP header if it can be represented by UTF-8.
-  String? get value => _wrapped.value;
-  set value(String? v) {
-    _wrapped.value = v;
-  }
-
-  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
-  /// individual byte values (0..255).
-  List<int>? get binaryValue =>
-      _wrapped.binaryValue?.toDart.cast<int>().map((e) => e).toList();
-  set binaryValue(List<int>? v) {
-    _wrapped.binaryValue = v?.toJSArray((e) => e);
   }
 }
 
@@ -1923,6 +1880,43 @@ class OnActionIgnoredDetails {
   IgnoredActionType get action => IgnoredActionType.fromJS(_wrapped.action);
   set action(IgnoredActionType v) {
     _wrapped.action = v.toJS;
+  }
+}
+
+class HttpHeadersItems {
+  HttpHeadersItems.fromJS(this._wrapped);
+
+  HttpHeadersItems({
+    required String name,
+    String? value,
+    List<int>? binaryValue,
+  }) : _wrapped = $js.HttpHeadersItems()
+          ..name = name
+          ..value = value
+          ..binaryValue = binaryValue?.toJSArray((e) => e);
+
+  final $js.HttpHeadersItems _wrapped;
+
+  $js.HttpHeadersItems get toJS => _wrapped;
+
+  /// Name of the HTTP header.
+  String get name => _wrapped.name;
+  set name(String v) {
+    _wrapped.name = v;
+  }
+
+  /// Value of the HTTP header if it can be represented by UTF-8.
+  String? get value => _wrapped.value;
+  set value(String? v) {
+    _wrapped.value = v;
+  }
+
+  /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+  /// individual byte values (0..255).
+  List<int>? get binaryValue =>
+      _wrapped.binaryValue?.toDart.cast<int>().map((e) => e).toList();
+  set binaryValue(List<int>? v) {
+    _wrapped.binaryValue = v?.toJSArray((e) => e);
   }
 }
 

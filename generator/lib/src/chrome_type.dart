@@ -28,7 +28,7 @@ class Context {
       }
     }
     return LazyType(
-      context: this,
+        context: this,
         name: name,
         prefix: prefix,
         locationFile: locationFile,
@@ -87,7 +87,7 @@ class LazyType extends ChromeType {
       return resolved.copyWith(isNullable: isNullable);
     } else {
       return LazyType(
-        context: context,
+          context: context,
           name: name,
           prefix: prefix,
           locationFile: locationFile,
@@ -107,17 +107,21 @@ class LazyType extends ChromeType {
         if (dict.name == name) {
           return DictionaryType(name,
               url: _prefixUrl,
-              locationFile: locationFile, isNullable: isNullable);
+              locationFile: locationFile,
+              isNullable: isNullable);
         }
       }
       if (api.enumerations.any((e) => e.name == name)) {
         return EnumType(name,
             url: _prefixUrl,
-            locationFile: locationFile, isNullable: isNullable);
+            locationFile: locationFile,
+            isNullable: isNullable);
       }
       for (var typedef in api.typedefs) {
         if (typedef.alias == name) {
-          return AliasedType(name, typedef.target, locationFile: locationFile, isNullable: isNullable);
+          return AliasedType(name, typedef.target,
+              url: _prefixUrl,
+              locationFile: locationFile, isNullable: isNullable);
         }
       }
       return null;
@@ -154,10 +158,12 @@ class LazyType extends ChromeType {
   code.Reference get jsType => _resolved!.jsType;
 
   @override
-  code.Reference get jsTypeReferencedFromDart => _resolved!.jsTypeReferencedFromDart;
+  code.Reference get jsTypeReferencedFromDart =>
+      _resolved!.jsTypeReferencedFromDart;
 
   @override
-  code.Expression toDart(code.Expression accessor) => _resolved!.toDart(accessor);
+  code.Expression toDart(code.Expression accessor) =>
+      _resolved!.toDart(accessor);
 
   @override
   code.Expression toJS(code.Expression accessor) => _resolved!.toJS(accessor);
@@ -412,18 +418,10 @@ abstract class _LocalType extends ChromeType {
 
   @override
   code.Reference get jsTypeReferencedFromDart {
-    String fullUrl;
-    const jsBasePath = 'src/js/';
-    if (url case var url?) {
-      fullUrl = '$jsBasePath$url';
-    } else {
-      fullUrl = '$jsBasePath$locationFile';
-    }
-
     return code.TypeReference((b) => b
       ..symbol = name
       ..isNullable = isNullable
-      ..url = fullUrl);
+      ..url = 'src/js/${url ?? locationFile}');
   }
 
   @override
@@ -520,15 +518,16 @@ class AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
   final String locationFile;
+  final String? url;
 
   AliasedType(this.alias, ChromeType original,
-      {required this.locationFile, required bool isNullable})
+      { this.url, required this.locationFile, required bool isNullable})
       : original = original.copyWith(isNullable: isNullable),
         super(isNullable: isNullable);
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      AliasedType(alias, original,
+      AliasedType(alias, original, url: url,
           locationFile: locationFile, isNullable: isNullable);
 
   @override
@@ -544,9 +543,10 @@ class AliasedType extends ChromeType {
   code.Reference get jsTypeReferencedFromDart {
     var originalType = original.jsTypeReferencedFromDart;
     if (originalType is code.TypeReference) {
-      return originalType.rebuild((b) => b
+      return originalType.rebuild((b) =>
+      b
         ..symbol = alias
-        ..url = 'src/js/$locationFile');
+        ..url = 'src/js/${url ?? locationFile}');
     }
     return originalType;
   }
@@ -657,7 +657,6 @@ class ChoiceType extends ChromeType {
   ChromeType copyWith({required bool isNullable}) =>
       ChoiceType(isNullable: isNullable);
 }
-
 
 extension on code.Expression {
   code.Expression nullSafePropertyIf(String name, bool isNullable) {

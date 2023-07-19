@@ -2,6 +2,7 @@ import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
 import 'src/js/action.dart' as $js;
+import 'src/js/browser_action.dart' as $js_browser_action;
 import 'src/js/tabs.dart' as $js_tabs;
 import 'tabs.dart';
 
@@ -76,7 +77,7 @@ class ChromeAction {
 
   /// Gets the background color of the action.
   Future<ColorArray> getBadgeBackgroundColor(TabDetails details) async {
-    var $res = await promiseToFuture<$js.ColorArray>(
+    var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeBackgroundColor(details.toJS));
     return $res.toDart.cast<int>().map((e) => e).toList();
   }
@@ -89,7 +90,7 @@ class ChromeAction {
 
   /// Gets the text color of the action.
   Future<ColorArray> getBadgeTextColor(TabDetails details) async {
-    var $res = await promiseToFuture<$js.ColorArray>(
+    var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeTextColor(details.toJS));
     return $res.toDart.cast<int>().map((e) => e).toList();
   }

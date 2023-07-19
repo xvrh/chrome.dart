@@ -6,18 +6,19 @@ import 'idl_parser.dart';
 import 'utils/string.dart';
 
 class IdlModelConverter {
+  final Context context;
   final IDLNamespaceDeclaration model;
   final _syntheticDictionaries = <Dictionary>[];
   final _syntheticTypedefs = <Typedef>[];
 
-  IdlModelConverter(this.model);
+  IdlModelConverter(this.context, this.model);
 
   String get _targetFileName => '${model.name.snakeCase}.dart';
 
-  factory IdlModelConverter.fromString(String content) {
+  factory IdlModelConverter.fromString(Context context, String content) {
     var parser = ChromeIDLParser();
     var namespace = parser.namespaceDeclaration.parse(content).value;
-    return IdlModelConverter(namespace);
+    return IdlModelConverter(context, namespace);
   }
 
   ChromeApi convert() {
@@ -60,8 +61,8 @@ class IdlModelConverter {
           documentation: '',
           isAnonymous: false,
           isSyntheticEvent: true);
-      dartType = LocalType(newTypeName,
-          declarationFile: _targetFileName, isNullable: false);
+      dartType = DictionaryType(newTypeName,
+          locationFile: _targetFileName, isNullable: false);
       _syntheticDictionaries.add(syntheticType);
     }
     var jsCallback =

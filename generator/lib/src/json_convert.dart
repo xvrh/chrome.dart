@@ -9,17 +9,15 @@ final _autoCallbackToReturnFalsePositives = <String>{
 };
 
 class JsonModelConverter {
+  final Context context;
   final JsonNamespace model;
   late final _enumsToConvert =
       model.types.where((e) => e.enums != null).toList();
   late final _dictionariesToGenerate =
       model.types.where((e) => e.enums == null && e.type == 'object').toList();
   final _syntheticDictionaries = <Dictionary>[];
-  final _typedefs = <Typedef>[];
 
-  JsonModelConverter(this.model) {
-    _fillTypedefs();
-  }
+  JsonModelConverter(this.context, this.model);
 
   String get _targetFileName => '${model.namespace.snakeCase}.dart';
 
@@ -30,7 +28,7 @@ class JsonModelConverter {
       events: _convertEvents().toList(),
       functions: _convertFunctions().toList(),
       properties: _convertProperties().toList(),
-      typedefs: _typedefs,
+      typedefs: _convertTypedefs().toList(),
       dictionaries: [..._convertDictionaries(), ..._syntheticDictionaries],
       enumerations: _convertEnums().toList(),
     );
@@ -64,8 +62,8 @@ class JsonModelConverter {
 
       singleParameter = FunctionParameter(
           'e',
-          LocalType(syntheticTypeName,
-              declarationFile: _targetFileName, isNullable: false));
+          DictionaryType(syntheticTypeName,
+              locationFile: _targetFileName, isNullable: false));
       var syntheticType = Dictionary(syntheticTypeName,
           properties: syntheticProperties,
           methods: [],
@@ -188,14 +186,16 @@ class JsonModelConverter {
           typeName, property.description,
           properties: property.properties)
         ..isAnonymous = anonymous);
-      type = _newLocalType(typeName, isNullable: isNullable);
+      type = DictionaryType(typeName,
+          locationFile: _targetFileName, isNullable: isNullable);
     } else if (property.enums != null) {
       var typeName =
           '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           enums: property.enums));
-      type = _newLocalType(typeName, isNullable: isNullable);
+      type = EnumType(typeName,
+          locationFile: _targetFileName, isNullable: isNullable);
     } else if (property.items case var items?) {
       if (items.$ref == null) {
         if (items.properties != null) {
@@ -290,7 +290,7 @@ class JsonModelConverter {
     }
   }
 
-  void _fillTypedefs() {
+  Iterable<Typedef> _convertTypedefs() sync* {
     for (var type
         in model.types.where((t) => t.type != 'object' && t.enums == null)) {
       ChromeType? target;
@@ -309,8 +309,7 @@ class JsonModelConverter {
         target = VariousType(isNullable: false);
       }
 
-      _typedefs.add(
-          Typedef(type.id, target: target, documentation: type.description));
+      yield Typedef(type.id, target: target, documentation: type.description);
     }
   }
 
@@ -327,16 +326,8 @@ class JsonModelConverter {
       typeName = _extractType(prop);
     }
 
-    ChromeType? type;
-    if (_typedefs.firstWhereOrNull((e) => e.alias == typeName)
-        case var typedef?) {
-      type = AliasedType(typeName, typedef.target,
-          declarationFile: _targetFileName, isNullable: nullable);
-    }
-
-    type ??= ChromeType.tryParse(typeName, isNullable: nullable) ??
-        LocalType.parse(typeName,
-            selfFileName: _targetFileName, isNullable: nullable);
+    var type = context.createType(typeName,
+        locationFile: _targetFileName, isNullable: nullable);
     if (isArray) {
       return ListType(type, isNullable: arrayNullable);
     }
@@ -354,10 +345,5 @@ class JsonModelConverter {
       }
     }
     return typeName ?? 'object';
-  }
-
-  LocalType _newLocalType(String name, {required bool isNullable}) {
-    return LocalType(name,
-        declarationFile: _targetFileName, isNullable: isNullable);
   }
 }

@@ -40,6 +40,8 @@ class ChromeApi {
   String get fileName => '${name.snakeCase}.dart';
 }
 
+
+
 class Event {
   final String name;
   final String documentation;

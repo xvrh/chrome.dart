@@ -1,5 +1,16 @@
 import 'package:code_builder/code_builder.dart' as code;
+import 'chrome_model.dart';
 import 'utils/string.dart';
+
+class Context {
+  final apis = <ChromeApi>[];
+  final lazyTypes = <LazyType>[];
+
+  ChromeType createType(String rawName,
+      {required String locationFile, required bool isNullable}) {
+
+  }
+}
 
 sealed class ChromeType {
   final bool isNullable;
@@ -20,24 +31,54 @@ sealed class ChromeType {
 
   ChromeType copyWith({required bool isNullable});
 
-  static ChromeType? tryParse(String input, {required bool isNullable}) {
-    return PrimitiveType.tryParse(input, isNullable: isNullable) ??
-        WebType.tryParse(input, isNullable: isNullable) ??
-        JSFunctionType.tryParse(input, isNullable: isNullable) ??
-        VariousType.tryParse(input, isNullable: isNullable);
+  var a = "";
+  //static ChromeType? tryParse(String input, {required bool isNullable}) {
+  //  return PrimitiveType.tryParse(input, isNullable: isNullable) ??
+  //      WebType.tryParse(input, isNullable: isNullable) ??
+  //      JSFunctionType.tryParse(input, isNullable: isNullable) ??
+  //      VariousType.tryParse(input, isNullable: isNullable);
+  //}
+}
+
+class LazyType {
+  final Context context;
+  final String name;
+  final String? prefix;
+  final String locationFile;
+
+  LazyType({
+    required this.context,
+    required this.name,
+    required this.prefix,
+    required this.locationFile,
+  });
+
+  static LazyType parse(String input,
+      {required Context context, required String locationFile}) {
+    var split = input.split('.');
+    String? prefix;
+    if (split.length > 1) {
+      prefix = split.first;
+    }
+    var name = split.last;
+    return LazyType(
+        context: context,
+        name: name,
+        prefix: prefix,
+        locationFile: locationFile);
   }
 }
 
-sealed class PrimitiveType extends ChromeType {
-  PrimitiveType({required super.isNullable});
+sealed class _PrimitiveType extends ChromeType {
+  _PrimitiveType({required super.isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     return switch (input) {
-      'DOMString' || 'string' => StringType(isNullable: isNullable),
-      'integer' || 'long' => IntegerType(isNullable: isNullable),
-      'number' || 'double' => DoubleType(isNullable: isNullable),
-      'boolean' => BooleanType(isNullable: isNullable),
-      'ArrayBuffer' => ArrayBufferType(isNullable: isNullable),
+      'DOMString' || 'string' => _StringType(isNullable: isNullable),
+      'integer' || 'long' => _IntegerType(isNullable: isNullable),
+      'number' || 'double' => _DoubleType(isNullable: isNullable),
+      'boolean' => _BooleanType(isNullable: isNullable),
+      'ArrayBuffer' => _ArrayBufferType(isNullable: isNullable),
       _ => null,
     };
   }
@@ -66,19 +107,19 @@ sealed class PrimitiveType extends ChromeType {
   }
 }
 
-class StringType extends PrimitiveType {
-  StringType({required super.isNullable});
+class _StringType extends _PrimitiveType {
+  _StringType({required super.isNullable});
 
   @override
   String get dartTypeWithoutNullable => 'String';
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      StringType(isNullable: isNullable);
+      _StringType(isNullable: isNullable);
 }
 
-class IntegerType extends PrimitiveType {
-  IntegerType({required super.isNullable});
+class _IntegerType extends _PrimitiveType {
+  _IntegerType({required super.isNullable});
 
   @override
   String get toDartMethod => 'toDartInt';
@@ -88,11 +129,11 @@ class IntegerType extends PrimitiveType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      IntegerType(isNullable: isNullable);
+      _IntegerType(isNullable: isNullable);
 }
 
-class DoubleType extends PrimitiveType {
-  DoubleType({required super.isNullable});
+class _DoubleType extends _PrimitiveType {
+  _DoubleType({required super.isNullable});
 
   @override
   String get toDartMethod => 'toDartDouble';
@@ -102,22 +143,22 @@ class DoubleType extends PrimitiveType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      DoubleType(isNullable: isNullable);
+      _DoubleType(isNullable: isNullable);
 }
 
-class BooleanType extends PrimitiveType {
-  BooleanType({required super.isNullable});
+class _BooleanType extends _PrimitiveType {
+  _BooleanType({required super.isNullable});
 
   @override
   String get dartTypeWithoutNullable => 'bool';
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      BooleanType(isNullable: isNullable);
+      _BooleanType(isNullable: isNullable);
 }
 
-class ArrayBufferType extends ChromeType {
-  ArrayBufferType({required super.isNullable});
+class _ArrayBufferType extends ChromeType {
+  _ArrayBufferType({required super.isNullable});
 
   @override
   code.Reference get dartType => code.TypeReference((b) => b
@@ -140,11 +181,11 @@ class ArrayBufferType extends ChromeType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      ArrayBufferType(isNullable: isNullable);
+      _ArrayBufferType(isNullable: isNullable);
 }
 
-class WebType extends ChromeType {
-  WebType({required super.isNullable});
+class _WebType extends ChromeType {
+  _WebType({required super.isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
@@ -156,7 +197,7 @@ class WebType extends ChromeType {
       'LocalMediaStream',
       'DirectoryEntry',
     }.contains(input)) {
-      return WebType(isNullable: isNullable);
+      return _WebType(isNullable: isNullable);
     }
     return null;
   }
@@ -178,11 +219,11 @@ class WebType extends ChromeType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      WebType(isNullable: isNullable);
+      _WebType(isNullable: isNullable);
 }
 
-class VariousType extends ChromeType {
-  VariousType({required super.isNullable});
+class _VariousType extends ChromeType {
+  _VariousType({required super.isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
@@ -190,10 +231,10 @@ class VariousType extends ChromeType {
       'any',
       'Date',
       'binary',
-      'InjectedFunction',
+      "InjectedFunction",
       'global',
     }.contains(input)) {
-      return VariousType(isNullable: isNullable);
+      return _VariousType(isNullable: isNullable);
     }
     return null;
   }
@@ -218,8 +259,11 @@ class VariousType extends ChromeType {
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      VariousType(isNullable: isNullable);
+      _VariousType(isNullable: isNullable);
 }
+
+//TODO: delete this class and replace with FunctionType and correct parameters?
+var b = "";
 
 class JSFunctionType extends ChromeType {
   JSFunctionType({required super.isNullable});
@@ -252,32 +296,13 @@ class JSFunctionType extends ChromeType {
       JSFunctionType(isNullable: isNullable);
 }
 
-// TODO: replace with LazyType which will do it's resolution based on a Context
-// class only when code-generating
-class LocalType extends ChromeType {
+abstract class _LocalType extends ChromeType {
   final String name;
   final String? url;
-  final String declarationFile;
+  final String locationFile;
 
-  LocalType(this.name,
-      {this.url, required this.declarationFile, required super.isNullable});
-
-  @override
-  ChromeType copyWith({required bool isNullable}) => LocalType(name,
-      url: url, declarationFile: declarationFile, isNullable: isNullable);
-
-  static LocalType parse(String input,
-      {required String selfFileName, required bool isNullable}) {
-    var split = input.split('.');
-    String? url;
-    if (split.length > 1) {
-      url = '${split.first.snakeCase}.dart';
-    }
-    var name = split.last;
-
-    return LocalType(name,
-        declarationFile: selfFileName, isNullable: isNullable, url: url);
-  }
+  _LocalType(this.name,
+      {this.url, required this.locationFile, required super.isNullable});
 
   @override
   code.Reference get dartType => code.TypeReference((b) => b
@@ -298,7 +323,7 @@ class LocalType extends ChromeType {
     if (url case var url?) {
       fullUrl = '$jsBasePath$url';
     } else {
-      fullUrl = '$jsBasePath$declarationFile';
+      fullUrl = '$jsBasePath$locationFile';
     }
 
     return code.TypeReference((b) => b
@@ -324,48 +349,22 @@ class LocalType extends ChromeType {
   }
 }
 
-class FunctionType extends ChromeType {
-  final ChromeType? returns;
-  final List<FunctionParameter> positionalParameters;
-
-  FunctionType(this.returns, this.positionalParameters,
-      {required super.isNullable});
+class DictionaryType extends _LocalType {
+  DictionaryType(super.name,
+      {super.url, required super.locationFile, required super.isNullable});
 
   @override
-  ChromeType copyWith({required bool isNullable}) =>
-      FunctionType(returns, positionalParameters, isNullable: isNullable);
-
-  @override
-  code.Reference get jsType => code.TypeReference((b) => b
-    ..symbol = 'JSFunction'
-    ..isNullable = isNullable);
-
-  @override
-  code.Reference get dartType {
-    return code.FunctionType((b) => b
-      ..returnType = returns?.dartType ?? code.refer('void')
-      ..requiredParameters
-          .addAll(positionalParameters.map((p) => p.type.dartType))
-      ..isNullable = isNullable);
-  }
-
-  @override
-  code.Expression toDart(code.Expression accessor) {
-    return code.refer('UnimplementedError').call([]).thrown;
-  }
-
-  @override
-  code.Expression toJS(code.Expression accessor) {
-    // Need to wrap with a function taking JS parameters and convert them to Dart
-    return code.refer('UnimplementedError').call([]).thrown;
-  }
+  ChromeType copyWith({required bool isNullable}) => DictionaryType(name,
+      url: url, locationFile: locationFile, isNullable: isNullable);
 }
 
-class FunctionParameter {
-  final String name;
-  final ChromeType type;
+class EnumType extends _LocalType {
+  EnumType(super.name,
+      {super.url, required super.locationFile, required super.isNullable});
 
-  FunctionParameter(this.name, this.type);
+  @override
+  ChromeType copyWith({required bool isNullable}) => EnumType(name,
+      url: url, locationFile: locationFile, isNullable: isNullable);
 }
 
 class ListType extends ChromeType {
@@ -423,19 +422,19 @@ class ListType extends ChromeType {
   }
 }
 
-class AliasedType extends ChromeType {
+class _AliasedType extends ChromeType {
   final String alias;
   final ChromeType original;
   final String declarationFile;
 
-  AliasedType(this.alias, ChromeType original,
+  _AliasedType(this.alias, ChromeType original,
       {required this.declarationFile, required bool isNullable})
       : original = original.copyWith(isNullable: isNullable),
         super(isNullable: isNullable);
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      AliasedType(alias, original,
+      _AliasedType(alias, original,
           declarationFile: declarationFile, isNullable: isNullable);
 
   @override
@@ -466,6 +465,50 @@ class AliasedType extends ChromeType {
 
   @override
   code.Expression toJS(code.Expression accessor) => original.toJS(accessor);
+}
+
+class FunctionType extends ChromeType {
+  final ChromeType? returns;
+  final List<FunctionParameter> positionalParameters;
+
+  FunctionType(this.returns, this.positionalParameters,
+      {required super.isNullable});
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      FunctionType(returns, positionalParameters, isNullable: isNullable);
+
+  @override
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'JSFunction'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get dartType {
+    return code.FunctionType((b) => b
+      ..returnType = returns?.dartType ?? code.refer('void')
+      ..requiredParameters
+          .addAll(positionalParameters.map((p) => p.type.dartType))
+      ..isNullable = isNullable);
+  }
+
+  @override
+  code.Expression toDart(code.Expression accessor) {
+    return code.refer('UnimplementedError').call([]).thrown;
+  }
+
+  @override
+  code.Expression toJS(code.Expression accessor) {
+    // Need to wrap with a function taking JS parameters and convert them to Dart
+    return code.refer('UnimplementedError').call([]).thrown;
+  }
+}
+
+class FunctionParameter {
+  final String name;
+  final ChromeType type;
+
+  FunctionParameter(this.name, this.type);
 }
 
 class AsyncReturnType extends ChromeType {

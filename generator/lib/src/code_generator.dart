@@ -19,11 +19,12 @@ class _GeneratorBase {
   _GeneratorBase(this.api);
 
   bool isDictionaryAnonymous(model.Dictionary dictionary) {
+    return dictionary.isAnonymous;
     if (dictionary.isAnonymous) return true;
 
     var onlyUsedInInput;
     // Loop in Events, Methods return type, Properties
-    //   Loop inside all types 
+    //   Loop inside all types
   }
 }
 

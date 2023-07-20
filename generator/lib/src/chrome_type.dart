@@ -552,7 +552,13 @@ class AliasedType extends ChromeType {
   }
 
   @override
-  code.Reference get dartType => jsType;
+  code.Reference get dartType {
+    var originalType = original.jsType;
+    if (originalType is code.TypeReference) {
+      return originalType.rebuild((b) => b..symbol = alias..url = url);
+    }
+    return originalType;
+  }
 
   @override
   code.Expression toDart(code.Expression accessor) => original.toDart(accessor);

@@ -8,9 +8,9 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
-  test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
   test('chrome.action', () => runTest('test/apis/action.dart'));
+  test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
 }
 
 Future<void> runTest(String filePath) async {

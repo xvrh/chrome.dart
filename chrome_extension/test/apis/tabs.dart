@@ -11,10 +11,8 @@ void _tests() {
   late Window window;
 
   setUp(() async {
-    "";
-    //TODO: don't recognize window as JSObject
-    window = Window.fromJS(await chrome.windows
-        .create(CreateData(focused: true, type: CreateType.normal)) as dynamic);
+    window = (await chrome.windows
+        .create(CreateData(focused: true, type: CreateType.normal)))!;
   });
 
   tearDown(() {
@@ -74,9 +72,8 @@ void _tests() {
     expect(tab.active, isFalse);
     expect(tab.pinned, isTrue);
     expect(tab.openerTabId, window.tabs!.first.id);
-
-    "";
-    //TODO(what): updated to get the correct url
+    tab = (await chrome.tabs.onUpdated.where((e) => e.tabId == tab.id).first).tab;
+    expect(tab.url, 'https://www.google.com/');
   });
 
   test('duplicate', () async {
@@ -120,10 +117,11 @@ void _tests() {
         highlighted: true,
         pinned: true);
     var tab = await chrome.tabs.update(window.tabs!.first.id, updateProperties);
-    //expect(tab!.url, 'https://www.google.com/');
     expect(tab!.active, isTrue);
     expect(tab.highlighted, isTrue);
     expect(tab.pinned, isTrue);
+    tab = (await chrome.tabs.onUpdated.where((e) => e.tabId == tab!.id).first).tab;
+    expect(tab.url, 'https://www.google.com/');
   });
 
   test('move 1 tab', () async {
@@ -133,7 +131,7 @@ void _tests() {
     var newTab = await chrome.tabs.create(createProperties);
     var movedTabs = await chrome.tabs.move([newTab.id], moveProperties);
     expect(movedTabs, isNotNull);
-    "";
+    "handle choices";
     //expect(movedTabs, isA<Tab>());
     //expect(movedTabs, hasLength(1));
     //expect(movedTabs.first.id, newTab.id);
@@ -151,7 +149,7 @@ void _tests() {
         await chrome.tabs.move([newTab1.id, newTab2.id], moveProperties);
     expect(movedTabs, isNotNull);
 
-    "";
+    "handle choices";
     //expect(movedTabs, isA<List<Tab>>());
 //              expect(movedTabs, hasLength(2));
 //              expect(movedTabs[0].id, anyOf(newTab1.id, newTab2.id));
@@ -275,9 +273,7 @@ void _tests() {
       subscription.cancel();
     }));
     var createData = CreateData(tabId: tab.id);
-    "";
-    var newWindow =
-        Window.fromJS((await chrome.windows.create(createData)) as dynamic);
+    var newWindow =(await chrome.windows.create(createData))!;
     await chrome.windows.remove(newWindow.id!);
   });
 
@@ -293,9 +289,7 @@ void _tests() {
       subscription.cancel();
     }));
     var createData = CreateData(tabId: tab.id);
-    "";
-    var newWindow =
-        Window.fromJS((await chrome.windows.create(createData)) as dynamic);
+    var newWindow =(await chrome.windows.create(createData))!;
     await chrome.windows.remove(newWindow.id!);
   });
 

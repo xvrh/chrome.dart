@@ -26,6 +26,8 @@ class _GeneratorBase {
     // Loop in Events, Methods return type, Properties
     //   Loop inside all types
   }
+
+
 }
 
 class JsBindingGenerator extends _GeneratorBase {
@@ -632,9 +634,6 @@ String generateJSGroupCode(String group) {
 String generateDartGroupCode(String groupName, List<model.ChromeApi> apis) {
   var groupClass = 'Chrome${groupName.upperCamel}';
   final library = Library((b) => b
-    ..directives.addAll([
-      for (var api in apis) Directive.export('${api.name.snakeCase}.dart'),
-    ])
     ..body.addAll([
       Field((b) => b
         ..name = '_${groupClass.lowerCamel}'

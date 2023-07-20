@@ -38,9 +38,25 @@ class ChromeApi {
   String get classNameWithoutGroup => nameWithoutGroup.upperCamel;
 
   String get fileName => '${name.snakeCase}.dart';
+
+  Iterable<ChromeType> get inputTypes sync* {
+    for (var function in functions) {
+      yield* function.inputTypes();
+    }
+  }
+
+  Iterable<ChromeType> outputTypes() sync* {
+    for (var property in properties) {
+      yield* property.types();
+    }
+    for (var event in events) {
+      yield* event.outputTypes(this);
+    }
+    for (var function in functions) {
+      yield* function.outputTypes();
+    }
+  }
 }
-
-
 
 class Event {
   final String name;
@@ -48,6 +64,11 @@ class Event {
   final AsyncReturnType type;
 
   Event(this.name, {required this.type, required this.documentation});
+
+  Iterable<ChromeType> outputTypes(ChromeApi api) sync* {
+    yield type;
+    yield* type.children;
+  }
 }
 
 class Method {
@@ -62,6 +83,16 @@ class Method {
     required this.documentation,
     required this.returns,
   });
+
+  Iterable<ChromeType> inputTypes() sync* {
+    for (var param in parameters) {
+      yield* param.types();
+    }
+  }
+
+  Iterable<ChromeType> outputTypes() sync* {
+    yield* returns.outputTypes();
+  }
 }
 
 class MethodReturn {
@@ -76,6 +107,13 @@ class MethodReturn {
   });
 
   bool get isAsync => type is AsyncReturnType;
+
+  Iterable<ChromeType> outputTypes() sync* {
+    if (type != null) {
+      yield type!;
+      yield* type!.children;
+    }
+  }
 }
 
 class Enumeration {
@@ -111,6 +149,11 @@ class Dictionary {
     required this.isAnonymous,
     this.isSyntheticEvent = false,
   });
+
+  Iterable<ChromeType> types() sync* {
+    yield type;
+    yield* type.children;
+  }
 }
 
 class Property {
@@ -123,6 +166,11 @@ class Property {
     required this.type,
     required this.documentation,
   });
+
+  Iterable<ChromeType> types() sync* {
+    yield type;
+    yield* type.children;
+  }
 }
 
 class Typedef {

@@ -16,6 +16,8 @@ extension ChromeSystemStorageExtension on ChromeSystem {
 class ChromeSystemStorage {
   ChromeSystemStorage._();
 
+  bool get isAvailable => $js.chrome.systemNullable?.storageNullable != null;
+
   /// Get the storage information from the system. The argument passed to the
   /// callback is an array of StorageUnitInfo objects.
   Future<List<StorageUnitInfo>> getInfo() async {

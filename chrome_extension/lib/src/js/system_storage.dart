@@ -11,7 +11,19 @@ extension JSChromeJSSystemStorageExtension on JSChromeSystem {
   /// information and be notified when a removable storage device is attached
   /// and
   /// detached.
-  external JSSystemStorage get storage;
+  @JS('storage')
+  external JSSystemStorage get _storage;
+
+  @JS('storage')
+  external JSSystemStorage? get storageNullable;
+
+  JSSystemStorage get storage {
+    var storageNullable = this.storageNullable;
+    if (storageNullable == null)
+      throw Exception(
+          'chrome.system.storage is not available. Check that the manifest contains the correct permissions');
+    return storageNullable;
+  }
 }
 
 @JS()

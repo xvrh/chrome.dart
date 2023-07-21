@@ -8,15 +8,20 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
+  test(
+      'chrome.*.isAvailable',
+      () => runTest('test/check_available.dart',
+          manifest: File('test/manifest_no_permission.json')));
   test('chrome.action', () => runTest('test/apis/action.dart'));
   test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
   test('chrome.runtime', () => runTest('test/apis/runtime.dart'));
   test('chrome.system.cpu', () => runTest('test/apis/system_cpu.dart'));
+  test('chrome.system.storage', () => runTest('test/apis/system_storage.dart'));
   test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
 }
 
-Future<void> runTest(String filePath) async {
+Future<void> runTest(String filePath, {File? manifest}) async {
   var chromeExtensionDir = Directory(p.join('.dart_tool', 'chrome_extension'))
     ..createSync(recursive: true);
   var extensionDir = chromeExtensionDir.createTempSync();
@@ -27,6 +32,7 @@ Future<void> runTest(String filePath) async {
     'js',
     filePath,
     '--csp',
+    '--enable-asserts',
     '--output',
     p.join(extensionDir.path, 'background.js')
   ]);
@@ -34,8 +40,8 @@ Future<void> runTest(String filePath) async {
     throw Exception(
         'Error when compiling JS (${compileResult.exitCode}).\n${compileResult.stdout}\n${compileResult.stderr}');
   }
-  File('test/manifest.json')
-      .copySync(p.join(extensionPath, 'manifest.json'));
+  manifest ??= File('test/manifest.json');
+  manifest.copySync(p.join(extensionPath, 'manifest.json'));
 
   var browser = await puppeteer.launch(
     headless: false,
@@ -46,7 +52,7 @@ Future<void> runTest(String filePath) async {
   );
   try {
     var backgroundPageTarget =
-    browser.targets.firstWhereOrNull((t) => t.type == 'service_worker');
+        browser.targets.firstWhereOrNull((t) => t.type == 'service_worker');
     backgroundPageTarget ??= await browser
         .waitForTarget((target) => target.type == 'service_worker');
     expect(backgroundPageTarget.isPage, isFalse);

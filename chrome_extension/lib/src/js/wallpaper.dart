@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSWallpaperExtension on JSChrome {
   /// Use the `chrome.wallpaper` API to change the ChromeOS wallpaper.
-  external JSWallpaper get wallpaper;
+  @JS('wallpaper')
+  external JSWallpaper? get wallpaperNullable;
+
+  /// Use the `chrome.wallpaper` API to change the ChromeOS wallpaper.
+  JSWallpaper get wallpaper {
+    var wallpaperNullable = this.wallpaperNullable;
+    if (wallpaperNullable == null) {
+      throw ApiNotAvailableException('chrome.wallpaper');
+    }
+    return wallpaperNullable;
+  }
 }
 
 @JS()

@@ -11,7 +11,20 @@ extension JSChromeJSDevtoolsInspectedWindowExtension on JSChromeDevtools {
   /// inspected window: obtain the tab ID for the inspected page, evaluate the
   /// code in the context of the inspected window, reload the page, or obtain
   /// the list of resources within the page.
-  external JSDevtoolsInspectedWindow get inspectedWindow;
+  @JS('inspectedWindow')
+  external JSDevtoolsInspectedWindow? get inspectedWindowNullable;
+
+  /// Use the `chrome.devtools.inspectedWindow` API to interact with the
+  /// inspected window: obtain the tab ID for the inspected page, evaluate the
+  /// code in the context of the inspected window, reload the page, or obtain
+  /// the list of resources within the page.
+  JSDevtoolsInspectedWindow get inspectedWindow {
+    var inspectedWindowNullable = this.inspectedWindowNullable;
+    if (inspectedWindowNullable == null) {
+      throw ApiNotAvailableException('chrome.devtools.inspectedWindow');
+    }
+    return inspectedWindowNullable;
+  }
 }
 
 @JS()

@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSDocumentScanExtension on JSChrome {
   /// Use the `chrome.documentScan` API to discover and retrieve
   /// images from attached paper document scanners.
-  external JSDocumentScan get documentScan;
+  @JS('documentScan')
+  external JSDocumentScan? get documentScanNullable;
+
+  /// Use the `chrome.documentScan` API to discover and retrieve
+  /// images from attached paper document scanners.
+  JSDocumentScan get documentScan {
+    var documentScanNullable = this.documentScanNullable;
+    if (documentScanNullable == null) {
+      throw ApiNotAvailableException('chrome.documentScan');
+    }
+    return documentScanNullable;
+  }
 }
 
 @JS()

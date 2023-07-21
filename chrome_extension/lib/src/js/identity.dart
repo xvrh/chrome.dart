@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSIdentityExtension on JSChrome {
   /// Use the `chrome.identity` API to get OAuth2 access tokens.
-  external JSIdentity get identity;
+  @JS('identity')
+  external JSIdentity? get identityNullable;
+
+  /// Use the `chrome.identity` API to get OAuth2 access tokens.
+  JSIdentity get identity {
+    var identityNullable = this.identityNullable;
+    if (identityNullable == null) {
+      throw ApiNotAvailableException('chrome.identity');
+    }
+    return identityNullable;
+  }
 }
 
 @JS()

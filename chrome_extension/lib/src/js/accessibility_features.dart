@@ -14,7 +14,24 @@ extension JSChromeJSAccessibilityFeaturesExtension on JSChrome {
   /// state, the extension needs `accessibilityFeatures.modify` permission. Note
   /// that `accessibilityFeatures.modify` does not imply
   /// `accessibilityFeatures.read` permission.
-  external JSAccessibilityFeatures get accessibilityFeatures;
+  @JS('accessibilityFeatures')
+  external JSAccessibilityFeatures? get accessibilityFeaturesNullable;
+
+  /// Use the `chrome.accessibilityFeatures` API to manage Chrome's
+  /// accessibility features. This API relies on the [ChromeSetting prototype of
+  /// the type API](types#ChromeSetting) for getting and setting individual
+  /// accessibility features. In order to get feature states the extension must
+  /// request `accessibilityFeatures.read` permission. For modifying feature
+  /// state, the extension needs `accessibilityFeatures.modify` permission. Note
+  /// that `accessibilityFeatures.modify` does not imply
+  /// `accessibilityFeatures.read` permission.
+  JSAccessibilityFeatures get accessibilityFeatures {
+    var accessibilityFeaturesNullable = this.accessibilityFeaturesNullable;
+    if (accessibilityFeaturesNullable == null) {
+      throw ApiNotAvailableException('chrome.accessibilityFeatures');
+    }
+    return accessibilityFeaturesNullable;
+  }
 }
 
 @JS()

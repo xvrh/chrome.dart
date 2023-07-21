@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSFontSettingsExtension on JSChrome {
   /// Use the `chrome.fontSettings` API to manage Chrome's font settings.
-  external JSFontSettings get fontSettings;
+  @JS('fontSettings')
+  external JSFontSettings? get fontSettingsNullable;
+
+  /// Use the `chrome.fontSettings` API to manage Chrome's font settings.
+  JSFontSettings get fontSettings {
+    var fontSettingsNullable = this.fontSettingsNullable;
+    if (fontSettingsNullable == null) {
+      throw ApiNotAvailableException('chrome.fontSettings');
+    }
+    return fontSettingsNullable;
+  }
 }
 
 @JS()

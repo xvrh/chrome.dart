@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSPrintingExtension on JSChrome {
   /// Use the `chrome.printing` API to send print jobs to printers
   /// installed on Chromebook.
-  external JSPrinting get printing;
+  @JS('printing')
+  external JSPrinting? get printingNullable;
+
+  /// Use the `chrome.printing` API to send print jobs to printers
+  /// installed on Chromebook.
+  JSPrinting get printing {
+    var printingNullable = this.printingNullable;
+    if (printingNullable == null) {
+      throw ApiNotAvailableException('chrome.printing');
+    }
+    return printingNullable;
+  }
 }
 
 @JS()

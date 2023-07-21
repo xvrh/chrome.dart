@@ -14,6 +14,8 @@ extension ChromeTabGroupsExtension on Chrome {
 class ChromeTabGroups {
   ChromeTabGroups._();
 
+  bool get isAvailable => $js.chrome.tabGroupsNullable != null;
+
   /// Retrieves details about the specified group.
   Future<TabGroup> get(int groupId) async {
     var $res =

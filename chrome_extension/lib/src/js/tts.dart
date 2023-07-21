@@ -9,7 +9,20 @@ extension JSChromeJSTtsExtension on JSChrome {
   /// also the related
   /// [ttsEngine](http://developer.chrome.com/extensions/ttsEngine) API, which
   /// allows an extension to implement a speech engine.
-  external JSTts get tts;
+  @JS('tts')
+  external JSTts? get ttsNullable;
+
+  /// Use the `chrome.tts` API to play synthesized text-to-speech (TTS). See
+  /// also the related
+  /// [ttsEngine](http://developer.chrome.com/extensions/ttsEngine) API, which
+  /// allows an extension to implement a speech engine.
+  JSTts get tts {
+    var ttsNullable = this.ttsNullable;
+    if (ttsNullable == null) {
+      throw ApiNotAvailableException('chrome.tts');
+    }
+    return ttsNullable;
+  }
 }
 
 @JS()

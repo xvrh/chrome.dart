@@ -8,7 +8,19 @@ extension JSChromeJSPrinterProviderExtension on JSChrome {
   /// The `chrome.printerProvider` API exposes events used by print
   /// manager to query printers controlled by extensions, to query their
   /// capabilities and to submit print jobs to these printers.
-  external JSPrinterProvider get printerProvider;
+  @JS('printerProvider')
+  external JSPrinterProvider? get printerProviderNullable;
+
+  /// The `chrome.printerProvider` API exposes events used by print
+  /// manager to query printers controlled by extensions, to query their
+  /// capabilities and to submit print jobs to these printers.
+  JSPrinterProvider get printerProvider {
+    var printerProviderNullable = this.printerProviderNullable;
+    if (printerProviderNullable == null) {
+      throw ApiNotAvailableException('chrome.printerProvider');
+    }
+    return printerProviderNullable;
+  }
 }
 
 @JS()

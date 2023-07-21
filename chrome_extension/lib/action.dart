@@ -18,6 +18,8 @@ extension ChromeActionExtension on Chrome {
 class ChromeAction {
   ChromeAction._();
 
+  bool get isAvailable => $js.chrome.actionNullable != null;
+
   /// Sets the title of the action. This shows up in the tooltip.
   Future<void> setTitle(SetTitleDetails details) async {
     await promiseToFuture<void>($js.chrome.action.setTitle(details.toJS));

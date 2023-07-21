@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSOffscreenExtension on JSChrome {
   /// Use the `offscreen` API to create and manage offscreen documents.
-  external JSOffscreen get offscreen;
+  @JS('offscreen')
+  external JSOffscreen? get offscreenNullable;
+
+  /// Use the `offscreen` API to create and manage offscreen documents.
+  JSOffscreen get offscreen {
+    var offscreenNullable = this.offscreenNullable;
+    if (offscreenNullable == null) {
+      throw ApiNotAvailableException('chrome.offscreen');
+    }
+    return offscreenNullable;
+  }
 }
 
 @JS()

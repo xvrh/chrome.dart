@@ -14,6 +14,8 @@ extension ChromeInstanceIdExtension on Chrome {
 class ChromeInstanceId {
   ChromeInstanceId._();
 
+  bool get isAvailable => $js.chrome.instanceIdNullable != null;
+
   /// Retrieves an identifier for the app instance. The instance ID will be
   /// returned by the `callback`. The same ID will be returned as long as the
   /// application identity has not been revoked or expired.

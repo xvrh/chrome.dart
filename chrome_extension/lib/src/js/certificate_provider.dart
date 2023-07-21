@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSCertificateProviderExtension on JSChrome {
   /// Use this API to expose certificates to the platform which can use these
   /// certificates for TLS authentications.
-  external JSCertificateProvider get certificateProvider;
+  @JS('certificateProvider')
+  external JSCertificateProvider? get certificateProviderNullable;
+
+  /// Use this API to expose certificates to the platform which can use these
+  /// certificates for TLS authentications.
+  JSCertificateProvider get certificateProvider {
+    var certificateProviderNullable = this.certificateProviderNullable;
+    if (certificateProviderNullable == null) {
+      throw ApiNotAvailableException('chrome.certificateProvider');
+    }
+    return certificateProviderNullable;
+  }
 }
 
 @JS()

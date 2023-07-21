@@ -14,6 +14,8 @@ extension ChromeCookiesExtension on Chrome {
 class ChromeCookies {
   ChromeCookies._();
 
+  bool get isAvailable => $js.chrome.cookiesNullable != null;
+
   /// Retrieves information about a single cookie. If more than one cookie of
   /// the same name exists for the given URL, the one with the longest path will
   /// be returned. For cookies with the same path length, the cookie with the

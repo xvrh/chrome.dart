@@ -18,6 +18,9 @@ extension ChromeEnterpriseNetworkingAttributesExtension on ChromeEnterprise {
 class ChromeEnterpriseNetworkingAttributes {
   ChromeEnterpriseNetworkingAttributes._();
 
+  bool get isAvailable =>
+      $js.chrome.enterpriseNullable?.networkingAttributesNullable != null;
+
   /// Retrieves the network details of the device's default network.
   /// If the user is not affiliated or the device is not connected to a
   /// network, [runtime.lastError] will be set with a failure reason.

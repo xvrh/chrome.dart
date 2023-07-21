@@ -12,6 +12,8 @@ extension ChromeGcmExtension on Chrome {
 class ChromeGcm {
   ChromeGcm._();
 
+  bool get isAvailable => $js.chrome.gcmNullable != null;
+
   /// Registers the application with FCM. The registration ID will be returned
   /// by the `callback`. If `register` is called again with the same list of
   /// `senderIds`, the same registration ID will be returned.

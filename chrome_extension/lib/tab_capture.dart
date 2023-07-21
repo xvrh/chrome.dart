@@ -12,6 +12,8 @@ extension ChromeTabCaptureExtension on Chrome {
 class ChromeTabCapture {
   ChromeTabCapture._();
 
+  bool get isAvailable => $js.chrome.tabCaptureNullable != null;
+
   /// Captures the visible area of the currently active tab.  Capture can
   /// only be started on the currently active tab after the extension has been
   /// _invoked_, similar to the way that

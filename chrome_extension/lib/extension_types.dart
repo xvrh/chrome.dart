@@ -11,6 +11,8 @@ extension ChromeExtensionTypesExtension on Chrome {
 
 class ChromeExtensionTypes {
   ChromeExtensionTypes._();
+
+  bool get isAvailable => $js.chrome.extensionTypesNullable != null;
 }
 
 /// The format of an image.

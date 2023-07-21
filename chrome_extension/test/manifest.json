@@ -12,7 +12,8 @@
     "notifications",
     "system",
     "system.cpu",
-    "system.memory"
+    "system.memory",
+    "system.storage"
   ],
   "background": {
     "service_worker": "background.js"

@@ -17,6 +17,9 @@ extension ChromeEnterpriseHardwarePlatformExtension on ChromeEnterprise {
 class ChromeEnterpriseHardwarePlatform {
   ChromeEnterpriseHardwarePlatform._();
 
+  bool get isAvailable =>
+      $js.chrome.enterpriseNullable?.hardwarePlatformNullable != null;
+
   /// Obtains the manufacturer and model for the hardware platform and, if
   /// the extension is authorized, returns it via |callback|.
   /// |callback|: Called with the hardware platform info.

@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSWebRequestExtension on JSChrome {
   /// Use the `chrome.webRequest` API to observe and analyze traffic and to
   /// intercept, block, or modify requests in-flight.
-  external JSWebRequest get webRequest;
+  @JS('webRequest')
+  external JSWebRequest? get webRequestNullable;
+
+  /// Use the `chrome.webRequest` API to observe and analyze traffic and to
+  /// intercept, block, or modify requests in-flight.
+  JSWebRequest get webRequest {
+    var webRequestNullable = this.webRequestNullable;
+    if (webRequestNullable == null) {
+      throw ApiNotAvailableException('chrome.webRequest');
+    }
+    return webRequestNullable;
+  }
 }
 
 @JS()

@@ -9,7 +9,20 @@ extension JSChromeJSAudioExtension on JSChrome {
   /// get information about and control the audio devices attached to the
   /// system.
   /// This API is currently only available in kiosk mode for ChromeOS.
-  external JSAudio get audio;
+  @JS('audio')
+  external JSAudio? get audioNullable;
+
+  /// The `chrome.audio` API is provided to allow users to
+  /// get information about and control the audio devices attached to the
+  /// system.
+  /// This API is currently only available in kiosk mode for ChromeOS.
+  JSAudio get audio {
+    var audioNullable = this.audioNullable;
+    if (audioNullable == null) {
+      throw ApiNotAvailableException('chrome.audio');
+    }
+    return audioNullable;
+  }
 }
 
 @JS()

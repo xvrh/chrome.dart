@@ -8,7 +8,19 @@ extension JSChromeJSCommandsExtension on JSChrome {
   /// Use the commands API to add keyboard shortcuts that trigger actions in
   /// your extension, for example, an action to open the browser action or send
   /// a command to the extension.
-  external JSCommands get commands;
+  @JS('commands')
+  external JSCommands? get commandsNullable;
+
+  /// Use the commands API to add keyboard shortcuts that trigger actions in
+  /// your extension, for example, an action to open the browser action or send
+  /// a command to the extension.
+  JSCommands get commands {
+    var commandsNullable = this.commandsNullable;
+    if (commandsNullable == null) {
+      throw ApiNotAvailableException('chrome.commands');
+    }
+    return commandsNullable;
+  }
 }
 
 @JS()

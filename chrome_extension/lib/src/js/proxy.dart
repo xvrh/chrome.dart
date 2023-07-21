@@ -9,7 +9,19 @@ extension JSChromeJSProxyExtension on JSChrome {
   /// Use the `chrome.proxy` API to manage Chrome's proxy settings. This API
   /// relies on the [ChromeSetting prototype of the type
   /// API](types#ChromeSetting) for getting and setting the proxy configuration.
-  external JSProxy get proxy;
+  @JS('proxy')
+  external JSProxy? get proxyNullable;
+
+  /// Use the `chrome.proxy` API to manage Chrome's proxy settings. This API
+  /// relies on the [ChromeSetting prototype of the type
+  /// API](types#ChromeSetting) for getting and setting the proxy configuration.
+  JSProxy get proxy {
+    var proxyNullable = this.proxyNullable;
+    if (proxyNullable == null) {
+      throw ApiNotAvailableException('chrome.proxy');
+    }
+    return proxyNullable;
+  }
 }
 
 @JS()

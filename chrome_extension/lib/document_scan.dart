@@ -14,6 +14,8 @@ extension ChromeDocumentScanExtension on Chrome {
 class ChromeDocumentScan {
   ChromeDocumentScan._();
 
+  bool get isAvailable => $js.chrome.documentScanNullable != null;
+
   /// Performs a document scan.  On success, the PNG data will be
   /// sent to the callback.
   /// |options| : Object containing scan parameters.

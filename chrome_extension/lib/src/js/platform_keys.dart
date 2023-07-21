@@ -11,7 +11,22 @@ extension JSChromeJSPlatformKeysExtension on JSChrome {
   /// E.g. this allows usage of platform managed certificates in third party
   /// VPNs
   /// (see $(ref:vpnProvider chrome.vpnProvider)).
-  external JSPlatformKeys get platformKeys;
+  @JS('platformKeys')
+  external JSPlatformKeys? get platformKeysNullable;
+
+  /// Use the `chrome.platformKeys` API to access client certificates
+  /// managed by the platform. If the user or policy grants the permission, an
+  /// extension can use such a certficate in its custom authentication protocol.
+  /// E.g. this allows usage of platform managed certificates in third party
+  /// VPNs
+  /// (see $(ref:vpnProvider chrome.vpnProvider)).
+  JSPlatformKeys get platformKeys {
+    var platformKeysNullable = this.platformKeysNullable;
+    if (platformKeysNullable == null) {
+      throw ApiNotAvailableException('chrome.platformKeys');
+    }
+    return platformKeysNullable;
+  }
 }
 
 @JS()

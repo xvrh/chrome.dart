@@ -16,6 +16,8 @@ extension ChromeExtensionExtension on Chrome {
 class ChromeExtension {
   ChromeExtension._();
 
+  bool get isAvailable => $js.chrome.extensionNullable != null;
+
   /// Sends a single request to other listeners within the extension. Similar to
   /// [runtime.connect], but only sends a single request with an optional
   /// response. The [extension.onRequest] event is fired in each page of the

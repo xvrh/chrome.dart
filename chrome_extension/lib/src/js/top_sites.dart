@@ -8,7 +8,19 @@ extension JSChromeJSTopSitesExtension on JSChrome {
   /// Use the `chrome.topSites` API to access the top sites (i.e. most visited
   /// sites) that are displayed on the new tab page. These do not include
   /// shortcuts customized by the user.
-  external JSTopSites get topSites;
+  @JS('topSites')
+  external JSTopSites? get topSitesNullable;
+
+  /// Use the `chrome.topSites` API to access the top sites (i.e. most visited
+  /// sites) that are displayed on the new tab page. These do not include
+  /// shortcuts customized by the user.
+  JSTopSites get topSites {
+    var topSitesNullable = this.topSitesNullable;
+    if (topSitesNullable == null) {
+      throw ApiNotAvailableException('chrome.topSites');
+    }
+    return topSitesNullable;
+  }
 }
 
 @JS()

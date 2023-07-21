@@ -10,7 +10,19 @@ extension JSChromeJSInputImeExtension on JSChromeInput {
   /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
   /// This allows your extension to handle keystrokes, set the composition, and
   /// manage the candidate window.
-  external JSInputIme get ime;
+  @JS('ime')
+  external JSInputIme? get imeNullable;
+
+  /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
+  /// This allows your extension to handle keystrokes, set the composition, and
+  /// manage the candidate window.
+  JSInputIme get ime {
+    var imeNullable = this.imeNullable;
+    if (imeNullable == null) {
+      throw ApiNotAvailableException('chrome.input.ime');
+    }
+    return imeNullable;
+  }
 }
 
 @JS()

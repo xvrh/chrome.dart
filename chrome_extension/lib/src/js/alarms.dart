@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSAlarmsExtension on JSChrome {
   /// Use the `chrome.alarms` API to schedule code to run
   /// periodically or at a specified time in the future.
-  external JSAlarms get alarms;
+  @JS('alarms')
+  external JSAlarms? get alarmsNullable;
+
+  /// Use the `chrome.alarms` API to schedule code to run
+  /// periodically or at a specified time in the future.
+  JSAlarms get alarms {
+    var alarmsNullable = this.alarmsNullable;
+    if (alarmsNullable == null) {
+      throw ApiNotAvailableException('chrome.alarms');
+    }
+    return alarmsNullable;
+  }
 }
 
 @JS()

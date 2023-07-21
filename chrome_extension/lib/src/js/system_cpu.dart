@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'system.dart';
 
 export 'chrome.dart';
@@ -7,7 +8,17 @@ export 'system.dart';
 
 extension JSChromeJSSystemCpuExtension on JSChromeSystem {
   /// Use the `system.cpu` API to query CPU metadata.
-  external JSSystemCpu get cpu;
+  @JS('cpu')
+  external JSSystemCpu? get cpuNullable;
+
+  /// Use the `system.cpu` API to query CPU metadata.
+  JSSystemCpu get cpu {
+    var cpuNullable = this.cpuNullable;
+    if (cpuNullable == null) {
+      throw ApiNotAvailableException('chrome.system.cpu');
+    }
+    return cpuNullable;
+  }
 }
 
 @JS()

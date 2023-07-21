@@ -14,6 +14,8 @@ extension ChromeAccessibilityFeaturesExtension on Chrome {
 class ChromeAccessibilityFeatures {
   ChromeAccessibilityFeatures._();
 
+  bool get isAvailable => $js.chrome.accessibilityFeaturesNullable != null;
+
   /// *ChromeOS only.*
   ///
   /// Spoken feedback (text-to-speech). The value indicates whether the feature

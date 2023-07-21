@@ -12,6 +12,8 @@ extension ChromeIdleExtension on Chrome {
 class ChromeIdle {
   ChromeIdle._();
 
+  bool get isAvailable => $js.chrome.idleNullable != null;
+
   /// Returns "locked" if the system is locked, "idle" if the user has not
   /// generated any input for a specified number of seconds, or "active"
   /// otherwise.

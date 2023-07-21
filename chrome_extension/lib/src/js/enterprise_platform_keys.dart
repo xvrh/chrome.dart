@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'enterprise.dart';
 
 export 'chrome.dart';
@@ -12,7 +13,22 @@ extension JSChromeJSEnterprisePlatformKeysExtension on JSChromeEnterprise {
   /// platform and can be used for TLS authentication, network access or by
   /// other
   /// extension through $(ref:platformKeys chrome.platformKeys).
-  external JSEnterprisePlatformKeys get platformKeys;
+  @JS('platformKeys')
+  external JSEnterprisePlatformKeys? get platformKeysNullable;
+
+  /// Use the `chrome.enterprise.platformKeys` API to generate keys and
+  /// install certificates for these keys. The certificates will be managed by
+  /// the
+  /// platform and can be used for TLS authentication, network access or by
+  /// other
+  /// extension through $(ref:platformKeys chrome.platformKeys).
+  JSEnterprisePlatformKeys get platformKeys {
+    var platformKeysNullable = this.platformKeysNullable;
+    if (platformKeysNullable == null) {
+      throw ApiNotAvailableException('chrome.enterprise.platformKeys');
+    }
+    return platformKeysNullable;
+  }
 }
 
 @JS()

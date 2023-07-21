@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSProcessesExtension on JSChrome {
   /// Use the `chrome.processes` API to interact with the browser's
   /// processes.
-  external JSProcesses get processes;
+  @JS('processes')
+  external JSProcesses? get processesNullable;
+
+  /// Use the `chrome.processes` API to interact with the browser's
+  /// processes.
+  JSProcesses get processes {
+    var processesNullable = this.processesNullable;
+    if (processesNullable == null) {
+      throw ApiNotAvailableException('chrome.processes');
+    }
+    return processesNullable;
+  }
 }
 
 @JS()

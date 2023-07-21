@@ -14,6 +14,8 @@ extension ChromeNotificationsExtension on Chrome {
 class ChromeNotifications {
   ChromeNotifications._();
 
+  bool get isAvailable => $js.chrome.notificationsNullable != null;
+
   /// Creates and displays a notification.
   /// |notificationId|: Identifier of the notification. If not set or empty, an
   /// ID will automatically be generated. If it matches an existing

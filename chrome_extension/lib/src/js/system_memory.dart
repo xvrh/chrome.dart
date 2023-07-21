@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'system.dart';
 
 export 'chrome.dart';
@@ -7,7 +8,17 @@ export 'system.dart';
 
 extension JSChromeJSSystemMemoryExtension on JSChromeSystem {
   /// The `chrome.system.memory` API.
-  external JSSystemMemory get memory;
+  @JS('memory')
+  external JSSystemMemory? get memoryNullable;
+
+  /// The `chrome.system.memory` API.
+  JSSystemMemory get memory {
+    var memoryNullable = this.memoryNullable;
+    if (memoryNullable == null) {
+      throw ApiNotAvailableException('chrome.system.memory');
+    }
+    return memoryNullable;
+  }
 }
 
 @JS()

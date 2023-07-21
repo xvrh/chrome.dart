@@ -8,3 +8,11 @@ external JSChrome get chrome;
 @staticInterop
 class JSChrome {}
 
+class ApiNotAvailableException implements Exception {
+  final String name;
+
+  ApiNotAvailableException(this.name);
+
+  String toString() => 'ApiNotAvailableException: $name is not available. '
+      'Check that the manifest contains the correct permissions.';
+}

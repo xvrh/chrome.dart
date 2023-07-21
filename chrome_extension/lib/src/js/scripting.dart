@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSScriptingExtension on JSChrome {
   /// Use the `chrome.scripting` API to execute script in different
   /// contexts.
-  external JSScripting get scripting;
+  @JS('scripting')
+  external JSScripting? get scriptingNullable;
+
+  /// Use the `chrome.scripting` API to execute script in different
+  /// contexts.
+  JSScripting get scripting {
+    var scriptingNullable = this.scriptingNullable;
+    if (scriptingNullable == null) {
+      throw ApiNotAvailableException('chrome.scripting');
+    }
+    return scriptingNullable;
+  }
 }
 
 @JS()

@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSStorageExtension on JSChrome {
   /// Use the `chrome.storage` API to store, retrieve, and track changes to user
   /// data.
-  external JSStorage get storage;
+  @JS('storage')
+  external JSStorage? get storageNullable;
+
+  /// Use the `chrome.storage` API to store, retrieve, and track changes to user
+  /// data.
+  JSStorage get storage {
+    var storageNullable = this.storageNullable;
+    if (storageNullable == null) {
+      throw ApiNotAvailableException('chrome.storage');
+    }
+    return storageNullable;
+  }
 }
 
 @JS()

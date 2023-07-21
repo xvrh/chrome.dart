@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSFileSystemProviderExtension on JSChrome {
   /// Use the `chrome.fileSystemProvider` API to create file systems,
   /// that can be accessible from the file manager on Chrome OS.
-  external JSFileSystemProvider get fileSystemProvider;
+  @JS('fileSystemProvider')
+  external JSFileSystemProvider? get fileSystemProviderNullable;
+
+  /// Use the `chrome.fileSystemProvider` API to create file systems,
+  /// that can be accessible from the file manager on Chrome OS.
+  JSFileSystemProvider get fileSystemProvider {
+    var fileSystemProviderNullable = this.fileSystemProviderNullable;
+    if (fileSystemProviderNullable == null) {
+      throw ApiNotAvailableException('chrome.fileSystemProvider');
+    }
+    return fileSystemProviderNullable;
+  }
 }
 
 @JS()

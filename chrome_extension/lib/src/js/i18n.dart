@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSI18nExtension on JSChrome {
   /// Use the `chrome.i18n` infrastructure to implement internationalization
   /// across your whole app or extension.
-  external JSI18n get i18n;
+  @JS('i18n')
+  external JSI18n? get i18nNullable;
+
+  /// Use the `chrome.i18n` infrastructure to implement internationalization
+  /// across your whole app or extension.
+  JSI18n get i18n {
+    var i18nNullable = this.i18nNullable;
+    if (i18nNullable == null) {
+      throw ApiNotAvailableException('chrome.i18n');
+    }
+    return i18nNullable;
+  }
 }
 
 @JS()

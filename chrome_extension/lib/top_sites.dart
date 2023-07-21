@@ -14,6 +14,8 @@ extension ChromeTopSitesExtension on Chrome {
 class ChromeTopSites {
   ChromeTopSites._();
 
+  bool get isAvailable => $js.chrome.topSitesNullable != null;
+
   /// Gets a list of top sites.
   Future<List<MostVisitedURL>> get() async {
     var $res = await promiseToFuture<JSArray>($js.chrome.topSites.get());

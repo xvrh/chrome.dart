@@ -13,6 +13,8 @@ extension ChromeProxyExtension on Chrome {
 class ChromeProxy {
   ChromeProxy._();
 
+  bool get isAvailable => $js.chrome.proxyNullable != null;
+
   /// Proxy settings to be used. The value of this setting is a ProxyConfig
   /// object.
   ChromeSetting get settings => ChromeSetting.fromJS($js.chrome.proxy.settings);

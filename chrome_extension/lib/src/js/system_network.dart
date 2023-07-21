@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'system.dart';
 
 export 'chrome.dart';
@@ -7,7 +8,17 @@ export 'system.dart';
 
 extension JSChromeJSSystemNetworkExtension on JSChromeSystem {
   /// Use the `chrome.system.network` API.
-  external JSSystemNetwork get network;
+  @JS('network')
+  external JSSystemNetwork? get networkNullable;
+
+  /// Use the `chrome.system.network` API.
+  JSSystemNetwork get network {
+    var networkNullable = this.networkNullable;
+    if (networkNullable == null) {
+      throw ApiNotAvailableException('chrome.system.network');
+    }
+    return networkNullable;
+  }
 }
 
 @JS()

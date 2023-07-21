@@ -14,6 +14,8 @@ extension ChromeManagementExtension on Chrome {
 class ChromeManagement {
   ChromeManagement._();
 
+  bool get isAvailable => $js.chrome.managementNullable != null;
+
   /// Returns a list of information about installed extensions and apps.
   Future<List<ExtensionInfo>> getAll() async {
     var $res = await promiseToFuture<JSArray>($js.chrome.management.getAll());

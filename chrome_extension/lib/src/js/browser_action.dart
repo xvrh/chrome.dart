@@ -9,7 +9,20 @@ extension JSChromeJSBrowserActionExtension on JSChrome {
   /// right of the address bar. In addition to its [icon](browserAction#icon), a
   /// browser action can have a [tooltip](browserAction#tooltip), a
   /// [badge](browserAction#badge), and a [popup](browserAction#popups).
-  external JSBrowserAction get browserAction;
+  @JS('browserAction')
+  external JSBrowserAction? get browserActionNullable;
+
+  /// Use browser actions to put icons in the main Google Chrome toolbar, to the
+  /// right of the address bar. In addition to its [icon](browserAction#icon), a
+  /// browser action can have a [tooltip](browserAction#tooltip), a
+  /// [badge](browserAction#badge), and a [popup](browserAction#popups).
+  JSBrowserAction get browserAction {
+    var browserActionNullable = this.browserActionNullable;
+    if (browserActionNullable == null) {
+      throw ApiNotAvailableException('chrome.browserAction');
+    }
+    return browserActionNullable;
+  }
 }
 
 @JS()

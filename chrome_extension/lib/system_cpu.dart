@@ -16,6 +16,8 @@ extension ChromeSystemCpuExtension on ChromeSystem {
 class ChromeSystemCpu {
   ChromeSystemCpu._();
 
+  bool get isAvailable => $js.chrome.systemNullable?.cpuNullable != null;
+
   /// Queries basic CPU information of the system.
   Future<CpuInfo> getInfo() async {
     var $res =

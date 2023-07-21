@@ -8,7 +8,19 @@ extension JSChromeJSFileBrowserHandlerExtension on JSChrome {
   /// Use the `chrome.fileBrowserHandler` API to extend the Chrome OS file
   /// browser. For example, you can use this API to enable users to upload files
   /// to your website.
-  external JSFileBrowserHandler get fileBrowserHandler;
+  @JS('fileBrowserHandler')
+  external JSFileBrowserHandler? get fileBrowserHandlerNullable;
+
+  /// Use the `chrome.fileBrowserHandler` API to extend the Chrome OS file
+  /// browser. For example, you can use this API to enable users to upload files
+  /// to your website.
+  JSFileBrowserHandler get fileBrowserHandler {
+    var fileBrowserHandlerNullable = this.fileBrowserHandlerNullable;
+    if (fileBrowserHandlerNullable == null) {
+      throw ApiNotAvailableException('chrome.fileBrowserHandler');
+    }
+    return fileBrowserHandlerNullable;
+  }
 }
 
 @JS()

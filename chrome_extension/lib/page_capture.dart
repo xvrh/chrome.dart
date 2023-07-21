@@ -12,6 +12,8 @@ extension ChromePageCaptureExtension on Chrome {
 class ChromePageCapture {
   ChromePageCapture._();
 
+  bool get isAvailable => $js.chrome.pageCaptureNullable != null;
+
   /// Saves the content of the tab with given id as MHTML.
   Future<Object?> saveAsMHTML(SaveAsMhtmlDetails details) {
     var $completer = Completer<Object?>();

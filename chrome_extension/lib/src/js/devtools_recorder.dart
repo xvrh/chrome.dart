@@ -9,7 +9,18 @@ export 'devtools.dart';
 extension JSChromeJSDevtoolsRecorderExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.recorder` API to customize the Recorder panel in
   /// DevTools.
-  external JSDevtoolsRecorder get recorder;
+  @JS('recorder')
+  external JSDevtoolsRecorder? get recorderNullable;
+
+  /// Use the `chrome.devtools.recorder` API to customize the Recorder panel in
+  /// DevTools.
+  JSDevtoolsRecorder get recorder {
+    var recorderNullable = this.recorderNullable;
+    if (recorderNullable == null) {
+      throw ApiNotAvailableException('chrome.devtools.recorder');
+    }
+    return recorderNullable;
+  }
 }
 
 @JS()

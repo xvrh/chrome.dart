@@ -15,6 +15,8 @@ extension ChromeVpnProviderExtension on Chrome {
 class ChromeVpnProvider {
   ChromeVpnProvider._();
 
+  bool get isAvailable => $js.chrome.vpnProviderNullable != null;
+
   /// Creates a new VPN configuration that persists across multiple login
   /// sessions of the user.
   /// |name|: The name of the VPN configuration.

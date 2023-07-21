@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSPrintingMetricsExtension on JSChrome {
   /// Use the `chrome.printingMetrics` API to fetch data about
   /// printing usage.
-  external JSPrintingMetrics get printingMetrics;
+  @JS('printingMetrics')
+  external JSPrintingMetrics? get printingMetricsNullable;
+
+  /// Use the `chrome.printingMetrics` API to fetch data about
+  /// printing usage.
+  JSPrintingMetrics get printingMetrics {
+    var printingMetricsNullable = this.printingMetricsNullable;
+    if (printingMetricsNullable == null) {
+      throw ApiNotAvailableException('chrome.printingMetrics');
+    }
+    return printingMetricsNullable;
+  }
 }
 
 @JS()

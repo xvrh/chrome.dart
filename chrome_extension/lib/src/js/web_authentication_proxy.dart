@@ -8,7 +8,19 @@ extension JSChromeJSWebAuthenticationProxyExtension on JSChrome {
   /// The `chrome.webAuthenticationProxy`. API lets remote desktop
   /// software running on a remote host intercept Web Authentication API
   /// (WebAuthn) requests in order to handle them on a local client.
-  external JSWebAuthenticationProxy get webAuthenticationProxy;
+  @JS('webAuthenticationProxy')
+  external JSWebAuthenticationProxy? get webAuthenticationProxyNullable;
+
+  /// The `chrome.webAuthenticationProxy`. API lets remote desktop
+  /// software running on a remote host intercept Web Authentication API
+  /// (WebAuthn) requests in order to handle them on a local client.
+  JSWebAuthenticationProxy get webAuthenticationProxy {
+    var webAuthenticationProxyNullable = this.webAuthenticationProxyNullable;
+    if (webAuthenticationProxyNullable == null) {
+      throw ApiNotAvailableException('chrome.webAuthenticationProxy');
+    }
+    return webAuthenticationProxyNullable;
+  }
 }
 
 @JS()

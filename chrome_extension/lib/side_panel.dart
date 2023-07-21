@@ -14,6 +14,8 @@ extension ChromeSidePanelExtension on Chrome {
 class ChromeSidePanel {
   ChromeSidePanel._();
 
+  bool get isAvailable => $js.chrome.sidePanelNullable != null;
+
   /// Configures the side panel.
   /// |options|: The configuration options to apply to the panel.
   /// |callback|: Invoked when the options have been set.

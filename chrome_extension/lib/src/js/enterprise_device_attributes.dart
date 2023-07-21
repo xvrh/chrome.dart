@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'enterprise.dart';
 
 export 'chrome.dart';
@@ -11,7 +12,21 @@ extension JSChromeJSEnterpriseDeviceAttributesExtension on JSChromeEnterprise {
   /// Note: This API is only available to extensions force-installed by
   /// enterprise
   /// policy.
-  external JSEnterpriseDeviceAttributes get deviceAttributes;
+  @JS('deviceAttributes')
+  external JSEnterpriseDeviceAttributes? get deviceAttributesNullable;
+
+  /// Use the `chrome.enterprise.deviceAttributes` API to read device
+  /// attributes.
+  /// Note: This API is only available to extensions force-installed by
+  /// enterprise
+  /// policy.
+  JSEnterpriseDeviceAttributes get deviceAttributes {
+    var deviceAttributesNullable = this.deviceAttributesNullable;
+    if (deviceAttributesNullable == null) {
+      throw ApiNotAvailableException('chrome.enterprise.deviceAttributes');
+    }
+    return deviceAttributesNullable;
+  }
 }
 
 @JS()

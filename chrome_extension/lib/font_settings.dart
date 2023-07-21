@@ -14,6 +14,8 @@ extension ChromeFontSettingsExtension on Chrome {
 class ChromeFontSettings {
   ChromeFontSettings._();
 
+  bool get isAvailable => $js.chrome.fontSettingsNullable != null;
+
   /// Clears the font set by this extension, if any.
   Future<void> clearFont(ClearFontDetails details) async {
     await promiseToFuture<void>(

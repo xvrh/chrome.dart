@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSNotificationsExtension on JSChrome {
   /// Use the `chrome.notifications` API to create rich notifications
   /// using templates and show these notifications to users in the system tray.
-  external JSNotifications get notifications;
+  @JS('notifications')
+  external JSNotifications? get notificationsNullable;
+
+  /// Use the `chrome.notifications` API to create rich notifications
+  /// using templates and show these notifications to users in the system tray.
+  JSNotifications get notifications {
+    var notificationsNullable = this.notificationsNullable;
+    if (notificationsNullable == null) {
+      throw ApiNotAvailableException('chrome.notifications');
+    }
+    return notificationsNullable;
+  }
 }
 
 @JS()

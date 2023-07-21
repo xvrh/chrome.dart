@@ -9,7 +9,18 @@ export 'chrome.dart';
 extension JSChromeJSSessionsExtension on JSChrome {
   /// Use the `chrome.sessions` API to query and restore tabs and windows from a
   /// browsing session.
-  external JSSessions get sessions;
+  @JS('sessions')
+  external JSSessions? get sessionsNullable;
+
+  /// Use the `chrome.sessions` API to query and restore tabs and windows from a
+  /// browsing session.
+  JSSessions get sessions {
+    var sessionsNullable = this.sessionsNullable;
+    if (sessionsNullable == null) {
+      throw ApiNotAvailableException('chrome.sessions');
+    }
+    return sessionsNullable;
+  }
 }
 
 @JS()

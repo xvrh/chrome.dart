@@ -14,6 +14,8 @@ extension ChromeOmniboxExtension on Chrome {
 class ChromeOmnibox {
   ChromeOmnibox._();
 
+  bool get isAvailable => $js.chrome.omniboxNullable != null;
+
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
   /// [suggestResults] An array of suggest results

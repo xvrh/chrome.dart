@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSIdleExtension on JSChrome {
   /// Use the `chrome.idle` API to detect when the machine's idle state changes.
-  external JSIdle get idle;
+  @JS('idle')
+  external JSIdle? get idleNullable;
+
+  /// Use the `chrome.idle` API to detect when the machine's idle state changes.
+  JSIdle get idle {
+    var idleNullable = this.idleNullable;
+    if (idleNullable == null) {
+      throw ApiNotAvailableException('chrome.idle');
+    }
+    return idleNullable;
+  }
 }
 
 @JS()

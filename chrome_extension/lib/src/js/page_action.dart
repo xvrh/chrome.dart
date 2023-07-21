@@ -9,7 +9,20 @@ extension JSChromeJSPageActionExtension on JSChrome {
   /// toolbar, to the right of the address bar. Page actions represent actions
   /// that can be taken on the current page, but that aren't applicable to all
   /// pages. Page actions appear grayed out when inactive.
-  external JSPageAction get pageAction;
+  @JS('pageAction')
+  external JSPageAction? get pageActionNullable;
+
+  /// Use the `chrome.pageAction` API to put icons in the main Google Chrome
+  /// toolbar, to the right of the address bar. Page actions represent actions
+  /// that can be taken on the current page, but that aren't applicable to all
+  /// pages. Page actions appear grayed out when inactive.
+  JSPageAction get pageAction {
+    var pageActionNullable = this.pageActionNullable;
+    if (pageActionNullable == null) {
+      throw ApiNotAvailableException('chrome.pageAction');
+    }
+    return pageActionNullable;
+  }
 }
 
 @JS()

@@ -12,6 +12,8 @@ extension ChromeAudioExtension on Chrome {
 class ChromeAudio {
   ChromeAudio._();
 
+  bool get isAvailable => $js.chrome.audioNullable != null;
+
   /// Gets a list of audio devices filtered based on |filter|.
   /// |filter|: Device properties by which to filter the list of returned
   ///     audio devices. If the filter is not set or set to `{}`,

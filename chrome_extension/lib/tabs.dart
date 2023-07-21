@@ -18,6 +18,8 @@ extension ChromeTabsExtension on Chrome {
 class ChromeTabs {
   ChromeTabs._();
 
+  bool get isAvailable => $js.chrome.tabsNullable != null;
+
   /// Retrieves details about the specified tab.
   Future<Tab> get(int tabId) async {
     var $res = await promiseToFuture<$js.Tab>($js.chrome.tabs.get(tabId));

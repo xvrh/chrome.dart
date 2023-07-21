@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSEventsExtension on JSChrome {
   /// The `chrome.events` namespace contains common types used by APIs
   /// dispatching events to notify you when something interesting happens.
-  external JSEvents get events;
+  @JS('events')
+  external JSEvents? get eventsNullable;
+
+  /// The `chrome.events` namespace contains common types used by APIs
+  /// dispatching events to notify you when something interesting happens.
+  JSEvents get events {
+    var eventsNullable = this.eventsNullable;
+    if (eventsNullable == null) {
+      throw ApiNotAvailableException('chrome.events');
+    }
+    return eventsNullable;
+  }
 }
 
 @JS()

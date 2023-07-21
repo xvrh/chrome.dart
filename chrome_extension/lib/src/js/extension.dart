@@ -9,7 +9,20 @@ extension JSChromeJSExtensionExtension on JSChrome {
   /// page. It includes support for exchanging messages between an extension and
   /// its content scripts or between extensions, as described in detail in
   /// [Message Passing](messaging).
-  external JSExtension get extension;
+  @JS('extension')
+  external JSExtension? get extensionNullable;
+
+  /// The `chrome.extension` API has utilities that can be used by any extension
+  /// page. It includes support for exchanging messages between an extension and
+  /// its content scripts or between extensions, as described in detail in
+  /// [Message Passing](messaging).
+  JSExtension get extension {
+    var extensionNullable = this.extensionNullable;
+    if (extensionNullable == null) {
+      throw ApiNotAvailableException('chrome.extension');
+    }
+    return extensionNullable;
+  }
 }
 
 @JS()

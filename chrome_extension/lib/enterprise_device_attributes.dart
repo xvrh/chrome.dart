@@ -17,6 +17,9 @@ extension ChromeEnterpriseDeviceAttributesExtension on ChromeEnterprise {
 class ChromeEnterpriseDeviceAttributes {
   ChromeEnterpriseDeviceAttributes._();
 
+  bool get isAvailable =>
+      $js.chrome.enterpriseNullable?.deviceAttributesNullable != null;
+
   /// Fetches the value of
   /// [the device identifier of the directory
   /// API](https://developers.google.com/admin-sdk/directory/v1/guides/manage-chrome-devices),

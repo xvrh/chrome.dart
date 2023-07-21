@@ -9,7 +9,20 @@ extension JSChromeJSPermissionsExtension on JSChrome {
   /// permissions](permissions#manifest) at run time rather than install time,
   /// so users understand why the permissions are needed and grant only those
   /// that are necessary.
-  external JSPermissions get permissions;
+  @JS('permissions')
+  external JSPermissions? get permissionsNullable;
+
+  /// Use the `chrome.permissions` API to request [declared optional
+  /// permissions](permissions#manifest) at run time rather than install time,
+  /// so users understand why the permissions are needed and grant only those
+  /// that are necessary.
+  JSPermissions get permissions {
+    var permissionsNullable = this.permissionsNullable;
+    if (permissionsNullable == null) {
+      throw ApiNotAvailableException('chrome.permissions');
+    }
+    return permissionsNullable;
+  }
 }
 
 @JS()

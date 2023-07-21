@@ -8,7 +8,19 @@ extension JSChromeJSBookmarksExtension on JSChrome {
   /// Use the `chrome.bookmarks` API to create, organize, and otherwise
   /// manipulate bookmarks. Also see [Override Pages](override), which you can
   /// use to create a custom Bookmark Manager page.
-  external JSBookmarks get bookmarks;
+  @JS('bookmarks')
+  external JSBookmarks? get bookmarksNullable;
+
+  /// Use the `chrome.bookmarks` API to create, organize, and otherwise
+  /// manipulate bookmarks. Also see [Override Pages](override), which you can
+  /// use to create a custom Bookmark Manager page.
+  JSBookmarks get bookmarks {
+    var bookmarksNullable = this.bookmarksNullable;
+    if (bookmarksNullable == null) {
+      throw ApiNotAvailableException('chrome.bookmarks');
+    }
+    return bookmarksNullable;
+  }
 }
 
 @JS()

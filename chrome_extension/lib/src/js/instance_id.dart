@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSInstanceIdExtension on JSChrome {
   /// Use `chrome.instanceID` to access the Instance ID service.
-  external JSInstanceId get instanceId;
+  @JS('instanceId')
+  external JSInstanceId? get instanceIdNullable;
+
+  /// Use `chrome.instanceID` to access the Instance ID service.
+  JSInstanceId get instanceId {
+    var instanceIdNullable = this.instanceIdNullable;
+    if (instanceIdNullable == null) {
+      throw ApiNotAvailableException('chrome.instanceId');
+    }
+    return instanceIdNullable;
+  }
 }
 
 @JS()

@@ -16,6 +16,8 @@ extension ChromePageActionExtension on Chrome {
 class ChromePageAction {
   ChromePageAction._();
 
+  bool get isAvailable => $js.chrome.pageActionNullable != null;
+
   /// Shows the page action. The page action is shown whenever the tab is
   /// selected.
   /// [tabId] The id of the tab for which you want to modify the page action.

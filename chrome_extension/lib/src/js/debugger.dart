@@ -12,7 +12,23 @@ extension JSChromeJSDebuggerExtension on JSChrome {
   /// interaction, debug JavaScript, mutate the DOM and CSS, etc. Use the
   /// Debuggee `tabId` to target tabs with sendCommand and route events by
   /// `tabId` from onEvent callbacks.
-  external JSDebugger get debugger;
+  @JS('debugger')
+  external JSDebugger? get debuggerNullable;
+
+  /// The `chrome.debugger` API serves as an alternate transport for Chrome's
+  /// [remote debugging
+  /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
+  /// Use `chrome.debugger` to attach to one or more tabs to instrument network
+  /// interaction, debug JavaScript, mutate the DOM and CSS, etc. Use the
+  /// Debuggee `tabId` to target tabs with sendCommand and route events by
+  /// `tabId` from onEvent callbacks.
+  JSDebugger get debugger {
+    var debuggerNullable = this.debuggerNullable;
+    if (debuggerNullable == null) {
+      throw ApiNotAvailableException('chrome.debugger');
+    }
+    return debuggerNullable;
+  }
 }
 
 @JS()

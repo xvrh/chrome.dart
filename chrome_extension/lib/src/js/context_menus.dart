@@ -8,7 +8,19 @@ extension JSChromeJSContextMenusExtension on JSChrome {
   /// Use the `chrome.contextMenus` API to add items to Google Chrome's context
   /// menu. You can choose what types of objects your context menu additions
   /// apply to, such as images, hyperlinks, and pages.
-  external JSContextMenus get contextMenus;
+  @JS('contextMenus')
+  external JSContextMenus? get contextMenusNullable;
+
+  /// Use the `chrome.contextMenus` API to add items to Google Chrome's context
+  /// menu. You can choose what types of objects your context menu additions
+  /// apply to, such as images, hyperlinks, and pages.
+  JSContextMenus get contextMenus {
+    var contextMenusNullable = this.contextMenusNullable;
+    if (contextMenusNullable == null) {
+      throw ApiNotAvailableException('chrome.contextMenus');
+    }
+    return contextMenusNullable;
+  }
 }
 
 @JS()

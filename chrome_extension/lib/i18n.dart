@@ -14,6 +14,8 @@ extension ChromeI18nExtension on Chrome {
 class ChromeI18n {
   ChromeI18n._();
 
+  bool get isAvailable => $js.chrome.i18nNullable != null;
+
   /// Gets the accept-languages of the browser. This is different from the
   /// locale used by the browser; to get the locale, use [i18n.getUILanguage].
   Future<List<LanguageCode>> getAcceptLanguages() async {

@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'enterprise.dart';
 
 export 'chrome.dart';
@@ -12,7 +13,21 @@ extension JSChromeJSEnterpriseNetworkingAttributesExtension
   /// Note: This API is only available to extensions force-installed by
   /// enterprise
   /// policy.
-  external JSEnterpriseNetworkingAttributes get networkingAttributes;
+  @JS('networkingAttributes')
+  external JSEnterpriseNetworkingAttributes? get networkingAttributesNullable;
+
+  /// Use the `chrome.enterprise.networkingAttributes` API to read
+  /// information about your current network.
+  /// Note: This API is only available to extensions force-installed by
+  /// enterprise
+  /// policy.
+  JSEnterpriseNetworkingAttributes get networkingAttributes {
+    var networkingAttributesNullable = this.networkingAttributesNullable;
+    if (networkingAttributesNullable == null) {
+      throw ApiNotAvailableException('chrome.enterprise.networkingAttributes');
+    }
+    return networkingAttributesNullable;
+  }
 }
 
 @JS()

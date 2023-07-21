@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
+  test('first test', () {});
   test(
       'chrome.*.isAvailable',
       () => runTest('test/check_available.dart',

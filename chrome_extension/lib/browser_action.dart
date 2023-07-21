@@ -16,6 +16,8 @@ extension ChromeBrowserActionExtension on Chrome {
 class ChromeBrowserAction {
   ChromeBrowserAction._();
 
+  bool get isAvailable => $js.chrome.browserActionNullable != null;
+
   /// Sets the title of the browser action. This title appears in the tooltip.
   Future<void> setTitle(SetTitleDetails details) async {
     await promiseToFuture<void>(

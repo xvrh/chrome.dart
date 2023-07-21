@@ -16,6 +16,9 @@ extension ChromeEnterprisePlatformKeysExtension on ChromeEnterprise {
 class ChromeEnterprisePlatformKeys {
   ChromeEnterprisePlatformKeys._();
 
+  bool get isAvailable =>
+      $js.chrome.enterpriseNullable?.platformKeysNullable != null;
+
   /// Returns the available Tokens. In a regular user's session the list will
   /// always contain the user's token with `id` `"user"`.
   /// If a system-wide TPM token is available, the returned list will also

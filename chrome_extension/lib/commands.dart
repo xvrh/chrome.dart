@@ -16,6 +16,8 @@ extension ChromeCommandsExtension on Chrome {
 class ChromeCommands {
   ChromeCommands._();
 
+  bool get isAvailable => $js.chrome.commandsNullable != null;
+
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).
   Future<List<Command>> getAll() async {

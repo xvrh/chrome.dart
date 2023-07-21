@@ -14,6 +14,8 @@ extension ChromeAlarmsExtension on Chrome {
 class ChromeAlarms {
   ChromeAlarms._();
 
+  bool get isAvailable => $js.chrome.alarmsNullable != null;
+
   /// Creates an alarm.  Near the time(s) specified by [alarmInfo],
   /// the `onAlarm` event is fired. If there is another alarm with
   /// the same name (or no name if none is specified), it will be cancelled and

@@ -14,6 +14,8 @@ extension ChromePermissionsExtension on Chrome {
 class ChromePermissions {
   ChromePermissions._();
 
+  bool get isAvailable => $js.chrome.permissionsNullable != null;
+
   /// Gets the extension's current set of permissions.
   Future<Permissions> getAll() async {
     var $res =

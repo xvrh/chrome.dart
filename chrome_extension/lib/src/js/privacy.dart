@@ -10,7 +10,20 @@ extension JSChromeJSPrivacyExtension on JSChrome {
   /// that can affect a user's privacy. This API relies on the [ChromeSetting
   /// prototype of the type API](types#ChromeSetting) for getting and setting
   /// Chrome's configuration.
-  external JSPrivacy get privacy;
+  @JS('privacy')
+  external JSPrivacy? get privacyNullable;
+
+  /// Use the `chrome.privacy` API to control usage of the features in Chrome
+  /// that can affect a user's privacy. This API relies on the [ChromeSetting
+  /// prototype of the type API](types#ChromeSetting) for getting and setting
+  /// Chrome's configuration.
+  JSPrivacy get privacy {
+    var privacyNullable = this.privacyNullable;
+    if (privacyNullable == null) {
+      throw ApiNotAvailableException('chrome.privacy');
+    }
+    return privacyNullable;
+  }
 }
 
 @JS()

@@ -10,7 +10,19 @@ extension JSChromeJSDevtoolsPanelsExtension on JSChromeDevtools {
   /// Use the `chrome.devtools.panels` API to integrate your extension into
   /// Developer Tools window UI: create your own panels, access existing panels,
   /// and add sidebars.
-  external JSDevtoolsPanels get panels;
+  @JS('panels')
+  external JSDevtoolsPanels? get panelsNullable;
+
+  /// Use the `chrome.devtools.panels` API to integrate your extension into
+  /// Developer Tools window UI: create your own panels, access existing panels,
+  /// and add sidebars.
+  JSDevtoolsPanels get panels {
+    var panelsNullable = this.panelsNullable;
+    if (panelsNullable == null) {
+      throw ApiNotAvailableException('chrome.devtools.panels');
+    }
+    return panelsNullable;
+  }
 }
 
 @JS()

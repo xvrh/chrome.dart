@@ -9,7 +9,20 @@ extension JSChromeJSTabGroupsExtension on JSChrome {
   /// system. You can use this API to modify and rearrange tab groups in the
   /// browser. To group and ungroup tabs, or to query what tabs are in groups,
   /// use the `chrome.tabs` API.
-  external JSTabGroups get tabGroups;
+  @JS('tabGroups')
+  external JSTabGroups? get tabGroupsNullable;
+
+  /// Use the `chrome.tabGroups` API to interact with the browser's tab grouping
+  /// system. You can use this API to modify and rearrange tab groups in the
+  /// browser. To group and ungroup tabs, or to query what tabs are in groups,
+  /// use the `chrome.tabs` API.
+  JSTabGroups get tabGroups {
+    var tabGroupsNullable = this.tabGroupsNullable;
+    if (tabGroupsNullable == null) {
+      throw ApiNotAvailableException('chrome.tabGroups');
+    }
+    return tabGroupsNullable;
+  }
 }
 
 @JS()

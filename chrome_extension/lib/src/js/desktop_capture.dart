@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSDesktopCaptureExtension on JSChrome {
   /// Desktop Capture API that can be used to capture content of screen,
   /// individual windows or tabs.
-  external JSDesktopCapture get desktopCapture;
+  @JS('desktopCapture')
+  external JSDesktopCapture? get desktopCaptureNullable;
+
+  /// Desktop Capture API that can be used to capture content of screen,
+  /// individual windows or tabs.
+  JSDesktopCapture get desktopCapture {
+    var desktopCaptureNullable = this.desktopCaptureNullable;
+    if (desktopCaptureNullable == null) {
+      throw ApiNotAvailableException('chrome.desktopCapture');
+    }
+    return desktopCaptureNullable;
+  }
 }
 
 @JS()

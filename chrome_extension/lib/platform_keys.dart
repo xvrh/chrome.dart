@@ -14,6 +14,8 @@ extension ChromePlatformKeysExtension on Chrome {
 class ChromePlatformKeys {
   ChromePlatformKeys._();
 
+  bool get isAvailable => $js.chrome.platformKeysNullable != null;
+
   /// This method filters from a list of client certificates the ones that
   /// are known to the platform, match `request` and for which the
   /// extension has permission to access the certificate and its private key.

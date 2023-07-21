@@ -22,18 +22,17 @@ class _GeneratorBase {
   bool isDictionaryAnonymous(model.Dictionary dictionary) {
     if (dictionary.isAnonymous) return true;
 
-    var isInputType = api.inputTypes.any((e) => e is DictionaryType && e.name == dictionary.name);
-    var isOutputType = api.outputTypes.any((e) => e is DictionaryType && e.name == dictionary.name);
+    var isInputType = api.inputTypes
+        .any((e) => e is DictionaryType && e.name == dictionary.name);
+    var isOutputType = api.outputTypes
+        .any((e) => e is DictionaryType && e.name == dictionary.name);
 
     if (isInputType && isOutputType) {
+      //TODO: need to split the dictionary type at the binding level
       //throw UnimplementedError('Type used both in input and output: ${dictionary.name}/${api.name}');
     }
     return isInputType;
-    // Loop in Events, Methods return type, Properties
-    //   Loop inside all types
   }
-
-
 }
 
 class JsBindingGenerator extends _GeneratorBase {
@@ -52,12 +51,28 @@ class JsBindingGenerator extends _GeneratorBase {
         Extension((b) => b
           ..name = 'JSChrome${bindingClassName}Extension'
           ..on = _extensionOn
-          ..methods.add(Method((b) => b
-            ..docs.add(documentationComment(api.documentation, indent: 2))
-            ..external = true
-            ..returns = refer(bindingClassName)
-            ..name = api.nameWithoutGroup.lowerCamel
-            ..type = MethodType.getter))),
+          ..methods.addAll([
+            Method((b) => b
+              ..docs.add(documentationComment(api.documentation, indent: 2))
+              ..external = true
+              ..returns = refer('$bindingClassName?')
+              ..name = '${api.nameWithoutGroup.lowerCamel}Nullable'
+              ..annotations.add(_jsAnnotation(api.nameWithoutGroup.lowerCamel))
+              ..type = MethodType.getter),
+            Method((b) => b
+              ..docs.add(documentationComment(api.documentation, indent: 2))
+              ..returns = refer(bindingClassName, _sharedBinding)
+              ..name = api.nameWithoutGroup.lowerCamel
+              ..type = MethodType.getter
+              ..body = Code('''
+var ${api.nameWithoutGroup.lowerCamel}Nullable = this.${api.nameWithoutGroup.lowerCamel}Nullable;
+if (${api.nameWithoutGroup.lowerCamel}Nullable == null) {
+  throw ApiNotAvailableException(
+      'chrome${api.group != null ? '.${api.group}' : ''}.${api.nameWithoutGroup.lowerCamel}');
+}
+return ${api.nameWithoutGroup.lowerCamel}Nullable;            
+'''))
+          ])),
         Class((b) => b
           ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
           ..name = bindingClassName),
@@ -226,6 +241,7 @@ class DartApiGenerator extends _GeneratorBase {
         Class((b) => b
           ..name = mainClassName
           ..constructors.add(Constructor((c) => c.name = '_'))
+          ..methods.add(_isAvailableGetter())
           ..methods.addAll(
               api.functions.map((f) => _function(f, source: _referJsBinding())))
           ..methods.addAll(api.properties.map(_property))
@@ -241,6 +257,24 @@ class DartApiGenerator extends _GeneratorBase {
       ]));
 
     return _emitCode(library, allocator: _PrefixedAllocator(api.fileName));
+  }
+
+  Method _isAvailableGetter() {
+    Expression referTo = refer('chrome', _jsFile);
+
+    var property = '${api.nameWithoutGroup.lowerCamel}Nullable';
+    if (api.group case var group?) {
+      referTo = referTo.property('${group}Nullable');
+      referTo = referTo.nullSafeProperty(property);
+    } else {
+      referTo = referTo.property(property);
+    }
+    return Method((b) => b
+      ..name = 'isAvailable'
+      ..type = MethodType.getter
+      ..lambda = true
+      ..returns = refer('bool')
+      ..body = referTo.notEqualTo(refer('null')).code);
   }
 
   Reference get _extensionOn {
@@ -384,7 +418,8 @@ class DartApiGenerator extends _GeneratorBase {
     var callJsExpression = refer('promiseToFuture', 'dart:js_util').call([
       referTo.call(callParameters)
     ], {}, [
-      asyncReturn.jsCallback.positionalParameters.firstOrNull?.type.jsTypeReferencedFromDart ??
+      asyncReturn.jsCallback.positionalParameters.firstOrNull?.type
+              .jsTypeReferencedFromDart ??
           refer('void')
     ]).awaited;
 
@@ -624,11 +659,25 @@ String generateJSGroupCode(String group) {
       Extension((b) => b
         ..name = '${groupClass}Extension'
         ..on = refer('JSChrome', 'chrome.dart')
-        ..methods.add(Method((b) => b
-          ..external = true
-          ..returns = refer('JSChrome${group.upperCamel}')
-          ..name = group
-          ..type = MethodType.getter))),
+        ..methods.addAll([
+          Method((b) => b
+            ..external = true
+            ..returns = refer('JSChrome${group.upperCamel}?')
+            ..name = '${group}Nullable'
+            ..annotations.add(_jsAnnotation(group))
+            ..type = MethodType.getter),
+          Method((b) => b
+            ..returns = refer('JSChrome${group.upperCamel}')
+            ..name = group
+            ..type = MethodType.getter
+            ..body = Code('''
+var ${group}Nullable = this.${group}Nullable;
+if (${group}Nullable == null) {
+  throw ApiNotAvailableException('chrome.$group');
+}
+return ${group}Nullable;            
+'''))
+        ])),
       Class((b) => b
         ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
         ..name = groupClass),

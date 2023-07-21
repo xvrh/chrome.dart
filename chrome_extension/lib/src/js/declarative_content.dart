@@ -9,7 +9,19 @@ extension JSChromeJSDeclarativeContentExtension on JSChrome {
   /// Use the `chrome.declarativeContent` API to take actions depending on the
   /// content of a page, without requiring permission to read the page's
   /// content.
-  external JSDeclarativeContent get declarativeContent;
+  @JS('declarativeContent')
+  external JSDeclarativeContent? get declarativeContentNullable;
+
+  /// Use the `chrome.declarativeContent` API to take actions depending on the
+  /// content of a page, without requiring permission to read the page's
+  /// content.
+  JSDeclarativeContent get declarativeContent {
+    var declarativeContentNullable = this.declarativeContentNullable;
+    if (declarativeContentNullable == null) {
+      throw ApiNotAvailableException('chrome.declarativeContent');
+    }
+    return declarativeContentNullable;
+  }
 }
 
 @JS()

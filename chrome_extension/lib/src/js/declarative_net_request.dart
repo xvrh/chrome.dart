@@ -11,7 +11,21 @@ extension JSChromeJSDeclarativeNetRequestExtension on JSChrome {
   /// modify network requests without intercepting them and viewing their
   /// content,
   /// thus providing more privacy.
-  external JSDeclarativeNetRequest get declarativeNetRequest;
+  @JS('declarativeNetRequest')
+  external JSDeclarativeNetRequest? get declarativeNetRequestNullable;
+
+  /// The `chrome.declarativeNetRequest` API is used to block or modify
+  /// network requests by specifying declarative rules. This lets extensions
+  /// modify network requests without intercepting them and viewing their
+  /// content,
+  /// thus providing more privacy.
+  JSDeclarativeNetRequest get declarativeNetRequest {
+    var declarativeNetRequestNullable = this.declarativeNetRequestNullable;
+    if (declarativeNetRequestNullable == null) {
+      throw ApiNotAvailableException('chrome.declarativeNetRequest');
+    }
+    return declarativeNetRequestNullable;
+  }
 }
 
 @JS()

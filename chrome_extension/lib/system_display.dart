@@ -16,6 +16,8 @@ extension ChromeSystemDisplayExtension on ChromeSystem {
 class ChromeSystemDisplay {
   ChromeSystemDisplay._();
 
+  bool get isAvailable => $js.chrome.systemNullable?.displayNullable != null;
+
   /// Requests the information for all attached display devices.
   /// |flags|: Options affecting how the information is returned.
   /// |callback|: The callback to invoke with the results.

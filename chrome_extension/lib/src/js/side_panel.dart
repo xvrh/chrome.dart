@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSSidePanelExtension on JSChrome {
   /// chrome.sidePanel API
-  external JSSidePanel get sidePanel;
+  @JS('sidePanel')
+  external JSSidePanel? get sidePanelNullable;
+
+  /// chrome.sidePanel API
+  JSSidePanel get sidePanel {
+    var sidePanelNullable = this.sidePanelNullable;
+    if (sidePanelNullable == null) {
+      throw ApiNotAvailableException('chrome.sidePanel');
+    }
+    return sidePanelNullable;
+  }
 }
 
 @JS()

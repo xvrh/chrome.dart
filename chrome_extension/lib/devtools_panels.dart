@@ -14,6 +14,8 @@ extension ChromeDevtoolsPanelsExtension on ChromeDevtools {
 class ChromeDevtoolsPanels {
   ChromeDevtoolsPanels._();
 
+  bool get isAvailable => $js.chrome.devtoolsNullable?.panelsNullable != null;
+
   /// Creates an extension panel.
   /// [title] Title that is displayed next to the extension icon in the
   /// Developer Tools toolbar.

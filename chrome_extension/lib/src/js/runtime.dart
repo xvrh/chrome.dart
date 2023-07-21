@@ -10,7 +10,20 @@ extension JSChromeJSRuntimeExtension on JSChrome {
   /// details about the manifest, and listen for and respond to events in the
   /// app or extension lifecycle. You can also use this API to convert the
   /// relative path of URLs to fully-qualified URLs.
-  external JSRuntime get runtime;
+  @JS('runtime')
+  external JSRuntime? get runtimeNullable;
+
+  /// Use the `chrome.runtime` API to retrieve the background page, return
+  /// details about the manifest, and listen for and respond to events in the
+  /// app or extension lifecycle. You can also use this API to convert the
+  /// relative path of URLs to fully-qualified URLs.
+  JSRuntime get runtime {
+    var runtimeNullable = this.runtimeNullable;
+    if (runtimeNullable == null) {
+      throw ApiNotAvailableException('chrome.runtime');
+    }
+    return runtimeNullable;
+  }
 }
 
 @JS()

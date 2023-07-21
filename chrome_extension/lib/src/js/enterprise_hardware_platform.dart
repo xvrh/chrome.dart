@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+import 'chrome.dart';
 import 'enterprise.dart';
 
 export 'chrome.dart';
@@ -10,7 +11,20 @@ extension JSChromeJSEnterpriseHardwarePlatformExtension on JSChromeEnterprise {
   /// manufacturer and model of the hardware platform where the browser runs.
   /// Note: This API is only available to extensions installed by enterprise
   /// policy.
-  external JSEnterpriseHardwarePlatform get hardwarePlatform;
+  @JS('hardwarePlatform')
+  external JSEnterpriseHardwarePlatform? get hardwarePlatformNullable;
+
+  /// Use the `chrome.enterprise.hardwarePlatform` API to get the
+  /// manufacturer and model of the hardware platform where the browser runs.
+  /// Note: This API is only available to extensions installed by enterprise
+  /// policy.
+  JSEnterpriseHardwarePlatform get hardwarePlatform {
+    var hardwarePlatformNullable = this.hardwarePlatformNullable;
+    if (hardwarePlatformNullable == null) {
+      throw ApiNotAvailableException('chrome.enterprise.hardwarePlatform');
+    }
+    return hardwarePlatformNullable;
+  }
 }
 
 @JS()

@@ -13,6 +13,8 @@ extension ChromeTtsEngineExtension on Chrome {
 class ChromeTtsEngine {
   ChromeTtsEngine._();
 
+  bool get isAvailable => $js.chrome.ttsEngineNullable != null;
+
   /// Called by an engine to update its list of voices. This list overrides any
   /// voices declared in this extension's manifest.
   /// [voices] Array of [tts.TtsVoice] objects representing the available

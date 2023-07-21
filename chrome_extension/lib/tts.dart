@@ -14,6 +14,8 @@ extension ChromeTtsExtension on Chrome {
 class ChromeTts {
   ChromeTts._();
 
+  bool get isAvailable => $js.chrome.ttsNullable != null;
+
   /// Speaks text using a text-to-speech engine.
   /// [utterance] The text to speak, either plain text or a complete,
   /// well-formed SSML document. Speech engines that do not support SSML will

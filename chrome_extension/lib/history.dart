@@ -14,6 +14,8 @@ extension ChromeHistoryExtension on Chrome {
 class ChromeHistory {
   ChromeHistory._();
 
+  bool get isAvailable => $js.chrome.historyNullable != null;
+
   /// Searches the history for the last visit time of each page matching the
   /// query.
   Future<List<HistoryItem>> search(SearchQuery query) async {

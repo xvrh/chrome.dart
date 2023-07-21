@@ -7,7 +7,18 @@ export 'chrome.dart';
 extension JSChromeJSPowerExtension on JSChrome {
   /// Use the `chrome.power` API to override the system's power
   /// management features.
-  external JSPower get power;
+  @JS('power')
+  external JSPower? get powerNullable;
+
+  /// Use the `chrome.power` API to override the system's power
+  /// management features.
+  JSPower get power {
+    var powerNullable = this.powerNullable;
+    if (powerNullable == null) {
+      throw ApiNotAvailableException('chrome.power');
+    }
+    return powerNullable;
+  }
 }
 
 @JS()

@@ -14,6 +14,9 @@ extension ChromeDevtoolsInspectedWindowExtension on ChromeDevtools {
 class ChromeDevtoolsInspectedWindow {
   ChromeDevtoolsInspectedWindow._();
 
+  bool get isAvailable =>
+      $js.chrome.devtoolsNullable?.inspectedWindowNullable != null;
+
   /// Evaluates a JavaScript expression in the context of the main frame of the
   /// inspected page. The expression must evaluate to a JSON-compliant object,
   /// otherwise an exception is thrown. The eval function can report either a

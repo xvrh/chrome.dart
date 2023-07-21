@@ -11,5 +11,7 @@ void _tests() {
     var info = await chrome.system.storage.getInfo();
     check(info).isNotEmpty();
     check(info.first.name).isNotEmpty();
+    check(info.first.capacity).isGreaterThan(0);
+    check(info.first.type).isNotNull();
   });
 }

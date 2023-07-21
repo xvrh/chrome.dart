@@ -6,7 +6,17 @@ export 'chrome.dart';
 
 extension JSChromeJSPageCaptureExtension on JSChrome {
   /// Use the `chrome.pageCapture` API to save a tab as MHTML.
-  external JSPageCapture get pageCapture;
+  @JS('pageCapture')
+  external JSPageCapture? get pageCaptureNullable;
+
+  /// Use the `chrome.pageCapture` API to save a tab as MHTML.
+  JSPageCapture get pageCapture {
+    var pageCaptureNullable = this.pageCaptureNullable;
+    if (pageCaptureNullable == null) {
+      throw ApiNotAvailableException('chrome.pageCapture');
+    }
+    return pageCaptureNullable;
+  }
 }
 
 @JS()

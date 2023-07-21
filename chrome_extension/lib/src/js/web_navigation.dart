@@ -8,7 +8,18 @@ export 'chrome.dart';
 extension JSChromeJSWebNavigationExtension on JSChrome {
   /// Use the `chrome.webNavigation` API to receive notifications about the
   /// status of navigation requests in-flight.
-  external JSWebNavigation get webNavigation;
+  @JS('webNavigation')
+  external JSWebNavigation? get webNavigationNullable;
+
+  /// Use the `chrome.webNavigation` API to receive notifications about the
+  /// status of navigation requests in-flight.
+  JSWebNavigation get webNavigation {
+    var webNavigationNullable = this.webNavigationNullable;
+    if (webNavigationNullable == null) {
+      throw ApiNotAvailableException('chrome.webNavigation');
+    }
+    return webNavigationNullable;
+  }
 }
 
 @JS()

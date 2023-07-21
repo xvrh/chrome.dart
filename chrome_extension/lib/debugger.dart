@@ -14,6 +14,8 @@ extension ChromeDebuggerExtension on Chrome {
 class ChromeDebugger {
   ChromeDebugger._();
 
+  bool get isAvailable => $js.chrome.debuggerNullable != null;
+
   /// Attaches debugger to the given target.
   /// [target] Debugging target to which you want to attach.
   /// [requiredVersion] Required debugging protocol version ("0.1"). One can

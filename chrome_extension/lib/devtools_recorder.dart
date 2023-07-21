@@ -56,34 +56,6 @@ class RecorderExtensionPlugin {
   final $js.RecorderExtensionPlugin _wrapped;
 
   $js.RecorderExtensionPlugin get toJS => _wrapped;
-
-  /// Converts a recording from the Recorder panel format into a string.
-  /// [recording] A recording of the user interaction with the page. This
-  /// should match <a
-  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
-  /// recording schema</a>.
-  void stringify(Object recording) {
-    _wrapped.stringify(recording.toJS);
-  }
-
-  /// Converts a step of the recording from the Recorder panel format into a
-  /// string.
-  /// [step] A step of the recording of a user interaction with the page. This
-  /// should match <a
-  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/modules/Schema.md#step">Puppeteer's
-  /// step schema</a>.
-  void stringifyStep(Object step) {
-    _wrapped.stringifyStep(step.toJS);
-  }
-
-  /// Allows the extension to implement custom replay functionality.
-  /// [recording] A recording of the user interaction with the page. This
-  /// should match <a
-  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
-  /// recording schema</a>.
-  void replay(Object recording) {
-    _wrapped.replay(recording.toJS);
-  }
 }
 
 class RecorderView {

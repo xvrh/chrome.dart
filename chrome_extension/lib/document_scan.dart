@@ -31,26 +31,14 @@ class ScanOptions {
   ScanOptions({
     List<String>? mimeTypes,
     int? maxImages,
-  }) : _wrapped = $js.ScanOptions()
-          ..mimeTypes = mimeTypes?.toJSArray((e) => e)
-          ..maxImages = maxImages;
+  }) : _wrapped = $js.ScanOptions(
+          mimeTypes: mimeTypes?.toJSArray((e) => e),
+          maxImages: maxImages,
+        );
 
   final $js.ScanOptions _wrapped;
 
   $js.ScanOptions get toJS => _wrapped;
-
-  /// The MIME types that are accepted by the caller.
-  List<String>? get mimeTypes =>
-      _wrapped.mimeTypes?.toDart.cast<String>().map((e) => e).toList();
-  set mimeTypes(List<String>? v) {
-    _wrapped.mimeTypes = v?.toJSArray((e) => e);
-  }
-
-  /// The number of scanned images allowed (defaults to 1).
-  int? get maxImages => _wrapped.maxImages;
-  set maxImages(int? v) {
-    _wrapped.maxImages = v;
-  }
 }
 
 class ScanResults {

@@ -59,19 +59,11 @@ class ChromeSessions {
 class Filter {
   Filter.fromJS(this._wrapped);
 
-  Filter({int? maxResults}) : _wrapped = $js.Filter()..maxResults = maxResults;
+  Filter({int? maxResults}) : _wrapped = $js.Filter(maxResults: maxResults);
 
   final $js.Filter _wrapped;
 
   $js.Filter get toJS => _wrapped;
-
-  /// The maximum number of entries to be fetched in the requested list. Omit
-  /// this parameter to fetch the maximum number of entries
-  /// ([sessions.MAX_SESSION_RESULTS]).
-  int? get maxResults => _wrapped.maxResults;
-  set maxResults(int? v) {
-    _wrapped.maxResults = v;
-  }
 }
 
 class Session {

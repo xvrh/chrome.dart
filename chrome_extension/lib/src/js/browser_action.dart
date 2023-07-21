@@ -85,12 +85,13 @@ extension ImageDataTypeExtension on ImageDataType {}
 
 @JS()
 @staticInterop
-class TabDetails {}
-
-extension TabDetailsExtension on TabDetails {
-  /// The ID of the tab to query state for. If no tab is specified, the
-  /// non-tab-specific state is returned.
-  external int? tabId;
+@anonymous
+class TabDetails {
+  external factory TabDetails(
+      {
+      /// The ID of the tab to query state for. If no tab is specified, the
+      /// non-tab-specific state is returned.
+      int? tabId});
 }
 
 @JS()

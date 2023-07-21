@@ -145,16 +145,11 @@ class MediaStreamConstraint {
   MediaStreamConstraint.fromJS(this._wrapped);
 
   MediaStreamConstraint({required Object mandatory})
-      : _wrapped = $js.MediaStreamConstraint()..mandatory = mandatory.toJS;
+      : _wrapped = $js.MediaStreamConstraint(mandatory: mandatory.toJS);
 
   final $js.MediaStreamConstraint _wrapped;
 
   $js.MediaStreamConstraint get toJS => _wrapped;
-
-  Object get mandatory => _wrapped.mandatory;
-  set mandatory(Object v) {
-    _wrapped.mandatory = v.toJS;
-  }
 }
 
 class CaptureOptions {
@@ -166,43 +161,17 @@ class CaptureOptions {
     MediaStreamConstraint? audioConstraints,
     MediaStreamConstraint? videoConstraints,
     String? presentationId,
-  }) : _wrapped = $js.CaptureOptions()
-          ..audio = audio
-          ..video = video
-          ..audioConstraints = audioConstraints?.toJS
-          ..videoConstraints = videoConstraints?.toJS
-          ..presentationId = presentationId;
+  }) : _wrapped = $js.CaptureOptions(
+          audio: audio,
+          video: video,
+          audioConstraints: audioConstraints?.toJS,
+          videoConstraints: videoConstraints?.toJS,
+          presentationId: presentationId,
+        );
 
   final $js.CaptureOptions _wrapped;
 
   $js.CaptureOptions get toJS => _wrapped;
-
-  bool? get audio => _wrapped.audio;
-  set audio(bool? v) {
-    _wrapped.audio = v;
-  }
-
-  bool? get video => _wrapped.video;
-  set video(bool? v) {
-    _wrapped.video = v;
-  }
-
-  MediaStreamConstraint? get audioConstraints =>
-      _wrapped.audioConstraints?.let(MediaStreamConstraint.fromJS);
-  set audioConstraints(MediaStreamConstraint? v) {
-    _wrapped.audioConstraints = v?.toJS;
-  }
-
-  MediaStreamConstraint? get videoConstraints =>
-      _wrapped.videoConstraints?.let(MediaStreamConstraint.fromJS);
-  set videoConstraints(MediaStreamConstraint? v) {
-    _wrapped.videoConstraints = v?.toJS;
-  }
-
-  String? get presentationId => _wrapped.presentationId;
-  set presentationId(String? v) {
-    _wrapped.presentationId = v;
-  }
 }
 
 class GetMediaStreamOptions {
@@ -211,31 +180,12 @@ class GetMediaStreamOptions {
   GetMediaStreamOptions({
     int? consumerTabId,
     int? targetTabId,
-  }) : _wrapped = $js.GetMediaStreamOptions()
-          ..consumerTabId = consumerTabId
-          ..targetTabId = targetTabId;
+  }) : _wrapped = $js.GetMediaStreamOptions(
+          consumerTabId: consumerTabId,
+          targetTabId: targetTabId,
+        );
 
   final $js.GetMediaStreamOptions _wrapped;
 
   $js.GetMediaStreamOptions get toJS => _wrapped;
-
-  /// Optional tab id of the tab which will later invoke
-  /// `getUserMedia()` to consume the stream. If not specified
-  /// then the resulting stream can be used only by the calling extension.
-  /// The stream can only be used by frames in the given tab whose security
-  /// origin matches the consumber tab's origin. The tab's origin must be a
-  /// secure origin, e.g. HTTPS.
-  int? get consumerTabId => _wrapped.consumerTabId;
-  set consumerTabId(int? v) {
-    _wrapped.consumerTabId = v;
-  }
-
-  /// Optional tab id of the tab which will be captured. If not specified
-  /// then the current active tab will be selected. Only tabs for which the
-  /// extension has been granted the `activeTab` permission can be
-  /// used as the target tab.
-  int? get targetTabId => _wrapped.targetTabId;
-  set targetTabId(int? v) {
-    _wrapped.targetTabId = v;
-  }
 }

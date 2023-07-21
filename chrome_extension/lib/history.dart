@@ -212,18 +212,11 @@ class VisitItem {
 class UrlDetails {
   UrlDetails.fromJS(this._wrapped);
 
-  UrlDetails({required String url}) : _wrapped = $js.UrlDetails()..url = url;
+  UrlDetails({required String url}) : _wrapped = $js.UrlDetails(url: url);
 
   final $js.UrlDetails _wrapped;
 
   $js.UrlDetails get toJS => _wrapped;
-
-  /// The URL for the operation. It must be in the format as returned from a
-  /// call to history.search.
-  String get url => _wrapped.url;
-  set url(String v) {
-    _wrapped.url = v;
-  }
 }
 
 class OnVisitRemovedRemoved {

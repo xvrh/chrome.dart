@@ -258,52 +258,25 @@ class DeviceFilter {
   DeviceFilter({
     List<StreamType>? streamTypes,
     bool? isActive,
-  }) : _wrapped = $js.DeviceFilter()
-          ..streamTypes = streamTypes?.toJSArray((e) => e.toJS)
-          ..isActive = isActive;
+  }) : _wrapped = $js.DeviceFilter(
+          streamTypes: streamTypes?.toJSArray((e) => e.toJS),
+          isActive: isActive,
+        );
 
   final $js.DeviceFilter _wrapped;
 
   $js.DeviceFilter get toJS => _wrapped;
-
-  /// If set, only audio devices whose stream type is included in this list
-  /// will satisfy the filter.
-  List<StreamType>? get streamTypes => _wrapped.streamTypes?.toDart
-      .cast<$js.StreamType>()
-      .map((e) => StreamType.fromJS(e))
-      .toList();
-  set streamTypes(List<StreamType>? v) {
-    _wrapped.streamTypes = v?.toJSArray((e) => e.toJS);
-  }
-
-  /// If set, only audio devices whose active state matches this value will
-  /// satisfy the filter.
-  bool? get isActive => _wrapped.isActive;
-  set isActive(bool? v) {
-    _wrapped.isActive = v;
-  }
 }
 
 class DeviceProperties {
   DeviceProperties.fromJS(this._wrapped);
 
   DeviceProperties({int? level})
-      : _wrapped = $js.DeviceProperties()..level = level;
+      : _wrapped = $js.DeviceProperties(level: level);
 
   final $js.DeviceProperties _wrapped;
 
   $js.DeviceProperties get toJS => _wrapped;
-
-  ///
-  ///   The audio device's desired sound level. Defaults to the device's
-  ///   current sound level.
-  ///
-  /// If used with audio input device, represents audio device gain.
-  /// If used with audio output device, represents audio device volume.
-  int? get level => _wrapped.level;
-  set level(int? v) {
-    _wrapped.level = v;
-  }
 }
 
 class DeviceIdLists {
@@ -312,31 +285,14 @@ class DeviceIdLists {
   DeviceIdLists({
     List<String>? input,
     List<String>? output,
-  }) : _wrapped = $js.DeviceIdLists()
-          ..input = input?.toJSArray((e) => e)
-          ..output = output?.toJSArray((e) => e);
+  }) : _wrapped = $js.DeviceIdLists(
+          input: input?.toJSArray((e) => e),
+          output: output?.toJSArray((e) => e),
+        );
 
   final $js.DeviceIdLists _wrapped;
 
   $js.DeviceIdLists get toJS => _wrapped;
-
-  /// List of input devices specified by their ID.
-  /// To indicate input devices should be unaffected, leave this property
-  ///   unset.
-  List<String>? get input =>
-      _wrapped.input?.toDart.cast<String>().map((e) => e).toList();
-  set input(List<String>? v) {
-    _wrapped.input = v?.toJSArray((e) => e);
-  }
-
-  /// List of output devices specified by their ID.
-  /// To indicate output devices should be unaffected, leave this property
-  ///   unset.
-  List<String>? get output =>
-      _wrapped.output?.toDart.cast<String>().map((e) => e).toList();
-  set output(List<String>? v) {
-    _wrapped.output = v?.toJSArray((e) => e);
-  }
 }
 
 class MuteChangedEvent {

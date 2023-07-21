@@ -24,14 +24,15 @@ extension JSDocumentScanExtension on JSDocumentScan {
 
 @JS()
 @staticInterop
-class ScanOptions {}
+@anonymous
+class ScanOptions {
+  external factory ScanOptions({
+    /// The MIME types that are accepted by the caller.
+    JSArray? mimeTypes,
 
-extension ScanOptionsExtension on ScanOptions {
-  /// The MIME types that are accepted by the caller.
-  external JSArray? mimeTypes;
-
-  /// The number of scanned images allowed (defaults to 1).
-  external int? maxImages;
+    /// The number of scanned images allowed (defaults to 1).
+    int? maxImages,
+  });
 }
 
 @JS()

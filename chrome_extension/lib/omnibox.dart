@@ -122,30 +122,15 @@ class MatchClassification {
     required int offset,
     required DescriptionStyleType type,
     int? length,
-  }) : _wrapped = $js.MatchClassification()
-          ..offset = offset
-          ..type = type.toJS
-          ..length = length;
+  }) : _wrapped = $js.MatchClassification(
+          offset: offset,
+          type: type.toJS,
+          length: length,
+        );
 
   final $js.MatchClassification _wrapped;
 
   $js.MatchClassification get toJS => _wrapped;
-
-  int get offset => _wrapped.offset;
-  set offset(int v) {
-    _wrapped.offset = v;
-  }
-
-  /// The style type
-  DescriptionStyleType get type => DescriptionStyleType.fromJS(_wrapped.type);
-  set type(DescriptionStyleType v) {
-    _wrapped.type = v.toJS;
-  }
-
-  int? get length => _wrapped.length;
-  set length(int? v) {
-    _wrapped.length = v;
-  }
 }
 
 class SuggestResult {
@@ -156,51 +141,16 @@ class SuggestResult {
     required String description,
     bool? deletable,
     List<MatchClassification>? descriptionStyles,
-  }) : _wrapped = $js.SuggestResult()
-          ..content = content
-          ..description = description
-          ..deletable = deletable
-          ..descriptionStyles = descriptionStyles?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.SuggestResult(
+          content: content,
+          description: description,
+          deletable: deletable,
+          descriptionStyles: descriptionStyles?.toJSArray((e) => e.toJS),
+        );
 
   final $js.SuggestResult _wrapped;
 
   $js.SuggestResult get toJS => _wrapped;
-
-  /// The text that is put into the URL bar, and that is sent to the extension
-  /// when the user chooses this entry.
-  String get content => _wrapped.content;
-  set content(String v) {
-    _wrapped.content = v;
-  }
-
-  /// The text that is displayed in the URL dropdown. Can contain XML-style
-  /// markup for styling. The supported tags are 'url' (for a literal URL),
-  /// 'match' (for highlighting text that matched what the user's query), and
-  /// 'dim' (for dim helper text). The styles can be nested, eg.
-  /// <dim><match>dimmed match</match></dim>. You must escape the five
-  /// predefined entities to display them as text:
-  /// stackoverflow.com/a/1091953/89484
-  String get description => _wrapped.description;
-  set description(String v) {
-    _wrapped.description = v;
-  }
-
-  /// Whether the suggest result can be deleted by the user.
-  bool? get deletable => _wrapped.deletable;
-  set deletable(bool? v) {
-    _wrapped.deletable = v;
-  }
-
-  /// An array of style ranges for the description, as provided by the
-  /// extension.
-  List<MatchClassification>? get descriptionStyles =>
-      _wrapped.descriptionStyles?.toDart
-          .cast<$js.MatchClassification>()
-          .map((e) => MatchClassification.fromJS(e))
-          .toList();
-  set descriptionStyles(List<MatchClassification>? v) {
-    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
-  }
 }
 
 class DefaultSuggestResult {
@@ -209,34 +159,14 @@ class DefaultSuggestResult {
   DefaultSuggestResult({
     required String description,
     List<MatchClassification>? descriptionStyles,
-  }) : _wrapped = $js.DefaultSuggestResult()
-          ..description = description
-          ..descriptionStyles = descriptionStyles?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.DefaultSuggestResult(
+          description: description,
+          descriptionStyles: descriptionStyles?.toJSArray((e) => e.toJS),
+        );
 
   final $js.DefaultSuggestResult _wrapped;
 
   $js.DefaultSuggestResult get toJS => _wrapped;
-
-  /// The text that is displayed in the URL dropdown. Can contain XML-style
-  /// markup for styling. The supported tags are 'url' (for a literal URL),
-  /// 'match' (for highlighting text that matched what the user's query), and
-  /// 'dim' (for dim helper text). The styles can be nested, eg.
-  /// <dim><match>dimmed match</match></dim>.
-  String get description => _wrapped.description;
-  set description(String v) {
-    _wrapped.description = v;
-  }
-
-  /// An array of style ranges for the description, as provided by the
-  /// extension.
-  List<MatchClassification>? get descriptionStyles =>
-      _wrapped.descriptionStyles?.toDart
-          .cast<$js.MatchClassification>()
-          .map((e) => MatchClassification.fromJS(e))
-          .toList();
-  set descriptionStyles(List<MatchClassification>? v) {
-    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
-  }
 }
 
 class OnInputChangedEvent {

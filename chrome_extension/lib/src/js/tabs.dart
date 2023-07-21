@@ -441,21 +441,22 @@ extension TabExtension on Tab {
 
 @JS()
 @staticInterop
-class ZoomSettings {}
+@anonymous
+class ZoomSettings {
+  external factory ZoomSettings({
+    /// Defines how zoom changes are handled, i.e., which entity is responsible
+    /// for the actual scaling of the page; defaults to `automatic`.
+    ZoomSettingsMode? mode,
 
-extension ZoomSettingsExtension on ZoomSettings {
-  /// Defines how zoom changes are handled, i.e., which entity is responsible
-  /// for the actual scaling of the page; defaults to `automatic`.
-  external ZoomSettingsMode? mode;
+    /// Defines whether zoom changes persist for the page's origin, or only take
+    /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
+    /// `per-tab` otherwise.
+    ZoomSettingsScope? scope,
 
-  /// Defines whether zoom changes persist for the page's origin, or only take
-  /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
-  /// `per-tab` otherwise.
-  external ZoomSettingsScope? scope;
-
-  /// Used to return the default zoom level for the current tab in calls to
-  /// tabs.getZoomSettings.
-  external double? defaultZoomFactor;
+    /// Used to return the default zoom level for the current tab in calls to
+    /// tabs.getZoomSettings.
+    double? defaultZoomFactor,
+  });
 }
 
 @JS()

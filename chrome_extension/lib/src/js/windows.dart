@@ -139,18 +139,19 @@ extension WindowExtension on Window {
 
 @JS()
 @staticInterop
-class QueryOptions {}
+@anonymous
+class QueryOptions {
+  external factory QueryOptions({
+    /// If true, the [windows.Window] object has a [tabs] property that contains a
+    /// list of the [tabs.Tab] objects. The `Tab` objects only contain the `url`,
+    /// `pendingUrl`, `title`, and `favIconUrl` properties if the extension's
+    /// manifest file includes the `"tabs"` permission.
+    bool? populate,
 
-extension QueryOptionsExtension on QueryOptions {
-  /// If true, the [windows.Window] object has a [tabs] property that contains a
-  /// list of the [tabs.Tab] objects. The `Tab` objects only contain the `url`,
-  /// `pendingUrl`, `title`, and `favIconUrl` properties if the extension's
-  /// manifest file includes the `"tabs"` permission.
-  external bool? populate;
-
-  /// If set, the [windows.Window] returned is filtered based on its type. If
-  /// unset, the default filter is set to `['normal', 'popup']`.
-  external JSArray? windowTypes;
+    /// If set, the [windows.Window] returned is filtered based on its type. If
+    /// unset, the default filter is set to `['normal', 'popup']`.
+    JSArray? windowTypes,
+  });
 }
 
 @JS()

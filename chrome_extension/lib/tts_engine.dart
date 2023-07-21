@@ -220,35 +220,15 @@ class AudioBuffer {
     required Object audioBuffer,
     int? charIndex,
     bool? isLastBuffer,
-  }) : _wrapped = $js.AudioBuffer()
-          ..audioBuffer = audioBuffer.toJS
-          ..charIndex = charIndex
-          ..isLastBuffer = isLastBuffer;
+  }) : _wrapped = $js.AudioBuffer(
+          audioBuffer: audioBuffer.toJS,
+          charIndex: charIndex,
+          isLastBuffer: isLastBuffer,
+        );
 
   final $js.AudioBuffer _wrapped;
 
   $js.AudioBuffer get toJS => _wrapped;
-
-  /// The audio buffer from the text-to-speech engine. It should have length
-  /// exactly audioStreamOptions.bufferSize and encoded as mono, at
-  /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
-  /// the Float32Array type in javascript.
-  Object get audioBuffer => _wrapped.audioBuffer;
-  set audioBuffer(Object v) {
-    _wrapped.audioBuffer = v.toJS;
-  }
-
-  /// The character index associated with this audio buffer.
-  int? get charIndex => _wrapped.charIndex;
-  set charIndex(int? v) {
-    _wrapped.charIndex = v;
-  }
-
-  /// True if this audio buffer is the last for the text being spoken.
-  bool? get isLastBuffer => _wrapped.isLastBuffer;
-  set isLastBuffer(bool? v) {
-    _wrapped.isLastBuffer = v;
-  }
 }
 
 class OnSpeakEvent {

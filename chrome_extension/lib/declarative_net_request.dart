@@ -1019,39 +1019,16 @@ class Rule {
     int? priority,
     required RuleCondition condition,
     required RuleAction action,
-  }) : _wrapped = $js.Rule()
-          ..id = id
-          ..priority = priority
-          ..condition = condition.toJS
-          ..action = action.toJS;
+  }) : _wrapped = $js.Rule(
+          id: id,
+          priority: priority,
+          condition: condition.toJS,
+          action: action.toJS,
+        );
 
   final $js.Rule _wrapped;
 
   $js.Rule get toJS => _wrapped;
-
-  /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
-  int get id => _wrapped.id;
-  set id(int v) {
-    _wrapped.id = v;
-  }
-
-  /// Rule priority. Defaults to 1. When specified, should be >= 1.
-  int? get priority => _wrapped.priority;
-  set priority(int? v) {
-    _wrapped.priority = v;
-  }
-
-  /// The condition under which this rule is triggered.
-  RuleCondition get condition => RuleCondition.fromJS(_wrapped.condition);
-  set condition(RuleCondition v) {
-    _wrapped.condition = v.toJS;
-  }
-
-  /// The action to take if this rule is matched.
-  RuleAction get action => RuleAction.fromJS(_wrapped.action);
-  set action(RuleAction v) {
-    _wrapped.action = v.toJS;
-  }
 }
 
 class MatchedRule {
@@ -1087,18 +1064,11 @@ class GetRulesFilter {
   GetRulesFilter.fromJS(this._wrapped);
 
   GetRulesFilter({List<int>? ruleIds})
-      : _wrapped = $js.GetRulesFilter()..ruleIds = ruleIds?.toJSArray((e) => e);
+      : _wrapped = $js.GetRulesFilter(ruleIds: ruleIds?.toJSArray((e) => e));
 
   final $js.GetRulesFilter _wrapped;
 
   $js.GetRulesFilter get toJS => _wrapped;
-
-  /// If specified, only rules with matching IDs are included.
-  List<int>? get ruleIds =>
-      _wrapped.ruleIds?.toDart.cast<int>().map((e) => e).toList();
-  set ruleIds(List<int>? v) {
-    _wrapped.ruleIds = v?.toJSArray((e) => e);
-  }
 }
 
 class MatchedRuleInfo {
@@ -1144,26 +1114,14 @@ class MatchedRulesFilter {
   MatchedRulesFilter({
     int? tabId,
     double? minTimeStamp,
-  }) : _wrapped = $js.MatchedRulesFilter()
-          ..tabId = tabId
-          ..minTimeStamp = minTimeStamp;
+  }) : _wrapped = $js.MatchedRulesFilter(
+          tabId: tabId,
+          minTimeStamp: minTimeStamp,
+        );
 
   final $js.MatchedRulesFilter _wrapped;
 
   $js.MatchedRulesFilter get toJS => _wrapped;
-
-  /// If specified, only matches rules for the given tab. Matches rules not
-  /// associated with any active tab if set to -1.
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
-
-  /// If specified, only matches rules after the given timestamp.
-  double? get minTimeStamp => _wrapped.minTimeStamp;
-  set minTimeStamp(double? v) {
-    _wrapped.minTimeStamp = v;
-  }
 }
 
 class RulesMatchedDetails {
@@ -1315,49 +1273,17 @@ class TestMatchRequestDetails {
     RequestMethod? method,
     required ResourceType type,
     int? tabId,
-  }) : _wrapped = $js.TestMatchRequestDetails()
-          ..url = url
-          ..initiator = initiator
-          ..method = method?.toJS
-          ..type = type.toJS
-          ..tabId = tabId;
+  }) : _wrapped = $js.TestMatchRequestDetails(
+          url: url,
+          initiator: initiator,
+          method: method?.toJS,
+          type: type.toJS,
+          tabId: tabId,
+        );
 
   final $js.TestMatchRequestDetails _wrapped;
 
   $js.TestMatchRequestDetails get toJS => _wrapped;
-
-  /// The URL of the hypothetical request.
-  String get url => _wrapped.url;
-  set url(String v) {
-    _wrapped.url = v;
-  }
-
-  /// The initiator URL (if any) for the hypothetical request.
-  String? get initiator => _wrapped.initiator;
-  set initiator(String? v) {
-    _wrapped.initiator = v;
-  }
-
-  /// Standard HTTP method of the hypothetical request. Defaults to "get" for
-  /// HTTP requests and is ignored for non-HTTP requests.
-  RequestMethod? get method => _wrapped.method?.let(RequestMethod.fromJS);
-  set method(RequestMethod? v) {
-    _wrapped.method = v?.toJS;
-  }
-
-  /// The resource type of the hypothetical request.
-  ResourceType get type => ResourceType.fromJS(_wrapped.type);
-  set type(ResourceType v) {
-    _wrapped.type = v.toJS;
-  }
-
-  /// The ID of the tab in which the hypothetical request takes place. Does
-  /// not need to correspond to a real tab ID. Default is -1, meaning that
-  /// the request isn't related to a tab.
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
 }
 
 class MatchedRuleInfoDebug {
@@ -1431,35 +1357,15 @@ class RegexOptions {
     required String regex,
     bool? isCaseSensitive,
     bool? requireCapturing,
-  }) : _wrapped = $js.RegexOptions()
-          ..regex = regex
-          ..isCaseSensitive = isCaseSensitive
-          ..requireCapturing = requireCapturing;
+  }) : _wrapped = $js.RegexOptions(
+          regex: regex,
+          isCaseSensitive: isCaseSensitive,
+          requireCapturing: requireCapturing,
+        );
 
   final $js.RegexOptions _wrapped;
 
   $js.RegexOptions get toJS => _wrapped;
-
-  /// The regular expresson to check.
-  String get regex => _wrapped.regex;
-  set regex(String v) {
-    _wrapped.regex = v;
-  }
-
-  /// Whether the `regex` specified is case sensitive. Default is
-  /// true.
-  bool? get isCaseSensitive => _wrapped.isCaseSensitive;
-  set isCaseSensitive(bool? v) {
-    _wrapped.isCaseSensitive = v;
-  }
-
-  /// Whether the `regex` specified requires capturing. Capturing is
-  /// only required for redirect rules which specify a
-  /// `regexSubstition` action. The default is false.
-  bool? get requireCapturing => _wrapped.requireCapturing;
-  set requireCapturing(bool? v) {
-    _wrapped.requireCapturing = v;
-  }
 }
 
 class IsRegexSupportedResult {
@@ -1517,29 +1423,14 @@ class UpdateRuleOptions {
   UpdateRuleOptions({
     List<int>? removeRuleIds,
     List<Rule>? addRules,
-  }) : _wrapped = $js.UpdateRuleOptions()
-          ..removeRuleIds = removeRuleIds?.toJSArray((e) => e)
-          ..addRules = addRules?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.UpdateRuleOptions(
+          removeRuleIds: removeRuleIds?.toJSArray((e) => e),
+          addRules: addRules?.toJSArray((e) => e.toJS),
+        );
 
   final $js.UpdateRuleOptions _wrapped;
 
   $js.UpdateRuleOptions get toJS => _wrapped;
-
-  /// IDs of the rules to remove. Any invalid IDs will be ignored.
-  List<int>? get removeRuleIds =>
-      _wrapped.removeRuleIds?.toDart.cast<int>().map((e) => e).toList();
-  set removeRuleIds(List<int>? v) {
-    _wrapped.removeRuleIds = v?.toJSArray((e) => e);
-  }
-
-  /// Rules to add.
-  List<Rule>? get addRules => _wrapped.addRules?.toDart
-      .cast<$js.Rule>()
-      .map((e) => Rule.fromJS(e))
-      .toList();
-  set addRules(List<Rule>? v) {
-    _wrapped.addRules = v?.toJSArray((e) => e.toJS);
-  }
 }
 
 class UpdateRulesetOptions {
@@ -1548,29 +1439,14 @@ class UpdateRulesetOptions {
   UpdateRulesetOptions({
     List<String>? disableRulesetIds,
     List<String>? enableRulesetIds,
-  }) : _wrapped = $js.UpdateRulesetOptions()
-          ..disableRulesetIds = disableRulesetIds?.toJSArray((e) => e)
-          ..enableRulesetIds = enableRulesetIds?.toJSArray((e) => e);
+  }) : _wrapped = $js.UpdateRulesetOptions(
+          disableRulesetIds: disableRulesetIds?.toJSArray((e) => e),
+          enableRulesetIds: enableRulesetIds?.toJSArray((e) => e),
+        );
 
   final $js.UpdateRulesetOptions _wrapped;
 
   $js.UpdateRulesetOptions get toJS => _wrapped;
-
-  /// The set of ids corresponding to a static [Ruleset] that should be
-  /// disabled.
-  List<String>? get disableRulesetIds =>
-      _wrapped.disableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
-  set disableRulesetIds(List<String>? v) {
-    _wrapped.disableRulesetIds = v?.toJSArray((e) => e);
-  }
-
-  /// The set of ids corresponding to a static [Ruleset] that should be
-  /// enabled.
-  List<String>? get enableRulesetIds =>
-      _wrapped.enableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
-  set enableRulesetIds(List<String>? v) {
-    _wrapped.enableRulesetIds = v?.toJSArray((e) => e);
-  }
 }
 
 class UpdateStaticRulesOptions {
@@ -1580,51 +1456,26 @@ class UpdateStaticRulesOptions {
     required String rulesetId,
     List<int>? disableRuleIds,
     List<int>? enableRuleIds,
-  }) : _wrapped = $js.UpdateStaticRulesOptions()
-          ..rulesetId = rulesetId
-          ..disableRuleIds = disableRuleIds?.toJSArray((e) => e)
-          ..enableRuleIds = enableRuleIds?.toJSArray((e) => e);
+  }) : _wrapped = $js.UpdateStaticRulesOptions(
+          rulesetId: rulesetId,
+          disableRuleIds: disableRuleIds?.toJSArray((e) => e),
+          enableRuleIds: enableRuleIds?.toJSArray((e) => e),
+        );
 
   final $js.UpdateStaticRulesOptions _wrapped;
 
   $js.UpdateStaticRulesOptions get toJS => _wrapped;
-
-  /// The id corresponding to a static [Ruleset].
-  String get rulesetId => _wrapped.rulesetId;
-  set rulesetId(String v) {
-    _wrapped.rulesetId = v;
-  }
-
-  /// Set of ids corresponding to rules in the [Ruleset] to disable.
-  List<int>? get disableRuleIds =>
-      _wrapped.disableRuleIds?.toDart.cast<int>().map((e) => e).toList();
-  set disableRuleIds(List<int>? v) {
-    _wrapped.disableRuleIds = v?.toJSArray((e) => e);
-  }
-
-  /// Set of ids corresponding to rules in the [Ruleset] to enable.
-  List<int>? get enableRuleIds =>
-      _wrapped.enableRuleIds?.toDart.cast<int>().map((e) => e).toList();
-  set enableRuleIds(List<int>? v) {
-    _wrapped.enableRuleIds = v?.toJSArray((e) => e);
-  }
 }
 
 class GetDisabledRuleIdsOptions {
   GetDisabledRuleIdsOptions.fromJS(this._wrapped);
 
   GetDisabledRuleIdsOptions({required String rulesetId})
-      : _wrapped = $js.GetDisabledRuleIdsOptions()..rulesetId = rulesetId;
+      : _wrapped = $js.GetDisabledRuleIdsOptions(rulesetId: rulesetId);
 
   final $js.GetDisabledRuleIdsOptions _wrapped;
 
   $js.GetDisabledRuleIdsOptions get toJS => _wrapped;
-
-  /// The id corresponding to a static [Ruleset].
-  String get rulesetId => _wrapped.rulesetId;
-  set rulesetId(String v) {
-    _wrapped.rulesetId = v;
-  }
 }
 
 class TabActionCountUpdate {
@@ -1633,26 +1484,14 @@ class TabActionCountUpdate {
   TabActionCountUpdate({
     required int tabId,
     required int increment,
-  }) : _wrapped = $js.TabActionCountUpdate()
-          ..tabId = tabId
-          ..increment = increment;
+  }) : _wrapped = $js.TabActionCountUpdate(
+          tabId: tabId,
+          increment: increment,
+        );
 
   final $js.TabActionCountUpdate _wrapped;
 
   $js.TabActionCountUpdate get toJS => _wrapped;
-
-  /// The tab for which to update the action count.
-  int get tabId => _wrapped.tabId;
-  set tabId(int v) {
-    _wrapped.tabId = v;
-  }
-
-  /// The amount to increment the tab's action count by. Negative values will
-  /// decrement the count.
-  int get increment => _wrapped.increment;
-  set increment(int v) {
-    _wrapped.increment = v;
-  }
 }
 
 class ExtensionActionOptions {
@@ -1661,26 +1500,12 @@ class ExtensionActionOptions {
   ExtensionActionOptions({
     bool? displayActionCountAsBadgeText,
     TabActionCountUpdate? tabUpdate,
-  }) : _wrapped = $js.ExtensionActionOptions()
-          ..displayActionCountAsBadgeText = displayActionCountAsBadgeText
-          ..tabUpdate = tabUpdate?.toJS;
+  }) : _wrapped = $js.ExtensionActionOptions(
+          displayActionCountAsBadgeText: displayActionCountAsBadgeText,
+          tabUpdate: tabUpdate?.toJS,
+        );
 
   final $js.ExtensionActionOptions _wrapped;
 
   $js.ExtensionActionOptions get toJS => _wrapped;
-
-  /// Whether to automatically display the action count for a page as the
-  /// extension's badge text. This preference is persisted across sessions.
-  bool? get displayActionCountAsBadgeText =>
-      _wrapped.displayActionCountAsBadgeText;
-  set displayActionCountAsBadgeText(bool? v) {
-    _wrapped.displayActionCountAsBadgeText = v;
-  }
-
-  /// Details of how the tab's action count should be adjusted.
-  TabActionCountUpdate? get tabUpdate =>
-      _wrapped.tabUpdate?.let(TabActionCountUpdate.fromJS);
-  set tabUpdate(TabActionCountUpdate? v) {
-    _wrapped.tabUpdate = v?.toJS;
-  }
 }

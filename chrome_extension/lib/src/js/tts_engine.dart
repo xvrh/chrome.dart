@@ -121,18 +121,19 @@ extension AudioStreamOptionsExtension on AudioStreamOptions {
 
 @JS()
 @staticInterop
-class AudioBuffer {}
+@anonymous
+class AudioBuffer {
+  external factory AudioBuffer({
+    /// The audio buffer from the text-to-speech engine. It should have length
+    /// exactly audioStreamOptions.bufferSize and encoded as mono, at
+    /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
+    /// the Float32Array type in javascript.
+    JSAny audioBuffer,
 
-extension AudioBufferExtension on AudioBuffer {
-  /// The audio buffer from the text-to-speech engine. It should have length
-  /// exactly audioStreamOptions.bufferSize and encoded as mono, at
-  /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
-  /// the Float32Array type in javascript.
-  external JSAny audioBuffer;
+    /// The character index associated with this audio buffer.
+    int? charIndex,
 
-  /// The character index associated with this audio buffer.
-  external int? charIndex;
-
-  /// True if this audio buffer is the last for the text being spoken.
-  external bool? isLastBuffer;
+    /// True if this audio buffer is the last for the text being spoken.
+    bool? isLastBuffer,
+  });
 }

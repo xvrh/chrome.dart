@@ -54,42 +54,45 @@ extension ManifestKeysExtension on ManifestKeys {
 
 @JS()
 @staticInterop
-class PanelOptions {}
+@anonymous
+class PanelOptions {
+  external factory PanelOptions({
+    /// If specified, the side panel options will only apply to the tab with
+    /// this id. If omitted, these options set the default behavior (used for any
+    /// tab that doesn't have specific settings). Note: if the same path is set
+    /// for this tabId and the default tabId, then the panel for this tabId will
+    /// be a different instance than the panel for the default tabId.
+    int? tabId,
 
-extension PanelOptionsExtension on PanelOptions {
-  /// If specified, the side panel options will only apply to the tab with
-  /// this id. If omitted, these options set the default behavior (used for any
-  /// tab that doesn't have specific settings). Note: if the same path is set
-  /// for this tabId and the default tabId, then the panel for this tabId will
-  /// be a different instance than the panel for the default tabId.
-  external int? tabId;
+    /// The path to the side panel HTML file to use. This must be a local
+    /// resource within the extension package.
+    String? path,
 
-  /// The path to the side panel HTML file to use. This must be a local
-  /// resource within the extension package.
-  external String? path;
-
-  /// Whether the side panel should be enabled. This is optional. The default
-  /// value is true.
-  external bool? enabled;
+    /// Whether the side panel should be enabled. This is optional. The default
+    /// value is true.
+    bool? enabled,
+  });
 }
 
 @JS()
 @staticInterop
-class PanelBehavior {}
-
-extension PanelBehaviorExtension on PanelBehavior {
-  /// Whether clicking the extension's icon will toggle showing the extension's
-  /// entry in the side panel. Defaults to false.
-  external bool? openPanelOnActionClick;
+@anonymous
+class PanelBehavior {
+  external factory PanelBehavior(
+      {
+      /// Whether clicking the extension's icon will toggle showing the extension's
+      /// entry in the side panel. Defaults to false.
+      bool? openPanelOnActionClick});
 }
 
 @JS()
 @staticInterop
-class GetPanelOptions {}
-
-extension GetPanelOptionsExtension on GetPanelOptions {
-  /// If specified, the side panel options for the given tab will be returned.
-  /// Otherwise, returns the default side panel options (used for any tab that
-  /// doesn't have specific settings).
-  external int? tabId;
+@anonymous
+class GetPanelOptions {
+  external factory GetPanelOptions(
+      {
+      /// If specified, the side panel options for the given tab will be returned.
+      /// Otherwise, returns the default side panel options (used for any tab that
+      /// doesn't have specific settings).
+      int? tabId});
 }

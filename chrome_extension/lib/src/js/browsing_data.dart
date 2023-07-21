@@ -76,81 +76,83 @@ extension JSBrowsingDataExtension on JSBrowsingData {
 
 @JS()
 @staticInterop
-class RemovalOptions {}
+@anonymous
+class RemovalOptions {
+  external factory RemovalOptions({
+    /// Remove data accumulated on or after this date, represented in milliseconds
+    /// since the epoch (accessible via the `getTime` method of the JavaScript
+    /// `Date` object). If absent, defaults to 0 (which would remove all browsing
+    /// data).
+    double? since,
 
-extension RemovalOptionsExtension on RemovalOptions {
-  /// Remove data accumulated on or after this date, represented in milliseconds
-  /// since the epoch (accessible via the `getTime` method of the JavaScript
-  /// `Date` object). If absent, defaults to 0 (which would remove all browsing
-  /// data).
-  external double? since;
+    /// An object whose properties specify which origin types ought to be cleared.
+    /// If this object isn't specified, it defaults to clearing only "unprotected"
+    /// origins. Please ensure that you _really_ want to remove application data
+    /// before adding 'protectedWeb' or 'extensions'.
+    RemovalOptionsOriginTypes? originTypes,
 
-  /// An object whose properties specify which origin types ought to be cleared.
-  /// If this object isn't specified, it defaults to clearing only "unprotected"
-  /// origins. Please ensure that you _really_ want to remove application data
-  /// before adding 'protectedWeb' or 'extensions'.
-  external RemovalOptionsOriginTypes? originTypes;
+    /// When present, only data for origins in this list is deleted. Only
+    /// supported for cookies, storage and cache. Cookies are cleared for the
+    /// whole registrable domain.
+    JSArray? origins,
 
-  /// When present, only data for origins in this list is deleted. Only
-  /// supported for cookies, storage and cache. Cookies are cleared for the
-  /// whole registrable domain.
-  external JSArray? origins;
-
-  /// When present, data for origins in this list is excluded from deletion.
-  /// Can't be used together with `origins`. Only supported for cookies, storage
-  /// and cache.  Cookies are excluded for the whole registrable domain.
-  external JSArray? excludeOrigins;
+    /// When present, data for origins in this list is excluded from deletion.
+    /// Can't be used together with `origins`. Only supported for cookies, storage
+    /// and cache.  Cookies are excluded for the whole registrable domain.
+    JSArray? excludeOrigins,
+  });
 }
 
 @JS()
 @staticInterop
-class DataTypeSet {}
+@anonymous
+class DataTypeSet {
+  external factory DataTypeSet({
+    /// Websites' appcaches.
+    bool? appcache,
 
-extension DataTypeSetExtension on DataTypeSet {
-  /// Websites' appcaches.
-  external bool? appcache;
+    /// The browser's cache.
+    bool? cache,
 
-  /// The browser's cache.
-  external bool? cache;
+    /// Cache storage
+    bool? cacheStorage,
 
-  /// Cache storage
-  external bool? cacheStorage;
+    /// The browser's cookies.
+    bool? cookies,
 
-  /// The browser's cookies.
-  external bool? cookies;
+    /// The browser's download list.
+    bool? downloads,
 
-  /// The browser's download list.
-  external bool? downloads;
+    /// Websites' file systems.
+    bool? fileSystems,
 
-  /// Websites' file systems.
-  external bool? fileSystems;
+    /// The browser's stored form data.
+    bool? formData,
 
-  /// The browser's stored form data.
-  external bool? formData;
+    /// The browser's history.
+    bool? history,
 
-  /// The browser's history.
-  external bool? history;
+    /// Websites' IndexedDB data.
+    bool? indexedDB,
 
-  /// Websites' IndexedDB data.
-  external bool? indexedDB;
+    /// Websites' local storage data.
+    bool? localStorage,
 
-  /// Websites' local storage data.
-  external bool? localStorage;
+    /// Server-bound certificates.
+    bool? serverBoundCertificates,
 
-  /// Server-bound certificates.
-  external bool? serverBoundCertificates;
+    /// Stored passwords.
+    bool? passwords,
 
-  /// Stored passwords.
-  external bool? passwords;
+    /// Plugins' data.
+    bool? pluginData,
 
-  /// Plugins' data.
-  external bool? pluginData;
+    /// Service Workers.
+    bool? serviceWorkers,
 
-  /// Service Workers.
-  external bool? serviceWorkers;
-
-  /// Websites' WebSQL data.
-  external bool? webSQL;
+    /// Websites' WebSQL data.
+    bool? webSQL,
+  });
 }
 
 @JS()
@@ -173,16 +175,17 @@ extension SettingsCallbackResultExtension on SettingsCallbackResult {
 
 @JS()
 @staticInterop
-class RemovalOptionsOriginTypes {}
+@anonymous
+class RemovalOptionsOriginTypes {
+  external factory RemovalOptionsOriginTypes({
+    /// Normal websites.
+    bool? unprotectedWeb,
 
-extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
-  /// Normal websites.
-  external bool? unprotectedWeb;
+    /// Websites that have been installed as hosted applications (be careful!).
+    bool? protectedWeb,
 
-  /// Websites that have been installed as hosted applications (be careful!).
-  external bool? protectedWeb;
-
-  /// Extensions and packaged applications a user has installed (be _really_
-  /// careful!).
-  external bool? extension;
+    /// Extensions and packaged applications a user has installed (be _really_
+    /// careful!).
+    bool? extension,
+  });
 }

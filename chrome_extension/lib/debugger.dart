@@ -131,34 +131,15 @@ class Debuggee {
     int? tabId,
     String? extensionId,
     String? targetId,
-  }) : _wrapped = $js.Debuggee()
-          ..tabId = tabId
-          ..extensionId = extensionId
-          ..targetId = targetId;
+  }) : _wrapped = $js.Debuggee(
+          tabId: tabId,
+          extensionId: extensionId,
+          targetId: targetId,
+        );
 
   final $js.Debuggee _wrapped;
 
   $js.Debuggee get toJS => _wrapped;
-
-  /// The id of the tab which you intend to debug.
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
-
-  /// The id of the extension which you intend to debug. Attaching to an
-  /// extension background page is only possible when the
-  /// `--silent-debugger-extension-api` command-line switch is used.
-  String? get extensionId => _wrapped.extensionId;
-  set extensionId(String? v) {
-    _wrapped.extensionId = v;
-  }
-
-  /// The opaque id of the debug target.
-  String? get targetId => _wrapped.targetId;
-  set targetId(String? v) {
-    _wrapped.targetId = v;
-  }
 }
 
 class TargetInfo {

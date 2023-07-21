@@ -259,36 +259,15 @@ class CookieDetails {
     required String url,
     required String name,
     String? storeId,
-  }) : _wrapped = $js.CookieDetails()
-          ..url = url
-          ..name = name
-          ..storeId = storeId;
+  }) : _wrapped = $js.CookieDetails(
+          url: url,
+          name: name,
+          storeId: storeId,
+        );
 
   final $js.CookieDetails _wrapped;
 
   $js.CookieDetails get toJS => _wrapped;
-
-  /// The URL with which the cookie to access is associated. This argument may
-  /// be a full URL, in which case any data following the URL path (e.g. the
-  /// query string) is simply ignored. If host permissions for this URL are not
-  /// specified in the manifest file, the API call will fail.
-  String get url => _wrapped.url;
-  set url(String v) {
-    _wrapped.url = v;
-  }
-
-  /// The name of the cookie to access.
-  String get name => _wrapped.name;
-  set name(String v) {
-    _wrapped.name = v;
-  }
-
-  /// The ID of the cookie store in which to look for the cookie. By default,
-  /// the current execution context's cookie store will be used.
-  String? get storeId => _wrapped.storeId;
-  set storeId(String? v) {
-    _wrapped.storeId = v;
-  }
 }
 
 class OnChangedChangeInfo {

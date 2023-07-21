@@ -41,19 +41,29 @@ class ChromeApi {
 
   Iterable<ChromeType> get inputTypes sync* {
     for (var function in functions) {
-      yield* function.inputTypes();
+      yield* typesWithDictionaries(function.inputTypes());
     }
   }
 
-  Iterable<ChromeType> outputTypes() sync* {
+  Iterable<ChromeType> get outputTypes sync* {
     for (var property in properties) {
-      yield* property.types();
+      yield* typesWithDictionaries(property.types());
     }
     for (var event in events) {
-      yield* event.outputTypes(this);
+      yield* typesWithDictionaries(event.outputTypes(this));
     }
     for (var function in functions) {
-      yield* function.outputTypes();
+      yield* typesWithDictionaries(function.outputTypes());
+    }
+  }
+
+  Iterable<ChromeType> typesWithDictionaries(Iterable<ChromeType> types) sync* {
+    for (var type in types) {
+      if (type is DictionaryType && type.url == null) {
+        var dict = dictionaries.singleWhere((e) => e.name == type.name);
+        yield* dict.types();
+      }
+      yield type;
     }
   }
 }
@@ -151,8 +161,11 @@ class Dictionary {
   });
 
   Iterable<ChromeType> types() sync* {
-    yield type;
-    yield* type.children;
+    for (var prop in properties) {
+      yield prop.type;
+      yield* prop.type.children;
+    }
+    //TODO: methods, events (input or output?)
   }
 }
 

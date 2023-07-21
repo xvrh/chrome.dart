@@ -43,34 +43,9 @@ extension JSDevtoolsRecorderExtension on JSDevtoolsRecorder {
 
 @JS()
 @staticInterop
-class RecorderExtensionPlugin {}
-
-extension RecorderExtensionPluginExtension on RecorderExtensionPlugin {
-  /// Converts a recording from the Recorder panel format into a string.
-  external void stringify(
-
-      /// A recording of the user interaction with the page. This should match <a
-      /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
-      /// recording schema</a>.
-      JSAny recording);
-
-  /// Converts a step of the recording from the Recorder panel format into a
-  /// string.
-  external void stringifyStep(
-
-      /// A step of the recording of a user interaction with the page. This should
-      /// match <a
-      /// href="https://github.com/puppeteer/replay/blob/main/docs/api/modules/Schema.md#step">Puppeteer's
-      /// step schema</a>.
-      JSAny step);
-
-  /// Allows the extension to implement custom replay functionality.
-  external void replay(
-
-      /// A recording of the user interaction with the page. This should match <a
-      /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
-      /// recording schema</a>.
-      JSAny recording);
+@anonymous
+class RecorderExtensionPlugin {
+  external factory RecorderExtensionPlugin();
 }
 
 @JS()

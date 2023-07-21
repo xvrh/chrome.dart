@@ -92,93 +92,96 @@ typedef ExecutionWorld = String;
 
 @JS()
 @staticInterop
-class InjectionTarget {}
+@anonymous
+class InjectionTarget {
+  external factory InjectionTarget({
+    /// The ID of the tab into which to inject.
+    int tabId,
 
-extension InjectionTargetExtension on InjectionTarget {
-  /// The ID of the tab into which to inject.
-  external int tabId;
+    /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
+    /// of specific frames to inject into.
+    JSArray? frameIds,
 
-  /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
-  /// of specific frames to inject into.
-  external JSArray? frameIds;
+    /// The
+    /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
+    /// of specific documentIds to inject into. This must not be set if
+    /// `frameIds` is set.
+    JSArray? documentIds,
 
-  /// The
-  /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
-  /// of specific documentIds to inject into. This must not be set if
-  /// `frameIds` is set.
-  external JSArray? documentIds;
-
-  /// Whether the script should inject into all frames within the tab. Defaults
-  /// to false.
-  /// This must not be true if `frameIds` is specified.
-  external bool? allFrames;
+    /// Whether the script should inject into all frames within the tab. Defaults
+    /// to false.
+    /// This must not be true if `frameIds` is specified.
+    bool? allFrames,
+  });
 }
 
 @JS()
 @staticInterop
-class ScriptInjection {}
+@anonymous
+class ScriptInjection {
+  external factory ScriptInjection({
+    /// A JavaScript function to inject. This function will be serialized, and
+    /// then deserialized for injection. This means that any bound parameters
+    /// and execution context will be lost.
+    /// Exactly one of `files` and `func` must be
+    /// specified.
+    JSAny? func,
 
-extension ScriptInjectionExtension on ScriptInjection {
-  /// A JavaScript function to inject. This function will be serialized, and
-  /// then deserialized for injection. This means that any bound parameters
-  /// and execution context will be lost.
-  /// Exactly one of `files` and `func` must be
-  /// specified.
-  external JSAny? func;
+    /// The arguments to curry into a provided function. This is only valid if
+    /// the `func` parameter is specified. These arguments must be
+    /// JSON-serializable.
+    JSArray? args,
 
-  /// The arguments to curry into a provided function. This is only valid if
-  /// the `func` parameter is specified. These arguments must be
-  /// JSON-serializable.
-  external JSArray? args;
+    /// We used to call the injected function `function`, but this is
+    /// incompatible with JavaScript's object declaration shorthand (see
+    /// https://crbug.com/1166438). We leave this silently in for backwards
+    /// compatibility.
+    /// TODO(devlin): Remove this in M95.
+    JSAny? function,
 
-  /// We used to call the injected function `function`, but this is
-  /// incompatible with JavaScript's object declaration shorthand (see
-  /// https://crbug.com/1166438). We leave this silently in for backwards
-  /// compatibility.
-  /// TODO(devlin): Remove this in M95.
-  external JSAny? function;
+    /// The path of the JS or CSS files to inject, relative to the extension's
+    /// root directory.
+    /// Exactly one of `files` and `func` must be
+    /// specified.
+    JSArray? files,
 
-  /// The path of the JS or CSS files to inject, relative to the extension's
-  /// root directory.
-  /// Exactly one of `files` and `func` must be
-  /// specified.
-  external JSArray? files;
+    /// Details specifying the target into which to inject the script.
+    InjectionTarget target,
 
-  /// Details specifying the target into which to inject the script.
-  external InjectionTarget target;
+    /// The JavaScript "world" to run the script in. Defaults to
+    /// `ISOLATED`.
+    ExecutionWorld? world,
 
-  /// The JavaScript "world" to run the script in. Defaults to
-  /// `ISOLATED`.
-  external ExecutionWorld? world;
-
-  /// Whether the injection should be triggered in the target as soon as
-  /// possible. Note that this is not a guarantee that injection will occur
-  /// prior to page load, as the page may have already loaded by the time the
-  /// script reaches the target.
-  external bool? injectImmediately;
+    /// Whether the injection should be triggered in the target as soon as
+    /// possible. Note that this is not a guarantee that injection will occur
+    /// prior to page load, as the page may have already loaded by the time the
+    /// script reaches the target.
+    bool? injectImmediately,
+  });
 }
 
 @JS()
 @staticInterop
-class CSSInjection {}
+@anonymous
+class CSSInjection {
+  external factory CSSInjection({
+    /// Details specifying the target into which to insert the CSS.
+    InjectionTarget target,
 
-extension CSSInjectionExtension on CSSInjection {
-  /// Details specifying the target into which to insert the CSS.
-  external InjectionTarget target;
+    /// A string containing the CSS to inject.
+    /// Exactly one of `files` and `css` must be
+    /// specified.
+    String? css,
 
-  /// A string containing the CSS to inject.
-  /// Exactly one of `files` and `css` must be
-  /// specified.
-  external String? css;
+    /// The path of the CSS files to inject, relative to the extension's root
+    /// directory.
+    /// Exactly one of `files` and `css` must be
+    /// specified.
+    JSArray? files,
 
-  /// The path of the CSS files to inject, relative to the extension's root
-  /// directory.
-  /// Exactly one of `files` and `css` must be
-  /// specified.
-  external JSArray? files;
-
-  /// The style origin for the injection. Defaults to `'AUTHOR'`.
-  external StyleOrigin? origin;
+    /// The style origin for the injection. Defaults to `'AUTHOR'`.
+    StyleOrigin? origin,
+  });
 }
 
 @JS()
@@ -198,63 +201,65 @@ extension InjectionResultExtension on InjectionResult {
 
 @JS()
 @staticInterop
-class RegisteredContentScript {}
+@anonymous
+class RegisteredContentScript {
+  external factory RegisteredContentScript({
+    /// The id of the content script, specified in the API call. Must not start
+    /// with a '_' as it's reserved as a prefix for generated script IDs.
+    String id,
 
-extension RegisteredContentScriptExtension on RegisteredContentScript {
-  /// The id of the content script, specified in the API call. Must not start
-  /// with a '_' as it's reserved as a prefix for generated script IDs.
-  external String id;
+    /// Specifies which pages this content script will be injected into. See
+    /// [Match Patterns](match_patterns) for more details on the
+    /// syntax of these strings. Must be specified for
+    /// [registerContentScripts].
+    JSArray? matches,
 
-  /// Specifies which pages this content script will be injected into. See
-  /// [Match Patterns](match_patterns) for more details on the
-  /// syntax of these strings. Must be specified for
-  /// [registerContentScripts].
-  external JSArray? matches;
+    /// Excludes pages that this content script would otherwise be injected into.
+    /// See [Match Patterns](match_patterns) for more details on the
+    /// syntax of these strings.
+    JSArray? excludeMatches,
 
-  /// Excludes pages that this content script would otherwise be injected into.
-  /// See [Match Patterns](match_patterns) for more details on the
-  /// syntax of these strings.
-  external JSArray? excludeMatches;
+    /// The list of CSS files to be injected into matching pages. These are
+    /// injected in the order they appear in this array, before any DOM is
+    /// constructed or displayed for the page.
+    JSArray? css,
 
-  /// The list of CSS files to be injected into matching pages. These are
-  /// injected in the order they appear in this array, before any DOM is
-  /// constructed or displayed for the page.
-  external JSArray? css;
+    /// The list of JavaScript files to be injected into matching pages. These
+    /// are injected in the order they appear in this array.
+    JSArray? js,
 
-  /// The list of JavaScript files to be injected into matching pages. These
-  /// are injected in the order they appear in this array.
-  external JSArray? js;
+    /// If specified true, it will inject into all frames, even if the frame is
+    /// not the top-most frame in the tab. Each frame is checked independently
+    /// for URL requirements; it will not inject into child frames if the URL
+    /// requirements are not met. Defaults to false, meaning that only the top
+    /// frame is matched.
+    bool? allFrames,
 
-  /// If specified true, it will inject into all frames, even if the frame is
-  /// not the top-most frame in the tab. Each frame is checked independently
-  /// for URL requirements; it will not inject into child frames if the URL
-  /// requirements are not met. Defaults to false, meaning that only the top
-  /// frame is matched.
-  external bool? allFrames;
+    /// TODO(devlin): Add documentation once the implementation is complete. See
+    /// crbug.com/55084.
+    bool? matchOriginAsFallback,
 
-  /// TODO(devlin): Add documentation once the implementation is complete. See
-  /// crbug.com/55084.
-  external bool? matchOriginAsFallback;
+    /// Specifies when JavaScript files are injected into the web page. The
+    /// preferred and default value is `document_idle`.
+    RunAt? runAt,
 
-  /// Specifies when JavaScript files are injected into the web page. The
-  /// preferred and default value is `document_idle`.
-  external RunAt? runAt;
+    /// Specifies if this content script will persist into future sessions. The
+    /// default is true.
+    bool? persistAcrossSessions,
 
-  /// Specifies if this content script will persist into future sessions. The
-  /// default is true.
-  external bool? persistAcrossSessions;
-
-  /// The JavaScript "world" to run the script in. Defaults to
-  /// `ISOLATED`.
-  external ExecutionWorld? world;
+    /// The JavaScript "world" to run the script in. Defaults to
+    /// `ISOLATED`.
+    ExecutionWorld? world,
+  });
 }
 
 @JS()
 @staticInterop
-class ContentScriptFilter {}
-
-extension ContentScriptFilterExtension on ContentScriptFilter {
-  /// If specified, [getRegisteredContentScripts] will only return scripts
-  /// with an id specified in this list.
-  external JSArray? ids;
+@anonymous
+class ContentScriptFilter {
+  external factory ContentScriptFilter(
+      {
+      /// If specified, [getRegisteredContentScripts] will only return scripts
+      /// with an id specified in this list.
+      JSArray? ids});
 }

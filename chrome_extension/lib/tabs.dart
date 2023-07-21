@@ -856,36 +856,15 @@ class ZoomSettings {
     ZoomSettingsMode? mode,
     ZoomSettingsScope? scope,
     double? defaultZoomFactor,
-  }) : _wrapped = $js.ZoomSettings()
-          ..mode = mode?.toJS
-          ..scope = scope?.toJS
-          ..defaultZoomFactor = defaultZoomFactor;
+  }) : _wrapped = $js.ZoomSettings(
+          mode: mode?.toJS,
+          scope: scope?.toJS,
+          defaultZoomFactor: defaultZoomFactor,
+        );
 
   final $js.ZoomSettings _wrapped;
 
   $js.ZoomSettings get toJS => _wrapped;
-
-  /// Defines how zoom changes are handled, i.e., which entity is responsible
-  /// for the actual scaling of the page; defaults to `automatic`.
-  ZoomSettingsMode? get mode => _wrapped.mode?.let(ZoomSettingsMode.fromJS);
-  set mode(ZoomSettingsMode? v) {
-    _wrapped.mode = v?.toJS;
-  }
-
-  /// Defines whether zoom changes persist for the page's origin, or only take
-  /// effect in this tab; defaults to `per-origin` when in `automatic` mode, and
-  /// `per-tab` otherwise.
-  ZoomSettingsScope? get scope => _wrapped.scope?.let(ZoomSettingsScope.fromJS);
-  set scope(ZoomSettingsScope? v) {
-    _wrapped.scope = v?.toJS;
-  }
-
-  /// Used to return the default zoom level for the current tab in calls to
-  /// tabs.getZoomSettings.
-  double? get defaultZoomFactor => _wrapped.defaultZoomFactor;
-  set defaultZoomFactor(double? v) {
-    _wrapped.defaultZoomFactor = v;
-  }
 }
 
 class OnUpdatedChangeInfo {

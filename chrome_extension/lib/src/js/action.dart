@@ -95,12 +95,13 @@ extension JSActionExtension on JSAction {
 
 @JS()
 @staticInterop
-class TabDetails {}
-
-extension TabDetailsExtension on TabDetails {
-  /// The ID of the tab to query state for. If no tab is specified, the
-  /// non-tab-specific state is returned.
-  external int? tabId;
+@anonymous
+class TabDetails {
+  external factory TabDetails(
+      {
+      /// The ID of the tab to query state for. If no tab is specified, the
+      /// non-tab-specific state is returned.
+      int? tabId});
 }
 
 @JS()
@@ -116,12 +117,13 @@ extension UserSettingsExtension on UserSettings {
 
 @JS()
 @staticInterop
-class OpenPopupOptions {}
-
-extension OpenPopupOptionsExtension on OpenPopupOptions {
-  /// The id of the window to open the action popup in. Defaults to the
-  /// currently-active window if unspecified.
-  external int? windowId;
+@anonymous
+class OpenPopupOptions {
+  external factory OpenPopupOptions(
+      {
+      /// The id of the window to open the action popup in. Defaults to the
+      /// currently-active window if unspecified.
+      int? windowId});
 }
 
 @JS()

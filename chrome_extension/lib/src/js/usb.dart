@@ -236,48 +236,50 @@ typedef UsageType = String;
 
 @JS()
 @staticInterop
-class Device {}
+@anonymous
+class Device {
+  external factory Device({
+    /// An opaque ID for the USB device. It remains unchanged until the device is
+    /// unplugged.
+    int device,
 
-extension DeviceExtension on Device {
-  /// An opaque ID for the USB device. It remains unchanged until the device is
-  /// unplugged.
-  external int device;
+    /// The device vendor ID.
+    int vendorId,
 
-  /// The device vendor ID.
-  external int vendorId;
+    /// The product ID.
+    int productId,
 
-  /// The product ID.
-  external int productId;
+    /// The device version (bcdDevice field).
+    int version,
 
-  /// The device version (bcdDevice field).
-  external int version;
+    /// The iProduct string read from the device, if available.
+    String productName,
 
-  /// The iProduct string read from the device, if available.
-  external String productName;
+    /// The iManufacturer string read from the device, if available.
+    String manufacturerName,
 
-  /// The iManufacturer string read from the device, if available.
-  external String manufacturerName;
-
-  /// The iSerialNumber string read from the device, if available.
-  external String serialNumber;
+    /// The iSerialNumber string read from the device, if available.
+    String serialNumber,
+  });
 }
 
 @JS()
 @staticInterop
-class ConnectionHandle {}
+@anonymous
+class ConnectionHandle {
+  external factory ConnectionHandle({
+    /// An opaque handle representing this connection to the USB device and all
+    /// associated claimed interfaces and pending transfers. A new handle is
+    /// created each time the device is opened. The connection handle is
+    /// different from [Device.device].
+    int handle,
 
-extension ConnectionHandleExtension on ConnectionHandle {
-  /// An opaque handle representing this connection to the USB device and all
-  /// associated claimed interfaces and pending transfers. A new handle is
-  /// created each time the device is opened. The connection handle is
-  /// different from [Device.device].
-  external int handle;
+    /// The device vendor ID.
+    int vendorId,
 
-  /// The device vendor ID.
-  external int vendorId;
-
-  /// The product ID.
-  external int productId;
+    /// The product ID.
+    int productId,
+  });
 }
 
 @JS()
@@ -372,80 +374,83 @@ extension ConfigDescriptorExtension on ConfigDescriptor {
 
 @JS()
 @staticInterop
-class ControlTransferInfo {}
+@anonymous
+class ControlTransferInfo {
+  external factory ControlTransferInfo({
+    /// The transfer direction (`"in"` or `"out"`).
+    Direction direction,
 
-extension ControlTransferInfoExtension on ControlTransferInfo {
-  /// The transfer direction (`"in"` or `"out"`).
-  external Direction direction;
+    /// The transfer target. The target given by `index` must be
+    /// claimed if `"interface"` or `"endpoint"`.
+    Recipient recipient,
 
-  /// The transfer target. The target given by `index` must be
-  /// claimed if `"interface"` or `"endpoint"`.
-  external Recipient recipient;
+    /// The request type.
+    RequestType requestType,
 
-  /// The request type.
-  external RequestType requestType;
+    /// The `bRequest` field, see <i>Universal Serial Bus
+    /// Specification Revision 1.1</i> &sect; 9.3.
+    int request,
 
-  /// The `bRequest` field, see <i>Universal Serial Bus
-  /// Specification Revision 1.1</i> &sect; 9.3.
-  external int request;
+    /// The `wValue` field, see <i>Ibid</i>.
+    int value,
 
-  /// The `wValue` field, see <i>Ibid</i>.
-  external int value;
+    /// The `wIndex` field, see <i>Ibid</i>.
+    int index,
 
-  /// The `wIndex` field, see <i>Ibid</i>.
-  external int index;
+    /// The maximum number of bytes to receive (required only by input
+    /// transfers).
+    int? length,
 
-  /// The maximum number of bytes to receive (required only by input
-  /// transfers).
-  external int? length;
+    /// The data to transmit (required only by output transfers).
+    JSArrayBuffer? data,
 
-  /// The data to transmit (required only by output transfers).
-  external JSArrayBuffer? data;
-
-  /// Request timeout (in milliseconds). The default value `0`
-  /// indicates no timeout.
-  external int? timeout;
+    /// Request timeout (in milliseconds). The default value `0`
+    /// indicates no timeout.
+    int? timeout,
+  });
 }
 
 @JS()
 @staticInterop
-class GenericTransferInfo {}
+@anonymous
+class GenericTransferInfo {
+  external factory GenericTransferInfo({
+    /// The transfer direction (`"in"` or `"out"`).
+    Direction direction,
 
-extension GenericTransferInfoExtension on GenericTransferInfo {
-  /// The transfer direction (`"in"` or `"out"`).
-  external Direction direction;
+    /// The target endpoint address. The interface containing this endpoint must
+    /// be claimed.
+    int endpoint,
 
-  /// The target endpoint address. The interface containing this endpoint must
-  /// be claimed.
-  external int endpoint;
+    /// The maximum number of bytes to receive (required only by input
+    /// transfers).
+    int? length,
 
-  /// The maximum number of bytes to receive (required only by input
-  /// transfers).
-  external int? length;
+    /// The data to transmit (required only by output transfers).
+    JSArrayBuffer? data,
 
-  /// The data to transmit (required only by output transfers).
-  external JSArrayBuffer? data;
-
-  /// Request timeout (in milliseconds). The default value `0`
-  /// indicates no timeout.
-  external int? timeout;
+    /// Request timeout (in milliseconds). The default value `0`
+    /// indicates no timeout.
+    int? timeout,
+  });
 }
 
 @JS()
 @staticInterop
-class IsochronousTransferInfo {}
+@anonymous
+class IsochronousTransferInfo {
+  external factory IsochronousTransferInfo({
+    /// Transfer parameters. The transfer length or data buffer specified in this
+    /// parameter block is split along `packetLength` boundaries to
+    /// form the individual packets of the transfer.
+    GenericTransferInfo transferInfo,
 
-extension IsochronousTransferInfoExtension on IsochronousTransferInfo {
-  /// Transfer parameters. The transfer length or data buffer specified in this
-  /// parameter block is split along `packetLength` boundaries to
-  /// form the individual packets of the transfer.
-  external GenericTransferInfo transferInfo;
+    /// The total number of packets in this transfer.
+    int packets,
 
-  /// The total number of packets in this transfer.
-  external int packets;
-
-  /// The length of each of the packets in this transfer.
-  external int packetLength;
+    /// The length of each of the packets in this transfer.
+    int packetLength,
+  });
 }
 
 @JS()
@@ -464,65 +469,67 @@ extension TransferResultInfoExtension on TransferResultInfo {
 
 @JS()
 @staticInterop
-class DeviceFilter {}
+@anonymous
+class DeviceFilter {
+  external factory DeviceFilter({
+    /// Device vendor ID.
+    int? vendorId,
 
-extension DeviceFilterExtension on DeviceFilter {
-  /// Device vendor ID.
-  external int? vendorId;
+    /// Device product ID, checked only if the vendor ID matches.
+    int? productId,
 
-  /// Device product ID, checked only if the vendor ID matches.
-  external int? productId;
+    /// USB interface class, matches any interface on the device.
+    int? interfaceClass,
 
-  /// USB interface class, matches any interface on the device.
-  external int? interfaceClass;
+    /// USB interface sub-class, checked only if the interface class matches.
+    int? interfaceSubclass,
 
-  /// USB interface sub-class, checked only if the interface class matches.
-  external int? interfaceSubclass;
-
-  /// USB interface protocol, checked only if the interface sub-class matches.
-  external int? interfaceProtocol;
+    /// USB interface protocol, checked only if the interface sub-class matches.
+    int? interfaceProtocol,
+  });
 }
 
 @JS()
 @staticInterop
-class EnumerateDevicesOptions {}
+@anonymous
+class EnumerateDevicesOptions {
+  external factory EnumerateDevicesOptions({
+    int? vendorId,
+    int? productId,
 
-extension EnumerateDevicesOptionsExtension on EnumerateDevicesOptions {
-  external int? vendorId;
-
-  external int? productId;
-
-  /// A device matching any given filter will be returned. An empty filter list
-  /// will return all devices the app has permission for.
-  external JSArray? filters;
+    /// A device matching any given filter will be returned. An empty filter list
+    /// will return all devices the app has permission for.
+    JSArray? filters,
+  });
 }
 
 @JS()
 @staticInterop
-class EnumerateDevicesAndRequestAccessOptions {}
+@anonymous
+class EnumerateDevicesAndRequestAccessOptions {
+  external factory EnumerateDevicesAndRequestAccessOptions({
+    /// The device vendor ID.
+    int vendorId,
 
-extension EnumerateDevicesAndRequestAccessOptionsExtension
-    on EnumerateDevicesAndRequestAccessOptions {
-  /// The device vendor ID.
-  external int vendorId;
+    /// The product ID.
+    int productId,
 
-  /// The product ID.
-  external int productId;
-
-  /// The interface ID to request access to.
-  /// Only available on Chrome OS. It has no effect on other platforms.
-  external int? interfaceId;
+    /// The interface ID to request access to.
+    /// Only available on Chrome OS. It has no effect on other platforms.
+    int? interfaceId,
+  });
 }
 
 @JS()
 @staticInterop
-class DevicePromptOptions {}
+@anonymous
+class DevicePromptOptions {
+  external factory DevicePromptOptions({
+    /// Allow the user to select multiple devices.
+    bool? multiple,
 
-extension DevicePromptOptionsExtension on DevicePromptOptions {
-  /// Allow the user to select multiple devices.
-  external bool? multiple;
-
-  /// Filter the list of devices presented to the user. If multiple filters are
-  /// provided devices matching any filter will be displayed.
-  external JSArray? filters;
+    /// Filter the list of devices presented to the user. If multiple filters are
+    /// provided devices matching any filter will be displayed.
+    JSArray? filters,
+  });
 }

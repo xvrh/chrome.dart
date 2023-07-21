@@ -758,75 +758,29 @@ class MountOptions {
     int? openedFilesLimit,
     bool? supportsNotifyTag,
     bool? persistent,
-  }) : _wrapped = $js.MountOptions()
-          ..fileSystemId = fileSystemId
-          ..displayName = displayName
-          ..writable = writable
-          ..openedFilesLimit = openedFilesLimit
-          ..supportsNotifyTag = supportsNotifyTag
-          ..persistent = persistent;
+  }) : _wrapped = $js.MountOptions(
+          fileSystemId: fileSystemId,
+          displayName: displayName,
+          writable: writable,
+          openedFilesLimit: openedFilesLimit,
+          supportsNotifyTag: supportsNotifyTag,
+          persistent: persistent,
+        );
 
   final $js.MountOptions _wrapped;
 
   $js.MountOptions get toJS => _wrapped;
-
-  /// The string indentifier of the file system. Must be unique per each
-  /// extension.
-  String get fileSystemId => _wrapped.fileSystemId;
-  set fileSystemId(String v) {
-    _wrapped.fileSystemId = v;
-  }
-
-  /// A human-readable name for the file system.
-  String get displayName => _wrapped.displayName;
-  set displayName(String v) {
-    _wrapped.displayName = v;
-  }
-
-  /// Whether the file system supports operations which may change contents
-  /// of the file system (such as creating, deleting or writing to files).
-  bool? get writable => _wrapped.writable;
-  set writable(bool? v) {
-    _wrapped.writable = v;
-  }
-
-  /// The maximum number of files that can be opened at once. If not specified,
-  /// or 0, then not limited.
-  int? get openedFilesLimit => _wrapped.openedFilesLimit;
-  set openedFilesLimit(int? v) {
-    _wrapped.openedFilesLimit = v;
-  }
-
-  /// Whether the file system supports the `tag` field for observed
-  /// directories.
-  bool? get supportsNotifyTag => _wrapped.supportsNotifyTag;
-  set supportsNotifyTag(bool? v) {
-    _wrapped.supportsNotifyTag = v;
-  }
-
-  /// Whether the framework should resume the file system at the next sign-in
-  /// session. True by default.
-  bool? get persistent => _wrapped.persistent;
-  set persistent(bool? v) {
-    _wrapped.persistent = v;
-  }
 }
 
 class UnmountOptions {
   UnmountOptions.fromJS(this._wrapped);
 
   UnmountOptions({required String fileSystemId})
-      : _wrapped = $js.UnmountOptions()..fileSystemId = fileSystemId;
+      : _wrapped = $js.UnmountOptions(fileSystemId: fileSystemId);
 
   final $js.UnmountOptions _wrapped;
 
   $js.UnmountOptions get toJS => _wrapped;
-
-  /// The identifier of the file system to be unmounted.
-  String get fileSystemId => _wrapped.fileSystemId;
-  set fileSystemId(String v) {
-    _wrapped.fileSystemId = v;
-  }
 }
 
 class UnmountRequestedOptions {
@@ -1691,25 +1645,14 @@ class Change {
   Change({
     required String entryPath,
     required ChangeType changeType,
-  }) : _wrapped = $js.Change()
-          ..entryPath = entryPath
-          ..changeType = changeType.toJS;
+  }) : _wrapped = $js.Change(
+          entryPath: entryPath,
+          changeType: changeType.toJS,
+        );
 
   final $js.Change _wrapped;
 
   $js.Change get toJS => _wrapped;
-
-  /// The path of the changed entry.
-  String get entryPath => _wrapped.entryPath;
-  set entryPath(String v) {
-    _wrapped.entryPath = v;
-  }
-
-  /// The type of the change which happened to the entry.
-  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
-  set changeType(ChangeType v) {
-    _wrapped.changeType = v.toJS;
-  }
 }
 
 class NotifyOptions {
@@ -1722,62 +1665,18 @@ class NotifyOptions {
     required ChangeType changeType,
     List<Change>? changes,
     String? tag,
-  }) : _wrapped = $js.NotifyOptions()
-          ..fileSystemId = fileSystemId
-          ..observedPath = observedPath
-          ..recursive = recursive
-          ..changeType = changeType.toJS
-          ..changes = changes?.toJSArray((e) => e.toJS)
-          ..tag = tag;
+  }) : _wrapped = $js.NotifyOptions(
+          fileSystemId: fileSystemId,
+          observedPath: observedPath,
+          recursive: recursive,
+          changeType: changeType.toJS,
+          changes: changes?.toJSArray((e) => e.toJS),
+          tag: tag,
+        );
 
   final $js.NotifyOptions _wrapped;
 
   $js.NotifyOptions get toJS => _wrapped;
-
-  /// The identifier of the file system related to this change.
-  String get fileSystemId => _wrapped.fileSystemId;
-  set fileSystemId(String v) {
-    _wrapped.fileSystemId = v;
-  }
-
-  /// The path of the observed entry.
-  String get observedPath => _wrapped.observedPath;
-  set observedPath(String v) {
-    _wrapped.observedPath = v;
-  }
-
-  /// Mode of the observed entry.
-  bool get recursive => _wrapped.recursive;
-  set recursive(bool v) {
-    _wrapped.recursive = v;
-  }
-
-  /// The type of the change which happened to the observed entry. If it is
-  /// DELETED, then the observed entry will be automatically removed from the
-  /// list of observed entries.
-  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
-  set changeType(ChangeType v) {
-    _wrapped.changeType = v.toJS;
-  }
-
-  /// List of changes to entries within the observed directory (including the
-  /// entry itself)
-  List<Change>? get changes => _wrapped.changes?.toDart
-      .cast<$js.Change>()
-      .map((e) => Change.fromJS(e))
-      .toList();
-  set changes(List<Change>? v) {
-    _wrapped.changes = v?.toJSArray((e) => e.toJS);
-  }
-
-  /// Tag for the notification. Required if the file system was mounted with
-  /// the `supportsNotifyTag` option. Note, that this flag is
-  /// necessary to provide notifications about changes which changed even
-  /// when the system was shutdown.
-  String? get tag => _wrapped.tag;
-  set tag(String? v) {
-    _wrapped.tag = v;
-  }
 }
 
 class ConfigureRequestedOptions {

@@ -158,56 +158,58 @@ extension GetRequestExtension on GetRequest {
 
 @JS()
 @staticInterop
-class DOMExceptionDetails {}
-
-extension DOMExceptionDetailsExtension on DOMExceptionDetails {
-  external String name;
-
-  external String message;
+@anonymous
+class DOMExceptionDetails {
+  external factory DOMExceptionDetails({
+    String name,
+    String message,
+  });
 }
 
 @JS()
 @staticInterop
-class CreateResponseDetails {}
+@anonymous
+class CreateResponseDetails {
+  external factory CreateResponseDetails({
+    /// The `requestId` of the `CreateRequest`.
+    int requestId,
 
-extension CreateResponseDetailsExtension on CreateResponseDetails {
-  /// The `requestId` of the `CreateRequest`.
-  external int requestId;
+    /// The `DOMException` yielded by the remote request, if any.
+    DOMExceptionDetails? error,
 
-  /// The `DOMException` yielded by the remote request, if any.
-  external DOMExceptionDetails? error;
-
-  /// The `PublicKeyCredential`, yielded by the remote request, if
-  /// any, serialized as a JSON string by calling
-  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
-  /// `PublicKeyCredential.toJSON()`</a>.
-  external String? responseJson;
+    /// The `PublicKeyCredential`, yielded by the remote request, if
+    /// any, serialized as a JSON string by calling
+    /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+    /// `PublicKeyCredential.toJSON()`</a>.
+    String? responseJson,
+  });
 }
 
 @JS()
 @staticInterop
-class GetResponseDetails {}
+@anonymous
+class GetResponseDetails {
+  external factory GetResponseDetails({
+    /// The `requestId` of the `CreateRequest`.
+    int requestId,
 
-extension GetResponseDetailsExtension on GetResponseDetails {
-  /// The `requestId` of the `CreateRequest`.
-  external int requestId;
+    /// The `DOMException` yielded by the remote request, if any.
+    DOMExceptionDetails? error,
 
-  /// The `DOMException` yielded by the remote request, if any.
-  external DOMExceptionDetails? error;
-
-  /// The `PublicKeyCredential`, yielded by the remote request, if
-  /// any, serialized as a JSON string by calling
-  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
-  /// `PublicKeyCredential.toJSON()`</a>.
-  external String? responseJson;
+    /// The `PublicKeyCredential`, yielded by the remote request, if
+    /// any, serialized as a JSON string by calling
+    /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+    /// `PublicKeyCredential.toJSON()`</a>.
+    String? responseJson,
+  });
 }
 
 @JS()
 @staticInterop
-class IsUvpaaResponseDetails {}
-
-extension IsUvpaaResponseDetailsExtension on IsUvpaaResponseDetails {
-  external int requestId;
-
-  external bool isUvpaa;
+@anonymous
+class IsUvpaaResponseDetails {
+  external factory IsUvpaaResponseDetails({
+    int requestId,
+    bool isUvpaa,
+  });
 }

@@ -402,26 +402,19 @@ extension ExtensionContextExtension on ExtensionContext {
 
 @JS()
 @staticInterop
-class ContextFilter {}
-
-extension ContextFilterExtension on ContextFilter {
-  external JSArray? contextTypes;
-
-  external JSArray? contextIds;
-
-  external JSArray? tabIds;
-
-  external JSArray? windowIds;
-
-  external JSArray? documentIds;
-
-  external JSArray? frameIds;
-
-  external JSArray? documentUrls;
-
-  external JSArray? documentOrigins;
-
-  external bool? incognito;
+@anonymous
+class ContextFilter {
+  external factory ContextFilter({
+    JSArray? contextTypes,
+    JSArray? contextIds,
+    JSArray? tabIds,
+    JSArray? windowIds,
+    JSArray? documentIds,
+    JSArray? frameIds,
+    JSArray? documentUrls,
+    JSArray? documentOrigins,
+    bool? incognito,
+  });
 }
 
 @JS()

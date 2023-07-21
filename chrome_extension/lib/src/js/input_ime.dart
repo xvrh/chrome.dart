@@ -161,45 +161,46 @@ typedef AssistiveWindowButton = String;
 
 @JS()
 @staticInterop
-class KeyboardEvent {}
+@anonymous
+class KeyboardEvent {
+  external factory KeyboardEvent({
+    /// One of keyup or keydown.
+    KeyboardEventType type,
 
-extension KeyboardEventExtension on KeyboardEvent {
-  /// One of keyup or keydown.
-  external KeyboardEventType type;
+    /// (Deprecated) The ID of the request. Use the `requestId` param from the
+    /// `onKeyEvent` event instead.
+    String? requestId,
 
-  /// (Deprecated) The ID of the request. Use the `requestId` param from the
-  /// `onKeyEvent` event instead.
-  external String? requestId;
+    /// The extension ID of the sender of this keyevent.
+    String? extensionId,
 
-  /// The extension ID of the sender of this keyevent.
-  external String? extensionId;
+    /// Value of the key being pressed
+    String key,
 
-  /// Value of the key being pressed
-  external String key;
+    /// Value of the physical key being pressed. The value is not affected by
+    /// current keyboard layout or modifier state.
+    String code,
 
-  /// Value of the physical key being pressed. The value is not affected by
-  /// current keyboard layout or modifier state.
-  external String code;
+    /// The deprecated HTML keyCode, which is system- and implementation-dependent
+    /// numerical code signifying the unmodified identifier associated with the
+    /// key pressed.
+    int? keyCode,
 
-  /// The deprecated HTML keyCode, which is system- and implementation-dependent
-  /// numerical code signifying the unmodified identifier associated with the
-  /// key pressed.
-  external int? keyCode;
+    /// Whether or not the ALT key is pressed.
+    bool? altKey,
 
-  /// Whether or not the ALT key is pressed.
-  external bool? altKey;
+    /// Whether or not the ALTGR key is pressed.
+    bool? altgrKey,
 
-  /// Whether or not the ALTGR key is pressed.
-  external bool? altgrKey;
+    /// Whether or not the CTRL key is pressed.
+    bool? ctrlKey,
 
-  /// Whether or not the CTRL key is pressed.
-  external bool? ctrlKey;
+    /// Whether or not the SHIFT key is pressed.
+    bool? shiftKey,
 
-  /// Whether or not the SHIFT key is pressed.
-  external bool? shiftKey;
-
-  /// Whether or not the CAPS_LOCK is enabled.
-  external bool? capsLock;
+    /// Whether or not the CAPS_LOCK is enabled.
+    bool? capsLock,
+  });
 }
 
 @JS()
@@ -233,53 +234,56 @@ extension InputContextExtension on InputContext {
 
 @JS()
 @staticInterop
-class MenuItem {}
+@anonymous
+class MenuItem {
+  external factory MenuItem({
+    /// String that will be passed to callbacks referencing this MenuItem.
+    String id,
 
-extension MenuItemExtension on MenuItem {
-  /// String that will be passed to callbacks referencing this MenuItem.
-  external String id;
+    /// Text displayed in the menu for this item.
+    String? label,
 
-  /// Text displayed in the menu for this item.
-  external String? label;
+    /// The type of menu item.
+    MenuItemStyle? style,
 
-  /// The type of menu item.
-  external MenuItemStyle? style;
+    /// Indicates this item is visible.
+    bool? visible,
 
-  /// Indicates this item is visible.
-  external bool? visible;
+    /// Indicates this item should be drawn with a check.
+    bool? checked,
 
-  /// Indicates this item should be drawn with a check.
-  external bool? checked;
-
-  /// Indicates this item is enabled.
-  external bool? enabled;
+    /// Indicates this item is enabled.
+    bool? enabled,
+  });
 }
 
 @JS()
 @staticInterop
-class AssistiveWindowProperties {}
+@anonymous
+class AssistiveWindowProperties {
+  external factory AssistiveWindowProperties({
+    AssistiveWindowType type,
 
-extension AssistiveWindowPropertiesExtension on AssistiveWindowProperties {
-  external AssistiveWindowType type;
+    /// Sets true to show AssistiveWindow, sets false to hide.
+    bool visible,
 
-  /// Sets true to show AssistiveWindow, sets false to hide.
-  external bool visible;
-
-  /// Strings for ChromeVox to announce.
-  external String? announceString;
+    /// Strings for ChromeVox to announce.
+    String? announceString,
+  });
 }
 
 @JS()
 @staticInterop
-class MenuParameters {}
+@anonymous
+class MenuParameters {
+  external factory MenuParameters({
+    /// ID of the engine to use.
+    String engineID,
 
-extension MenuParametersExtension on MenuParameters {
-  /// ID of the engine to use.
-  external String engineID;
-
-  /// MenuItems to add or update. They will be added in the order they exist in
-  /// the array.
-  external JSArray items;
+    /// MenuItems to add or update. They will be added in the order they exist in
+    /// the array.
+    JSArray items,
+  });
 }
 
 @JS()

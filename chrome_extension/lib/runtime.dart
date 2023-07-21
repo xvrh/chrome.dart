@@ -778,75 +778,21 @@ class ContextFilter {
     List<String>? documentUrls,
     List<String>? documentOrigins,
     bool? incognito,
-  }) : _wrapped = $js.ContextFilter()
-          ..contextTypes = contextTypes?.toJSArray((e) => e.toJS)
-          ..contextIds = contextIds?.toJSArray((e) => e)
-          ..tabIds = tabIds?.toJSArray((e) => e)
-          ..windowIds = windowIds?.toJSArray((e) => e)
-          ..documentIds = documentIds?.toJSArray((e) => e)
-          ..frameIds = frameIds?.toJSArray((e) => e)
-          ..documentUrls = documentUrls?.toJSArray((e) => e)
-          ..documentOrigins = documentOrigins?.toJSArray((e) => e)
-          ..incognito = incognito;
+  }) : _wrapped = $js.ContextFilter(
+          contextTypes: contextTypes?.toJSArray((e) => e.toJS),
+          contextIds: contextIds?.toJSArray((e) => e),
+          tabIds: tabIds?.toJSArray((e) => e),
+          windowIds: windowIds?.toJSArray((e) => e),
+          documentIds: documentIds?.toJSArray((e) => e),
+          frameIds: frameIds?.toJSArray((e) => e),
+          documentUrls: documentUrls?.toJSArray((e) => e),
+          documentOrigins: documentOrigins?.toJSArray((e) => e),
+          incognito: incognito,
+        );
 
   final $js.ContextFilter _wrapped;
 
   $js.ContextFilter get toJS => _wrapped;
-
-  List<ContextType>? get contextTypes => _wrapped.contextTypes?.toDart
-      .cast<$js.ContextType>()
-      .map((e) => ContextType.fromJS(e))
-      .toList();
-  set contextTypes(List<ContextType>? v) {
-    _wrapped.contextTypes = v?.toJSArray((e) => e.toJS);
-  }
-
-  List<String>? get contextIds =>
-      _wrapped.contextIds?.toDart.cast<String>().map((e) => e).toList();
-  set contextIds(List<String>? v) {
-    _wrapped.contextIds = v?.toJSArray((e) => e);
-  }
-
-  List<int>? get tabIds =>
-      _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
-  set tabIds(List<int>? v) {
-    _wrapped.tabIds = v?.toJSArray((e) => e);
-  }
-
-  List<int>? get windowIds =>
-      _wrapped.windowIds?.toDart.cast<int>().map((e) => e).toList();
-  set windowIds(List<int>? v) {
-    _wrapped.windowIds = v?.toJSArray((e) => e);
-  }
-
-  List<String>? get documentIds =>
-      _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
-  set documentIds(List<String>? v) {
-    _wrapped.documentIds = v?.toJSArray((e) => e);
-  }
-
-  List<int>? get frameIds =>
-      _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
-  set frameIds(List<int>? v) {
-    _wrapped.frameIds = v?.toJSArray((e) => e);
-  }
-
-  List<String>? get documentUrls =>
-      _wrapped.documentUrls?.toDart.cast<String>().map((e) => e).toList();
-  set documentUrls(List<String>? v) {
-    _wrapped.documentUrls = v?.toJSArray((e) => e);
-  }
-
-  List<String>? get documentOrigins =>
-      _wrapped.documentOrigins?.toDart.cast<String>().map((e) => e).toList();
-  set documentOrigins(List<String>? v) {
-    _wrapped.documentOrigins = v?.toJSArray((e) => e);
-  }
-
-  bool? get incognito => _wrapped.incognito;
-  set incognito(bool? v) {
-    _wrapped.incognito = v;
-  }
 }
 
 class OnInstalledDetails {

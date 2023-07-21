@@ -121,23 +121,25 @@ typedef AccountStatus = String;
 
 @JS()
 @staticInterop
-class AccountInfo {}
-
-extension AccountInfoExtension on AccountInfo {
-  /// A unique identifier for the account. This ID will not change
-  /// for the lifetime of the account.
-  external String id;
+@anonymous
+class AccountInfo {
+  external factory AccountInfo(
+      {
+      /// A unique identifier for the account. This ID will not change
+      /// for the lifetime of the account.
+      String id});
 }
 
 @JS()
 @staticInterop
-class ProfileDetails {}
-
-extension ProfileDetailsExtension on ProfileDetails {
-  /// A status of the primary account signed into a profile whose
-  /// `ProfileUserInfo` should be returned. Defaults to
-  /// `SYNC` account status.
-  external AccountStatus? accountStatus;
+@anonymous
+class ProfileDetails {
+  external factory ProfileDetails(
+      {
+      /// A status of the primary account signed into a profile whose
+      /// `ProfileUserInfo` should be returned. Defaults to
+      /// `SYNC` account status.
+      AccountStatus? accountStatus});
 }
 
 @JS()
@@ -160,86 +162,89 @@ extension ProfileUserInfoExtension on ProfileUserInfo {
 
 @JS()
 @staticInterop
-class TokenDetails {}
+@anonymous
+class TokenDetails {
+  external factory TokenDetails({
+    /// Fetching a token may require the user to sign-in to Chrome, or
+    /// approve the application's requested scopes. If the interactive
+    /// flag is `true`, `getAuthToken` will
+    /// prompt the user as necessary. When the flag is
+    /// `false` or omitted, `getAuthToken` will
+    /// return failure any time a prompt would be required.
+    bool? interactive,
 
-extension TokenDetailsExtension on TokenDetails {
-  /// Fetching a token may require the user to sign-in to Chrome, or
-  /// approve the application's requested scopes. If the interactive
-  /// flag is `true`, `getAuthToken` will
-  /// prompt the user as necessary. When the flag is
-  /// `false` or omitted, `getAuthToken` will
-  /// return failure any time a prompt would be required.
-  external bool? interactive;
+    /// The account ID whose token should be returned. If not specified, the
+    /// function will use an account from the Chrome profile: the Sync account if
+    /// there is one, or otherwise the first Google web account.
+    AccountInfo? account,
 
-  /// The account ID whose token should be returned. If not specified, the
-  /// function will use an account from the Chrome profile: the Sync account if
-  /// there is one, or otherwise the first Google web account.
-  external AccountInfo? account;
+    /// A list of OAuth2 scopes to request.
+    ///
+    /// When the `scopes` field is present, it overrides the
+    /// list of scopes specified in manifest.json.
+    JSArray? scopes,
 
-  /// A list of OAuth2 scopes to request.
-  ///
-  /// When the `scopes` field is present, it overrides the
-  /// list of scopes specified in manifest.json.
-  external JSArray? scopes;
-
-  /// The `enableGranularPermissions` flag allows extensions to
-  /// opt-in early to the granular permissions consent screen, in which
-  /// requested permissions are granted or denied individually.
-  external bool? enableGranularPermissions;
+    /// The `enableGranularPermissions` flag allows extensions to
+    /// opt-in early to the granular permissions consent screen, in which
+    /// requested permissions are granted or denied individually.
+    bool? enableGranularPermissions,
+  });
 }
 
 @JS()
 @staticInterop
-class InvalidTokenDetails {}
-
-extension InvalidTokenDetailsExtension on InvalidTokenDetails {
-  /// The specific token that should be removed from the cache.
-  external String token;
+@anonymous
+class InvalidTokenDetails {
+  external factory InvalidTokenDetails(
+      {
+      /// The specific token that should be removed from the cache.
+      String token});
 }
 
 @JS()
 @staticInterop
-class WebAuthFlowDetails {}
+@anonymous
+class WebAuthFlowDetails {
+  external factory WebAuthFlowDetails({
+    /// The URL that initiates the auth flow.
+    String url,
 
-extension WebAuthFlowDetailsExtension on WebAuthFlowDetails {
-  /// The URL that initiates the auth flow.
-  external String url;
+    /// Whether to launch auth flow in interactive mode.
+    ///
+    /// Since some auth flows may immediately redirect to a result URL,
+    /// `launchWebAuthFlow` hides its web view until the first
+    /// navigation either redirects to the final URL, or finishes loading a page
+    /// meant to be displayed.
+    ///
+    /// If the `interactive` flag is `true`, the window
+    /// will be displayed when a page load completes. If the flag is
+    /// `false` or omitted, `launchWebAuthFlow` will return
+    /// with an error if the initial navigation does not complete the flow.
+    ///
+    /// For flows that use JavaScript for redirection,
+    /// `abortOnLoadForNonInteractive` can be set to `false`
+    /// in combination with setting `timeoutMsForNonInteractive` to give
+    /// the page a chance to perform any redirects.
+    bool? interactive,
 
-  /// Whether to launch auth flow in interactive mode.
-  ///
-  /// Since some auth flows may immediately redirect to a result URL,
-  /// `launchWebAuthFlow` hides its web view until the first
-  /// navigation either redirects to the final URL, or finishes loading a page
-  /// meant to be displayed.
-  ///
-  /// If the `interactive` flag is `true`, the window
-  /// will be displayed when a page load completes. If the flag is
-  /// `false` or omitted, `launchWebAuthFlow` will return
-  /// with an error if the initial navigation does not complete the flow.
-  ///
-  /// For flows that use JavaScript for redirection,
-  /// `abortOnLoadForNonInteractive` can be set to `false`
-  /// in combination with setting `timeoutMsForNonInteractive` to give
-  /// the page a chance to perform any redirects.
-  external bool? interactive;
+    /// Whether to terminate `launchWebAuthFlow` for non-interactive
+    /// requests after the page loads. This parameter does not affect interactive
+    /// flows.
+    ///
+    /// When set to `true` (default) the flow will terminate
+    /// immediately after the page loads. When set to `false`, the
+    /// flow will only terminate after the
+    /// `timeoutMsForNonInteractive` passes. This is useful for
+    /// identity providers that use JavaScript to perform redirections after the
+    /// page loads.
+    bool? abortOnLoadForNonInteractive,
 
-  /// Whether to terminate `launchWebAuthFlow` for non-interactive
-  /// requests after the page loads. This parameter does not affect interactive
-  /// flows.
-  ///
-  /// When set to `true` (default) the flow will terminate
-  /// immediately after the page loads. When set to `false`, the
-  /// flow will only terminate after the
-  /// `timeoutMsForNonInteractive` passes. This is useful for
-  /// identity providers that use JavaScript to perform redirections after the
-  /// page loads.
-  external bool? abortOnLoadForNonInteractive;
-
-  /// The maximum amount of time, in miliseconds,
-  /// `launchWebAuthFlow` is allowed to run in non-interactive mode
-  /// in total. Only has an effect if `interactive` is
-  /// `false`.
-  external int? timeoutMsForNonInteractive;
+    /// The maximum amount of time, in miliseconds,
+    /// `launchWebAuthFlow` is allowed to run in non-interactive mode
+    /// in total. Only has an effect if `interactive` is
+    /// `false`.
+    int? timeoutMsForNonInteractive,
+  });
 }
 
 @JS()

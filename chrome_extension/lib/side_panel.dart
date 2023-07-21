@@ -88,74 +88,35 @@ class PanelOptions {
     int? tabId,
     String? path,
     bool? enabled,
-  }) : _wrapped = $js.PanelOptions()
-          ..tabId = tabId
-          ..path = path
-          ..enabled = enabled;
+  }) : _wrapped = $js.PanelOptions(
+          tabId: tabId,
+          path: path,
+          enabled: enabled,
+        );
 
   final $js.PanelOptions _wrapped;
 
   $js.PanelOptions get toJS => _wrapped;
-
-  /// If specified, the side panel options will only apply to the tab with
-  /// this id. If omitted, these options set the default behavior (used for any
-  /// tab that doesn't have specific settings). Note: if the same path is set
-  /// for this tabId and the default tabId, then the panel for this tabId will
-  /// be a different instance than the panel for the default tabId.
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
-
-  /// The path to the side panel HTML file to use. This must be a local
-  /// resource within the extension package.
-  String? get path => _wrapped.path;
-  set path(String? v) {
-    _wrapped.path = v;
-  }
-
-  /// Whether the side panel should be enabled. This is optional. The default
-  /// value is true.
-  bool? get enabled => _wrapped.enabled;
-  set enabled(bool? v) {
-    _wrapped.enabled = v;
-  }
 }
 
 class PanelBehavior {
   PanelBehavior.fromJS(this._wrapped);
 
   PanelBehavior({bool? openPanelOnActionClick})
-      : _wrapped = $js.PanelBehavior()
-          ..openPanelOnActionClick = openPanelOnActionClick;
+      : _wrapped =
+            $js.PanelBehavior(openPanelOnActionClick: openPanelOnActionClick);
 
   final $js.PanelBehavior _wrapped;
 
   $js.PanelBehavior get toJS => _wrapped;
-
-  /// Whether clicking the extension's icon will toggle showing the extension's
-  /// entry in the side panel. Defaults to false.
-  bool? get openPanelOnActionClick => _wrapped.openPanelOnActionClick;
-  set openPanelOnActionClick(bool? v) {
-    _wrapped.openPanelOnActionClick = v;
-  }
 }
 
 class GetPanelOptions {
   GetPanelOptions.fromJS(this._wrapped);
 
-  GetPanelOptions({int? tabId})
-      : _wrapped = $js.GetPanelOptions()..tabId = tabId;
+  GetPanelOptions({int? tabId}) : _wrapped = $js.GetPanelOptions(tabId: tabId);
 
   final $js.GetPanelOptions _wrapped;
 
   $js.GetPanelOptions get toJS => _wrapped;
-
-  /// If specified, the side panel options for the given tab will be returned.
-  /// Otherwise, returns the default side panel options (used for any tab that
-  /// doesn't have specific settings).
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
 }

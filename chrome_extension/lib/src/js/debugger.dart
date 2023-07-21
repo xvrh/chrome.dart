@@ -73,19 +73,20 @@ typedef DetachReason = String;
 
 @JS()
 @staticInterop
-class Debuggee {}
+@anonymous
+class Debuggee {
+  external factory Debuggee({
+    /// The id of the tab which you intend to debug.
+    int? tabId,
 
-extension DebuggeeExtension on Debuggee {
-  /// The id of the tab which you intend to debug.
-  external int? tabId;
+    /// The id of the extension which you intend to debug. Attaching to an
+    /// extension background page is only possible when the
+    /// `--silent-debugger-extension-api` command-line switch is used.
+    String? extensionId,
 
-  /// The id of the extension which you intend to debug. Attaching to an
-  /// extension background page is only possible when the
-  /// `--silent-debugger-extension-api` command-line switch is used.
-  external String? extensionId;
-
-  /// The opaque id of the debug target.
-  external String? targetId;
+    /// The opaque id of the debug target.
+    String? targetId,
+  });
 }
 
 @JS()

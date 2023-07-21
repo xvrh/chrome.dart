@@ -82,44 +82,41 @@ extension CaptureInfoExtension on CaptureInfo {
 
 @JS()
 @staticInterop
-class MediaStreamConstraint {}
-
-extension MediaStreamConstraintExtension on MediaStreamConstraint {
-  external JSAny mandatory;
+@anonymous
+class MediaStreamConstraint {
+  external factory MediaStreamConstraint({JSAny mandatory});
 }
 
 @JS()
 @staticInterop
-class CaptureOptions {}
-
-extension CaptureOptionsExtension on CaptureOptions {
-  external bool? audio;
-
-  external bool? video;
-
-  external MediaStreamConstraint? audioConstraints;
-
-  external MediaStreamConstraint? videoConstraints;
-
-  external String? presentationId;
+@anonymous
+class CaptureOptions {
+  external factory CaptureOptions({
+    bool? audio,
+    bool? video,
+    MediaStreamConstraint? audioConstraints,
+    MediaStreamConstraint? videoConstraints,
+    String? presentationId,
+  });
 }
 
 @JS()
 @staticInterop
-class GetMediaStreamOptions {}
+@anonymous
+class GetMediaStreamOptions {
+  external factory GetMediaStreamOptions({
+    /// Optional tab id of the tab which will later invoke
+    /// `getUserMedia()` to consume the stream. If not specified
+    /// then the resulting stream can be used only by the calling extension.
+    /// The stream can only be used by frames in the given tab whose security
+    /// origin matches the consumber tab's origin. The tab's origin must be a
+    /// secure origin, e.g. HTTPS.
+    int? consumerTabId,
 
-extension GetMediaStreamOptionsExtension on GetMediaStreamOptions {
-  /// Optional tab id of the tab which will later invoke
-  /// `getUserMedia()` to consume the stream. If not specified
-  /// then the resulting stream can be used only by the calling extension.
-  /// The stream can only be used by frames in the given tab whose security
-  /// origin matches the consumber tab's origin. The tab's origin must be a
-  /// secure origin, e.g. HTTPS.
-  external int? consumerTabId;
-
-  /// Optional tab id of the tab which will be captured. If not specified
-  /// then the current active tab will be selected. Only tabs for which the
-  /// extension has been granted the `activeTab` permission can be
-  /// used as the target tab.
-  external int? targetTabId;
+    /// Optional tab id of the tab which will be captured. If not specified
+    /// then the current active tab will be selected. Only tabs for which the
+    /// extension has been granted the `activeTab` permission can be
+    /// used as the target tab.
+    int? targetTabId,
+  });
 }

@@ -413,92 +413,23 @@ class KeyboardEvent {
     bool? ctrlKey,
     bool? shiftKey,
     bool? capsLock,
-  }) : _wrapped = $js.KeyboardEvent()
-          ..type = type.toJS
-          ..requestId = requestId
-          ..extensionId = extensionId
-          ..key = key
-          ..code = code
-          ..keyCode = keyCode
-          ..altKey = altKey
-          ..altgrKey = altgrKey
-          ..ctrlKey = ctrlKey
-          ..shiftKey = shiftKey
-          ..capsLock = capsLock;
+  }) : _wrapped = $js.KeyboardEvent(
+          type: type.toJS,
+          requestId: requestId,
+          extensionId: extensionId,
+          key: key,
+          code: code,
+          keyCode: keyCode,
+          altKey: altKey,
+          altgrKey: altgrKey,
+          ctrlKey: ctrlKey,
+          shiftKey: shiftKey,
+          capsLock: capsLock,
+        );
 
   final $js.KeyboardEvent _wrapped;
 
   $js.KeyboardEvent get toJS => _wrapped;
-
-  /// One of keyup or keydown.
-  KeyboardEventType get type => KeyboardEventType.fromJS(_wrapped.type);
-  set type(KeyboardEventType v) {
-    _wrapped.type = v.toJS;
-  }
-
-  /// (Deprecated) The ID of the request. Use the `requestId` param from the
-  /// `onKeyEvent` event instead.
-  String? get requestId => _wrapped.requestId;
-  set requestId(String? v) {
-    _wrapped.requestId = v;
-  }
-
-  /// The extension ID of the sender of this keyevent.
-  String? get extensionId => _wrapped.extensionId;
-  set extensionId(String? v) {
-    _wrapped.extensionId = v;
-  }
-
-  /// Value of the key being pressed
-  String get key => _wrapped.key;
-  set key(String v) {
-    _wrapped.key = v;
-  }
-
-  /// Value of the physical key being pressed. The value is not affected by
-  /// current keyboard layout or modifier state.
-  String get code => _wrapped.code;
-  set code(String v) {
-    _wrapped.code = v;
-  }
-
-  /// The deprecated HTML keyCode, which is system- and implementation-dependent
-  /// numerical code signifying the unmodified identifier associated with the
-  /// key pressed.
-  int? get keyCode => _wrapped.keyCode;
-  set keyCode(int? v) {
-    _wrapped.keyCode = v;
-  }
-
-  /// Whether or not the ALT key is pressed.
-  bool? get altKey => _wrapped.altKey;
-  set altKey(bool? v) {
-    _wrapped.altKey = v;
-  }
-
-  /// Whether or not the ALTGR key is pressed.
-  bool? get altgrKey => _wrapped.altgrKey;
-  set altgrKey(bool? v) {
-    _wrapped.altgrKey = v;
-  }
-
-  /// Whether or not the CTRL key is pressed.
-  bool? get ctrlKey => _wrapped.ctrlKey;
-  set ctrlKey(bool? v) {
-    _wrapped.ctrlKey = v;
-  }
-
-  /// Whether or not the SHIFT key is pressed.
-  bool? get shiftKey => _wrapped.shiftKey;
-  set shiftKey(bool? v) {
-    _wrapped.shiftKey = v;
-  }
-
-  /// Whether or not the CAPS_LOCK is enabled.
-  bool? get capsLock => _wrapped.capsLock;
-  set capsLock(bool? v) {
-    _wrapped.capsLock = v;
-  }
 }
 
 class InputContext {
@@ -581,53 +512,18 @@ class MenuItem {
     bool? visible,
     bool? checked,
     bool? enabled,
-  }) : _wrapped = $js.MenuItem()
-          ..id = id
-          ..label = label
-          ..style = style?.toJS
-          ..visible = visible
-          ..checked = checked
-          ..enabled = enabled;
+  }) : _wrapped = $js.MenuItem(
+          id: id,
+          label: label,
+          style: style?.toJS,
+          visible: visible,
+          checked: checked,
+          enabled: enabled,
+        );
 
   final $js.MenuItem _wrapped;
 
   $js.MenuItem get toJS => _wrapped;
-
-  /// String that will be passed to callbacks referencing this MenuItem.
-  String get id => _wrapped.id;
-  set id(String v) {
-    _wrapped.id = v;
-  }
-
-  /// Text displayed in the menu for this item.
-  String? get label => _wrapped.label;
-  set label(String? v) {
-    _wrapped.label = v;
-  }
-
-  /// The type of menu item.
-  MenuItemStyle? get style => _wrapped.style?.let(MenuItemStyle.fromJS);
-  set style(MenuItemStyle? v) {
-    _wrapped.style = v?.toJS;
-  }
-
-  /// Indicates this item is visible.
-  bool? get visible => _wrapped.visible;
-  set visible(bool? v) {
-    _wrapped.visible = v;
-  }
-
-  /// Indicates this item should be drawn with a check.
-  bool? get checked => _wrapped.checked;
-  set checked(bool? v) {
-    _wrapped.checked = v;
-  }
-
-  /// Indicates this item is enabled.
-  bool? get enabled => _wrapped.enabled;
-  set enabled(bool? v) {
-    _wrapped.enabled = v;
-  }
 }
 
 class AssistiveWindowProperties {
@@ -637,31 +533,15 @@ class AssistiveWindowProperties {
     required AssistiveWindowType type,
     required bool visible,
     String? announceString,
-  }) : _wrapped = $js.AssistiveWindowProperties()
-          ..type = type.toJS
-          ..visible = visible
-          ..announceString = announceString;
+  }) : _wrapped = $js.AssistiveWindowProperties(
+          type: type.toJS,
+          visible: visible,
+          announceString: announceString,
+        );
 
   final $js.AssistiveWindowProperties _wrapped;
 
   $js.AssistiveWindowProperties get toJS => _wrapped;
-
-  AssistiveWindowType get type => AssistiveWindowType.fromJS(_wrapped.type);
-  set type(AssistiveWindowType v) {
-    _wrapped.type = v.toJS;
-  }
-
-  /// Sets true to show AssistiveWindow, sets false to hide.
-  bool get visible => _wrapped.visible;
-  set visible(bool v) {
-    _wrapped.visible = v;
-  }
-
-  /// Strings for ChromeVox to announce.
-  String? get announceString => _wrapped.announceString;
-  set announceString(String? v) {
-    _wrapped.announceString = v;
-  }
 }
 
 class MenuParameters {
@@ -670,29 +550,14 @@ class MenuParameters {
   MenuParameters({
     required String engineID,
     required List<MenuItem> items,
-  }) : _wrapped = $js.MenuParameters()
-          ..engineID = engineID
-          ..items = items.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.MenuParameters(
+          engineID: engineID,
+          items: items.toJSArray((e) => e.toJS),
+        );
 
   final $js.MenuParameters _wrapped;
 
   $js.MenuParameters get toJS => _wrapped;
-
-  /// ID of the engine to use.
-  String get engineID => _wrapped.engineID;
-  set engineID(String v) {
-    _wrapped.engineID = v;
-  }
-
-  /// MenuItems to add or update. They will be added in the order they exist in
-  /// the array.
-  List<MenuItem> get items => _wrapped.items.toDart
-      .cast<$js.MenuItem>()
-      .map((e) => MenuItem.fromJS(e))
-      .toList();
-  set items(List<MenuItem> v) {
-    _wrapped.items = v.toJSArray((e) => e.toJS);
-  }
 }
 
 class OnSurroundingTextChangedSurroundingInfo {

@@ -249,34 +249,14 @@ class ClientCertificateInfo {
   ClientCertificateInfo({
     required List<ByteBuffer> certificateChain,
     required List<Algorithm> supportedAlgorithms,
-  }) : _wrapped = $js.ClientCertificateInfo()
-          ..certificateChain = certificateChain.toJSArray((e) => e.toJS)
-          ..supportedAlgorithms = supportedAlgorithms.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.ClientCertificateInfo(
+          certificateChain: certificateChain.toJSArray((e) => e.toJS),
+          supportedAlgorithms: supportedAlgorithms.toJSArray((e) => e.toJS),
+        );
 
   final $js.ClientCertificateInfo _wrapped;
 
   $js.ClientCertificateInfo get toJS => _wrapped;
-
-  /// The array must contain the DER encoding of the X.509 client certificate
-  /// as its first element.
-  /// This must include exactly one certificate.
-  List<ByteBuffer> get certificateChain => _wrapped.certificateChain.toDart
-      .cast<JSArrayBuffer>()
-      .map((e) => e.toDart)
-      .toList();
-  set certificateChain(List<ByteBuffer> v) {
-    _wrapped.certificateChain = v.toJSArray((e) => e.toJS);
-  }
-
-  /// All algorithms supported for this certificate. The extension will only be
-  /// asked for signatures using one of these algorithms.
-  List<Algorithm> get supportedAlgorithms => _wrapped.supportedAlgorithms.toDart
-      .cast<$js.Algorithm>()
-      .map((e) => Algorithm.fromJS(e))
-      .toList();
-  set supportedAlgorithms(List<Algorithm> v) {
-    _wrapped.supportedAlgorithms = v.toJSArray((e) => e.toJS);
-  }
 }
 
 class SetCertificatesDetails {
@@ -286,39 +266,15 @@ class SetCertificatesDetails {
     int? certificatesRequestId,
     Error? error,
     required List<ClientCertificateInfo> clientCertificates,
-  }) : _wrapped = $js.SetCertificatesDetails()
-          ..certificatesRequestId = certificatesRequestId
-          ..error = error?.toJS
-          ..clientCertificates = clientCertificates.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.SetCertificatesDetails(
+          certificatesRequestId: certificatesRequestId,
+          error: error?.toJS,
+          clientCertificates: clientCertificates.toJSArray((e) => e.toJS),
+        );
 
   final $js.SetCertificatesDetails _wrapped;
 
   $js.SetCertificatesDetails get toJS => _wrapped;
-
-  /// When called in response to [onCertificatesUpdateRequested], should
-  /// contain the received `certificatesRequestId` value. Otherwise,
-  /// should be unset.
-  int? get certificatesRequestId => _wrapped.certificatesRequestId;
-  set certificatesRequestId(int? v) {
-    _wrapped.certificatesRequestId = v;
-  }
-
-  /// Error that occurred while extracting the certificates, if any. This error
-  /// will be surfaced to the user when appropriate.
-  Error? get error => _wrapped.error?.let(Error.fromJS);
-  set error(Error? v) {
-    _wrapped.error = v?.toJS;
-  }
-
-  /// List of currently available client certificates.
-  List<ClientCertificateInfo> get clientCertificates =>
-      _wrapped.clientCertificates.toDart
-          .cast<$js.ClientCertificateInfo>()
-          .map((e) => ClientCertificateInfo.fromJS(e))
-          .toList();
-  set clientCertificates(List<ClientCertificateInfo> v) {
-    _wrapped.clientCertificates = v.toJSArray((e) => e.toJS);
-  }
 }
 
 class CertificatesUpdateRequest {
@@ -390,33 +346,15 @@ class ReportSignatureDetails {
     required int signRequestId,
     Error? error,
     ByteBuffer? signature,
-  }) : _wrapped = $js.ReportSignatureDetails()
-          ..signRequestId = signRequestId
-          ..error = error?.toJS
-          ..signature = signature?.toJS;
+  }) : _wrapped = $js.ReportSignatureDetails(
+          signRequestId: signRequestId,
+          error: error?.toJS,
+          signature: signature?.toJS,
+        );
 
   final $js.ReportSignatureDetails _wrapped;
 
   $js.ReportSignatureDetails get toJS => _wrapped;
-
-  /// Request identifier that was received via the [onSignatureRequested]
-  /// event.
-  int get signRequestId => _wrapped.signRequestId;
-  set signRequestId(int v) {
-    _wrapped.signRequestId = v;
-  }
-
-  /// Error that occurred while generating the signature, if any.
-  Error? get error => _wrapped.error?.let(Error.fromJS);
-  set error(Error? v) {
-    _wrapped.error = v?.toJS;
-  }
-
-  /// The signature, if successfully generated.
-  ByteBuffer? get signature => _wrapped.signature?.toDart;
-  set signature(ByteBuffer? v) {
-    _wrapped.signature = v?.toJS;
-  }
 }
 
 class CertificateInfo {
@@ -505,46 +443,16 @@ class RequestPinDetails {
     PinRequestType? requestType,
     PinRequestErrorType? errorType,
     int? attemptsLeft,
-  }) : _wrapped = $js.RequestPinDetails()
-          ..signRequestId = signRequestId
-          ..requestType = requestType?.toJS
-          ..errorType = errorType?.toJS
-          ..attemptsLeft = attemptsLeft;
+  }) : _wrapped = $js.RequestPinDetails(
+          signRequestId: signRequestId,
+          requestType: requestType?.toJS,
+          errorType: errorType?.toJS,
+          attemptsLeft: attemptsLeft,
+        );
 
   final $js.RequestPinDetails _wrapped;
 
   $js.RequestPinDetails get toJS => _wrapped;
-
-  /// The ID given by Chrome in SignRequest.
-  int get signRequestId => _wrapped.signRequestId;
-  set signRequestId(int v) {
-    _wrapped.signRequestId = v;
-  }
-
-  /// The type of code requested. Default is PIN.
-  PinRequestType? get requestType =>
-      _wrapped.requestType?.let(PinRequestType.fromJS);
-  set requestType(PinRequestType? v) {
-    _wrapped.requestType = v?.toJS;
-  }
-
-  /// The error template displayed to the user. This should be set if the
-  /// previous request failed, to notify the user of the failure reason.
-  PinRequestErrorType? get errorType =>
-      _wrapped.errorType?.let(PinRequestErrorType.fromJS);
-  set errorType(PinRequestErrorType? v) {
-    _wrapped.errorType = v?.toJS;
-  }
-
-  /// The number of attempts left. This is provided so that any UI can present
-  /// this information to the user. Chrome is not expected to enforce this,
-  /// instead stopPinRequest should be called by the extension with
-  /// errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
-  /// exceeded.
-  int? get attemptsLeft => _wrapped.attemptsLeft;
-  set attemptsLeft(int? v) {
-    _wrapped.attemptsLeft = v;
-  }
 }
 
 class StopPinRequestDetails {
@@ -553,28 +461,14 @@ class StopPinRequestDetails {
   StopPinRequestDetails({
     required int signRequestId,
     PinRequestErrorType? errorType,
-  }) : _wrapped = $js.StopPinRequestDetails()
-          ..signRequestId = signRequestId
-          ..errorType = errorType?.toJS;
+  }) : _wrapped = $js.StopPinRequestDetails(
+          signRequestId: signRequestId,
+          errorType: errorType?.toJS,
+        );
 
   final $js.StopPinRequestDetails _wrapped;
 
   $js.StopPinRequestDetails get toJS => _wrapped;
-
-  /// The ID given by Chrome in SignRequest.
-  int get signRequestId => _wrapped.signRequestId;
-  set signRequestId(int v) {
-    _wrapped.signRequestId = v;
-  }
-
-  /// The error template. If present it is displayed to user. Intended to
-  /// contain the reason for stopping the flow if it was caused by an error,
-  /// e.g. MAX_ATTEMPTS_EXCEEDED.
-  PinRequestErrorType? get errorType =>
-      _wrapped.errorType?.let(PinRequestErrorType.fromJS);
-  set errorType(PinRequestErrorType? v) {
-    _wrapped.errorType = v?.toJS;
-  }
 }
 
 class PinResponseDetails {

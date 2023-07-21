@@ -171,38 +171,22 @@ enum AccountStatus {
 class AccountInfo {
   AccountInfo.fromJS(this._wrapped);
 
-  AccountInfo({required String id}) : _wrapped = $js.AccountInfo()..id = id;
+  AccountInfo({required String id}) : _wrapped = $js.AccountInfo(id: id);
 
   final $js.AccountInfo _wrapped;
 
   $js.AccountInfo get toJS => _wrapped;
-
-  /// A unique identifier for the account. This ID will not change
-  /// for the lifetime of the account.
-  String get id => _wrapped.id;
-  set id(String v) {
-    _wrapped.id = v;
-  }
 }
 
 class ProfileDetails {
   ProfileDetails.fromJS(this._wrapped);
 
   ProfileDetails({AccountStatus? accountStatus})
-      : _wrapped = $js.ProfileDetails()..accountStatus = accountStatus?.toJS;
+      : _wrapped = $js.ProfileDetails(accountStatus: accountStatus?.toJS);
 
   final $js.ProfileDetails _wrapped;
 
   $js.ProfileDetails get toJS => _wrapped;
-
-  /// A status of the primary account signed into a profile whose
-  /// `ProfileUserInfo` should be returned. Defaults to
-  /// `SYNC` account status.
-  AccountStatus? get accountStatus =>
-      _wrapped.accountStatus?.let(AccountStatus.fromJS);
-  set accountStatus(AccountStatus? v) {
-    _wrapped.accountStatus = v?.toJS;
-  }
 }
 
 class ProfileUserInfo {
@@ -246,69 +230,27 @@ class TokenDetails {
     AccountInfo? account,
     List<String>? scopes,
     bool? enableGranularPermissions,
-  }) : _wrapped = $js.TokenDetails()
-          ..interactive = interactive
-          ..account = account?.toJS
-          ..scopes = scopes?.toJSArray((e) => e)
-          ..enableGranularPermissions = enableGranularPermissions;
+  }) : _wrapped = $js.TokenDetails(
+          interactive: interactive,
+          account: account?.toJS,
+          scopes: scopes?.toJSArray((e) => e),
+          enableGranularPermissions: enableGranularPermissions,
+        );
 
   final $js.TokenDetails _wrapped;
 
   $js.TokenDetails get toJS => _wrapped;
-
-  /// Fetching a token may require the user to sign-in to Chrome, or
-  /// approve the application's requested scopes. If the interactive
-  /// flag is `true`, `getAuthToken` will
-  /// prompt the user as necessary. When the flag is
-  /// `false` or omitted, `getAuthToken` will
-  /// return failure any time a prompt would be required.
-  bool? get interactive => _wrapped.interactive;
-  set interactive(bool? v) {
-    _wrapped.interactive = v;
-  }
-
-  /// The account ID whose token should be returned. If not specified, the
-  /// function will use an account from the Chrome profile: the Sync account if
-  /// there is one, or otherwise the first Google web account.
-  AccountInfo? get account => _wrapped.account?.let(AccountInfo.fromJS);
-  set account(AccountInfo? v) {
-    _wrapped.account = v?.toJS;
-  }
-
-  /// A list of OAuth2 scopes to request.
-  ///
-  /// When the `scopes` field is present, it overrides the
-  /// list of scopes specified in manifest.json.
-  List<String>? get scopes =>
-      _wrapped.scopes?.toDart.cast<String>().map((e) => e).toList();
-  set scopes(List<String>? v) {
-    _wrapped.scopes = v?.toJSArray((e) => e);
-  }
-
-  /// The `enableGranularPermissions` flag allows extensions to
-  /// opt-in early to the granular permissions consent screen, in which
-  /// requested permissions are granted or denied individually.
-  bool? get enableGranularPermissions => _wrapped.enableGranularPermissions;
-  set enableGranularPermissions(bool? v) {
-    _wrapped.enableGranularPermissions = v;
-  }
 }
 
 class InvalidTokenDetails {
   InvalidTokenDetails.fromJS(this._wrapped);
 
   InvalidTokenDetails({required String token})
-      : _wrapped = $js.InvalidTokenDetails()..token = token;
+      : _wrapped = $js.InvalidTokenDetails(token: token);
 
   final $js.InvalidTokenDetails _wrapped;
 
   $js.InvalidTokenDetails get toJS => _wrapped;
-
-  /// The specific token that should be removed from the cache.
-  String get token => _wrapped.token;
-  set token(String v) {
-    _wrapped.token = v;
-  }
 }
 
 class WebAuthFlowDetails {
@@ -319,67 +261,16 @@ class WebAuthFlowDetails {
     bool? interactive,
     bool? abortOnLoadForNonInteractive,
     int? timeoutMsForNonInteractive,
-  }) : _wrapped = $js.WebAuthFlowDetails()
-          ..url = url
-          ..interactive = interactive
-          ..abortOnLoadForNonInteractive = abortOnLoadForNonInteractive
-          ..timeoutMsForNonInteractive = timeoutMsForNonInteractive;
+  }) : _wrapped = $js.WebAuthFlowDetails(
+          url: url,
+          interactive: interactive,
+          abortOnLoadForNonInteractive: abortOnLoadForNonInteractive,
+          timeoutMsForNonInteractive: timeoutMsForNonInteractive,
+        );
 
   final $js.WebAuthFlowDetails _wrapped;
 
   $js.WebAuthFlowDetails get toJS => _wrapped;
-
-  /// The URL that initiates the auth flow.
-  String get url => _wrapped.url;
-  set url(String v) {
-    _wrapped.url = v;
-  }
-
-  /// Whether to launch auth flow in interactive mode.
-  ///
-  /// Since some auth flows may immediately redirect to a result URL,
-  /// `launchWebAuthFlow` hides its web view until the first
-  /// navigation either redirects to the final URL, or finishes loading a page
-  /// meant to be displayed.
-  ///
-  /// If the `interactive` flag is `true`, the window
-  /// will be displayed when a page load completes. If the flag is
-  /// `false` or omitted, `launchWebAuthFlow` will return
-  /// with an error if the initial navigation does not complete the flow.
-  ///
-  /// For flows that use JavaScript for redirection,
-  /// `abortOnLoadForNonInteractive` can be set to `false`
-  /// in combination with setting `timeoutMsForNonInteractive` to give
-  /// the page a chance to perform any redirects.
-  bool? get interactive => _wrapped.interactive;
-  set interactive(bool? v) {
-    _wrapped.interactive = v;
-  }
-
-  /// Whether to terminate `launchWebAuthFlow` for non-interactive
-  /// requests after the page loads. This parameter does not affect interactive
-  /// flows.
-  ///
-  /// When set to `true` (default) the flow will terminate
-  /// immediately after the page loads. When set to `false`, the
-  /// flow will only terminate after the
-  /// `timeoutMsForNonInteractive` passes. This is useful for
-  /// identity providers that use JavaScript to perform redirections after the
-  /// page loads.
-  bool? get abortOnLoadForNonInteractive =>
-      _wrapped.abortOnLoadForNonInteractive;
-  set abortOnLoadForNonInteractive(bool? v) {
-    _wrapped.abortOnLoadForNonInteractive = v;
-  }
-
-  /// The maximum amount of time, in miliseconds,
-  /// `launchWebAuthFlow` is allowed to run in non-interactive mode
-  /// in total. Only has an effect if `interactive` is
-  /// `false`.
-  int? get timeoutMsForNonInteractive => _wrapped.timeoutMsForNonInteractive;
-  set timeoutMsForNonInteractive(int? v) {
-    _wrapped.timeoutMsForNonInteractive = v;
-  }
 }
 
 class GetAuthTokenResult {

@@ -1,4 +1,5 @@
 import 'package:chrome_extension_generator/src/chrome_type.dart';
+import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:code_builder/code_builder.dart';
 import 'chrome_model.dart' as model;
@@ -19,10 +20,15 @@ class _GeneratorBase {
   _GeneratorBase(this.api);
 
   bool isDictionaryAnonymous(model.Dictionary dictionary) {
-    return dictionary.isAnonymous;
     if (dictionary.isAnonymous) return true;
 
-    var onlyUsedInInput;
+    var isInputType = api.inputTypes.any((e) => e is DictionaryType && e.name == dictionary.name);
+    var isOutputType = api.outputTypes.any((e) => e is DictionaryType && e.name == dictionary.name);
+
+    if (isInputType && isOutputType) {
+      //throw UnimplementedError('Type used both in input and output: ${dictionary.name}/${api.name}');
+    }
+    return isInputType;
     // Loop in Events, Methods return type, Properties
     //   Loop inside all types
   }

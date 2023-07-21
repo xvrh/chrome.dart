@@ -24,17 +24,18 @@ typedef Disposition = String;
 
 @JS()
 @staticInterop
-class QueryInfo {}
+@anonymous
+class QueryInfo {
+  external factory QueryInfo({
+    /// String to query with the default search provider.
+    String text,
 
-extension QueryInfoExtension on QueryInfo {
-  /// String to query with the default search provider.
-  external String text;
+    /// Location where search results should be displayed.
+    /// `CURRENT_TAB` is the default.
+    Disposition? disposition,
 
-  /// Location where search results should be displayed.
-  /// `CURRENT_TAB` is the default.
-  external Disposition? disposition;
-
-  /// Location where search results should be displayed.
-  /// `tabId` cannot be used with `disposition`.
-  external int? tabId;
+    /// Location where search results should be displayed.
+    /// `tabId` cannot be used with `disposition`.
+    int? tabId,
+  });
 }

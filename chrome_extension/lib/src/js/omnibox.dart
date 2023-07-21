@@ -61,56 +61,58 @@ typedef OnInputEnteredDisposition = String;
 
 @JS()
 @staticInterop
-class MatchClassification {}
+@anonymous
+class MatchClassification {
+  external factory MatchClassification({
+    int offset,
 
-extension MatchClassificationExtension on MatchClassification {
-  external int offset;
-
-  /// The style type
-  external DescriptionStyleType type;
-
-  external int? length;
+    /// The style type
+    DescriptionStyleType type,
+    int? length,
+  });
 }
 
 @JS()
 @staticInterop
-class SuggestResult {}
+@anonymous
+class SuggestResult {
+  external factory SuggestResult({
+    /// The text that is put into the URL bar, and that is sent to the extension
+    /// when the user chooses this entry.
+    String content,
 
-extension SuggestResultExtension on SuggestResult {
-  /// The text that is put into the URL bar, and that is sent to the extension
-  /// when the user chooses this entry.
-  external String content;
+    /// The text that is displayed in the URL dropdown. Can contain XML-style
+    /// markup for styling. The supported tags are 'url' (for a literal URL),
+    /// 'match' (for highlighting text that matched what the user's query), and
+    /// 'dim' (for dim helper text). The styles can be nested, eg.
+    /// <dim><match>dimmed match</match></dim>. You must escape the five
+    /// predefined entities to display them as text:
+    /// stackoverflow.com/a/1091953/89484
+    String description,
 
-  /// The text that is displayed in the URL dropdown. Can contain XML-style
-  /// markup for styling. The supported tags are 'url' (for a literal URL),
-  /// 'match' (for highlighting text that matched what the user's query), and
-  /// 'dim' (for dim helper text). The styles can be nested, eg.
-  /// <dim><match>dimmed match</match></dim>. You must escape the five
-  /// predefined entities to display them as text:
-  /// stackoverflow.com/a/1091953/89484
-  external String description;
+    /// Whether the suggest result can be deleted by the user.
+    bool? deletable,
 
-  /// Whether the suggest result can be deleted by the user.
-  external bool? deletable;
-
-  /// An array of style ranges for the description, as provided by the
-  /// extension.
-  external JSArray? descriptionStyles;
+    /// An array of style ranges for the description, as provided by the
+    /// extension.
+    JSArray? descriptionStyles,
+  });
 }
 
 @JS()
 @staticInterop
-class DefaultSuggestResult {}
+@anonymous
+class DefaultSuggestResult {
+  external factory DefaultSuggestResult({
+    /// The text that is displayed in the URL dropdown. Can contain XML-style
+    /// markup for styling. The supported tags are 'url' (for a literal URL),
+    /// 'match' (for highlighting text that matched what the user's query), and
+    /// 'dim' (for dim helper text). The styles can be nested, eg.
+    /// <dim><match>dimmed match</match></dim>.
+    String description,
 
-extension DefaultSuggestResultExtension on DefaultSuggestResult {
-  /// The text that is displayed in the URL dropdown. Can contain XML-style
-  /// markup for styling. The supported tags are 'url' (for a literal URL),
-  /// 'match' (for highlighting text that matched what the user's query), and
-  /// 'dim' (for dim helper text). The styles can be nested, eg.
-  /// <dim><match>dimmed match</match></dim>.
-  external String description;
-
-  /// An array of style ranges for the description, as provided by the
-  /// extension.
-  external JSArray? descriptionStyles;
+    /// An array of style ranges for the description, as provided by the
+    /// extension.
+    JSArray? descriptionStyles,
+  });
 }

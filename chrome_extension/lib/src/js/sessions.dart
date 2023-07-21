@@ -43,13 +43,14 @@ extension JSSessionsExtension on JSSessions {
 
 @JS()
 @staticInterop
-class Filter {}
-
-extension FilterExtension on Filter {
-  /// The maximum number of entries to be fetched in the requested list. Omit
-  /// this parameter to fetch the maximum number of entries
-  /// ([sessions.MAX_SESSION_RESULTS]).
-  external int? maxResults;
+@anonymous
+class Filter {
+  external factory Filter(
+      {
+      /// The maximum number of entries to be fetched in the requested list. Omit
+      /// this parameter to fetch the maximum number of entries
+      /// ([sessions.MAX_SESSION_RESULTS]).
+      int? maxResults});
 }
 
 @JS()

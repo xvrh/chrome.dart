@@ -11,6 +11,7 @@ void main() {
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
   test('chrome.action', () => runTest('test/apis/action.dart'));
   test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
+  test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
 }
 
 Future<void> runTest(String filePath) async {

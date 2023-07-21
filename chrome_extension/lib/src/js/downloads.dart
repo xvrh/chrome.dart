@@ -219,14 +219,15 @@ typedef SuggestFilenameCallback = JSFunction;
 
 @JS()
 @staticInterop
-class HeaderNameValuePair {}
+@anonymous
+class HeaderNameValuePair {
+  external factory HeaderNameValuePair({
+    /// Name of the HTTP header.
+    String name,
 
-extension HeaderNameValuePairExtension on HeaderNameValuePair {
-  /// Name of the HTTP header.
-  external String name;
-
-  /// Value of the HTTP header.
-  external String value;
+    /// Value of the HTTP header.
+    String value,
+  });
 }
 
 @JS()
@@ -248,37 +249,38 @@ extension FilenameSuggestionExtension on FilenameSuggestion {
 
 @JS()
 @staticInterop
-class DownloadOptions {}
+@anonymous
+class DownloadOptions {
+  external factory DownloadOptions({
+    /// The URL to download.
+    String url,
 
-extension DownloadOptionsExtension on DownloadOptions {
-  /// The URL to download.
-  external String url;
+    /// A file path relative to the Downloads directory to contain the downloaded
+    /// file, possibly containing subdirectories. Absolute paths, empty paths,
+    /// and paths containing back-references ".." will cause an error.
+    /// [onDeterminingFilename] allows suggesting a filename after the file's
+    /// MIME type and a tentative filename have been determined.
+    String? filename,
 
-  /// A file path relative to the Downloads directory to contain the downloaded
-  /// file, possibly containing subdirectories. Absolute paths, empty paths,
-  /// and paths containing back-references ".." will cause an error.
-  /// [onDeterminingFilename] allows suggesting a filename after the file's
-  /// MIME type and a tentative filename have been determined.
-  external String? filename;
+    /// The action to take if `filename` already exists.
+    FilenameConflictAction? conflictAction,
 
-  /// The action to take if `filename` already exists.
-  external FilenameConflictAction? conflictAction;
+    /// Use a file-chooser to allow the user to select a filename regardless of
+    /// whether `filename` is set or already exists.
+    bool? saveAs,
 
-  /// Use a file-chooser to allow the user to select a filename regardless of
-  /// whether `filename` is set or already exists.
-  external bool? saveAs;
+    /// The HTTP method to use if the URL uses the HTTP[S] protocol.
+    HttpMethod? method,
 
-  /// The HTTP method to use if the URL uses the HTTP[S] protocol.
-  external HttpMethod? method;
+    /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
+    /// protocol. Each header is represented as a dictionary containing the keys
+    /// `name` and either `value` or
+    /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
+    JSArray? headers,
 
-  /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
-  /// protocol. Each header is represented as a dictionary containing the keys
-  /// `name` and either `value` or
-  /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
-  external JSArray? headers;
-
-  /// Post body.
-  external String? body;
+    /// Post body.
+    String? body,
+  });
 }
 
 @JS()
@@ -386,113 +388,114 @@ extension DownloadItemExtension on DownloadItem {
 
 @JS()
 @staticInterop
-class DownloadQuery {}
+@anonymous
+class DownloadQuery {
+  external factory DownloadQuery({
+    /// This array of search terms limits results to [DownloadItem] whose
+    /// `filename` or `url` or `finalUrl`
+    /// contain all of the search terms that do not begin with a dash '-' and
+    /// none of the search terms that do begin with a dash.
+    JSArray? query,
 
-extension DownloadQueryExtension on DownloadQuery {
-  /// This array of search terms limits results to [DownloadItem] whose
-  /// `filename` or `url` or `finalUrl`
-  /// contain all of the search terms that do not begin with a dash '-' and
-  /// none of the search terms that do begin with a dash.
-  external JSArray? query;
+    /// Limits results to [DownloadItem] that
+    /// started before the given ms since the epoch.
+    String? startedBefore,
 
-  /// Limits results to [DownloadItem] that
-  /// started before the given ms since the epoch.
-  external String? startedBefore;
+    /// Limits results to [DownloadItem] that
+    /// started after the given ms since the epoch.
+    String? startedAfter,
 
-  /// Limits results to [DownloadItem] that
-  /// started after the given ms since the epoch.
-  external String? startedAfter;
+    /// Limits results to [DownloadItem] that ended before the given ms since the
+    /// epoch.
+    String? endedBefore,
 
-  /// Limits results to [DownloadItem] that ended before the given ms since the
-  /// epoch.
-  external String? endedBefore;
+    /// Limits results to [DownloadItem] that ended after the given ms since the
+    /// epoch.
+    String? endedAfter,
 
-  /// Limits results to [DownloadItem] that ended after the given ms since the
-  /// epoch.
-  external String? endedAfter;
+    /// Limits results to [DownloadItem] whose
+    /// `totalBytes` is greater than the given integer.
+    double? totalBytesGreater,
 
-  /// Limits results to [DownloadItem] whose
-  /// `totalBytes` is greater than the given integer.
-  external double? totalBytesGreater;
+    /// Limits results to [DownloadItem] whose
+    /// `totalBytes` is less than the given integer.
+    double? totalBytesLess,
 
-  /// Limits results to [DownloadItem] whose
-  /// `totalBytes` is less than the given integer.
-  external double? totalBytesLess;
+    /// Limits results to [DownloadItem] whose
+    /// `filename` matches the given regular expression.
+    String? filenameRegex,
 
-  /// Limits results to [DownloadItem] whose
-  /// `filename` matches the given regular expression.
-  external String? filenameRegex;
+    /// Limits results to [DownloadItem] whose
+    /// `url` matches the given regular expression.
+    String? urlRegex,
 
-  /// Limits results to [DownloadItem] whose
-  /// `url` matches the given regular expression.
-  external String? urlRegex;
+    /// Limits results to [DownloadItem] whose
+    /// `finalUrl` matches the given regular expression.
+    String? finalUrlRegex,
 
-  /// Limits results to [DownloadItem] whose
-  /// `finalUrl` matches the given regular expression.
-  external String? finalUrlRegex;
+    /// The maximum number of matching [DownloadItem] returned. Defaults to
+    /// 1000. Set to 0 in order to return all matching [DownloadItem]. See
+    /// [search] for how to page through results.
+    int? limit,
 
-  /// The maximum number of matching [DownloadItem] returned. Defaults to
-  /// 1000. Set to 0 in order to return all matching [DownloadItem]. See
-  /// [search] for how to page through results.
-  external int? limit;
+    /// Set elements of this array to [DownloadItem] properties in order to
+    /// sort search results. For example, setting
+    /// `orderBy=['startTime']` sorts the [DownloadItem] by their
+    /// start time in ascending order. To specify descending order, prefix with a
+    /// hyphen: '-startTime'.
+    JSArray? orderBy,
 
-  /// Set elements of this array to [DownloadItem] properties in order to
-  /// sort search results. For example, setting
-  /// `orderBy=['startTime']` sorts the [DownloadItem] by their
-  /// start time in ascending order. To specify descending order, prefix with a
-  /// hyphen: '-startTime'.
-  external JSArray? orderBy;
+    /// The `id` of the [DownloadItem] to query.
+    int? id,
 
-  /// The `id` of the [DownloadItem] to query.
-  external int? id;
+    /// The absolute URL that this download initiated from, before any
+    /// redirects.
+    String? url,
 
-  /// The absolute URL that this download initiated from, before any
-  /// redirects.
-  external String? url;
+    /// The absolute URL that this download is being made from, after all
+    /// redirects.
+    String? finalUrl,
 
-  /// The absolute URL that this download is being made from, after all
-  /// redirects.
-  external String? finalUrl;
+    /// Absolute local path.
+    String? filename,
 
-  /// Absolute local path.
-  external String? filename;
+    /// Indication of whether this download is thought to be safe or known to be
+    /// suspicious.
+    DangerType? danger,
 
-  /// Indication of whether this download is thought to be safe or known to be
-  /// suspicious.
-  external DangerType? danger;
+    /// The file's MIME type.
+    String? mime,
 
-  /// The file's MIME type.
-  external String? mime;
+    /// The time when the download began in ISO 8601 format.
+    String? startTime,
 
-  /// The time when the download began in ISO 8601 format.
-  external String? startTime;
+    /// The time when the download ended in ISO 8601 format.
+    String? endTime,
 
-  /// The time when the download ended in ISO 8601 format.
-  external String? endTime;
+    /// Indicates whether the download is progressing, interrupted, or complete.
+    State? state,
 
-  /// Indicates whether the download is progressing, interrupted, or complete.
-  external State? state;
+    /// True if the download has stopped reading data from the host, but kept the
+    /// connection open.
+    bool? paused,
 
-  /// True if the download has stopped reading data from the host, but kept the
-  /// connection open.
-  external bool? paused;
+    /// Why a download was interrupted.
+    InterruptReason? error,
 
-  /// Why a download was interrupted.
-  external InterruptReason? error;
+    /// Number of bytes received so far from the host, without considering file
+    /// compression.
+    double? bytesReceived,
 
-  /// Number of bytes received so far from the host, without considering file
-  /// compression.
-  external double? bytesReceived;
+    /// Number of bytes in the whole file, without considering file compression,
+    /// or -1 if unknown.
+    double? totalBytes,
 
-  /// Number of bytes in the whole file, without considering file compression,
-  /// or -1 if unknown.
-  external double? totalBytes;
+    /// Number of bytes in the whole file post-decompression, or -1 if unknown.
+    double? fileSize,
 
-  /// Number of bytes in the whole file post-decompression, or -1 if unknown.
-  external double? fileSize;
-
-  /// Whether the downloaded file exists;
-  external bool? exists;
+    /// Whether the downloaded file exists;
+    bool? exists,
+  });
 }
 
 @JS()
@@ -579,21 +582,23 @@ extension DownloadDeltaExtension on DownloadDelta {
 
 @JS()
 @staticInterop
-class GetFileIconOptions {}
-
-extension GetFileIconOptionsExtension on GetFileIconOptions {
-  /// The size of the returned icon. The icon will be square with dimensions
-  /// size * size pixels. The default and largest size for the icon is 32x32
-  /// pixels. The only supported sizes are 16 and 32. It is an error to specify
-  /// any other size.
-  external int? size;
+@anonymous
+class GetFileIconOptions {
+  external factory GetFileIconOptions(
+      {
+      /// The size of the returned icon. The icon will be square with dimensions
+      /// size * size pixels. The default and largest size for the icon is 32x32
+      /// pixels. The only supported sizes are 16 and 32. It is an error to specify
+      /// any other size.
+      int? size});
 }
 
 @JS()
 @staticInterop
-class UiOptions {}
-
-extension UiOptionsExtension on UiOptions {
-  /// Enable or disable the download UI.
-  external bool enabled;
+@anonymous
+class UiOptions {
+  external factory UiOptions(
+      {
+      /// Enable or disable the download UI.
+      bool enabled});
 }

@@ -38,17 +38,18 @@ typedef Reason = String;
 
 @JS()
 @staticInterop
-class CreateParameters {}
+@anonymous
+class CreateParameters {
+  external factory CreateParameters({
+    /// The reason(s) the extension is creating the offscreen document.
+    JSArray reasons,
 
-extension CreateParametersExtension on CreateParameters {
-  /// The reason(s) the extension is creating the offscreen document.
-  external JSArray reasons;
+    /// The (relative) URL to load in the document.
+    String url,
 
-  /// The (relative) URL to load in the document.
-  external String url;
-
-  /// A developer-provided string that explains, in more detail, the need for
-  /// the background context. The user agent _may_ use this in display to the
-  /// user.
-  external String justification;
+    /// A developer-provided string that explains, in more detail, the need for
+    /// the background context. The user agent _may_ use this in display to the
+    /// user.
+    String justification,
+  });
 }

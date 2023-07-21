@@ -117,35 +117,37 @@ typedef SignCallback = JSFunction;
 
 @JS()
 @staticInterop
-class ClientCertificateInfo {}
+@anonymous
+class ClientCertificateInfo {
+  external factory ClientCertificateInfo({
+    /// The array must contain the DER encoding of the X.509 client certificate
+    /// as its first element.
+    /// This must include exactly one certificate.
+    JSArray certificateChain,
 
-extension ClientCertificateInfoExtension on ClientCertificateInfo {
-  /// The array must contain the DER encoding of the X.509 client certificate
-  /// as its first element.
-  /// This must include exactly one certificate.
-  external JSArray certificateChain;
-
-  /// All algorithms supported for this certificate. The extension will only be
-  /// asked for signatures using one of these algorithms.
-  external JSArray supportedAlgorithms;
+    /// All algorithms supported for this certificate. The extension will only be
+    /// asked for signatures using one of these algorithms.
+    JSArray supportedAlgorithms,
+  });
 }
 
 @JS()
 @staticInterop
-class SetCertificatesDetails {}
+@anonymous
+class SetCertificatesDetails {
+  external factory SetCertificatesDetails({
+    /// When called in response to [onCertificatesUpdateRequested], should
+    /// contain the received `certificatesRequestId` value. Otherwise,
+    /// should be unset.
+    int? certificatesRequestId,
 
-extension SetCertificatesDetailsExtension on SetCertificatesDetails {
-  /// When called in response to [onCertificatesUpdateRequested], should
-  /// contain the received `certificatesRequestId` value. Otherwise,
-  /// should be unset.
-  external int? certificatesRequestId;
+    /// Error that occurred while extracting the certificates, if any. This error
+    /// will be surfaced to the user when appropriate.
+    Error? error,
 
-  /// Error that occurred while extracting the certificates, if any. This error
-  /// will be surfaced to the user when appropriate.
-  external Error? error;
-
-  /// List of currently available client certificates.
-  external JSArray clientCertificates;
+    /// List of currently available client certificates.
+    JSArray clientCertificates,
+  });
 }
 
 @JS()
@@ -178,18 +180,19 @@ extension SignatureRequestExtension on SignatureRequest {
 
 @JS()
 @staticInterop
-class ReportSignatureDetails {}
+@anonymous
+class ReportSignatureDetails {
+  external factory ReportSignatureDetails({
+    /// Request identifier that was received via the [onSignatureRequested]
+    /// event.
+    int signRequestId,
 
-extension ReportSignatureDetailsExtension on ReportSignatureDetails {
-  /// Request identifier that was received via the [onSignatureRequested]
-  /// event.
-  external int signRequestId;
+    /// Error that occurred while generating the signature, if any.
+    Error? error,
 
-  /// Error that occurred while generating the signature, if any.
-  external Error? error;
-
-  /// The signature, if successfully generated.
-  external JSArrayBuffer? signature;
+    /// The signature, if successfully generated.
+    JSArrayBuffer? signature,
+  });
 }
 
 @JS()
@@ -229,39 +232,41 @@ extension SignRequestExtension on SignRequest {
 
 @JS()
 @staticInterop
-class RequestPinDetails {}
+@anonymous
+class RequestPinDetails {
+  external factory RequestPinDetails({
+    /// The ID given by Chrome in SignRequest.
+    int signRequestId,
 
-extension RequestPinDetailsExtension on RequestPinDetails {
-  /// The ID given by Chrome in SignRequest.
-  external int signRequestId;
+    /// The type of code requested. Default is PIN.
+    PinRequestType? requestType,
 
-  /// The type of code requested. Default is PIN.
-  external PinRequestType? requestType;
+    /// The error template displayed to the user. This should be set if the
+    /// previous request failed, to notify the user of the failure reason.
+    PinRequestErrorType? errorType,
 
-  /// The error template displayed to the user. This should be set if the
-  /// previous request failed, to notify the user of the failure reason.
-  external PinRequestErrorType? errorType;
-
-  /// The number of attempts left. This is provided so that any UI can present
-  /// this information to the user. Chrome is not expected to enforce this,
-  /// instead stopPinRequest should be called by the extension with
-  /// errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
-  /// exceeded.
-  external int? attemptsLeft;
+    /// The number of attempts left. This is provided so that any UI can present
+    /// this information to the user. Chrome is not expected to enforce this,
+    /// instead stopPinRequest should be called by the extension with
+    /// errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
+    /// exceeded.
+    int? attemptsLeft,
+  });
 }
 
 @JS()
 @staticInterop
-class StopPinRequestDetails {}
+@anonymous
+class StopPinRequestDetails {
+  external factory StopPinRequestDetails({
+    /// The ID given by Chrome in SignRequest.
+    int signRequestId,
 
-extension StopPinRequestDetailsExtension on StopPinRequestDetails {
-  /// The ID given by Chrome in SignRequest.
-  external int signRequestId;
-
-  /// The error template. If present it is displayed to user. Intended to
-  /// contain the reason for stopping the flow if it was caused by an error,
-  /// e.g. MAX_ATTEMPTS_EXCEEDED.
-  external PinRequestErrorType? errorType;
+    /// The error template. If present it is displayed to user. Intended to
+    /// contain the reason for stopping the flow if it was caused by an error,
+    /// e.g. MAX_ATTEMPTS_EXCEEDED.
+    PinRequestErrorType? errorType,
+  });
 }
 
 @JS()

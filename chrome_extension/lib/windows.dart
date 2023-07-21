@@ -315,32 +315,14 @@ class QueryOptions {
   QueryOptions({
     bool? populate,
     List<WindowType>? windowTypes,
-  }) : _wrapped = $js.QueryOptions()
-          ..populate = populate
-          ..windowTypes = windowTypes?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.QueryOptions(
+          populate: populate,
+          windowTypes: windowTypes?.toJSArray((e) => e.toJS),
+        );
 
   final $js.QueryOptions _wrapped;
 
   $js.QueryOptions get toJS => _wrapped;
-
-  /// If true, the [windows.Window] object has a [tabs] property that contains a
-  /// list of the [tabs.Tab] objects. The `Tab` objects only contain the `url`,
-  /// `pendingUrl`, `title`, and `favIconUrl` properties if the extension's
-  /// manifest file includes the `"tabs"` permission.
-  bool? get populate => _wrapped.populate;
-  set populate(bool? v) {
-    _wrapped.populate = v;
-  }
-
-  /// If set, the [windows.Window] returned is filtered based on its type. If
-  /// unset, the default filter is set to `['normal', 'popup']`.
-  List<WindowType>? get windowTypes => _wrapped.windowTypes?.toDart
-      .cast<$js.WindowType>()
-      .map((e) => WindowType.fromJS(e))
-      .toList();
-  set windowTypes(List<WindowType>? v) {
-    _wrapped.windowTypes = v?.toJSArray((e) => e.toJS);
-  }
 }
 
 class CreateData {

@@ -46,14 +46,15 @@ extension JSPermissionsExtension on JSPermissions {
 
 @JS()
 @staticInterop
-class Permissions {}
+@anonymous
+class Permissions {
+  external factory Permissions({
+    /// List of named permissions (does not include hosts or origins).
+    JSArray? permissions,
 
-extension PermissionsExtension on Permissions {
-  /// List of named permissions (does not include hosts or origins).
-  external JSArray? permissions;
-
-  /// The list of host permissions, including those specified in the
-  /// `optional_permissions` or `permissions` keys in the manifest, and those
-  /// associated with [Content Scripts](content_scripts).
-  external JSArray? origins;
+    /// The list of host permissions, including those specified in the
+    /// `optional_permissions` or `permissions` keys in the manifest, and those
+    /// associated with [Content Scripts](content_scripts).
+    JSArray? origins,
+  });
 }

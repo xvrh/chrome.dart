@@ -85,23 +85,24 @@ extension AlarmExtension on Alarm {
 
 @JS()
 @staticInterop
-class AlarmCreateInfo {}
+@anonymous
+class AlarmCreateInfo {
+  external factory AlarmCreateInfo({
+    /// Time at which the alarm should fire, in milliseconds past the epoch
+    /// (e.g. `Date.now() + n`).
+    double? when,
 
-extension AlarmCreateInfoExtension on AlarmCreateInfo {
-  /// Time at which the alarm should fire, in milliseconds past the epoch
-  /// (e.g. `Date.now() + n`).
-  external double? when;
+    /// Length of time in minutes after which the `onAlarm` event
+    /// should fire.
+    ///
+    /// <!-- TODO: need minimum=0 -->
+    double? delayInMinutes,
 
-  /// Length of time in minutes after which the `onAlarm` event
-  /// should fire.
-  ///
-  /// <!-- TODO: need minimum=0 -->
-  external double? delayInMinutes;
-
-  /// If set, the onAlarm event should fire every [periodInMinutes]
-  /// minutes after the initial event specified by [when] or
-  /// [delayInMinutes].  If not set, the alarm will only fire once.
-  ///
-  /// <!-- TODO: need minimum=0 -->
-  external double? periodInMinutes;
+    /// If set, the onAlarm event should fire every [periodInMinutes]
+    /// minutes after the initial event specified by [when] or
+    /// [delayInMinutes].  If not set, the alarm will only fire once.
+    ///
+    /// <!-- TODO: need minimum=0 -->
+    double? periodInMinutes,
+  });
 }

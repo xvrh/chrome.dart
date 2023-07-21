@@ -514,18 +514,9 @@ class UninstallOptions {
   UninstallOptions.fromJS(this._wrapped);
 
   UninstallOptions({bool? showConfirmDialog})
-      : _wrapped = $js.UninstallOptions()
-          ..showConfirmDialog = showConfirmDialog;
+      : _wrapped = $js.UninstallOptions(showConfirmDialog: showConfirmDialog);
 
   final $js.UninstallOptions _wrapped;
 
   $js.UninstallOptions get toJS => _wrapped;
-
-  /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
-  /// to false for self uninstalls. If an extension uninstalls another
-  /// extension, this parameter is ignored and the dialog is always shown.
-  bool? get showConfirmDialog => _wrapped.showConfirmDialog;
-  set showConfirmDialog(bool? v) {
-    _wrapped.showConfirmDialog = v;
-  }
 }

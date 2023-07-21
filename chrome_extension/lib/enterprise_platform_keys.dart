@@ -333,17 +333,11 @@ class RegisterKeyOptions {
   RegisterKeyOptions.fromJS(this._wrapped);
 
   RegisterKeyOptions({required Algorithm algorithm})
-      : _wrapped = $js.RegisterKeyOptions()..algorithm = algorithm.toJS;
+      : _wrapped = $js.RegisterKeyOptions(algorithm: algorithm.toJS);
 
   final $js.RegisterKeyOptions _wrapped;
 
   $js.RegisterKeyOptions get toJS => _wrapped;
-
-  /// Which algorithm the registered key should use.
-  Algorithm get algorithm => Algorithm.fromJS(_wrapped.algorithm);
-  set algorithm(Algorithm v) {
-    _wrapped.algorithm = v.toJS;
-  }
 }
 
 class ChallengeKeyOptions {
@@ -353,35 +347,13 @@ class ChallengeKeyOptions {
     required ByteBuffer challenge,
     RegisterKeyOptions? registerKey,
     required Scope scope,
-  }) : _wrapped = $js.ChallengeKeyOptions()
-          ..challenge = challenge.toJS
-          ..registerKey = registerKey?.toJS
-          ..scope = scope.toJS;
+  }) : _wrapped = $js.ChallengeKeyOptions(
+          challenge: challenge.toJS,
+          registerKey: registerKey?.toJS,
+          scope: scope.toJS,
+        );
 
   final $js.ChallengeKeyOptions _wrapped;
 
   $js.ChallengeKeyOptions get toJS => _wrapped;
-
-  /// A challenge as emitted by the Verified Access Web API.
-  ByteBuffer get challenge => _wrapped.challenge.toDart;
-  set challenge(ByteBuffer v) {
-    _wrapped.challenge = v.toJS;
-  }
-
-  /// If present, registers the challenged key with the specified
-  /// `scope`'s token.  The key can then be associated with a
-  /// certificate and used like any other signing key.  Subsequent calls to
-  /// this function will then generate a new Enterprise Key in the specified
-  /// `scope`.
-  RegisterKeyOptions? get registerKey =>
-      _wrapped.registerKey?.let(RegisterKeyOptions.fromJS);
-  set registerKey(RegisterKeyOptions? v) {
-    _wrapped.registerKey = v?.toJS;
-  }
-
-  /// Which Enterprise Key to challenge.
-  Scope get scope => Scope.fromJS(_wrapped.scope);
-  set scope(Scope v) {
-    _wrapped.scope = v.toJS;
-  }
 }

@@ -224,101 +224,20 @@ class Parameters {
     List<String>? domainSearch,
     required List<String> dnsServers,
     String? reconnect,
-  }) : _wrapped = $js.Parameters()
-          ..address = address
-          ..broadcastAddress = broadcastAddress
-          ..mtu = mtu
-          ..exclusionList = exclusionList.toJSArray((e) => e)
-          ..inclusionList = inclusionList.toJSArray((e) => e)
-          ..domainSearch = domainSearch?.toJSArray((e) => e)
-          ..dnsServers = dnsServers.toJSArray((e) => e)
-          ..reconnect = reconnect;
+  }) : _wrapped = $js.Parameters(
+          address: address,
+          broadcastAddress: broadcastAddress,
+          mtu: mtu,
+          exclusionList: exclusionList.toJSArray((e) => e),
+          inclusionList: inclusionList.toJSArray((e) => e),
+          domainSearch: domainSearch?.toJSArray((e) => e),
+          dnsServers: dnsServers.toJSArray((e) => e),
+          reconnect: reconnect,
+        );
 
   final $js.Parameters _wrapped;
 
   $js.Parameters get toJS => _wrapped;
-
-  /// IP address for the VPN interface in CIDR notation.
-  /// IPv4 is currently the only supported mode.
-  String get address => _wrapped.address;
-  set address(String v) {
-    _wrapped.address = v;
-  }
-
-  /// Broadcast address for the VPN interface. (default: deduced
-  /// from IP address and mask)
-  String? get broadcastAddress => _wrapped.broadcastAddress;
-  set broadcastAddress(String? v) {
-    _wrapped.broadcastAddress = v;
-  }
-
-  /// MTU setting for the VPN interface. (default: 1500 bytes)
-  String? get mtu => _wrapped.mtu;
-  set mtu(String? v) {
-    _wrapped.mtu = v;
-  }
-
-  /// Exclude network traffic to the list of IP blocks in CIDR notation from
-  /// the tunnel. This can be used to bypass traffic to and from the VPN
-  /// server.
-  /// When many rules match a destination, the rule with the longest matching
-  /// prefix wins.
-  /// Entries that correspond to the same CIDR block are treated as duplicates.
-  /// Such duplicates in the collated (exclusionList + inclusionList) list are
-  /// eliminated and the exact duplicate entry that will be eliminated is
-  /// undefined.
-  List<String> get exclusionList =>
-      _wrapped.exclusionList.toDart.cast<String>().map((e) => e).toList();
-  set exclusionList(List<String> v) {
-    _wrapped.exclusionList = v.toJSArray((e) => e);
-  }
-
-  /// Include network traffic to the list of IP blocks in CIDR notation to the
-  /// tunnel. This parameter can be used to set up a split tunnel. By default
-  /// no traffic is directed to the tunnel. Adding the entry "0.0.0.0/0" to
-  /// this list gets all the user traffic redirected to the tunnel.
-  /// When many rules match a destination, the rule with the longest matching
-  /// prefix wins.
-  /// Entries that correspond to the same CIDR block are treated as duplicates.
-  /// Such duplicates in the collated (exclusionList + inclusionList) list are
-  /// eliminated and the exact duplicate entry that will be eliminated is
-  /// undefined.
-  List<String> get inclusionList =>
-      _wrapped.inclusionList.toDart.cast<String>().map((e) => e).toList();
-  set inclusionList(List<String> v) {
-    _wrapped.inclusionList = v.toJSArray((e) => e);
-  }
-
-  /// A list of search domains. (default: no search domain)
-  List<String>? get domainSearch =>
-      _wrapped.domainSearch?.toDart.cast<String>().map((e) => e).toList();
-  set domainSearch(List<String>? v) {
-    _wrapped.domainSearch = v?.toJSArray((e) => e);
-  }
-
-  /// A list of IPs for the DNS servers.
-  List<String> get dnsServers =>
-      _wrapped.dnsServers.toDart.cast<String>().map((e) => e).toList();
-  set dnsServers(List<String> v) {
-    _wrapped.dnsServers = v.toJSArray((e) => e);
-  }
-
-  /// Whether or not the VPN extension implements auto-reconnection.
-  ///
-  /// If true, the `linkDown`, `linkUp`,
-  /// `linkChanged`, `suspend`, and `resume`
-  /// platform messages will be used to signal the respective events.
-  /// If false, the system will forcibly disconnect the VPN if the network
-  /// topology changes, and the user will need to reconnect manually.
-  /// (default: false)
-  ///
-  /// This property is new in Chrome 51; it will generate an exception in
-  /// earlier versions. try/catch can be used to conditionally enable the
-  /// feature based on browser support.
-  String? get reconnect => _wrapped.reconnect;
-  set reconnect(String? v) {
-    _wrapped.reconnect = v;
-  }
 }
 
 class OnPlatformMessageEvent {

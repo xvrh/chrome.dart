@@ -131,52 +131,16 @@ class RemovalOptions {
     RemovalOptionsOriginTypes? originTypes,
     List<String>? origins,
     List<String>? excludeOrigins,
-  }) : _wrapped = $js.RemovalOptions()
-          ..since = since
-          ..originTypes = originTypes?.toJS
-          ..origins = origins?.toJSArray((e) => e)
-          ..excludeOrigins = excludeOrigins?.toJSArray((e) => e);
+  }) : _wrapped = $js.RemovalOptions(
+          since: since,
+          originTypes: originTypes?.toJS,
+          origins: origins?.toJSArray((e) => e),
+          excludeOrigins: excludeOrigins?.toJSArray((e) => e),
+        );
 
   final $js.RemovalOptions _wrapped;
 
   $js.RemovalOptions get toJS => _wrapped;
-
-  /// Remove data accumulated on or after this date, represented in milliseconds
-  /// since the epoch (accessible via the `getTime` method of the JavaScript
-  /// `Date` object). If absent, defaults to 0 (which would remove all browsing
-  /// data).
-  double? get since => _wrapped.since;
-  set since(double? v) {
-    _wrapped.since = v;
-  }
-
-  /// An object whose properties specify which origin types ought to be cleared.
-  /// If this object isn't specified, it defaults to clearing only "unprotected"
-  /// origins. Please ensure that you _really_ want to remove application data
-  /// before adding 'protectedWeb' or 'extensions'.
-  RemovalOptionsOriginTypes? get originTypes =>
-      _wrapped.originTypes?.let(RemovalOptionsOriginTypes.fromJS);
-  set originTypes(RemovalOptionsOriginTypes? v) {
-    _wrapped.originTypes = v?.toJS;
-  }
-
-  /// When present, only data for origins in this list is deleted. Only
-  /// supported for cookies, storage and cache. Cookies are cleared for the
-  /// whole registrable domain.
-  List<String>? get origins =>
-      _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
-  set origins(List<String>? v) {
-    _wrapped.origins = v?.toJSArray((e) => e);
-  }
-
-  /// When present, data for origins in this list is excluded from deletion.
-  /// Can't be used together with `origins`. Only supported for cookies, storage
-  /// and cache.  Cookies are excluded for the whole registrable domain.
-  List<String>? get excludeOrigins =>
-      _wrapped.excludeOrigins?.toDart.cast<String>().map((e) => e).toList();
-  set excludeOrigins(List<String>? v) {
-    _wrapped.excludeOrigins = v?.toJSArray((e) => e);
-  }
 }
 
 class DataTypeSet {
@@ -198,116 +162,27 @@ class DataTypeSet {
     bool? pluginData,
     bool? serviceWorkers,
     bool? webSQL,
-  }) : _wrapped = $js.DataTypeSet()
-          ..appcache = appcache
-          ..cache = cache
-          ..cacheStorage = cacheStorage
-          ..cookies = cookies
-          ..downloads = downloads
-          ..fileSystems = fileSystems
-          ..formData = formData
-          ..history = history
-          ..indexedDB = indexedDB
-          ..localStorage = localStorage
-          ..serverBoundCertificates = serverBoundCertificates
-          ..passwords = passwords
-          ..pluginData = pluginData
-          ..serviceWorkers = serviceWorkers
-          ..webSQL = webSQL;
+  }) : _wrapped = $js.DataTypeSet(
+          appcache: appcache,
+          cache: cache,
+          cacheStorage: cacheStorage,
+          cookies: cookies,
+          downloads: downloads,
+          fileSystems: fileSystems,
+          formData: formData,
+          history: history,
+          indexedDB: indexedDB,
+          localStorage: localStorage,
+          serverBoundCertificates: serverBoundCertificates,
+          passwords: passwords,
+          pluginData: pluginData,
+          serviceWorkers: serviceWorkers,
+          webSQL: webSQL,
+        );
 
   final $js.DataTypeSet _wrapped;
 
   $js.DataTypeSet get toJS => _wrapped;
-
-  /// Websites' appcaches.
-  bool? get appcache => _wrapped.appcache;
-  set appcache(bool? v) {
-    _wrapped.appcache = v;
-  }
-
-  /// The browser's cache.
-  bool? get cache => _wrapped.cache;
-  set cache(bool? v) {
-    _wrapped.cache = v;
-  }
-
-  /// Cache storage
-  bool? get cacheStorage => _wrapped.cacheStorage;
-  set cacheStorage(bool? v) {
-    _wrapped.cacheStorage = v;
-  }
-
-  /// The browser's cookies.
-  bool? get cookies => _wrapped.cookies;
-  set cookies(bool? v) {
-    _wrapped.cookies = v;
-  }
-
-  /// The browser's download list.
-  bool? get downloads => _wrapped.downloads;
-  set downloads(bool? v) {
-    _wrapped.downloads = v;
-  }
-
-  /// Websites' file systems.
-  bool? get fileSystems => _wrapped.fileSystems;
-  set fileSystems(bool? v) {
-    _wrapped.fileSystems = v;
-  }
-
-  /// The browser's stored form data.
-  bool? get formData => _wrapped.formData;
-  set formData(bool? v) {
-    _wrapped.formData = v;
-  }
-
-  /// The browser's history.
-  bool? get history => _wrapped.history;
-  set history(bool? v) {
-    _wrapped.history = v;
-  }
-
-  /// Websites' IndexedDB data.
-  bool? get indexedDB => _wrapped.indexedDB;
-  set indexedDB(bool? v) {
-    _wrapped.indexedDB = v;
-  }
-
-  /// Websites' local storage data.
-  bool? get localStorage => _wrapped.localStorage;
-  set localStorage(bool? v) {
-    _wrapped.localStorage = v;
-  }
-
-  /// Server-bound certificates.
-  bool? get serverBoundCertificates => _wrapped.serverBoundCertificates;
-  set serverBoundCertificates(bool? v) {
-    _wrapped.serverBoundCertificates = v;
-  }
-
-  /// Stored passwords.
-  bool? get passwords => _wrapped.passwords;
-  set passwords(bool? v) {
-    _wrapped.passwords = v;
-  }
-
-  /// Plugins' data.
-  bool? get pluginData => _wrapped.pluginData;
-  set pluginData(bool? v) {
-    _wrapped.pluginData = v;
-  }
-
-  /// Service Workers.
-  bool? get serviceWorkers => _wrapped.serviceWorkers;
-  set serviceWorkers(bool? v) {
-    _wrapped.serviceWorkers = v;
-  }
-
-  /// Websites' WebSQL data.
-  bool? get webSQL => _wrapped.webSQL;
-  set webSQL(bool? v) {
-    _wrapped.webSQL = v;
-  }
 }
 
 class SettingsCallbackResult {
@@ -356,31 +231,13 @@ class RemovalOptionsOriginTypes {
     bool? unprotectedWeb,
     bool? protectedWeb,
     bool? extension,
-  }) : _wrapped = $js.RemovalOptionsOriginTypes()
-          ..unprotectedWeb = unprotectedWeb
-          ..protectedWeb = protectedWeb
-          ..extension = extension;
+  }) : _wrapped = $js.RemovalOptionsOriginTypes(
+          unprotectedWeb: unprotectedWeb,
+          protectedWeb: protectedWeb,
+          extension: extension,
+        );
 
   final $js.RemovalOptionsOriginTypes _wrapped;
 
   $js.RemovalOptionsOriginTypes get toJS => _wrapped;
-
-  /// Normal websites.
-  bool? get unprotectedWeb => _wrapped.unprotectedWeb;
-  set unprotectedWeb(bool? v) {
-    _wrapped.unprotectedWeb = v;
-  }
-
-  /// Websites that have been installed as hosted applications (be careful!).
-  bool? get protectedWeb => _wrapped.protectedWeb;
-  set protectedWeb(bool? v) {
-    _wrapped.protectedWeb = v;
-  }
-
-  /// Extensions and packaged applications a user has installed (be _really_
-  /// careful!).
-  bool? get extension => _wrapped.extension;
-  set extension(bool? v) {
-    _wrapped.extension = v;
-  }
 }

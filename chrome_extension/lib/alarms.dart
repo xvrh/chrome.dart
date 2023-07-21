@@ -129,38 +129,13 @@ class AlarmCreateInfo {
     double? when,
     double? delayInMinutes,
     double? periodInMinutes,
-  }) : _wrapped = $js.AlarmCreateInfo()
-          ..when = when
-          ..delayInMinutes = delayInMinutes
-          ..periodInMinutes = periodInMinutes;
+  }) : _wrapped = $js.AlarmCreateInfo(
+          when: when,
+          delayInMinutes: delayInMinutes,
+          periodInMinutes: periodInMinutes,
+        );
 
   final $js.AlarmCreateInfo _wrapped;
 
   $js.AlarmCreateInfo get toJS => _wrapped;
-
-  /// Time at which the alarm should fire, in milliseconds past the epoch
-  /// (e.g. `Date.now() + n`).
-  double? get when => _wrapped.when;
-  set when(double? v) {
-    _wrapped.when = v;
-  }
-
-  /// Length of time in minutes after which the `onAlarm` event
-  /// should fire.
-  ///
-  /// <!-- TODO: need minimum=0 -->
-  double? get delayInMinutes => _wrapped.delayInMinutes;
-  set delayInMinutes(double? v) {
-    _wrapped.delayInMinutes = v;
-  }
-
-  /// If set, the onAlarm event should fire every [periodInMinutes]
-  /// minutes after the initial event specified by [when] or
-  /// [delayInMinutes].  If not set, the alarm will only fire once.
-  ///
-  /// <!-- TODO: need minimum=0 -->
-  double? get periodInMinutes => _wrapped.periodInMinutes;
-  set periodInMinutes(double? v) {
-    _wrapped.periodInMinutes = v;
-  }
 }

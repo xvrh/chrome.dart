@@ -204,38 +204,15 @@ class ClientCertificateRequest {
   ClientCertificateRequest({
     required List<ClientCertificateType> certificateTypes,
     required List<ByteBuffer> certificateAuthorities,
-  }) : _wrapped = $js.ClientCertificateRequest()
-          ..certificateTypes = certificateTypes.toJSArray((e) => e.toJS)
-          ..certificateAuthorities =
-              certificateAuthorities.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.ClientCertificateRequest(
+          certificateTypes: certificateTypes.toJSArray((e) => e.toJS),
+          certificateAuthorities:
+              certificateAuthorities.toJSArray((e) => e.toJS),
+        );
 
   final $js.ClientCertificateRequest _wrapped;
 
   $js.ClientCertificateRequest get toJS => _wrapped;
-
-  /// This field is a list of the types of certificates requested, sorted in
-  /// order of the server's preference. Only certificates of a type contained
-  /// in this list will be retrieved. If `certificateTypes` is the
-  /// empty list, however, certificates of any type will be returned.
-  List<ClientCertificateType> get certificateTypes =>
-      _wrapped.certificateTypes.toDart
-          .cast<$js.ClientCertificateType>()
-          .map((e) => ClientCertificateType.fromJS(e))
-          .toList();
-  set certificateTypes(List<ClientCertificateType> v) {
-    _wrapped.certificateTypes = v.toJSArray((e) => e.toJS);
-  }
-
-  /// List of distinguished names of certificate authorities allowed by the
-  /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
-  List<ByteBuffer> get certificateAuthorities =>
-      _wrapped.certificateAuthorities.toDart
-          .cast<JSArrayBuffer>()
-          .map((e) => e.toDart)
-          .toList();
-  set certificateAuthorities(List<ByteBuffer> v) {
-    _wrapped.certificateAuthorities = v.toJSArray((e) => e.toJS);
-  }
 }
 
 class SelectDetails {
@@ -245,44 +222,15 @@ class SelectDetails {
     required ClientCertificateRequest request,
     List<ByteBuffer>? clientCerts,
     required bool interactive,
-  }) : _wrapped = $js.SelectDetails()
-          ..request = request.toJS
-          ..clientCerts = clientCerts?.toJSArray((e) => e.toJS)
-          ..interactive = interactive;
+  }) : _wrapped = $js.SelectDetails(
+          request: request.toJS,
+          clientCerts: clientCerts?.toJSArray((e) => e.toJS),
+          interactive: interactive,
+        );
 
   final $js.SelectDetails _wrapped;
 
   $js.SelectDetails get toJS => _wrapped;
-
-  /// Only certificates that match this request will be returned.
-  ClientCertificateRequest get request =>
-      ClientCertificateRequest.fromJS(_wrapped.request);
-  set request(ClientCertificateRequest v) {
-    _wrapped.request = v.toJS;
-  }
-
-  /// If given, the `selectClientCertificates` operates on this
-  /// list. Otherwise, obtains the list of all certificates from the platform's
-  /// certificate stores that are available to this extensions.
-  /// Entries that the extension doesn't have permission for or which doesn't
-  /// match the request, are removed.
-  List<ByteBuffer>? get clientCerts => _wrapped.clientCerts?.toDart
-      .cast<JSArrayBuffer>()
-      .map((e) => e.toDart)
-      .toList();
-  set clientCerts(List<ByteBuffer>? v) {
-    _wrapped.clientCerts = v?.toJSArray((e) => e.toJS);
-  }
-
-  /// If true, the filtered list is presented to the user to manually select a
-  /// certificate and thereby granting the extension access to the
-  /// certificate(s) and key(s). Only the selected certificate(s) will be
-  /// returned. If is false, the list is reduced to all certificates that the
-  /// extension has been granted access to (automatically or manually).
-  bool get interactive => _wrapped.interactive;
-  set interactive(bool v) {
-    _wrapped.interactive = v;
-  }
 }
 
 class VerificationDetails {
@@ -291,33 +239,15 @@ class VerificationDetails {
   VerificationDetails({
     required List<ByteBuffer> serverCertificateChain,
     required String hostname,
-  }) : _wrapped = $js.VerificationDetails()
-          ..serverCertificateChain =
-              serverCertificateChain.toJSArray((e) => e.toJS)
-          ..hostname = hostname;
+  }) : _wrapped = $js.VerificationDetails(
+          serverCertificateChain:
+              serverCertificateChain.toJSArray((e) => e.toJS),
+          hostname: hostname,
+        );
 
   final $js.VerificationDetails _wrapped;
 
   $js.VerificationDetails get toJS => _wrapped;
-
-  /// Each chain entry must be the DER encoding of a X.509 certificate, the
-  /// first entry must be the server certificate and each entry must certify
-  /// the entry preceding it.
-  List<ByteBuffer> get serverCertificateChain =>
-      _wrapped.serverCertificateChain.toDart
-          .cast<JSArrayBuffer>()
-          .map((e) => e.toDart)
-          .toList();
-  set serverCertificateChain(List<ByteBuffer> v) {
-    _wrapped.serverCertificateChain = v.toJSArray((e) => e.toJS);
-  }
-
-  /// The hostname of the server to verify the certificate for, e.g. the server
-  /// that presented the `serverCertificateChain`.
-  String get hostname => _wrapped.hostname;
-  set hostname(String v) {
-    _wrapped.hostname = v;
-  }
 }
 
 class VerificationResult {

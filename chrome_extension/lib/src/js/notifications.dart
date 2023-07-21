@@ -92,116 +92,112 @@ typedef PermissionLevel = String;
 
 @JS()
 @staticInterop
-class NotificationItem {}
+@anonymous
+class NotificationItem {
+  external factory NotificationItem({
+    /// Title of one item of a list notification.
+    String title,
 
-extension NotificationItemExtension on NotificationItem {
-  /// Title of one item of a list notification.
-  external String title;
-
-  /// Additional details about this item.
-  external String message;
+    /// Additional details about this item.
+    String message,
+  });
 }
 
 @JS()
 @staticInterop
-class NotificationBitmap {}
-
-extension NotificationBitmapExtension on NotificationBitmap {
-  external int width;
-
-  external int height;
-
-  external JSArrayBuffer? data;
+@anonymous
+class NotificationBitmap {
+  external factory NotificationBitmap({
+    int width,
+    int height,
+    JSArrayBuffer? data,
+  });
 }
 
 @JS()
 @staticInterop
-class NotificationButton {}
-
-extension NotificationButtonExtension on NotificationButton {
-  external String title;
-
-  external String? iconUrl;
-
-  external NotificationBitmap? iconBitmap;
+@anonymous
+class NotificationButton {
+  external factory NotificationButton({
+    String title,
+    String? iconUrl,
+    NotificationBitmap? iconBitmap,
+  });
 }
 
 @JS()
 @staticInterop
-class NotificationOptions {}
+@anonymous
+class NotificationOptions {
+  external factory NotificationOptions({
+    /// Which type of notification to display.
+    /// _Required for [notifications.create]_ method.
+    TemplateType? type,
 
-extension NotificationOptionsExtension on NotificationOptions {
-  /// Which type of notification to display.
-  /// _Required for [notifications.create]_ method.
-  external TemplateType? type;
+    /// A URL to the sender's avatar, app icon, or a thumbnail for image
+    /// notifications.
+    ///
+    /// URLs can be a data URL, a blob URL, or a URL relative to a resource
+    /// within this extension's .crx file
+    /// _Required for [notifications.create]_ method.
+    String? iconUrl,
+    NotificationBitmap? iconBitmap,
 
-  /// A URL to the sender's avatar, app icon, or a thumbnail for image
-  /// notifications.
-  ///
-  /// URLs can be a data URL, a blob URL, or a URL relative to a resource
-  /// within this extension's .crx file
-  /// _Required for [notifications.create]_ method.
-  external String? iconUrl;
+    /// A URL to the app icon mask. URLs have the same restrictions as
+    /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
+    ///
+    /// The app icon mask should be in alpha channel, as only the alpha channel
+    /// of the image will be considered.
+    String? appIconMaskUrl,
+    NotificationBitmap? appIconMaskBitmap,
 
-  external NotificationBitmap? iconBitmap;
+    /// Title of the notification (e.g. sender name for email).
+    /// _Required for [notifications.create]_ method.
+    String? title,
 
-  /// A URL to the app icon mask. URLs have the same restrictions as
-  /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
-  ///
-  /// The app icon mask should be in alpha channel, as only the alpha channel
-  /// of the image will be considered.
-  external String? appIconMaskUrl;
+    /// Main notification content.
+    /// _Required for [notifications.create]_ method.
+    String? message,
 
-  external NotificationBitmap? appIconMaskBitmap;
+    /// Alternate notification content with a lower-weight font.
+    String? contextMessage,
 
-  /// Title of the notification (e.g. sender name for email).
-  /// _Required for [notifications.create]_ method.
-  external String? title;
+    /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
+    /// is default.  On platforms that don't support a notification center
+    /// (Windows, Linux & Mac), -2 and -1 result in an error as notifications
+    /// with those priorities will not be shown at all.
+    int? priority,
 
-  /// Main notification content.
-  /// _Required for [notifications.create]_ method.
-  external String? message;
+    /// A timestamp associated with the notification, in milliseconds past the
+    /// epoch (e.g. `Date.now() + n`).
+    double? eventTime,
 
-  /// Alternate notification content with a lower-weight font.
-  external String? contextMessage;
+    /// Text and icons for up to two notification action buttons.
+    JSArray? buttons,
 
-  /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
-  /// is default.  On platforms that don't support a notification center
-  /// (Windows, Linux & Mac), -2 and -1 result in an error as notifications
-  /// with those priorities will not be shown at all.
-  external int? priority;
+    /// Secondary notification content.
+    String? expandedMessage,
 
-  /// A timestamp associated with the notification, in milliseconds past the
-  /// epoch (e.g. `Date.now() + n`).
-  external double? eventTime;
+    /// A URL to the image thumbnail for image-type notifications.
+    /// URLs have the same restrictions as
+    /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
+    String? imageUrl,
+    NotificationBitmap? imageBitmap,
 
-  /// Text and icons for up to two notification action buttons.
-  external JSArray? buttons;
+    /// Items for multi-item notifications. Users on Mac OS X only see the first
+    /// item.
+    JSArray? items,
 
-  /// Secondary notification content.
-  external String? expandedMessage;
+    /// Current progress ranges from 0 to 100.
+    int? progress,
+    bool? isClickable,
 
-  /// A URL to the image thumbnail for image-type notifications.
-  /// URLs have the same restrictions as
-  /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
-  external String? imageUrl;
+    /// Indicates that the notification should remain visible on screen until the
+    /// user activates or dismisses the notification. This defaults to false.
+    bool? requireInteraction,
 
-  external NotificationBitmap? imageBitmap;
-
-  /// Items for multi-item notifications. Users on Mac OS X only see the first
-  /// item.
-  external JSArray? items;
-
-  /// Current progress ranges from 0 to 100.
-  external int? progress;
-
-  external bool? isClickable;
-
-  /// Indicates that the notification should remain visible on screen until the
-  /// user activates or dismisses the notification. This defaults to false.
-  external bool? requireInteraction;
-
-  /// Indicates that no sounds or vibrations should be made when the
-  /// notification is being shown. This defaults to false.
-  external bool? silent;
+    /// Indicates that no sounds or vibrations should be made when the
+    /// notification is being shown. This defaults to false.
+    bool? silent,
+  });
 }

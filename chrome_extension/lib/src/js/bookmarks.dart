@@ -157,17 +157,15 @@ extension BookmarkTreeNodeExtension on BookmarkTreeNode {
 
 @JS()
 @staticInterop
-class CreateDetails {}
-
-extension CreateDetailsExtension on CreateDetails {
-  /// Defaults to the Other Bookmarks folder.
-  external String? parentId;
-
-  external int? index;
-
-  external String? title;
-
-  external String? url;
+@anonymous
+class CreateDetails {
+  external factory CreateDetails({
+    /// Defaults to the Other Bookmarks folder.
+    String? parentId,
+    int? index,
+    String? title,
+    String? url,
+  });
 }
 
 @JS()

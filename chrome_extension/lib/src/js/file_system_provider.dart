@@ -324,40 +324,42 @@ extension FileSystemInfoExtension on FileSystemInfo {
 
 @JS()
 @staticInterop
-class MountOptions {}
+@anonymous
+class MountOptions {
+  external factory MountOptions({
+    /// The string indentifier of the file system. Must be unique per each
+    /// extension.
+    String fileSystemId,
 
-extension MountOptionsExtension on MountOptions {
-  /// The string indentifier of the file system. Must be unique per each
-  /// extension.
-  external String fileSystemId;
+    /// A human-readable name for the file system.
+    String displayName,
 
-  /// A human-readable name for the file system.
-  external String displayName;
+    /// Whether the file system supports operations which may change contents
+    /// of the file system (such as creating, deleting or writing to files).
+    bool? writable,
 
-  /// Whether the file system supports operations which may change contents
-  /// of the file system (such as creating, deleting or writing to files).
-  external bool? writable;
+    /// The maximum number of files that can be opened at once. If not specified,
+    /// or 0, then not limited.
+    int? openedFilesLimit,
 
-  /// The maximum number of files that can be opened at once. If not specified,
-  /// or 0, then not limited.
-  external int? openedFilesLimit;
+    /// Whether the file system supports the `tag` field for observed
+    /// directories.
+    bool? supportsNotifyTag,
 
-  /// Whether the file system supports the `tag` field for observed
-  /// directories.
-  external bool? supportsNotifyTag;
-
-  /// Whether the framework should resume the file system at the next sign-in
-  /// session. True by default.
-  external bool? persistent;
+    /// Whether the framework should resume the file system at the next sign-in
+    /// session. True by default.
+    bool? persistent,
+  });
 }
 
 @JS()
 @staticInterop
-class UnmountOptions {}
-
-extension UnmountOptionsExtension on UnmountOptions {
-  /// The identifier of the file system to be unmounted.
-  external String fileSystemId;
+@anonymous
+class UnmountOptions {
+  external factory UnmountOptions(
+      {
+      /// The identifier of the file system to be unmounted.
+      String fileSystemId});
 }
 
 @JS()
@@ -725,44 +727,46 @@ extension ExecuteActionRequestedOptionsExtension
 
 @JS()
 @staticInterop
-class Change {}
+@anonymous
+class Change {
+  external factory Change({
+    /// The path of the changed entry.
+    String entryPath,
 
-extension ChangeExtension on Change {
-  /// The path of the changed entry.
-  external String entryPath;
-
-  /// The type of the change which happened to the entry.
-  external ChangeType changeType;
+    /// The type of the change which happened to the entry.
+    ChangeType changeType,
+  });
 }
 
 @JS()
 @staticInterop
-class NotifyOptions {}
+@anonymous
+class NotifyOptions {
+  external factory NotifyOptions({
+    /// The identifier of the file system related to this change.
+    String fileSystemId,
 
-extension NotifyOptionsExtension on NotifyOptions {
-  /// The identifier of the file system related to this change.
-  external String fileSystemId;
+    /// The path of the observed entry.
+    String observedPath,
 
-  /// The path of the observed entry.
-  external String observedPath;
+    /// Mode of the observed entry.
+    bool recursive,
 
-  /// Mode of the observed entry.
-  external bool recursive;
+    /// The type of the change which happened to the observed entry. If it is
+    /// DELETED, then the observed entry will be automatically removed from the
+    /// list of observed entries.
+    ChangeType changeType,
 
-  /// The type of the change which happened to the observed entry. If it is
-  /// DELETED, then the observed entry will be automatically removed from the
-  /// list of observed entries.
-  external ChangeType changeType;
+    /// List of changes to entries within the observed directory (including the
+    /// entry itself)
+    JSArray? changes,
 
-  /// List of changes to entries within the observed directory (including the
-  /// entry itself)
-  external JSArray? changes;
-
-  /// Tag for the notification. Required if the file system was mounted with
-  /// the `supportsNotifyTag` option. Note, that this flag is
-  /// necessary to provide notifications about changes which changed even
-  /// when the system was shutdown.
-  external String? tag;
+    /// Tag for the notification. Required if the file system was mounted with
+    /// the `supportsNotifyTag` option. Note, that this flag is
+    /// necessary to provide notifications about changes which changed even
+    /// when the system was shutdown.
+    String? tag,
+  });
 }
 
 @JS()

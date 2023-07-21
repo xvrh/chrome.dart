@@ -218,28 +218,30 @@ extension TokenExtension on Token {
 
 @JS()
 @staticInterop
-class RegisterKeyOptions {}
-
-extension RegisterKeyOptionsExtension on RegisterKeyOptions {
-  /// Which algorithm the registered key should use.
-  external Algorithm algorithm;
+@anonymous
+class RegisterKeyOptions {
+  external factory RegisterKeyOptions(
+      {
+      /// Which algorithm the registered key should use.
+      Algorithm algorithm});
 }
 
 @JS()
 @staticInterop
-class ChallengeKeyOptions {}
+@anonymous
+class ChallengeKeyOptions {
+  external factory ChallengeKeyOptions({
+    /// A challenge as emitted by the Verified Access Web API.
+    JSArrayBuffer challenge,
 
-extension ChallengeKeyOptionsExtension on ChallengeKeyOptions {
-  /// A challenge as emitted by the Verified Access Web API.
-  external JSArrayBuffer challenge;
+    /// If present, registers the challenged key with the specified
+    /// `scope`'s token.  The key can then be associated with a
+    /// certificate and used like any other signing key.  Subsequent calls to
+    /// this function will then generate a new Enterprise Key in the specified
+    /// `scope`.
+    RegisterKeyOptions? registerKey,
 
-  /// If present, registers the challenged key with the specified
-  /// `scope`'s token.  The key can then be associated with a
-  /// certificate and used like any other signing key.  Subsequent calls to
-  /// this function will then generate a new Enterprise Key in the specified
-  /// `scope`.
-  external RegisterKeyOptions? registerKey;
-
-  /// Which Enterprise Key to challenge.
-  external Scope scope;
+    /// Which Enterprise Key to challenge.
+    Scope scope,
+  });
 }

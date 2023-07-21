@@ -236,23 +236,14 @@ class DOMExceptionDetails {
   DOMExceptionDetails({
     required String name,
     required String message,
-  }) : _wrapped = $js.DOMExceptionDetails()
-          ..name = name
-          ..message = message;
+  }) : _wrapped = $js.DOMExceptionDetails(
+          name: name,
+          message: message,
+        );
 
   final $js.DOMExceptionDetails _wrapped;
 
   $js.DOMExceptionDetails get toJS => _wrapped;
-
-  String get name => _wrapped.name;
-  set name(String v) {
-    _wrapped.name = v;
-  }
-
-  String get message => _wrapped.message;
-  set message(String v) {
-    _wrapped.message = v;
-  }
 }
 
 class CreateResponseDetails {
@@ -262,36 +253,15 @@ class CreateResponseDetails {
     required int requestId,
     DOMExceptionDetails? error,
     String? responseJson,
-  }) : _wrapped = $js.CreateResponseDetails()
-          ..requestId = requestId
-          ..error = error?.toJS
-          ..responseJson = responseJson;
+  }) : _wrapped = $js.CreateResponseDetails(
+          requestId: requestId,
+          error: error?.toJS,
+          responseJson: responseJson,
+        );
 
   final $js.CreateResponseDetails _wrapped;
 
   $js.CreateResponseDetails get toJS => _wrapped;
-
-  /// The `requestId` of the `CreateRequest`.
-  int get requestId => _wrapped.requestId;
-  set requestId(int v) {
-    _wrapped.requestId = v;
-  }
-
-  /// The `DOMException` yielded by the remote request, if any.
-  DOMExceptionDetails? get error =>
-      _wrapped.error?.let(DOMExceptionDetails.fromJS);
-  set error(DOMExceptionDetails? v) {
-    _wrapped.error = v?.toJS;
-  }
-
-  /// The `PublicKeyCredential`, yielded by the remote request, if
-  /// any, serialized as a JSON string by calling
-  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
-  /// `PublicKeyCredential.toJSON()`</a>.
-  String? get responseJson => _wrapped.responseJson;
-  set responseJson(String? v) {
-    _wrapped.responseJson = v;
-  }
 }
 
 class GetResponseDetails {
@@ -301,36 +271,15 @@ class GetResponseDetails {
     required int requestId,
     DOMExceptionDetails? error,
     String? responseJson,
-  }) : _wrapped = $js.GetResponseDetails()
-          ..requestId = requestId
-          ..error = error?.toJS
-          ..responseJson = responseJson;
+  }) : _wrapped = $js.GetResponseDetails(
+          requestId: requestId,
+          error: error?.toJS,
+          responseJson: responseJson,
+        );
 
   final $js.GetResponseDetails _wrapped;
 
   $js.GetResponseDetails get toJS => _wrapped;
-
-  /// The `requestId` of the `CreateRequest`.
-  int get requestId => _wrapped.requestId;
-  set requestId(int v) {
-    _wrapped.requestId = v;
-  }
-
-  /// The `DOMException` yielded by the remote request, if any.
-  DOMExceptionDetails? get error =>
-      _wrapped.error?.let(DOMExceptionDetails.fromJS);
-  set error(DOMExceptionDetails? v) {
-    _wrapped.error = v?.toJS;
-  }
-
-  /// The `PublicKeyCredential`, yielded by the remote request, if
-  /// any, serialized as a JSON string by calling
-  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
-  /// `PublicKeyCredential.toJSON()`</a>.
-  String? get responseJson => _wrapped.responseJson;
-  set responseJson(String? v) {
-    _wrapped.responseJson = v;
-  }
 }
 
 class IsUvpaaResponseDetails {
@@ -339,21 +288,12 @@ class IsUvpaaResponseDetails {
   IsUvpaaResponseDetails({
     required int requestId,
     required bool isUvpaa,
-  }) : _wrapped = $js.IsUvpaaResponseDetails()
-          ..requestId = requestId
-          ..isUvpaa = isUvpaa;
+  }) : _wrapped = $js.IsUvpaaResponseDetails(
+          requestId: requestId,
+          isUvpaa: isUvpaa,
+        );
 
   final $js.IsUvpaaResponseDetails _wrapped;
 
   $js.IsUvpaaResponseDetails get toJS => _wrapped;
-
-  int get requestId => _wrapped.requestId;
-  set requestId(int v) {
-    _wrapped.requestId = v;
-  }
-
-  bool get isUvpaa => _wrapped.isUvpaa;
-  set isUvpaa(bool v) {
-    _wrapped.isUvpaa = v;
-  }
 }

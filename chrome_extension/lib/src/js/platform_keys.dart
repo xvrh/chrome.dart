@@ -123,56 +123,59 @@ extension MatchExtension on Match {
 
 @JS()
 @staticInterop
-class ClientCertificateRequest {}
+@anonymous
+class ClientCertificateRequest {
+  external factory ClientCertificateRequest({
+    /// This field is a list of the types of certificates requested, sorted in
+    /// order of the server's preference. Only certificates of a type contained
+    /// in this list will be retrieved. If `certificateTypes` is the
+    /// empty list, however, certificates of any type will be returned.
+    JSArray certificateTypes,
 
-extension ClientCertificateRequestExtension on ClientCertificateRequest {
-  /// This field is a list of the types of certificates requested, sorted in
-  /// order of the server's preference. Only certificates of a type contained
-  /// in this list will be retrieved. If `certificateTypes` is the
-  /// empty list, however, certificates of any type will be returned.
-  external JSArray certificateTypes;
-
-  /// List of distinguished names of certificate authorities allowed by the
-  /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
-  external JSArray certificateAuthorities;
+    /// List of distinguished names of certificate authorities allowed by the
+    /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
+    JSArray certificateAuthorities,
+  });
 }
 
 @JS()
 @staticInterop
-class SelectDetails {}
+@anonymous
+class SelectDetails {
+  external factory SelectDetails({
+    /// Only certificates that match this request will be returned.
+    ClientCertificateRequest request,
 
-extension SelectDetailsExtension on SelectDetails {
-  /// Only certificates that match this request will be returned.
-  external ClientCertificateRequest request;
+    /// If given, the `selectClientCertificates` operates on this
+    /// list. Otherwise, obtains the list of all certificates from the platform's
+    /// certificate stores that are available to this extensions.
+    /// Entries that the extension doesn't have permission for or which doesn't
+    /// match the request, are removed.
+    JSArray? clientCerts,
 
-  /// If given, the `selectClientCertificates` operates on this
-  /// list. Otherwise, obtains the list of all certificates from the platform's
-  /// certificate stores that are available to this extensions.
-  /// Entries that the extension doesn't have permission for or which doesn't
-  /// match the request, are removed.
-  external JSArray? clientCerts;
-
-  /// If true, the filtered list is presented to the user to manually select a
-  /// certificate and thereby granting the extension access to the
-  /// certificate(s) and key(s). Only the selected certificate(s) will be
-  /// returned. If is false, the list is reduced to all certificates that the
-  /// extension has been granted access to (automatically or manually).
-  external bool interactive;
+    /// If true, the filtered list is presented to the user to manually select a
+    /// certificate and thereby granting the extension access to the
+    /// certificate(s) and key(s). Only the selected certificate(s) will be
+    /// returned. If is false, the list is reduced to all certificates that the
+    /// extension has been granted access to (automatically or manually).
+    bool interactive,
+  });
 }
 
 @JS()
 @staticInterop
-class VerificationDetails {}
+@anonymous
+class VerificationDetails {
+  external factory VerificationDetails({
+    /// Each chain entry must be the DER encoding of a X.509 certificate, the
+    /// first entry must be the server certificate and each entry must certify
+    /// the entry preceding it.
+    JSArray serverCertificateChain,
 
-extension VerificationDetailsExtension on VerificationDetails {
-  /// Each chain entry must be the DER encoding of a X.509 certificate, the
-  /// first entry must be the server certificate and each entry must certify
-  /// the entry preceding it.
-  external JSArray serverCertificateChain;
-
-  /// The hostname of the server to verify the certificate for, e.g. the server
-  /// that presented the `serverCertificateChain`.
-  external String hostname;
+    /// The hostname of the server to verify the certificate for, e.g. the server
+    /// that presented the `serverCertificateChain`.
+    String hostname,
+  });
 }
 
 @JS()

@@ -64,19 +64,20 @@ typedef JobStatus = String;
 
 @JS()
 @staticInterop
-class SubmitJobRequest {}
+@anonymous
+class SubmitJobRequest {
+  external factory SubmitJobRequest({
+    /// The print job to be submitted.
+    /// The only supported content type is "application/pdf", and the CJT ticket
+    /// shouldn't include FitToPageTicketItem, PageRangeTicketItem,
+    /// ReverseOrderTicketItem and VendorTicketItem fields since they are
+    /// irrelevant for native printing. All other fields must be present.
+    PrintJob job,
 
-extension SubmitJobRequestExtension on SubmitJobRequest {
-  /// The print job to be submitted.
-  /// The only supported content type is "application/pdf", and the CJT ticket
-  /// shouldn't include FitToPageTicketItem, PageRangeTicketItem,
-  /// ReverseOrderTicketItem and VendorTicketItem fields since they are
-  /// irrelevant for native printing. All other fields must be present.
-  external PrintJob job;
-
-  /// Used internally to store the blob uuid after parameter customization and
-  /// shouldn't be populated by the extension.
-  external String? documentBlobUuid;
+    /// Used internally to store the blob uuid after parameter customization and
+    /// shouldn't be populated by the extension.
+    String? documentBlobUuid,
+  });
 }
 
 @JS()

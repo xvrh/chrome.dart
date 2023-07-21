@@ -383,25 +383,14 @@ class HeaderNameValuePair {
   HeaderNameValuePair({
     required String name,
     required String value,
-  }) : _wrapped = $js.HeaderNameValuePair()
-          ..name = name
-          ..value = value;
+  }) : _wrapped = $js.HeaderNameValuePair(
+          name: name,
+          value: value,
+        );
 
   final $js.HeaderNameValuePair _wrapped;
 
   $js.HeaderNameValuePair get toJS => _wrapped;
-
-  /// Name of the HTTP header.
-  String get name => _wrapped.name;
-  set name(String v) {
-    _wrapped.name = v;
-  }
-
-  /// Value of the HTTP header.
-  String get value => _wrapped.value;
-  set value(String v) {
-    _wrapped.value = v;
-  }
 }
 
 class FilenameSuggestion {
@@ -448,72 +437,19 @@ class DownloadOptions {
     HttpMethod? method,
     List<HeaderNameValuePair>? headers,
     String? body,
-  }) : _wrapped = $js.DownloadOptions()
-          ..url = url
-          ..filename = filename
-          ..conflictAction = conflictAction?.toJS
-          ..saveAs = saveAs
-          ..method = method?.toJS
-          ..headers = headers?.toJSArray((e) => e.toJS)
-          ..body = body;
+  }) : _wrapped = $js.DownloadOptions(
+          url: url,
+          filename: filename,
+          conflictAction: conflictAction?.toJS,
+          saveAs: saveAs,
+          method: method?.toJS,
+          headers: headers?.toJSArray((e) => e.toJS),
+          body: body,
+        );
 
   final $js.DownloadOptions _wrapped;
 
   $js.DownloadOptions get toJS => _wrapped;
-
-  /// The URL to download.
-  String get url => _wrapped.url;
-  set url(String v) {
-    _wrapped.url = v;
-  }
-
-  /// A file path relative to the Downloads directory to contain the downloaded
-  /// file, possibly containing subdirectories. Absolute paths, empty paths,
-  /// and paths containing back-references ".." will cause an error.
-  /// [onDeterminingFilename] allows suggesting a filename after the file's
-  /// MIME type and a tentative filename have been determined.
-  String? get filename => _wrapped.filename;
-  set filename(String? v) {
-    _wrapped.filename = v;
-  }
-
-  /// The action to take if `filename` already exists.
-  FilenameConflictAction? get conflictAction =>
-      _wrapped.conflictAction?.let(FilenameConflictAction.fromJS);
-  set conflictAction(FilenameConflictAction? v) {
-    _wrapped.conflictAction = v?.toJS;
-  }
-
-  /// Use a file-chooser to allow the user to select a filename regardless of
-  /// whether `filename` is set or already exists.
-  bool? get saveAs => _wrapped.saveAs;
-  set saveAs(bool? v) {
-    _wrapped.saveAs = v;
-  }
-
-  /// The HTTP method to use if the URL uses the HTTP[S] protocol.
-  HttpMethod? get method => _wrapped.method?.let(HttpMethod.fromJS);
-  set method(HttpMethod? v) {
-    _wrapped.method = v?.toJS;
-  }
-
-  /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
-  /// protocol. Each header is represented as a dictionary containing the keys
-  /// `name` and either `value` or
-  /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
-  List<HeaderNameValuePair>? get headers => _wrapped.headers?.toDart
-      .cast<$js.HeaderNameValuePair>()
-      .map((e) => HeaderNameValuePair.fromJS(e))
-      .toList();
-  set headers(List<HeaderNameValuePair>? v) {
-    _wrapped.headers = v?.toJSArray((e) => e.toJS);
-  }
-
-  /// Post body.
-  String? get body => _wrapped.body;
-  set body(String? v) {
-    _wrapped.body = v;
-  }
 }
 
 class DownloadItem {
@@ -760,226 +696,39 @@ class DownloadQuery {
     double? totalBytes,
     double? fileSize,
     bool? exists,
-  }) : _wrapped = $js.DownloadQuery()
-          ..query = query?.toJSArray((e) => e)
-          ..startedBefore = startedBefore
-          ..startedAfter = startedAfter
-          ..endedBefore = endedBefore
-          ..endedAfter = endedAfter
-          ..totalBytesGreater = totalBytesGreater
-          ..totalBytesLess = totalBytesLess
-          ..filenameRegex = filenameRegex
-          ..urlRegex = urlRegex
-          ..finalUrlRegex = finalUrlRegex
-          ..limit = limit
-          ..orderBy = orderBy?.toJSArray((e) => e)
-          ..id = id
-          ..url = url
-          ..finalUrl = finalUrl
-          ..filename = filename
-          ..danger = danger?.toJS
-          ..mime = mime
-          ..startTime = startTime
-          ..endTime = endTime
-          ..state = state?.toJS
-          ..paused = paused
-          ..error = error?.toJS
-          ..bytesReceived = bytesReceived
-          ..totalBytes = totalBytes
-          ..fileSize = fileSize
-          ..exists = exists;
+  }) : _wrapped = $js.DownloadQuery(
+          query: query?.toJSArray((e) => e),
+          startedBefore: startedBefore,
+          startedAfter: startedAfter,
+          endedBefore: endedBefore,
+          endedAfter: endedAfter,
+          totalBytesGreater: totalBytesGreater,
+          totalBytesLess: totalBytesLess,
+          filenameRegex: filenameRegex,
+          urlRegex: urlRegex,
+          finalUrlRegex: finalUrlRegex,
+          limit: limit,
+          orderBy: orderBy?.toJSArray((e) => e),
+          id: id,
+          url: url,
+          finalUrl: finalUrl,
+          filename: filename,
+          danger: danger?.toJS,
+          mime: mime,
+          startTime: startTime,
+          endTime: endTime,
+          state: state?.toJS,
+          paused: paused,
+          error: error?.toJS,
+          bytesReceived: bytesReceived,
+          totalBytes: totalBytes,
+          fileSize: fileSize,
+          exists: exists,
+        );
 
   final $js.DownloadQuery _wrapped;
 
   $js.DownloadQuery get toJS => _wrapped;
-
-  /// This array of search terms limits results to [DownloadItem] whose
-  /// `filename` or `url` or `finalUrl`
-  /// contain all of the search terms that do not begin with a dash '-' and
-  /// none of the search terms that do begin with a dash.
-  List<String>? get query =>
-      _wrapped.query?.toDart.cast<String>().map((e) => e).toList();
-  set query(List<String>? v) {
-    _wrapped.query = v?.toJSArray((e) => e);
-  }
-
-  /// Limits results to [DownloadItem] that
-  /// started before the given ms since the epoch.
-  String? get startedBefore => _wrapped.startedBefore;
-  set startedBefore(String? v) {
-    _wrapped.startedBefore = v;
-  }
-
-  /// Limits results to [DownloadItem] that
-  /// started after the given ms since the epoch.
-  String? get startedAfter => _wrapped.startedAfter;
-  set startedAfter(String? v) {
-    _wrapped.startedAfter = v;
-  }
-
-  /// Limits results to [DownloadItem] that ended before the given ms since the
-  /// epoch.
-  String? get endedBefore => _wrapped.endedBefore;
-  set endedBefore(String? v) {
-    _wrapped.endedBefore = v;
-  }
-
-  /// Limits results to [DownloadItem] that ended after the given ms since the
-  /// epoch.
-  String? get endedAfter => _wrapped.endedAfter;
-  set endedAfter(String? v) {
-    _wrapped.endedAfter = v;
-  }
-
-  /// Limits results to [DownloadItem] whose
-  /// `totalBytes` is greater than the given integer.
-  double? get totalBytesGreater => _wrapped.totalBytesGreater;
-  set totalBytesGreater(double? v) {
-    _wrapped.totalBytesGreater = v;
-  }
-
-  /// Limits results to [DownloadItem] whose
-  /// `totalBytes` is less than the given integer.
-  double? get totalBytesLess => _wrapped.totalBytesLess;
-  set totalBytesLess(double? v) {
-    _wrapped.totalBytesLess = v;
-  }
-
-  /// Limits results to [DownloadItem] whose
-  /// `filename` matches the given regular expression.
-  String? get filenameRegex => _wrapped.filenameRegex;
-  set filenameRegex(String? v) {
-    _wrapped.filenameRegex = v;
-  }
-
-  /// Limits results to [DownloadItem] whose
-  /// `url` matches the given regular expression.
-  String? get urlRegex => _wrapped.urlRegex;
-  set urlRegex(String? v) {
-    _wrapped.urlRegex = v;
-  }
-
-  /// Limits results to [DownloadItem] whose
-  /// `finalUrl` matches the given regular expression.
-  String? get finalUrlRegex => _wrapped.finalUrlRegex;
-  set finalUrlRegex(String? v) {
-    _wrapped.finalUrlRegex = v;
-  }
-
-  /// The maximum number of matching [DownloadItem] returned. Defaults to
-  /// 1000. Set to 0 in order to return all matching [DownloadItem]. See
-  /// [search] for how to page through results.
-  int? get limit => _wrapped.limit;
-  set limit(int? v) {
-    _wrapped.limit = v;
-  }
-
-  /// Set elements of this array to [DownloadItem] properties in order to
-  /// sort search results. For example, setting
-  /// `orderBy=['startTime']` sorts the [DownloadItem] by their
-  /// start time in ascending order. To specify descending order, prefix with a
-  /// hyphen: '-startTime'.
-  List<String>? get orderBy =>
-      _wrapped.orderBy?.toDart.cast<String>().map((e) => e).toList();
-  set orderBy(List<String>? v) {
-    _wrapped.orderBy = v?.toJSArray((e) => e);
-  }
-
-  /// The `id` of the [DownloadItem] to query.
-  int? get id => _wrapped.id;
-  set id(int? v) {
-    _wrapped.id = v;
-  }
-
-  /// The absolute URL that this download initiated from, before any
-  /// redirects.
-  String? get url => _wrapped.url;
-  set url(String? v) {
-    _wrapped.url = v;
-  }
-
-  /// The absolute URL that this download is being made from, after all
-  /// redirects.
-  String? get finalUrl => _wrapped.finalUrl;
-  set finalUrl(String? v) {
-    _wrapped.finalUrl = v;
-  }
-
-  /// Absolute local path.
-  String? get filename => _wrapped.filename;
-  set filename(String? v) {
-    _wrapped.filename = v;
-  }
-
-  /// Indication of whether this download is thought to be safe or known to be
-  /// suspicious.
-  DangerType? get danger => _wrapped.danger?.let(DangerType.fromJS);
-  set danger(DangerType? v) {
-    _wrapped.danger = v?.toJS;
-  }
-
-  /// The file's MIME type.
-  String? get mime => _wrapped.mime;
-  set mime(String? v) {
-    _wrapped.mime = v;
-  }
-
-  /// The time when the download began in ISO 8601 format.
-  String? get startTime => _wrapped.startTime;
-  set startTime(String? v) {
-    _wrapped.startTime = v;
-  }
-
-  /// The time when the download ended in ISO 8601 format.
-  String? get endTime => _wrapped.endTime;
-  set endTime(String? v) {
-    _wrapped.endTime = v;
-  }
-
-  /// Indicates whether the download is progressing, interrupted, or complete.
-  State? get state => _wrapped.state?.let(State.fromJS);
-  set state(State? v) {
-    _wrapped.state = v?.toJS;
-  }
-
-  /// True if the download has stopped reading data from the host, but kept the
-  /// connection open.
-  bool? get paused => _wrapped.paused;
-  set paused(bool? v) {
-    _wrapped.paused = v;
-  }
-
-  /// Why a download was interrupted.
-  InterruptReason? get error => _wrapped.error?.let(InterruptReason.fromJS);
-  set error(InterruptReason? v) {
-    _wrapped.error = v?.toJS;
-  }
-
-  /// Number of bytes received so far from the host, without considering file
-  /// compression.
-  double? get bytesReceived => _wrapped.bytesReceived;
-  set bytesReceived(double? v) {
-    _wrapped.bytesReceived = v;
-  }
-
-  /// Number of bytes in the whole file, without considering file compression,
-  /// or -1 if unknown.
-  double? get totalBytes => _wrapped.totalBytes;
-  set totalBytes(double? v) {
-    _wrapped.totalBytes = v;
-  }
-
-  /// Number of bytes in the whole file post-decompression, or -1 if unknown.
-  double? get fileSize => _wrapped.fileSize;
-  set fileSize(double? v) {
-    _wrapped.fileSize = v;
-  }
-
-  /// Whether the downloaded file exists;
-  bool? get exists => _wrapped.exists;
-  set exists(bool? v) {
-    _wrapped.exists = v;
-  }
 }
 
 class StringDelta {
@@ -1193,37 +942,22 @@ class GetFileIconOptions {
   GetFileIconOptions.fromJS(this._wrapped);
 
   GetFileIconOptions({int? size})
-      : _wrapped = $js.GetFileIconOptions()..size = size;
+      : _wrapped = $js.GetFileIconOptions(size: size);
 
   final $js.GetFileIconOptions _wrapped;
 
   $js.GetFileIconOptions get toJS => _wrapped;
-
-  /// The size of the returned icon. The icon will be square with dimensions
-  /// size * size pixels. The default and largest size for the icon is 32x32
-  /// pixels. The only supported sizes are 16 and 32. It is an error to specify
-  /// any other size.
-  int? get size => _wrapped.size;
-  set size(int? v) {
-    _wrapped.size = v;
-  }
 }
 
 class UiOptions {
   UiOptions.fromJS(this._wrapped);
 
   UiOptions({required bool enabled})
-      : _wrapped = $js.UiOptions()..enabled = enabled;
+      : _wrapped = $js.UiOptions(enabled: enabled);
 
   final $js.UiOptions _wrapped;
 
   $js.UiOptions get toJS => _wrapped;
-
-  /// Enable or disable the download UI.
-  bool get enabled => _wrapped.enabled;
-  set enabled(bool v) {
-    _wrapped.enabled = v;
-  }
 }
 
 class OnDeterminingFilenameEvent {

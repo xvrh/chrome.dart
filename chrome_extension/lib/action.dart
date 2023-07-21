@@ -141,18 +141,11 @@ class ChromeAction {
 class TabDetails {
   TabDetails.fromJS(this._wrapped);
 
-  TabDetails({int? tabId}) : _wrapped = $js.TabDetails()..tabId = tabId;
+  TabDetails({int? tabId}) : _wrapped = $js.TabDetails(tabId: tabId);
 
   final $js.TabDetails _wrapped;
 
   $js.TabDetails get toJS => _wrapped;
-
-  /// The ID of the tab to query state for. If no tab is specified, the
-  /// non-tab-specific state is returned.
-  int? get tabId => _wrapped.tabId;
-  set tabId(int? v) {
-    _wrapped.tabId = v;
-  }
 }
 
 class UserSettings {
@@ -178,18 +171,11 @@ class OpenPopupOptions {
   OpenPopupOptions.fromJS(this._wrapped);
 
   OpenPopupOptions({int? windowId})
-      : _wrapped = $js.OpenPopupOptions()..windowId = windowId;
+      : _wrapped = $js.OpenPopupOptions(windowId: windowId);
 
   final $js.OpenPopupOptions _wrapped;
 
   $js.OpenPopupOptions get toJS => _wrapped;
-
-  /// The id of the window to open the action popup in. Defaults to the
-  /// currently-active window if unspecified.
-  int? get windowId => _wrapped.windowId;
-  set windowId(int? v) {
-    _wrapped.windowId = v;
-  }
 }
 
 class SetTitleDetails {

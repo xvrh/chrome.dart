@@ -338,36 +338,16 @@ class CreateDetails {
     int? index,
     String? title,
     String? url,
-  }) : _wrapped = $js.CreateDetails()
-          ..parentId = parentId
-          ..index = index
-          ..title = title
-          ..url = url;
+  }) : _wrapped = $js.CreateDetails(
+          parentId: parentId,
+          index: index,
+          title: title,
+          url: url,
+        );
 
   final $js.CreateDetails _wrapped;
 
   $js.CreateDetails get toJS => _wrapped;
-
-  /// Defaults to the Other Bookmarks folder.
-  String? get parentId => _wrapped.parentId;
-  set parentId(String? v) {
-    _wrapped.parentId = v;
-  }
-
-  int? get index => _wrapped.index;
-  set index(int? v) {
-    _wrapped.index = v;
-  }
-
-  String? get title => _wrapped.title;
-  set title(String? v) {
-    _wrapped.title = v;
-  }
-
-  String? get url => _wrapped.url;
-  set url(String? v) {
-    _wrapped.url = v;
-  }
 }
 
 class OnRemovedRemoveInfo {

@@ -116,46 +116,49 @@ extension AudioDeviceInfoExtension on AudioDeviceInfo {
 
 @JS()
 @staticInterop
-class DeviceFilter {}
+@anonymous
+class DeviceFilter {
+  external factory DeviceFilter({
+    /// If set, only audio devices whose stream type is included in this list
+    /// will satisfy the filter.
+    JSArray? streamTypes,
 
-extension DeviceFilterExtension on DeviceFilter {
-  /// If set, only audio devices whose stream type is included in this list
-  /// will satisfy the filter.
-  external JSArray? streamTypes;
-
-  /// If set, only audio devices whose active state matches this value will
-  /// satisfy the filter.
-  external bool? isActive;
+    /// If set, only audio devices whose active state matches this value will
+    /// satisfy the filter.
+    bool? isActive,
+  });
 }
 
 @JS()
 @staticInterop
-class DeviceProperties {}
-
-extension DevicePropertiesExtension on DeviceProperties {
-  ///
-  ///   The audio device's desired sound level. Defaults to the device's
-  ///   current sound level.
-  ///
-  /// If used with audio input device, represents audio device gain.
-  /// If used with audio output device, represents audio device volume.
-  external int? level;
+@anonymous
+class DeviceProperties {
+  external factory DeviceProperties(
+      {
+      ///
+      ///   The audio device's desired sound level. Defaults to the device's
+      ///   current sound level.
+      ///
+      /// If used with audio input device, represents audio device gain.
+      /// If used with audio output device, represents audio device volume.
+      int? level});
 }
 
 @JS()
 @staticInterop
-class DeviceIdLists {}
+@anonymous
+class DeviceIdLists {
+  external factory DeviceIdLists({
+    /// List of input devices specified by their ID.
+    /// To indicate input devices should be unaffected, leave this property
+    ///   unset.
+    JSArray? input,
 
-extension DeviceIdListsExtension on DeviceIdLists {
-  /// List of input devices specified by their ID.
-  /// To indicate input devices should be unaffected, leave this property
-  ///   unset.
-  external JSArray? input;
-
-  /// List of output devices specified by their ID.
-  /// To indicate output devices should be unaffected, leave this property
-  ///   unset.
-  external JSArray? output;
+    /// List of output devices specified by their ID.
+    /// To indicate output devices should be unaffected, leave this property
+    ///   unset.
+    JSArray? output,
+  });
 }
 
 @JS()

@@ -527,20 +527,21 @@ extension RuleActionExtension on RuleAction {
 
 @JS()
 @staticInterop
-class Rule {}
+@anonymous
+class Rule {
+  external factory Rule({
+    /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
+    int id,
 
-extension RuleExtension on Rule {
-  /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
-  external int id;
+    /// Rule priority. Defaults to 1. When specified, should be >= 1.
+    int? priority,
 
-  /// Rule priority. Defaults to 1. When specified, should be >= 1.
-  external int? priority;
+    /// The condition under which this rule is triggered.
+    RuleCondition condition,
 
-  /// The condition under which this rule is triggered.
-  external RuleCondition condition;
-
-  /// The action to take if this rule is matched.
-  external RuleAction action;
+    /// The action to take if this rule is matched.
+    RuleAction action,
+  });
 }
 
 @JS()
@@ -559,11 +560,12 @@ extension MatchedRuleExtension on MatchedRule {
 
 @JS()
 @staticInterop
-class GetRulesFilter {}
-
-extension GetRulesFilterExtension on GetRulesFilter {
-  /// If specified, only rules with matching IDs are included.
-  external JSArray? ruleIds;
+@anonymous
+class GetRulesFilter {
+  external factory GetRulesFilter(
+      {
+      /// If specified, only rules with matching IDs are included.
+      JSArray? ruleIds});
 }
 
 @JS()
@@ -585,15 +587,16 @@ extension MatchedRuleInfoExtension on MatchedRuleInfo {
 
 @JS()
 @staticInterop
-class MatchedRulesFilter {}
+@anonymous
+class MatchedRulesFilter {
+  external factory MatchedRulesFilter({
+    /// If specified, only matches rules for the given tab. Matches rules not
+    /// associated with any active tab if set to -1.
+    int? tabId,
 
-extension MatchedRulesFilterExtension on MatchedRulesFilter {
-  /// If specified, only matches rules for the given tab. Matches rules not
-  /// associated with any active tab if set to -1.
-  external int? tabId;
-
-  /// If specified, only matches rules after the given timestamp.
-  external double? minTimeStamp;
+    /// If specified, only matches rules after the given timestamp.
+    double? minTimeStamp,
+  });
 }
 
 @JS()
@@ -660,26 +663,27 @@ extension RequestDetailsExtension on RequestDetails {
 
 @JS()
 @staticInterop
-class TestMatchRequestDetails {}
+@anonymous
+class TestMatchRequestDetails {
+  external factory TestMatchRequestDetails({
+    /// The URL of the hypothetical request.
+    String url,
 
-extension TestMatchRequestDetailsExtension on TestMatchRequestDetails {
-  /// The URL of the hypothetical request.
-  external String url;
+    /// The initiator URL (if any) for the hypothetical request.
+    String? initiator,
 
-  /// The initiator URL (if any) for the hypothetical request.
-  external String? initiator;
+    /// Standard HTTP method of the hypothetical request. Defaults to "get" for
+    /// HTTP requests and is ignored for non-HTTP requests.
+    RequestMethod? method,
 
-  /// Standard HTTP method of the hypothetical request. Defaults to "get" for
-  /// HTTP requests and is ignored for non-HTTP requests.
-  external RequestMethod? method;
+    /// The resource type of the hypothetical request.
+    ResourceType type,
 
-  /// The resource type of the hypothetical request.
-  external ResourceType type;
-
-  /// The ID of the tab in which the hypothetical request takes place. Does
-  /// not need to correspond to a real tab ID. Default is -1, meaning that
-  /// the request isn't related to a tab.
-  external int? tabId;
+    /// The ID of the tab in which the hypothetical request takes place. Does
+    /// not need to correspond to a real tab ID. Default is -1, meaning that
+    /// the request isn't related to a tab.
+    int? tabId,
+  });
 }
 
 @JS()
@@ -711,20 +715,21 @@ extension ManifestKeysExtension on ManifestKeys {
 
 @JS()
 @staticInterop
-class RegexOptions {}
+@anonymous
+class RegexOptions {
+  external factory RegexOptions({
+    /// The regular expresson to check.
+    String regex,
 
-extension RegexOptionsExtension on RegexOptions {
-  /// The regular expresson to check.
-  external String regex;
+    /// Whether the `regex` specified is case sensitive. Default is
+    /// true.
+    bool? isCaseSensitive,
 
-  /// Whether the `regex` specified is case sensitive. Default is
-  /// true.
-  external bool? isCaseSensitive;
-
-  /// Whether the `regex` specified requires capturing. Capturing is
-  /// only required for redirect rules which specify a
-  /// `regexSubstition` action. The default is false.
-  external bool? requireCapturing;
+    /// Whether the `regex` specified requires capturing. Capturing is
+    /// only required for redirect rules which specify a
+    /// `regexSubstition` action. The default is false.
+    bool? requireCapturing,
+  });
 }
 
 @JS()
@@ -750,76 +755,82 @@ extension TestMatchOutcomeResultExtension on TestMatchOutcomeResult {
 
 @JS()
 @staticInterop
-class UpdateRuleOptions {}
+@anonymous
+class UpdateRuleOptions {
+  external factory UpdateRuleOptions({
+    /// IDs of the rules to remove. Any invalid IDs will be ignored.
+    JSArray? removeRuleIds,
 
-extension UpdateRuleOptionsExtension on UpdateRuleOptions {
-  /// IDs of the rules to remove. Any invalid IDs will be ignored.
-  external JSArray? removeRuleIds;
-
-  /// Rules to add.
-  external JSArray? addRules;
+    /// Rules to add.
+    JSArray? addRules,
+  });
 }
 
 @JS()
 @staticInterop
-class UpdateRulesetOptions {}
+@anonymous
+class UpdateRulesetOptions {
+  external factory UpdateRulesetOptions({
+    /// The set of ids corresponding to a static [Ruleset] that should be
+    /// disabled.
+    JSArray? disableRulesetIds,
 
-extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
-  /// The set of ids corresponding to a static [Ruleset] that should be
-  /// disabled.
-  external JSArray? disableRulesetIds;
-
-  /// The set of ids corresponding to a static [Ruleset] that should be
-  /// enabled.
-  external JSArray? enableRulesetIds;
+    /// The set of ids corresponding to a static [Ruleset] that should be
+    /// enabled.
+    JSArray? enableRulesetIds,
+  });
 }
 
 @JS()
 @staticInterop
-class UpdateStaticRulesOptions {}
+@anonymous
+class UpdateStaticRulesOptions {
+  external factory UpdateStaticRulesOptions({
+    /// The id corresponding to a static [Ruleset].
+    String rulesetId,
 
-extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
-  /// The id corresponding to a static [Ruleset].
-  external String rulesetId;
+    /// Set of ids corresponding to rules in the [Ruleset] to disable.
+    JSArray? disableRuleIds,
 
-  /// Set of ids corresponding to rules in the [Ruleset] to disable.
-  external JSArray? disableRuleIds;
-
-  /// Set of ids corresponding to rules in the [Ruleset] to enable.
-  external JSArray? enableRuleIds;
+    /// Set of ids corresponding to rules in the [Ruleset] to enable.
+    JSArray? enableRuleIds,
+  });
 }
 
 @JS()
 @staticInterop
-class GetDisabledRuleIdsOptions {}
-
-extension GetDisabledRuleIdsOptionsExtension on GetDisabledRuleIdsOptions {
-  /// The id corresponding to a static [Ruleset].
-  external String rulesetId;
+@anonymous
+class GetDisabledRuleIdsOptions {
+  external factory GetDisabledRuleIdsOptions(
+      {
+      /// The id corresponding to a static [Ruleset].
+      String rulesetId});
 }
 
 @JS()
 @staticInterop
-class TabActionCountUpdate {}
+@anonymous
+class TabActionCountUpdate {
+  external factory TabActionCountUpdate({
+    /// The tab for which to update the action count.
+    int tabId,
 
-extension TabActionCountUpdateExtension on TabActionCountUpdate {
-  /// The tab for which to update the action count.
-  external int tabId;
-
-  /// The amount to increment the tab's action count by. Negative values will
-  /// decrement the count.
-  external int increment;
+    /// The amount to increment the tab's action count by. Negative values will
+    /// decrement the count.
+    int increment,
+  });
 }
 
 @JS()
 @staticInterop
-class ExtensionActionOptions {}
+@anonymous
+class ExtensionActionOptions {
+  external factory ExtensionActionOptions({
+    /// Whether to automatically display the action count for a page as the
+    /// extension's badge text. This preference is persisted across sessions.
+    bool? displayActionCountAsBadgeText,
 
-extension ExtensionActionOptionsExtension on ExtensionActionOptions {
-  /// Whether to automatically display the action count for a page as the
-  /// extension's badge text. This preference is persisted across sessions.
-  external bool? displayActionCountAsBadgeText;
-
-  /// Details of how the tab's action count should be adjusted.
-  external TabActionCountUpdate? tabUpdate;
+    /// Details of how the tab's action count should be adjusted.
+    TabActionCountUpdate? tabUpdate,
+  });
 }

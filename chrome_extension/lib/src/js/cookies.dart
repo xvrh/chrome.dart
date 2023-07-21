@@ -130,21 +130,22 @@ extension CookieStoreExtension on CookieStore {
 
 @JS()
 @staticInterop
-class CookieDetails {}
+@anonymous
+class CookieDetails {
+  external factory CookieDetails({
+    /// The URL with which the cookie to access is associated. This argument may
+    /// be a full URL, in which case any data following the URL path (e.g. the
+    /// query string) is simply ignored. If host permissions for this URL are not
+    /// specified in the manifest file, the API call will fail.
+    String url,
 
-extension CookieDetailsExtension on CookieDetails {
-  /// The URL with which the cookie to access is associated. This argument may
-  /// be a full URL, in which case any data following the URL path (e.g. the
-  /// query string) is simply ignored. If host permissions for this URL are not
-  /// specified in the manifest file, the API call will fail.
-  external String url;
+    /// The name of the cookie to access.
+    String name,
 
-  /// The name of the cookie to access.
-  external String name;
-
-  /// The ID of the cookie store in which to look for the cookie. By default,
-  /// the current execution context's cookie store will be used.
-  external String? storeId;
+    /// The ID of the cookie store in which to look for the cookie. By default,
+    /// the current execution context's cookie store will be used.
+    String? storeId,
+  });
 }
 
 @JS()

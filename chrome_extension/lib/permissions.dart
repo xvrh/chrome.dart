@@ -69,27 +69,12 @@ class Permissions {
   Permissions({
     List<String>? permissions,
     List<String>? origins,
-  }) : _wrapped = $js.Permissions()
-          ..permissions = permissions?.toJSArray((e) => e)
-          ..origins = origins?.toJSArray((e) => e);
+  }) : _wrapped = $js.Permissions(
+          permissions: permissions?.toJSArray((e) => e),
+          origins: origins?.toJSArray((e) => e),
+        );
 
   final $js.Permissions _wrapped;
 
   $js.Permissions get toJS => _wrapped;
-
-  /// List of named permissions (does not include hosts or origins).
-  List<String>? get permissions =>
-      _wrapped.permissions?.toDart.cast<String>().map((e) => e).toList();
-  set permissions(List<String>? v) {
-    _wrapped.permissions = v?.toJSArray((e) => e);
-  }
-
-  /// The list of host permissions, including those specified in the
-  /// `optional_permissions` or `permissions` keys in the manifest, and those
-  /// associated with [Content Scripts](content_scripts).
-  List<String>? get origins =>
-      _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
-  set origins(List<String>? v) {
-    _wrapped.origins = v?.toJSArray((e) => e);
-  }
 }

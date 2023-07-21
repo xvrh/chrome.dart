@@ -185,30 +185,14 @@ class SubmitJobRequest {
   SubmitJobRequest({
     required PrintJob job,
     String? documentBlobUuid,
-  }) : _wrapped = $js.SubmitJobRequest()
-          ..job = job.toJS
-          ..documentBlobUuid = documentBlobUuid;
+  }) : _wrapped = $js.SubmitJobRequest(
+          job: job.toJS,
+          documentBlobUuid: documentBlobUuid,
+        );
 
   final $js.SubmitJobRequest _wrapped;
 
   $js.SubmitJobRequest get toJS => _wrapped;
-
-  /// The print job to be submitted.
-  /// The only supported content type is "application/pdf", and the CJT ticket
-  /// shouldn't include FitToPageTicketItem, PageRangeTicketItem,
-  /// ReverseOrderTicketItem and VendorTicketItem fields since they are
-  /// irrelevant for native printing. All other fields must be present.
-  PrintJob get job => PrintJob.fromJS(_wrapped.job);
-  set job(PrintJob v) {
-    _wrapped.job = v.toJS;
-  }
-
-  /// Used internally to store the blob uuid after parameter customization and
-  /// shouldn't be populated by the extension.
-  String? get documentBlobUuid => _wrapped.documentBlobUuid;
-  set documentBlobUuid(String? v) {
-    _wrapped.documentBlobUuid = v;
-  }
 }
 
 class SubmitJobResponse {

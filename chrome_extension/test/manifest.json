@@ -4,6 +4,8 @@
   "version": "1.0",
   "description": "unit tests for chrome extension APIs",
   "permissions": [
+    "accessibilityFeatures.read",
+    "accessibilityFeatures.modify",
     "activeTab",
     "action",
     "browsingData",

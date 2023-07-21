@@ -13,6 +13,8 @@ void main() {
       'chrome.*.isAvailable',
       () => runTest('test/check_available.dart',
           manifest: File('test/manifest_no_permission.json')));
+  test('chrome.accessibilityFeatures',
+      () => runTest('test/apis/accessibility_features.dart'));
   test('chrome.action', () => runTest('test/apis/action.dart'));
   test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));

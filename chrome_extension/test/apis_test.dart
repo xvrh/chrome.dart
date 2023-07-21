@@ -8,10 +8,12 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
-  test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
   test('chrome.action', () => runTest('test/apis/action.dart'));
-  test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
   test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
+  test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
+  test('chrome.runtime', () => runTest('test/apis/runtime.dart'));
+  test('chrome.system.cpu', () => runTest('test/apis/system_cpu.dart'));
+  test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
 }
 
 Future<void> runTest(String filePath) async {

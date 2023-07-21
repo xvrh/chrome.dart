@@ -55,8 +55,8 @@ class ChromeExtension {
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
   /// background page.
-  JSObject? getBackgroundPage() {
-    return $js.chrome.extension.getBackgroundPage();
+  Map? getBackgroundPage() {
+    return ($js.chrome.extension.getBackgroundPage()?.dartify() as Map?);
   }
 
   /// Returns an array of the JavaScript 'window' objects for each of the tabs

@@ -378,6 +378,37 @@ class _VariousType extends ChromeType {
   Iterable<ChromeType> get children sync* {}
 }
 
+class MapType extends ChromeType {
+  MapType({required super.isNullable});
+
+  @override
+  code.Reference get dartType => code.TypeReference((b) => b
+    ..symbol = 'Map'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'JSObject'
+    ..isNullable = isNullable);
+
+  @override
+  code.Expression toDart(code.Expression accessor) => accessor
+      .nullSafePropertyIf('dartify', isNullable)
+      .call([]).asA(code.refer('Map$questionMark'));
+
+  @override
+  code.Expression toJS(code.Expression accessor) {
+    return accessor.nullSafePropertyIf('toJS', isNullable);
+  }
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      MapType(isNullable: isNullable);
+
+  @override
+  Iterable<ChromeType> get children sync* {}
+}
+
 //TODO: delete this class and replace with FunctionType and correct parameters?
 var b = "";
 
@@ -721,8 +752,7 @@ class ChoiceType extends ChromeType {
       ChoiceType(isNullable: isNullable);
 
   @override
-  Iterable<ChromeType> get children sync* {
-  }
+  Iterable<ChromeType> get children sync* {}
 }
 
 extension on code.Expression {

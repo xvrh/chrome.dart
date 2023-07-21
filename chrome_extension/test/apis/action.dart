@@ -39,190 +39,130 @@ void _tests() {
     var actual = await chrome.action.getTitle(getOriginalTitleDetails);
     expect(actual, equals(originalTitle));
   });
-/*
-  test('badge text -- global', () {
-    String badgeText = '9999';
-    chrome.BrowserActionSetBadgeTextParams details =
-        new chrome.BrowserActionSetBadgeTextParams(text: badgeText);
-    chrome.browserAction.setBadgeText(details);
 
-    chrome.BrowserActionGetBadgeTextParams getBadgedetails =
-        new chrome.BrowserActionGetBadgeTextParams();
-    chrome.browserAction
-        .getBadgeText(getBadgedetails)
-        .then(expectAsync((String actual) {
-      expect(actual, equals(badgeText));
-    }));
+  test('badge text -- global', () async {
+    var badgeText = '9999';
+    var details = SetBadgeTextDetails(text: badgeText);
+    await chrome.action.setBadgeText(details);
 
-    chrome.BrowserActionSetBadgeTextParams clearBadgedetails =
-        new chrome.BrowserActionSetBadgeTextParams(text: '');
-    chrome.browserAction.setBadgeText(clearBadgedetails);
-    chrome.browserAction
-        .getBadgeText(getBadgedetails)
-        .then(expectAsync((String actual) {
-      expect(actual, equals(''));
-    }));
+    var getBadgedetails = TabDetails();
+    var actual = await chrome.action.getBadgeText(getBadgedetails);
+    check(actual).equals(badgeText);
+
+    var clearBadgedetails = SetBadgeTextDetails(text: '');
+    await chrome.action.setBadgeText(clearBadgedetails);
+    actual = await chrome.action.getBadgeText(getBadgedetails);
+    check(actual).equals('');
   });
 
-  test('badge text -- tab', () {
-    String badgeText = '9999';
-    chrome.tabs.getCurrent().then(expectAsync((chrome.Tab tab) {
-      chrome.BrowserActionSetBadgeTextParams details =
-          new chrome.BrowserActionSetBadgeTextParams(
-              text: badgeText, tabId: tab.id);
-      chrome.browserAction.setBadgeText(details);
+  test('badge text -- tab', () async {
+    var badgeText = '9999';
+    var tab = await chrome.tabs.create(CreateProperties());
 
-      chrome.BrowserActionGetBadgeTextParams getBadgeDetails =
-          new chrome.BrowserActionGetBadgeTextParams(tabId: tab.id);
-      chrome.browserAction
-          .getBadgeText(getBadgeDetails)
-          .then(expectAsync((String actual) {
-        expect(actual, equals(badgeText));
-      }));
+    var details = SetBadgeTextDetails(text: badgeText, tabId: tab.id);
+    await chrome.action.setBadgeText(details);
 
-      chrome.BrowserActionSetBadgeTextParams clearBadgedetails =
-          new chrome.BrowserActionSetBadgeTextParams(text: '', tabId: tab.id);
-      chrome.browserAction.setBadgeText(clearBadgedetails);
-      chrome.browserAction
-          .getBadgeText(getBadgeDetails)
-          .then(expectAsync((String actual) {
-        expect(actual, equals(''));
-      }));
-    }));
+    var getBadgeDetails = TabDetails(tabId: tab.id);
+    var actual = await chrome.action.getBadgeText(getBadgeDetails);
+    check(actual).equals(badgeText);
+
+    var clearBadgedetails = SetBadgeTextDetails(text: '', tabId: tab.id);
+    await chrome.action.setBadgeText(clearBadgedetails);
+    actual = await chrome.action.getBadgeText(getBadgeDetails);
+    check(actual).equals('');
   });
 
-  test('badge background color -- global', () {
-    chrome.BrowserActionSetBadgeBackgroundColorParams badgeColor =
-        new chrome.BrowserActionSetBadgeBackgroundColorParams(
-            color: [192, 134, 76, 255]);
-    chrome.BrowserActionSetBadgeBackgroundColorParams originalColor =
-        new chrome.BrowserActionSetBadgeBackgroundColorParams(
-            color: [0, 0, 0, 0]);
+  test('badge background color -- global', () async {
+    var colorList = [192, 134, 76, 255];
+    var badgeColor = SetBadgeBackgroundColorDetails(color: colorList);
+    var originalColor = SetBadgeBackgroundColorDetails(color: [0, 0, 0, 0]);
 
-    chrome.browserAction.setBadgeBackgroundColor(badgeColor);
-    chrome.browserAction
-        .getBadgeBackgroundColor(
-            new chrome.BrowserActionGetBadgeBackgroundColorParams())
-        .then(expectAsync((chrome.ColorArray actual) {
-      expect(actual.toJs()[0], equals(badgeColor.color[0]));
-      expect(actual.toJs()[1], equals(badgeColor.color[1]));
-      expect(actual.toJs()[2], equals(badgeColor.color[2]));
-      expect(actual.toJs()[3], equals(badgeColor.color[3]));
-    }));
+    await chrome.action.setBadgeBackgroundColor(badgeColor);
+    var actual = await chrome.action.getBadgeBackgroundColor(TabDetails());
+    check(actual[0]).equals(colorList[0]);
+    check(actual[1]).equals(colorList[1]);
+    check(actual[2]).equals(colorList[2]);
+    check(actual[3]).equals(colorList[3]);
 
-    chrome.browserAction.setBadgeBackgroundColor(originalColor);
-    chrome.browserAction
-        .getBadgeBackgroundColor(
-            new chrome.BrowserActionGetBadgeBackgroundColorParams())
-        .then(expectAsync((chrome.ColorArray actual) {
-      expect(actual.toJs()[0], equals(originalColor.color[0]));
-      expect(actual.toJs()[1], equals(originalColor.color[1]));
-      expect(actual.toJs()[2], equals(originalColor.color[2]));
-      expect(actual.toJs()[3], equals(originalColor.color[3]));
-    }));
+    await chrome.action.setBadgeBackgroundColor(originalColor);
+    actual = await chrome.action.getBadgeBackgroundColor(TabDetails());
+    check(actual[0]).equals(0);
+    check(actual[1]).equals(0);
+    check(actual[2]).equals(0);
+    check(actual[3]).equals(0);
   });
 
-  test('badge background color -- tab', () {
-    chrome.tabs.getCurrent().then(expectAsync((chrome.Tab tab) {
-      chrome.BrowserActionSetBadgeBackgroundColorParams badgeColor =
-          new chrome.BrowserActionSetBadgeBackgroundColorParams(
-              color: [192, 134, 76, 255], tabId: tab.id);
-      chrome.BrowserActionSetBadgeBackgroundColorParams originalColor =
-          new chrome.BrowserActionSetBadgeBackgroundColorParams(
-              color: [0, 0, 0, 0], tabId: tab.id);
+  test('badge background color -- tab', () async {
+    var tab = await chrome.tabs.create(CreateProperties());
+    var colorList = [192, 134, 76, 255];
+    var badgeColor =
+        SetBadgeBackgroundColorDetails(color: colorList, tabId: tab.id);
+    var originalColor =
+        SetBadgeBackgroundColorDetails(color: [0, 0, 0, 0], tabId: tab.id);
 
-      chrome.browserAction.setBadgeBackgroundColor(badgeColor);
-      chrome.browserAction
-          .getBadgeBackgroundColor(
-              new chrome.BrowserActionGetBadgeBackgroundColorParams(
-                  tabId: tab.id))
-          .then(expectAsync((chrome.ColorArray actual) {
-        expect(actual.toJs()[0], equals(badgeColor.color[0]));
-        expect(actual.toJs()[1], equals(badgeColor.color[1]));
-        expect(actual.toJs()[2], equals(badgeColor.color[2]));
-        expect(actual.toJs()[3], equals(badgeColor.color[3]));
-      }));
-      chrome.browserAction.setBadgeBackgroundColor(originalColor);
-      chrome.browserAction
-          .getBadgeBackgroundColor(
-              new chrome.BrowserActionGetBadgeBackgroundColorParams(
-                  tabId: tab.id))
-          .then(expectAsync((chrome.ColorArray actual) {
-        expect(actual.toJs()[0], equals(originalColor.color[0]));
-        expect(actual.toJs()[1], equals(originalColor.color[1]));
-        expect(actual.toJs()[2], equals(originalColor.color[2]));
-        expect(actual.toJs()[3], equals(originalColor.color[3]));
-      }));
-    }));
+    await chrome.action.setBadgeBackgroundColor(badgeColor);
+    var actual =
+        await chrome.action.getBadgeBackgroundColor(TabDetails(tabId: tab.id));
+    check(actual[0]).equals(colorList[0]);
+    check(actual[1]).equals(colorList[1]);
+    check(actual[2]).equals(colorList[2]);
+    check(actual[3]).equals(colorList[3]);
+    await chrome.action.setBadgeBackgroundColor(originalColor);
+    actual =
+        await chrome.action.getBadgeBackgroundColor(TabDetails(tabId: tab.id));
+    check(actual[0]).equals(0);
+    check(actual[1]).equals(0);
+    check(actual[2]).equals(0);
+    check(actual[3]).equals(0);
   });
 
-  test('popup -- global', () {
-    String popupFile = "sample.html";
-    chrome.BrowserActionSetPopupParams popupParams =
-        new chrome.BrowserActionSetPopupParams(popup: popupFile);
-    chrome.browserAction.setPopup(popupParams);
-    chrome.BrowserActionGetPopupParams getPopupParams =
-        new chrome.BrowserActionGetPopupParams();
-    chrome.browserAction
-        .getPopup(getPopupParams)
-        .then(expectAsync((String actual) {
-      expect(actual, endsWith(popupFile)); // adds extension prefix
-    }));
+  test('popup -- global', () async {
+    var popupFile = 'sample.html';
+    var popupParams = SetPopupDetails(popup: popupFile);
+    await chrome.action.setPopup(popupParams);
+    var getPopupParams = TabDetails();
+    var actual = await chrome.action.getPopup(getPopupParams);
+    check(actual).endsWith(popupFile); // adds extension prefix
 
-    chrome.BrowserActionSetPopupParams clearPopupParams =
-        new chrome.BrowserActionSetPopupParams(popup: "");
-    chrome.browserAction.setPopup(clearPopupParams);
-    chrome.browserAction
-        .getPopup(getPopupParams)
-        .then(expectAsync((String actual) {
-      expect(actual, equals(""));
-    }));
+    var clearPopupParams = SetPopupDetails(popup: "");
+    await chrome.action.setPopup(clearPopupParams);
+    actual = await chrome.action.getPopup(getPopupParams);
+    check(actual).equals('');
   });
 
-  test('popup -- tab', () {
-    String popupFile = "sample.html";
-    chrome.tabs.getCurrent().then(expectAsync((chrome.Tab tab) {
-      chrome.BrowserActionSetPopupParams popupParams =
-          new chrome.BrowserActionSetPopupParams(
-              popup: popupFile, tabId: tab.id);
+  test('popup -- tab', () async {
+    var popupFile = "sample.html";
+    var tab = await chrome.tabs.create(CreateProperties());
+    var popupParams = SetPopupDetails(popup: popupFile, tabId: tab.id);
 
-      chrome.BrowserActionSetPopupParams clearPopupParams =
-          new chrome.BrowserActionSetPopupParams(popup: "", tabId: tab.id);
+    var clearPopupParams = SetPopupDetails(popup: "", tabId: tab.id);
 
-      chrome.BrowserActionGetPopupParams getPopupParams =
-          new chrome.BrowserActionGetPopupParams(tabId: tab.id);
+    var getPopupParams = TabDetails(tabId: tab.id);
 
-      chrome.browserAction.setPopup(popupParams);
-      chrome.browserAction
-          .getPopup(getPopupParams)
-          .then(expectAsync((String actual) {
-        expect(actual, endsWith(popupFile)); // adds extension prefix
-      }));
-      chrome.browserAction.setPopup(clearPopupParams);
-      chrome.browserAction.getPopup(getPopupParams).then(expectAsync((actual) {
-        expect(actual, equals(""));
-      }));
-    }));
+    await chrome.action.setPopup(popupParams);
+    var actual = await chrome.action.getPopup(getPopupParams);
+    check(actual).endsWith(popupFile); // adds extension prefix
+    await chrome.action.setPopup(clearPopupParams);
+    actual = await chrome.action.getPopup(getPopupParams);
+    check(actual).equals('');
   });
 
-  test('disable/enable -- global', () {
-    chrome.browserAction.disable();
-    chrome.browserAction.enable();
+  test('disable/enable -- global', () async {
+    await chrome.action.disable(null);
+    await chrome.action.enable(null);
     // TODO(DrMarcII): need to figure out a way to check if this is working.
   });
 
-  test('disable/enable -- tab', () {
-    chrome.tabs.getCurrent().then(expectAsync((chrome.Tab tab) {
-      chrome.browserAction.disable(tab.id);
-      chrome.browserAction.enable(tab.id);
-    }));
+  test('disable/enable -- tab', () async {
+    var tab = await chrome.tabs.create(CreateProperties());
+      await chrome.action.disable(tab.id);
+      await chrome.action.enable(tab.id);
     // TODO(DrMarcII): need to figure out a way to check if this is working.
   });
 
-  test('onClicked', () {
-    chrome.browserAction.onClicked.listen((_) {}).cancel();
+  test('onClicked', () async {
+    await chrome.action.onClicked.first;
     // TODO(DrMarcII): need to figure out a way to fire this event.
-  });
+  }, skip: 'need to figure out a way to fire this event.');
 
- */"";
 }

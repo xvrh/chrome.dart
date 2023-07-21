@@ -817,7 +817,7 @@ extension OnBeforeRequestDetailsRequestBodyExtension
   /// key contains the list of all values for that key. If the data is of
   /// another media type, or if it is malformed, the dictionary is not present.
   /// An example value of this dictionary is {'key': ['value1', 'value2']}.
-  external OnBeforeRequestDetailsRequestBodyFormData? formData;
+  external JSObject? formData;
 
   /// If the request method is PUT or POST, and the body is not already parsed
   /// in formData, then the unparsed request body elements are contained in this
@@ -835,10 +835,3 @@ extension OnAuthRequiredDetailsChallengerExtension
 
   external int port;
 }
-
-@JS()
-@staticInterop
-class OnBeforeRequestDetailsRequestBodyFormData {}
-
-extension OnBeforeRequestDetailsRequestBodyFormDataExtension
-    on OnBeforeRequestDetailsRequestBodyFormData {}

@@ -60,7 +60,7 @@ class GetTokenParams {
 
     /// Allows including a small number of string key/value pairs that will be
     /// associated with the token and may be used in processing the request.
-    GetTokenParamsOptions? options,
+    JSObject? options,
   });
 }
 
@@ -75,11 +75,4 @@ class DeleteTokenParams {
     /// The scope that is used to obtain the token.
     String scope,
   });
-}
-
-@JS()
-@staticInterop
-@anonymous
-class GetTokenParamsOptions {
-  external factory GetTokenParamsOptions();
 }

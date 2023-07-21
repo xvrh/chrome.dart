@@ -34,12 +34,12 @@ class ChromeDevtoolsInspectedWindow {
       expression,
       options?.toJS,
       (
-        JSAny result,
+        JSObject result,
         $js.EvalExceptionInfo exceptionInfo,
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(EvalResult(
-            result: result,
+            result: (result.dartify() as Map),
             exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
           ));
         }
@@ -131,17 +131,17 @@ class Resource {
   /// [commit] True if the user has finished editing the resource, and the new
   /// content of the resource should be persisted; false if this is a minor
   /// change sent in progress of the user editing the resource.
-  Future<Object?> setContent(
+  Future<Map?> setContent(
     String content,
     bool commit,
   ) {
-    var $completer = Completer<Object?>();
+    var $completer = Completer<Map?>();
     _wrapped.setContent(
       content,
       commit,
-      (JSAny? error) {
+      (JSObject? error) {
         if (checkRuntimeLastError($completer)) {
-          $completer.complete(error);
+          $completer.complete((error?.dartify() as Map?));
         }
       }.toJS,
     );
@@ -270,7 +270,7 @@ class EvalResult {
   });
 
   /// The result of evaluation.
-  final Object result;
+  final Map result;
 
   /// An object providing details if an exception occurred while evaluating the
   /// expression.

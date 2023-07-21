@@ -43,17 +43,17 @@ class ChromeDebugger {
   /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
   /// [commandParams] JSON object with request parameters. This object must
   /// conform to the remote debugging params scheme for given method.
-  Future<Object?> sendCommand(
+  Future<Map?> sendCommand(
     Debuggee target,
     String method,
-    Object? commandParams,
+    Map? commandParams,
   ) async {
-    var $res = await promiseToFuture<JSAny?>($js.chrome.debugger.sendCommand(
+    var $res = await promiseToFuture<JSObject?>($js.chrome.debugger.sendCommand(
       target.toJS,
       method,
       commandParams?.toJS,
     ));
-    return $res;
+    return ($res?.dartify() as Map?);
   }
 
   /// Returns the list of available debug targets.
@@ -70,12 +70,12 @@ class ChromeDebugger {
       $js.chrome.debugger.onEvent.asStream(($c) => (
             $js.Debuggee source,
             String method,
-            JSAny? params,
+            JSObject? params,
           ) {
             $c.add(OnEventEvent(
               source: Debuggee.fromJS(source),
               method: method,
-              params: params,
+              params: (params?.dartify() as Map?),
             ));
           }.toJS);
 
@@ -235,7 +235,7 @@ class OnEventEvent {
   /// JSON object with the parameters. Structure of the parameters varies
   /// depending on the method name and is defined by the 'parameters' attribute
   /// of the event description in the remote debugging protocol.
-  final Object? params;
+  final Map? params;
 }
 
 class OnDetachEvent {

@@ -86,7 +86,7 @@ class OnMessageMessage {
   OnMessageMessage.fromJS(this._wrapped);
 
   OnMessageMessage({
-    required OnMessageMessageData data,
+    required Map data,
     String? from,
     String? collapseKey,
   }) : _wrapped = $js.OnMessageMessage()
@@ -99,8 +99,8 @@ class OnMessageMessage {
   $js.OnMessageMessage get toJS => _wrapped;
 
   /// The message data.
-  OnMessageMessageData get data => OnMessageMessageData.fromJS(_wrapped.data);
-  set data(OnMessageMessageData v) {
+  Map get data => (_wrapped.data.dartify() as Map);
+  set data(Map v) {
     _wrapped.data = v.toJS;
   }
 
@@ -125,7 +125,7 @@ class OnSendErrorError {
   OnSendErrorError({
     required String errorMessage,
     String? messageId,
-    required OnSendErrorErrorDetails details,
+    required Map details,
   }) : _wrapped = $js.OnSendErrorError()
           ..errorMessage = errorMessage
           ..messageId = messageId
@@ -149,9 +149,8 @@ class OnSendErrorError {
   }
 
   /// Additional details related to the error, when available.
-  OnSendErrorErrorDetails get details =>
-      OnSendErrorErrorDetails.fromJS(_wrapped.details);
-  set details(OnSendErrorErrorDetails v) {
+  Map get details => (_wrapped.details.dartify() as Map);
+  set details(Map v) {
     _wrapped.details = v.toJS;
   }
 }
@@ -163,7 +162,7 @@ class SendMessage {
     required String destinationId,
     required String messageId,
     int? timeToLive,
-    required SendMessageData data,
+    required Map data,
   }) : _wrapped = $js.SendMessage(
           destinationId: destinationId,
           messageId: messageId,
@@ -174,34 +173,4 @@ class SendMessage {
   final $js.SendMessage _wrapped;
 
   $js.SendMessage get toJS => _wrapped;
-}
-
-class OnMessageMessageData {
-  OnMessageMessageData.fromJS(this._wrapped);
-
-  OnMessageMessageData() : _wrapped = $js.OnMessageMessageData();
-
-  final $js.OnMessageMessageData _wrapped;
-
-  $js.OnMessageMessageData get toJS => _wrapped;
-}
-
-class OnSendErrorErrorDetails {
-  OnSendErrorErrorDetails.fromJS(this._wrapped);
-
-  OnSendErrorErrorDetails() : _wrapped = $js.OnSendErrorErrorDetails();
-
-  final $js.OnSendErrorErrorDetails _wrapped;
-
-  $js.OnSendErrorErrorDetails get toJS => _wrapped;
-}
-
-class SendMessageData {
-  SendMessageData.fromJS(this._wrapped);
-
-  SendMessageData() : _wrapped = $js.SendMessageData();
-
-  final $js.SendMessageData _wrapped;
-
-  $js.SendMessageData get toJS => _wrapped;
 }

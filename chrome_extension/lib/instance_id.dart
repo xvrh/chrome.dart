@@ -65,7 +65,7 @@ class GetTokenParams {
   GetTokenParams({
     required String authorizedEntity,
     required String scope,
-    GetTokenParamsOptions? options,
+    Map? options,
   }) : _wrapped = $js.GetTokenParams(
           authorizedEntity: authorizedEntity,
           scope: scope,
@@ -91,14 +91,4 @@ class DeleteTokenParams {
   final $js.DeleteTokenParams _wrapped;
 
   $js.DeleteTokenParams get toJS => _wrapped;
-}
-
-class GetTokenParamsOptions {
-  GetTokenParamsOptions.fromJS(this._wrapped);
-
-  GetTokenParamsOptions() : _wrapped = $js.GetTokenParamsOptions();
-
-  final $js.GetTokenParamsOptions _wrapped;
-
-  $js.GetTokenParamsOptions get toJS => _wrapped;
 }

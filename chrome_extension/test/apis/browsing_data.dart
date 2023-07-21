@@ -10,4 +10,27 @@ void _tests() {
     var details = RemovalOptions();
     await chrome.browsingData.removeCache(details);
   });
+
+  test('remove', () async {
+    var details = RemovalOptions();
+    await chrome.browsingData.remove(
+      details,
+      DataTypeSet(
+          appcache: true,
+          cache: true,
+          cacheStorage: true,
+          cookies: true,
+          downloads: true,
+          fileSystems: true,
+          formData: true,
+          history: true,
+          indexedDB: true,
+          localStorage: true,
+          serverBoundCertificates: true,
+          serviceWorkers: true,
+          pluginData: true,
+          passwords: true,
+          webSQL: true),
+    );
+  });
 }

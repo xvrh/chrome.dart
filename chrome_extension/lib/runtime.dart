@@ -19,10 +19,10 @@ class ChromeRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  Future<JSObject?> getBackgroundPage() async {
+  Future<Map?> getBackgroundPage() async {
     var $res = await promiseToFuture<JSObject?>(
         $js.chrome.runtime.getBackgroundPage());
-    return $res;
+    return ($res?.dartify() as Map?);
   }
 
   /// Open your Extension's options page, if possible.
@@ -41,8 +41,8 @@ class ChromeRuntime {
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
-  GetManifestReturn getManifest() {
-    return GetManifestReturn.fromJS($js.chrome.runtime.getManifest());
+  Map getManifest() {
+    return ($js.chrome.runtime.getManifest().dartify() as Map);
   }
 
   /// Converts a relative path within an app/extension install directory to a
@@ -167,16 +167,16 @@ class ChromeRuntime {
   /// Send a single message to a native application.
   /// [application] The name of the native messaging host.
   /// [message] The message that will be passed to the native messaging host.
-  Future<Object> sendNativeMessage(
+  Future<Map> sendNativeMessage(
     String application,
-    Object message,
+    Map message,
   ) async {
     var $res =
-        await promiseToFuture<JSAny>($js.chrome.runtime.sendNativeMessage(
+        await promiseToFuture<JSObject>($js.chrome.runtime.sendNativeMessage(
       application,
       message.toJS,
     ));
-    return $res;
+    return ($res.dartify() as Map);
   }
 
   /// Returns information about the current platform.
@@ -187,11 +187,11 @@ class ChromeRuntime {
   }
 
   /// Returns a DirectoryEntry for the package directory.
-  Future<JSObject> getPackageDirectoryEntry() {
-    var $completer = Completer<JSObject>();
+  Future<Map> getPackageDirectoryEntry() {
+    var $completer = Completer<Map>();
     $js.chrome.runtime.getPackageDirectoryEntry((JSObject directoryEntry) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete(directoryEntry);
+        $completer.complete((directoryEntry.dartify() as Map));
       }
     }.toJS);
     return $completer.future;
@@ -847,16 +847,6 @@ class OnUpdateAvailableDetails {
   set version(String v) {
     _wrapped.version = v;
   }
-}
-
-class GetManifestReturn {
-  GetManifestReturn.fromJS(this._wrapped);
-
-  GetManifestReturn() : _wrapped = $js.GetManifestReturn();
-
-  final $js.GetManifestReturn _wrapped;
-
-  $js.GetManifestReturn get toJS => _wrapped;
 }
 
 class RequestUpdateCheckCallbackResult {

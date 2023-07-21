@@ -103,11 +103,11 @@ class ChromeBrowserAction {
 
   /// Opens the extension popup window in the active window but does not grant
   /// tab permissions.
-  Future<Object?> openPopup() {
-    var $completer = Completer<Object?>();
-    $js.chrome.browserAction.openPopup((JSAny? popupView) {
+  Future<Map?> openPopup() {
+    var $completer = Completer<Map?>();
+    $js.chrome.browserAction.openPopup((JSObject? popupView) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete(popupView);
+        $completer.complete((popupView?.dartify() as Map?));
       }
     }.toJS);
     return $completer.future;

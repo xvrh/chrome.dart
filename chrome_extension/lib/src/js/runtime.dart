@@ -38,7 +38,7 @@ extension JSRuntimeExtension on JSRuntime {
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
-  external GetManifestReturn getManifest();
+  external JSObject getManifest();
 
   /// Converts a relative path within an app/extension install directory to a
   /// fully-qualified URL.
@@ -145,7 +145,7 @@ extension JSRuntimeExtension on JSRuntime {
     String application,
 
     /// The message that will be passed to the native messaging host.
-    JSAny message,
+    JSObject message,
   );
 
   /// Returns information about the current platform.
@@ -442,12 +442,6 @@ extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
   /// The version number of the available update.
   external String version;
 }
-
-@JS()
-@staticInterop
-class GetManifestReturn {}
-
-extension GetManifestReturnExtension on GetManifestReturn {}
 
 @JS()
 @staticInterop

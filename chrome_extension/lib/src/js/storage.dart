@@ -80,7 +80,7 @@ extension StorageAreaExtension on StorageArea {
       /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
       /// with the exception of `Array` (serializes as expected), `Date`, and
       /// `Regex` (serialize using their `String` representation).
-      JSAny items);
+      JSObject items);
 
   /// Removes one or more items from storage.
   external JSPromise remove(

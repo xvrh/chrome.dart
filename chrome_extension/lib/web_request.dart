@@ -1950,7 +1950,7 @@ class OnBeforeRequestDetailsRequestBody {
 
   OnBeforeRequestDetailsRequestBody({
     String? error,
-    OnBeforeRequestDetailsRequestBodyFormData? formData,
+    Map? formData,
     List<UploadData>? raw,
   }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody()
           ..error = error
@@ -1973,9 +1973,8 @@ class OnBeforeRequestDetailsRequestBody {
   /// key contains the list of all values for that key. If the data is of
   /// another media type, or if it is malformed, the dictionary is not present.
   /// An example value of this dictionary is {'key': ['value1', 'value2']}.
-  OnBeforeRequestDetailsRequestBodyFormData? get formData =>
-      _wrapped.formData?.let(OnBeforeRequestDetailsRequestBodyFormData.fromJS);
-  set formData(OnBeforeRequestDetailsRequestBodyFormData? v) {
+  Map? get formData => (_wrapped.formData?.dartify() as Map?);
+  set formData(Map? v) {
     _wrapped.formData = v?.toJS;
   }
 
@@ -2014,17 +2013,6 @@ class OnAuthRequiredDetailsChallenger {
   set port(int v) {
     _wrapped.port = v;
   }
-}
-
-class OnBeforeRequestDetailsRequestBodyFormData {
-  OnBeforeRequestDetailsRequestBodyFormData.fromJS(this._wrapped);
-
-  OnBeforeRequestDetailsRequestBodyFormData()
-      : _wrapped = $js.OnBeforeRequestDetailsRequestBodyFormData();
-
-  final $js.OnBeforeRequestDetailsRequestBodyFormData _wrapped;
-
-  $js.OnBeforeRequestDetailsRequestBodyFormData get toJS => _wrapped;
 }
 
 class OnAuthRequiredEvent {

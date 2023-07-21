@@ -11,6 +11,7 @@
     "tabs",
     "notifications",
     "system",
+    "system.cpu",
     "system.memory"
   ],
   "background": {

@@ -33,11 +33,11 @@ class ChromeStorage {
   /// Fired when one or more items change.
   Stream<OnChangedEvent> get onChanged =>
       $js.chrome.storage.onChanged.asStream(($c) => (
-            JSAny changes,
+            JSObject changes,
             String areaName,
           ) {
             $c.add(OnChangedEvent(
-              changes: changes,
+              changes: (changes.dartify() as Map),
               areaName: areaName,
             ));
           }.toJS);
@@ -98,9 +98,9 @@ class StorageArea {
   /// specifying default values (see description of the object).  An empty
   /// list or object will return an empty result object.  Pass in `null` to
   /// get the entire contents of storage.
-  Future<Object> get(Object? keys) async {
-    var $res = await promiseToFuture<JSAny>(_wrapped.get(keys?.toJS));
-    return $res;
+  Future<Map> get(Object? keys) async {
+    var $res = await promiseToFuture<JSObject>(_wrapped.get(keys?.toJS));
+    return ($res.dartify() as Map);
   }
 
   /// Gets the amount of space (in bytes) being used by one or more items.
@@ -120,7 +120,7 @@ class StorageArea {
   /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
   /// with the exception of `Array` (serializes as expected), `Date`, and
   /// `Regex` (serialize using their `String` representation).
-  Future<void> set(Object items) async {
+  Future<void> set(Map items) async {
     await promiseToFuture<void>(_wrapped.set(items.toJS));
   }
 
@@ -142,9 +142,9 @@ class StorageArea {
   }
 
   /// Fired when one or more items change.
-  Stream<Object> get onChanged =>
-      _wrapped.onChanged.asStream(($c) => (JSAny changes) {
-            $c.add(changes);
+  Stream<Map> get onChanged =>
+      _wrapped.onChanged.asStream(($c) => (JSObject changes) {
+            $c.add((changes.dartify() as Map));
           }.toJS);
 }
 
@@ -289,7 +289,7 @@ class OnChangedEvent {
 
   /// Object mapping each key that changed to its corresponding
   /// [storage.StorageChange] for that item.
-  final Object changes;
+  final Map changes;
 
   /// The name of the storage area (`"sync"`, `"local"` or `"managed"`) the
   /// changes are for.

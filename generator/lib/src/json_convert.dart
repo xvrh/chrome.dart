@@ -182,6 +182,8 @@ class JsonModelConverter {
       {required bool anonymous, required bool isNullable}) {
     ChromeType? type;
     if (property.properties != null) {
+      if (property.properties!.isEmpty && property.additionalProperties != null)
+        return null;
       var typeName =
           '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
@@ -293,8 +295,8 @@ class JsonModelConverter {
   }
 
   Iterable<Typedef> _convertTypedefs() sync* {
-    for (var type
-        in model.types.where((t) => t.type != 'object' && t.enums == null && t.choices == null)) {
+    for (var type in model.types.where(
+        (t) => t.type != 'object' && t.enums == null && t.choices == null)) {
       ChromeType? target;
 
       if (type.type == 'array') {
@@ -310,9 +312,11 @@ class JsonModelConverter {
         } else if (type.type case var type?) {
           typeName = type;
         } else {
-          throw UnimplementedError('Unknown type in ${model.namespace} ${type.id}');
+          throw UnimplementedError(
+              'Unknown type in ${model.namespace} ${type.id}');
         }
-        target = context.createType(typeName, locationFile: _targetFileName, isNullable: false);
+        target = context.createType(typeName,
+            locationFile: _targetFileName, isNullable: false);
       }
 
       yield Typedef(type.id, target: target, documentation: type.description);
@@ -320,20 +324,21 @@ class JsonModelConverter {
   }
 
   ChromeType _propertyType(JsonProperty prop) {
-    String typeName;
+    ChromeType type;
     var nullable = prop.optional ?? false;
     var arrayNullable = nullable;
     var isArray = false;
     if (prop.items case var items?) {
-      typeName = _extractType(items);
       isArray = true;
-      nullable = false;
+      type = context.createType(_extractType(items),
+          locationFile: _targetFileName, isNullable: false);
+    } else if (prop.additionalProperties != null) {
+      type = MapType(isNullable: nullable);
     } else {
-      typeName = _extractType(prop);
+      type = context.createType(_extractType(prop),
+          locationFile: _targetFileName, isNullable: nullable);
     }
 
-    var type = context.createType(typeName,
-        locationFile: _targetFileName, isNullable: nullable);
     if (isArray) {
       return ListType(type, isNullable: arrayNullable);
     }

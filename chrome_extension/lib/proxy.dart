@@ -7,6 +7,9 @@ export 'src/chrome.dart' show chrome;
 final _proxy = ChromeProxy._();
 
 extension ChromeProxyExtension on Chrome {
+  /// Use the `chrome.proxy` API to manage Chrome's proxy settings. This API
+  /// relies on the [ChromeSetting prototype of the type
+  /// API](types#ChromeSetting) for getting and setting the proxy configuration.
   ChromeProxy get proxy => _proxy;
 }
 

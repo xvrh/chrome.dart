@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _certificateProvider = ChromeCertificateProvider._();
 
 extension ChromeCertificateProviderExtension on Chrome {
+  /// Use this API to expose certificates to the platform which can use these
+  /// certificates for TLS authentications.
   ChromeCertificateProvider get certificateProvider => _certificateProvider;
 }
 

@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSWindowsExtension on JSChrome {
-  /// Use the `chrome.windows` API to interact with browser windows. You can use
-  /// this API to create, modify, and rearrange windows in the browser.
   @JS('windows')
   external JSWindows? get windowsNullable;
 

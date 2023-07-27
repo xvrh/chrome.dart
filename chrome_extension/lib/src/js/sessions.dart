@@ -7,8 +7,6 @@ import 'windows.dart';
 export 'chrome.dart';
 
 extension JSChromeJSSessionsExtension on JSChrome {
-  /// Use the `chrome.sessions` API to query and restore tabs and windows from a
-  /// browsing session.
   @JS('sessions')
   external JSSessions? get sessionsNullable;
 

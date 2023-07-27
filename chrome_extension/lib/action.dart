@@ -12,6 +12,8 @@ export 'src/chrome.dart' show chrome;
 final _action = ChromeAction._();
 
 extension ChromeActionExtension on Chrome {
+  /// Use the `chrome.action` API to control the extension's icon in the Google
+  /// Chrome toolbar.
   ChromeAction get action => _action;
 }
 

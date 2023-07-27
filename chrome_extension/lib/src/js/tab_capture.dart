@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSTabCaptureExtension on JSChrome {
-  /// Use the `chrome.tabCapture` API to interact with tab media
-  /// streams.
   @JS('tabCapture')
   external JSTabCapture? get tabCaptureNullable;
 

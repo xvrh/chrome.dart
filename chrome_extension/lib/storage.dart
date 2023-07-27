@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _storage = ChromeStorage._();
 
 extension ChromeStorageExtension on Chrome {
+  /// Use the `chrome.storage` API to store, retrieve, and track changes to user
+  /// data.
   ChromeStorage get storage => _storage;
 }
 
@@ -17,10 +19,10 @@ class ChromeStorage {
   bool get isAvailable => $js.chrome.storageNullable != null;
 
   /// Items in the `sync` storage area are synced using Chrome Sync.
-  StorageSync get sync => StorageSync.fromJS($js.chrome.storage.sync);
+  StorageArea get sync => StorageArea.fromJS($js.chrome.storage.sync);
 
   /// Items in the `local` storage area are local to each machine.
-  StorageLocal get local => StorageLocal.fromJS($js.chrome.storage.local);
+  StorageArea get local => StorageArea.fromJS($js.chrome.storage.local);
 
   /// Items in the `managed` storage area are set by the domain administrator,
   /// and are read-only for the extension; trying to modify this namespace
@@ -29,8 +31,7 @@ class ChromeStorage {
 
   /// Items in the `session` storage area are stored in-memory and will not be
   /// persisted to disk.
-  StorageSession get session =>
-      StorageSession.fromJS($js.chrome.storage.session);
+  StorageArea get session => StorageArea.fromJS($js.chrome.storage.session);
 
   /// Fired when one or more items change.
   Stream<OnChangedEvent> get onChanged =>
@@ -148,127 +149,6 @@ class StorageArea {
       _wrapped.onChanged.asStream(($c) => (JSObject changes) {
             $c.add((changes.dartify() as Map));
           }.toJS);
-}
-
-class StorageSync {
-  StorageSync.fromJS(this._wrapped);
-
-  StorageSync({
-    required int QUOTA_BYTES,
-    required int QUOTA_BYTES_PER_ITEM,
-    required int MAX_ITEMS,
-    required int MAX_WRITE_OPERATIONS_PER_HOUR,
-    required int MAX_WRITE_OPERATIONS_PER_MINUTE,
-    required int MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE,
-  }) : _wrapped = $js.StorageSync()
-          ..QUOTA_BYTES = QUOTA_BYTES
-          ..QUOTA_BYTES_PER_ITEM = QUOTA_BYTES_PER_ITEM
-          ..MAX_ITEMS = MAX_ITEMS
-          ..MAX_WRITE_OPERATIONS_PER_HOUR = MAX_WRITE_OPERATIONS_PER_HOUR
-          ..MAX_WRITE_OPERATIONS_PER_MINUTE = MAX_WRITE_OPERATIONS_PER_MINUTE
-          ..MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE =
-              MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
-
-  final $js.StorageSync _wrapped;
-
-  $js.StorageSync get toJS => _wrapped;
-
-  /// The maximum total amount (in bytes) of data that can be stored in sync
-  /// storage, as measured by the JSON stringification of every value plus every
-  /// key's length. Updates that would cause this limit to be exceeded fail
-  /// immediately and set [runtime.lastError].
-  int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
-  set QUOTA_BYTES(int v) {
-    _wrapped.QUOTA_BYTES = v;
-  }
-
-  /// The maximum size (in bytes) of each individual item in sync storage, as
-  /// measured by the JSON stringification of its value plus its key length.
-  /// Updates containing items larger than this limit will fail immediately and
-  /// set [runtime.lastError].
-  int get QUOTA_BYTES_PER_ITEM => _wrapped.QUOTA_BYTES_PER_ITEM;
-  set QUOTA_BYTES_PER_ITEM(int v) {
-    _wrapped.QUOTA_BYTES_PER_ITEM = v;
-  }
-
-  /// The maximum number of items that can be stored in sync storage. Updates
-  /// that would cause this limit to be exceeded will fail immediately and set
-  /// [runtime.lastError].
-  int get MAX_ITEMS => _wrapped.MAX_ITEMS;
-  set MAX_ITEMS(int v) {
-    _wrapped.MAX_ITEMS = v;
-  }
-
-  /// The maximum number of `set`, `remove`, or `clear` operations that can be
-  /// performed each hour. This is 1 every 2 seconds, a lower ceiling than the
-  /// short term higher writes-per-minute limit.
-  ///
-  /// Updates that would cause this limit to be exceeded fail immediately and
-  /// set [runtime.lastError].
-  int get MAX_WRITE_OPERATIONS_PER_HOUR =>
-      _wrapped.MAX_WRITE_OPERATIONS_PER_HOUR;
-  set MAX_WRITE_OPERATIONS_PER_HOUR(int v) {
-    _wrapped.MAX_WRITE_OPERATIONS_PER_HOUR = v;
-  }
-
-  /// The maximum number of `set`, `remove`, or `clear` operations that can be
-  /// performed each minute. This is 2 per second, providing higher throughput
-  /// than writes-per-hour over a shorter period of time.
-  ///
-  /// Updates that would cause this limit to be exceeded fail immediately and
-  /// set [runtime.lastError].
-  int get MAX_WRITE_OPERATIONS_PER_MINUTE =>
-      _wrapped.MAX_WRITE_OPERATIONS_PER_MINUTE;
-  set MAX_WRITE_OPERATIONS_PER_MINUTE(int v) {
-    _wrapped.MAX_WRITE_OPERATIONS_PER_MINUTE = v;
-  }
-
-  int get MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE =>
-      _wrapped.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
-  set MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE(int v) {
-    _wrapped.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE = v;
-  }
-}
-
-class StorageLocal {
-  StorageLocal.fromJS(this._wrapped);
-
-  StorageLocal({required int QUOTA_BYTES})
-      : _wrapped = $js.StorageLocal()..QUOTA_BYTES = QUOTA_BYTES;
-
-  final $js.StorageLocal _wrapped;
-
-  $js.StorageLocal get toJS => _wrapped;
-
-  /// The maximum amount (in bytes) of data that can be stored in local storage,
-  /// as measured by the JSON stringification of every value plus every key's
-  /// length. This value will be ignored if the extension has the
-  /// `unlimitedStorage` permission. Updates that would cause this limit to be
-  /// exceeded fail immediately and set [runtime.lastError].
-  int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
-  set QUOTA_BYTES(int v) {
-    _wrapped.QUOTA_BYTES = v;
-  }
-}
-
-class StorageSession {
-  StorageSession.fromJS(this._wrapped);
-
-  StorageSession({required int QUOTA_BYTES})
-      : _wrapped = $js.StorageSession()..QUOTA_BYTES = QUOTA_BYTES;
-
-  final $js.StorageSession _wrapped;
-
-  $js.StorageSession get toJS => _wrapped;
-
-  /// The maximum amount (in bytes) of data that can be stored in memory, as
-  /// measured by estimating the dynamically allocated memory usage of every
-  /// value and key. Updates that would cause this limit to be exceeded fail
-  /// immediately and set [runtime.lastError].
-  int get QUOTA_BYTES => _wrapped.QUOTA_BYTES;
-  set QUOTA_BYTES(int v) {
-    _wrapped.QUOTA_BYTES = v;
-  }
 }
 
 class SetAccessLevelAccessOptions {

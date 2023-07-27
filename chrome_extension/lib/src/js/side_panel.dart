@@ -5,7 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSSidePanelExtension on JSChrome {
-  /// chrome.sidePanel API
   @JS('sidePanel')
   external JSSidePanel? get sidePanelNullable;
 

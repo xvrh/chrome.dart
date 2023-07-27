@@ -7,6 +7,8 @@ export 'src/chrome.dart' show chrome;
 final _webRequest = ChromeWebRequest._();
 
 extension ChromeWebRequestExtension on Chrome {
+  /// Use the `chrome.webRequest` API to observe and analyze traffic and to
+  /// intercept, block, or modify requests in-flight.
   ChromeWebRequest get webRequest => _webRequest;
 }
 

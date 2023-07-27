@@ -6,8 +6,6 @@ import 'printing.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrintingMetricsExtension on JSChrome {
-  /// Use the `chrome.printingMetrics` API to fetch data about
-  /// printing usage.
   @JS('printingMetrics')
   external JSPrintingMetrics? get printingMetricsNullable;
 

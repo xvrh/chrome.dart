@@ -5,10 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSBrowserActionExtension on JSChrome {
-  /// Use browser actions to put icons in the main Google Chrome toolbar, to the
-  /// right of the address bar. In addition to its [icon](browserAction#icon), a
-  /// browser action can have a [tooltip](browserAction#tooltip), a
-  /// [badge](browserAction#badge), and a [popup](browserAction#popups).
   @JS('browserAction')
   external JSBrowserAction? get browserActionNullable;
 

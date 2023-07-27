@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPowerExtension on JSChrome {
-  /// Use the `chrome.power` API to override the system's power
-  /// management features.
   @JS('power')
   external JSPower? get powerNullable;
 

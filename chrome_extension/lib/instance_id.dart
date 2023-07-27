@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _instanceId = ChromeInstanceId._();
 
 extension ChromeInstanceIdExtension on Chrome {
+  /// Use `chrome.instanceID` to access the Instance ID service.
   ChromeInstanceId get instanceId => _instanceId;
 }
 

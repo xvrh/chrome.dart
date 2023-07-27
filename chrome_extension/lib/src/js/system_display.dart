@@ -7,7 +7,6 @@ export 'chrome.dart';
 export 'system.dart';
 
 extension JSChromeJSSystemDisplayExtension on JSChromeSystem {
-  /// Use the `system.display` API to query display metadata.
   @JS('display')
   external JSSystemDisplay? get displayNullable;
 

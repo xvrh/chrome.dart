@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _omnibox = ChromeOmnibox._();
 
 extension ChromeOmniboxExtension on Chrome {
+  /// The omnibox API allows you to register a keyword with Google Chrome's
+  /// address bar, which is also known as the omnibox.
   ChromeOmnibox get omnibox => _omnibox;
 }
 

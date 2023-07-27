@@ -7,12 +7,6 @@ export 'chrome.dart';
 export 'enterprise.dart';
 
 extension JSChromeJSEnterprisePlatformKeysExtension on JSChromeEnterprise {
-  /// Use the `chrome.enterprise.platformKeys` API to generate keys and
-  /// install certificates for these keys. The certificates will be managed by
-  /// the
-  /// platform and can be used for TLS authentication, network access or by
-  /// other
-  /// extension through $(ref:platformKeys chrome.platformKeys).
   @JS('platformKeys')
   external JSEnterprisePlatformKeys? get platformKeysNullable;
 

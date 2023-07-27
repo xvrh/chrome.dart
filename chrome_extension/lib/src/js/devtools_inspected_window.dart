@@ -7,10 +7,6 @@ export 'chrome.dart';
 export 'devtools.dart';
 
 extension JSChromeJSDevtoolsInspectedWindowExtension on JSChromeDevtools {
-  /// Use the `chrome.devtools.inspectedWindow` API to interact with the
-  /// inspected window: obtain the tab ID for the inspected page, evaluate the
-  /// code in the context of the inspected window, reload the page, or obtain
-  /// the list of resources within the page.
   @JS('inspectedWindow')
   external JSDevtoolsInspectedWindow? get inspectedWindowNullable;
 

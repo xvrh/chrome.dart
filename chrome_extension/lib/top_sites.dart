@@ -8,6 +8,9 @@ export 'src/chrome.dart' show chrome;
 final _topSites = ChromeTopSites._();
 
 extension ChromeTopSitesExtension on Chrome {
+  /// Use the `chrome.topSites` API to access the top sites (i.e. most visited
+  /// sites) that are displayed on the new tab page. These do not include
+  /// shortcuts customized by the user.
   ChromeTopSites get topSites => _topSites;
 }
 

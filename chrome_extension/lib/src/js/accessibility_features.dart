@@ -6,14 +6,6 @@ import 'types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSAccessibilityFeaturesExtension on JSChrome {
-  /// Use the `chrome.accessibilityFeatures` API to manage Chrome's
-  /// accessibility features. This API relies on the [ChromeSetting prototype of
-  /// the type API](types#ChromeSetting) for getting and setting individual
-  /// accessibility features. In order to get feature states the extension must
-  /// request `accessibilityFeatures.read` permission. For modifying feature
-  /// state, the extension needs `accessibilityFeatures.modify` permission. Note
-  /// that `accessibilityFeatures.modify` does not imply
-  /// `accessibilityFeatures.read` permission.
   @JS('accessibilityFeatures')
   external JSAccessibilityFeatures? get accessibilityFeaturesNullable;
 
@@ -45,14 +37,14 @@ extension JSAccessibilityFeaturesExtension on JSAccessibilityFeatures {
   /// is enabled or not. `get()` requires `accessibilityFeatures.read`
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
-  external ChromeSetting get spokenFeedback;
+  external ChromeSetting? get spokenFeedback;
 
   /// *ChromeOS only.*
   ///
   /// Enlarged cursor. The value indicates whether the feature is enabled or
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get largeCursor;
+  external ChromeSetting? get largeCursor;
 
   /// *ChromeOS only.*
   ///
@@ -60,21 +52,21 @@ extension JSAccessibilityFeaturesExtension on JSAccessibilityFeatures {
   /// feature is enabled or not. `get()` requires `accessibilityFeatures.read`
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
-  external ChromeSetting get stickyKeys;
+  external ChromeSetting? get stickyKeys;
 
   /// *ChromeOS only.*
   ///
   /// High contrast rendering mode. The value indicates whether the feature is
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get highContrast;
+  external ChromeSetting? get highContrast;
 
   /// *ChromeOS only.*
   ///
   /// Full screen magnification. The value indicates whether the feature is
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get screenMagnifier;
+  external ChromeSetting? get screenMagnifier;
 
   /// *ChromeOS only.*
   ///
@@ -82,28 +74,28 @@ extension JSAccessibilityFeaturesExtension on JSAccessibilityFeatures {
   /// feature is enabled or not. `get()` requires `accessibilityFeatures.read`
   /// permission. `set()` and `clear()` require `accessibilityFeatures.modify`
   /// permission.
-  external ChromeSetting get autoclick;
+  external ChromeSetting? get autoclick;
 
   /// *ChromeOS only.*
   ///
   /// Virtual on-screen keyboard. The value indicates whether the feature is
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get virtualKeyboard;
+  external ChromeSetting? get virtualKeyboard;
 
   /// *ChromeOS only.*
   ///
   /// Caret highlighting. The value indicates whether the feature is enabled or
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get caretHighlight;
+  external ChromeSetting? get caretHighlight;
 
   /// *ChromeOS only.*
   ///
   /// Cursor highlighting. The value indicates whether the feature is enabled or
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get cursorHighlight;
+  external ChromeSetting? get cursorHighlight;
 
   /// *ChromeOS only.*
   ///
@@ -111,35 +103,35 @@ extension JSAccessibilityFeaturesExtension on JSAccessibilityFeatures {
   /// doesn't indicate the color of it. `get()` requires
   /// `accessibilityFeatures.read` permission. `set()` and `clear()` require
   /// `accessibilityFeatures.modify` permission.
-  external ChromeSetting get cursorColor;
+  external ChromeSetting? get cursorColor;
 
   /// *ChromeOS only.*
   ///
   /// Docked magnifier. The value indicates whether docked magnifier feature is
   /// enabled or not. `get()` requires `accessibilityFeatures.read` permission.
   /// `set()` and `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get dockedMagnifier;
+  external ChromeSetting? get dockedMagnifier;
 
   /// *ChromeOS only.*
   ///
   /// Focus highlighting. The value indicates whether the feature is enabled or
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get focusHighlight;
+  external ChromeSetting? get focusHighlight;
 
   /// *ChromeOS only.*
   ///
   /// Select-to-speak. The value indicates whether the feature is enabled or
   /// not. `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get selectToSpeak;
+  external ChromeSetting? get selectToSpeak;
 
   /// *ChromeOS only.*
   ///
   /// Switch Access. The value indicates whether the feature is enabled or not.
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get switchAccess;
+  external ChromeSetting? get switchAccess;
 
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
@@ -150,5 +142,5 @@ extension JSAccessibilityFeaturesExtension on JSAccessibilityFeatures {
   /// Dictation. The value indicates whether the feature is enabled or not.
   /// `get()` requires `accessibilityFeatures.read` permission. `set()` and
   /// `clear()` require `accessibilityFeatures.modify` permission.
-  external ChromeSetting get dictation;
+  external ChromeSetting? get dictation;
 }

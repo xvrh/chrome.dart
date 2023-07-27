@@ -8,6 +8,10 @@ export 'src/chrome.dart' show chrome;
 final _tabGroups = ChromeTabGroups._();
 
 extension ChromeTabGroupsExtension on Chrome {
+  /// Use the `chrome.tabGroups` API to interact with the browser's tab grouping
+  /// system. You can use this API to modify and rearrange tab groups in the
+  /// browser. To group and ungroup tabs, or to query what tabs are in groups,
+  /// use the `chrome.tabs` API.
   ChromeTabGroups get tabGroups => _tabGroups;
 }
 

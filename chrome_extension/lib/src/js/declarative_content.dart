@@ -6,9 +6,6 @@ import 'events.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeContentExtension on JSChrome {
-  /// Use the `chrome.declarativeContent` API to take actions depending on the
-  /// content of a page, without requiring permission to read the page's
-  /// content.
   @JS('declarativeContent')
   external JSDeclarativeContent? get declarativeContentNullable;
 

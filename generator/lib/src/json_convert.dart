@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:collection/collection.dart';
-
 import 'chrome_model.dart';
 import 'json_model.dart';
 import 'utils/string.dart';
@@ -182,8 +178,13 @@ class JsonModelConverter {
       {required bool anonymous, required bool isNullable}) {
     ChromeType? type;
     if (property.properties != null) {
-      if (property.properties!.isEmpty && property.additionalProperties != null)
+      if (property.properties!.isEmpty && property.additionalProperties != null) {
         return null;
+      }
+      if (property.$ref != null) {
+        //TODO: use extend to add the properties!!
+        return null;
+      }
       var typeName =
           '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
@@ -203,8 +204,9 @@ class JsonModelConverter {
     } else if (property.items case var items?) {
       if (items.$ref == null) {
         if (items.properties != null) {
-          type = _addSyntheticTypeIfNeeded(items, name, parent,
-              anonymous: anonymous, isNullable: isNullable);
+          var itemType = _addSyntheticTypeIfNeeded(items, name, parent,
+              anonymous: anonymous, isNullable: false)!;
+          type = ListType(itemType, isNullable: isNullable);
         } else if (items.enums != null) {
           throw UnimplementedError('$parent $name');
         }
@@ -326,13 +328,17 @@ class JsonModelConverter {
   ChromeType _propertyType(JsonProperty prop) {
     ChromeType type;
     var nullable = prop.optional ?? false;
+    if (!nullable && prop.platforms != null) {
+      nullable = true;
+    }
+
     var arrayNullable = nullable;
     var isArray = false;
     if (prop.items case var items?) {
       isArray = true;
       type = context.createType(_extractType(items),
           locationFile: _targetFileName, isNullable: false);
-    } else if (prop.additionalProperties != null) {
+    } else if (prop.additionalProperties != null && prop.isInstanceOf == null) {
       type = MapType(isNullable: nullable);
     } else {
       type = context.createType(_extractType(prop),
@@ -347,7 +353,7 @@ class JsonModelConverter {
 
   String _extractType(JsonProperty prop) {
     assert(prop.items == null && prop.type != 'array');
-    assert(prop.properties == null);
+    assert(prop.properties == null || prop.$ref != null);
 
     var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref;
     if (typeName == null) {

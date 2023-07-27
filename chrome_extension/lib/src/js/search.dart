@@ -5,7 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSSearchExtension on JSChrome {
-  /// Use the `chrome.search` API to search via the default provider.
   @JS('search')
   external JSSearch? get searchNullable;
 

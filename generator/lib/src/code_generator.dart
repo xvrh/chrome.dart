@@ -53,7 +53,6 @@ class JsBindingGenerator extends _GeneratorBase {
           ..on = _extensionOn
           ..methods.addAll([
             Method((b) => b
-              ..docs.add(documentationComment(api.documentation, indent: 2))
               ..external = true
               ..returns = refer('$bindingClassName?')
               ..name = '${api.nameWithoutGroup.lowerCamel}Nullable'
@@ -233,6 +232,7 @@ class DartApiGenerator extends _GeneratorBase {
           ..name = '${mainClassName}Extension'
           ..on = _extensionOn
           ..methods.add(Method((b) => b
+            ..docs.add(documentationComment(api.documentation, indent: 2))
             ..returns = refer(mainClassName)
             ..name = api.nameWithoutGroup.lowerCamel
             ..lambda = true

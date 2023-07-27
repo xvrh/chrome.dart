@@ -6,6 +6,7 @@ export 'src/chrome.dart' show chrome;
 final _idle = ChromeIdle._();
 
 extension ChromeIdleExtension on Chrome {
+  /// Use the `chrome.idle` API to detect when the machine's idle state changes.
   ChromeIdle get idle => _idle;
 }
 

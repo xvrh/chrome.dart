@@ -8,6 +8,10 @@ export 'src/chrome.dart' show chrome;
 final _devtoolsInspectedWindow = ChromeDevtoolsInspectedWindow._();
 
 extension ChromeDevtoolsInspectedWindowExtension on ChromeDevtools {
+  /// Use the `chrome.devtools.inspectedWindow` API to interact with the
+  /// inspected window: obtain the tab ID for the inspected page, evaluate the
+  /// code in the context of the inspected window, reload the page, or obtain
+  /// the list of resources within the page.
   ChromeDevtoolsInspectedWindow get inspectedWindow => _devtoolsInspectedWindow;
 }
 

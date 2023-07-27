@@ -10,6 +10,10 @@ export 'src/chrome.dart' show chrome;
 final _extension = ChromeExtension._();
 
 extension ChromeExtensionExtension on Chrome {
+  /// The `chrome.extension` API has utilities that can be used by any extension
+  /// page. It includes support for exchanging messages between an extension and
+  /// its content scripts or between extensions, as described in detail in
+  /// [Message Passing](messaging).
   ChromeExtension get extension => _extension;
 }
 
@@ -57,8 +61,8 @@ class ChromeExtension {
   /// Returns the JavaScript 'window' object for the background page running
   /// inside the current extension. Returns null if the extension has no
   /// background page.
-  Map? getBackgroundPage() {
-    return ($js.chrome.extension.getBackgroundPage()?.dartify() as Map?);
+  JSObject? getBackgroundPage() {
+    return $js.chrome.extension.getBackgroundPage();
   }
 
   /// Returns an array of the JavaScript 'window' objects for each of the tabs

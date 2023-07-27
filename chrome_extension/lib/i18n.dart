@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _i18n = ChromeI18n._();
 
 extension ChromeI18nExtension on Chrome {
+  /// Use the `chrome.i18n` infrastructure to implement internationalization
+  /// across your whole app or extension.
   ChromeI18n get i18n => _i18n;
 }
 
@@ -83,10 +85,10 @@ class DetectLanguageCallbackResult {
 
   DetectLanguageCallbackResult({
     required bool isReliable,
-    required DetectLanguageCallbackResultLanguages languages,
+    required List<DetectLanguageCallbackResultLanguages> languages,
   }) : _wrapped = $js.DetectLanguageCallbackResult()
           ..isReliable = isReliable
-          ..languages = languages.toJS;
+          ..languages = languages.toJSArray((e) => e.toJS);
 
   final $js.DetectLanguageCallbackResult _wrapped;
 
@@ -99,10 +101,13 @@ class DetectLanguageCallbackResult {
   }
 
   /// array of detectedLanguage
-  DetectLanguageCallbackResultLanguages get languages =>
-      DetectLanguageCallbackResultLanguages.fromJS(_wrapped.languages);
-  set languages(DetectLanguageCallbackResultLanguages v) {
-    _wrapped.languages = v.toJS;
+  List<DetectLanguageCallbackResultLanguages> get languages =>
+      _wrapped.languages.toDart
+          .cast<$js.DetectLanguageCallbackResultLanguages>()
+          .map((e) => DetectLanguageCallbackResultLanguages.fromJS(e))
+          .toList();
+  set languages(List<DetectLanguageCallbackResultLanguages> v) {
+    _wrapped.languages = v.toJSArray((e) => e.toJS);
   }
 }
 

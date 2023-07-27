@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSOmniboxExtension on JSChrome {
-  /// The omnibox API allows you to register a keyword with Google Chrome's
-  /// address bar, which is also known as the omnibox.
   @JS('omnibox')
   external JSOmnibox? get omniboxNullable;
 

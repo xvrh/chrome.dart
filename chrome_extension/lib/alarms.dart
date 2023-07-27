@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _alarms = ChromeAlarms._();
 
 extension ChromeAlarmsExtension on Chrome {
+  /// Use the `chrome.alarms` API to schedule code to run
+  /// periodically or at a specified time in the future.
   ChromeAlarms get alarms => _alarms;
 }
 

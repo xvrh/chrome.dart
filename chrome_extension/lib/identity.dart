@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _identity = ChromeIdentity._();
 
 extension ChromeIdentityExtension on Chrome {
+  /// Use the `chrome.identity` API to get OAuth2 access tokens.
   ChromeIdentity get identity => _identity;
 }
 

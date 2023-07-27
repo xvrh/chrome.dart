@@ -5,12 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPlatformKeysExtension on JSChrome {
-  /// Use the `chrome.platformKeys` API to access client certificates
-  /// managed by the platform. If the user or policy grants the permission, an
-  /// extension can use such a certficate in its custom authentication protocol.
-  /// E.g. this allows usage of platform managed certificates in third party
-  /// VPNs
-  /// (see $(ref:vpnProvider chrome.vpnProvider)).
   @JS('platformKeys')
   external JSPlatformKeys? get platformKeysNullable;
 

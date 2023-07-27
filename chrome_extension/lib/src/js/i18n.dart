@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSI18nExtension on JSChrome {
-  /// Use the `chrome.i18n` infrastructure to implement internationalization
-  /// across your whole app or extension.
   @JS('i18n')
   external JSI18n? get i18nNullable;
 
@@ -86,7 +84,7 @@ extension DetectLanguageCallbackResultExtension
   external bool isReliable;
 
   /// array of detectedLanguage
-  external DetectLanguageCallbackResultLanguages languages;
+  external JSArray languages;
 }
 
 @JS()

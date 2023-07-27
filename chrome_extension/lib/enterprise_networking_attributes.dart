@@ -11,6 +11,11 @@ final _enterpriseNetworkingAttributes =
     ChromeEnterpriseNetworkingAttributes._();
 
 extension ChromeEnterpriseNetworkingAttributesExtension on ChromeEnterprise {
+  /// Use the `chrome.enterprise.networkingAttributes` API to read
+  /// information about your current network.
+  /// Note: This API is only available to extensions force-installed by
+  /// enterprise
+  /// policy.
   ChromeEnterpriseNetworkingAttributes get networkingAttributes =>
       _enterpriseNetworkingAttributes;
 }

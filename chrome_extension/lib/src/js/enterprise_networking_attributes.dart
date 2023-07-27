@@ -8,11 +8,6 @@ export 'enterprise.dart';
 
 extension JSChromeJSEnterpriseNetworkingAttributesExtension
     on JSChromeEnterprise {
-  /// Use the `chrome.enterprise.networkingAttributes` API to read
-  /// information about your current network.
-  /// Note: This API is only available to extensions force-installed by
-  /// enterprise
-  /// policy.
   @JS('networkingAttributes')
   external JSEnterpriseNetworkingAttributes? get networkingAttributesNullable;
 

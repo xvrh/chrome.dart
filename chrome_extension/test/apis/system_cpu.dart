@@ -6,7 +6,7 @@ import 'package:chrome_apis/system_cpu.dart';
 
 void main() => setup(_tests);
 
-void _tests() {
+void _tests(TestContext context) {
   test('getInfo', () async {
     var info = await chrome.system.cpu.getInfo();
     check(info.archName).isNotEmpty();

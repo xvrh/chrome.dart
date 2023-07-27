@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _devtoolsNetwork = ChromeDevtoolsNetwork._();
 
 extension ChromeDevtoolsNetworkExtension on ChromeDevtools {
+  /// Use the `chrome.devtools.network` API to retrieve the information about
+  /// network requests displayed by the Developer Tools in the Network panel.
   ChromeDevtoolsNetwork get network => _devtoolsNetwork;
 }
 

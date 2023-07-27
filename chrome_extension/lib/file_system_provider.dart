@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _fileSystemProvider = ChromeFileSystemProvider._();
 
 extension ChromeFileSystemProviderExtension on Chrome {
+  /// Use the `chrome.fileSystemProvider` API to create file systems,
+  /// that can be accessible from the file manager on Chrome OS.
   ChromeFileSystemProvider get fileSystemProvider => _fileSystemProvider;
 }
 

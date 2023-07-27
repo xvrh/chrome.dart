@@ -7,9 +7,6 @@ export 'chrome.dart';
 export 'input.dart';
 
 extension JSChromeJSInputImeExtension on JSChromeInput {
-  /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
-  /// This allows your extension to handle keystrokes, set the composition, and
-  /// manage the candidate window.
   @JS('ime')
   external JSInputIme? get imeNullable;
 
@@ -356,7 +353,7 @@ class SetCompositionParameters {
     int cursor,
 
     /// List of segments and their associated types.
-    SetCompositionParametersSegments? segments,
+    JSArray? segments,
   });
 }
 
@@ -417,7 +414,7 @@ class SetCandidatesParameters {
     int contextID,
 
     /// List of candidates to show in the candidate window
-    SetCandidatesParametersCandidates candidates,
+    JSArray candidates,
   });
 }
 

@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSBrowsingDataExtension on JSChrome {
-  /// Use the `chrome.browsingData` API to remove browsing data from a user's
-  /// local profile.
   @JS('browsingData')
   external JSBrowsingData? get browsingDataNullable;
 

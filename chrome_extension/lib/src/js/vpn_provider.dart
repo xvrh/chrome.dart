@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSVpnProviderExtension on JSChrome {
-  /// Use the `chrome.vpnProvider` API to implement a VPN
-  /// client.
   @JS('vpnProvider')
   external JSVpnProvider? get vpnProviderNullable;
 

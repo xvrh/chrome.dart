@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _sidePanel = ChromeSidePanel._();
 
 extension ChromeSidePanelExtension on Chrome {
+  /// chrome.sidePanel API
   ChromeSidePanel get sidePanel => _sidePanel;
 }
 

@@ -8,6 +8,10 @@ export 'src/chrome.dart' show chrome;
 final _history = ChromeHistory._();
 
 extension ChromeHistoryExtension on Chrome {
+  /// Use the `chrome.history` API to interact with the browser's record of
+  /// visited pages. You can add, remove, and query for URLs in the browser's
+  /// history. To override the history page with your own version, see [Override
+  /// Pages](override).
   ChromeHistory get history => _history;
 }
 

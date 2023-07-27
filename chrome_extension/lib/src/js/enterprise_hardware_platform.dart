@@ -7,10 +7,6 @@ export 'chrome.dart';
 export 'enterprise.dart';
 
 extension JSChromeJSEnterpriseHardwarePlatformExtension on JSChromeEnterprise {
-  /// Use the `chrome.enterprise.hardwarePlatform` API to get the
-  /// manufacturer and model of the hardware platform where the browser runs.
-  /// Note: This API is only available to extensions installed by enterprise
-  /// policy.
   @JS('hardwarePlatform')
   external JSEnterpriseHardwarePlatform? get hardwarePlatformNullable;
 

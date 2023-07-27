@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _fontSettings = ChromeFontSettings._();
 
 extension ChromeFontSettingsExtension on Chrome {
+  /// Use the `chrome.fontSettings` API to manage Chrome's font settings.
   ChromeFontSettings get fontSettings => _fontSettings;
 }
 

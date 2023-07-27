@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _wallpaper = ChromeWallpaper._();
 
 extension ChromeWallpaperExtension on Chrome {
+  /// Use the `chrome.wallpaper` API to change the ChromeOS wallpaper.
   ChromeWallpaper get wallpaper => _wallpaper;
 }
 

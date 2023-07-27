@@ -1,8 +1,16 @@
+import 'dart:convert';
 import 'dart:js_interop';
 
-void setup(void Function() callback) {
+import 'test_context.dart';
+export 'test_context.dart';
+
+void setup(void Function(TestContext) callback) {
   isReady = true;
-  startFunction = callback.toJS;
+  startFunction = (String parameters) {
+    var context =
+        TestContext.fromJson(jsonDecode(parameters) as Map<String, dynamic>);
+    callback(context);
+  }.toJS;
 }
 
 @JS()

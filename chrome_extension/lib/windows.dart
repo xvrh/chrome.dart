@@ -10,6 +10,8 @@ export 'src/chrome.dart' show chrome;
 final _windows = ChromeWindows._();
 
 extension ChromeWindowsExtension on Chrome {
+  /// Use the `chrome.windows` API to interact with browser windows. You can use
+  /// this API to create, modify, and rearrange windows in the browser.
   ChromeWindows get windows => _windows;
 }
 

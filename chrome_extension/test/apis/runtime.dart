@@ -6,7 +6,7 @@ import 'package:chrome_apis/runtime.dart';
 
 void main() => setup(_tests);
 
-void _tests() {
+void _tests(TestContext context) {
   test('getURL', () async {
     var url = chrome.runtime.getURL('page.html');
     check(url)

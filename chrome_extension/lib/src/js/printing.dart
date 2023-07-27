@@ -6,8 +6,6 @@ import 'printer_provider.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrintingExtension on JSChrome {
-  /// Use the `chrome.printing` API to send print jobs to printers
-  /// installed on Chromebook.
   @JS('printing')
   external JSPrinting? get printingNullable;
 

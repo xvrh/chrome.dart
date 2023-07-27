@@ -6,8 +6,6 @@ import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSWebRequestExtension on JSChrome {
-  /// Use the `chrome.webRequest` API to observe and analyze traffic and to
-  /// intercept, block, or modify requests in-flight.
   @JS('webRequest')
   external JSWebRequest? get webRequestNullable;
 

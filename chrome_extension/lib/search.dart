@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _search = ChromeSearch._();
 
 extension ChromeSearchExtension on Chrome {
+  /// Use the `chrome.search` API to search via the default provider.
   ChromeSearch get search => _search;
 }
 

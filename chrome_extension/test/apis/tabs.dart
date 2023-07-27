@@ -7,7 +7,7 @@ import '../client_side_wrapper.dart';
 
 void main() => setup(_tests);
 
-void _tests() {
+void _tests(TestContext context) {
   late Window window;
 
   setUp(() async {

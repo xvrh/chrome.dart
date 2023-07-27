@@ -6,10 +6,6 @@ import 'types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrivacyExtension on JSChrome {
-  /// Use the `chrome.privacy` API to control usage of the features in Chrome
-  /// that can affect a user's privacy. This API relies on the [ChromeSetting
-  /// prototype of the type API](types#ChromeSetting) for getting and setting
-  /// Chrome's configuration.
   @JS('privacy')
   external JSPrivacy? get privacyNullable;
 
@@ -177,5 +173,5 @@ extension PrivacyWebsitesExtension on PrivacyWebsites {
   /// *Available on Windows and ChromeOS only*: If enabled, Chrome provides a
   /// unique ID to plugins in order to run protected content. The value of this
   /// preference is of type boolean, and the default value is `true`.
-  external ChromeSetting protectedContentEnabled;
+  external ChromeSetting? protectedContentEnabled;
 }

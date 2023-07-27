@@ -8,6 +8,9 @@ export 'src/chrome.dart' show chrome;
 final _bookmarks = ChromeBookmarks._();
 
 extension ChromeBookmarksExtension on Chrome {
+  /// Use the `chrome.bookmarks` API to create, organize, and otherwise
+  /// manipulate bookmarks. Also see [Override Pages](override), which you can
+  /// use to create a custom Bookmark Manager page.
   ChromeBookmarks get bookmarks => _bookmarks;
 }
 

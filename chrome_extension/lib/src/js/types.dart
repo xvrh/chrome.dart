@@ -5,7 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSTypesExtension on JSChrome {
-  /// The `chrome.types` API contains type declarations for Chrome.
   @JS('types')
   external JSTypes? get typesNullable;
 

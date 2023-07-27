@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSGcmExtension on JSChrome {
-  /// Use `chrome.gcm` to enable apps and extensions to send and receive
-  /// messages through [Firebase Cloud
-  /// Messaging](https://firebase.google.com/docs/cloud-messaging/) (FCM).
   @JS('gcm')
   external JSGcm? get gcmNullable;
 

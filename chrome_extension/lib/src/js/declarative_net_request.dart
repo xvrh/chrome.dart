@@ -6,11 +6,6 @@ import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDeclarativeNetRequestExtension on JSChrome {
-  /// The `chrome.declarativeNetRequest` API is used to block or modify
-  /// network requests by specifying declarative rules. This lets extensions
-  /// modify network requests without intercepting them and viewing their
-  /// content,
-  /// thus providing more privacy.
   @JS('declarativeNetRequest')
   external JSDeclarativeNetRequest? get declarativeNetRequestNullable;
 

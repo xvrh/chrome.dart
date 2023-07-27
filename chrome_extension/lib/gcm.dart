@@ -6,6 +6,9 @@ export 'src/chrome.dart' show chrome;
 final _gcm = ChromeGcm._();
 
 extension ChromeGcmExtension on Chrome {
+  /// Use `chrome.gcm` to enable apps and extensions to send and receive
+  /// messages through [Firebase Cloud
+  /// Messaging](https://firebase.google.com/docs/cloud-messaging/) (FCM).
   ChromeGcm get gcm => _gcm;
 }
 

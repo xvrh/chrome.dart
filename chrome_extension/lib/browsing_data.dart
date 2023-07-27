@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _browsingData = ChromeBrowsingData._();
 
 extension ChromeBrowsingDataExtension on Chrome {
+  /// Use the `chrome.browsingData` API to remove browsing data from a user's
+  /// local profile.
   ChromeBrowsingData get browsingData => _browsingData;
 }
 

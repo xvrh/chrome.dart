@@ -8,6 +8,9 @@ export 'src/chrome.dart' show chrome;
 final _management = ChromeManagement._();
 
 extension ChromeManagementExtension on Chrome {
+  /// The `chrome.management` API provides ways to manage the list of
+  /// extensions/apps that are installed and running. It is particularly useful
+  /// for extensions that [override](override) the built-in New Tab page.
   ChromeManagement get management => _management;
 }
 

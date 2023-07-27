@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _power = ChromePower._();
 
 extension ChromePowerExtension on Chrome {
+  /// Use the `chrome.power` API to override the system's power
+  /// management features.
   ChromePower get power => _power;
 }
 

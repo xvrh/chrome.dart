@@ -6,8 +6,6 @@ import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSScriptingExtension on JSChrome {
-  /// Use the `chrome.scripting` API to execute script in different
-  /// contexts.
   @JS('scripting')
   external JSScripting? get scriptingNullable;
 

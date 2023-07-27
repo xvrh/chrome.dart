@@ -10,6 +10,7 @@ export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 final _systemMemory = ChromeSystemMemory._();
 
 extension ChromeSystemMemoryExtension on ChromeSystem {
+  /// The `chrome.system.memory` API.
   ChromeSystemMemory get memory => _systemMemory;
 }
 

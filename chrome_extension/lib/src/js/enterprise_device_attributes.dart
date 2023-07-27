@@ -7,11 +7,6 @@ export 'chrome.dart';
 export 'enterprise.dart';
 
 extension JSChromeJSEnterpriseDeviceAttributesExtension on JSChromeEnterprise {
-  /// Use the `chrome.enterprise.deviceAttributes` API to read device
-  /// attributes.
-  /// Note: This API is only available to extensions force-installed by
-  /// enterprise
-  /// policy.
   @JS('deviceAttributes')
   external JSEnterpriseDeviceAttributes? get deviceAttributesNullable;
 

@@ -5,7 +5,7 @@ import 'package:chrome_apis/browsing_data.dart';
 
 void main() => setup(_tests);
 
-void _tests() {
+void _tests(TestContext context) {
   test('removeCache', () async {
     var details = RemovalOptions();
     await chrome.browsingData.removeCache(details);

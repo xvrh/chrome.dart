@@ -8,6 +8,9 @@ export 'src/chrome.dart' show chrome;
 final _printerProvider = ChromePrinterProvider._();
 
 extension ChromePrinterProviderExtension on Chrome {
+  /// The `chrome.printerProvider` API exposes events used by print
+  /// manager to query printers controlled by extensions, to query their
+  /// capabilities and to submit print jobs to these printers.
   ChromePrinterProvider get printerProvider => _printerProvider;
 }
 

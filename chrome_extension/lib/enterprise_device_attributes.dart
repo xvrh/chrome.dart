@@ -10,6 +10,11 @@ export 'src/chrome.dart' show chrome;
 final _enterpriseDeviceAttributes = ChromeEnterpriseDeviceAttributes._();
 
 extension ChromeEnterpriseDeviceAttributesExtension on ChromeEnterprise {
+  /// Use the `chrome.enterprise.deviceAttributes` API to read device
+  /// attributes.
+  /// Note: This API is only available to extensions force-installed by
+  /// enterprise
+  /// policy.
   ChromeEnterpriseDeviceAttributes get deviceAttributes =>
       _enterpriseDeviceAttributes;
 }

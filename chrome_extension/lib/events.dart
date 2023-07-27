@@ -6,6 +6,8 @@ export 'src/chrome.dart' show chrome;
 final _events = ChromeEvents._();
 
 extension ChromeEventsExtension on Chrome {
+  /// The `chrome.events` namespace contains common types used by APIs
+  /// dispatching events to notify you when something interesting happens.
   ChromeEvents get events => _events;
 }
 

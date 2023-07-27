@@ -5,10 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSExtensionExtension on JSChrome {
-  /// The `chrome.extension` API has utilities that can be used by any extension
-  /// page. It includes support for exchanging messages between an extension and
-  /// its content scripts or between extensions, as described in detail in
-  /// [Message Passing](messaging).
   @JS('extension')
   external JSExtension? get extensionNullable;
 

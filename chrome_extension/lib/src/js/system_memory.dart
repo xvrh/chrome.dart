@@ -7,7 +7,6 @@ export 'chrome.dart';
 export 'system.dart';
 
 extension JSChromeJSSystemMemoryExtension on JSChromeSystem {
-  /// The `chrome.system.memory` API.
   @JS('memory')
   external JSSystemMemory? get memoryNullable;
 

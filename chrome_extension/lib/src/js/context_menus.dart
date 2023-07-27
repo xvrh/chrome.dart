@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSContextMenusExtension on JSChrome {
-  /// Use the `chrome.contextMenus` API to add items to Google Chrome's context
-  /// menu. You can choose what types of objects your context menu additions
-  /// apply to, such as images, hyperlinks, and pages.
   @JS('contextMenus')
   external JSContextMenus? get contextMenusNullable;
 

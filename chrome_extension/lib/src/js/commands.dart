@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSCommandsExtension on JSChrome {
-  /// Use the commands API to add keyboard shortcuts that trigger actions in
-  /// your extension, for example, an action to open the browser action or send
-  /// a command to the extension.
   @JS('commands')
   external JSCommands? get commandsNullable;
 

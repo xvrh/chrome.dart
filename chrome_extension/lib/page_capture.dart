@@ -6,6 +6,7 @@ export 'src/chrome.dart' show chrome;
 final _pageCapture = ChromePageCapture._();
 
 extension ChromePageCaptureExtension on Chrome {
+  /// Use the `chrome.pageCapture` API to save a tab as MHTML.
   ChromePageCapture get pageCapture => _pageCapture;
 }
 

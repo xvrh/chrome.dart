@@ -7,6 +7,10 @@ export 'src/chrome.dart' show chrome;
 final _privacy = ChromePrivacy._();
 
 extension ChromePrivacyExtension on Chrome {
+  /// Use the `chrome.privacy` API to control usage of the features in Chrome
+  /// that can affect a user's privacy. This API relies on the [ChromeSetting
+  /// prototype of the type API](types#ChromeSetting) for getting and setting
+  /// Chrome's configuration.
   ChromePrivacy get privacy => _privacy;
 }
 
@@ -211,7 +215,7 @@ class PrivacyWebsites {
     required ChromeSetting hyperlinkAuditingEnabled,
     required ChromeSetting referrersEnabled,
     required ChromeSetting doNotTrackEnabled,
-    required ChromeSetting protectedContentEnabled,
+    ChromeSetting? protectedContentEnabled,
   }) : _wrapped = $js.PrivacyWebsites()
           ..thirdPartyCookiesAllowed = thirdPartyCookiesAllowed.toJS
           ..privacySandboxEnabled = privacySandboxEnabled.toJS
@@ -221,7 +225,7 @@ class PrivacyWebsites {
           ..hyperlinkAuditingEnabled = hyperlinkAuditingEnabled.toJS
           ..referrersEnabled = referrersEnabled.toJS
           ..doNotTrackEnabled = doNotTrackEnabled.toJS
-          ..protectedContentEnabled = protectedContentEnabled.toJS;
+          ..protectedContentEnabled = protectedContentEnabled?.toJS;
 
   final $js.PrivacyWebsites _wrapped;
 
@@ -315,9 +319,9 @@ class PrivacyWebsites {
   /// *Available on Windows and ChromeOS only*: If enabled, Chrome provides a
   /// unique ID to plugins in order to run protected content. The value of this
   /// preference is of type boolean, and the default value is `true`.
-  ChromeSetting get protectedContentEnabled =>
-      ChromeSetting.fromJS(_wrapped.protectedContentEnabled);
-  set protectedContentEnabled(ChromeSetting v) {
-    _wrapped.protectedContentEnabled = v.toJS;
+  ChromeSetting? get protectedContentEnabled =>
+      _wrapped.protectedContentEnabled?.let(ChromeSetting.fromJS);
+  set protectedContentEnabled(ChromeSetting? v) {
+    _wrapped.protectedContentEnabled = v?.toJS;
   }
 }

@@ -12,6 +12,8 @@ export 'src/chrome.dart' show chrome;
 final _tabs = ChromeTabs._();
 
 extension ChromeTabsExtension on Chrome {
+  /// Use the `chrome.tabs` API to interact with the browser's tab system. You
+  /// can use this API to create, modify, and rearrange tabs in the browser.
   ChromeTabs get tabs => _tabs;
 }
 

@@ -7,7 +7,6 @@ export 'chrome.dart';
 export 'system.dart';
 
 extension JSChromeJSSystemCpuExtension on JSChromeSystem {
-  /// Use the `system.cpu` API to query CPU metadata.
   @JS('cpu')
   external JSSystemCpu? get cpuNullable;
 

@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _loginState = ChromeLoginState._();
 
 extension ChromeLoginStateExtension on Chrome {
+  /// Use the `chrome.loginState` API to read and monitor the login
+  /// state.
   ChromeLoginState get loginState => _loginState;
 }
 

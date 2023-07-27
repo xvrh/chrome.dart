@@ -10,6 +10,7 @@ export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 final _systemDisplay = ChromeSystemDisplay._();
 
 extension ChromeSystemDisplayExtension on ChromeSystem {
+  /// Use the `system.display` API to query display metadata.
   ChromeSystemDisplay get display => _systemDisplay;
 }
 

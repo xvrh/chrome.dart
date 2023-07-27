@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _processes = ChromeProcesses._();
 
 extension ChromeProcessesExtension on Chrome {
+  /// Use the `chrome.processes` API to interact with the browser's
+  /// processes.
   ChromeProcesses get processes => _processes;
 }
 

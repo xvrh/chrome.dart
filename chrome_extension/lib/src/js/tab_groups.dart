@@ -5,10 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSTabGroupsExtension on JSChrome {
-  /// Use the `chrome.tabGroups` API to interact with the browser's tab grouping
-  /// system. You can use this API to modify and rearrange tab groups in the
-  /// browser. To group and ungroup tabs, or to query what tabs are in groups,
-  /// use the `chrome.tabs` API.
   @JS('tabGroups')
   external JSTabGroups? get tabGroupsNullable;
 

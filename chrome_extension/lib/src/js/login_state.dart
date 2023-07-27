@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSLoginStateExtension on JSChrome {
-  /// Use the `chrome.loginState` API to read and monitor the login
-  /// state.
   @JS('loginState')
   external JSLoginState? get loginStateNullable;
 

@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _downloads = ChromeDownloads._();
 
 extension ChromeDownloadsExtension on Chrome {
+  /// Use the `chrome.downloads` API to programmatically initiate,
+  /// monitor, manipulate, and search for downloads.
   ChromeDownloads get downloads => _downloads;
 }
 

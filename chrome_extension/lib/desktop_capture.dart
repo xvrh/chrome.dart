@@ -7,6 +7,8 @@ export 'src/chrome.dart' show chrome;
 final _desktopCapture = ChromeDesktopCapture._();
 
 extension ChromeDesktopCaptureExtension on Chrome {
+  /// Desktop Capture API that can be used to capture content of screen,
+  /// individual windows or tabs.
   ChromeDesktopCapture get desktopCapture => _desktopCapture;
 }
 

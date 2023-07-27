@@ -8,6 +8,10 @@ export 'src/chrome.dart' show chrome;
 final _tts = ChromeTts._();
 
 extension ChromeTtsExtension on Chrome {
+  /// Use the `chrome.tts` API to play synthesized text-to-speech (TTS). See
+  /// also the related
+  /// [ttsEngine](http://developer.chrome.com/extensions/ttsEngine) API, which
+  /// allows an extension to implement a speech engine.
   ChromeTts get tts => _tts;
 }
 

@@ -10,6 +10,8 @@ export 'src/chrome.dart' show chrome;
 final _sessions = ChromeSessions._();
 
 extension ChromeSessionsExtension on Chrome {
+  /// Use the `chrome.sessions` API to query and restore tabs and windows from a
+  /// browsing session.
   ChromeSessions get sessions => _sessions;
 }
 

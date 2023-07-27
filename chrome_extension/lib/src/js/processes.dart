@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSProcessesExtension on JSChrome {
-  /// Use the `chrome.processes` API to interact with the browser's
-  /// processes.
   @JS('processes')
   external JSProcesses? get processesNullable;
 

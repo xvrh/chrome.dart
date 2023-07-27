@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _devtoolsRecorder = ChromeDevtoolsRecorder._();
 
 extension ChromeDevtoolsRecorderExtension on ChromeDevtools {
+  /// Use the `chrome.devtools.recorder` API to customize the Recorder panel in
+  /// DevTools.
   ChromeDevtoolsRecorder get recorder => _devtoolsRecorder;
 }
 

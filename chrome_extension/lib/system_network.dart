@@ -10,6 +10,7 @@ export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 final _systemNetwork = ChromeSystemNetwork._();
 
 extension ChromeSystemNetworkExtension on ChromeSystem {
+  /// Use the `chrome.system.network` API.
   ChromeSystemNetwork get network => _systemNetwork;
 }
 

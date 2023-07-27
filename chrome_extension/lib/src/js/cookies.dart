@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSCookiesExtension on JSChrome {
-  /// Use the `chrome.cookies` API to query and modify cookies, and to be
-  /// notified when they change.
   @JS('cookies')
   external JSCookies? get cookiesNullable;
 

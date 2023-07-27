@@ -7,8 +7,6 @@ export 'chrome.dart';
 export 'devtools.dart';
 
 extension JSChromeJSDevtoolsNetworkExtension on JSChromeDevtools {
-  /// Use the `chrome.devtools.network` API to retrieve the information about
-  /// network requests displayed by the Developer Tools in the Network panel.
   @JS('network')
   external JSDevtoolsNetwork? get networkNullable;
 

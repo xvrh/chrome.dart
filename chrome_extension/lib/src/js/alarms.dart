@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSAlarmsExtension on JSChrome {
-  /// Use the `chrome.alarms` API to schedule code to run
-  /// periodically or at a specified time in the future.
   @JS('alarms')
   external JSAlarms? get alarmsNullable;
 

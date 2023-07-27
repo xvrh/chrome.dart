@@ -6,8 +6,6 @@ import 'extension_types.dart';
 export 'chrome.dart';
 
 extension JSChromeJSWebNavigationExtension on JSChrome {
-  /// Use the `chrome.webNavigation` API to receive notifications about the
-  /// status of navigation requests in-flight.
   @JS('webNavigation')
   external JSWebNavigation? get webNavigationNullable;
 

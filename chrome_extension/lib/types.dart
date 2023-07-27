@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _types = ChromeTypes._();
 
 extension ChromeTypesExtension on Chrome {
+  /// The `chrome.types` API contains type declarations for Chrome.
   ChromeTypes get types => _types;
 }
 

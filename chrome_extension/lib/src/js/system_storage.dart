@@ -7,10 +7,6 @@ export 'chrome.dart';
 export 'system.dart';
 
 extension JSChromeJSSystemStorageExtension on JSChromeSystem {
-  /// Use the `chrome.system.storage` API to query storage device
-  /// information and be notified when a removable storage device is attached
-  /// and
-  /// detached.
   @JS('storage')
   external JSSystemStorage? get storageNullable;
 

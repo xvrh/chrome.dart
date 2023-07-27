@@ -8,6 +8,7 @@ export 'src/chrome.dart' show chrome;
 final _offscreen = ChromeOffscreen._();
 
 extension ChromeOffscreenExtension on Chrome {
+  /// Use the `offscreen` API to create and manage offscreen documents.
   ChromeOffscreen get offscreen => _offscreen;
 }
 

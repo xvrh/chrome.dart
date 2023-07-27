@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSFileBrowserHandlerExtension on JSChrome {
-  /// Use the `chrome.fileBrowserHandler` API to extend the Chrome OS file
-  /// browser. For example, you can use this API to enable users to upload files
-  /// to your website.
   @JS('fileBrowserHandler')
   external JSFileBrowserHandler? get fileBrowserHandlerNullable;
 

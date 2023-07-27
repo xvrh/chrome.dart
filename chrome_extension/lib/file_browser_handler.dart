@@ -6,6 +6,9 @@ export 'src/chrome.dart' show chrome;
 final _fileBrowserHandler = ChromeFileBrowserHandler._();
 
 extension ChromeFileBrowserHandlerExtension on Chrome {
+  /// Use the `chrome.fileBrowserHandler` API to extend the Chrome OS file
+  /// browser. For example, you can use this API to enable users to upload files
+  /// to your website.
   ChromeFileBrowserHandler get fileBrowserHandler => _fileBrowserHandler;
 }
 

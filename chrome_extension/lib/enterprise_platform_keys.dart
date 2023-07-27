@@ -10,6 +10,12 @@ export 'src/chrome.dart' show chrome;
 final _enterprisePlatformKeys = ChromeEnterprisePlatformKeys._();
 
 extension ChromeEnterprisePlatformKeysExtension on ChromeEnterprise {
+  /// Use the `chrome.enterprise.platformKeys` API to generate keys and
+  /// install certificates for these keys. The certificates will be managed by
+  /// the
+  /// platform and can be used for TLS authentication, network access or by
+  /// other
+  /// extension through $(ref:platformKeys chrome.platformKeys).
   ChromeEnterprisePlatformKeys get platformKeys => _enterprisePlatformKeys;
 }
 

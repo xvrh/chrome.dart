@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _scripting = ChromeScripting._();
 
 extension ChromeScriptingExtension on Chrome {
+  /// Use the `chrome.scripting` API to execute script in different
+  /// contexts.
   ChromeScripting get scripting => _scripting;
 }
 

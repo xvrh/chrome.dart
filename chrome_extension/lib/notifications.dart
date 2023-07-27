@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _notifications = ChromeNotifications._();
 
 extension ChromeNotificationsExtension on Chrome {
+  /// Use the `chrome.notifications` API to create rich notifications
+  /// using templates and show these notifications to users in the system tray.
   ChromeNotifications get notifications => _notifications;
 }
 

@@ -10,6 +10,10 @@ export 'src/chrome.dart' show chrome;
 final _browserAction = ChromeBrowserAction._();
 
 extension ChromeBrowserActionExtension on Chrome {
+  /// Use browser actions to put icons in the main Google Chrome toolbar, to the
+  /// right of the address bar. In addition to its [icon](browserAction#icon), a
+  /// browser action can have a [tooltip](browserAction#tooltip), a
+  /// [badge](browserAction#badge), and a [popup](browserAction#popups).
   ChromeBrowserAction get browserAction => _browserAction;
 }
 

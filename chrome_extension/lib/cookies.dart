@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _cookies = ChromeCookies._();
 
 extension ChromeCookiesExtension on Chrome {
+  /// Use the `chrome.cookies` API to query and modify cookies, and to be
+  /// notified when they change.
   ChromeCookies get cookies => _cookies;
 }
 

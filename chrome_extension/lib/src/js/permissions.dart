@@ -5,10 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPermissionsExtension on JSChrome {
-  /// Use the `chrome.permissions` API to request [declared optional
-  /// permissions](permissions#manifest) at run time rather than install time,
-  /// so users understand why the permissions are needed and grant only those
-  /// that are necessary.
   @JS('permissions')
   external JSPermissions? get permissionsNullable;
 

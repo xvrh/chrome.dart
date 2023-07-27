@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSWebAuthenticationProxyExtension on JSChrome {
-  /// The `chrome.webAuthenticationProxy`. API lets remote desktop
-  /// software running on a remote host intercept Web Authentication API
-  /// (WebAuthn) requests in order to handle them on a local client.
   @JS('webAuthenticationProxy')
   external JSWebAuthenticationProxy? get webAuthenticationProxyNullable;
 

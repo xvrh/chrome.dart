@@ -9,6 +9,10 @@ export 'src/chrome.dart' show chrome;
 final _runtime = ChromeRuntime._();
 
 extension ChromeRuntimeExtension on Chrome {
+  /// Use the `chrome.runtime` API to retrieve the background page, return
+  /// details about the manifest, and listen for and respond to events in the
+  /// app or extension lifecycle. You can also use this API to convert the
+  /// relative path of URLs to fully-qualified URLs.
   ChromeRuntime get runtime => _runtime;
 }
 
@@ -21,10 +25,10 @@ class ChromeRuntime {
   /// inside the current extension/app. If the background page is an event page,
   /// the system will ensure it is loaded before calling the callback. If there
   /// is no background page, an error is set.
-  Future<Map?> getBackgroundPage() async {
+  Future<JSObject?> getBackgroundPage() async {
     var $res = await promiseToFuture<JSObject?>(
         $js.chrome.runtime.getBackgroundPage());
-    return ($res?.dartify() as Map?);
+    return $res;
   }
 
   /// Open your Extension's options page, if possible.
@@ -189,11 +193,11 @@ class ChromeRuntime {
   }
 
   /// Returns a DirectoryEntry for the package directory.
-  Future<Map> getPackageDirectoryEntry() {
-    var $completer = Completer<Map>();
+  Future<JSObject> getPackageDirectoryEntry() {
+    var $completer = Completer<JSObject>();
     $js.chrome.runtime.getPackageDirectoryEntry((JSObject directoryEntry) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete((directoryEntry.dartify() as Map));
+        $completer.complete(directoryEntry);
       }
     }.toJS);
     return $completer.future;

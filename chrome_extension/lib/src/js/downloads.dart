@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDownloadsExtension on JSChrome {
-  /// Use the `chrome.downloads` API to programmatically initiate,
-  /// monitor, manipulate, and search for downloads.
   @JS('downloads')
   external JSDownloads? get downloadsNullable;
 

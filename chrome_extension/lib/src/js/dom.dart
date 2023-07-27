@@ -5,7 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSDomExtension on JSChrome {
-  /// Use the `chrome.dom` API to access special DOM APIs for Extensions
   @JS('dom')
   external JSDom? get domNullable;
 

@@ -10,6 +10,7 @@ export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 final _systemCpu = ChromeSystemCpu._();
 
 extension ChromeSystemCpuExtension on ChromeSystem {
+  /// Use the `system.cpu` API to query CPU metadata.
   ChromeSystemCpu get cpu => _systemCpu;
 }
 

@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSManagementExtension on JSChrome {
-  /// The `chrome.management` API provides ways to manage the list of
-  /// extensions/apps that are installed and running. It is particularly useful
-  /// for extensions that [override](override) the built-in New Tab page.
   @JS('management')
   external JSManagement? get managementNullable;
 

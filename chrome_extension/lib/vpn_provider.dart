@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _vpnProvider = ChromeVpnProvider._();
 
 extension ChromeVpnProviderExtension on Chrome {
+  /// Use the `chrome.vpnProvider` API to implement a VPN
+  /// client.
   ChromeVpnProvider get vpnProvider => _vpnProvider;
 }
 

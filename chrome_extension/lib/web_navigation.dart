@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _webNavigation = ChromeWebNavigation._();
 
 extension ChromeWebNavigationExtension on Chrome {
+  /// Use the `chrome.webNavigation` API to receive notifications about the
+  /// status of navigation requests in-flight.
   ChromeWebNavigation get webNavigation => _webNavigation;
 }
 
@@ -28,11 +30,14 @@ class ChromeWebNavigation {
 
   /// Retrieves information about all frames of a given tab.
   /// [details] Information about the tab to retrieve all frames from.
-  Future<GetAllFramesCallbackDetails?> getAllFrames(
+  Future<List<GetAllFramesCallbackDetails>?> getAllFrames(
       GetAllFramesDetails details) async {
-    var $res = await promiseToFuture<$js.GetAllFramesCallbackDetails?>(
+    var $res = await promiseToFuture<JSArray?>(
         $js.chrome.webNavigation.getAllFrames(details.toJS));
-    return $res?.let(GetAllFramesCallbackDetails.fromJS);
+    return $res?.toDart
+        .cast<$js.GetAllFramesCallbackDetails>()
+        .map((e) => GetAllFramesCallbackDetails.fromJS(e))
+        .toList();
   }
 
   /// Fired when a navigation is about to occur.

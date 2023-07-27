@@ -5,9 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSPrinterProviderExtension on JSChrome {
-  /// The `chrome.printerProvider` API exposes events used by print
-  /// manager to query printers controlled by extensions, to query their
-  /// capabilities and to submit print jobs to these printers.
   @JS('printerProvider')
   external JSPrinterProvider? get printerProviderNullable;
 

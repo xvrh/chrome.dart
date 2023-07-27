@@ -10,6 +10,10 @@ export 'src/chrome.dart' show chrome;
 final _enterpriseHardwarePlatform = ChromeEnterpriseHardwarePlatform._();
 
 extension ChromeEnterpriseHardwarePlatformExtension on ChromeEnterprise {
+  /// Use the `chrome.enterprise.hardwarePlatform` API to get the
+  /// manufacturer and model of the hardware platform where the browser runs.
+  /// Note: This API is only available to extensions installed by enterprise
+  /// policy.
   ChromeEnterpriseHardwarePlatform get hardwarePlatform =>
       _enterpriseHardwarePlatform;
 }

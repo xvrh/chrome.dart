@@ -116,9 +116,13 @@ class IdlModelConverter {
     if (model.propertiesDeclaration == null) return;
 
     for (var prop in model.propertiesDeclaration!.methods) {
+      var nullable = false;
+      if (_hasPlatforms(prop.attribute)) {
+        nullable = true;
+      }
       yield Property(
         prop.name,
-        type: _typeFromName(prop.returnType, isNullable: false),
+        type: _typeFromName(prop.returnType, isNullable: nullable),
         documentation: _toDocumentation(prop.documentation),
       );
     }
@@ -131,7 +135,9 @@ class IdlModelConverter {
         if (member.name.startsWith('_')) continue;
 
         var p = Property(member.name,
-            type: _typeFromName(member.type, isNullable: member.isOptional),
+            type: _typeFromName(member.type,
+                isNullable:
+                    member.isOptional || _hasPlatforms(member.attribute)),
             documentation: _toDocumentation(member.documentation));
         properties.add(p);
       }
@@ -226,7 +232,8 @@ class IdlModelConverter {
     if (type.isArray) {
       isNullable = false;
     }
-    var chromeType = context.createType(name, locationFile: _targetFileName, isNullable: isNullable);
+    var chromeType = context.createType(name,
+        locationFile: _targetFileName, isNullable: isNullable);
     if (type.isArray) {
       return ListType(chromeType, isNullable: arrayIsNullable);
     }
@@ -236,3 +243,9 @@ class IdlModelConverter {
 
 //TODO(xha): keep the raw documentation and now re-wrap it in code-generation
 String _toDocumentation(List<String> documentation) => documentation.join('\n');
+
+bool _hasPlatforms(IDLAttributeDeclaration? attribute) {
+  return attribute?.attributes
+          .any((a) => a.attributeType == IDLAttributeTypeEnum.PLATFORMS) ??
+      false;
+}

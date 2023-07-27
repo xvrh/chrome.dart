@@ -6,6 +6,8 @@ export 'src/chrome.dart' show chrome;
 final _extensionTypes = ChromeExtensionTypes._();
 
 extension ChromeExtensionTypesExtension on Chrome {
+  /// The `chrome.extensionTypes` API contains type declarations for Chrome
+  /// extensions.
   ChromeExtensionTypes get extensionTypes => _extensionTypes;
 }
 

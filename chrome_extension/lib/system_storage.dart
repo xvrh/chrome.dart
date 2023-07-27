@@ -10,6 +10,10 @@ export 'system.dart' show ChromeSystem, ChromeSystemExtension;
 final _systemStorage = ChromeSystemStorage._();
 
 extension ChromeSystemStorageExtension on ChromeSystem {
+  /// Use the `chrome.system.storage` API to query storage device
+  /// information and be notified when a removable storage device is attached
+  /// and
+  /// detached.
   ChromeSystemStorage get storage => _systemStorage;
 }
 

@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _printingMetrics = ChromePrintingMetrics._();
 
 extension ChromePrintingMetricsExtension on Chrome {
+  /// Use the `chrome.printingMetrics` API to fetch data about
+  /// printing usage.
   ChromePrintingMetrics get printingMetrics => _printingMetrics;
 }
 

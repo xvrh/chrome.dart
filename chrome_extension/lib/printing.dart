@@ -9,6 +9,8 @@ export 'src/chrome.dart' show chrome;
 final _printing = ChromePrinting._();
 
 extension ChromePrintingExtension on Chrome {
+  /// Use the `chrome.printing` API to send print jobs to printers
+  /// installed on Chromebook.
   ChromePrinting get printing => _printing;
 }
 

@@ -6,6 +6,8 @@ export 'src/chrome.dart' show chrome;
 final _tabCapture = ChromeTabCapture._();
 
 extension ChromeTabCaptureExtension on Chrome {
+  /// Use the `chrome.tabCapture` API to interact with tab media
+  /// streams.
   ChromeTabCapture get tabCapture => _tabCapture;
 }
 

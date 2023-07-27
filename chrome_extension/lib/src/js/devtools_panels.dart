@@ -7,9 +7,6 @@ export 'chrome.dart';
 export 'devtools.dart';
 
 extension JSChromeJSDevtoolsPanelsExtension on JSChromeDevtools {
-  /// Use the `chrome.devtools.panels` API to integrate your extension into
-  /// Developer Tools window UI: create your own panels, access existing panels,
-  /// and add sidebars.
   @JS('panels')
   external JSDevtoolsPanels? get panelsNullable;
 

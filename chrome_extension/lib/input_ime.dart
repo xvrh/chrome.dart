@@ -10,6 +10,9 @@ export 'src/chrome.dart' show chrome;
 final _inputIme = ChromeInputIme._();
 
 extension ChromeInputImeExtension on ChromeInput {
+  /// Use the `chrome.input.ime` API to implement a custom IME for Chrome OS.
+  /// This allows your extension to handle keystrokes, set the composition, and
+  /// manage the candidate window.
   ChromeInputIme get ime => _inputIme;
 }
 
@@ -648,14 +651,14 @@ class SetCompositionParameters {
     int? selectionStart,
     int? selectionEnd,
     required int cursor,
-    SetCompositionParametersSegments? segments,
+    List<SetCompositionParametersSegments>? segments,
   }) : _wrapped = $js.SetCompositionParameters(
           contextID: contextID,
           text: text,
           selectionStart: selectionStart,
           selectionEnd: selectionEnd,
           cursor: cursor,
-          segments: segments?.toJS,
+          segments: segments?.toJSArray((e) => e.toJS),
         );
 
   final $js.SetCompositionParameters _wrapped;
@@ -727,10 +730,10 @@ class SetCandidatesParameters {
 
   SetCandidatesParameters({
     required int contextID,
-    required SetCandidatesParametersCandidates candidates,
+    required List<SetCandidatesParametersCandidates> candidates,
   }) : _wrapped = $js.SetCandidatesParameters(
           contextID: contextID,
-          candidates: candidates.toJS,
+          candidates: candidates.toJSArray((e) => e.toJS),
         );
 
   final $js.SetCandidatesParameters _wrapped;

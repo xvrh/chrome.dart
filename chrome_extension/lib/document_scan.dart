@@ -8,6 +8,8 @@ export 'src/chrome.dart' show chrome;
 final _documentScan = ChromeDocumentScan._();
 
 extension ChromeDocumentScanExtension on Chrome {
+  /// Use the `chrome.documentScan` API to discover and retrieve
+  /// images from attached paper document scanners.
   ChromeDocumentScan get documentScan => _documentScan;
 }
 

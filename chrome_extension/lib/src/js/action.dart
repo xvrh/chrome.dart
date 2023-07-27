@@ -5,8 +5,6 @@ import 'chrome.dart';
 export 'chrome.dart';
 
 extension JSChromeJSActionExtension on JSChrome {
-  /// Use the `chrome.action` API to control the extension's icon in the Google
-  /// Chrome toolbar.
   @JS('action')
   external JSAction? get actionNullable;
 

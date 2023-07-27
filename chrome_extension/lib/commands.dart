@@ -10,6 +10,9 @@ export 'src/chrome.dart' show chrome;
 final _commands = ChromeCommands._();
 
 extension ChromeCommandsExtension on Chrome {
+  /// Use the commands API to add keyboard shortcuts that trigger actions in
+  /// your extension, for example, an action to open the browser action or send
+  /// a command to the extension.
   ChromeCommands get commands => _commands;
 }
 

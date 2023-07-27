@@ -7,7 +7,6 @@ export 'chrome.dart';
 export 'system.dart';
 
 extension JSChromeJSSystemNetworkExtension on JSChromeSystem {
-  /// Use the `chrome.system.network` API.
   @JS('network')
   external JSSystemNetwork? get networkNullable;
 

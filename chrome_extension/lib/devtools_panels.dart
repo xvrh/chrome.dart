@@ -8,6 +8,9 @@ export 'src/chrome.dart' show chrome;
 final _devtoolsPanels = ChromeDevtoolsPanels._();
 
 extension ChromeDevtoolsPanelsExtension on ChromeDevtools {
+  /// Use the `chrome.devtools.panels` API to integrate your extension into
+  /// Developer Tools window UI: create your own panels, access existing panels,
+  /// and add sidebars.
   ChromeDevtoolsPanels get panels => _devtoolsPanels;
 }
 
@@ -191,9 +194,9 @@ class ExtensionPanel {
           }.toJS);
 
   /// Fired when the user switches to the panel.
-  Stream<Map> get onShown =>
-      _wrapped.onShown.asStream(($c) => (JSObject window) {
-            $c.add((window.dartify() as Map));
+  Stream<Object> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSAny window) {
+            $c.add(window);
           }.toJS);
 
   /// Fired when the user switches away from the panel.
@@ -263,9 +266,9 @@ class ExtensionSidebarPane {
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
-  Stream<Map> get onShown =>
-      _wrapped.onShown.asStream(($c) => (JSObject window) {
-            $c.add((window.dartify() as Map));
+  Stream<Object> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSAny window) {
+            $c.add(window);
           }.toJS);
 
   /// Fired when the sidebar pane becomes hidden as a result of the user

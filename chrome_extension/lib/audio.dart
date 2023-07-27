@@ -6,6 +6,10 @@ export 'src/chrome.dart' show chrome;
 final _audio = ChromeAudio._();
 
 extension ChromeAudioExtension on Chrome {
+  /// The `chrome.audio` API is provided to allow users to
+  /// get information about and control the audio devices attached to the
+  /// system.
+  /// This API is currently only available in kiosk mode for ChromeOS.
   ChromeAudio get audio => _audio;
 }
 

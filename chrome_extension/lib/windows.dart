@@ -345,7 +345,7 @@ class CreateData {
     WindowState? state,
     bool? setSelfAsOpener,
   }) : _wrapped = $js.CreateData(
-          url: url?.toJS,
+          url: url?.toChoiceJS,
           tabId: tabId,
           left: left,
           top: top,

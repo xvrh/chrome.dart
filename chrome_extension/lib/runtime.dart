@@ -178,9 +178,9 @@ class ChromeRuntime {
     Map message,
   ) async {
     var $res =
-        await promiseToFuture<JSObject>($js.chrome.runtime.sendNativeMessage(
+        await promiseToFuture<JSAny>($js.chrome.runtime.sendNativeMessage(
       application,
-      message.toJS,
+      message.jsify()!,
     ));
     return ($res.dartify() as Map);
   }

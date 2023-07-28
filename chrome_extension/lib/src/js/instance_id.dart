@@ -69,7 +69,7 @@ class GetTokenParams {
 
     /// Allows including a small number of string key/value pairs that will be
     /// associated with the token and may be used in processing the request.
-    JSObject? options,
+    JSAny? options,
   });
 }
 

@@ -72,7 +72,7 @@ class GetTokenParams {
   }) : _wrapped = $js.GetTokenParams(
           authorizedEntity: authorizedEntity,
           scope: scope,
-          options: options?.toJS,
+          options: options?.jsify(),
         );
 
   final $js.GetTokenParams _wrapped;

@@ -1958,7 +1958,7 @@ class OnBeforeRequestDetailsRequestBody {
     List<UploadData>? raw,
   }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody()
           ..error = error
-          ..formData = formData?.toJS
+          ..formData = formData?.jsify()
           ..raw = raw?.toJSArray((e) => e.toJS);
 
   final $js.OnBeforeRequestDetailsRequestBody _wrapped;
@@ -1979,7 +1979,7 @@ class OnBeforeRequestDetailsRequestBody {
   /// An example value of this dictionary is {'key': ['value1', 'value2']}.
   Map? get formData => (_wrapped.formData?.dartify() as Map?);
   set formData(Map? v) {
-    _wrapped.formData = v?.toJS;
+    _wrapped.formData = v?.jsify();
   }
 
   /// If the request method is PUT or POST, and the body is not already parsed

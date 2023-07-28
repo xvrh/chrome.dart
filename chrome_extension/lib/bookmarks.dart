@@ -23,7 +23,7 @@ class ChromeBookmarks {
   /// [idOrIdList] A single string-valued id, or an array of string-valued ids
   Future<List<BookmarkTreeNode>> get(Object idOrIdList) async {
     var $res = await promiseToFuture<JSArray>(
-        $js.chrome.bookmarks.get(idOrIdList.toJS));
+        $js.chrome.bookmarks.get(idOrIdList.toChoiceJS));
     return $res.toDart
         .cast<$js.BookmarkTreeNode>()
         .map((e) => BookmarkTreeNode.fromJS(e))
@@ -79,8 +79,8 @@ class ChromeBookmarks {
   /// properties `query`, `url`, and `title` may be specified and bookmarks
   /// matching all specified properties will be produced.
   Future<List<BookmarkTreeNode>> search(Object query) async {
-    var $res =
-        await promiseToFuture<JSArray>($js.chrome.bookmarks.search(query.toJS));
+    var $res = await promiseToFuture<JSArray>(
+        $js.chrome.bookmarks.search(query.toChoiceJS));
     return $res.toDart
         .cast<$js.BookmarkTreeNode>()
         .map((e) => BookmarkTreeNode.fromJS(e))

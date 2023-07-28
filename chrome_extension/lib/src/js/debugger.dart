@@ -59,7 +59,7 @@ extension JSDebuggerExtension on JSDebugger {
 
     /// JSON object with request parameters. This object must conform to the
     /// remote debugging params scheme for given method.
-    JSObject? commandParams,
+    JSAny? commandParams,
   );
 
   /// Returns the list of available debug targets.

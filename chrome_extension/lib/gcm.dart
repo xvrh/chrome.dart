@@ -95,7 +95,7 @@ class OnMessageMessage {
     String? from,
     String? collapseKey,
   }) : _wrapped = $js.OnMessageMessage()
-          ..data = data.toJS
+          ..data = data.jsify()!
           ..from = from
           ..collapseKey = collapseKey;
 
@@ -106,7 +106,7 @@ class OnMessageMessage {
   /// The message data.
   Map get data => (_wrapped.data.dartify() as Map);
   set data(Map v) {
-    _wrapped.data = v.toJS;
+    _wrapped.data = v.jsify()!;
   }
 
   /// The sender who issued the message.
@@ -134,7 +134,7 @@ class OnSendErrorError {
   }) : _wrapped = $js.OnSendErrorError()
           ..errorMessage = errorMessage
           ..messageId = messageId
-          ..details = details.toJS;
+          ..details = details.jsify()!;
 
   final $js.OnSendErrorError _wrapped;
 
@@ -156,7 +156,7 @@ class OnSendErrorError {
   /// Additional details related to the error, when available.
   Map get details => (_wrapped.details.dartify() as Map);
   set details(Map v) {
-    _wrapped.details = v.toJS;
+    _wrapped.details = v.jsify()!;
   }
 }
 
@@ -172,7 +172,7 @@ class SendMessage {
           destinationId: destinationId,
           messageId: messageId,
           timeToLive: timeToLive,
-          data: data.toJS,
+          data: data.jsify()!,
         );
 
   final $js.SendMessage _wrapped;

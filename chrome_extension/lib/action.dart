@@ -206,8 +206,8 @@ class SetIconDetails {
     Object? path,
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
-          imageData: imageData?.toJS,
-          path: path?.toJS,
+          imageData: imageData?.toChoiceJS,
+          path: path?.toChoiceJS,
           tabId: tabId,
         );
 
@@ -255,7 +255,7 @@ class SetBadgeBackgroundColorDetails {
     required Object color,
     int? tabId,
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
-          color: color.toJS,
+          color: color.toChoiceJS,
           tabId: tabId,
         );
 
@@ -271,7 +271,7 @@ class SetBadgeTextColorDetails {
     required Object color,
     int? tabId,
   }) : _wrapped = $js.SetBadgeTextColorDetails(
-          color: color.toJS,
+          color: color.toChoiceJS,
           tabId: tabId,
         );
 

@@ -21,7 +21,7 @@ class ChromeDevtoolsNetwork {
   /// Returns HAR log that contains all known network requests.
   Future<Map> getHAR() {
     var $completer = Completer<Map>();
-    $js.chrome.devtools.network.getHAR((JSObject harLog) {
+    $js.chrome.devtools.network.getHAR((JSAny harLog) {
       if (checkRuntimeLastError($completer)) {
         $completer.complete((harLog.dartify() as Map));
       }

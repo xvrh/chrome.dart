@@ -41,7 +41,7 @@ class ChromeDevtoolsInspectedWindow {
       expression,
       options?.toJS,
       (
-        JSObject result,
+        JSAny result,
         $js.EvalExceptionInfo exceptionInfo,
       ) {
         if (checkRuntimeLastError($completer)) {
@@ -146,7 +146,7 @@ class Resource {
     _wrapped.setContent(
       content,
       commit,
-      (JSObject? error) {
+      (JSAny? error) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete((error?.dartify() as Map?));
         }

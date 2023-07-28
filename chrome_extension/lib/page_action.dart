@@ -124,8 +124,8 @@ class SetIconDetails {
     int? iconIndex,
   }) : _wrapped = $js.SetIconDetails(
           tabId: tabId,
-          imageData: imageData?.toJS,
-          path: path?.toJS,
+          imageData: imageData?.toChoiceJS,
+          path: path?.toChoiceJS,
           iconIndex: iconIndex,
         );
 

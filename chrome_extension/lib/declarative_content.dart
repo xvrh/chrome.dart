@@ -182,7 +182,7 @@ class SetIcon {
     Object? imageData,
   }) : _wrapped = $js.SetIcon()
           ..instanceType = instanceType.toJS
-          ..imageData = imageData?.toJS;
+          ..imageData = imageData?.toChoiceJS;
 
   final $js.SetIcon _wrapped;
 
@@ -204,7 +204,7 @@ class SetIcon {
   /// {'16': foo}`.
   Object? get imageData => _wrapped.imageData;
   set imageData(Object? v) {
-    _wrapped.imageData = v?.toJS;
+    _wrapped.imageData = v?.toChoiceJS;
   }
 }
 

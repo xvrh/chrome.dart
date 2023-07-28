@@ -388,7 +388,7 @@ class MapType extends ChromeType {
 
   @override
   code.Reference get jsType => code.TypeReference((b) => b
-    ..symbol = 'JSObject'
+    ..symbol = 'JSAny'
     ..isNullable = isNullable);
 
   @override
@@ -398,7 +398,11 @@ class MapType extends ChromeType {
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    return accessor.nullSafePropertyIf('toJS', isNullable);
+    var expression = accessor.nullSafePropertyIf('jsify', isNullable).call([]);
+    if (!isNullable) {
+      expression = expression.nullChecked;
+    }
+    return expression;
   }
 
   @override
@@ -727,7 +731,9 @@ class AsyncReturnType extends ChromeType {
 }
 
 class ChoiceType extends ChromeType {
-  ChoiceType({required super.isNullable});
+  final List<ChromeType> choices;
+
+  ChoiceType(this.choices, {required super.isNullable});
 
   @override
   code.Reference get dartType => code.TypeReference((b) => b
@@ -735,21 +741,32 @@ class ChoiceType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  code.Reference get jsType => code.TypeReference((b) => b
-    ..symbol = 'JSAny'
-    ..isNullable = isNullable);
+  code.Reference get jsType {
+    return code.TypeReference((b) => b
+      ..symbol = 'JSAny'
+      ..isNullable = isNullable);
+  }
 
   @override
   code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    return accessor.nullSafePropertyIf('toJS', isNullable);
+    /*
+    switch (keys) {
+      List<String>() => keys.toJSArray((a) => a.toJS),
+      String() => keys.toJS,
+      Map() => keys.toJS,
+      Null() => null,
+      _ => throw UnsupportedError('Received type: ${keys.runtimeType}. Supported types are: List<String>, String, Map, Null.')
+    }
+     */
+    return accessor.nullSafePropertyIf('toChoiceJS', isNullable);
   }
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
-      ChoiceType(isNullable: isNullable);
+      ChoiceType(choices, isNullable: isNullable);
 
   @override
   Iterable<ChromeType> get children sync* {}

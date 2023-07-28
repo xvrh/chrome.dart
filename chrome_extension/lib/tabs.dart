@@ -155,7 +155,7 @@ class ChromeTabs {
     MoveProperties moveProperties,
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.tabs.move(
-      tabIds.toJS,
+      tabIds.toChoiceJS,
       moveProperties.toJS,
     ));
     return $res;
@@ -177,7 +177,7 @@ class ChromeTabs {
   /// Closes one or more tabs.
   /// [tabIds] The tab ID or list of tab IDs to close.
   Future<void> remove(Object tabIds) async {
-    await promiseToFuture<void>($js.chrome.tabs.remove(tabIds.toJS));
+    await promiseToFuture<void>($js.chrome.tabs.remove(tabIds.toChoiceJS));
   }
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
@@ -192,7 +192,7 @@ class ChromeTabs {
   /// [tabIds] The tab ID or list of tab IDs to remove from their respective
   /// groups.
   Future<void> ungroup(Object tabIds) async {
-    await promiseToFuture<void>($js.chrome.tabs.ungroup(tabIds.toJS));
+    await promiseToFuture<void>($js.chrome.tabs.ungroup(tabIds.toChoiceJS));
   }
 
   /// Detects the primary language of the content in a tab.
@@ -1319,7 +1319,7 @@ class QueryInfo {
           lastFocusedWindow: lastFocusedWindow,
           status: status?.toJS,
           title: title,
-          url: url?.toJS,
+          url: url?.toChoiceJS,
           groupId: groupId,
           windowId: windowId,
           windowType: windowType?.toJS,
@@ -1339,7 +1339,7 @@ class HighlightInfo {
     required Object tabs,
   }) : _wrapped = $js.HighlightInfo(
           windowId: windowId,
-          tabs: tabs.toJS,
+          tabs: tabs.toChoiceJS,
         );
 
   final $js.HighlightInfo _wrapped;
@@ -1410,7 +1410,7 @@ class GroupOptions {
     int? groupId,
     GroupOptionsCreateProperties? createProperties,
   }) : _wrapped = $js.GroupOptions(
-          tabIds: tabIds.toJS,
+          tabIds: tabIds.toChoiceJS,
           groupId: groupId,
           createProperties: createProperties?.toJS,
         );

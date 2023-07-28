@@ -178,7 +178,8 @@ class JsonModelConverter {
       {required bool anonymous, required bool isNullable}) {
     ChromeType? type;
     if (property.properties != null) {
-      if (property.properties!.isEmpty && property.additionalProperties != null) {
+      if (property.properties!.isEmpty &&
+          property.additionalProperties != null) {
         return null;
       }
       if (property.$ref != null) {
@@ -334,7 +335,10 @@ class JsonModelConverter {
 
     var arrayNullable = nullable;
     var isArray = false;
-    if (prop.items case var items?) {
+    if (prop.choices case var choices?) {
+      type = ChoiceType([for (var choice in choices) _propertyType(choice)],
+          isNullable: nullable);
+    } else if (prop.items case var items?) {
       isArray = true;
       type = context.createType(_extractType(items),
           locationFile: _targetFileName, isNullable: false);

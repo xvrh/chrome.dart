@@ -45,7 +45,7 @@ class ChromeContextMenus {
   ) {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.update(
-      id.toJS,
+      id.toChoiceJS,
       updateProperties.toJS,
       () {
         if (checkRuntimeLastError($completer)) {
@@ -61,7 +61,7 @@ class ChromeContextMenus {
   Future<void> remove(Object menuItemId) {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.remove(
-      menuItemId.toJS,
+      menuItemId.toChoiceJS,
       () {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(null);
@@ -164,8 +164,8 @@ class OnClickData {
     bool? wasChecked,
     bool? checked,
   }) : _wrapped = $js.OnClickData()
-          ..menuItemId = menuItemId.toJS
-          ..parentMenuItemId = parentMenuItemId?.toJS
+          ..menuItemId = menuItemId.toChoiceJS
+          ..parentMenuItemId = parentMenuItemId?.toChoiceJS
           ..mediaType = mediaType
           ..linkUrl = linkUrl
           ..srcUrl = srcUrl
@@ -184,13 +184,13 @@ class OnClickData {
   /// The ID of the menu item that was clicked.
   Object get menuItemId => _wrapped.menuItemId;
   set menuItemId(Object v) {
-    _wrapped.menuItemId = v.toJS;
+    _wrapped.menuItemId = v.toChoiceJS;
   }
 
   /// The parent ID, if any, for the item clicked.
   Object? get parentMenuItemId => _wrapped.parentMenuItemId;
   set parentMenuItemId(Object? v) {
-    _wrapped.parentMenuItemId = v?.toJS;
+    _wrapped.parentMenuItemId = v?.toChoiceJS;
   }
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
@@ -285,7 +285,7 @@ class CreateProperties {
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
-          parentId: parentId?.toJS,
+          parentId: parentId?.toChoiceJS,
           documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
           targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,
@@ -317,7 +317,7 @@ class UpdateProperties {
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
-          parentId: parentId?.toJS,
+          parentId: parentId?.toChoiceJS,
           documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
           targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,

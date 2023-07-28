@@ -79,7 +79,7 @@ class OnMessageMessage {}
 
 extension OnMessageMessageExtension on OnMessageMessage {
   /// The message data.
-  external JSObject data;
+  external JSAny data;
 
   /// The sender who issued the message.
   external String? from;
@@ -103,7 +103,7 @@ extension OnSendErrorErrorExtension on OnSendErrorError {
   external String? messageId;
 
   /// Additional details related to the error, when available.
-  external JSObject details;
+  external JSAny details;
 }
 
 @JS()
@@ -131,6 +131,6 @@ class SendMessage {
     /// Message data to send to the server. Case-insensitive `goog.` and `google`,
     /// as well as case-sensitive `collapse_key` are disallowed as key prefixes.
     /// Sum of all key/value pairs should not exceed [gcm.MAX_MESSAGE_SIZE].
-    JSObject data,
+    JSAny data,
   });
 }

@@ -36,7 +36,7 @@ class ChromeStorage {
   /// Fired when one or more items change.
   Stream<OnChangedEvent> get onChanged =>
       $js.chrome.storage.onChanged.asStream(($c) => (
-            JSObject changes,
+            JSAny changes,
             String areaName,
           ) {
             $c.add(OnChangedEvent(
@@ -102,7 +102,7 @@ class StorageArea {
   /// list or object will return an empty result object.  Pass in `null` to
   /// get the entire contents of storage.
   Future<Map> get(Object? keys) async {
-    var $res = await promiseToFuture<JSObject>(_wrapped.get(keys?.toJS));
+    var $res = await promiseToFuture<JSAny>(_wrapped.get(keys?.toChoiceJS));
     return ($res.dartify() as Map);
   }
 
@@ -111,7 +111,8 @@ class StorageArea {
   /// list will return 0. Pass in `null` to get the total usage of all of
   /// storage.
   Future<int> getBytesInUse(Object? keys) async {
-    var $res = await promiseToFuture<int>(_wrapped.getBytesInUse(keys?.toJS));
+    var $res =
+        await promiseToFuture<int>(_wrapped.getBytesInUse(keys?.toChoiceJS));
     return $res;
   }
 
@@ -124,13 +125,13 @@ class StorageArea {
   /// with the exception of `Array` (serializes as expected), `Date`, and
   /// `Regex` (serialize using their `String` representation).
   Future<void> set(Map items) async {
-    await promiseToFuture<void>(_wrapped.set(items.toJS));
+    await promiseToFuture<void>(_wrapped.set(items.jsify()!));
   }
 
   /// Removes one or more items from storage.
   /// [keys] A single key or a list of keys for items to remove.
   Future<void> remove(Object keys) async {
-    await promiseToFuture<void>(_wrapped.remove(keys.toJS));
+    await promiseToFuture<void>(_wrapped.remove(keys.toChoiceJS));
   }
 
   /// Removes all items from storage.
@@ -146,7 +147,7 @@ class StorageArea {
 
   /// Fired when one or more items change.
   Stream<Map> get onChanged =>
-      _wrapped.onChanged.asStream(($c) => (JSObject changes) {
+      _wrapped.onChanged.asStream(($c) => (JSAny changes) {
             $c.add((changes.dartify() as Map));
           }.toJS);
 }

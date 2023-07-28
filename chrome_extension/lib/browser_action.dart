@@ -111,7 +111,7 @@ class ChromeBrowserAction {
   /// tab permissions.
   Future<Map?> openPopup() {
     var $completer = Completer<Map?>();
-    $js.chrome.browserAction.openPopup((JSObject? popupView) {
+    $js.chrome.browserAction.openPopup((JSAny? popupView) {
       if (checkRuntimeLastError($completer)) {
         $completer.complete((popupView?.dartify() as Map?));
       }
@@ -173,8 +173,8 @@ class SetIconDetails {
     Object? path,
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
-          imageData: imageData?.toJS,
-          path: path?.toJS,
+          imageData: imageData?.toChoiceJS,
+          path: path?.toChoiceJS,
           tabId: tabId,
         );
 
@@ -222,7 +222,7 @@ class SetBadgeBackgroundColorDetails {
     required Object color,
     int? tabId,
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
-          color: color.toJS,
+          color: color.toChoiceJS,
           tabId: tabId,
         );
 

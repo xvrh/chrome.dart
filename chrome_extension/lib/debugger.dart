@@ -57,10 +57,10 @@ class ChromeDebugger {
     String method,
     Map? commandParams,
   ) async {
-    var $res = await promiseToFuture<JSObject?>($js.chrome.debugger.sendCommand(
+    var $res = await promiseToFuture<JSAny?>($js.chrome.debugger.sendCommand(
       target.toJS,
       method,
-      commandParams?.toJS,
+      commandParams?.jsify(),
     ));
     return ($res?.dartify() as Map?);
   }
@@ -79,7 +79,7 @@ class ChromeDebugger {
       $js.chrome.debugger.onEvent.asStream(($c) => (
             $js.Debuggee source,
             String method,
-            JSObject? params,
+            JSAny? params,
           ) {
             $c.add(OnEventEvent(
               source: Debuggee.fromJS(source),

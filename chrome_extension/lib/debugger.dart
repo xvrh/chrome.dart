@@ -62,7 +62,7 @@ class ChromeDebugger {
       method,
       commandParams?.jsify(),
     ));
-    return ($res?.dartify() as Map?);
+    return $res?.toDartMap();
   }
 
   /// Returns the list of available debug targets.
@@ -84,7 +84,7 @@ class ChromeDebugger {
             $c.add(OnEventEvent(
               source: Debuggee.fromJS(source),
               method: method,
-              params: (params?.dartify() as Map?),
+              params: params?.toDartMap(),
             ));
           }.toJS);
 

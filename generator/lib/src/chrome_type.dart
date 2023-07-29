@@ -397,9 +397,7 @@ class MapType extends ChromeType {
 
   @override
   code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
-      accessor
-          .nullSafePropertyIf('dartify', isNullable)
-          .call([]).asA(code.refer('Map$questionMark'));
+      accessor.nullSafePropertyIf('toDartMap', isNullable).call([]);
 
   @override
   code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
@@ -782,15 +780,6 @@ class ChoiceType extends ChromeType {
     buffer.writeln(
         "_ => throw UnsupportedError('Received type: \${${emit(accessor)}.runtimeType}. Supported types are: $supportedTypes')");
     buffer.writeln('}');
-    /*
-    switch (keys) {
-      List<String>() => keys.toJSArray((a) => a.toJS),
-      String() => keys.toJS,
-      Map() => keys.toJS,
-      Null() => null,
-      _ => throw UnsupportedError('Received type: ${keys.runtimeType}. Supported types are: List<String>, String, Map, Null.')
-    }
-     */
     return code.CodeExpression(code.Code(buffer.toString()));
   }
 

@@ -104,7 +104,7 @@ class OnMessageMessage {
   $js.OnMessageMessage get toJS => _wrapped;
 
   /// The message data.
-  Map get data => (_wrapped.data.dartify() as Map);
+  Map get data => _wrapped.data.toDartMap();
   set data(Map v) {
     _wrapped.data = v.jsify()!;
   }
@@ -154,7 +154,7 @@ class OnSendErrorError {
   }
 
   /// Additional details related to the error, when available.
-  Map get details => (_wrapped.details.dartify() as Map);
+  Map get details => _wrapped.details.toDartMap();
   set details(Map v) {
     _wrapped.details = v.jsify()!;
   }

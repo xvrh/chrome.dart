@@ -19,6 +19,6 @@ class ChromeDom {
   /// specified element. If the element doesn't attach the shadow root, it will
   /// return null.
   Map openOrClosedShadowRoot(JSObject element) {
-    return ($js.chrome.dom.openOrClosedShadowRoot(element).dartify() as Map);
+    return $js.chrome.dom.openOrClosedShadowRoot(element).toDartMap();
   }
 }

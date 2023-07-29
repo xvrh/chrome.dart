@@ -48,7 +48,7 @@ class ChromeRuntime {
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
   Map getManifest() {
-    return ($js.chrome.runtime.getManifest().dartify() as Map);
+    return $js.chrome.runtime.getManifest().toDartMap();
   }
 
   /// Converts a relative path within an app/extension install directory to a
@@ -182,7 +182,7 @@ class ChromeRuntime {
       application,
       message.jsify()!,
     ));
-    return ($res.dartify() as Map);
+    return $res.toDartMap();
   }
 
   /// Returns information about the current platform.

@@ -1336,7 +1336,7 @@ class QueryInfo {
           title: title,
           url: switch (url) {
             String() => url,
-            List<String>() => url.toJSArray((e) => e),
+            List() => url.toJSArrayString(),
             Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${url.runtimeType}. Supported types are: String, List<String>')

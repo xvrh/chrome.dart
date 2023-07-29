@@ -46,7 +46,7 @@ class ChromeDevtoolsInspectedWindow {
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(EvalResult(
-            result: (result.dartify() as Map),
+            result: result.toDartMap(),
             exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
           ));
         }
@@ -148,7 +148,7 @@ class Resource {
       commit,
       (JSAny? error) {
         if (checkRuntimeLastError($completer)) {
-          $completer.complete((error?.dartify() as Map?));
+          $completer.complete(error?.toDartMap());
         }
       }.toJS,
     );

@@ -1977,7 +1977,7 @@ class OnBeforeRequestDetailsRequestBody {
   /// key contains the list of all values for that key. If the data is of
   /// another media type, or if it is malformed, the dictionary is not present.
   /// An example value of this dictionary is {'key': ['value1', 'value2']}.
-  Map? get formData => (_wrapped.formData?.dartify() as Map?);
+  Map? get formData => _wrapped.formData?.toDartMap();
   set formData(Map? v) {
     _wrapped.formData = v?.jsify();
   }

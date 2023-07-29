@@ -40,7 +40,7 @@ class ChromeStorage {
             String areaName,
           ) {
             $c.add(OnChangedEvent(
-              changes: (changes.dartify() as Map),
+              changes: changes.toDartMap(),
               areaName: areaName,
             ));
           }.toJS);
@@ -104,13 +104,13 @@ class StorageArea {
   Future<Map> get(Object? keys) async {
     var $res = await promiseToFuture<JSAny>(_wrapped.get(switch (keys) {
       String() => keys,
-      List() => keys.toJSArray((e) => e),
+      List() => keys.toJSArrayString(),
       Map() => keys.jsify()!,
       Null() => null,
       _ => throw UnsupportedError(
           'Received type: ${keys.runtimeType}. Supported types are: String, List<String>, Map')
     }));
-    return ($res.dartify() as Map);
+    return $res.toDartMap();
   }
 
   /// Gets the amount of space (in bytes) being used by one or more items.
@@ -120,7 +120,7 @@ class StorageArea {
   Future<int> getBytesInUse(Object? keys) async {
     var $res = await promiseToFuture<int>(_wrapped.getBytesInUse(switch (keys) {
       String() => keys,
-      List<String>() => keys.toJSArray((e) => e),
+      List() => keys.toJSArrayString(),
       Null() => null,
       _ => throw UnsupportedError(
           'Received type: ${keys.runtimeType}. Supported types are: String, List<String>')
@@ -145,7 +145,7 @@ class StorageArea {
   Future<void> remove(Object keys) async {
     await promiseToFuture<void>(_wrapped.remove(switch (keys) {
       String() => keys,
-      List<String>() => keys.toJSArray((e) => e),
+      List() => keys.toJSArrayString(),
       _ => throw UnsupportedError(
           'Received type: ${keys.runtimeType}. Supported types are: String, List<String>')
     }));
@@ -165,7 +165,7 @@ class StorageArea {
   /// Fired when one or more items change.
   Stream<Map> get onChanged =>
       _wrapped.onChanged.asStream(($c) => (JSAny changes) {
-            $c.add((changes.dartify() as Map));
+            $c.add(changes.toDartMap());
           }.toJS);
 }
 

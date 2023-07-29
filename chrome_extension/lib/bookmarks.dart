@@ -25,7 +25,7 @@ class ChromeBookmarks {
     var $res = await promiseToFuture<JSArray>(
         $js.chrome.bookmarks.get(switch (idOrIdList) {
       String() => idOrIdList,
-      List<String>() => idOrIdList.toJSArray((e) => e),
+      List() => idOrIdList.toJSArrayString(),
       _ => throw UnsupportedError(
           'Received type: ${idOrIdList.runtimeType}. Supported types are: String, List<String>')
     }));

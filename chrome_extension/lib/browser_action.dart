@@ -113,7 +113,7 @@ class ChromeBrowserAction {
     var $completer = Completer<Map?>();
     $js.chrome.browserAction.openPopup((JSAny? popupView) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete((popupView?.dartify() as Map?));
+        $completer.complete(popupView?.toDartMap());
       }
     }.toJS);
     return $completer.future;

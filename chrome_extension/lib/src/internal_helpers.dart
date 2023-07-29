@@ -25,11 +25,22 @@ extension ListToJsExtension<T> on List<T> {
   JSArray toJSArray(Object Function(T) mapper) {
     return map(mapper).cast<JSAny>().toList().toJS;
   }
+
+  JSArray toJSArrayString() {
+    return toJSArray((e) => e.toString());
+  }
+}
+
+extension JSAnyExtension on JSAny {
+  Map toDartMap() {
+    var map = dartify()! as Map;
+    // TODO: convert inner map and list?
+    return map;
+  }
 }
 
 extension EventStreamExtension on js.Event {
-  Stream<T> asStream<T>(
-      JSFunction Function(StreamController) callbackFactory) {
+  Stream<T> asStream<T>(JSFunction Function(StreamController) callbackFactory) {
     var controller = StreamController<T>();
     var listener = callbackFactory(controller);
     controller

@@ -23,7 +23,7 @@ class ChromeDevtoolsNetwork {
     var $completer = Completer<Map>();
     $js.chrome.devtools.network.getHAR((JSAny harLog) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete((harLog.dartify() as Map));
+        $completer.complete(harLog.toDartMap());
       }
     }.toJS);
     return $completer.future;

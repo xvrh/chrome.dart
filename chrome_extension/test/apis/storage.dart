@@ -89,8 +89,8 @@ void _tests(TestContext context) {
 
     var all = await storage.get('mykey');
     check(all).length.equals(1);
-    var array = all['mykey'] as JSArray;
-    check(array.toDart).equals(['1'.toJS, '2'.toJS]);
+    var array = all['mykey'] as List;
+    check(array).deepEquals(['1', '2']);
   });
 
   test('Store map', () async {
@@ -102,6 +102,6 @@ void _tests(TestContext context) {
     var all = await storage.get('mykey');
     check(all).length.equals(1);
     var value = all['mykey'] as Map;
-    check(value).equals({'sub': 'key'});
+    check(value).deepEquals({'sub': 'key'});
   });
 }

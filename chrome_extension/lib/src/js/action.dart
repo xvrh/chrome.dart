@@ -162,7 +162,7 @@ class SetIconDetails {
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.imageData = foo' is equivalent to 'details.imageData =
     /// {'16': foo}'
-    JSAny? imageData,
+    Object? imageData,
 
     /// Either a relative image path or a dictionary {size -> relative image path}
     /// pointing to icon to be set. If the icon is specified as a dictionary, the
@@ -171,7 +171,7 @@ class SetIconDetails {
     /// `scale`, then image with size `scale` * n will be selected, where n is the
     /// size of the icon in the UI. At least one image must be specified. Note
     /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
-    JSAny? path,
+    Object? path,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
@@ -217,7 +217,7 @@ class SetBadgeBackgroundColorDetails {
     /// An array of four integers in the range [0,255] that make up the RGBA color
     /// of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can also be a
     /// string with a CSS value, with opaque red being `#FF0000` or `#F00`.
-    JSAny color,
+    Object color,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.
@@ -237,7 +237,7 @@ class SetBadgeTextColorDetails {
     /// contrast with the badge's background color so the text will be visible.
     /// Colors with alpha values equivalent to 0 will not be set and will return
     /// an error.
-    JSAny color,
+    Object color,
 
     /// Limits the change to when a particular tab is selected. Automatically
     /// resets when the tab is closed.

@@ -174,10 +174,16 @@ class SetIconDetails {
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
           imageData: switch (imageData) {
+            ImageDataType() => imageData.toJS,
+            Map() => imageData.jsify()!,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
           },
           path: switch (path) {
+            String() => path,
+            Map() => path.jsify()!,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${path.runtimeType}. Supported types are: String, Map')
           },
@@ -229,6 +235,8 @@ class SetBadgeBackgroundColorDetails {
     int? tabId,
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
           color: switch (color) {
+            String() => color,
+            ColorArray() => color.toJSArray((e) => e),
             _ => throw UnsupportedError(
                 'Received type: ${color.runtimeType}. Supported types are: String, ColorArray')
           },

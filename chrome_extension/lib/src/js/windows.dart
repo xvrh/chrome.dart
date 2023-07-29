@@ -172,7 +172,7 @@ class CreateData {
     /// must include a scheme, e.g., 'http://www.google.com', not
     /// 'www.google.com'. Non-fully-qualified URLs are considered relative within
     /// the extension. Defaults to the New Tab Page.
-    JSAny? url,
+    Object? url,
 
     /// The ID of the tab to add to the new window.
     int? tabId,

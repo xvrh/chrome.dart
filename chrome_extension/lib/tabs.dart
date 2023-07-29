@@ -154,8 +154,10 @@ class ChromeTabs {
     Object tabIds,
     MoveProperties moveProperties,
   ) async {
-    var $res = await promiseToFuture<JSAny>($js.chrome.tabs.move(
+    var $res = await promiseToFuture<Object>($js.chrome.tabs.move(
       switch (tabIds) {
+        int() => tabIds,
+        List<int>() => tabIds.toJSArray((e) => e),
         _ => throw UnsupportedError(
             'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
       },
@@ -181,6 +183,8 @@ class ChromeTabs {
   /// [tabIds] The tab ID or list of tab IDs to close.
   Future<void> remove(Object tabIds) async {
     await promiseToFuture<void>($js.chrome.tabs.remove(switch (tabIds) {
+      int() => tabIds,
+      List<int>() => tabIds.toJSArray((e) => e),
       _ => throw UnsupportedError(
           'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
     }));
@@ -199,6 +203,8 @@ class ChromeTabs {
   /// groups.
   Future<void> ungroup(Object tabIds) async {
     await promiseToFuture<void>($js.chrome.tabs.ungroup(switch (tabIds) {
+      int() => tabIds,
+      List<int>() => tabIds.toJSArray((e) => e),
       _ => throw UnsupportedError(
           'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
     }));
@@ -1329,6 +1335,9 @@ class QueryInfo {
           status: status?.toJS,
           title: title,
           url: switch (url) {
+            String() => url,
+            List<String>() => url.toJSArray((e) => e),
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${url.runtimeType}. Supported types are: String, List<String>')
           },
@@ -1352,6 +1361,8 @@ class HighlightInfo {
   }) : _wrapped = $js.HighlightInfo(
           windowId: windowId,
           tabs: switch (tabs) {
+            List<int>() => tabs.toJSArray((e) => e),
+            int() => tabs,
             _ => throw UnsupportedError(
                 'Received type: ${tabs.runtimeType}. Supported types are: List<int>, int')
           },
@@ -1426,6 +1437,8 @@ class GroupOptions {
     GroupOptionsCreateProperties? createProperties,
   }) : _wrapped = $js.GroupOptions(
           tabIds: switch (tabIds) {
+            int() => tabIds,
+            List<int>() => tabIds.toJSArray((e) => e),
             _ => throw UnsupportedError(
                 'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
           },

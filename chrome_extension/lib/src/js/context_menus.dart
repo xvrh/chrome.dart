@@ -28,7 +28,7 @@ extension JSContextMenusExtension on JSContextMenus {
   /// Creates a new context menu item. If an error occurs during creation, it
   /// may not be detected until the creation callback fires; details will be in
   /// [runtime.lastError].
-  external JSAny create(
+  external Object create(
     CreateProperties createProperties,
 
     /// Called when the item has been created in the browser. If an error occurs
@@ -39,7 +39,7 @@ extension JSContextMenusExtension on JSContextMenus {
   /// Updates a previously created context menu item.
   external void update(
     /// The ID of the item to update.
-    JSAny id,
+    Object id,
 
     /// The properties to update. Accepts the same values as the
     /// [contextMenus.create] function.
@@ -52,7 +52,7 @@ extension JSContextMenusExtension on JSContextMenus {
   /// Removes a context menu item.
   external void remove(
     /// The ID of the context menu item to remove.
-    JSAny menuItemId,
+    Object menuItemId,
 
     /// Called when the context menu has been removed.
     JSFunction? callback,
@@ -90,10 +90,10 @@ class OnClickData {}
 
 extension OnClickDataExtension on OnClickData {
   /// The ID of the menu item that was clicked.
-  external JSAny menuItemId;
+  external Object menuItemId;
 
   /// The parent ID, if any, for the item clicked.
-  external JSAny? parentMenuItemId;
+  external Object? parentMenuItemId;
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
   /// one of these types of elements.
@@ -171,7 +171,7 @@ class CreateProperties {
 
     /// The ID of a parent menu item; this makes the item a child of a previously
     /// added item.
-    JSAny? parentId,
+    Object? parentId,
 
     /// Restricts the item to apply only to documents or frames whose URL matches
     /// one of the given patterns. For details on pattern formats, see [Match
@@ -203,7 +203,7 @@ class UpdateProperties {
 
     /// The ID of the item to be made this item's parent. Note: You cannot set an
     /// item to become a child of its own descendant.
-    JSAny? parentId,
+    Object? parentId,
     JSArray? documentUrlPatterns,
     JSArray? targetUrlPatterns,
     bool? enabled,

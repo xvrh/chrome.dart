@@ -752,7 +752,7 @@ class ChoiceType extends ChromeType {
   @override
   code.Reference get jsType {
     return code.TypeReference((b) => b
-      ..symbol = 'JSAny'
+      ..symbol = 'Object'
       ..isNullable = isNullable);
   }
 
@@ -767,7 +767,17 @@ class ChoiceType extends ChromeType {
 
     var buffer = StringBuffer();
     buffer.writeln('''switch (${emit(accessor)}) {''');
-    for (var choice in choices) {}
+    for (var choice in choices) {
+      var type = emit(choice.dartType);
+      if (type == 'List<String>') {
+        buffer.writeln('List() => ${emit(accessor)}.toJSArrayString(),');
+      } else {
+        buffer.writeln('$type() => ${emit(choice.toJS(accessor, allocator))},');
+      }
+    }
+    if (isNullable) {
+      buffer.writeln('Null() => null,');
+    }
     var supportedTypes = choices.map((c) => emit(c.dartType)).join(', ');
     buffer.writeln(
         "_ => throw UnsupportedError('Received type: \${${emit(accessor)}.runtimeType}. Supported types are: $supportedTypes')");

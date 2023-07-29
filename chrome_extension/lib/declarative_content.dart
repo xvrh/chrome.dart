@@ -183,6 +183,9 @@ class SetIcon {
   }) : _wrapped = $js.SetIcon()
           ..instanceType = instanceType.toJS
           ..imageData = switch (imageData) {
+            ImageDataType() => imageData,
+            Map() => imageData.jsify()!,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
           };
@@ -208,6 +211,9 @@ class SetIcon {
   Object? get imageData => _wrapped.imageData;
   set imageData(Object? v) {
     _wrapped.imageData = switch (v) {
+      ImageDataType() => v,
+      Map() => v.jsify()!,
+      Null() => null,
       _ => throw UnsupportedError(
           'Received type: ${v.runtimeType}. Supported types are: ImageDataType, Map')
     };

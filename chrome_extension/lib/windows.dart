@@ -346,6 +346,9 @@ class CreateData {
     bool? setSelfAsOpener,
   }) : _wrapped = $js.CreateData(
           url: switch (url) {
+            String() => url,
+            List<String>() => url.toJSArray((e) => e),
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${url.runtimeType}. Supported types are: String, List<String>')
           },

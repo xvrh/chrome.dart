@@ -107,7 +107,7 @@ extension JSTabsExtension on JSTabs {
   /// === "normal") windows.
   external JSPromise move(
     /// The tab ID or list of tab IDs to move.
-    JSAny tabIds,
+    Object tabIds,
     MoveProperties moveProperties,
   );
 
@@ -123,7 +123,7 @@ extension JSTabsExtension on JSTabs {
   external JSPromise remove(
 
       /// The tab ID or list of tab IDs to close.
-      JSAny tabIds);
+      Object tabIds);
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
   /// adds the given tabs to a newly created group.
@@ -134,7 +134,7 @@ extension JSTabsExtension on JSTabs {
   external JSPromise ungroup(
 
       /// The tab ID or list of tab IDs to remove from their respective groups.
-      JSAny tabIds);
+      Object tabIds);
 
   /// Detects the primary language of the content in a tab.
   external JSPromise detectLanguage(
@@ -734,7 +734,7 @@ class QueryInfo {
     /// Match tabs against one or more [URL patterns](match_patterns). Fragment
     /// identifiers are not matched. This property is ignored if the extension
     /// does not have the `"tabs"` permission.
-    JSAny? url,
+    Object? url,
 
     /// The ID of the group that the tabs are in, or [tabGroups.TAB_GROUP_ID_NONE]
     /// for ungrouped tabs.
@@ -761,7 +761,7 @@ class HighlightInfo {
     int? windowId,
 
     /// One or more tab indices to highlight.
-    JSAny tabs,
+    Object tabs,
   });
 }
 
@@ -830,7 +830,7 @@ class ReloadProperties {
 class GroupOptions {
   external factory GroupOptions({
     /// The tab ID or list of tab IDs to add to the specified group.
-    JSAny tabIds,
+    Object tabIds,
 
     /// The ID of the group to add the tabs to. If not specified, a new group will
     /// be created.

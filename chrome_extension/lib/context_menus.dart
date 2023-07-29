@@ -46,6 +46,8 @@ class ChromeContextMenus {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.update(
       switch (id) {
+        int() => id,
+        String() => id,
         _ => throw UnsupportedError(
             'Received type: ${id.runtimeType}. Supported types are: int, String')
       },
@@ -65,6 +67,8 @@ class ChromeContextMenus {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.remove(
       switch (menuItemId) {
+        int() => menuItemId,
+        String() => menuItemId,
         _ => throw UnsupportedError(
             'Received type: ${menuItemId.runtimeType}. Supported types are: int, String')
       },
@@ -171,10 +175,15 @@ class OnClickData {
     bool? checked,
   }) : _wrapped = $js.OnClickData()
           ..menuItemId = switch (menuItemId) {
+            int() => menuItemId,
+            String() => menuItemId,
             _ => throw UnsupportedError(
                 'Received type: ${menuItemId.runtimeType}. Supported types are: int, String')
           }
           ..parentMenuItemId = switch (parentMenuItemId) {
+            int() => parentMenuItemId,
+            String() => parentMenuItemId,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${parentMenuItemId.runtimeType}. Supported types are: int, String')
           }
@@ -197,6 +206,8 @@ class OnClickData {
   Object get menuItemId => _wrapped.menuItemId;
   set menuItemId(Object v) {
     _wrapped.menuItemId = switch (v) {
+      int() => v,
+      String() => v,
       _ => throw UnsupportedError(
           'Received type: ${v.runtimeType}. Supported types are: int, String')
     };
@@ -206,6 +217,9 @@ class OnClickData {
   Object? get parentMenuItemId => _wrapped.parentMenuItemId;
   set parentMenuItemId(Object? v) {
     _wrapped.parentMenuItemId = switch (v) {
+      int() => v,
+      String() => v,
+      Null() => null,
       _ => throw UnsupportedError(
           'Received type: ${v.runtimeType}. Supported types are: int, String')
     };
@@ -304,6 +318,9 @@ class CreateProperties {
           visible: visible,
           onclick: onclick,
           parentId: switch (parentId) {
+            int() => parentId,
+            String() => parentId,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${parentId.runtimeType}. Supported types are: int, String')
           },
@@ -339,6 +356,9 @@ class UpdateProperties {
           visible: visible,
           onclick: onclick,
           parentId: switch (parentId) {
+            int() => parentId,
+            String() => parentId,
+            Null() => null,
             _ => throw UnsupportedError(
                 'Received type: ${parentId.runtimeType}. Supported types are: int, String')
           },

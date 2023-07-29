@@ -98,7 +98,7 @@ extension SetIconExtension on SetIcon {
   /// size of the icon in the UI. At least one image must be specified. Note
   /// that `details.imageData = foo` is equivalent to `details.imageData =
   /// {'16': foo}`.
-  external JSAny? imageData;
+  external Object? imageData;
 }
 
 @JS()

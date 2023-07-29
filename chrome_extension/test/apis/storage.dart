@@ -1,9 +1,9 @@
-import 'dart:js_interop';
+import 'dart:async';
 
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/storage.dart';
 import 'package:test/test.dart';
-
+import 'package:async/async.dart';
 import '../client_side_wrapper.dart';
 
 void main() => setup(_tests);
@@ -103,5 +103,32 @@ void _tests(TestContext context) {
     check(all).length.equals(1);
     var value = all['mykey'] as Map;
     check(value).deepEquals({'sub': 'key'});
+  });
+
+  test('onChanged event with single value', () async {
+    var storage = chrome.storage.local;
+    late StreamSubscription subscription;
+
+    subscription = storage.onChanged.listen(expectAsync1((e) {
+      check(e).deepEquals({
+        'mykey': {'newValue': 'value'}
+      });
+      subscription.cancel();
+    }));
+    await storage.set({'mykey': 'value'});
+  });
+
+  test('onChanged event', () async {
+    var storage = chrome.storage.local;
+    await storage.set({'mykey': 'value'});
+    late StreamSubscription subscription;
+
+    subscription = storage.onChanged.listen(expectAsync1((e) {
+      check(e).deepEquals({
+        'mykey': {'newValue': 'value2', 'oldValue': 'value'}
+      });
+      subscription.cancel();
+    }));
+    await storage.set({'mykey': 'value2'});
   });
 }

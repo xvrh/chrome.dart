@@ -7,6 +7,9 @@ environment:
 
 dev_dependencies:
   checks:
+    git:
+      url: https://github.com/dart-lang/test.git
+      path: pkgs/checks
   collection:
   puppeteer:
   test:

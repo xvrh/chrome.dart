@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/src/internal_helpers.dart';
 import 'package:test/test.dart';
@@ -8,7 +10,6 @@ import 'package:chrome_apis/bookmarks.dart';
 void main() => setup(_tests);
 
 void _tests(TestContext context) {
-
   test('create', () async {
     var node = await chrome.bookmarks.create(
         CreateDetails(title: 'One bookmark', url: 'https://google.com'));
@@ -32,14 +33,19 @@ void _tests(TestContext context) {
   });
 
   test('Events', () async {
-    chrome.bookmarks.onCreated.listen(expectAsync1((e) {
+    late StreamSubscription s1;
+    s1 = chrome.bookmarks.onCreated.listen(expectAsync1((e) {
       check(e.id).isNotNull();
       check(e.bookmark.id).isNotNull();
       check(e.bookmark.title).isNotNull();
+
+      s1.cancel();
     }));
-    chrome.bookmarks.onRemoved.listen(expectAsync1((e) {
+    late StreamSubscription s2;
+    s2 = chrome.bookmarks.onRemoved.listen(expectAsync1((e) {
       check(e.id).isNotNull();
       check(e.removeInfo.index).isNotNull();
+      s2.cancel();
     }));
     var node = await chrome.bookmarks.create(
         CreateDetails(title: 'One bookmark', url: 'https://google.com'));

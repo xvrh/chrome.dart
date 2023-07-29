@@ -45,7 +45,10 @@ class ChromeContextMenus {
   ) {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.update(
-      id.toChoiceJS,
+      switch (id) {
+        _ => throw UnsupportedError(
+            'Received type: ${id.runtimeType}. Supported types are: int, String')
+      },
       updateProperties.toJS,
       () {
         if (checkRuntimeLastError($completer)) {
@@ -61,7 +64,10 @@ class ChromeContextMenus {
   Future<void> remove(Object menuItemId) {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.remove(
-      menuItemId.toChoiceJS,
+      switch (menuItemId) {
+        _ => throw UnsupportedError(
+            'Received type: ${menuItemId.runtimeType}. Supported types are: int, String')
+      },
       () {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(null);
@@ -164,8 +170,14 @@ class OnClickData {
     bool? wasChecked,
     bool? checked,
   }) : _wrapped = $js.OnClickData()
-          ..menuItemId = menuItemId.toChoiceJS
-          ..parentMenuItemId = parentMenuItemId?.toChoiceJS
+          ..menuItemId = switch (menuItemId) {
+            _ => throw UnsupportedError(
+                'Received type: ${menuItemId.runtimeType}. Supported types are: int, String')
+          }
+          ..parentMenuItemId = switch (parentMenuItemId) {
+            _ => throw UnsupportedError(
+                'Received type: ${parentMenuItemId.runtimeType}. Supported types are: int, String')
+          }
           ..mediaType = mediaType
           ..linkUrl = linkUrl
           ..srcUrl = srcUrl
@@ -184,13 +196,19 @@ class OnClickData {
   /// The ID of the menu item that was clicked.
   Object get menuItemId => _wrapped.menuItemId;
   set menuItemId(Object v) {
-    _wrapped.menuItemId = v.toChoiceJS;
+    _wrapped.menuItemId = switch (v) {
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: int, String')
+    };
   }
 
   /// The parent ID, if any, for the item clicked.
   Object? get parentMenuItemId => _wrapped.parentMenuItemId;
   set parentMenuItemId(Object? v) {
-    _wrapped.parentMenuItemId = v?.toChoiceJS;
+    _wrapped.parentMenuItemId = switch (v) {
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: int, String')
+    };
   }
 
   /// One of 'image', 'video', or 'audio' if the context menu was activated on
@@ -285,7 +303,10 @@ class CreateProperties {
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
-          parentId: parentId?.toChoiceJS,
+          parentId: switch (parentId) {
+            _ => throw UnsupportedError(
+                'Received type: ${parentId.runtimeType}. Supported types are: int, String')
+          },
           documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
           targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,
@@ -317,7 +338,10 @@ class UpdateProperties {
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
           onclick: onclick,
-          parentId: parentId?.toChoiceJS,
+          parentId: switch (parentId) {
+            _ => throw UnsupportedError(
+                'Received type: ${parentId.runtimeType}. Supported types are: int, String')
+          },
           documentUrlPatterns: documentUrlPatterns?.toJSArray((e) => e),
           targetUrlPatterns: targetUrlPatterns?.toJSArray((e) => e),
           enabled: enabled,

@@ -23,7 +23,10 @@ class ChromeBookmarks {
   /// [idOrIdList] A single string-valued id, or an array of string-valued ids
   Future<List<BookmarkTreeNode>> get(Object idOrIdList) async {
     var $res = await promiseToFuture<JSArray>(
-        $js.chrome.bookmarks.get(idOrIdList.toChoiceJS));
+        $js.chrome.bookmarks.get(switch (idOrIdList) {
+      _ => throw UnsupportedError(
+          'Received type: ${idOrIdList.runtimeType}. Supported types are: String, List<String>')
+    }));
     return $res.toDart
         .cast<$js.BookmarkTreeNode>()
         .map((e) => BookmarkTreeNode.fromJS(e))
@@ -80,7 +83,10 @@ class ChromeBookmarks {
   /// matching all specified properties will be produced.
   Future<List<BookmarkTreeNode>> search(Object query) async {
     var $res = await promiseToFuture<JSArray>(
-        $js.chrome.bookmarks.search(query.toChoiceJS));
+        $js.chrome.bookmarks.search(switch (query) {
+      _ => throw UnsupportedError(
+          'Received type: ${query.runtimeType}. Supported types are: String, Object')
+    }));
     return $res.toDart
         .cast<$js.BookmarkTreeNode>()
         .map((e) => BookmarkTreeNode.fromJS(e))

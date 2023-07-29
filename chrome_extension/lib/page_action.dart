@@ -124,8 +124,14 @@ class SetIconDetails {
     int? iconIndex,
   }) : _wrapped = $js.SetIconDetails(
           tabId: tabId,
-          imageData: imageData?.toChoiceJS,
-          path: path?.toChoiceJS,
+          imageData: switch (imageData) {
+            _ => throw UnsupportedError(
+                'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
+          },
+          path: switch (path) {
+            _ => throw UnsupportedError(
+                'Received type: ${path.runtimeType}. Supported types are: String, Map')
+          },
           iconIndex: iconIndex,
         );
 

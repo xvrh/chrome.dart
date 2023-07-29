@@ -206,6 +206,8 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
 }
 
 class DartApiGenerator extends _GeneratorBase {
+  late final _allocator = _PrefixedAllocator(api.fileName);
+
   DartApiGenerator(super.api);
 
   String get mainClassName => 'Chrome${api.classNameWithGroup}';
@@ -256,7 +258,7 @@ class DartApiGenerator extends _GeneratorBase {
         for (var type in api.dictionaries) ..._dictionary(type),
       ]));
 
-    return _emitCode(library, allocator: _PrefixedAllocator(api.fileName));
+    return _emitCode(library, allocator: _allocator);
   }
 
   Method _isAvailableGetter() {
@@ -303,7 +305,7 @@ class DartApiGenerator extends _GeneratorBase {
 
     var referTo = source.property(method.name);
     var callParameters = <Expression>[
-      for (var p in method.parameters) p.type.toJS(refer(p.name))
+      for (var p in method.parameters) p.type.toJS(refer(p.name), _allocator)
     ];
 
     if (method.returns.type case model.AsyncReturnType asyncReturn) {
@@ -327,7 +329,7 @@ class DartApiGenerator extends _GeneratorBase {
     } else {
       var callExpression = referTo.call(callParameters);
       if (method.returns.type case var returnType?) {
-        callExpression = returnType.toDart(callExpression).returned;
+        callExpression = returnType.toDart(callExpression, _allocator).returned;
       }
 
       body = Block.of([
@@ -356,11 +358,12 @@ class DartApiGenerator extends _GeneratorBase {
   Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
     Expression completeParameter = refer('null');
     if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-      completeParameter = singleParam.type.toDart(refer(singleParam.name));
+      completeParameter =
+          singleParam.type.toDart(refer(singleParam.name), _allocator);
     } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
       completeParameter = asyncReturn.dartType.call([], {
         for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
+          jsParam.name: jsParam.type.toDart(refer(jsParam.name), _allocator)
       });
     }
     return completeParameter;
@@ -426,7 +429,10 @@ class DartApiGenerator extends _GeneratorBase {
     if (jsReturnType != null) {
       return Block.of([
         declareVar(resultVariable).assign(callJsExpression).statement,
-        jsReturnType.toDart(refer(resultVariable)).returned.statement,
+        jsReturnType
+            .toDart(refer(resultVariable), _allocator)
+            .returned
+            .statement,
       ]);
     } else {
       return callJsExpression.statement;
@@ -469,7 +475,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = prop.type.dartType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..type = MethodType.getter
-      ..body = prop.type.toDart(referTo).code
+      ..body = prop.type.toDart(referTo, _allocator).code
       ..lambda = true);
   }
 
@@ -527,14 +533,15 @@ class DartApiGenerator extends _GeneratorBase {
         if (isDictionaryAnonymous(dictionary)) {
           constructorSetter = type.jsTypeReferencedFromDart.call([], {
             for (var property in dictionary.properties)
-              property.name: property.type.toJS(refer(property.name)),
+              property.name:
+                  property.type.toJS(refer(property.name), _allocator),
           });
         } else {
           constructorSetter = type.jsTypeReferencedFromDart.call([]);
           for (var property in dictionary.properties) {
             constructorSetter = constructorSetter
                 .cascade(property.name)
-                .assign(property.type.toJS(refer(property.name)));
+                .assign(property.type.toJS(refer(property.name), _allocator));
           }
         }
 
@@ -594,8 +601,9 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = property.type.dartType
       ..type = MethodType.getter
       ..lambda = true
-      ..body =
-          property.type.toDart(refer('_wrapped').property(property.name)).code);
+      ..body = property.type
+          .toDart(refer('_wrapped').property(property.name), _allocator)
+          .code);
 
     yield Method((b) => b
       ..name = property.name
@@ -605,7 +613,7 @@ class DartApiGenerator extends _GeneratorBase {
         ..type = property.type.dartType))
       ..body = refer('_wrapped')
           .property(property.name)
-          .assign(property.type.toJS(refer('v')))
+          .assign(property.type.toJS(refer('v'), _allocator))
           .statement);
   }
 

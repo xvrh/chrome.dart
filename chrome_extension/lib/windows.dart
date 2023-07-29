@@ -345,7 +345,10 @@ class CreateData {
     WindowState? state,
     bool? setSelfAsOpener,
   }) : _wrapped = $js.CreateData(
-          url: url?.toChoiceJS,
+          url: switch (url) {
+            _ => throw UnsupportedError(
+                'Received type: ${url.runtimeType}. Supported types are: String, List<String>')
+          },
           tabId: tabId,
           left: left,
           top: top,

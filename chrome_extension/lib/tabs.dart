@@ -155,7 +155,10 @@ class ChromeTabs {
     MoveProperties moveProperties,
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.tabs.move(
-      tabIds.toChoiceJS,
+      switch (tabIds) {
+        _ => throw UnsupportedError(
+            'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
+      },
       moveProperties.toJS,
     ));
     return $res;
@@ -177,7 +180,10 @@ class ChromeTabs {
   /// Closes one or more tabs.
   /// [tabIds] The tab ID or list of tab IDs to close.
   Future<void> remove(Object tabIds) async {
-    await promiseToFuture<void>($js.chrome.tabs.remove(tabIds.toChoiceJS));
+    await promiseToFuture<void>($js.chrome.tabs.remove(switch (tabIds) {
+      _ => throw UnsupportedError(
+          'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
+    }));
   }
 
   /// Adds one or more tabs to a specified group, or if no group is specified,
@@ -192,7 +198,10 @@ class ChromeTabs {
   /// [tabIds] The tab ID or list of tab IDs to remove from their respective
   /// groups.
   Future<void> ungroup(Object tabIds) async {
-    await promiseToFuture<void>($js.chrome.tabs.ungroup(tabIds.toChoiceJS));
+    await promiseToFuture<void>($js.chrome.tabs.ungroup(switch (tabIds) {
+      _ => throw UnsupportedError(
+          'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
+    }));
   }
 
   /// Detects the primary language of the content in a tab.
@@ -1319,7 +1328,10 @@ class QueryInfo {
           lastFocusedWindow: lastFocusedWindow,
           status: status?.toJS,
           title: title,
-          url: url?.toChoiceJS,
+          url: switch (url) {
+            _ => throw UnsupportedError(
+                'Received type: ${url.runtimeType}. Supported types are: String, List<String>')
+          },
           groupId: groupId,
           windowId: windowId,
           windowType: windowType?.toJS,
@@ -1339,7 +1351,10 @@ class HighlightInfo {
     required Object tabs,
   }) : _wrapped = $js.HighlightInfo(
           windowId: windowId,
-          tabs: tabs.toChoiceJS,
+          tabs: switch (tabs) {
+            _ => throw UnsupportedError(
+                'Received type: ${tabs.runtimeType}. Supported types are: List<int>, int')
+          },
         );
 
   final $js.HighlightInfo _wrapped;
@@ -1410,7 +1425,10 @@ class GroupOptions {
     int? groupId,
     GroupOptionsCreateProperties? createProperties,
   }) : _wrapped = $js.GroupOptions(
-          tabIds: tabIds.toChoiceJS,
+          tabIds: switch (tabIds) {
+            _ => throw UnsupportedError(
+                'Received type: ${tabIds.runtimeType}. Supported types are: int, List<int>')
+          },
           groupId: groupId,
           createProperties: createProperties?.toJS,
         );

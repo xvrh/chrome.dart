@@ -102,7 +102,10 @@ class StorageArea {
   /// list or object will return an empty result object.  Pass in `null` to
   /// get the entire contents of storage.
   Future<Map> get(Object? keys) async {
-    var $res = await promiseToFuture<JSAny>(_wrapped.get(keys?.toChoiceJS));
+    var $res = await promiseToFuture<JSAny>(_wrapped.get(switch (keys) {
+      _ => throw UnsupportedError(
+          'Received type: ${keys.runtimeType}. Supported types are: String, List<String>, Map')
+    }));
     return ($res.dartify() as Map);
   }
 
@@ -111,8 +114,10 @@ class StorageArea {
   /// list will return 0. Pass in `null` to get the total usage of all of
   /// storage.
   Future<int> getBytesInUse(Object? keys) async {
-    var $res =
-        await promiseToFuture<int>(_wrapped.getBytesInUse(keys?.toChoiceJS));
+    var $res = await promiseToFuture<int>(_wrapped.getBytesInUse(switch (keys) {
+      _ => throw UnsupportedError(
+          'Received type: ${keys.runtimeType}. Supported types are: String, List<String>')
+    }));
     return $res;
   }
 
@@ -131,7 +136,10 @@ class StorageArea {
   /// Removes one or more items from storage.
   /// [keys] A single key or a list of keys for items to remove.
   Future<void> remove(Object keys) async {
-    await promiseToFuture<void>(_wrapped.remove(keys.toChoiceJS));
+    await promiseToFuture<void>(_wrapped.remove(switch (keys) {
+      _ => throw UnsupportedError(
+          'Received type: ${keys.runtimeType}. Supported types are: String, List<String>')
+    }));
   }
 
   /// Removes all items from storage.

@@ -1,27 +1,26 @@
-# chrome.dart
+# chrome_apis
 
 [![Build Status](https://travis-ci.org/dart-gde/chrome.dart.svg?branch=master)](https://travis-ci.org/dart-gde/chrome.dart)
 
 A library for accessing the `chrome.*` APIs available in Chrome extensions.
+This allows to build Chrome extension with Dart/Flutter and to interop with the native APIs easily with a high-level type-safe interface.
 
-## Installing
-
-Add this to your package's pubspec.yaml file:
-
-```yaml
-dependencies:
-  chrome:
-```
+The JS interop is build on top of `dart:js_interop` (static interop) which make it ready for future WASM compilation. 
 
 ## Using the library
 
 ```dart
-import 'package:chrome/chrome_app.dart' as chrome;
+import 'package:chrome_apis/storage.dart';
 
-void main() {
-  chrome.runtime.getPlatformInfo().then((Map m) {
-    print(m.toString());
-  });
+void main() async {
+  // Use the chrome.power API
+  await chrome.power.requestKeepAwake(Level.display);
+  
+  // Use the chrome.storage API
+  await chrome.storage.sync.set('mykey', 'value');
+
+  // Use the chrome.alarms API
+  await chrome.alarms.create('MyAlarm', AlarmCreateInfo(delayInMinutes: 2));
 }
 ```
 
@@ -31,11 +30,12 @@ void main() {
 
 Also, see the [FAQ](https://github.com/dart-gde/chrome.dart/wiki/FAQ).
 
+### Available APIs
+
+- `package:chrome_apis/accessibility_features.dart` ([Doc](), [API reference]())
+
 ## Documentation
 Documentation is available at:
 
-* [Chrome Apps
-  API](http://www.dartdocs.org/documentation/chrome/latest/index.html#chrome/chrome_app)
-* [Chrome Extensions
-  API](http://www.dartdocs.org/documentation/chrome/latest/index.html#chrome/chrome_ext)
+* [Chrome Extensions API reference](https://developer.chrome.com/docs/extensions/reference/)
 

@@ -35,6 +35,7 @@ void main() {
   test('chrome.system.network', () => runTest('test/apis/system_network.dart'));
   test('chrome.system.storage', () => runTest('test/apis/system_storage.dart'));
   test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
+  test('chrome.windows', () => runTest('test/apis/windows.dart'));
 }
 
 Future<void> runTest(String filePath, {File? manifest}) async {

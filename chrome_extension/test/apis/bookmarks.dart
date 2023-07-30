@@ -51,4 +51,26 @@ void _tests(TestContext context) {
         CreateDetails(title: 'One bookmark', url: 'https://google.com'));
     await chrome.bookmarks.remove(node.id);
   });
+
+  test('Search by SearchQuery', () async {
+    var node = await chrome.bookmarks.create(
+        CreateDetails(title: 'One bookmark', url: 'https://google.com'));
+    var found = await chrome.bookmarks.search(SearchQuery(url: 'https://google.com'));
+
+    check(found.length).equals(1);
+    check(found.first.id).equals(node.id);
+
+    await chrome.bookmarks.remove(node.id);
+  });
+
+  test('Search by String', () async {
+    var node = await chrome.bookmarks.create(
+        CreateDetails(title: 'One bookmark', url: 'https://google.com'));
+    var found = await chrome.bookmarks.search('google.com');
+
+    check(found.length).equals(1);
+    check(found.first.id).equals(node.id);
+
+    await chrome.bookmarks.remove(node.id);
+  });
 }

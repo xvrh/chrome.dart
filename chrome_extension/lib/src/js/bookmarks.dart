@@ -225,6 +225,23 @@ extension OnChildrenReorderedReorderInfoExtension
 @JS()
 @staticInterop
 @anonymous
+class SearchQuery {
+  external factory SearchQuery({
+    /// A string of words and quoted phrases that are matched against bookmark
+    /// URLs and titles.
+    String? query,
+
+    /// The URL of the bookmark; matches verbatim. Note that folders have no URL.
+    String? url,
+
+    /// The title of the bookmark; matches verbatim.
+    String? title,
+  });
+}
+
+@JS()
+@staticInterop
+@anonymous
 class MoveDestination {
   external factory MoveDestination({
     String? parentId,

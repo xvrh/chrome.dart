@@ -87,9 +87,9 @@ class ChromeBookmarks {
     var $res = await promiseToFuture<JSArray>(
         $js.chrome.bookmarks.search(switch (query) {
       String() => query,
-      Object() => query.toJS,
+      SearchQuery() => query.toJS,
       _ => throw UnsupportedError(
-          'Received type: ${query.runtimeType}. Supported types are: String, Object')
+          'Received type: ${query.runtimeType}. Supported types are: String, SearchQuery')
     }));
     return $res.toDart
         .cast<$js.BookmarkTreeNode>()
@@ -477,6 +477,24 @@ class OnChildrenReorderedReorderInfo {
   set childIds(List<String> v) {
     _wrapped.childIds = v.toJSArray((e) => e);
   }
+}
+
+class SearchQuery {
+  SearchQuery.fromJS(this._wrapped);
+
+  SearchQuery({
+    String? query,
+    String? url,
+    String? title,
+  }) : _wrapped = $js.SearchQuery(
+          query: query,
+          url: url,
+          title: title,
+        );
+
+  final $js.SearchQuery _wrapped;
+
+  $js.SearchQuery get toJS => _wrapped;
 }
 
 class MoveDestination {

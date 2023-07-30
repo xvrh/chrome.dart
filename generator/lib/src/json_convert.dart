@@ -163,7 +163,7 @@ class JsonModelConverter {
       var name = param.name!;
       var parameterType = _addSyntheticTypeIfNeeded(param, name, function.name,
               anonymous: true, isNullable: param.optional ?? false) ??
-          _propertyType(param);
+          _propertyType(param, parentName: function.name);
 
       yield Property(
         name,
@@ -326,7 +326,7 @@ class JsonModelConverter {
     }
   }
 
-  ChromeType _propertyType(JsonProperty prop) {
+  ChromeType _propertyType(JsonProperty prop, {String? parentName}) {
     ChromeType type;
     var nullable = prop.optional ?? false;
     if (!nullable && prop.platforms != null) {
@@ -336,8 +336,12 @@ class JsonModelConverter {
     var arrayNullable = nullable;
     var isArray = false;
     if (prop.choices case var choices?) {
-      type = ChoiceType([for (var choice in choices) _propertyType(choice)],
-          isNullable: nullable);
+      type = ChoiceType([
+        for (var choice in choices)
+          _addSyntheticTypeIfNeeded(choice, prop.name??'', parentName??'',
+                  anonymous: true, isNullable: false) ??
+              _propertyType(choice)
+      ], isNullable: nullable);
     } else if (prop.items case var items?) {
       isArray = true;
       type = context.createType(_extractType(items),
@@ -357,7 +361,8 @@ class JsonModelConverter {
 
   String _extractType(JsonProperty prop) {
     assert(prop.items == null && prop.type != 'array');
-    assert(prop.properties == null || prop.$ref != null);
+    assert(prop.properties == null || prop.$ref != null,
+        '${model.namespace} ${prop.properties}');
 
     var typeName = prop.isInstanceOf ?? prop.type ?? prop.$ref;
     if (typeName == null) {

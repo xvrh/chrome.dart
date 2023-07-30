@@ -49,9 +49,9 @@ sealed class ChromeType {
   // TODO: remove this hack
   code.Reference get jsTypeReferencedFromDart => jsType;
 
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator);
+  code.Expression toJS(code.Expression accessor);
 
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator);
+  code.Expression toDart(code.Expression accessor);
 
   String get questionMark => isNullable ? '?' : '';
 
@@ -166,12 +166,12 @@ class LazyType extends ChromeType {
       _resolved!.jsTypeReferencedFromDart;
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
-      _resolved!.toDart(accessor, allocator);
+  code.Expression toDart(code.Expression accessor) =>
+      _resolved!.toDart(accessor);
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
-      _resolved!.toJS(accessor, allocator);
+  code.Expression toJS(code.Expression accessor) =>
+      _resolved!.toJS(accessor);
 }
 
 sealed class _PrimitiveType extends ChromeType {
@@ -202,12 +202,12 @@ sealed class _PrimitiveType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toDart(code.Expression accessor) {
     return accessor;
   }
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     return accessor;
   }
 
@@ -280,11 +280,11 @@ class _ArrayBufferType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor.nullSafePropertyIf('toDart', isNullable);
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toJS(code.Expression accessor) =>
       accessor.nullSafePropertyIf('toJS', isNullable);
 
   @override
@@ -323,11 +323,11 @@ class _WebType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor;
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toJS(code.Expression accessor) =>
       accessor;
 
   @override
@@ -366,11 +366,11 @@ class _VariousType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor;
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     return accessor.nullSafePropertyIf('toJS', isNullable);
   }
 
@@ -396,11 +396,11 @@ class MapType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor.nullSafePropertyIf('toDartMap', isNullable).call([]);
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     var expression = accessor.nullSafePropertyIf('jsify', isNullable).call([]);
     if (!isNullable) {
       expression = expression.nullChecked;
@@ -440,11 +440,11 @@ class JSFunctionType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor;
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toJS(code.Expression accessor) =>
       accessor;
 
   @override
@@ -484,7 +484,7 @@ abstract class _LocalType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toDart(code.Expression accessor) {
     if (isNullable) {
       return accessor
           .nullSafeProperty('let')
@@ -495,7 +495,7 @@ abstract class _LocalType extends ChromeType {
   }
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     return accessor.nullSafePropertyIf('toJS', isNullable);
   }
 
@@ -544,7 +544,7 @@ class ListType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toDart(code.Expression accessor) {
     return accessor
         .nullSafePropertyIf('toDart', isNullable)
         .property('cast')
@@ -554,7 +554,7 @@ class ListType extends ChromeType {
           code.Method((b) => b
             ..requiredParameters.add(code.Parameter((b) => b..name = 'e'))
             ..lambda = true
-            ..body = item.toDart(code.refer('e'), allocator).code).closure
+            ..body = item.toDart(code.refer('e')).code).closure
         ])
         .property('toList')
         .call([]);
@@ -566,12 +566,12 @@ class ListType extends ChromeType {
   }
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     return accessor.nullSafePropertyIf('toJSArray', isNullable).call([
       code.Method((b) => b
         ..requiredParameters.add(code.Parameter((b) => b..name = 'e'))
         ..lambda = true
-        ..body = item.toJS(code.refer('e'), allocator).code).closure
+        ..body = item.toJS(code.refer('e')).code).closure
     ]);
   }
 
@@ -630,12 +630,12 @@ class AliasedType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
-      original.toDart(accessor, allocator);
+  code.Expression toDart(code.Expression accessor) =>
+      original.toDart(accessor);
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
-      original.toJS(accessor, allocator);
+  code.Expression toJS(code.Expression accessor) =>
+      original.toJS(accessor);
 
   @override
   Iterable<ChromeType> get children sync* {
@@ -670,12 +670,12 @@ class FunctionType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toDart(code.Expression accessor) {
     return code.refer('UnimplementedError').call([]).thrown;
   }
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
+  code.Expression toJS(code.Expression accessor) {
     // Need to wrap with a function taking JS parameters and convert them to Dart
     return code.refer('UnimplementedError').call([]).thrown;
   }
@@ -719,12 +719,12 @@ class AsyncReturnType extends ChromeType {
   code.Reference get dartType => dart?.dartType ?? code.refer('void');
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
-      jsCallback.toDart(accessor, allocator);
+  code.Expression toDart(code.Expression accessor) =>
+      jsCallback.toDart(accessor);
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) =>
-      dart?.toJS(accessor, allocator) ?? accessor;
+  code.Expression toJS(code.Expression accessor) =>
+      dart?.toJS(accessor) ?? accessor;
 
   @override
   Iterable<ChromeType> get children sync* {
@@ -755,32 +755,35 @@ class ChoiceType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor, code.Allocator? allocator) =>
+  code.Expression toDart(code.Expression accessor) =>
       accessor;
 
   @override
-  code.Expression toJS(code.Expression accessor, code.Allocator? allocator) {
-    var emitter = code.DartEmitter(allocator: allocator ?? code.Allocator());
-    String emit(code.Spec expression) => expression.accept(emitter).toString();
+  code.Expression toJS(code.Expression accessor) {
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
+      String emit(code.Spec expression) => expression.accept(emitter).toString();
 
-    var buffer = StringBuffer();
-    buffer.writeln('''switch (${emit(accessor)}) {''');
-    for (var choice in choices) {
-      var type = emit(choice.dartType);
-      if (type == 'List<String>') {
-        buffer.writeln('List() => ${emit(accessor)}.toJSArrayString(),');
-      } else {
-        buffer.writeln('$type() => ${emit(choice.toJS(accessor, allocator))},');
+      var buffer = StringBuffer();
+      buffer.writeln('''switch (${emit(accessor)}) {''');
+      for (var choice in choices) {
+        var type = emit(choice.dartType);
+        if (type == 'List<String>') {
+          buffer.writeln('List() => ${emit(accessor)}.toJSArrayString(),');
+        } else {
+          buffer.writeln('$type() => ${emit(choice.toJS(accessor))},');
+        }
       }
-    }
-    if (isNullable) {
-      buffer.writeln('Null() => null,');
-    }
-    var supportedTypes = choices.map((c) => emit(c.dartType)).join(', ');
-    buffer.writeln(
-        "_ => throw UnsupportedError('Received type: \${${emit(accessor)}.runtimeType}. Supported types are: $supportedTypes')");
-    buffer.writeln('}');
-    return code.CodeExpression(code.Code(buffer.toString()));
+      if (isNullable) {
+        buffer.writeln('Null() => null,');
+      }
+      var supportedTypes = choices.map((c) => emit(c.dartType)).join(', ');
+      buffer.writeln(
+          "_ => throw UnsupportedError('Received type: \${${emit(accessor)}.runtimeType}. Supported types are: $supportedTypes')");
+      buffer.writeln('}');
+
+      return '$buffer';
+    }));
   }
 
   @override
@@ -799,4 +802,16 @@ extension on code.Expression {
       return property(name);
     }
   }
+}
+
+class _DelegatedAllocator implements code.Allocator {
+  final String Function(code.Reference) delegate;
+
+  _DelegatedAllocator(this.delegate);
+
+  @override
+  String allocate(code.Reference reference) => delegate(reference);
+
+  @override
+  Iterable<code.Directive> get imports => [];
 }

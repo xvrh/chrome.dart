@@ -12,6 +12,7 @@
     "bookmarks",
     "browsingData",
     "contextMenus",
+    "declarativeNetRequest",
     "tabs",
     "notifications",
     "privacy",

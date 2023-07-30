@@ -511,12 +511,27 @@ class Device {
   Device.fromJS(this._wrapped);
 
   Device({
+    /// An opaque ID for the USB device. It remains unchanged until the device
+    /// is
+    /// unplugged.
     required int device,
+
+    /// The device vendor ID.
     required int vendorId,
+
+    /// The product ID.
     required int productId,
+
+    /// The device version (bcdDevice field).
     required int version,
+
+    /// The iProduct string read from the device, if available.
     required String productName,
+
+    /// The iManufacturer string read from the device, if available.
     required String manufacturerName,
+
+    /// The iSerialNumber string read from the device, if available.
     required String serialNumber,
   }) : _wrapped = $js.Device(
           device: device,
@@ -537,8 +552,16 @@ class ConnectionHandle {
   ConnectionHandle.fromJS(this._wrapped);
 
   ConnectionHandle({
+    /// An opaque handle representing this connection to the USB device and all
+    /// associated claimed interfaces and pending transfers. A new handle is
+    /// created each time the device is opened. The connection handle is
+    /// different from [Device.device].
     required int handle,
+
+    /// The device vendor ID.
     required int vendorId,
+
+    /// The product ID.
     required int productId,
   }) : _wrapped = $js.ConnectionHandle(
           handle: handle,
@@ -555,13 +578,28 @@ class EndpointDescriptor {
   EndpointDescriptor.fromJS(this._wrapped);
 
   EndpointDescriptor({
+    /// Endpoint address.
     required int address,
+
+    /// Transfer type.
     required TransferType type,
+
+    /// Transfer direction.
     required Direction direction,
+
+    /// Maximum packet size.
     required int maximumPacketSize,
+
+    /// Transfer synchronization mode (isochronous only).
     SynchronizationType? synchronization,
+
+    /// Endpoint usage hint.
     UsageType? usage,
+
+    /// Polling interval (interrupt and isochronous only).
     int? pollingInterval,
+
+    /// Extra descriptor data associated with this endpoint.
     required ByteBuffer extra_data,
   }) : _wrapped = $js.EndpointDescriptor()
           ..address = address
@@ -631,13 +669,28 @@ class InterfaceDescriptor {
   InterfaceDescriptor.fromJS(this._wrapped);
 
   InterfaceDescriptor({
+    /// The interface number.
     required int interfaceNumber,
+
+    /// The interface alternate setting number (defaults to `0</code).
     required int alternateSetting,
+
+    /// The USB interface class.
     required int interfaceClass,
+
+    /// The USB interface sub-class.
     required int interfaceSubclass,
+
+    /// The USB interface protocol.
     required int interfaceProtocol,
+
+    /// Description of the interface.
     String? description,
+
+    /// Available endpoints.
     required List<EndpointDescriptor> endpoints,
+
+    /// Extra descriptor data associated with this interface.
     required ByteBuffer extra_data,
   }) : _wrapped = $js.InterfaceDescriptor()
           ..interfaceNumber = interfaceNumber
@@ -709,13 +762,28 @@ class ConfigDescriptor {
   ConfigDescriptor.fromJS(this._wrapped);
 
   ConfigDescriptor({
+    /// Is this the active configuration?
     required bool active,
+
+    /// The configuration number.
     required int configurationValue,
+
+    /// Description of the configuration.
     String? description,
+
+    /// The device is self-powered.
     required bool selfPowered,
+
+    /// The device supports remote wakeup.
     required bool remoteWakeup,
+
+    /// The maximum power needed by this device in milliamps (mA).
     required int maxPower,
+
+    /// Available interfaces.
     required List<InterfaceDescriptor> interfaces,
+
+    /// Extra descriptor data associated with this configuration.
     required ByteBuffer extra_data,
   }) : _wrapped = $js.ConfigDescriptor()
           ..active = active
@@ -787,14 +855,35 @@ class ControlTransferInfo {
   ControlTransferInfo.fromJS(this._wrapped);
 
   ControlTransferInfo({
+    /// The transfer direction (`"in"` or `"out"`).
     required Direction direction,
+
+    /// The transfer target. The target given by `index` must be
+    /// claimed if `"interface"` or `"endpoint"`.
     required Recipient recipient,
+
+    /// The request type.
     required RequestType requestType,
+
+    /// The `bRequest` field, see <i>Universal Serial Bus
+    /// Specification Revision 1.1</i> &sect; 9.3.
     required int request,
+
+    /// The `wValue` field, see <i>Ibid</i>.
     required int value,
+
+    /// The `wIndex` field, see <i>Ibid</i>.
     required int index,
+
+    /// The maximum number of bytes to receive (required only by input
+    /// transfers).
     int? length,
+
+    /// The data to transmit (required only by output transfers).
     ByteBuffer? data,
+
+    /// Request timeout (in milliseconds). The default value `0`
+    /// indicates no timeout.
     int? timeout,
   }) : _wrapped = $js.ControlTransferInfo(
           direction: direction.toJS,
@@ -817,10 +906,22 @@ class GenericTransferInfo {
   GenericTransferInfo.fromJS(this._wrapped);
 
   GenericTransferInfo({
+    /// The transfer direction (`"in"` or `"out"`).
     required Direction direction,
+
+    /// The target endpoint address. The interface containing this endpoint must
+    /// be claimed.
     required int endpoint,
+
+    /// The maximum number of bytes to receive (required only by input
+    /// transfers).
     int? length,
+
+    /// The data to transmit (required only by output transfers).
     ByteBuffer? data,
+
+    /// Request timeout (in milliseconds). The default value `0`
+    /// indicates no timeout.
     int? timeout,
   }) : _wrapped = $js.GenericTransferInfo(
           direction: direction.toJS,
@@ -839,8 +940,16 @@ class IsochronousTransferInfo {
   IsochronousTransferInfo.fromJS(this._wrapped);
 
   IsochronousTransferInfo({
+    /// Transfer parameters. The transfer length or data buffer specified in
+    /// this
+    /// parameter block is split along `packetLength` boundaries to
+    /// form the individual packets of the transfer.
     required GenericTransferInfo transferInfo,
+
+    /// The total number of packets in this transfer.
     required int packets,
+
+    /// The length of each of the packets in this transfer.
     required int packetLength,
   }) : _wrapped = $js.IsochronousTransferInfo(
           transferInfo: transferInfo.toJS,
@@ -857,7 +966,12 @@ class TransferResultInfo {
   TransferResultInfo.fromJS(this._wrapped);
 
   TransferResultInfo({
+    /// A value of `0` indicates that the transfer was a success.
+    /// Other values indicate failure.
     int? resultCode,
+
+    /// The data returned by an input transfer. `undefined` for output
+    /// transfers.
     ByteBuffer? data,
   }) : _wrapped = $js.TransferResultInfo()
           ..resultCode = resultCode
@@ -886,10 +1000,19 @@ class DeviceFilter {
   DeviceFilter.fromJS(this._wrapped);
 
   DeviceFilter({
+    /// Device vendor ID.
     int? vendorId,
+
+    /// Device product ID, checked only if the vendor ID matches.
     int? productId,
+
+    /// USB interface class, matches any interface on the device.
     int? interfaceClass,
+
+    /// USB interface sub-class, checked only if the interface class matches.
     int? interfaceSubclass,
+
+    /// USB interface protocol, checked only if the interface sub-class matches.
     int? interfaceProtocol,
   }) : _wrapped = $js.DeviceFilter(
           vendorId: vendorId,
@@ -910,6 +1033,10 @@ class EnumerateDevicesOptions {
   EnumerateDevicesOptions({
     int? vendorId,
     int? productId,
+
+    /// A device matching any given filter will be returned. An empty filter
+    /// list
+    /// will return all devices the app has permission for.
     List<DeviceFilter>? filters,
   }) : _wrapped = $js.EnumerateDevicesOptions(
           vendorId: vendorId,
@@ -926,8 +1053,14 @@ class EnumerateDevicesAndRequestAccessOptions {
   EnumerateDevicesAndRequestAccessOptions.fromJS(this._wrapped);
 
   EnumerateDevicesAndRequestAccessOptions({
+    /// The device vendor ID.
     required int vendorId,
+
+    /// The product ID.
     required int productId,
+
+    /// The interface ID to request access to.
+    /// Only available on Chrome OS. It has no effect on other platforms.
     int? interfaceId,
   }) : _wrapped = $js.EnumerateDevicesAndRequestAccessOptions(
           vendorId: vendorId,
@@ -944,7 +1077,12 @@ class DevicePromptOptions {
   DevicePromptOptions.fromJS(this._wrapped);
 
   DevicePromptOptions({
+    /// Allow the user to select multiple devices.
     bool? multiple,
+
+    /// Filter the list of devices presented to the user. If multiple filters
+    /// are
+    /// provided devices matching any filter will be displayed.
     List<DeviceFilter>? filters,
   }) : _wrapped = $js.DevicePromptOptions(
           multiple: multiple,

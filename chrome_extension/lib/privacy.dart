@@ -55,7 +55,18 @@ class PrivacyNetwork {
   PrivacyNetwork.fromJS(this._wrapped);
 
   PrivacyNetwork({
+    /// If enabled, Chrome attempts to speed up your web browsing experience by
+    /// pre-resolving DNS entries and preemptively opening TCP and SSL
+    /// connections to servers. This preference only affects actions taken by
+    /// Chrome's internal prediction service. It does not affect
+    /// webpage-initiated prefectches or preconnects. This preference's value is
+    /// a boolean, defaulting to `true`.
     required ChromeSetting networkPredictionEnabled,
+
+    /// Allow users to specify the media performance/privacy tradeoffs which
+    /// impacts how WebRTC traffic will be routed and how much local address
+    /// information is exposed. This preference's value is of type
+    /// IPHandlingPolicy, defaulting to `default`.
     required ChromeSetting webRTCIPHandlingPolicy,
   }) : _wrapped = $js.PrivacyNetwork()
           ..networkPredictionEnabled = networkPredictionEnabled.toJS
@@ -92,15 +103,47 @@ class PrivacyServices {
   PrivacyServices.fromJS(this._wrapped);
 
   PrivacyServices({
+    /// If enabled, Chrome uses a web service to help resolve navigation errors.
+    /// This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting alternateErrorPagesEnabled,
+
+    /// If enabled, Chrome offers to automatically fill in forms. This
+    /// preference's value is a boolean, defaulting to `true`.
     required ChromeSetting autofillEnabled,
+
+    /// If enabled, Chrome offers to automatically fill in addresses and other
+    /// form data. This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting autofillAddressEnabled,
+
+    /// If enabled, Chrome offers to automatically fill in credit card forms.
+    /// This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting autofillCreditCardEnabled,
+
+    /// If enabled, the password manager will ask if you want to save passwords.
+    /// This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting passwordSavingEnabled,
+
+    /// If enabled, Chrome does its best to protect you from phishing and
+    /// malware. This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting safeBrowsingEnabled,
+
+    /// If enabled, Chrome will send additional information to Google when
+    /// SafeBrowsing blocks a page, such as the content of the blocked page.
+    /// This preference's value is a boolean, defaulting to `false`.
     required ChromeSetting safeBrowsingExtendedReportingEnabled,
+
+    /// If enabled, Chrome sends the text you type into the Omnibox to your
+    /// default search engine, which provides predictions of websites and
+    /// searches that are likely completions of what you've typed so far. This
+    /// preference's value is a boolean, defaulting to `true`.
     required ChromeSetting searchSuggestEnabled,
+
+    /// If enabled, Chrome uses a web service to help correct spelling errors.
+    /// This preference's value is a boolean, defaulting to `false`.
     required ChromeSetting spellingServiceEnabled,
+
+    /// If enabled, Chrome offers to translate pages that aren't in a language
+    /// you read. This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting translationServiceEnabled,
   }) : _wrapped = $js.PrivacyServices()
           ..alternateErrorPagesEnabled = alternateErrorPagesEnabled.toJS
@@ -207,14 +250,62 @@ class PrivacyWebsites {
   PrivacyWebsites.fromJS(this._wrapped);
 
   PrivacyWebsites({
+    /// If disabled, Chrome blocks third-party sites from setting cookies. The
+    /// value of this preference is of type boolean, and the default value is
+    /// `true`.
     required ChromeSetting thirdPartyCookiesAllowed,
+
+    /// If enabled, the experimental [Privacy
+    /// Sandbox](https://www.chromium.org/Home/chromium-privacy/privacy-sandbox)
+    /// features are active. The value of this preference is of type boolean,
+    /// and the default value is `true`.
     required ChromeSetting privacySandboxEnabled,
+
+    /// If disabled, the [Topics
+    /// API](https://developer.chrome.com/en/docs/privacy-sandbox/topics/) is
+    /// deactivated. The value of this preference is of type boolean, and the
+    /// default value is `true`. Extensions may only disable this API by setting
+    /// the value to `false`. If you try setting this API to `true`, it will
+    /// throw an error.
     required ChromeSetting topicsEnabled,
+
+    /// If disabled, the [Fledge
+    /// API](https://developer.chrome.com/docs/privacy-sandbox/fledge/) is
+    /// deactivated. The value of this preference is of type boolean, and the
+    /// default value is `true`. Extensions may only disable this API by setting
+    /// the value to `false`. If you try setting this API to `true`, it will
+    /// throw an error.
     required ChromeSetting fledgeEnabled,
+
+    /// If disabled, the [Attribution Reporting
+    /// API](https://developer.chrome.com/en/docs/privacy-sandbox/attribution-reporting/)
+    /// and [Private Aggregation
+    /// API](https://developer.chrome.com/docs/privacy-sandbox/private-aggregation/)
+    /// are deactivated. The value of this preference is of type boolean, and
+    /// the default value is `true`. Extensions may only disable these APIs by
+    /// setting the value to `false`. If you try setting these APIs to `true`,
+    /// it will throw an error.
     required ChromeSetting adMeasurementEnabled,
+
+    /// If enabled, Chrome sends auditing pings when requested by a website (`<a
+    /// ping>`). The value of this preference is of type boolean, and the
+    /// default value is `true`.
     required ChromeSetting hyperlinkAuditingEnabled,
+
+    /// If enabled, Chrome sends `referer` headers with your requests. Yes, the
+    /// name of this preference doesn't match the misspelled header. No, we're
+    /// not going to change it. The value of this preference is of type boolean,
+    /// and the default value is `true`.
     required ChromeSetting referrersEnabled,
+
+    /// If enabled, Chrome sends 'Do Not Track' (`DNT: 1`) header with your
+    /// requests. The value of this preference is of type boolean, and the
+    /// default value is `false`.
     required ChromeSetting doNotTrackEnabled,
+
+    /// *Available on Windows and ChromeOS only*: If enabled, Chrome provides a
+    /// unique ID to plugins in order to run protected content. The value of
+    /// this preference is of type boolean, and the default value is `true`.
     ChromeSetting? protectedContentEnabled,
   }) : _wrapped = $js.PrivacyWebsites()
           ..thirdPartyCookiesAllowed = thirdPartyCookiesAllowed.toJS

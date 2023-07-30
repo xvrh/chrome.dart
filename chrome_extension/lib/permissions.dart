@@ -73,7 +73,12 @@ class Permissions {
   Permissions.fromJS(this._wrapped);
 
   Permissions({
+    /// List of named permissions (does not include hosts or origins).
     List<String>? permissions,
+
+    /// The list of host permissions, including those specified in the
+    /// `optional_permissions` or `permissions` keys in the manifest, and those
+    /// associated with [Content Scripts](content_scripts).
     List<String>? origins,
   }) : _wrapped = $js.Permissions(
           permissions: permissions?.toJSArray((e) => e),

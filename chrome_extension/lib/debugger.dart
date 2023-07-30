@@ -137,8 +137,15 @@ class Debuggee {
   Debuggee.fromJS(this._wrapped);
 
   Debuggee({
+    /// The id of the tab which you intend to debug.
     int? tabId,
+
+    /// The id of the extension which you intend to debug. Attaching to an
+    /// extension background page is only possible when the
+    /// `--silent-debugger-extension-api` command-line switch is used.
     String? extensionId,
+
+    /// The opaque id of the debug target.
     String? targetId,
   }) : _wrapped = $js.Debuggee(
           tabId: tabId,
@@ -155,13 +162,28 @@ class TargetInfo {
   TargetInfo.fromJS(this._wrapped);
 
   TargetInfo({
+    /// Target type.
     required TargetInfoType type,
+
+    /// Target id.
     required String id,
+
+    /// The tab id, defined if type == 'page'.
     int? tabId,
+
+    /// The extension id, defined if type = 'background_page'.
     String? extensionId,
+
+    /// True if debugger is already attached.
     required bool attached,
+
+    /// Target page title.
     required String title,
+
+    /// Target URL.
     required String url,
+
+    /// Target favicon URL.
     String? faviconUrl,
   }) : _wrapped = $js.TargetInfo()
           ..type = type.toJS

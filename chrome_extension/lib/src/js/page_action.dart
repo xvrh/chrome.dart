@@ -65,11 +65,9 @@ extension JSPageActionExtension on JSPageAction {
   external Event get onClicked;
 }
 
-@JS()
-@staticInterop
-class ImageDataType {}
-
-extension ImageDataTypeExtension on ImageDataType {}
+/// Pixel data for an image. Must be an ImageData object (for example, from a
+/// `canvas` element).
+typedef ImageDataType = JSObject;
 
 @JS()
 @staticInterop

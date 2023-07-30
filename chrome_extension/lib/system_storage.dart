@@ -109,9 +109,19 @@ class StorageUnitInfo {
   StorageUnitInfo.fromJS(this._wrapped);
 
   StorageUnitInfo({
+    /// The transient ID that uniquely identifies the storage device.
+    /// This ID will be persistent within the same run of a single application.
+    /// It will not be a persistent identifier between different runs of an
+    /// application, or between different applications.
     required String id,
+
+    /// The name of the storage unit.
     required String name,
+
+    /// The media type of the storage unit.
     required StorageUnitType type,
+
+    /// The total amount of the storage space, in bytes.
     required double capacity,
   }) : _wrapped = $js.StorageUnitInfo()
           ..id = id
@@ -155,7 +165,10 @@ class StorageAvailableCapacityInfo {
   StorageAvailableCapacityInfo.fromJS(this._wrapped);
 
   StorageAvailableCapacityInfo({
+    /// A copied |id| of getAvailableCapacity function parameter |id|.
     required String id,
+
+    /// The available capacity of the storage device, in bytes.
     required double availableCapacity,
   }) : _wrapped = $js.StorageAvailableCapacityInfo()
           ..id = id

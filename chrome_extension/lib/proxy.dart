@@ -65,8 +65,15 @@ class ProxyServer {
   ProxyServer.fromJS(this._wrapped);
 
   ProxyServer({
+    /// The scheme (protocol) of the proxy server itself. Defaults to 'http'.
     Scheme? scheme,
+
+    /// The hostname or IP address of the proxy server. Hostnames must be in
+    /// ASCII (in Punycode format). IDNA is not supported, yet.
     required String host,
+
+    /// The port of the proxy server. Defaults to a port that depends on the
+    /// scheme.
     int? port,
   }) : _wrapped = $js.ProxyServer()
           ..scheme = scheme?.toJS
@@ -102,11 +109,24 @@ class ProxyRules {
   ProxyRules.fromJS(this._wrapped);
 
   ProxyRules({
+    /// The proxy server to be used for all per-URL requests (that is http,
+    /// https, and ftp).
     ProxyServer? singleProxy,
+
+    /// The proxy server to be used for HTTP requests.
     ProxyServer? proxyForHttp,
+
+    /// The proxy server to be used for HTTPS requests.
     ProxyServer? proxyForHttps,
+
+    /// The proxy server to be used for FTP requests.
     ProxyServer? proxyForFtp,
+
+    /// The proxy server to be used for everthing else or if any of the specific
+    /// proxyFor... is not specified.
     ProxyServer? fallbackProxy,
+
+    /// List of servers to connect to without a proxy server.
     List<String>? bypassList,
   }) : _wrapped = $js.ProxyRules()
           ..singleProxy = singleProxy?.toJS
@@ -167,8 +187,14 @@ class PacScript {
   PacScript.fromJS(this._wrapped);
 
   PacScript({
+    /// URL of the PAC file to be used.
     String? url,
+
+    /// A PAC script.
     String? data,
+
+    /// If true, an invalid PAC script will prevent the network stack from
+    /// falling back to direct connections. Defaults to false.
     bool? mandatory,
   }) : _wrapped = $js.PacScript()
           ..url = url
@@ -203,8 +229,19 @@ class ProxyConfig {
   ProxyConfig.fromJS(this._wrapped);
 
   ProxyConfig({
+    /// The proxy rules describing this configuration. Use this for
+    /// 'fixed_servers' mode.
     ProxyRules? rules,
+
+    /// The proxy auto-config (PAC) script for this configuration. Use this for
+    /// 'pac_script' mode.
     PacScript? pacScript,
+
+    /// 'direct' = Never use a proxy
+    /// 'auto_detect' = Auto detect proxy settings
+    /// 'pac_script' = Use specified PAC script
+    /// 'fixed_servers' = Manually specify proxy servers
+    /// 'system' = Use system proxy settings
     required Mode mode,
   }) : _wrapped = $js.ProxyConfig()
           ..rules = rules?.toJS
@@ -244,8 +281,14 @@ class OnProxyErrorDetails {
   OnProxyErrorDetails.fromJS(this._wrapped);
 
   OnProxyErrorDetails({
+    /// If true, the error was fatal and the network transaction was aborted.
+    /// Otherwise, a direct connection is used instead.
     required bool fatal,
+
+    /// The error description.
     required String error,
+
+    /// Additional details about the error such as a JavaScript runtime error.
     required String details,
   }) : _wrapped = $js.OnProxyErrorDetails()
           ..fatal = fatal

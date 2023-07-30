@@ -86,11 +86,9 @@ extension JSBrowserActionExtension on JSBrowserAction {
 
 typedef ColorArray = JSArray;
 
-@JS()
-@staticInterop
-class ImageDataType {}
-
-extension ImageDataTypeExtension on ImageDataType {}
+/// Pixel data for an image. Must be an ImageData object; for example, from a
+/// `canvas` element.
+typedef ImageDataType = JSObject;
 
 @JS()
 @staticInterop

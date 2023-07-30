@@ -63,7 +63,13 @@ class ChromeSessions {
 class Filter {
   Filter.fromJS(this._wrapped);
 
-  Filter({int? maxResults}) : _wrapped = $js.Filter(maxResults: maxResults);
+  Filter(
+      {
+      /// The maximum number of entries to be fetched in the requested list. Omit
+      /// this parameter to fetch the maximum number of entries
+      /// ([sessions.MAX_SESSION_RESULTS]).
+      int? maxResults})
+      : _wrapped = $js.Filter(maxResults: maxResults);
 
   final $js.Filter _wrapped;
 
@@ -74,8 +80,16 @@ class Session {
   Session.fromJS(this._wrapped);
 
   Session({
+    /// The time when the window or tab was closed or modified, represented in
+    /// milliseconds since the epoch.
     required int lastModified,
+
+    /// The [tabs.Tab], if this entry describes a tab. Either this or
+    /// [sessions.Session.window] will be set.
     Tab? tab,
+
+    /// The [windows.Window], if this entry describes a window. Either this or
+    /// [sessions.Session.tab] will be set.
     Window? window,
   }) : _wrapped = $js.Session()
           ..lastModified = lastModified
@@ -113,7 +127,12 @@ class Device {
 
   Device({
     required String info,
+
+    /// The name of the foreign device.
     required String deviceName,
+
+    /// A list of open window sessions for the foreign device, sorted from most
+    /// recently to least recently modified session.
     required List<Session> sessions,
   }) : _wrapped = $js.Device()
           ..info = info

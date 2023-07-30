@@ -107,11 +107,24 @@ class HistoryItem {
   HistoryItem.fromJS(this._wrapped);
 
   HistoryItem({
+    /// The unique identifier for the item.
     required String id,
+
+    /// The URL navigated to by a user.
     String? url,
+
+    /// The title of the page when it was last loaded.
     String? title,
+
+    /// When this page was last loaded, represented in milliseconds since the
+    /// epoch.
     double? lastVisitTime,
+
+    /// The number of times the user has navigated to this page.
     int? visitCount,
+
+    /// The number of times the user has navigated to this page by typing in the
+    /// address.
     int? typedCount,
   }) : _wrapped = $js.HistoryItem()
           ..id = id
@@ -168,10 +181,20 @@ class VisitItem {
   VisitItem.fromJS(this._wrapped);
 
   VisitItem({
+    /// The unique identifier for the item.
     required String id,
+
+    /// The unique identifier for this visit.
     required String visitId,
+
+    /// When this visit occurred, represented in milliseconds since the epoch.
     double? visitTime,
+
+    /// The visit ID of the referrer.
     required String referringVisitId,
+
+    /// The [transition type](#transition_types) for this visit from its
+    /// referrer.
     required TransitionType transition,
   }) : _wrapped = $js.VisitItem()
           ..id = id
@@ -218,7 +241,12 @@ class VisitItem {
 class UrlDetails {
   UrlDetails.fromJS(this._wrapped);
 
-  UrlDetails({required String url}) : _wrapped = $js.UrlDetails(url: url);
+  UrlDetails(
+      {
+      /// The URL for the operation. It must be in the format as returned from a
+      /// call to history.search.
+      required String url})
+      : _wrapped = $js.UrlDetails(url: url);
 
   final $js.UrlDetails _wrapped;
 
@@ -229,6 +257,7 @@ class OnVisitRemovedRemoved {
   OnVisitRemovedRemoved.fromJS(this._wrapped);
 
   OnVisitRemovedRemoved({
+    /// True if all history was removed.  If true, then urls will be empty.
     required bool allHistory,
     List<String>? urls,
   }) : _wrapped = $js.OnVisitRemovedRemoved()
@@ -256,9 +285,20 @@ class SearchQuery {
   SearchQuery.fromJS(this._wrapped);
 
   SearchQuery({
+    /// A free-text query to the history service.  Leave empty to retrieve all
+    /// pages.
     required String text,
+
+    /// Limit results to those visited after this date, represented in
+    /// milliseconds since the epoch. If not specified, this defaults to 24
+    /// hours in the past.
     double? startTime,
+
+    /// Limit results to those visited before this date, represented in
+    /// milliseconds since the epoch.
     double? endTime,
+
+    /// The maximum number of results to retrieve.  Defaults to 100.
     int? maxResults,
   }) : _wrapped = $js.SearchQuery(
           text: text,
@@ -276,7 +316,12 @@ class DeleteRangeRange {
   DeleteRangeRange.fromJS(this._wrapped);
 
   DeleteRangeRange({
+    /// Items added to history after this date, represented in milliseconds
+    /// since the epoch.
     required double startTime,
+
+    /// Items added to history before this date, represented in milliseconds
+    /// since the epoch.
     required double endTime,
   }) : _wrapped = $js.DeleteRangeRange(
           startTime: startTime,

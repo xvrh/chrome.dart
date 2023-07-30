@@ -64,7 +64,10 @@ class StorageChange {
   StorageChange.fromJS(this._wrapped);
 
   StorageChange({
+    /// The old value of the item, if there was an old value.
     Object? oldValue,
+
+    /// The new value of the item, if there is a new value.
     Object? newValue,
   }) : _wrapped = $js.StorageChange()
           ..oldValue = oldValue?.toJS
@@ -172,7 +175,10 @@ class StorageArea {
 class SetAccessLevelAccessOptions {
   SetAccessLevelAccessOptions.fromJS(this._wrapped);
 
-  SetAccessLevelAccessOptions({required AccessLevel accessLevel})
+  SetAccessLevelAccessOptions(
+      {
+      /// The access level of the storage area.
+      required AccessLevel accessLevel})
       : _wrapped =
             $js.SetAccessLevelAccessOptions(accessLevel: accessLevel.toJS);
 

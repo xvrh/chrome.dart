@@ -48,8 +48,15 @@ class QueryInfo {
   QueryInfo.fromJS(this._wrapped);
 
   QueryInfo({
+    /// String to query with the default search provider.
     required String text,
+
+    /// Location where search results should be displayed.
+    /// `CURRENT_TAB` is the default.
     Disposition? disposition,
+
+    /// Location where search results should be displayed.
+    /// `tabId` cannot be used with `disposition`.
     int? tabId,
   }) : _wrapped = $js.QueryInfo(
           text: text,

@@ -103,8 +103,15 @@ class GetCallbackDetails {
   GetCallbackDetails.fromJS(this._wrapped);
 
   GetCallbackDetails({
+    /// The value of the setting.
     required Object value,
+
+    /// The level of control of the setting.
     required LevelOfControl levelOfControl,
+
+    /// Whether the effective value is specific to the incognito
+    /// session.<br/>This property will _only_ be present if the [incognito]
+    /// property in the [details] parameter of `get()` was true.
     bool? incognitoSpecific,
   }) : _wrapped = $js.GetCallbackDetails()
           ..value = value.toJS
@@ -140,7 +147,11 @@ class GetCallbackDetails {
 class GetDetails {
   GetDetails.fromJS(this._wrapped);
 
-  GetDetails({bool? incognito})
+  GetDetails(
+      {
+      /// Whether to return the value that applies to the incognito session
+      /// (default false).
+      bool? incognito})
       : _wrapped = $js.GetDetails(incognito: incognito);
 
   final $js.GetDetails _wrapped;
@@ -152,7 +163,12 @@ class SetDetails {
   SetDetails.fromJS(this._wrapped);
 
   SetDetails({
+    /// The value of the setting. <br/>Note that every setting has a specific
+    /// value type, which is described together with the setting. An extension
+    /// should _not_ set a value of a different type.
     required Object value,
+
+    /// Where to set the setting (default: regular).
     ChromeSettingScope? scope,
   }) : _wrapped = $js.SetDetails(
           value: value.toJS,
@@ -167,7 +183,10 @@ class SetDetails {
 class ClearDetails {
   ClearDetails.fromJS(this._wrapped);
 
-  ClearDetails({ChromeSettingScope? scope})
+  ClearDetails(
+      {
+      /// Where to clear the setting (default: regular).
+      ChromeSettingScope? scope})
       : _wrapped = $js.ClearDetails(scope: scope?.toJS);
 
   final $js.ClearDetails _wrapped;
@@ -179,8 +198,15 @@ class OnChangeDetails {
   OnChangeDetails.fromJS(this._wrapped);
 
   OnChangeDetails({
+    /// The value of the setting after the change.
     required Object value,
+
+    /// The level of control of the setting.
     required LevelOfControl levelOfControl,
+
+    /// Whether the value that has changed is specific to the incognito
+    /// session.<br/>This property will _only_ be present if the user has
+    /// enabled the extension in incognito mode.
     bool? incognitoSpecific,
   }) : _wrapped = $js.OnChangeDetails()
           ..value = value.toJS

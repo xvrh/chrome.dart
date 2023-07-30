@@ -159,7 +159,10 @@ class ChromeWebAuthenticationProxy {
 class IsUvpaaRequest {
   IsUvpaaRequest.fromJS(this._wrapped);
 
-  IsUvpaaRequest({required int requestId})
+  IsUvpaaRequest(
+      {
+      /// An opaque identifier for the request.
+      required int requestId})
       : _wrapped = $js.IsUvpaaRequest()..requestId = requestId;
 
   final $js.IsUvpaaRequest _wrapped;
@@ -177,7 +180,14 @@ class CreateRequest {
   CreateRequest.fromJS(this._wrapped);
 
   CreateRequest({
+    /// An opaque identifier for the request.
     required int requestId,
+
+    /// The `PublicKeyCredentialCreationOptions` passed to
+    /// `navigator.credentials.create()`, serialized as a JSON
+    /// string. The serialization format is compatible with <a
+    /// href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
+    /// `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
     required String requestDetailsJson,
   }) : _wrapped = $js.CreateRequest()
           ..requestId = requestId
@@ -208,7 +218,14 @@ class GetRequest {
   GetRequest.fromJS(this._wrapped);
 
   GetRequest({
+    /// An opaque identifier for the request.
     required int requestId,
+
+    /// The `PublicKeyCredentialRequestOptions` passed to
+    /// `navigator.credentials.get()`, serialized as a JSON string.
+    /// The serialization format is compatible with <a
+    /// href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
+    /// `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
     required String requestDetailsJson,
   }) : _wrapped = $js.GetRequest()
           ..requestId = requestId
@@ -255,8 +272,16 @@ class CreateResponseDetails {
   CreateResponseDetails.fromJS(this._wrapped);
 
   CreateResponseDetails({
+    /// The `requestId` of the `CreateRequest`.
     required int requestId,
+
+    /// The `DOMException` yielded by the remote request, if any.
     DOMExceptionDetails? error,
+
+    /// The `PublicKeyCredential`, yielded by the remote request, if
+    /// any, serialized as a JSON string by calling
+    /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+    /// `PublicKeyCredential.toJSON()`</a>.
     String? responseJson,
   }) : _wrapped = $js.CreateResponseDetails(
           requestId: requestId,
@@ -273,8 +298,16 @@ class GetResponseDetails {
   GetResponseDetails.fromJS(this._wrapped);
 
   GetResponseDetails({
+    /// The `requestId` of the `CreateRequest`.
     required int requestId,
+
+    /// The `DOMException` yielded by the remote request, if any.
     DOMExceptionDetails? error,
+
+    /// The `PublicKeyCredential`, yielded by the remote request, if
+    /// any, serialized as a JSON string by calling
+    /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+    /// `PublicKeyCredential.toJSON()`</a>.
     String? responseJson,
   }) : _wrapped = $js.GetResponseDetails(
           requestId: requestId,

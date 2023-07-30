@@ -187,13 +187,28 @@ class AudioDeviceInfo {
   AudioDeviceInfo.fromJS(this._wrapped);
 
   AudioDeviceInfo({
+    /// The unique identifier of the audio device.
     required String id,
+
+    /// Stream type associated with this device.
     required StreamType streamType,
+
+    /// Type of the device.
     required DeviceType deviceType,
+
+    /// The user-friendly name (e.g. "USB Microphone").
     required String displayName,
+
+    /// Device name.
     required String deviceName,
+
+    /// True if this is the current active device.
     required bool isActive,
+
+    /// The sound level of the device, volume for output, gain for input.
     required int level,
+
+    /// The stable/persisted device id string when available.
     String? stableDeviceId,
   }) : _wrapped = $js.AudioDeviceInfo()
           ..id = id
@@ -262,7 +277,12 @@ class DeviceFilter {
   DeviceFilter.fromJS(this._wrapped);
 
   DeviceFilter({
+    /// If set, only audio devices whose stream type is included in this list
+    /// will satisfy the filter.
     List<StreamType>? streamTypes,
+
+    /// If set, only audio devices whose active state matches this value will
+    /// satisfy the filter.
     bool? isActive,
   }) : _wrapped = $js.DeviceFilter(
           streamTypes: streamTypes?.toJSArray((e) => e.toJS),
@@ -277,7 +297,15 @@ class DeviceFilter {
 class DeviceProperties {
   DeviceProperties.fromJS(this._wrapped);
 
-  DeviceProperties({int? level})
+  DeviceProperties(
+      {
+      ///
+      ///   The audio device's desired sound level. Defaults to the device's
+      ///   current sound level.
+      ///
+      /// If used with audio input device, represents audio device gain.
+      /// If used with audio output device, represents audio device volume.
+      int? level})
       : _wrapped = $js.DeviceProperties(level: level);
 
   final $js.DeviceProperties _wrapped;
@@ -289,7 +317,14 @@ class DeviceIdLists {
   DeviceIdLists.fromJS(this._wrapped);
 
   DeviceIdLists({
+    /// List of input devices specified by their ID.
+    /// To indicate input devices should be unaffected, leave this property
+    ///   unset.
     List<String>? input,
+
+    /// List of output devices specified by their ID.
+    /// To indicate output devices should be unaffected, leave this property
+    ///   unset.
     List<String>? output,
   }) : _wrapped = $js.DeviceIdLists(
           input: input?.toJSArray((e) => e),
@@ -305,7 +340,12 @@ class MuteChangedEvent {
   MuteChangedEvent.fromJS(this._wrapped);
 
   MuteChangedEvent({
+    /// The type of the stream for which the mute value changed. The updated
+    /// mute
+    /// value applies to all devices with this stream type.
     required StreamType streamType,
+
+    /// Whether or not the stream is now muted.
     required bool isMuted,
   }) : _wrapped = $js.MuteChangedEvent()
           ..streamType = streamType.toJS
@@ -333,7 +373,10 @@ class LevelChangedEvent {
   LevelChangedEvent.fromJS(this._wrapped);
 
   LevelChangedEvent({
+    /// ID of device whose sound level has changed.
     required String deviceId,
+
+    /// The device's new sound level.
     required int level,
   }) : _wrapped = $js.LevelChangedEvent()
           ..deviceId = deviceId

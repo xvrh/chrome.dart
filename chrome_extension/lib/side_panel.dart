@@ -54,7 +54,10 @@ class ChromeSidePanel {
 class SidePanel {
   SidePanel.fromJS(this._wrapped);
 
-  SidePanel({required String default_path})
+  SidePanel(
+      {
+      /// Developer specified path for side panel display.
+      required String default_path})
       : _wrapped = $js.SidePanel()..default_path = default_path;
 
   final $js.SidePanel _wrapped;
@@ -88,8 +91,20 @@ class PanelOptions {
   PanelOptions.fromJS(this._wrapped);
 
   PanelOptions({
+    /// If specified, the side panel options will only apply to the tab with
+    /// this id. If omitted, these options set the default behavior (used for
+    /// any
+    /// tab that doesn't have specific settings). Note: if the same path is set
+    /// for this tabId and the default tabId, then the panel for this tabId will
+    /// be a different instance than the panel for the default tabId.
     int? tabId,
+
+    /// The path to the side panel HTML file to use. This must be a local
+    /// resource within the extension package.
     String? path,
+
+    /// Whether the side panel should be enabled. This is optional. The default
+    /// value is true.
     bool? enabled,
   }) : _wrapped = $js.PanelOptions(
           tabId: tabId,
@@ -105,7 +120,12 @@ class PanelOptions {
 class PanelBehavior {
   PanelBehavior.fromJS(this._wrapped);
 
-  PanelBehavior({bool? openPanelOnActionClick})
+  PanelBehavior(
+      {
+      /// Whether clicking the extension's icon will toggle showing the
+      /// extension's
+      /// entry in the side panel. Defaults to false.
+      bool? openPanelOnActionClick})
       : _wrapped =
             $js.PanelBehavior(openPanelOnActionClick: openPanelOnActionClick);
 
@@ -117,7 +137,13 @@ class PanelBehavior {
 class GetPanelOptions {
   GetPanelOptions.fromJS(this._wrapped);
 
-  GetPanelOptions({int? tabId}) : _wrapped = $js.GetPanelOptions(tabId: tabId);
+  GetPanelOptions(
+      {
+      /// If specified, the side panel options for the given tab will be returned.
+      /// Otherwise, returns the default side panel options (used for any tab that
+      /// doesn't have specific settings).
+      int? tabId})
+      : _wrapped = $js.GetPanelOptions(tabId: tabId);
 
   final $js.GetPanelOptions _wrapped;
 

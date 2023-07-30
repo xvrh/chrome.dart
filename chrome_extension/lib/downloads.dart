@@ -385,7 +385,10 @@ class HeaderNameValuePair {
   HeaderNameValuePair.fromJS(this._wrapped);
 
   HeaderNameValuePair({
+    /// Name of the HTTP header.
     required String name,
+
+    /// Value of the HTTP header.
     required String value,
   }) : _wrapped = $js.HeaderNameValuePair(
           name: name,
@@ -401,7 +404,15 @@ class FilenameSuggestion {
   FilenameSuggestion.fromJS(this._wrapped);
 
   FilenameSuggestion({
+    /// The [DownloadItem]'s new target [DownloadItem.filename], as a path
+    /// relative to the user's default Downloads directory, possibly containing
+    /// subdirectories. Absolute paths, empty paths, and paths containing
+    /// back-references ".." will be ignored. `filename` is ignored if
+    /// there are any [onDeterminingFilename] listeners registered by any
+    /// extensions.
     required String filename,
+
+    /// The action to take if `filename` already exists.
     FilenameConflictAction? conflictAction,
   }) : _wrapped = $js.FilenameSuggestion()
           ..filename = filename
@@ -434,12 +445,34 @@ class DownloadOptions {
   DownloadOptions.fromJS(this._wrapped);
 
   DownloadOptions({
+    /// The URL to download.
     required String url,
+
+    /// A file path relative to the Downloads directory to contain the
+    /// downloaded
+    /// file, possibly containing subdirectories. Absolute paths, empty paths,
+    /// and paths containing back-references ".." will cause an error.
+    /// [onDeterminingFilename] allows suggesting a filename after the file's
+    /// MIME type and a tentative filename have been determined.
     String? filename,
+
+    /// The action to take if `filename` already exists.
     FilenameConflictAction? conflictAction,
+
+    /// Use a file-chooser to allow the user to select a filename regardless of
+    /// whether `filename` is set or already exists.
     bool? saveAs,
+
+    /// The HTTP method to use if the URL uses the HTTP[S] protocol.
     HttpMethod? method,
+
+    /// Extra HTTP headers to send with the request if the URL uses the HTTP[s]
+    /// protocol. Each header is represented as a dictionary containing the keys
+    /// `name` and either `value` or
+    /// `binaryValue`, restricted to those allowed by XMLHttpRequest.
     List<HeaderNameValuePair>? headers,
+
+    /// Post body.
     String? body,
   }) : _wrapped = $js.DownloadOptions(
           url: url,
@@ -460,26 +493,104 @@ class DownloadItem {
   DownloadItem.fromJS(this._wrapped);
 
   DownloadItem({
+    /// An identifier that is persistent across browser sessions.
     required int id,
+
+    /// The absolute URL that this download initiated from, before any
+    /// redirects.
     required String url,
+
+    /// The absolute URL that this download is being made from, after all
+    /// redirects.
     required String finalUrl,
+
+    /// Absolute URL.
     required String referrer,
+
+    /// Absolute local path.
     required String filename,
+
+    /// False if this download is recorded in the history, true if it is not
+    /// recorded.
     required bool incognito,
+
+    /// Indication of whether this download is thought to be safe or known to be
+    /// suspicious.
     required DangerType danger,
+
+    /// The file's MIME type.
     required String mime,
+
+    /// The time when the download began in ISO 8601 format. May be passed
+    /// directly to the Date constructor: `chrome.downloads.search({},
+    /// function(items){items.forEach(function(item){console.log(new
+    /// Date(item.startTime))})})`
     required String startTime,
+
+    /// The time when the download ended in ISO 8601 format. May be passed
+    /// directly to the Date constructor: `chrome.downloads.search({},
+    /// function(items){items.forEach(function(item){if (item.endTime)
+    /// console.log(new Date(item.endTime))})})`
     String? endTime,
+
+    /// Estimated time when the download will complete in ISO 8601 format. May
+    /// be
+    /// passed directly to the Date constructor:
+    /// `chrome.downloads.search({},
+    /// function(items){items.forEach(function(item){if (item.estimatedEndTime)
+    /// console.log(new Date(item.estimatedEndTime))})})`
     String? estimatedEndTime,
+
+    /// Indicates whether the download is progressing, interrupted, or complete.
     required State state,
+
+    /// True if the download has stopped reading data from the host, but kept
+    /// the
+    /// connection open.
     required bool paused,
+
+    /// True if the download is in progress and paused, or else if it is
+    /// interrupted and can be resumed starting from where it was interrupted.
     required bool canResume,
+
+    /// Why the download was interrupted. Several kinds of HTTP errors may be
+    /// grouped under one of the errors beginning with `SERVER_`.
+    /// Errors relating to the network begin with `NETWORK_`, errors
+    /// relating to the process of writing the file to the file system begin
+    /// with
+    /// `FILE_`, and interruptions initiated by the user begin with
+    /// `USER_`.
     InterruptReason? error,
+
+    /// Number of bytes received so far from the host, without considering file
+    /// compression.
     required double bytesReceived,
+
+    /// Number of bytes in the whole file, without considering file compression,
+    /// or -1 if unknown.
     required double totalBytes,
+
+    /// Number of bytes in the whole file post-decompression, or -1 if unknown.
     required double fileSize,
+
+    /// Whether the downloaded file still exists. This information may be out of
+    /// date because Chrome does not automatically watch for file removal. Call
+    /// [search]() in order to trigger the check for file existence. When the
+    /// existence check completes, if the file has been deleted, then an
+    /// [onChanged] event will fire. Note that [search]() does not wait
+    /// for the existence check to finish before returning, so results from
+    /// [search]() may not accurately reflect the file system. Also,
+    /// [search]() may be called as often as necessary, but will not check for
+    /// file existence any more frequently than once every 10 seconds.
     required bool exists,
+
+    /// The identifier for the extension that initiated this download if this
+    /// download was initiated by an extension. Does not change once it is set.
     String? byExtensionId,
+
+    /// The localized name of the extension that initiated this download if this
+    /// download was initiated by an extension. May change if the extension
+    /// changes its name or if the user changes their locale.
     String? byExtensionName,
   }) : _wrapped = $js.DownloadItem()
           ..id = id
@@ -673,32 +784,112 @@ class DownloadQuery {
   DownloadQuery.fromJS(this._wrapped);
 
   DownloadQuery({
+    /// This array of search terms limits results to [DownloadItem] whose
+    /// `filename` or `url` or `finalUrl`
+    /// contain all of the search terms that do not begin with a dash '-' and
+    /// none of the search terms that do begin with a dash.
     List<String>? query,
+
+    /// Limits results to [DownloadItem] that
+    /// started before the given ms since the epoch.
     String? startedBefore,
+
+    /// Limits results to [DownloadItem] that
+    /// started after the given ms since the epoch.
     String? startedAfter,
+
+    /// Limits results to [DownloadItem] that ended before the given ms since
+    /// the
+    /// epoch.
     String? endedBefore,
+
+    /// Limits results to [DownloadItem] that ended after the given ms since the
+    /// epoch.
     String? endedAfter,
+
+    /// Limits results to [DownloadItem] whose
+    /// `totalBytes` is greater than the given integer.
     double? totalBytesGreater,
+
+    /// Limits results to [DownloadItem] whose
+    /// `totalBytes` is less than the given integer.
     double? totalBytesLess,
+
+    /// Limits results to [DownloadItem] whose
+    /// `filename` matches the given regular expression.
     String? filenameRegex,
+
+    /// Limits results to [DownloadItem] whose
+    /// `url` matches the given regular expression.
     String? urlRegex,
+
+    /// Limits results to [DownloadItem] whose
+    /// `finalUrl` matches the given regular expression.
     String? finalUrlRegex,
+
+    /// The maximum number of matching [DownloadItem] returned. Defaults to
+    /// 1000. Set to 0 in order to return all matching [DownloadItem]. See
+    /// [search] for how to page through results.
     int? limit,
+
+    /// Set elements of this array to [DownloadItem] properties in order to
+    /// sort search results. For example, setting
+    /// `orderBy=['startTime']` sorts the [DownloadItem] by their
+    /// start time in ascending order. To specify descending order, prefix with
+    /// a
+    /// hyphen: '-startTime'.
     List<String>? orderBy,
+
+    /// The `id` of the [DownloadItem] to query.
     int? id,
+
+    /// The absolute URL that this download initiated from, before any
+    /// redirects.
     String? url,
+
+    /// The absolute URL that this download is being made from, after all
+    /// redirects.
     String? finalUrl,
+
+    /// Absolute local path.
     String? filename,
+
+    /// Indication of whether this download is thought to be safe or known to be
+    /// suspicious.
     DangerType? danger,
+
+    /// The file's MIME type.
     String? mime,
+
+    /// The time when the download began in ISO 8601 format.
     String? startTime,
+
+    /// The time when the download ended in ISO 8601 format.
     String? endTime,
+
+    /// Indicates whether the download is progressing, interrupted, or complete.
     State? state,
+
+    /// True if the download has stopped reading data from the host, but kept
+    /// the
+    /// connection open.
     bool? paused,
+
+    /// Why a download was interrupted.
     InterruptReason? error,
+
+    /// Number of bytes received so far from the host, without considering file
+    /// compression.
     double? bytesReceived,
+
+    /// Number of bytes in the whole file, without considering file compression,
+    /// or -1 if unknown.
     double? totalBytes,
+
+    /// Number of bytes in the whole file post-decompression, or -1 if unknown.
     double? fileSize,
+
+    /// Whether the downloaded file exists;
     bool? exists,
   }) : _wrapped = $js.DownloadQuery(
           query: query?.toJSArray((e) => e),
@@ -814,20 +1005,50 @@ class DownloadDelta {
   DownloadDelta.fromJS(this._wrapped);
 
   DownloadDelta({
+    /// The `id` of the [DownloadItem]
+    /// that changed.
     required int id,
+
+    /// The change in `url`, if any.
     StringDelta? url,
+
+    /// The change in `finalUrl`, if any.
     StringDelta? finalUrl,
+
+    /// The change in `filename`, if any.
     StringDelta? filename,
+
+    /// The change in `danger`, if any.
     StringDelta? danger,
+
+    /// The change in `mime`, if any.
     StringDelta? mime,
+
+    /// The change in `startTime`, if any.
     StringDelta? startTime,
+
+    /// The change in `endTime`, if any.
     StringDelta? endTime,
+
+    /// The change in `state`, if any.
     StringDelta? state,
+
+    /// The change in `canResume`, if any.
     BooleanDelta? canResume,
+
+    /// The change in `paused`, if any.
     BooleanDelta? paused,
+
+    /// The change in `error`, if any.
     StringDelta? error,
+
+    /// The change in `totalBytes`, if any.
     DoubleDelta? totalBytes,
+
+    /// The change in `fileSize`, if any.
     DoubleDelta? fileSize,
+
+    /// The change in `exists`, if any.
     BooleanDelta? exists,
   }) : _wrapped = $js.DownloadDelta()
           ..id = id
@@ -945,7 +1166,14 @@ class DownloadDelta {
 class GetFileIconOptions {
   GetFileIconOptions.fromJS(this._wrapped);
 
-  GetFileIconOptions({int? size})
+  GetFileIconOptions(
+      {
+      /// The size of the returned icon. The icon will be square with dimensions
+      /// size * size pixels. The default and largest size for the icon is 32x32
+      /// pixels. The only supported sizes are 16 and 32. It is an error to
+      /// specify
+      /// any other size.
+      int? size})
       : _wrapped = $js.GetFileIconOptions(size: size);
 
   final $js.GetFileIconOptions _wrapped;
@@ -956,7 +1184,10 @@ class GetFileIconOptions {
 class UiOptions {
   UiOptions.fromJS(this._wrapped);
 
-  UiOptions({required bool enabled})
+  UiOptions(
+      {
+      /// Enable or disable the download UI.
+      required bool enabled})
       : _wrapped = $js.UiOptions(enabled: enabled);
 
   final $js.UiOptions _wrapped;

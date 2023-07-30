@@ -93,8 +93,20 @@ class PageStateMatcher {
   PageStateMatcher.fromJS(this._wrapped);
 
   PageStateMatcher({
+    /// Matches if the conditions of the `UrlFilter` are fulfilled for the
+    /// top-level URL of the page.
     UrlFilter? pageUrl,
+
+    /// Matches if all of the CSS selectors in the array match displayed
+    /// elements in a frame with the same origin as the page's main frame. All
+    /// selectors in this array must be [compound
+    /// selectors](http://www.w3.org/TR/selectors4/#compound) to speed up
+    /// matching. Note: Listing hundreds of CSS selectors or listing CSS
+    /// selectors that match hundreds of times per page can slow down web sites.
     List<String>? css,
+
+    /// Matches if the bookmarked state of the page is equal to the specified
+    /// value. Requres the [bookmarks permission](declare_permissions).
     bool? isBookmarked,
     required PageStateMatcherInstanceType instanceType,
   }) : _wrapped = $js.PageStateMatcher()
@@ -179,6 +191,15 @@ class SetIcon {
 
   SetIcon({
     required SetIconInstanceType instanceType,
+
+    /// Either an `ImageData` object or a dictionary {size -> ImageData}
+    /// representing an icon to be set. If the icon is specified as a
+    /// dictionary, the image used is chosen depending on the screen's pixel
+    /// density. If the number of image pixels that fit into one screen space
+    /// unit equals `scale`, then an image with size `scale * n` is selected,
+    /// where <i>n</i> is the size of the icon in the UI. At least one image
+    /// must be specified. Note that `details.imageData = foo` is equivalent to
+    /// `details.imageData = {'16': foo}`.
     Object? imageData,
   }) : _wrapped = $js.SetIcon()
           ..instanceType = instanceType.toJS
@@ -224,9 +245,19 @@ class RequestContentScript {
   RequestContentScript.fromJS(this._wrapped);
 
   RequestContentScript({
+    /// Names of CSS files to be injected as a part of the content script.
     List<String>? css,
+
+    /// Names of JavaScript files to be injected as a part of the content
+    /// script.
     List<String>? js,
+
+    /// Whether the content script runs in all frames of the matching page, or
+    /// in only the top frame. Default is `false`.
     bool? allFrames,
+
+    /// Whether to insert the content script on `about:blank` and
+    /// `about:srcdoc`. Default is `false`.
     bool? matchAboutBlank,
     required RequestContentScriptInstanceType instanceType,
   }) : _wrapped = $js.RequestContentScript()

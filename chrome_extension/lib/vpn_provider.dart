@@ -220,13 +220,60 @@ class Parameters {
   Parameters.fromJS(this._wrapped);
 
   Parameters({
+    /// IP address for the VPN interface in CIDR notation.
+    /// IPv4 is currently the only supported mode.
     required String address,
+
+    /// Broadcast address for the VPN interface. (default: deduced
+    /// from IP address and mask)
     String? broadcastAddress,
+
+    /// MTU setting for the VPN interface. (default: 1500 bytes)
     String? mtu,
+
+    /// Exclude network traffic to the list of IP blocks in CIDR notation from
+    /// the tunnel. This can be used to bypass traffic to and from the VPN
+    /// server.
+    /// When many rules match a destination, the rule with the longest matching
+    /// prefix wins.
+    /// Entries that correspond to the same CIDR block are treated as
+    /// duplicates.
+    /// Such duplicates in the collated (exclusionList + inclusionList) list are
+    /// eliminated and the exact duplicate entry that will be eliminated is
+    /// undefined.
     required List<String> exclusionList,
+
+    /// Include network traffic to the list of IP blocks in CIDR notation to the
+    /// tunnel. This parameter can be used to set up a split tunnel. By default
+    /// no traffic is directed to the tunnel. Adding the entry "0.0.0.0/0" to
+    /// this list gets all the user traffic redirected to the tunnel.
+    /// When many rules match a destination, the rule with the longest matching
+    /// prefix wins.
+    /// Entries that correspond to the same CIDR block are treated as
+    /// duplicates.
+    /// Such duplicates in the collated (exclusionList + inclusionList) list are
+    /// eliminated and the exact duplicate entry that will be eliminated is
+    /// undefined.
     required List<String> inclusionList,
+
+    /// A list of search domains. (default: no search domain)
     List<String>? domainSearch,
+
+    /// A list of IPs for the DNS servers.
     required List<String> dnsServers,
+
+    /// Whether or not the VPN extension implements auto-reconnection.
+    ///
+    /// If true, the `linkDown`, `linkUp`,
+    /// `linkChanged`, `suspend`, and `resume`
+    /// platform messages will be used to signal the respective events.
+    /// If false, the system will forcibly disconnect the VPN if the network
+    /// topology changes, and the user will need to reconnect manually.
+    /// (default: false)
+    ///
+    /// This property is new in Chrome 51; it will generate an exception in
+    /// earlier versions. try/catch can be used to conditionally enable the
+    /// feature based on browser support.
     String? reconnect,
   }) : _wrapped = $js.Parameters(
           address: address,

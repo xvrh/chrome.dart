@@ -7,7 +7,8 @@ class Context {
   final _lazyTypes = <LazyType>[];
 
   void resolveLazyTypes() {
-    for (var type in _lazyTypes) {
+    while (_lazyTypes.isNotEmpty) {
+      var type = _lazyTypes.removeAt(0);
       type.resolve(apis);
     }
   }

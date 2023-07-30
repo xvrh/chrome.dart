@@ -21,10 +21,21 @@ class Rule {
   Rule.fromJS(this._wrapped);
 
   Rule({
+    /// Optional identifier that allows referencing this rule.
     String? id,
+
+    /// Tags can be used to annotate rules and perform operations on sets of
+    /// rules.
     List<String>? tags,
+
+    /// List of conditions that can trigger the actions.
     required List<Object> conditions,
+
+    /// List of actions that are triggered if one of the conditions is
+    /// fulfilled.
     required List<Object> actions,
+
+    /// Optional priority of this rule. Defaults to 100.
     int? priority,
   }) : _wrapped = $js.Rule()
           ..id = id
@@ -189,25 +200,88 @@ class UrlFilter {
   UrlFilter.fromJS(this._wrapped);
 
   UrlFilter({
+    /// Matches if the host name of the URL contains a specified string. To test
+    /// whether a host name component has a prefix 'foo', use hostContains:
+    /// '.foo'. This matches 'www.foobar.com' and 'foo.com', because an implicit
+    /// dot is added at the beginning of the host name. Similarly, hostContains
+    /// can be used to match against component suffix ('foo.') and to exactly
+    /// match against components ('.foo.'). Suffix- and exact-matching for the
+    /// last components need to be done separately using hostSuffix, because no
+    /// implicit dot is added at the end of the host name.
     String? hostContains,
+
+    /// Matches if the host name of the URL is equal to a specified string.
     String? hostEquals,
+
+    /// Matches if the host name of the URL starts with a specified string.
     String? hostPrefix,
+
+    /// Matches if the host name of the URL ends with a specified string.
     String? hostSuffix,
+
+    /// Matches if the path segment of the URL contains a specified string.
     String? pathContains,
+
+    /// Matches if the path segment of the URL is equal to a specified string.
     String? pathEquals,
+
+    /// Matches if the path segment of the URL starts with a specified string.
     String? pathPrefix,
+
+    /// Matches if the path segment of the URL ends with a specified string.
     String? pathSuffix,
+
+    /// Matches if the query segment of the URL contains a specified string.
     String? queryContains,
+
+    /// Matches if the query segment of the URL is equal to a specified string.
     String? queryEquals,
+
+    /// Matches if the query segment of the URL starts with a specified string.
     String? queryPrefix,
+
+    /// Matches if the query segment of the URL ends with a specified string.
     String? querySuffix,
+
+    /// Matches if the URL (without fragment identifier) contains a specified
+    /// string. Port numbers are stripped from the URL if they match the default
+    /// port number.
     String? urlContains,
+
+    /// Matches if the URL (without fragment identifier) is equal to a specified
+    /// string. Port numbers are stripped from the URL if they match the default
+    /// port number.
     String? urlEquals,
+
+    /// Matches if the URL (without fragment identifier) matches a specified
+    /// regular expression. Port numbers are stripped from the URL if they match
+    /// the default port number. The regular expressions use the [RE2
+    /// syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
     String? urlMatches,
+
+    /// Matches if the URL without query segment and fragment identifier matches
+    /// a specified regular expression. Port numbers are stripped from the URL
+    /// if they match the default port number. The regular expressions use the
+    /// [RE2 syntax](https://github.com/google/re2/blob/master/doc/syntax.txt).
     String? originAndPathMatches,
+
+    /// Matches if the URL (without fragment identifier) starts with a specified
+    /// string. Port numbers are stripped from the URL if they match the default
+    /// port number.
     String? urlPrefix,
+
+    /// Matches if the URL (without fragment identifier) ends with a specified
+    /// string. Port numbers are stripped from the URL if they match the default
+    /// port number.
     String? urlSuffix,
+
+    /// Matches if the scheme of the URL is equal to any of the schemes
+    /// specified in the array.
     List<String>? schemes,
+
+    /// Matches if the port of the URL is contained in any of the specified port
+    /// lists. For example `[80, 443, [1000, 1200]]` matches all requests on
+    /// port 80, 443 and in the range 1000-1200.
     List<Object>? ports,
   }) : _wrapped = $js.UrlFilter()
           ..hostContains = hostContains

@@ -410,8 +410,14 @@ class Ruleset {
   Ruleset.fromJS(this._wrapped);
 
   Ruleset({
+    /// A non-empty string uniquely identifying the ruleset. IDs beginning with
+    /// '_' are reserved for internal use.
     required String id,
+
+    /// The path of the JSON ruleset relative to the extension directory.
     required String path,
+
+    /// Whether the ruleset is enabled by default.
     required bool enabled,
   }) : _wrapped = $js.Ruleset()
           ..id = id
@@ -448,6 +454,9 @@ class QueryKeyValue {
   QueryKeyValue({
     required String key,
     required String value,
+
+    /// If true, the query key is replaced only if it's already present.
+    /// Otherwise, the key is also added if it's missing. Defaults to false.
     bool? replaceOnly,
   }) : _wrapped = $js.QueryKeyValue()
           ..key = key
@@ -480,7 +489,10 @@ class QueryTransform {
   QueryTransform.fromJS(this._wrapped);
 
   QueryTransform({
+    /// The list of query keys to be removed.
     List<String>? removeParams,
+
+    /// The list of query key-value pairs to be added or replaced.
     List<QueryKeyValue>? addOrReplaceParams,
   }) : _wrapped = $js.QueryTransform()
           ..removeParams = removeParams?.toJSArray((e) => e)
@@ -512,14 +524,34 @@ class URLTransform {
   URLTransform.fromJS(this._wrapped);
 
   URLTransform({
+    /// The new scheme for the request. Allowed values are "http", "https",
+    /// "ftp" and "chrome-extension".
     String? scheme,
+
+    /// The new host for the request.
     String? host,
+
+    /// The new port for the request. If empty, the existing port is cleared.
     String? port,
+
+    /// The new path for the request. If empty, the existing path is cleared.
     String? path,
+
+    /// The new query for the request. Should be either empty, in which case the
+    /// existing query is cleared; or should begin with '?'.
     String? query,
+
+    /// Add, remove or replace query key-value pairs.
     QueryTransform? queryTransform,
+
+    /// The new fragment for the request. Should be either empty, in which case
+    /// the existing fragment is cleared; or should begin with '#'.
     String? fragment,
+
+    /// The new username for the request.
     String? username,
+
+    /// The new password for the request.
     String? password,
   }) : _wrapped = $js.URLTransform()
           ..scheme = scheme
@@ -599,9 +631,20 @@ class Redirect {
   Redirect.fromJS(this._wrapped);
 
   Redirect({
+    /// Path relative to the extension directory. Should start with '/'.
     String? extensionPath,
+
+    /// Url transformations to perform.
     URLTransform? transform,
+
+    /// The redirect url. Redirects to JavaScript urls are not allowed.
     String? url,
+
+    /// Substitution pattern for rules which specify a `regexFilter`.
+    /// The first match of `regexFilter` within the url will be
+    /// replaced with this pattern. Within `regexSubstitution`,
+    /// backslash-escaped digits (\1 to \9) can be used to insert the
+    /// corresponding capture groups. \0 refers to the entire matching text.
     String? regexSubstitution,
   }) : _wrapped = $js.Redirect()
           ..extensionPath = extensionPath
@@ -646,21 +689,173 @@ class RuleCondition {
   RuleCondition.fromJS(this._wrapped);
 
   RuleCondition({
+    /// The pattern which is matched against the network request url.
+    /// Supported constructs:
+    ///
+    /// **'*'**  : Wildcard: Matches any number of characters.
+    ///
+    /// **'|'**  : Left/right anchor: If used at either end of the pattern,
+    ///               specifies the beginning/end of the url respectively.
+    ///
+    /// **'||'** : Domain name anchor: If used at the beginning of the pattern,
+    ///               specifies the start of a (sub-)domain of the URL.
+    ///
+    /// **'^'**  : Separator character: This matches anything except a letter, a
+    ///               digit or one of the following: _ - . %. This can also
+    /// match
+    ///               the end of the URL.
+    ///
+    /// Therefore `urlFilter` is composed of the following parts:
+    /// (optional Left/Domain name anchor) + pattern + (optional Right anchor).
+    ///
+    /// If omitted, all urls are matched. An empty string is not allowed.
+    ///
+    /// A pattern beginning with `||*` is not allowed. Use
+    /// `*` instead.
+    ///
+    /// Note: Only one of `urlFilter` or `regexFilter` can
+    /// be specified.
+    ///
+    /// Note: The `urlFilter` must be composed of only ASCII
+    /// characters. This is matched against a url where the host is encoded in
+    /// the punycode format (in case of internationalized domains) and any other
+    /// non-ascii characters are url encoded in utf-8.
+    /// For example, when the request url is
+    /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
+    /// `urlFilter` will be matched against the url
+    /// http://abc.xn--p1ai/?q=%D1%84.
     String? urlFilter,
+
+    /// Regular expression to match against the network request url. This
+    /// follows
+    /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2
+    /// syntax</a>.
+    ///
+    /// Note: Only one of `urlFilter` or `regexFilter` can
+    /// be specified.
+    ///
+    /// Note: The `regexFilter` must be composed of only ASCII
+    /// characters. This is matched against a url where the host is encoded in
+    /// the punycode format (in case of internationalized domains) and any other
+    /// non-ascii characters are url encoded in utf-8.
     String? regexFilter,
+
+    /// Whether the `urlFilter` or `regexFilter`
+    /// (whichever is specified) is case sensitive. Default is true.
     bool? isUrlFilterCaseSensitive,
+
+    /// The rule will only match network requests originating from the list of
+    /// `initiatorDomains`. If the list is omitted, the rule is
+    /// applied to requests from all domains. An empty list is not allowed.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>
+    ///    This matches against the request initiator and not the request url.
+    ///  </li>
+    ///  <li>Sub-domains of the listed domains are also matched.</li>
+    /// </ul>
     List<String>? initiatorDomains,
+
+    /// The rule will not match network requests originating from the list of
+    /// `excludedInitiatorDomains`. If the list is empty or omitted,
+    /// no domains are excluded. This takes precedence over
+    /// `initiatorDomains`.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>
+    ///    This matches against the request initiator and not the request url.
+    ///  </li>
+    ///  <li>Sub-domains of the listed domains are also excluded.</li>
+    /// </ul>
     List<String>? excludedInitiatorDomains,
+
+    /// The rule will only match network requests when the domain matches one
+    /// from the list of `requestDomains`. If the list is omitted,
+    /// the rule is applied to requests from all domains. An empty list is not
+    /// allowed.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>Sub-domains of the listed domains are also matched.</li>
+    /// </ul>
     List<String>? requestDomains,
+
+    /// The rule will not match network requests when the domains matches one
+    /// from the list of `excludedRequestDomains`. If the list is
+    /// empty or omitted, no domains are excluded. This takes precedence over
+    /// `requestDomains`.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>Sub-domains of the listed domains are also excluded.</li>
+    /// </ul>
     List<String>? excludedRequestDomains,
+
+    /// The rule will only match network requests originating from the list of
+    /// `domains`.
     List<String>? domains,
+
+    /// The rule will not match network requests originating from the list of
+    /// `excludedDomains`.
     List<String>? excludedDomains,
+
+    /// List of resource types which the rule can match. An empty list is not
+    /// allowed.
+    ///
+    /// Note: this must be specified for `allowAllRequests` rules and
+    /// may only include the `sub_frame` and `main_frame`
+    /// resource types.
     List<ResourceType>? resourceTypes,
+
+    /// List of resource types which the rule won't match. Only one of
+    /// `resourceTypes` and `excludedResourceTypes` should
+    /// be specified. If neither of them is specified, all resource types except
+    /// "main_frame" are blocked.
     List<ResourceType>? excludedResourceTypes,
+
+    /// List of HTTP request methods which the rule can match. An empty list is
+    /// not allowed.
+    ///
+    /// Note: Specifying a `requestMethods` rule condition will also
+    /// exclude non-HTTP(s) requests, whereas specifying
+    /// `excludedRequestMethods` will not.
     List<RequestMethod>? requestMethods,
+
+    /// List of request methods which the rule won't match. Only one of
+    /// `requestMethods` and `excludedRequestMethods`
+    /// should be specified. If neither of them is specified, all request
+    /// methods
+    /// are matched.
     List<RequestMethod>? excludedRequestMethods,
+
+    /// Specifies whether the network request is first-party or third-party to
+    /// the domain from which it originated. If omitted, all requests are
+    /// accepted.
     DomainType? domainType,
+
+    /// List of [tabs.Tab.id] which the rule should match. An ID of
+    /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
+    /// tab. An empty list is not allowed. Only supported for session-scoped
+    /// rules.
     List<int>? tabIds,
+
+    /// List of [tabs.Tab.id] which the rule should not match. An ID of
+    /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
+    /// tab. Only supported for session-scoped rules.
     List<int>? excludedTabIds,
   }) : _wrapped = $js.RuleCondition()
           ..urlFilter = urlFilter
@@ -933,8 +1128,14 @@ class ModifyHeaderInfo {
   ModifyHeaderInfo.fromJS(this._wrapped);
 
   ModifyHeaderInfo({
+    /// The name of the header to be modified.
     required String header,
+
+    /// The operation to be performed on a header.
     required HeaderOperation operation,
+
+    /// The new value for the header. Must be specified for `append`
+    /// and `set` operations.
     String? value,
   }) : _wrapped = $js.ModifyHeaderInfo()
           ..header = header
@@ -969,9 +1170,19 @@ class RuleAction {
   RuleAction.fromJS(this._wrapped);
 
   RuleAction({
+    /// The type of action to perform.
     required RuleActionType type,
+
+    /// Describes how the redirect should be performed. Only valid for redirect
+    /// rules.
     Redirect? redirect,
+
+    /// The request headers to modify for the request. Only valid if
+    /// RuleActionType is "modifyHeaders".
     List<ModifyHeaderInfo>? requestHeaders,
+
+    /// The response headers to modify for the request. Only valid if
+    /// RuleActionType is "modifyHeaders".
     List<ModifyHeaderInfo>? responseHeaders,
   }) : _wrapped = $js.RuleAction()
           ..type = type.toJS
@@ -1022,9 +1233,16 @@ class Rule {
   Rule.fromJS(this._wrapped);
 
   Rule({
+    /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
     required int id,
+
+    /// Rule priority. Defaults to 1. When specified, should be >= 1.
     int? priority,
+
+    /// The condition under which this rule is triggered.
     required RuleCondition condition,
+
+    /// The action to take if this rule is matched.
     required RuleAction action,
   }) : _wrapped = $js.Rule(
           id: id,
@@ -1042,7 +1260,12 @@ class MatchedRule {
   MatchedRule.fromJS(this._wrapped);
 
   MatchedRule({
+    /// A matching rule's ID.
     required int ruleId,
+
+    /// ID of the [Ruleset] this rule belongs to. For a rule originating
+    /// from the set of dynamic rules, this will be equal to
+    /// [DYNAMIC_RULESET_ID].
     required String rulesetId,
   }) : _wrapped = $js.MatchedRule()
           ..ruleId = ruleId
@@ -1070,7 +1293,10 @@ class MatchedRule {
 class GetRulesFilter {
   GetRulesFilter.fromJS(this._wrapped);
 
-  GetRulesFilter({List<int>? ruleIds})
+  GetRulesFilter(
+      {
+      /// If specified, only rules with matching IDs are included.
+      List<int>? ruleIds})
       : _wrapped = $js.GetRulesFilter(ruleIds: ruleIds?.toJSArray((e) => e));
 
   final $js.GetRulesFilter _wrapped;
@@ -1083,7 +1309,14 @@ class MatchedRuleInfo {
 
   MatchedRuleInfo({
     required MatchedRule rule,
+
+    /// The time the rule was matched. Timestamps will correspond to the
+    /// Javascript convention for times, i.e. number of milliseconds since the
+    /// epoch.
     required double timeStamp,
+
+    /// The tabId of the tab from which the request originated if the tab is
+    /// still active. Else -1.
     required int tabId,
   }) : _wrapped = $js.MatchedRuleInfo()
           ..rule = rule.toJS
@@ -1119,7 +1352,11 @@ class MatchedRulesFilter {
   MatchedRulesFilter.fromJS(this._wrapped);
 
   MatchedRulesFilter({
+    /// If specified, only matches rules for the given tab. Matches rules not
+    /// associated with any active tab if set to -1.
     int? tabId,
+
+    /// If specified, only matches rules after the given timestamp.
     double? minTimeStamp,
   }) : _wrapped = $js.MatchedRulesFilter(
           tabId: tabId,
@@ -1134,7 +1371,10 @@ class MatchedRulesFilter {
 class RulesMatchedDetails {
   RulesMatchedDetails.fromJS(this._wrapped);
 
-  RulesMatchedDetails({required List<MatchedRuleInfo> rulesMatchedInfo})
+  RulesMatchedDetails(
+      {
+      /// Rules matching the given filter.
+      required List<MatchedRuleInfo> rulesMatchedInfo})
       : _wrapped = $js.RulesMatchedDetails()
           ..rulesMatchedInfo = rulesMatchedInfo.toJSArray((e) => e.toJS);
 
@@ -1156,17 +1396,51 @@ class RequestDetails {
   RequestDetails.fromJS(this._wrapped);
 
   RequestDetails({
+    /// The ID of the request. Request IDs are unique within a browser session.
     required String requestId,
+
+    /// The URL of the request.
     required String url,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
     String? initiator,
+
+    /// Standard HTTP method.
     required String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId`
+    /// indicates the ID of this frame, not the ID of the outer frame. Frame IDs
+    /// are unique within a tab.
     required int frameId,
+
+    /// The unique identifier for the frame's document, if this request is for a
+    /// frame.
     String? documentId,
+
+    /// The type of the frame, if this request is for a frame.
     FrameType? frameType,
+
+    /// The lifecycle of the frame's document, if this request is for a
+    /// frame.
     DocumentLifecycle? documentLifecycle,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
     required int parentFrameId,
+
+    /// The unique identifier for the frame's parent document, if this request
+    /// is for a frame and has a parent.
     String? parentDocumentId,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
     required int tabId,
+
+    /// The resource type of the request.
     required ResourceType type,
   }) : _wrapped = $js.RequestDetails()
           ..requestId = requestId
@@ -1275,10 +1549,22 @@ class TestMatchRequestDetails {
   TestMatchRequestDetails.fromJS(this._wrapped);
 
   TestMatchRequestDetails({
+    /// The URL of the hypothetical request.
     required String url,
+
+    /// The initiator URL (if any) for the hypothetical request.
     String? initiator,
+
+    /// Standard HTTP method of the hypothetical request. Defaults to "get" for
+    /// HTTP requests and is ignored for non-HTTP requests.
     RequestMethod? method,
+
+    /// The resource type of the hypothetical request.
     required ResourceType type,
+
+    /// The ID of the tab in which the hypothetical request takes place. Does
+    /// not need to correspond to a real tab ID. Default is -1, meaning that
+    /// the request isn't related to a tab.
     int? tabId,
   }) : _wrapped = $js.TestMatchRequestDetails(
           url: url,
@@ -1298,6 +1584,8 @@ class MatchedRuleInfoDebug {
 
   MatchedRuleInfoDebug({
     required MatchedRule rule,
+
+    /// Details about the request for which the rule was matched.
     required RequestDetails request,
   }) : _wrapped = $js.MatchedRuleInfoDebug()
           ..rule = rule.toJS
@@ -1361,8 +1649,16 @@ class RegexOptions {
   RegexOptions.fromJS(this._wrapped);
 
   RegexOptions({
+    /// The regular expresson to check.
     required String regex,
+
+    /// Whether the `regex` specified is case sensitive. Default is
+    /// true.
     bool? isCaseSensitive,
+
+    /// Whether the `regex` specified requires capturing. Capturing is
+    /// only required for redirect rules which specify a
+    /// `regexSubstition` action. The default is false.
     bool? requireCapturing,
   }) : _wrapped = $js.RegexOptions(
           regex: regex,
@@ -1380,6 +1676,9 @@ class IsRegexSupportedResult {
 
   IsRegexSupportedResult({
     required bool isSupported,
+
+    /// Specifies the reason why the regular expression is not supported. Only
+    /// provided if `isSupported` is false.
     UnsupportedRegexReason? reason,
   }) : _wrapped = $js.IsRegexSupportedResult()
           ..isSupported = isSupported
@@ -1406,7 +1705,10 @@ class IsRegexSupportedResult {
 class TestMatchOutcomeResult {
   TestMatchOutcomeResult.fromJS(this._wrapped);
 
-  TestMatchOutcomeResult({required List<MatchedRule> matchedRules})
+  TestMatchOutcomeResult(
+      {
+      /// The rules (if any) that match the hypothetical request.
+      required List<MatchedRule> matchedRules})
       : _wrapped = $js.TestMatchOutcomeResult()
           ..matchedRules = matchedRules.toJSArray((e) => e.toJS);
 
@@ -1428,7 +1730,10 @@ class UpdateRuleOptions {
   UpdateRuleOptions.fromJS(this._wrapped);
 
   UpdateRuleOptions({
+    /// IDs of the rules to remove. Any invalid IDs will be ignored.
     List<int>? removeRuleIds,
+
+    /// Rules to add.
     List<Rule>? addRules,
   }) : _wrapped = $js.UpdateRuleOptions(
           removeRuleIds: removeRuleIds?.toJSArray((e) => e),
@@ -1444,7 +1749,12 @@ class UpdateRulesetOptions {
   UpdateRulesetOptions.fromJS(this._wrapped);
 
   UpdateRulesetOptions({
+    /// The set of ids corresponding to a static [Ruleset] that should be
+    /// disabled.
     List<String>? disableRulesetIds,
+
+    /// The set of ids corresponding to a static [Ruleset] that should be
+    /// enabled.
     List<String>? enableRulesetIds,
   }) : _wrapped = $js.UpdateRulesetOptions(
           disableRulesetIds: disableRulesetIds?.toJSArray((e) => e),
@@ -1460,8 +1770,13 @@ class UpdateStaticRulesOptions {
   UpdateStaticRulesOptions.fromJS(this._wrapped);
 
   UpdateStaticRulesOptions({
+    /// The id corresponding to a static [Ruleset].
     required String rulesetId,
+
+    /// Set of ids corresponding to rules in the [Ruleset] to disable.
     List<int>? disableRuleIds,
+
+    /// Set of ids corresponding to rules in the [Ruleset] to enable.
     List<int>? enableRuleIds,
   }) : _wrapped = $js.UpdateStaticRulesOptions(
           rulesetId: rulesetId,
@@ -1477,7 +1792,10 @@ class UpdateStaticRulesOptions {
 class GetDisabledRuleIdsOptions {
   GetDisabledRuleIdsOptions.fromJS(this._wrapped);
 
-  GetDisabledRuleIdsOptions({required String rulesetId})
+  GetDisabledRuleIdsOptions(
+      {
+      /// The id corresponding to a static [Ruleset].
+      required String rulesetId})
       : _wrapped = $js.GetDisabledRuleIdsOptions(rulesetId: rulesetId);
 
   final $js.GetDisabledRuleIdsOptions _wrapped;
@@ -1489,7 +1807,11 @@ class TabActionCountUpdate {
   TabActionCountUpdate.fromJS(this._wrapped);
 
   TabActionCountUpdate({
+    /// The tab for which to update the action count.
     required int tabId,
+
+    /// The amount to increment the tab's action count by. Negative values will
+    /// decrement the count.
     required int increment,
   }) : _wrapped = $js.TabActionCountUpdate(
           tabId: tabId,
@@ -1505,7 +1827,11 @@ class ExtensionActionOptions {
   ExtensionActionOptions.fromJS(this._wrapped);
 
   ExtensionActionOptions({
+    /// Whether to automatically display the action count for a page as the
+    /// extension's badge text. This preference is persisted across sessions.
     bool? displayActionCountAsBadgeText,
+
+    /// Details of how the tab's action count should be adjusted.
     TabActionCountUpdate? tabUpdate,
   }) : _wrapped = $js.ExtensionActionOptions(
           displayActionCountAsBadgeText: displayActionCountAsBadgeText,

@@ -102,8 +102,15 @@ class CreateParameters {
   CreateParameters.fromJS(this._wrapped);
 
   CreateParameters({
+    /// The reason(s) the extension is creating the offscreen document.
     required List<Reason> reasons,
+
+    /// The (relative) URL to load in the document.
     required String url,
+
+    /// A developer-provided string that explains, in more detail, the need for
+    /// the background context. The user agent _may_ use this in display to the
+    /// user.
     required String justification,
   }) : _wrapped = $js.CreateParameters(
           reasons: reasons.toJSArray((e) => e.toJS),

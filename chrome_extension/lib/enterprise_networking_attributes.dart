@@ -42,8 +42,13 @@ class NetworkDetails {
   NetworkDetails.fromJS(this._wrapped);
 
   NetworkDetails({
+    /// The device's MAC address.
     required String macAddress,
+
+    /// The device's local IPv4 address (undefined if not configured).
     String? ipv4,
+
+    /// The device's local IPv6 address (undefined if not configured).
     String? ipv6,
   }) : _wrapped = $js.NetworkDetails()
           ..macAddress = macAddress

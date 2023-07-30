@@ -134,8 +134,17 @@ class MediaSize {
   MediaSize.fromJS(this._wrapped);
 
   MediaSize({
+    /// Width (in micrometers) of the media used for printing.
     required int width,
+
+    /// Height (in micrometers) of the media used for printing.
     required int height,
+
+    /// Vendor-provided ID, e.g. "iso_a3_297x420mm" or "na_index-3x5_3x5in".
+    /// Possible values are values of "media" IPP attribute and can be found on
+    /// <a
+    /// href="https://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml">
+    /// IANA page</a> .
     required String vendorId,
   }) : _wrapped = $js.MediaSize()
           ..width = width
@@ -173,9 +182,16 @@ class PrintSettings {
   PrintSettings.fromJS(this._wrapped);
 
   PrintSettings({
+    /// The requested color mode.
     required ColorMode color,
+
+    /// The requested duplex mode.
     required DuplexMode duplex,
+
+    /// The requested media size.
     required MediaSize mediaSize,
+
+    /// The requested number of copies.
     required int copies,
   }) : _wrapped = $js.PrintSettings()
           ..color = color.toJS
@@ -216,8 +232,14 @@ class Printer {
   Printer.fromJS(this._wrapped);
 
   Printer({
+    /// Displayed name of the printer.
     required String name,
+
+    /// The full path for the printer.
+    /// Contains protocol, hostname, port, and queue.
     required String uri,
+
+    /// The source of the printer.
     required PrinterSource source,
   }) : _wrapped = $js.Printer()
           ..name = name
@@ -252,16 +274,37 @@ class PrintJobInfo {
   PrintJobInfo.fromJS(this._wrapped);
 
   PrintJobInfo({
+    /// The ID of the job.
     required String id,
+
+    /// The title of the document which was printed.
     required String title,
+
+    /// Source showing who initiated the print job.
     required PrintJobSource source,
+
+    /// ID of source. Null if source is PRINT_PREVIEW or ANDROID_APP.
     String? sourceId,
+
+    /// The final status of the job.
     required PrintJobStatus status,
+
+    /// The job creation time (in milliseconds past the Unix epoch).
     required double creationTime,
+
+    /// The job completion time (in milliseconds past the Unix epoch).
     required double completionTime,
+
+    /// The info about the printer which printed the document.
     required Printer printer,
+
+    /// The settings of the print job.
     required PrintSettings settings,
+
+    /// The number of pages in the document.
     required int numberOfPages,
+
+    /// The status of the printer.
     required PrinterStatus printer_status,
   }) : _wrapped = $js.PrintJobInfo()
           ..id = id

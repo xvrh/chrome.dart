@@ -1,7 +1,7 @@
 import 'package:chrome_apis/tabs.dart';
 import 'package:test/test.dart';
 import 'package:checks/checks.dart';
-
+import 'package:web/web.dart' as web;
 import '../client_side_wrapper.dart';
 import 'package:chrome_apis/action.dart';
 
@@ -116,6 +116,24 @@ void _tests(TestContext context) {
     check(actual[3]).equals(0);
   });
 
+  test('set icon image', () async {
+    var osc = web.OffscreenCanvas(200, 200);
+    var ctx = osc.getContext('2d')! as web.CanvasRenderingContext2D;
+    ctx.fillRect(0, 0, 200, 200);
+    var imageData = ctx.getImageData(0, 0, osc.width, osc.height);
+
+    await chrome.action.setIcon(SetIconDetails(imageData: imageData));
+  }, solo: true);
+
+  test('set icon image map', () async {
+    var osc = web.OffscreenCanvas(200, 200);
+    var ctx = osc.getContext('2d')! as web.CanvasRenderingContext2D;
+    ctx.fillRect(0, 0, 200, 200);
+    var imageData = ctx.getImageData(0, 0, osc.width, osc.height);
+
+    await chrome.action.setIcon(SetIconDetails(imageData: {200: imageData}));
+  });
+
   test('popup -- global', () async {
     var popupFile = 'sample.html';
     var popupParams = SetPopupDetails(popup: popupFile);
@@ -155,8 +173,8 @@ void _tests(TestContext context) {
 
   test('disable/enable -- tab', () async {
     var tab = await chrome.tabs.create(CreateProperties());
-      await chrome.action.disable(tab.id);
-      await chrome.action.enable(tab.id);
+    await chrome.action.disable(tab.id);
+    await chrome.action.enable(tab.id);
     // TODO(DrMarcII): need to figure out a way to check if this is working.
   });
 
@@ -164,5 +182,4 @@ void _tests(TestContext context) {
     await chrome.action.onClicked.first;
     // TODO(DrMarcII): need to figure out a way to fire this event.
   }, skip: 'need to figure out a way to fire this event.');
-
 }

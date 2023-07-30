@@ -161,8 +161,15 @@ class GetViewsFetchProperties {
   GetViewsFetchProperties.fromJS(this._wrapped);
 
   GetViewsFetchProperties({
+    /// The type of view to get. If omitted, returns all views (including
+    /// background pages and tabs).
     ViewType? type,
+
+    /// The window to restrict the search to. If omitted, returns all views.
     int? windowId,
+
+    /// Find a view according to a tab id. If this field is omitted, returns all
+    /// views.
     int? tabId,
   }) : _wrapped = $js.GetViewsFetchProperties(
           type: type?.toJS,
@@ -178,7 +185,10 @@ class GetViewsFetchProperties {
 class ExtensionLastError {
   ExtensionLastError.fromJS(this._wrapped);
 
-  ExtensionLastError({required String message})
+  ExtensionLastError(
+      {
+      /// Description of the error that has taken place.
+      required String message})
       : _wrapped = $js.ExtensionLastError()..message = message;
 
   final $js.ExtensionLastError _wrapped;

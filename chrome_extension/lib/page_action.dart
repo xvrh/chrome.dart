@@ -78,20 +78,19 @@ class ChromePageAction {
           }.toJS);
 }
 
-class ImageDataType {
-  ImageDataType.fromJS(this._wrapped);
-
-  ImageDataType() : _wrapped = $js.ImageDataType();
-
-  final $js.ImageDataType _wrapped;
-
-  $js.ImageDataType get toJS => _wrapped;
-}
+/// Pixel data for an image. Must be an ImageData object (for example, from a
+/// `canvas` element).
+typedef ImageDataType = JSObject;
 
 class TabDetails {
   TabDetails.fromJS(this._wrapped);
 
-  TabDetails({int? tabId}) : _wrapped = $js.TabDetails(tabId: tabId);
+  TabDetails(
+      {
+      /// The ID of the tab to query state for. If no tab is specified, the
+      /// non-tab-specific state is returned.
+      int? tabId})
+      : _wrapped = $js.TabDetails(tabId: tabId);
 
   final $js.TabDetails _wrapped;
 
@@ -102,7 +101,10 @@ class SetTitleDetails {
   SetTitleDetails.fromJS(this._wrapped);
 
   SetTitleDetails({
+    /// The id of the tab for which you want to modify the page action.
     required int tabId,
+
+    /// The tooltip string.
     required String title,
   }) : _wrapped = $js.SetTitleDetails(
           tabId: tabId,
@@ -118,14 +120,35 @@ class SetIconDetails {
   SetIconDetails.fromJS(this._wrapped);
 
   SetIconDetails({
+    /// The id of the tab for which you want to modify the page action.
     required int tabId,
+
+    /// Either an ImageData object or a dictionary {size -> ImageData}
+    /// representing icon to be set. If the icon is specified as a dictionary,
+    /// the actual image to be used is chosen depending on screen's pixel
+    /// density. If the number of image pixels that fit into one screen space
+    /// unit equals `scale`, then image with size `scale` * n will be selected,
+    /// where n is the size of the icon in the UI. At least one image must be
+    /// specified. Note that 'details.imageData = foo' is equivalent to
+    /// 'details.imageData = {'16': foo}'
     Object? imageData,
+
+    /// Either a relative image path or a dictionary {size -> relative image
+    /// path} pointing to icon to be set. If the icon is specified as a
+    /// dictionary, the actual image to be used is chosen depending on screen's
+    /// pixel density. If the number of image pixels that fit into one screen
+    /// space unit equals `scale`, then image with size `scale` * n will be
+    /// selected, where n is the size of the icon in the UI. At least one image
+    /// must be specified. Note that 'details.path = foo' is equivalent to
+    /// 'details.path = {'16': foo}'
     Object? path,
+
+    /// **Deprecated.** This argument is ignored.
     int? iconIndex,
   }) : _wrapped = $js.SetIconDetails(
           tabId: tabId,
           imageData: switch (imageData) {
-            ImageDataType() => imageData.toJS,
+            ImageDataType() => imageData,
             Map() => imageData.jsify()!,
             Null() => null,
             _ => throw UnsupportedError(
@@ -150,7 +173,11 @@ class SetPopupDetails {
   SetPopupDetails.fromJS(this._wrapped);
 
   SetPopupDetails({
+    /// The id of the tab for which you want to modify the page action.
     required int tabId,
+
+    /// The relative path to the HTML file to show in a popup. If set to the
+    /// empty string (`''`), no popup is shown.
     required String popup,
   }) : _wrapped = $js.SetPopupDetails(
           tabId: tabId,

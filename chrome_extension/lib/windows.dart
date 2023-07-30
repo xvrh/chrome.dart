@@ -195,17 +195,52 @@ class Window {
   Window.fromJS(this._wrapped);
 
   Window({
+    /// The ID of the window. Window IDs are unique within a browser session. In
+    /// some circumstances a window may not be assigned an `ID` property; for
+    /// example, when querying windows using the [sessions] API, in which case a
+    /// session ID may be present.
     int? id,
+
+    /// Whether the window is currently the focused window.
     required bool focused,
+
+    /// The offset of the window from the top edge of the screen in pixels. In
+    /// some circumstances a window may not be assigned a `top` property; for
+    /// example, when querying closed windows from the [sessions] API.
     int? top,
+
+    /// The offset of the window from the left edge of the screen in pixels. In
+    /// some circumstances a window may not be assigned a `left` property; for
+    /// example, when querying closed windows from the [sessions] API.
     int? left,
+
+    /// The width of the window, including the frame, in pixels. In some
+    /// circumstances a window may not be assigned a `width` property; for
+    /// example, when querying closed windows from the [sessions] API.
     int? width,
+
+    /// The height of the window, including the frame, in pixels. In some
+    /// circumstances a window may not be assigned a `height` property; for
+    /// example, when querying closed windows from the [sessions] API.
     int? height,
+
+    /// Array of [tabs.Tab] objects representing the current tabs in the window.
     List<Tab>? tabs,
+
+    /// Whether the window is incognito.
     required bool incognito,
+
+    /// The type of browser window this is.
     WindowType? type,
+
+    /// The state of this browser window.
     WindowState? state,
+
+    /// Whether the window is set to be always on top.
     required bool alwaysOnTop,
+
+    /// The session ID used to uniquely identify a window, obtained from the
+    /// [sessions] API.
     String? sessionId,
   }) : _wrapped = $js.Window()
           ..id = id
@@ -317,7 +352,14 @@ class QueryOptions {
   QueryOptions.fromJS(this._wrapped);
 
   QueryOptions({
+    /// If true, the [windows.Window] object has a [tabs] property that contains
+    /// a list of the [tabs.Tab] objects. The `Tab` objects only contain the
+    /// `url`, `pendingUrl`, `title`, and `favIconUrl` properties if the
+    /// extension's manifest file includes the `"tabs"` permission.
     bool? populate,
+
+    /// If set, the [windows.Window] returned is filtered based on its type. If
+    /// unset, the default filter is set to `['normal', 'popup']`.
     List<WindowType>? windowTypes,
   }) : _wrapped = $js.QueryOptions(
           populate: populate,
@@ -333,16 +375,51 @@ class CreateData {
   CreateData.fromJS(this._wrapped);
 
   CreateData({
+    /// A URL or array of URLs to open as tabs in the window. Fully-qualified
+    /// URLs must include a scheme, e.g., 'http://www.google.com', not
+    /// 'www.google.com'. Non-fully-qualified URLs are considered relative
+    /// within the extension. Defaults to the New Tab Page.
     Object? url,
+
+    /// The ID of the tab to add to the new window.
     int? tabId,
+
+    /// The number of pixels to position the new window from the left edge of
+    /// the screen. If not specified, the new window is offset naturally from
+    /// the last focused window. This value is ignored for panels.
     int? left,
+
+    /// The number of pixels to position the new window from the top edge of the
+    /// screen. If not specified, the new window is offset naturally from the
+    /// last focused window. This value is ignored for panels.
     int? top,
+
+    /// The width in pixels of the new window, including the frame. If not
+    /// specified, defaults to a natural width.
     int? width,
+
+    /// The height in pixels of the new window, including the frame. If not
+    /// specified, defaults to a natural height.
     int? height,
+
+    /// If `true`, opens an active window. If `false`, opens an inactive window.
     bool? focused,
+
+    /// Whether the new window should be an incognito window.
     bool? incognito,
+
+    /// Specifies what type of browser window to create.
     CreateType? type,
+
+    /// The initial state of the window. The `minimized`, `maximized`, and
+    /// `fullscreen` states cannot be combined with `left`, `top`, `width`, or
+    /// `height`.
     WindowState? state,
+
+    /// If `true`, the newly-created window's 'window.opener' is set to the
+    /// caller and is in the same [unit of related browsing
+    /// contexts](https://www.w3.org/TR/html51/browsers.html#unit-of-related-browsing-contexts)
+    /// as the caller.
     bool? setSelfAsOpener,
   }) : _wrapped = $js.CreateData(
           url: switch (url) {
@@ -373,12 +450,38 @@ class UpdateInfo {
   UpdateInfo.fromJS(this._wrapped);
 
   UpdateInfo({
+    /// The offset from the left edge of the screen to move the window to in
+    /// pixels. This value is ignored for panels.
     int? left,
+
+    /// The offset from the top edge of the screen to move the window to in
+    /// pixels. This value is ignored for panels.
     int? top,
+
+    /// The width to resize the window to in pixels. This value is ignored for
+    /// panels.
     int? width,
+
+    /// The height to resize the window to in pixels. This value is ignored for
+    /// panels.
     int? height,
+
+    /// If `true`, brings the window to the front; cannot be combined with the
+    /// state 'minimized'. If `false`, brings the next window in the z-order to
+    /// the front; cannot be combined with the state 'fullscreen' or
+    /// 'maximized'.
     bool? focused,
+
+    /// If `true`, causes the window to be displayed in a manner that draws the
+    /// user's attention to the window, without changing the focused window. The
+    /// effect lasts until the user changes focus to the window. This option has
+    /// no effect if the window already has focus. Set to `false` to cancel a
+    /// previous `drawAttention` request.
     bool? drawAttention,
+
+    /// The new state of the window. The 'minimized', 'maximized', and
+    /// 'fullscreen' states cannot be combined with 'left', 'top', 'width', or
+    /// 'height'.
     WindowState? state,
   }) : _wrapped = $js.UpdateInfo(
           left: left,

@@ -48,8 +48,13 @@ class Command {
   Command.fromJS(this._wrapped);
 
   Command({
+    /// The name of the Extension Command
     String? name,
+
+    /// The Extension Command description
     String? description,
+
+    /// The shortcut active for this command, or blank if not active.
     String? shortcut,
   }) : _wrapped = $js.Command()
           ..name = name

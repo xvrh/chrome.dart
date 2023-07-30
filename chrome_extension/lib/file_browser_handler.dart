@@ -34,7 +34,12 @@ class FileHandlerExecuteEventDetails {
   FileHandlerExecuteEventDetails.fromJS(this._wrapped);
 
   FileHandlerExecuteEventDetails({
+    /// Array of Entry instances representing files that are targets of this
+    /// action (selected in ChromeOS file browser).
     required List<Object> entries,
+
+    /// The ID of the tab that raised this event. Tab IDs are unique within a
+    /// browser session.
     int? tab_id,
   }) : _wrapped = $js.FileHandlerExecuteEventDetails()
           ..entries = entries.toJSArray((e) => e.toJS)

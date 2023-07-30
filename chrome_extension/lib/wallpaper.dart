@@ -45,10 +45,20 @@ class SetWallpaperDetails {
   SetWallpaperDetails.fromJS(this._wrapped);
 
   SetWallpaperDetails({
+    /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
     Object? data,
+
+    /// The URL of the wallpaper to be set (can be relative).
     String? url,
+
+    /// The supported wallpaper layouts.
     required WallpaperLayout layout,
+
+    /// The file name of the saved wallpaper.
     required String filename,
+
+    /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
+    /// supported yet.
     bool? thumbnail,
   }) : _wrapped = $js.SetWallpaperDetails(
           data: data?.toJS,

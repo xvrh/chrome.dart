@@ -33,7 +33,10 @@ class ChromePageCapture {
 class SaveAsMhtmlDetails {
   SaveAsMhtmlDetails.fromJS(this._wrapped);
 
-  SaveAsMhtmlDetails({required int tabId})
+  SaveAsMhtmlDetails(
+      {
+      /// The id of the tab to save as MHTML.
+      required int tabId})
       : _wrapped = $js.SaveAsMhtmlDetails(tabId: tabId);
 
   final $js.SaveAsMhtmlDetails _wrapped;

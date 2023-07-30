@@ -178,7 +178,15 @@ class Match {
   Match.fromJS(this._wrapped);
 
   Match({
+    /// The DER encoding of a X.509 certificate.
     required ByteBuffer certificate,
+
+    /// The
+    /// <a href="http://www.w3.org/TR/WebCryptoAPI/#key-algorithm-dictionary">
+    /// KeyAlgorithm</a> of the certified key. This contains algorithm
+    /// parameters that are inherent to the key of the certificate (e.g. the key
+    /// length). Other parameters like the hash function used by the sign
+    /// function are not included.
     required Object keyAlgorithm,
   }) : _wrapped = $js.Match()
           ..certificate = certificate.toJS
@@ -210,7 +218,14 @@ class ClientCertificateRequest {
   ClientCertificateRequest.fromJS(this._wrapped);
 
   ClientCertificateRequest({
+    /// This field is a list of the types of certificates requested, sorted in
+    /// order of the server's preference. Only certificates of a type contained
+    /// in this list will be retrieved. If `certificateTypes` is the
+    /// empty list, however, certificates of any type will be returned.
     required List<ClientCertificateType> certificateTypes,
+
+    /// List of distinguished names of certificate authorities allowed by the
+    /// server. Each entry must be a DER-encoded X.509 DistinguishedName.
     required List<ByteBuffer> certificateAuthorities,
   }) : _wrapped = $js.ClientCertificateRequest(
           certificateTypes: certificateTypes.toJSArray((e) => e.toJS),
@@ -227,8 +242,22 @@ class SelectDetails {
   SelectDetails.fromJS(this._wrapped);
 
   SelectDetails({
+    /// Only certificates that match this request will be returned.
     required ClientCertificateRequest request,
+
+    /// If given, the `selectClientCertificates` operates on this
+    /// list. Otherwise, obtains the list of all certificates from the
+    /// platform's
+    /// certificate stores that are available to this extensions.
+    /// Entries that the extension doesn't have permission for or which doesn't
+    /// match the request, are removed.
     List<ByteBuffer>? clientCerts,
+
+    /// If true, the filtered list is presented to the user to manually select a
+    /// certificate and thereby granting the extension access to the
+    /// certificate(s) and key(s). Only the selected certificate(s) will be
+    /// returned. If is false, the list is reduced to all certificates that the
+    /// extension has been granted access to (automatically or manually).
     required bool interactive,
   }) : _wrapped = $js.SelectDetails(
           request: request.toJS,
@@ -245,7 +274,14 @@ class VerificationDetails {
   VerificationDetails.fromJS(this._wrapped);
 
   VerificationDetails({
+    /// Each chain entry must be the DER encoding of a X.509 certificate, the
+    /// first entry must be the server certificate and each entry must certify
+    /// the entry preceding it.
     required List<ByteBuffer> serverCertificateChain,
+
+    /// The hostname of the server to verify the certificate for, e.g. the
+    /// server
+    /// that presented the `serverCertificateChain`.
     required String hostname,
   }) : _wrapped = $js.VerificationDetails(
           serverCertificateChain:
@@ -262,7 +298,20 @@ class VerificationResult {
   VerificationResult.fromJS(this._wrapped);
 
   VerificationResult({
+    /// The result of the trust verification: true if trust for the given
+    /// verification details could be established and false if trust is rejected
+    /// for any reason.
     required bool trusted,
+
+    /// If the trust verification failed, this array contains the errors
+    /// reported
+    /// by the underlying network layer. Otherwise, this array is empty.
+    ///
+    /// *Note:* This list is meant for debugging only and may not
+    /// contain all relevant errors. The errors returned may change in future
+    /// revisions of this API, and are not guaranteed to be forwards or
+    /// backwards
+    /// compatible.
     required List<String> debug_errors,
   }) : _wrapped = $js.VerificationResult()
           ..trusted = trusted

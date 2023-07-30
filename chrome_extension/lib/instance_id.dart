@@ -66,8 +66,17 @@ class GetTokenParams {
   GetTokenParams.fromJS(this._wrapped);
 
   GetTokenParams({
+    /// Identifies the entity that is authorized to access resources associated
+    /// with this Instance ID. It can be a project ID from [Google developer
+    /// console](https://code.google.com/apis/console).
     required String authorizedEntity,
+
+    /// Identifies authorized actions that the authorized entity can take. E.g.
+    /// for sending GCM messages, `GCM` scope should be used.
     required String scope,
+
+    /// Allows including a small number of string key/value pairs that will be
+    /// associated with the token and may be used in processing the request.
     Map? options,
   }) : _wrapped = $js.GetTokenParams(
           authorizedEntity: authorizedEntity,
@@ -84,7 +93,10 @@ class DeleteTokenParams {
   DeleteTokenParams.fromJS(this._wrapped);
 
   DeleteTokenParams({
+    /// The authorized entity that is used to obtain the token.
     required String authorizedEntity,
+
+    /// The scope that is used to obtain the token.
     required String scope,
   }) : _wrapped = $js.DeleteTokenParams(
           authorizedEntity: authorizedEntity,

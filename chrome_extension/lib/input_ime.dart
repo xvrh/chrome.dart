@@ -407,16 +407,41 @@ class KeyboardEvent {
   KeyboardEvent.fromJS(this._wrapped);
 
   KeyboardEvent({
+    /// One of keyup or keydown.
     required KeyboardEventType type,
+
+    /// (Deprecated) The ID of the request. Use the `requestId` param from the
+    /// `onKeyEvent` event instead.
     String? requestId,
+
+    /// The extension ID of the sender of this keyevent.
     String? extensionId,
+
+    /// Value of the key being pressed
     required String key,
+
+    /// Value of the physical key being pressed. The value is not affected by
+    /// current keyboard layout or modifier state.
     required String code,
+
+    /// The deprecated HTML keyCode, which is system- and
+    /// implementation-dependent numerical code signifying the unmodified
+    /// identifier associated with the key pressed.
     int? keyCode,
+
+    /// Whether or not the ALT key is pressed.
     bool? altKey,
+
+    /// Whether or not the ALTGR key is pressed.
     bool? altgrKey,
+
+    /// Whether or not the CTRL key is pressed.
     bool? ctrlKey,
+
+    /// Whether or not the SHIFT key is pressed.
     bool? shiftKey,
+
+    /// Whether or not the CAPS_LOCK is enabled.
     bool? capsLock,
   }) : _wrapped = $js.KeyboardEvent(
           type: type.toJS,
@@ -441,12 +466,27 @@ class InputContext {
   InputContext.fromJS(this._wrapped);
 
   InputContext({
+    /// This is used to specify targets of text field operations.  This ID
+    /// becomes invalid as soon as onBlur is called.
     required int contextID,
+
+    /// Type of value this text field edits, (Text, Number, URL, etc)
     required InputContextType type,
+
+    /// Whether the text field wants auto-correct.
     required bool autoCorrect,
+
+    /// Whether the text field wants auto-complete.
     required bool autoComplete,
+
+    /// The auto-capitalize type of the text field.
     required AutoCapitalizeType autoCapitalize,
+
+    /// Whether the text field wants spell-check.
     required bool spellCheck,
+
+    /// Whether text entered into the text field should be used to improve
+    /// typing suggestions for the user.
     required bool shouldDoLearning,
   }) : _wrapped = $js.InputContext()
           ..contextID = contextID
@@ -511,11 +551,22 @@ class MenuItem {
   MenuItem.fromJS(this._wrapped);
 
   MenuItem({
+    /// String that will be passed to callbacks referencing this MenuItem.
     required String id,
+
+    /// Text displayed in the menu for this item.
     String? label,
+
+    /// The type of menu item.
     MenuItemStyle? style,
+
+    /// Indicates this item is visible.
     bool? visible,
+
+    /// Indicates this item should be drawn with a check.
     bool? checked,
+
+    /// Indicates this item is enabled.
     bool? enabled,
   }) : _wrapped = $js.MenuItem(
           id: id,
@@ -536,7 +587,11 @@ class AssistiveWindowProperties {
 
   AssistiveWindowProperties({
     required AssistiveWindowType type,
+
+    /// Sets true to show AssistiveWindow, sets false to hide.
     required bool visible,
+
+    /// Strings for ChromeVox to announce.
     String? announceString,
   }) : _wrapped = $js.AssistiveWindowProperties(
           type: type.toJS,
@@ -553,7 +608,11 @@ class MenuParameters {
   MenuParameters.fromJS(this._wrapped);
 
   MenuParameters({
+    /// ID of the engine to use.
     required String engineID,
+
+    /// MenuItems to add or update. They will be added in the order they exist
+    /// in the array.
     required List<MenuItem> items,
   }) : _wrapped = $js.MenuParameters(
           engineID: engineID,
@@ -569,9 +628,21 @@ class OnSurroundingTextChangedSurroundingInfo {
   OnSurroundingTextChangedSurroundingInfo.fromJS(this._wrapped);
 
   OnSurroundingTextChangedSurroundingInfo({
+    /// The text around the cursor. This is only a subset of all text in the
+    /// input field.
     required String text,
+
+    /// The ending position of the selection. This value indicates caret
+    /// position if there is no selection.
     required int focus,
+
+    /// The beginning position of the selection. This value indicates caret
+    /// position if there is no selection.
     required int anchor,
+
+    /// The offset position of `text`. Since `text` only includes a subset of
+    /// text around the cursor, offset indicates the absolute position of the
+    /// first character of `text`.
     required int offset,
   }) : _wrapped = $js.OnSurroundingTextChangedSurroundingInfo()
           ..text = text
@@ -617,7 +688,10 @@ class OnAssistiveWindowButtonClickedDetails {
   OnAssistiveWindowButtonClickedDetails.fromJS(this._wrapped);
 
   OnAssistiveWindowButtonClickedDetails({
+    /// The ID of the button clicked.
     required AssistiveWindowButton buttonID,
+
+    /// The type of the assistive window.
     required AssistiveWindowType windowType,
   }) : _wrapped = $js.OnAssistiveWindowButtonClickedDetails()
           ..buttonID = buttonID.toJS
@@ -646,11 +720,22 @@ class SetCompositionParameters {
   SetCompositionParameters.fromJS(this._wrapped);
 
   SetCompositionParameters({
+    /// ID of the context where the composition text will be set
     required int contextID,
+
+    /// Text to set
     required String text,
+
+    /// Position in the text that the selection starts at.
     int? selectionStart,
+
+    /// Position in the text that the selection ends at.
     int? selectionEnd,
+
+    /// Position in the text of the cursor.
     required int cursor,
+
+    /// List of segments and their associated types.
     List<SetCompositionParametersSegments>? segments,
   }) : _wrapped = $js.SetCompositionParameters(
           contextID: contextID,
@@ -669,7 +754,10 @@ class SetCompositionParameters {
 class ClearCompositionParameters {
   ClearCompositionParameters.fromJS(this._wrapped);
 
-  ClearCompositionParameters({required int contextID})
+  ClearCompositionParameters(
+      {
+      /// ID of the context where the composition will be cleared
+      required int contextID})
       : _wrapped = $js.ClearCompositionParameters(contextID: contextID);
 
   final $js.ClearCompositionParameters _wrapped;
@@ -681,7 +769,10 @@ class CommitTextParameters {
   CommitTextParameters.fromJS(this._wrapped);
 
   CommitTextParameters({
+    /// ID of the context where the text will be committed
     required int contextID,
+
+    /// The text to commit
     required String text,
   }) : _wrapped = $js.CommitTextParameters(
           contextID: contextID,
@@ -697,7 +788,11 @@ class SendKeyEventsParameters {
   SendKeyEventsParameters.fromJS(this._wrapped);
 
   SendKeyEventsParameters({
+    /// ID of the context where the key events will be sent, or zero to send key
+    /// events to non-input field.
     required int contextID,
+
+    /// Data on the key event.
     required List<KeyboardEvent> keyData,
   }) : _wrapped = $js.SendKeyEventsParameters(
           contextID: contextID,
@@ -713,6 +808,7 @@ class SetCandidateWindowPropertiesParameters {
   SetCandidateWindowPropertiesParameters.fromJS(this._wrapped);
 
   SetCandidateWindowPropertiesParameters({
+    /// ID of the engine to set properties on.
     required String engineID,
     required SetCandidateWindowPropertiesParametersProperties properties,
   }) : _wrapped = $js.SetCandidateWindowPropertiesParameters(
@@ -729,7 +825,10 @@ class SetCandidatesParameters {
   SetCandidatesParameters.fromJS(this._wrapped);
 
   SetCandidatesParameters({
+    /// ID of the context that owns the candidate window.
     required int contextID,
+
+    /// List of candidates to show in the candidate window
     required List<SetCandidatesParametersCandidates> candidates,
   }) : _wrapped = $js.SetCandidatesParameters(
           contextID: contextID,
@@ -745,7 +844,10 @@ class SetCursorPositionParameters {
   SetCursorPositionParameters.fromJS(this._wrapped);
 
   SetCursorPositionParameters({
+    /// ID of the context that owns the candidate window.
     required int contextID,
+
+    /// ID of the candidate to select.
     required int candidateID,
   }) : _wrapped = $js.SetCursorPositionParameters(
           contextID: contextID,
@@ -761,7 +863,10 @@ class SetAssistiveWindowPropertiesParameters {
   SetAssistiveWindowPropertiesParameters.fromJS(this._wrapped);
 
   SetAssistiveWindowPropertiesParameters({
+    /// ID of the context owning the assistive window.
     required int contextID,
+
+    /// Properties of the assistive window.
     required AssistiveWindowProperties properties,
   }) : _wrapped = $js.SetAssistiveWindowPropertiesParameters(
           contextID: contextID,
@@ -777,10 +882,19 @@ class SetAssistiveWindowButtonHighlightedParameters {
   SetAssistiveWindowButtonHighlightedParameters.fromJS(this._wrapped);
 
   SetAssistiveWindowButtonHighlightedParameters({
+    /// ID of the context owning the assistive window.
     required int contextID,
+
+    /// The ID of the button
     required AssistiveWindowButton buttonID,
+
+    /// The window type the button belongs to.
     required AssistiveWindowType windowType,
+
+    /// The text for the screenreader to announce.
     String? announceString,
+
+    /// Whether the button should be highlighted.
     required bool highlighted,
   }) : _wrapped = $js.SetAssistiveWindowButtonHighlightedParameters(
           contextID: contextID,
@@ -799,9 +913,17 @@ class DeleteSurroundingTextParameters {
   DeleteSurroundingTextParameters.fromJS(this._wrapped);
 
   DeleteSurroundingTextParameters({
+    /// ID of the engine receiving the event.
     required String engineID,
+
+    /// ID of the context where the surrounding text will be deleted.
     required int contextID,
+
+    /// The offset from the caret position where deletion will start. This value
+    /// can be negative.
     required int offset,
+
+    /// The number of characters to be deleted
     required int length,
   }) : _wrapped = $js.DeleteSurroundingTextParameters(
           engineID: engineID,
@@ -819,8 +941,13 @@ class SetCompositionParametersSegments {
   SetCompositionParametersSegments.fromJS(this._wrapped);
 
   SetCompositionParametersSegments({
+    /// Index of the character to start this segment at
     required int start,
+
+    /// Index of the character to end this segment after.
     required int end,
+
+    /// The type of the underline to modify this segment.
     required UnderlineStyle style,
   }) : _wrapped = $js.SetCompositionParametersSegments(
           start: start,
@@ -837,14 +964,32 @@ class SetCandidateWindowPropertiesParametersProperties {
   SetCandidateWindowPropertiesParametersProperties.fromJS(this._wrapped);
 
   SetCandidateWindowPropertiesParametersProperties({
+    /// True to show the Candidate window, false to hide it.
     bool? visible,
+
+    /// True to show the cursor, false to hide it.
     bool? cursorVisible,
+
+    /// True if the candidate window should be rendered vertical, false to make
+    /// it horizontal.
     bool? vertical,
+
+    /// The number of candidates to display per page.
     int? pageSize,
+
+    /// Text that is shown at the bottom of the candidate window.
     String? auxiliaryText,
+
+    /// True to display the auxiliary text, false to hide it.
     bool? auxiliaryTextVisible,
+
+    /// The total number of candidates for the candidate window.
     int? totalCandidates,
+
+    /// The index of the current chosen candidate out of total candidates.
     int? currentCandidateIndex,
+
+    /// Where to display the candidate window.
     WindowPosition? windowPosition,
   }) : _wrapped = $js.SetCandidateWindowPropertiesParametersProperties(
           visible: visible,
@@ -867,11 +1012,23 @@ class SetCandidatesParametersCandidates {
   SetCandidatesParametersCandidates.fromJS(this._wrapped);
 
   SetCandidatesParametersCandidates({
+    /// The candidate
     required String candidate,
+
+    /// The candidate's id
     required int id,
+
+    /// The id to add these candidates under
     int? parentId,
+
+    /// Short string displayed to next to the candidate, often the shortcut key
+    /// or index
     String? label,
+
+    /// Additional text describing the candidate
     String? annotation,
+
+    /// The usage or detail description of word.
     SetCandidatesParametersCandidatesUsage? usage,
   }) : _wrapped = $js.SetCandidatesParametersCandidates(
           candidate: candidate,
@@ -891,7 +1048,10 @@ class SetCandidatesParametersCandidatesUsage {
   SetCandidatesParametersCandidatesUsage.fromJS(this._wrapped);
 
   SetCandidatesParametersCandidatesUsage({
+    /// The title string of details description.
     required String title,
+
+    /// The body string of detail description.
     required String body,
   }) : _wrapped = $js.SetCandidatesParametersCandidatesUsage(
           title: title,

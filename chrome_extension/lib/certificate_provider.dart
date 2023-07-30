@@ -251,7 +251,14 @@ class ClientCertificateInfo {
   ClientCertificateInfo.fromJS(this._wrapped);
 
   ClientCertificateInfo({
+    /// The array must contain the DER encoding of the X.509 client certificate
+    /// as its first element.
+    /// This must include exactly one certificate.
     required List<ByteBuffer> certificateChain,
+
+    /// All algorithms supported for this certificate. The extension will only
+    /// be
+    /// asked for signatures using one of these algorithms.
     required List<Algorithm> supportedAlgorithms,
   }) : _wrapped = $js.ClientCertificateInfo(
           certificateChain: certificateChain.toJSArray((e) => e.toJS),
@@ -267,8 +274,17 @@ class SetCertificatesDetails {
   SetCertificatesDetails.fromJS(this._wrapped);
 
   SetCertificatesDetails({
+    /// When called in response to [onCertificatesUpdateRequested], should
+    /// contain the received `certificatesRequestId` value. Otherwise,
+    /// should be unset.
     int? certificatesRequestId,
+
+    /// Error that occurred while extracting the certificates, if any. This
+    /// error
+    /// will be surfaced to the user when appropriate.
     Error? error,
+
+    /// List of currently available client certificates.
     required List<ClientCertificateInfo> clientCertificates,
   }) : _wrapped = $js.SetCertificatesDetails(
           certificatesRequestId: certificatesRequestId,
@@ -284,7 +300,10 @@ class SetCertificatesDetails {
 class CertificatesUpdateRequest {
   CertificatesUpdateRequest.fromJS(this._wrapped);
 
-  CertificatesUpdateRequest({required int certificatesRequestId})
+  CertificatesUpdateRequest(
+      {
+      /// Request identifier to be passed to [setCertificates].
+      required int certificatesRequestId})
       : _wrapped = $js.CertificatesUpdateRequest()
           ..certificatesRequestId = certificatesRequestId;
 
@@ -303,9 +322,17 @@ class SignatureRequest {
   SignatureRequest.fromJS(this._wrapped);
 
   SignatureRequest({
+    /// Request identifier to be passed to [reportSignature].
     required int signRequestId,
+
+    /// Data to be signed. Note that the data is not hashed.
     required ByteBuffer input,
+
+    /// Signature algorithm to be used.
     required Algorithm algorithm,
+
+    /// The DER encoding of a X.509 certificate. The extension must sign
+    /// `input` using the associated private key.
     required ByteBuffer certificate,
   }) : _wrapped = $js.SignatureRequest()
           ..signRequestId = signRequestId
@@ -347,8 +374,14 @@ class ReportSignatureDetails {
   ReportSignatureDetails.fromJS(this._wrapped);
 
   ReportSignatureDetails({
+    /// Request identifier that was received via the [onSignatureRequested]
+    /// event.
     required int signRequestId,
+
+    /// Error that occurred while generating the signature, if any.
     Error? error,
+
+    /// The signature, if successfully generated.
     ByteBuffer? signature,
   }) : _wrapped = $js.ReportSignatureDetails(
           signRequestId: signRequestId,
@@ -365,7 +398,14 @@ class CertificateInfo {
   CertificateInfo.fromJS(this._wrapped);
 
   CertificateInfo({
+    /// Must be the DER encoding of a X.509 certificate. Currently, only
+    /// certificates of RSA keys are supported.
     required ByteBuffer certificate,
+
+    /// Must be set to all hashes supported for this certificate. This extension
+    /// will only be asked for signatures of digests calculated with one of
+    /// these
+    /// hash algorithms. This should be in order of decreasing hash preference.
     required List<Hash> supportedHashes,
   }) : _wrapped = $js.CertificateInfo()
           ..certificate = certificate.toJS
@@ -398,9 +438,19 @@ class SignRequest {
   SignRequest.fromJS(this._wrapped);
 
   SignRequest({
+    /// The unique ID to be used by the extension should it need to call a
+    /// method
+    /// that requires it, e.g. requestPin.
     required int signRequestId,
+
+    /// The digest that must be signed.
     required ByteBuffer digest,
+
+    /// Refers to the hash algorithm that was used to create `digest`.
     required Hash hash,
+
+    /// The DER encoding of a X.509 certificate. The extension must sign
+    /// `digest` using the associated private key.
     required ByteBuffer certificate,
   }) : _wrapped = $js.SignRequest()
           ..signRequestId = signRequestId
@@ -443,9 +493,21 @@ class RequestPinDetails {
   RequestPinDetails.fromJS(this._wrapped);
 
   RequestPinDetails({
+    /// The ID given by Chrome in SignRequest.
     required int signRequestId,
+
+    /// The type of code requested. Default is PIN.
     PinRequestType? requestType,
+
+    /// The error template displayed to the user. This should be set if the
+    /// previous request failed, to notify the user of the failure reason.
     PinRequestErrorType? errorType,
+
+    /// The number of attempts left. This is provided so that any UI can present
+    /// this information to the user. Chrome is not expected to enforce this,
+    /// instead stopPinRequest should be called by the extension with
+    /// errorType = MAX_ATTEMPTS_EXCEEDED when the number of pin requests is
+    /// exceeded.
     int? attemptsLeft,
   }) : _wrapped = $js.RequestPinDetails(
           signRequestId: signRequestId,
@@ -463,7 +525,12 @@ class StopPinRequestDetails {
   StopPinRequestDetails.fromJS(this._wrapped);
 
   StopPinRequestDetails({
+    /// The ID given by Chrome in SignRequest.
     required int signRequestId,
+
+    /// The error template. If present it is displayed to user. Intended to
+    /// contain the reason for stopping the flow if it was caused by an error,
+    /// e.g. MAX_ATTEMPTS_EXCEEDED.
     PinRequestErrorType? errorType,
   }) : _wrapped = $js.StopPinRequestDetails(
           signRequestId: signRequestId,
@@ -478,7 +545,11 @@ class StopPinRequestDetails {
 class PinResponseDetails {
   PinResponseDetails.fromJS(this._wrapped);
 
-  PinResponseDetails({String? userInput})
+  PinResponseDetails(
+      {
+      /// The code provided by the user. Empty if user closed the dialog or some
+      /// other error occurred.
+      String? userInput})
       : _wrapped = $js.PinResponseDetails()..userInput = userInput;
 
   final $js.PinResponseDetails _wrapped;

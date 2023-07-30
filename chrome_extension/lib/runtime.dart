@@ -465,9 +465,22 @@ class Port {
   Port.fromJS(this._wrapped);
 
   Port({
+    /// The name of the port, as specified in the call to [runtime.connect].
     required String name,
+
+    /// Immediately disconnect the port. Calling `disconnect()` on an
+    /// already-disconnected port has no effect. When a port is disconnected, no
+    /// new events will be dispatched to this port.
     required JSFunction disconnect,
+
+    /// Send a message to the other end of the port. If the port is
+    /// disconnected, an error is thrown.
     required JSFunction postMessage,
+
+    /// This property will **only** be present on ports passed to
+    /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
+    /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
+    /// listeners.
     MessageSender? sender,
   }) : _wrapped = $js.Port()
           ..name = name
@@ -537,16 +550,52 @@ class MessageSender {
   MessageSender.fromJS(this._wrapped);
 
   MessageSender({
+    /// The [tabs.Tab] which opened the connection, if any. This property will
+    /// *only* be present when the connection was opened from a tab (including
+    /// content scripts), and *only* if the receiver is an extension, not an
+    /// app.
     Tab? tab,
+
+    /// The [frame](webNavigation#frame_ids) that opened the connection. 0 for
+    /// top-level frames, positive for child frames. This will only be set when
+    /// `tab` is set.
     int? frameId,
+
+    /// The guest process id of the requesting webview, if available. Only
+    /// available for component extensions.
     int? guestProcessId,
+
+    /// The guest render frame routing id of the requesting webview, if
+    /// available. Only available for component extensions.
     int? guestRenderFrameRoutingId,
+
+    /// The ID of the extension or app that opened the connection, if any.
     String? id,
+
+    /// The URL of the page or frame that opened the connection. If the sender
+    /// is in an iframe, it will be iframe's URL not the URL of the page which
+    /// hosts it.
     String? url,
+
+    /// The name of the native application that opened the connection, if any.
     String? nativeApplication,
+
+    /// The TLS channel ID of the page or frame that opened the connection, if
+    /// requested by the extension or app, and if available.
     String? tlsChannelId,
+
+    /// The origin of the page or frame that opened the connection. It can vary
+    /// from the url property (e.g., about:blank) or can be opaque (e.g.,
+    /// sandboxed iframes). This is useful for identifying if the origin can be
+    /// trusted if we can't immediately tell from the URL.
     String? origin,
+
+    /// A UUID of the document that opened the connection.
     String? documentId,
+
+    /// The lifecycle the document that opened the connection is in at the time
+    /// the port was created. Note that the lifecycle state of the document may
+    /// have changed since port creation.
     String? documentLifecycle,
   }) : _wrapped = $js.MessageSender()
           ..tab = tab?.toJS
@@ -650,8 +699,14 @@ class PlatformInfo {
   PlatformInfo.fromJS(this._wrapped);
 
   PlatformInfo({
+    /// The operating system Chrome is running on.
     required PlatformOs os,
+
+    /// The machine's processor architecture.
     required PlatformArch arch,
+
+    /// The native client architecture. This may be different from arch on some
+    /// platforms.
     required PlatformNaclArch nacl_arch,
   }) : _wrapped = $js.PlatformInfo()
           ..os = os.toJS
@@ -686,14 +741,37 @@ class ExtensionContext {
   ExtensionContext.fromJS(this._wrapped);
 
   ExtensionContext({
+    /// The type of context this corresponds to.
     required ContextType contextType,
+
+    /// A unique identifier for this context
     required String contextId,
+
+    /// The ID of the tab for this context, or -1 if this context is not hosted
+    /// in a tab.
     required int tabId,
+
+    /// The ID of the window for this context, or -1 if this context is not
+    /// hosted in a window.
     required int windowId,
+
+    /// A UUID for the document associated with this context, or undefined if
+    /// this context is hosted not in a document.
     String? documentId,
+
+    /// The ID of the frame for this context, or -1 if this context is not
+    /// hosted in a frame.
     required int frameId,
+
+    /// The URL of the document associated with this context, or undefined if
+    /// the context is not hosted in a document.
     String? documentUrl,
+
+    /// The origin of the document associated with this context, or undefined if
+    /// the context is not hosted in a document.
     String? documentOrigin,
+
+    /// Whether the context is associated with an incognito profile.
     required bool incognito,
   }) : _wrapped = $js.ExtensionContext()
           ..contextType = contextType.toJS
@@ -805,8 +883,15 @@ class OnInstalledDetails {
   OnInstalledDetails.fromJS(this._wrapped);
 
   OnInstalledDetails({
+    /// The reason that this event is being dispatched.
     required OnInstalledReason reason,
+
+    /// Indicates the previous version of the extension, which has just been
+    /// updated. This is present only if 'reason' is 'update'.
     String? previousVersion,
+
+    /// Indicates the ID of the imported shared module extension which updated.
+    /// This is present only if 'reason' is 'shared_module_update'.
     String? id,
   }) : _wrapped = $js.OnInstalledDetails()
           ..reason = reason.toJS
@@ -841,7 +926,10 @@ class OnInstalledDetails {
 class OnUpdateAvailableDetails {
   OnUpdateAvailableDetails.fromJS(this._wrapped);
 
-  OnUpdateAvailableDetails({required String version})
+  OnUpdateAvailableDetails(
+      {
+      /// The version number of the available update.
+      required String version})
       : _wrapped = $js.OnUpdateAvailableDetails()..version = version;
 
   final $js.OnUpdateAvailableDetails _wrapped;
@@ -859,7 +947,11 @@ class RequestUpdateCheckCallbackResult {
   RequestUpdateCheckCallbackResult.fromJS(this._wrapped);
 
   RequestUpdateCheckCallbackResult({
+    /// Result of the update check.
     required RequestUpdateCheckStatus status,
+
+    /// If an update is available, this contains the version of the available
+    /// update.
     String? version,
   }) : _wrapped = $js.RequestUpdateCheckCallbackResult()
           ..status = status.toJS
@@ -888,7 +980,12 @@ class ConnectInfo {
   ConnectInfo.fromJS(this._wrapped);
 
   ConnectInfo({
+    /// Will be passed into onConnect for processes that are listening for the
+    /// connection event.
     String? name,
+
+    /// Whether the TLS channel ID will be passed into onConnectExternal for
+    /// processes that are listening for the connection event.
     bool? includeTlsChannelId,
   }) : _wrapped = $js.ConnectInfo(
           name: name,
@@ -903,7 +1000,11 @@ class ConnectInfo {
 class SendMessageOptions {
   SendMessageOptions.fromJS(this._wrapped);
 
-  SendMessageOptions({bool? includeTlsChannelId})
+  SendMessageOptions(
+      {
+      /// Whether the TLS channel ID will be passed into onMessageExternal for
+      /// processes that are listening for the connection event.
+      bool? includeTlsChannelId})
       : _wrapped =
             $js.SendMessageOptions(includeTlsChannelId: includeTlsChannelId);
 
@@ -915,7 +1016,10 @@ class SendMessageOptions {
 class RuntimeLastError {
   RuntimeLastError.fromJS(this._wrapped);
 
-  RuntimeLastError({String? message})
+  RuntimeLastError(
+      {
+      /// Details about the error which occurred.
+      String? message})
       : _wrapped = $js.RuntimeLastError()..message = message;
 
   final $js.RuntimeLastError _wrapped;

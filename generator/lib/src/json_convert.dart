@@ -11,8 +11,10 @@ class JsonModelConverter {
   final JsonNamespace model;
   late final _enumsToConvert =
       model.types.where((e) => e.enums != null).toList();
-  late final _dictionariesToGenerate =
-      model.types.where((e) => e.enums == null && e.type == 'object').toList();
+  late final _dictionariesToGenerate = model.types
+      .where((e) =>
+          e.enums == null && e.type == 'object' && e.isInstanceOf == null)
+      .toList();
   final _syntheticDictionaries = <Dictionary>[];
 
   JsonModelConverter(this.context, this.model);
@@ -298,8 +300,9 @@ class JsonModelConverter {
   }
 
   Iterable<Typedef> _convertTypedefs() sync* {
-    for (var type in model.types.where(
-        (t) => t.type != 'object' && t.enums == null && t.choices == null)) {
+    for (var type in model.types.where((t) =>
+        t.type != 'object' && t.enums == null && t.choices == null ||
+        t.isInstanceOf != null)) {
       ChromeType? target;
 
       if (type.type == 'array') {
@@ -338,7 +341,7 @@ class JsonModelConverter {
     if (prop.choices case var choices?) {
       type = ChoiceType([
         for (var choice in choices)
-          _addSyntheticTypeIfNeeded(choice, prop.name??'', parentName??'',
+          _addSyntheticTypeIfNeeded(choice, prop.name ?? '', parentName ?? '',
                   anonymous: true, isNullable: false) ??
               _propertyType(choice)
       ], isNullable: nullable);

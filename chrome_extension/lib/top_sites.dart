@@ -33,7 +33,10 @@ class MostVisitedURL {
   MostVisitedURL.fromJS(this._wrapped);
 
   MostVisitedURL({
+    /// The most visited URL.
     required String url,
+
+    /// The title of the page
     required String title,
   }) : _wrapped = $js.MostVisitedURL()
           ..url = url

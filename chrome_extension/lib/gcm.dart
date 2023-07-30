@@ -91,8 +91,15 @@ class OnMessageMessage {
   OnMessageMessage.fromJS(this._wrapped);
 
   OnMessageMessage({
+    /// The message data.
     required Map data,
+
+    /// The sender who issued the message.
     String? from,
+
+    /// The collapse key of a message. See the <a
+    /// href='https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages'>Non-collapsible
+    /// and collapsible messages</a> for details.
     String? collapseKey,
   }) : _wrapped = $js.OnMessageMessage()
           ..data = data.jsify()!
@@ -128,8 +135,14 @@ class OnSendErrorError {
   OnSendErrorError.fromJS(this._wrapped);
 
   OnSendErrorError({
+    /// The error message describing the problem.
     required String errorMessage,
+
+    /// The ID of the message with this error, if error is related to a specific
+    /// message.
     String? messageId,
+
+    /// Additional details related to the error, when available.
     required Map details,
   }) : _wrapped = $js.OnSendErrorError()
           ..errorMessage = errorMessage
@@ -164,9 +177,28 @@ class SendMessage {
   SendMessage.fromJS(this._wrapped);
 
   SendMessage({
+    /// The ID of the server to send the message to as assigned by [Google API
+    /// Console](https://console.cloud.google.com/apis/dashboard).
     required String destinationId,
+
+    /// The ID of the message. It must be unique for each message in scope of
+    /// the applications. See the [Cloud Messaging
+    /// documentation](https://firebase.google.com/docs/cloud-messaging/js/client)
+    /// for advice for picking and handling an ID.
     required String messageId,
+
+    /// Time-to-live of the message in seconds. If it is not possible to send
+    /// the message within that time, an onSendError event will be raised. A
+    /// time-to-live of 0 indicates that the message should be sent immediately
+    /// or fail if it's not possible. The default value of time-to-live is
+    /// 86,400 seconds (1 day) and the maximum value is 2,419,200 seconds (28
+    /// days).
     int? timeToLive,
+
+    /// Message data to send to the server. Case-insensitive `goog.` and
+    /// `google`, as well as case-sensitive `collapse_key` are disallowed as key
+    /// prefixes. Sum of all key/value pairs should not exceed
+    /// [gcm.MAX_MESSAGE_SIZE].
     required Map data,
   }) : _wrapped = $js.SendMessage(
           destinationId: destinationId,

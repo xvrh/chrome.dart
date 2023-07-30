@@ -146,7 +146,11 @@ class TaskInfo {
   TaskInfo.fromJS(this._wrapped);
 
   TaskInfo({
+    /// The title of the task.
     required String title,
+
+    /// Optional tab ID, if this task represents a tab running on a renderer
+    /// process.
     int? tabId,
   }) : _wrapped = $js.TaskInfo()
           ..title = title
@@ -174,7 +178,10 @@ class Cache {
   Cache.fromJS(this._wrapped);
 
   Cache({
+    /// The size of the cache, in bytes.
     required double size,
+
+    /// The part of the cache that is utilized, in bytes.
     required double liveSize,
   }) : _wrapped = $js.Cache()
           ..size = size
@@ -201,20 +208,71 @@ class Process {
   Process.fromJS(this._wrapped);
 
   Process({
+    /// Unique ID of the process provided by the browser.
     required int id,
+
+    /// The ID of the process, as provided by the OS.
     required int osProcessId,
+
+    /// The type of process.
     required ProcessType type,
+
+    /// The profile which the process is associated with.
     required String profile,
+
+    /// The debugging port for Native Client processes. Zero for other process
+    /// types and for NaCl processes that do not have debugging enabled.
     required int naclDebugPort,
+
+    /// Array of TaskInfos representing the tasks running on this process.
     required List<TaskInfo> tasks,
+
+    /// The most recent measurement of the process's CPU usage, expressed as the
+    /// percentage of a single CPU core used in total, by all of the process's
+    /// threads. This gives a value from zero to CpuInfo.numOfProcessors*100,
+    /// which can exceed 100% in multi-threaded processes.
+    /// Only available when receiving the object as part of a callback from
+    /// onUpdated or onUpdatedWithMemory.
     double? cpu,
+
+    /// The most recent measurement of the process network usage, in bytes per
+    /// second. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
     double? network,
+
+    /// The most recent measurement of the process private memory usage, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdatedWithMemory or getProcessInfo with the includeMemory flag.
     double? privateMemory,
+
+    /// The most recent measurement of the process JavaScript allocated memory,
+    /// in bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
     double? jsMemoryAllocated,
+
+    /// The most recent measurement of the process JavaScript memory used, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
     double? jsMemoryUsed,
+
+    /// The most recent measurement of the process's SQLite memory usage, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
     double? sqliteMemory,
+
+    /// The most recent information about the image cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
     Cache? imageCache,
+
+    /// The most recent information about the script cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
     Cache? scriptCache,
+
+    /// The most recent information about the CSS cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
     Cache? cssCache,
   }) : _wrapped = $js.Process()
           ..id = id

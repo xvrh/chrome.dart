@@ -238,9 +238,16 @@ class Bounds {
   Bounds.fromJS(this._wrapped);
 
   Bounds({
+    /// The x-coordinate of the upper-left corner.
     required int left,
+
+    /// The y-coordinate of the upper-left corner.
     required int top,
+
+    /// The width of the display in pixels.
     required int width,
+
+    /// The height of the display in pixels.
     required int height,
   }) : _wrapped = $js.Bounds(
           left: left,
@@ -258,9 +265,16 @@ class Insets {
   Insets.fromJS(this._wrapped);
 
   Insets({
+    /// The x-axis distance from the left bound.
     required int left,
+
+    /// The y-axis distance from the top bound.
     required int top,
+
+    /// The x-axis distance from the right bound.
     required int right,
+
+    /// The y-axis distance from the bottom bound.
     required int bottom,
   }) : _wrapped = $js.Insets(
           left: left,
@@ -278,7 +292,10 @@ class Point {
   Point.fromJS(this._wrapped);
 
   Point({
+    /// The x-coordinate of the point.
     required int x,
+
+    /// The y-coordinate of the point.
     required int y,
   }) : _wrapped = $js.Point()
           ..x = x
@@ -305,7 +322,10 @@ class TouchCalibrationPair {
   TouchCalibrationPair.fromJS(this._wrapped);
 
   TouchCalibrationPair({
+    /// The coordinates of the display point.
     required Point displayPoint,
+
+    /// The coordinates of the touch point corresponding to the display point.
     required Point touchPoint,
   }) : _wrapped = $js.TouchCalibrationPair(
           displayPoint: displayPoint.toJS,
@@ -321,9 +341,16 @@ class TouchCalibrationPairQuad {
   TouchCalibrationPairQuad.fromJS(this._wrapped);
 
   TouchCalibrationPairQuad({
+    /// First pair of touch and display point required for touch calibration.
     required TouchCalibrationPair pair1,
+
+    /// Second pair of touch and display point required for touch calibration.
     required TouchCalibrationPair pair2,
+
+    /// Third pair of touch and display point required for touch calibration.
     required TouchCalibrationPair pair3,
+
+    /// Fourth pair of touch and display point required for touch calibration.
     required TouchCalibrationPair pair4,
   }) : _wrapped = $js.TouchCalibrationPairQuad(
           pair1: pair1.toJS,
@@ -341,15 +368,34 @@ class DisplayMode {
   DisplayMode.fromJS(this._wrapped);
 
   DisplayMode({
+    /// The display mode width in device independent (user visible) pixels.
     required int width,
+
+    /// The display mode height in device independent (user visible) pixels.
     required int height,
+
+    /// The display mode width in native pixels.
     required int widthInNativePixels,
+
+    /// The display mode height in native pixels.
     required int heightInNativePixels,
+
+    /// The display mode UI scale factor.
     double? uiScale,
+
+    /// The display mode device scale factor.
     required double deviceScaleFactor,
+
+    /// The display mode refresh rate in hertz.
     required double refreshRate,
+
+    /// True if the mode is the display's native mode.
     required bool isNative,
+
+    /// True if the display mode is currently selected.
     required bool isSelected,
+
+    /// True if this mode is interlaced, false if not provided.
     bool? isInterlaced,
   }) : _wrapped = $js.DisplayMode(
           width: width,
@@ -373,9 +419,18 @@ class DisplayLayout {
   DisplayLayout.fromJS(this._wrapped);
 
   DisplayLayout({
+    /// The unique identifier of the display.
     required String id,
+
+    /// The unique identifier of the parent display. Empty if this is the root.
     required String parentId,
+
+    /// The layout position of this display relative to the parent. This will
+    /// be ignored for the root.
     required LayoutPosition position,
+
+    /// The offset of the display along the connected edge. 0 indicates that
+    /// the topmost or leftmost corners are aligned.
     required int offset,
   }) : _wrapped = $js.DisplayLayout(
           id: id,
@@ -393,8 +448,13 @@ class Edid {
   Edid.fromJS(this._wrapped);
 
   Edid({
+    /// 3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
     required String manufacturerId,
+
+    /// 2 byte manufacturer-assigned code, Sec. 3.4.2 page 21. Required in v1.4.
     required String productId,
+
+    /// Year of manufacturer, Sec. 3.4.4 page 22. Required in v1.4.
     required int yearOfManufacture,
   }) : _wrapped = $js.Edid()
           ..manufacturerId = manufacturerId
@@ -428,26 +488,90 @@ class DisplayUnitInfo {
   DisplayUnitInfo.fromJS(this._wrapped);
 
   DisplayUnitInfo({
+    /// The unique identifier of the display.
     required String id,
+
+    /// The user-friendly name (e.g. "HP LCD monitor").
     required String name,
+
+    /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
     Edid? edid,
+
+    /// Chrome OS only. Identifier of the display that is being mirrored if
+    /// mirroring is enabled, otherwise empty. This will be set for all displays
+    /// (including the display being mirrored).
     required String mirroringSourceId,
+
+    /// Chrome OS only. Identifiers of the displays to which the source display
+    /// is being mirrored. Empty if no displays are being mirrored. This will be
+    /// set to the same value for all displays. This must not include
+    /// |mirroringSourceId|.
     required List<String> mirroringDestinationIds,
+
+    /// True if this is the primary display.
     required bool isPrimary,
+
+    /// True if this is an internal display.
     required bool isInternal,
+
+    /// True if this display is enabled.
     required bool isEnabled,
+
+    /// True for all displays when in unified desktop mode. See documentation
+    /// for [enableUnifiedDesktop].
     required bool isUnified,
+
+    /// True when the auto-rotation is allowed. It happens when the device is in
+    /// a tablet physical state or kSupportsClamshellAutoRotation is set.
+    /// Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
+    /// Settings switches to a mojo API.
     bool? isAutoRotationAllowed,
+
+    /// The number of pixels per inch along the x-axis.
     required double dpiX,
+
+    /// The number of pixels per inch along the y-axis.
     required double dpiY,
+
+    /// The display's clockwise rotation in degrees relative to the vertical
+    /// position.
+    /// Currently exposed only on ChromeOS. Will be set to 0 on other platforms.
+    /// A value of -1 will be interpreted as auto-rotate when the device is in
+    /// a physical tablet state.
     required int rotation,
+
+    /// The display's logical bounds.
     required Bounds bounds,
+
+    /// The display's insets within its screen's bounds.
+    /// Currently exposed only on ChromeOS. Will be set to empty insets on
+    /// other platforms.
     required Insets overscan,
+
+    /// The usable work area of the display within the display bounds. The work
+    /// area excludes areas of the display reserved for OS, for example taskbar
+    /// and launcher.
     required Bounds workArea,
+
+    /// The list of available display modes. The current mode will have
+    /// isSelected=true. Only available on Chrome OS. Will be set to an empty
+    /// array on other platforms.
     required List<DisplayMode> modes,
+
+    /// True if this display has a touch input device associated with it.
     required bool hasTouchSupport,
+
+    /// True if this display has an accelerometer associated with it.
+    /// Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
+    /// Settings switches to a mojo API. NOTE: The name of this may change.
     required bool hasAccelerometerSupport,
+
+    /// A list of zoom factor values that can be set for the display.
     required List<double> availableDisplayZoomFactors,
+
+    /// The ratio between the display's current and default zoom.
+    /// For example, value 1 is equivalent to 100% zoom, and value 1.5 is
+    /// equivalent to 150% zoom.
     required double displayZoomFactor,
   }) : _wrapped = $js.DisplayUnitInfo()
           ..id = id
@@ -643,14 +767,57 @@ class DisplayProperties {
   DisplayProperties.fromJS(this._wrapped);
 
   DisplayProperties({
+    /// Chrome OS only. If set to true, changes the display mode to unified
+    /// desktop (see [enableUnifiedDesktop] for details). If set to false,
+    /// unified desktop mode will be disabled. This is only valid for the
+    /// primary display. If provided, mirroringSourceId must not be provided and
+    /// other properties will be ignored. This is has no effect if not provided.
     bool? isUnified,
+
+    /// Chrome OS only. If set and not empty, enables mirroring for this display
+    /// only. Otherwise disables mirroring for all displays. This value should
+    /// indicate the id of the source display to mirror, which must not be the
+    /// same as the id passed to setDisplayProperties. If set, no other property
+    /// may be set.
     String? mirroringSourceId,
+
+    /// If set to true, makes the display primary. No-op if set to false.
+    /// Note: If set, the display is considered primary for all other properties
+    /// (i.e. [isUnified] may be set and bounds origin may not).
     bool? isPrimary,
+
+    /// If set, sets the display's overscan insets to the provided values. Note
+    /// that overscan values may not be negative or larger than a half of the
+    /// screen's size. Overscan cannot be changed on the internal monitor.
     Insets? overscan,
+
+    /// If set, updates the display's rotation.
+    /// Legal values are [0, 90, 180, 270]. The rotation is set clockwise,
+    /// relative to the display's vertical position.
     int? rotation,
+
+    /// If set, updates the display's logical bounds origin along the x-axis.
+    /// Applied together with [boundsOriginY]. Defaults to the current value
+    /// if not set and [boundsOriginY] is set. Note that when updating the
+    /// display origin, some constraints will be applied, so the final bounds
+    /// origin may be different than the one set. The final bounds can be
+    /// retrieved using [getInfo]. The bounds origin cannot be changed on
+    /// the primary display.
     int? boundsOriginX,
+
+    /// If set, updates the display's logical bounds origin along the y-axis.
+    /// See documentation for [boundsOriginX] parameter.
     int? boundsOriginY,
+
+    /// If set, updates the display mode to the mode matching this value.
+    /// If other parameters are invalid, this will not be applied. If the
+    /// display mode is invalid, it will not be applied and an error will be
+    /// set, but other properties will still be applied.
     DisplayMode? displayMode,
+
+    /// If set, updates the zoom associated with the display. This zoom performs
+    /// re-layout and repaint thus resulting in a better quality zoom than just
+    /// performing a pixel by pixel stretch enlargement.
     double? displayZoomFactor,
   }) : _wrapped = $js.DisplayProperties(
           isUnified: isUnified,
@@ -672,7 +839,12 @@ class DisplayProperties {
 class GetInfoFlags {
   GetInfoFlags.fromJS(this._wrapped);
 
-  GetInfoFlags({bool? singleUnified})
+  GetInfoFlags(
+      {
+      /// If set to true, only a single [DisplayUnitInfo] will be returned
+      /// by [getInfo] when in unified desktop mode (see
+      /// [enableUnifiedDesktop]). Defaults to false.
+      bool? singleUnified})
       : _wrapped = $js.GetInfoFlags(singleUnified: singleUnified);
 
   final $js.GetInfoFlags _wrapped;
@@ -684,8 +856,14 @@ class MirrorModeInfo {
   MirrorModeInfo.fromJS(this._wrapped);
 
   MirrorModeInfo({
+    /// The mirror mode that should be set.
     required MirrorMode mode,
+
+    /// The id of the mirroring source display. This is only valid for 'mixed'.
     String? mirroringSourceId,
+
+    /// The ids of the mirroring destination displays. This is only valid for
+    /// 'mixed'.
     List<String>? mirroringDestinationIds,
   }) : _wrapped = $js.MirrorModeInfo(
           mode: mode.toJS,

@@ -35,8 +35,14 @@ class NetworkInterface {
   NetworkInterface.fromJS(this._wrapped);
 
   NetworkInterface({
+    /// The underlying name of the adapter. On *nix, this will typically be
+    /// "eth0", "wlan0", etc.
     required String name,
+
+    /// The available IPv4/6 address.
     required String address,
+
+    /// The prefix length
     required int prefixLength,
   }) : _wrapped = $js.NetworkInterface()
           ..name = name

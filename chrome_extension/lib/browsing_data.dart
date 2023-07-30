@@ -131,9 +131,27 @@ class RemovalOptions {
   RemovalOptions.fromJS(this._wrapped);
 
   RemovalOptions({
+    /// Remove data accumulated on or after this date, represented in
+    /// milliseconds since the epoch (accessible via the `getTime` method of the
+    /// JavaScript `Date` object). If absent, defaults to 0 (which would remove
+    /// all browsing data).
     double? since,
+
+    /// An object whose properties specify which origin types ought to be
+    /// cleared. If this object isn't specified, it defaults to clearing only
+    /// "unprotected" origins. Please ensure that you _really_ want to remove
+    /// application data before adding 'protectedWeb' or 'extensions'.
     RemovalOptionsOriginTypes? originTypes,
+
+    /// When present, only data for origins in this list is deleted. Only
+    /// supported for cookies, storage and cache. Cookies are cleared for the
+    /// whole registrable domain.
     List<String>? origins,
+
+    /// When present, data for origins in this list is excluded from deletion.
+    /// Can't be used together with `origins`. Only supported for cookies,
+    /// storage and cache.  Cookies are excluded for the whole registrable
+    /// domain.
     List<String>? excludeOrigins,
   }) : _wrapped = $js.RemovalOptions(
           since: since,
@@ -151,20 +169,49 @@ class DataTypeSet {
   DataTypeSet.fromJS(this._wrapped);
 
   DataTypeSet({
+    /// Websites' appcaches.
     bool? appcache,
+
+    /// The browser's cache.
     bool? cache,
+
+    /// Cache storage
     bool? cacheStorage,
+
+    /// The browser's cookies.
     bool? cookies,
+
+    /// The browser's download list.
     bool? downloads,
+
+    /// Websites' file systems.
     bool? fileSystems,
+
+    /// The browser's stored form data.
     bool? formData,
+
+    /// The browser's history.
     bool? history,
+
+    /// Websites' IndexedDB data.
     bool? indexedDB,
+
+    /// Websites' local storage data.
     bool? localStorage,
+
+    /// Server-bound certificates.
     bool? serverBoundCertificates,
+
+    /// Stored passwords.
     bool? passwords,
+
+    /// Plugins' data.
     bool? pluginData,
+
+    /// Service Workers.
     bool? serviceWorkers,
+
+    /// Websites' WebSQL data.
     bool? webSQL,
   }) : _wrapped = $js.DataTypeSet(
           appcache: appcache,
@@ -194,7 +241,15 @@ class SettingsCallbackResult {
 
   SettingsCallbackResult({
     required RemovalOptions options,
+
+    /// All of the types will be present in the result, with values of `true` if
+    /// they are both selected to be removed and permitted to be removed,
+    /// otherwise `false`.
     required DataTypeSet dataToRemove,
+
+    /// All of the types will be present in the result, with values of `true` if
+    /// they are permitted to be removed (e.g., by enterprise policy) and
+    /// `false` if not.
     required DataTypeSet dataRemovalPermitted,
   }) : _wrapped = $js.SettingsCallbackResult()
           ..options = options.toJS
@@ -232,8 +287,14 @@ class RemovalOptionsOriginTypes {
   RemovalOptionsOriginTypes.fromJS(this._wrapped);
 
   RemovalOptionsOriginTypes({
+    /// Normal websites.
     bool? unprotectedWeb,
+
+    /// Websites that have been installed as hosted applications (be careful!).
     bool? protectedWeb,
+
+    /// Extensions and packaged applications a user has installed (be _really_
+    /// careful!).
     bool? extension,
   }) : _wrapped = $js.RemovalOptionsOriginTypes(
           unprotectedWeb: unprotectedWeb,

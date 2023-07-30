@@ -626,8 +626,17 @@ class MutedInfo {
   MutedInfo.fromJS(this._wrapped);
 
   MutedInfo({
+    /// Whether the tab is muted (prevented from playing sound). The tab may be
+    /// muted even if it has not played or is not currently playing sound.
+    /// Equivalent to whether the 'muted' audio indicator is showing.
     required bool muted,
+
+    /// The reason the tab was muted or unmuted. Not set if the tab's mute state
+    /// has never been changed.
     MutedInfoReason? reason,
+
+    /// The ID of the extension that changed the muted state. Not set if an
+    /// extension was not the reason the muted state last changed.
     String? extensionId,
   }) : _wrapped = $js.MutedInfo()
           ..muted = muted
@@ -665,27 +674,90 @@ class Tab {
   Tab.fromJS(this._wrapped);
 
   Tab({
+    /// The ID of the tab. Tab IDs are unique within a browser session. Under
+    /// some circumstances a tab may not be assigned an ID; for example, when
+    /// querying foreign tabs using the [sessions] API, in which case a session
+    /// ID may be present. Tab ID can also be set to `chrome.tabs.TAB_ID_NONE`
+    /// for apps and devtools windows.
     int? id,
+
+    /// The zero-based index of the tab within its window.
     required int index,
+
+    /// The ID of the group that the tab belongs to.
     required int groupId,
+
+    /// The ID of the window that contains the tab.
     required int windowId,
+
+    /// The ID of the tab that opened this tab, if any. This property is only
+    /// present if the opener tab still exists.
     int? openerTabId,
+
+    /// Whether the tab is selected.
     required bool selected,
+
+    /// Whether the tab is highlighted.
     required bool highlighted,
+
+    /// Whether the tab is active in its window. Does not necessarily mean the
+    /// window is focused.
     required bool active,
+
+    /// Whether the tab is pinned.
     required bool pinned,
+
+    /// Whether the tab has produced sound over the past couple of seconds (but
+    /// it might not be heard if also muted). Equivalent to whether the 'speaker
+    /// audio' indicator is showing.
     bool? audible,
+
+    /// Whether the tab is discarded. A discarded tab is one whose content has
+    /// been unloaded from memory, but is still visible in the tab strip. Its
+    /// content is reloaded the next time it is activated.
     required bool discarded,
+
+    /// Whether the tab can be discarded automatically by the browser when
+    /// resources are low.
     required bool autoDiscardable,
+
+    /// The tab's muted state and the reason for the last state change.
     MutedInfo? mutedInfo,
+
+    /// The last committed URL of the main frame of the tab. This property is
+    /// only present if the extension's manifest includes the `"tabs"`
+    /// permission and may be an empty string if the tab has not yet committed.
+    /// See also [Tab.pendingUrl].
     String? url,
+
+    /// The URL the tab is navigating to, before it has committed. This property
+    /// is only present if the extension's manifest includes the `"tabs"`
+    /// permission and there is a pending navigation.
     String? pendingUrl,
+
+    /// The title of the tab. This property is only present if the extension's
+    /// manifest includes the `"tabs"` permission.
     String? title,
+
+    /// The URL of the tab's favicon. This property is only present if the
+    /// extension's manifest includes the `"tabs"` permission. It may also be an
+    /// empty string if the tab is loading.
     String? favIconUrl,
+
+    /// The tab's loading status.
     TabStatus? status,
+
+    /// Whether the tab is in an incognito window.
     required bool incognito,
+
+    /// The width of the tab in pixels.
     int? width,
+
+    /// The height of the tab in pixels.
     int? height,
+
+    /// The session ID used to uniquely identify a tab obtained from the
+    /// [sessions] API.
     String? sessionId,
   }) : _wrapped = $js.Tab()
           ..id = id
@@ -872,8 +944,17 @@ class ZoomSettings {
   ZoomSettings.fromJS(this._wrapped);
 
   ZoomSettings({
+    /// Defines how zoom changes are handled, i.e., which entity is responsible
+    /// for the actual scaling of the page; defaults to `automatic`.
     ZoomSettingsMode? mode,
+
+    /// Defines whether zoom changes persist for the page's origin, or only take
+    /// effect in this tab; defaults to `per-origin` when in `automatic` mode,
+    /// and `per-tab` otherwise.
     ZoomSettingsScope? scope,
+
+    /// Used to return the default zoom level for the current tab in calls to
+    /// tabs.getZoomSettings.
     double? defaultZoomFactor,
   }) : _wrapped = $js.ZoomSettings(
           mode: mode?.toJS,
@@ -890,15 +971,34 @@ class OnUpdatedChangeInfo {
   OnUpdatedChangeInfo.fromJS(this._wrapped);
 
   OnUpdatedChangeInfo({
+    /// The tab's loading status.
     TabStatus? status,
+
+    /// The tab's URL if it has changed.
     String? url,
+
+    /// The tab's new group.
     int? groupId,
+
+    /// The tab's new pinned state.
     bool? pinned,
+
+    /// The tab's new audible state.
     bool? audible,
+
+    /// The tab's new discarded state.
     bool? discarded,
+
+    /// The tab's new auto-discardable state.
     bool? autoDiscardable,
+
+    /// The tab's new muted state and the reason for the change.
     MutedInfo? mutedInfo,
+
+    /// The tab's new favicon URL.
     String? favIconUrl,
+
+    /// The tab's new title.
     String? title,
   }) : _wrapped = $js.OnUpdatedChangeInfo()
           ..status = status?.toJS
@@ -1012,7 +1112,10 @@ class OnMovedMoveInfo {
 class OnSelectionChangedSelectInfo {
   OnSelectionChangedSelectInfo.fromJS(this._wrapped);
 
-  OnSelectionChangedSelectInfo({required int windowId})
+  OnSelectionChangedSelectInfo(
+      {
+      /// The ID of the window the selected tab changed inside of.
+      required int windowId})
       : _wrapped = $js.OnSelectionChangedSelectInfo()..windowId = windowId;
 
   final $js.OnSelectionChangedSelectInfo _wrapped;
@@ -1029,7 +1132,10 @@ class OnSelectionChangedSelectInfo {
 class OnActiveChangedSelectInfo {
   OnActiveChangedSelectInfo.fromJS(this._wrapped);
 
-  OnActiveChangedSelectInfo({required int windowId})
+  OnActiveChangedSelectInfo(
+      {
+      /// The ID of the window the selected tab changed inside of.
+      required int windowId})
       : _wrapped = $js.OnActiveChangedSelectInfo()..windowId = windowId;
 
   final $js.OnActiveChangedSelectInfo _wrapped;
@@ -1047,7 +1153,10 @@ class OnActivatedActiveInfo {
   OnActivatedActiveInfo.fromJS(this._wrapped);
 
   OnActivatedActiveInfo({
+    /// The ID of the tab that has become active.
     required int tabId,
+
+    /// The ID of the window the active tab changed inside of.
     required int windowId,
   }) : _wrapped = $js.OnActivatedActiveInfo()
           ..tabId = tabId
@@ -1074,7 +1183,10 @@ class OnHighlightChangedSelectInfo {
   OnHighlightChangedSelectInfo.fromJS(this._wrapped);
 
   OnHighlightChangedSelectInfo({
+    /// The window whose tabs changed.
     required int windowId,
+
+    /// All highlighted tabs in the window.
     required List<int> tabIds,
   }) : _wrapped = $js.OnHighlightChangedSelectInfo()
           ..windowId = windowId
@@ -1102,7 +1214,10 @@ class OnHighlightedHighlightInfo {
   OnHighlightedHighlightInfo.fromJS(this._wrapped);
 
   OnHighlightedHighlightInfo({
+    /// The window whose tabs changed.
     required int windowId,
+
+    /// All highlighted tabs in the window.
     required List<int> tabIds,
   }) : _wrapped = $js.OnHighlightedHighlightInfo()
           ..windowId = windowId
@@ -1180,7 +1295,10 @@ class OnRemovedRemoveInfo {
   OnRemovedRemoveInfo.fromJS(this._wrapped);
 
   OnRemovedRemoveInfo({
+    /// The window whose tab is closed.
     required int windowId,
+
+    /// True when the tab was closed because its parent window was closed.
     required bool isWindowClosing,
   }) : _wrapped = $js.OnRemovedRemoveInfo()
           ..windowId = windowId
@@ -1246,8 +1364,16 @@ class ConnectInfo {
   ConnectInfo.fromJS(this._wrapped);
 
   ConnectInfo({
+    /// Is passed into onConnect for content scripts that are listening for the
+    /// connection event.
     String? name,
+
+    /// Open a port to a specific [frame](webNavigation#frame_ids) identified by
+    /// `frameId` instead of all frames in the tab.
     int? frameId,
+
+    /// Open a port to a specific [document](webNavigation#document_ids)
+    /// identified by `documentId` instead of all frames in the tab.
     String? documentId,
   }) : _wrapped = $js.ConnectInfo(
           name: name,
@@ -1264,7 +1390,12 @@ class SendMessageOptions {
   SendMessageOptions.fromJS(this._wrapped);
 
   SendMessageOptions({
+    /// Send a message to a specific [frame](webNavigation#frame_ids) identified
+    /// by `frameId` instead of all frames in the tab.
     int? frameId,
+
+    /// Send a message to a specific [document](webNavigation#document_ids)
+    /// identified by `documentId` instead of all frames in the tab.
     String? documentId,
   }) : _wrapped = $js.SendMessageOptions(
           frameId: frameId,
@@ -1280,12 +1411,34 @@ class CreateProperties {
   CreateProperties.fromJS(this._wrapped);
 
   CreateProperties({
+    /// The window in which to create the new tab. Defaults to the [current
+    /// window](windows#current-window).
     int? windowId,
+
+    /// The position the tab should take in the window. The provided value is
+    /// clamped to between zero and the number of tabs in the window.
     int? index,
+
+    /// The URL to initially navigate the tab to. Fully-qualified URLs must
+    /// include a scheme (i.e., 'http://www.google.com', not 'www.google.com').
+    /// Relative URLs are relative to the current page within the extension.
+    /// Defaults to the New Tab Page.
     String? url,
+
+    /// Whether the tab should become the active tab in the window. Does not
+    /// affect whether the window is focused (see [windows.update]). Defaults to
+    /// [true].
     bool? active,
+
+    /// Whether the tab should become the selected tab in the window. Defaults
+    /// to [true]
     bool? selected,
+
+    /// Whether the tab should be pinned. Defaults to [false]
     bool? pinned,
+
+    /// The ID of the tab that opened this tab. If specified, the opener tab
+    /// must be in the same window as the newly created tab.
     int? openerTabId,
   }) : _wrapped = $js.CreateProperties(
           windowId: windowId,
@@ -1306,21 +1459,60 @@ class QueryInfo {
   QueryInfo.fromJS(this._wrapped);
 
   QueryInfo({
+    /// Whether the tabs are active in their windows.
     bool? active,
+
+    /// Whether the tabs are pinned.
     bool? pinned,
+
+    /// Whether the tabs are audible.
     bool? audible,
+
+    /// Whether the tabs are muted.
     bool? muted,
+
+    /// Whether the tabs are highlighted.
     bool? highlighted,
+
+    /// Whether the tabs are discarded. A discarded tab is one whose content has
+    /// been unloaded from memory, but is still visible in the tab strip. Its
+    /// content is reloaded the next time it is activated.
     bool? discarded,
+
+    /// Whether the tabs can be discarded automatically by the browser when
+    /// resources are low.
     bool? autoDiscardable,
+
+    /// Whether the tabs are in the [current window](windows#current-window).
     bool? currentWindow,
+
+    /// Whether the tabs are in the last focused window.
     bool? lastFocusedWindow,
+
+    /// The tab loading status.
     TabStatus? status,
+
+    /// Match page titles against a pattern. This property is ignored if the
+    /// extension does not have the `"tabs"` permission.
     String? title,
+
+    /// Match tabs against one or more [URL patterns](match_patterns). Fragment
+    /// identifiers are not matched. This property is ignored if the extension
+    /// does not have the `"tabs"` permission.
     Object? url,
+
+    /// The ID of the group that the tabs are in, or
+    /// [tabGroups.TAB_GROUP_ID_NONE] for ungrouped tabs.
     int? groupId,
+
+    /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+    /// [current window](windows#current-window).
     int? windowId,
+
+    /// The type of window the tabs are in.
     WindowType? windowType,
+
+    /// The position of the tabs within their windows.
     int? index,
   }) : _wrapped = $js.QueryInfo(
           active: active,
@@ -1356,7 +1548,10 @@ class HighlightInfo {
   HighlightInfo.fromJS(this._wrapped);
 
   HighlightInfo({
+    /// The window that contains the tabs.
     int? windowId,
+
+    /// One or more tab indices to highlight.
     required Object tabs,
   }) : _wrapped = $js.HighlightInfo(
           windowId: windowId,
@@ -1377,13 +1572,32 @@ class UpdateProperties {
   UpdateProperties.fromJS(this._wrapped);
 
   UpdateProperties({
+    /// A URL to navigate the tab to. JavaScript URLs are not supported; use
+    /// [scripting.executeScript] instead.
     String? url,
+
+    /// Whether the tab should be active. Does not affect whether the window is
+    /// focused (see [windows.update]).
     bool? active,
+
+    /// Adds or removes the tab from the current selection.
     bool? highlighted,
+
+    /// Whether the tab should be selected.
     bool? selected,
+
+    /// Whether the tab should be pinned.
     bool? pinned,
+
+    /// Whether the tab should be muted.
     bool? muted,
+
+    /// The ID of the tab that opened this tab. If specified, the opener tab
+    /// must be in the same window as this tab.
     int? openerTabId,
+
+    /// Whether the tab should be discarded automatically by the browser when
+    /// resources are low.
     bool? autoDiscardable,
   }) : _wrapped = $js.UpdateProperties(
           url: url,
@@ -1405,7 +1619,11 @@ class MoveProperties {
   MoveProperties.fromJS(this._wrapped);
 
   MoveProperties({
+    /// Defaults to the window the tab is currently in.
     int? windowId,
+
+    /// The position to move the window to. Use `-1` to place the tab at the end
+    /// of the window.
     required int index,
   }) : _wrapped = $js.MoveProperties(
           windowId: windowId,
@@ -1420,7 +1638,10 @@ class MoveProperties {
 class ReloadProperties {
   ReloadProperties.fromJS(this._wrapped);
 
-  ReloadProperties({bool? bypassCache})
+  ReloadProperties(
+      {
+      /// Whether to bypass local caching. Defaults to `false`.
+      bool? bypassCache})
       : _wrapped = $js.ReloadProperties(bypassCache: bypassCache);
 
   final $js.ReloadProperties _wrapped;
@@ -1432,8 +1653,15 @@ class GroupOptions {
   GroupOptions.fromJS(this._wrapped);
 
   GroupOptions({
+    /// The tab ID or list of tab IDs to add to the specified group.
     required Object tabIds,
+
+    /// The ID of the group to add the tabs to. If not specified, a new group
+    /// will be created.
     int? groupId,
+
+    /// Configurations for creating a group. Cannot be used if groupId is
+    /// already specified.
     GroupOptionsCreateProperties? createProperties,
   }) : _wrapped = $js.GroupOptions(
           tabIds: switch (tabIds) {
@@ -1454,7 +1682,10 @@ class GroupOptions {
 class GroupOptionsCreateProperties {
   GroupOptionsCreateProperties.fromJS(this._wrapped);
 
-  GroupOptionsCreateProperties({int? windowId})
+  GroupOptionsCreateProperties(
+      {
+      /// The window of the new group. Defaults to the current window.
+      int? windowId})
       : _wrapped = $js.GroupOptionsCreateProperties(windowId: windowId);
 
   final $js.GroupOptionsCreateProperties _wrapped;

@@ -124,6 +124,8 @@ class MatchClassification {
 
   MatchClassification({
     required int offset,
+
+    /// The style type
     required DescriptionStyleType type,
     int? length,
   }) : _wrapped = $js.MatchClassification(
@@ -141,9 +143,24 @@ class SuggestResult {
   SuggestResult.fromJS(this._wrapped);
 
   SuggestResult({
+    /// The text that is put into the URL bar, and that is sent to the extension
+    /// when the user chooses this entry.
     required String content,
+
+    /// The text that is displayed in the URL dropdown. Can contain XML-style
+    /// markup for styling. The supported tags are 'url' (for a literal URL),
+    /// 'match' (for highlighting text that matched what the user's query), and
+    /// 'dim' (for dim helper text). The styles can be nested, eg.
+    /// <dim><match>dimmed match</match></dim>. You must escape the five
+    /// predefined entities to display them as text:
+    /// stackoverflow.com/a/1091953/89484
     required String description,
+
+    /// Whether the suggest result can be deleted by the user.
     bool? deletable,
+
+    /// An array of style ranges for the description, as provided by the
+    /// extension.
     List<MatchClassification>? descriptionStyles,
   }) : _wrapped = $js.SuggestResult(
           content: content,
@@ -161,7 +178,15 @@ class DefaultSuggestResult {
   DefaultSuggestResult.fromJS(this._wrapped);
 
   DefaultSuggestResult({
+    /// The text that is displayed in the URL dropdown. Can contain XML-style
+    /// markup for styling. The supported tags are 'url' (for a literal URL),
+    /// 'match' (for highlighting text that matched what the user's query), and
+    /// 'dim' (for dim helper text). The styles can be nested, eg.
+    /// <dim><match>dimmed match</match></dim>.
     required String description,
+
+    /// An array of style ranges for the description, as provided by the
+    /// extension.
     List<MatchClassification>? descriptionStyles,
   }) : _wrapped = $js.DefaultSuggestResult(
           description: description,

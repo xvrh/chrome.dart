@@ -31,9 +31,17 @@ class CpuTime {
   CpuTime.fromJS(this._wrapped);
 
   CpuTime({
+    /// The cumulative time used by userspace programs on this processor.
     required double user,
+
+    /// The cumulative time used by kernel programs on this processor.
     required double kernel,
+
+    /// The cumulative time spent idle by this processor.
     required double idle,
+
+    /// The total cumulative time for this processor.  This value is equal to
+    /// user + kernel + idle.
     required double total,
   }) : _wrapped = $js.CpuTime()
           ..user = user
@@ -74,7 +82,10 @@ class CpuTime {
 class ProcessorInfo {
   ProcessorInfo.fromJS(this._wrapped);
 
-  ProcessorInfo({required CpuTime usage})
+  ProcessorInfo(
+      {
+      /// Cumulative usage info for this logical processor.
+      required CpuTime usage})
       : _wrapped = $js.ProcessorInfo()..usage = usage.toJS;
 
   final $js.ProcessorInfo _wrapped;
@@ -92,11 +103,27 @@ class CpuInfo {
   CpuInfo.fromJS(this._wrapped);
 
   CpuInfo({
+    /// The number of logical processors.
     required int numOfProcessors,
+
+    /// The architecture name of the processors.
     required String archName,
+
+    /// The model name of the processors.
     required String modelName,
+
+    /// A set of feature codes indicating some of the processor's capabilities.
+    /// The currently supported codes are "mmx", "sse", "sse2", "sse3", "ssse3",
+    /// "sse4_1", "sse4_2", and "avx".
     required List<String> features,
+
+    /// Information about each logical processor.
     required List<ProcessorInfo> processors,
+
+    /// List of CPU temperature readings from each thermal zone of the CPU.
+    /// Temperatures are in degrees Celsius.
+    ///
+    /// **Currently supported on Chrome OS only.**
     required List<double> temperatures,
   }) : _wrapped = $js.CpuInfo()
           ..numOfProcessors = numOfProcessors

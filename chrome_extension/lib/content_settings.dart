@@ -355,7 +355,10 @@ class ResourceIdentifier {
   ResourceIdentifier.fromJS(this._wrapped);
 
   ResourceIdentifier({
+    /// The resource identifier for the given content type.
     required String id,
+
+    /// A human readable description of the resource.
     String? description,
   }) : _wrapped = $js.ResourceIdentifier()
           ..id = id
@@ -417,7 +420,10 @@ class ContentSetting {
 class ClearDetails {
   ClearDetails.fromJS(this._wrapped);
 
-  ClearDetails({Scope? scope})
+  ClearDetails(
+      {
+      /// Where to clear the setting (default: regular).
+      Scope? scope})
       : _wrapped = $js.ClearDetails(scope: scope?.toJS);
 
   final $js.ClearDetails _wrapped;
@@ -428,7 +434,11 @@ class ClearDetails {
 class GetCallbackDetails {
   GetCallbackDetails.fromJS(this._wrapped);
 
-  GetCallbackDetails({required Object setting})
+  GetCallbackDetails(
+      {
+      /// The content setting. See the description of the individual
+      /// ContentSetting objects for the possible values.
+      required Object setting})
       : _wrapped = $js.GetCallbackDetails()..setting = setting.toJS;
 
   final $js.GetCallbackDetails _wrapped;
@@ -447,9 +457,22 @@ class GetDetails {
   GetDetails.fromJS(this._wrapped);
 
   GetDetails({
+    /// The primary URL for which the content setting should be retrieved. Note
+    /// that the meaning of a primary URL depends on the content type.
     required String primaryUrl,
+
+    /// The secondary URL for which the content setting should be retrieved.
+    /// Defaults to the primary URL. Note that the meaning of a secondary URL
+    /// depends on the content type, and not all content types use secondary
+    /// URLs.
     String? secondaryUrl,
+
+    /// A more specific identifier of the type of content for which the settings
+    /// should be retrieved.
     ResourceIdentifier? resourceIdentifier,
+
+    /// Whether to check the content settings for an incognito session. (default
+    /// false)
     bool? incognito,
   }) : _wrapped = $js.GetDetails(
           primaryUrl: primaryUrl,
@@ -467,10 +490,23 @@ class SetDetails {
   SetDetails.fromJS(this._wrapped);
 
   SetDetails({
+    /// The pattern for the primary URL. For details on the format of a pattern,
+    /// see [Content Setting Patterns](contentSettings#patterns).
     required String primaryPattern,
+
+    /// The pattern for the secondary URL. Defaults to matching all URLs. For
+    /// details on the format of a pattern, see [Content Setting
+    /// Patterns](contentSettings#patterns).
     String? secondaryPattern,
+
+    /// The resource identifier for the content type.
     ResourceIdentifier? resourceIdentifier,
+
+    /// The setting applied by this rule. See the description of the individual
+    /// ContentSetting objects for the possible values.
     required Object setting,
+
+    /// Where to set the setting (default: regular).
     Scope? scope,
   }) : _wrapped = $js.SetDetails(
           primaryPattern: primaryPattern,

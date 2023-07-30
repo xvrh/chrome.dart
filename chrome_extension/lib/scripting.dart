@@ -152,9 +152,24 @@ class InjectionTarget {
   InjectionTarget.fromJS(this._wrapped);
 
   InjectionTarget({
+    /// The ID of the tab into which to inject.
     required int tabId,
+
+    /// The
+    /// [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
+    /// of specific frames to inject into.
     List<int>? frameIds,
+
+    /// The
+    /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
+    /// of specific documentIds to inject into. This must not be set if
+    /// `frameIds` is set.
     List<String>? documentIds,
+
+    /// Whether the script should inject into all frames within the tab.
+    /// Defaults
+    /// to false.
+    /// This must not be true if `frameIds` is specified.
     bool? allFrames,
   }) : _wrapped = $js.InjectionTarget(
           tabId: tabId,
@@ -172,12 +187,42 @@ class ScriptInjection {
   ScriptInjection.fromJS(this._wrapped);
 
   ScriptInjection({
+    /// A JavaScript function to inject. This function will be serialized, and
+    /// then deserialized for injection. This means that any bound parameters
+    /// and execution context will be lost.
+    /// Exactly one of `files` and `func` must be
+    /// specified.
     Object? func,
+
+    /// The arguments to curry into a provided function. This is only valid if
+    /// the `func` parameter is specified. These arguments must be
+    /// JSON-serializable.
     List<Object>? args,
+
+    /// We used to call the injected function `function`, but this is
+    /// incompatible with JavaScript's object declaration shorthand (see
+    /// https://crbug.com/1166438). We leave this silently in for backwards
+    /// compatibility.
+    /// TODO(devlin): Remove this in M95.
     Object? function,
+
+    /// The path of the JS or CSS files to inject, relative to the extension's
+    /// root directory.
+    /// Exactly one of `files` and `func` must be
+    /// specified.
     List<String>? files,
+
+    /// Details specifying the target into which to inject the script.
     required InjectionTarget target,
+
+    /// The JavaScript "world" to run the script in. Defaults to
+    /// `ISOLATED`.
     ExecutionWorld? world,
+
+    /// Whether the injection should be triggered in the target as soon as
+    /// possible. Note that this is not a guarantee that injection will occur
+    /// prior to page load, as the page may have already loaded by the time the
+    /// script reaches the target.
     bool? injectImmediately,
   }) : _wrapped = $js.ScriptInjection(
           func: func?.toJS,
@@ -198,9 +243,21 @@ class CSSInjection {
   CSSInjection.fromJS(this._wrapped);
 
   CSSInjection({
+    /// Details specifying the target into which to insert the CSS.
     required InjectionTarget target,
+
+    /// A string containing the CSS to inject.
+    /// Exactly one of `files` and `css` must be
+    /// specified.
     String? css,
+
+    /// The path of the CSS files to inject, relative to the extension's root
+    /// directory.
+    /// Exactly one of `files` and `css` must be
+    /// specified.
     List<String>? files,
+
+    /// The style origin for the injection. Defaults to `'AUTHOR'`.
     StyleOrigin? origin,
   }) : _wrapped = $js.CSSInjection(
           target: target.toJS,
@@ -218,8 +275,13 @@ class InjectionResult {
   InjectionResult.fromJS(this._wrapped);
 
   InjectionResult({
+    /// The result of the script execution.
     Object? result,
+
+    /// The frame associated with the injection.
     required int frameId,
+
+    /// The document associated with the injection.
     required String documentId,
   }) : _wrapped = $js.InjectionResult()
           ..result = result?.toJS
@@ -253,15 +315,52 @@ class RegisteredContentScript {
   RegisteredContentScript.fromJS(this._wrapped);
 
   RegisteredContentScript({
+    /// The id of the content script, specified in the API call. Must not start
+    /// with a '_' as it's reserved as a prefix for generated script IDs.
     required String id,
+
+    /// Specifies which pages this content script will be injected into. See
+    /// [Match Patterns](match_patterns) for more details on the
+    /// syntax of these strings. Must be specified for
+    /// [registerContentScripts].
     List<String>? matches,
+
+    /// Excludes pages that this content script would otherwise be injected
+    /// into.
+    /// See [Match Patterns](match_patterns) for more details on the
+    /// syntax of these strings.
     List<String>? excludeMatches,
+
+    /// The list of CSS files to be injected into matching pages. These are
+    /// injected in the order they appear in this array, before any DOM is
+    /// constructed or displayed for the page.
     List<String>? css,
+
+    /// The list of JavaScript files to be injected into matching pages. These
+    /// are injected in the order they appear in this array.
     List<String>? js,
+
+    /// If specified true, it will inject into all frames, even if the frame is
+    /// not the top-most frame in the tab. Each frame is checked independently
+    /// for URL requirements; it will not inject into child frames if the URL
+    /// requirements are not met. Defaults to false, meaning that only the top
+    /// frame is matched.
     bool? allFrames,
+
+    /// TODO(devlin): Add documentation once the implementation is complete. See
+    /// crbug.com/55084.
     bool? matchOriginAsFallback,
+
+    /// Specifies when JavaScript files are injected into the web page. The
+    /// preferred and default value is `document_idle`.
     RunAt? runAt,
+
+    /// Specifies if this content script will persist into future sessions. The
+    /// default is true.
     bool? persistAcrossSessions,
+
+    /// The JavaScript "world" to run the script in. Defaults to
+    /// `ISOLATED`.
     ExecutionWorld? world,
   }) : _wrapped = $js.RegisteredContentScript(
           id: id,
@@ -284,7 +383,11 @@ class RegisteredContentScript {
 class ContentScriptFilter {
   ContentScriptFilter.fromJS(this._wrapped);
 
-  ContentScriptFilter({List<String>? ids})
+  ContentScriptFilter(
+      {
+      /// If specified, [getRegisteredContentScripts] will only return scripts
+      /// with an id specified in this list.
+      List<String>? ids})
       : _wrapped = $js.ContentScriptFilter(ids: ids?.toJSArray((e) => e));
 
   final $js.ContentScriptFilter _wrapped;

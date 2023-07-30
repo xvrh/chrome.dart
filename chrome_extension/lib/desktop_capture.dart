@@ -102,8 +102,18 @@ class ChooseDesktopMediaOptions {
   ChooseDesktopMediaOptions.fromJS(this._wrapped);
 
   ChooseDesktopMediaOptions({
+    /// Mirrors
+    /// [systemAudio](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio).
     SystemAudioPreferenceEnum? systemAudio,
+
+    /// Mirrors
+    /// [selfBrowserSurface](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface).
     SelfCapturePreferenceEnum? selfBrowserSurface,
+
+    /// Indicates that the caller intends to perform local audio suppression,
+    /// and that the media picker shown to the user should therefore reflect
+    /// that with the appropriate warnings, as it does when getDisplayMedia() is
+    /// invoked.
     bool? suppressLocalAudioPlaybackIntended,
   }) : _wrapped = $js.ChooseDesktopMediaOptions(
           systemAudio: systemAudio?.toJS,

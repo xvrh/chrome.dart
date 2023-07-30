@@ -159,14 +159,33 @@ class OnBeforeNavigateDetails {
   OnBeforeNavigateDetails.fromJS(this._wrapped);
 
   OnBeforeNavigateDetails({
+    /// The ID of the tab in which the navigation is about to occur.
     required int tabId,
     required String url,
+
+    /// The value of -1.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique for a
+    /// given tab and process.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// The time when the browser was about to start the navigation, in
+    /// milliseconds since the epoch.
     required double timeStamp,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnBeforeNavigateDetails()
           ..tabId = tabId
@@ -246,17 +265,42 @@ class OnCommittedDetails {
   OnCommittedDetails.fromJS(this._wrapped);
 
   OnCommittedDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// Cause of the navigation.
     required TransitionType transitionType,
+
+    /// A list of transition qualifiers.
     required List<TransitionQualifier> transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnCommittedDetails()
           ..tabId = tabId
@@ -362,15 +406,36 @@ class OnDomContentLoadedDetails {
   OnDomContentLoadedDetails.fromJS(this._wrapped);
 
   OnDomContentLoadedDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// The time when the page's DOM was fully constructed, in milliseconds
+    /// since the epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnDomContentLoadedDetails()
           ..tabId = tabId
@@ -457,15 +522,36 @@ class OnCompletedDetails {
   OnCompletedDetails.fromJS(this._wrapped);
 
   OnCompletedDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// The time when the document finished loading, in milliseconds since the
+    /// epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnCompletedDetails()
           ..tabId = tabId
@@ -552,16 +638,38 @@ class OnErrorOccurredDetails {
   OnErrorOccurredDetails.fromJS(this._wrapped);
 
   OnErrorOccurredDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The value of -1.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// The error description.
     required String error,
+
+    /// The time when the error occurred, in milliseconds since the epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnErrorOccurredDetails()
           ..tabId = tabId
@@ -654,11 +762,24 @@ class OnCreatedNavigationTargetDetails {
   OnCreatedNavigationTargetDetails.fromJS(this._wrapped);
 
   OnCreatedNavigationTargetDetails({
+    /// The ID of the tab in which the navigation is triggered.
     required int sourceTabId,
+
+    /// The ID of the process that runs the renderer for the source frame.
     required int sourceProcessId,
+
+    /// The ID of the frame with sourceTabId in which the navigation is
+    /// triggered. 0 indicates the main frame.
     required int sourceFrameId,
+
+    /// The URL to be opened in the new window.
     required String url,
+
+    /// The ID of the tab in which the url is opened
     required int tabId,
+
+    /// The time when the browser was about to create a new view, in
+    /// milliseconds since the epoch.
     required double timeStamp,
   }) : _wrapped = $js.OnCreatedNavigationTargetDetails()
           ..sourceTabId = sourceTabId
@@ -715,17 +836,42 @@ class OnReferenceFragmentUpdatedDetails {
   OnReferenceFragmentUpdatedDetails.fromJS(this._wrapped);
 
   OnReferenceFragmentUpdatedDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// Cause of the navigation.
     required TransitionType transitionType,
+
+    /// A list of transition qualifiers.
     required List<TransitionQualifier> transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnReferenceFragmentUpdatedDetails()
           ..tabId = tabId
@@ -831,8 +977,13 @@ class OnTabReplacedDetails {
   OnTabReplacedDetails.fromJS(this._wrapped);
 
   OnTabReplacedDetails({
+    /// The ID of the tab that was replaced.
     required int replacedTabId,
+
+    /// The ID of the tab that replaced the old tab.
     required int tabId,
+
+    /// The time when the replacement happened, in milliseconds since the epoch.
     required double timeStamp,
   }) : _wrapped = $js.OnTabReplacedDetails()
           ..replacedTabId = replacedTabId
@@ -866,17 +1017,42 @@ class OnHistoryStateUpdatedDetails {
   OnHistoryStateUpdatedDetails.fromJS(this._wrapped);
 
   OnHistoryStateUpdatedDetails({
+    /// The ID of the tab in which the navigation occurs.
     required int tabId,
     required String url,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// Cause of the navigation.
     required TransitionType transitionType,
+
+    /// A list of transition qualifiers.
     required List<TransitionQualifier> transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
     required double timeStamp,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.OnHistoryStateUpdatedDetails()
           ..tabId = tabId
@@ -982,12 +1158,30 @@ class GetFrameCallbackDetails {
   GetFrameCallbackDetails.fromJS(this._wrapped);
 
   GetFrameCallbackDetails({
+    /// True if the last navigation in this frame was interrupted by an error,
+    /// i.e. the onErrorOccurred event fired.
     required bool errorOccurred,
+
+    /// The URL currently associated with this frame, if the frame identified by
+    /// the frameId existed at one point in the given tab. The fact that an URL
+    /// is associated with a given frameId does not imply that the corresponding
+    /// frame still exists.
     required String url,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.GetFrameCallbackDetails()
           ..errorOccurred = errorOccurred
@@ -1055,9 +1249,17 @@ class GetFrameDetails {
   GetFrameDetails.fromJS(this._wrapped);
 
   GetFrameDetails({
+    /// The ID of the tab in which the frame is.
     int? tabId,
+
+    /// The ID of the process that runs the renderer for this tab.
     int? processId,
+
+    /// The ID of the frame in the given tab.
     int? frameId,
+
+    /// The UUID of the document. If the frameId and/or tabId are provided they
+    /// will be validated to match the document found by provided document ID.
     String? documentId,
   }) : _wrapped = $js.GetFrameDetails(
           tabId: tabId,
@@ -1075,14 +1277,34 @@ class GetAllFramesCallbackDetails {
   GetAllFramesCallbackDetails.fromJS(this._wrapped);
 
   GetAllFramesCallbackDetails({
+    /// True if the last navigation in this frame was interrupted by an error,
+    /// i.e. the onErrorOccurred event fired.
     required bool errorOccurred,
+
+    /// The ID of the process that runs the renderer for this frame.
     required int processId,
+
+    /// The ID of the frame. 0 indicates that this is the main frame; a positive
+    /// value indicates the ID of a subframe.
     required int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
     required int parentFrameId,
+
+    /// The URL currently associated with this frame.
     required String url,
+
+    /// A UUID of the document loaded.
     required String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
     String? parentDocumentId,
+
+    /// The lifecycle the document is in.
     required DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
     required FrameType frameType,
   }) : _wrapped = $js.GetAllFramesCallbackDetails()
           ..errorOccurred = errorOccurred
@@ -1161,7 +1383,10 @@ class GetAllFramesCallbackDetails {
 class GetAllFramesDetails {
   GetAllFramesDetails.fromJS(this._wrapped);
 
-  GetAllFramesDetails({required int tabId})
+  GetAllFramesDetails(
+      {
+      /// The ID of the tab.
+      required int tabId})
       : _wrapped = $js.GetAllFramesDetails(tabId: tabId);
 
   final $js.GetAllFramesDetails _wrapped;

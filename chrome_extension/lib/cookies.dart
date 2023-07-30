@@ -126,16 +126,44 @@ class Cookie {
   Cookie.fromJS(this._wrapped);
 
   Cookie({
+    /// The name of the cookie.
     required String name,
+
+    /// The value of the cookie.
     required String value,
+
+    /// The domain of the cookie (e.g. "www.google.com", "example.com").
     required String domain,
+
+    /// True if the cookie is a host-only cookie (i.e. a request's host must
+    /// exactly match the domain of the cookie).
     required bool hostOnly,
+
+    /// The path of the cookie.
     required String path,
+
+    /// True if the cookie is marked as Secure (i.e. its scope is limited to
+    /// secure channels, typically HTTPS).
     required bool secure,
+
+    /// True if the cookie is marked as HttpOnly (i.e. the cookie is
+    /// inaccessible to client-side scripts).
     required bool httpOnly,
+
+    /// The cookie's same-site status (i.e. whether the cookie is sent with
+    /// cross-site requests).
     required SameSiteStatus sameSite,
+
+    /// True if the cookie is a session cookie, as opposed to a persistent
+    /// cookie with an expiration date.
     required bool session,
+
+    /// The expiration date of the cookie as the number of seconds since the
+    /// UNIX epoch. Not provided for session cookies.
     double? expirationDate,
+
+    /// The ID of the cookie store containing this cookie, as provided in
+    /// getAllCookieStores().
     required String storeId,
   }) : _wrapped = $js.Cookie()
           ..name = name
@@ -232,7 +260,10 @@ class CookieStore {
   CookieStore.fromJS(this._wrapped);
 
   CookieStore({
+    /// The unique identifier for the cookie store.
     required String id,
+
+    /// Identifiers of all the browser tabs that share this cookie store.
     required List<int> tabIds,
   }) : _wrapped = $js.CookieStore()
           ..id = id
@@ -260,8 +291,17 @@ class CookieDetails {
   CookieDetails.fromJS(this._wrapped);
 
   CookieDetails({
+    /// The URL with which the cookie to access is associated. This argument may
+    /// be a full URL, in which case any data following the URL path (e.g. the
+    /// query string) is simply ignored. If host permissions for this URL are
+    /// not specified in the manifest file, the API call will fail.
     required String url,
+
+    /// The name of the cookie to access.
     required String name,
+
+    /// The ID of the cookie store in which to look for the cookie. By default,
+    /// the current execution context's cookie store will be used.
     String? storeId,
   }) : _wrapped = $js.CookieDetails(
           url: url,
@@ -278,8 +318,13 @@ class OnChangedChangeInfo {
   OnChangedChangeInfo.fromJS(this._wrapped);
 
   OnChangedChangeInfo({
+    /// True if a cookie was removed.
     required bool removed,
+
+    /// Information about the cookie that was set or removed.
     required Cookie cookie,
+
+    /// The underlying reason behind the cookie's change.
     required OnChangedCause cause,
   }) : _wrapped = $js.OnChangedChangeInfo()
           ..removed = removed
@@ -313,12 +358,28 @@ class GetAllDetails {
   GetAllDetails.fromJS(this._wrapped);
 
   GetAllDetails({
+    /// Restricts the retrieved cookies to those that would match the given URL.
     String? url,
+
+    /// Filters the cookies by name.
     String? name,
+
+    /// Restricts the retrieved cookies to those whose domains match or are
+    /// subdomains of this one.
     String? domain,
+
+    /// Restricts the retrieved cookies to those whose path exactly matches this
+    /// string.
     String? path,
+
+    /// Filters the cookies by their Secure property.
     bool? secure,
+
+    /// Filters out session vs. persistent cookies.
     bool? session,
+
+    /// The cookie store to retrieve cookies from. If omitted, the current
+    /// execution context's cookie store will be used.
     String? storeId,
   }) : _wrapped = $js.GetAllDetails(
           url: url,
@@ -339,15 +400,42 @@ class SetDetails {
   SetDetails.fromJS(this._wrapped);
 
   SetDetails({
+    /// The request-URI to associate with the setting of the cookie. This value
+    /// can affect the default domain and path values of the created cookie. If
+    /// host permissions for this URL are not specified in the manifest file,
+    /// the API call will fail.
     required String url,
+
+    /// The name of the cookie. Empty by default if omitted.
     String? name,
+
+    /// The value of the cookie. Empty by default if omitted.
     String? value,
+
+    /// The domain of the cookie. If omitted, the cookie becomes a host-only
+    /// cookie.
     String? domain,
+
+    /// The path of the cookie. Defaults to the path portion of the url
+    /// parameter.
     String? path,
+
+    /// Whether the cookie should be marked as Secure. Defaults to false.
     bool? secure,
+
+    /// Whether the cookie should be marked as HttpOnly. Defaults to false.
     bool? httpOnly,
+
+    /// The cookie's same-site status. Defaults to "unspecified", i.e., if
+    /// omitted, the cookie is set without specifying a SameSite attribute.
     SameSiteStatus? sameSite,
+
+    /// The expiration date of the cookie as the number of seconds since the
+    /// UNIX epoch. If omitted, the cookie becomes a session cookie.
     double? expirationDate,
+
+    /// The ID of the cookie store in which to set the cookie. By default, the
+    /// cookie is set in the current execution context's cookie store.
     String? storeId,
   }) : _wrapped = $js.SetDetails(
           url: url,
@@ -371,8 +459,13 @@ class RemoveCallbackDetails {
   RemoveCallbackDetails.fromJS(this._wrapped);
 
   RemoveCallbackDetails({
+    /// The URL associated with the cookie that's been removed.
     required String url,
+
+    /// The name of the cookie that's been removed.
     required String name,
+
+    /// The ID of the cookie store from which the cookie was removed.
     required String storeId,
   }) : _wrapped = $js.RemoveCallbackDetails()
           ..url = url

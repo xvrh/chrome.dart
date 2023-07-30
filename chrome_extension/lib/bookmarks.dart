@@ -247,15 +247,42 @@ class BookmarkTreeNode {
   BookmarkTreeNode.fromJS(this._wrapped);
 
   BookmarkTreeNode({
+    /// The unique identifier for the node. IDs are unique within the current
+    /// profile, and they remain valid even after the browser is restarted.
     required String id,
+
+    /// The `id` of the parent folder.  Omitted for the root node.
     String? parentId,
+
+    /// The 0-based position of this node within its parent folder.
     int? index,
+
+    /// The URL navigated to when a user clicks the bookmark. Omitted for
+    /// folders.
     String? url,
+
+    /// The text displayed for the node.
     required String title,
+
+    /// When this node was created, in milliseconds since the epoch (`new
+    /// Date(dateAdded)`).
     double? dateAdded,
+
+    /// When this node was last opened, in milliseconds since the epoch. Not set
+    /// for folders.
     double? dateLastUsed,
+
+    /// When the contents of this folder last changed, in milliseconds since the
+    /// epoch.
     double? dateGroupModified,
+
+    /// Indicates the reason why this node is unmodifiable. The [managed] value
+    /// indicates that this node was configured by the system administrator or
+    /// by the custodian of a supervised user. Omitted if the node can be
+    /// modified by the user and the extension (default).
     BookmarkTreeNodeUnmodifiable? unmodifiable,
+
+    /// An ordered list of children of this node.
     List<BookmarkTreeNode>? children,
   }) : _wrapped = $js.BookmarkTreeNode()
           ..id = id
@@ -349,6 +376,7 @@ class CreateDetails {
   CreateDetails.fromJS(this._wrapped);
 
   CreateDetails({
+    /// Defaults to the Other Bookmarks folder.
     String? parentId,
     int? index,
     String? title,
@@ -483,8 +511,15 @@ class SearchQuery {
   SearchQuery.fromJS(this._wrapped);
 
   SearchQuery({
+    /// A string of words and quoted phrases that are matched against bookmark
+    /// URLs and titles.
     String? query,
+
+    /// The URL of the bookmark; matches verbatim. Note that folders have no
+    /// URL.
     String? url,
+
+    /// The title of the bookmark; matches verbatim.
     String? title,
   }) : _wrapped = $js.SearchQuery(
           query: query,

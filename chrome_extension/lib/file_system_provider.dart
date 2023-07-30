@@ -543,11 +543,30 @@ class EntryMetadata {
   EntryMetadata.fromJS(this._wrapped);
 
   EntryMetadata({
+    /// True if it is a directory. Must be provided if requested in
+    /// `options`.
     bool? isDirectory,
+
+    /// Name of this entry (not full path name). Must not contain '/'. For root
+    /// it must be empty. Must be provided if requested in `options`.
     String? name,
+
+    /// File size in bytes. Must be provided if requested in
+    /// `options`.
     double? size,
+
+    /// The last modified time of this entry. Must be provided if requested in
+    /// `options`.
     Object? modificationTime,
+
+    /// Mime type for the entry. Always optional, but should be provided if
+    /// requested in `options`.
     String? mimeType,
+
+    /// Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at
+    /// most
+    /// 32 KB in size. Optional, but can be provided only when explicitly
+    /// requested by the [onGetMetadataRequested] event.
     String? thumbnail,
   }) : _wrapped = $js.EntryMetadata()
           ..isDirectory = isDirectory
@@ -609,8 +628,14 @@ class Watcher {
   Watcher.fromJS(this._wrapped);
 
   Watcher({
+    /// The path of the entry being observed.
     required String entryPath,
+
+    /// Whether watching should include all child entries recursively. It can be
+    /// true for directories only.
     required bool recursive,
+
+    /// Tag used by the last notification for the watcher.
     String? lastTag,
   }) : _wrapped = $js.Watcher()
           ..entryPath = entryPath
@@ -645,8 +670,13 @@ class OpenedFile {
   OpenedFile.fromJS(this._wrapped);
 
   OpenedFile({
+    /// A request ID to be be used by consecutive read/write and close requests.
     required int openRequestId,
+
+    /// The path of the opened file.
     required String filePath,
+
+    /// Whether the file was opened for reading or writing.
     required OpenFileMode mode,
   }) : _wrapped = $js.OpenedFile()
           ..openRequestId = openRequestId
@@ -680,12 +710,28 @@ class FileSystemInfo {
   FileSystemInfo.fromJS(this._wrapped);
 
   FileSystemInfo({
+    /// The identifier of the file system.
     required String fileSystemId,
+
+    /// A human-readable name for the file system.
     required String displayName,
+
+    /// Whether the file system supports operations which may change contents
+    /// of the file system (such as creating, deleting or writing to files).
     required bool writable,
+
+    /// The maximum number of files that can be opened at once. If 0, then not
+    /// limited.
     required int openedFilesLimit,
+
+    /// List of currently opened files.
     required List<OpenedFile> openedFiles,
+
+    /// Whether the file system supports the `tag` field for observing
+    /// directories.
     bool? supportsNotifyTag,
+
+    /// List of watchers.
     required List<Watcher> watchers,
   }) : _wrapped = $js.FileSystemInfo()
           ..fileSystemId = fileSystemId
@@ -756,11 +802,28 @@ class MountOptions {
   MountOptions.fromJS(this._wrapped);
 
   MountOptions({
+    /// The string indentifier of the file system. Must be unique per each
+    /// extension.
     required String fileSystemId,
+
+    /// A human-readable name for the file system.
     required String displayName,
+
+    /// Whether the file system supports operations which may change contents
+    /// of the file system (such as creating, deleting or writing to files).
     bool? writable,
+
+    /// The maximum number of files that can be opened at once. If not
+    /// specified,
+    /// or 0, then not limited.
     int? openedFilesLimit,
+
+    /// Whether the file system supports the `tag` field for observed
+    /// directories.
     bool? supportsNotifyTag,
+
+    /// Whether the framework should resume the file system at the next sign-in
+    /// session. True by default.
     bool? persistent,
   }) : _wrapped = $js.MountOptions(
           fileSystemId: fileSystemId,
@@ -779,7 +842,10 @@ class MountOptions {
 class UnmountOptions {
   UnmountOptions.fromJS(this._wrapped);
 
-  UnmountOptions({required String fileSystemId})
+  UnmountOptions(
+      {
+      /// The identifier of the file system to be unmounted.
+      required String fileSystemId})
       : _wrapped = $js.UnmountOptions(fileSystemId: fileSystemId);
 
   final $js.UnmountOptions _wrapped;
@@ -791,7 +857,10 @@ class UnmountRequestedOptions {
   UnmountRequestedOptions.fromJS(this._wrapped);
 
   UnmountRequestedOptions({
+    /// The identifier of the file system to be unmounted.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
   }) : _wrapped = $js.UnmountRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -818,14 +887,32 @@ class GetMetadataRequestedOptions {
   GetMetadataRequestedOptions.fromJS(this._wrapped);
 
   GetMetadataRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the entry to fetch metadata about.
     required String entryPath,
+
+    /// Set to `true` if `is_directory` value is requested.
     required bool isDirectory,
+
+    /// Set to `true` if `name` value is requested.
     required bool name,
+
+    /// Set to `true` if `size` value is requested.
     required bool size,
+
+    /// Set to `true` if `modificationTime` value is
+    /// requested.
     required bool modificationTime,
+
+    /// Set to `true` if `mimeType` value is requested.
     required bool mimeType,
+
+    /// Set to `true` if the thumbnail is requested.
     required bool thumbnail,
   }) : _wrapped = $js.GetMetadataRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -902,8 +989,13 @@ class GetActionsRequestedOptions {
   GetActionsRequestedOptions.fromJS(this._wrapped);
 
   GetActionsRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// List of paths of entries for the list of actions.
     required List<String> entryPaths,
   }) : _wrapped = $js.GetActionsRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -938,14 +1030,32 @@ class ReadDirectoryRequestedOptions {
   ReadDirectoryRequestedOptions.fromJS(this._wrapped);
 
   ReadDirectoryRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the directory which contents are requested.
     required String directoryPath,
+
+    /// Set to `true` if `is_directory` value is requested.
     required bool isDirectory,
+
+    /// Set to `true` if `name` value is requested.
     required bool name,
+
+    /// Set to `true` if `size` value is requested.
     required bool size,
+
+    /// Set to `true` if `modificationTime` value is
+    /// requested.
     required bool modificationTime,
+
+    /// Set to `true` if `mimeType` value is requested.
     required bool mimeType,
+
+    /// Set to `true` if the thumbnail is requested.
     required bool thumbnail,
   }) : _wrapped = $js.ReadDirectoryRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1022,9 +1132,17 @@ class OpenFileRequestedOptions {
   OpenFileRequestedOptions.fromJS(this._wrapped);
 
   OpenFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// A request ID which will be used by consecutive read/write and close
+    /// requests.
     required int requestId,
+
+    /// The path of the file to be opened.
     required String filePath,
+
+    /// Whether the file will be used for reading or writing.
     required OpenFileMode mode,
   }) : _wrapped = $js.OpenFileRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1066,8 +1184,13 @@ class CloseFileRequestedOptions {
   CloseFileRequestedOptions.fromJS(this._wrapped);
 
   CloseFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// A request ID used to open the file.
     required int openRequestId,
   }) : _wrapped = $js.CloseFileRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1101,10 +1224,19 @@ class ReadFileRequestedOptions {
   ReadFileRequestedOptions.fromJS(this._wrapped);
 
   ReadFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// A request ID used to open the file.
     required int openRequestId,
+
+    /// Position in the file (in bytes) to start reading from.
     required double offset,
+
+    /// Number of bytes to be returned.
     required double length,
   }) : _wrapped = $js.ReadFileRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1152,9 +1284,16 @@ class CreateDirectoryRequestedOptions {
   CreateDirectoryRequestedOptions.fromJS(this._wrapped);
 
   CreateDirectoryRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the directory to be created.
     required String directoryPath,
+
+    /// Whether the operation is recursive (for directories only).
     required bool recursive,
   }) : _wrapped = $js.CreateDirectoryRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1195,9 +1334,16 @@ class DeleteEntryRequestedOptions {
   DeleteEntryRequestedOptions.fromJS(this._wrapped);
 
   DeleteEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the entry to be deleted.
     required String entryPath,
+
+    /// Whether the operation is recursive (for directories only).
     required bool recursive,
   }) : _wrapped = $js.DeleteEntryRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1238,8 +1384,13 @@ class CreateFileRequestedOptions {
   CreateFileRequestedOptions.fromJS(this._wrapped);
 
   CreateFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the file to be created.
     required String filePath,
   }) : _wrapped = $js.CreateFileRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1273,9 +1424,16 @@ class CopyEntryRequestedOptions {
   CopyEntryRequestedOptions.fromJS(this._wrapped);
 
   CopyEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The source path of the entry to be copied.
     required String sourcePath,
+
+    /// The destination path for the copy operation.
     required String targetPath,
   }) : _wrapped = $js.CopyEntryRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1316,9 +1474,16 @@ class MoveEntryRequestedOptions {
   MoveEntryRequestedOptions.fromJS(this._wrapped);
 
   MoveEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The source path of the entry to be moved into a new place.
     required String sourcePath,
+
+    /// The destination path for the copy operation.
     required String targetPath,
   }) : _wrapped = $js.MoveEntryRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1359,9 +1524,16 @@ class TruncateRequestedOptions {
   TruncateRequestedOptions.fromJS(this._wrapped);
 
   TruncateRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the file to be truncated.
     required String filePath,
+
+    /// Number of bytes to be retained after the operation completes.
     required double length,
   }) : _wrapped = $js.TruncateRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1402,10 +1574,19 @@ class WriteFileRequestedOptions {
   WriteFileRequestedOptions.fromJS(this._wrapped);
 
   WriteFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// A request ID used to open the file.
     required int openRequestId,
+
+    /// Position in the file (in bytes) to start writing the bytes from.
     required double offset,
+
+    /// Buffer of bytes to be written to the file.
     required ByteBuffer data,
   }) : _wrapped = $js.WriteFileRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1453,8 +1634,13 @@ class AbortRequestedOptions {
   AbortRequestedOptions.fromJS(this._wrapped);
 
   AbortRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// An ID of the request to be aborted.
     required int operationRequestId,
   }) : _wrapped = $js.AbortRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1488,9 +1674,18 @@ class AddWatcherRequestedOptions {
   AddWatcherRequestedOptions.fromJS(this._wrapped);
 
   AddWatcherRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the entry to be observed.
     required String entryPath,
+
+    /// Whether observing should include all child entries recursively. It can
+    /// be
+    /// true for directories only.
     required bool recursive,
   }) : _wrapped = $js.AddWatcherRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1532,9 +1727,16 @@ class RemoveWatcherRequestedOptions {
   RemoveWatcherRequestedOptions.fromJS(this._wrapped);
 
   RemoveWatcherRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The path of the watched entry.
     required String entryPath,
+
+    /// Mode of the watcher.
     required bool recursive,
   }) : _wrapped = $js.RemoveWatcherRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1575,7 +1777,11 @@ class Action {
   Action.fromJS(this._wrapped);
 
   Action({
+    /// The identifier of the action. Any string or [CommonActionId] for
+    /// common actions.
     required String id,
+
+    /// The title of the action. It may be ignored for common actions.
     String? title,
   }) : _wrapped = $js.Action()
           ..id = id
@@ -1603,9 +1809,16 @@ class ExecuteActionRequestedOptions {
   ExecuteActionRequestedOptions.fromJS(this._wrapped);
 
   ExecuteActionRequestedOptions({
+    /// The identifier of the file system related to this operation.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
+
+    /// The set of paths of the entries to be used for the action.
     required List<String> entryPaths,
+
+    /// The identifier of the action to be executed.
     required String actionId,
   }) : _wrapped = $js.ExecuteActionRequestedOptions()
           ..fileSystemId = fileSystemId
@@ -1647,7 +1860,10 @@ class Change {
   Change.fromJS(this._wrapped);
 
   Change({
+    /// The path of the changed entry.
     required String entryPath,
+
+    /// The type of the change which happened to the entry.
     required ChangeType changeType,
   }) : _wrapped = $js.Change(
           entryPath: entryPath,
@@ -1663,11 +1879,28 @@ class NotifyOptions {
   NotifyOptions.fromJS(this._wrapped);
 
   NotifyOptions({
+    /// The identifier of the file system related to this change.
     required String fileSystemId,
+
+    /// The path of the observed entry.
     required String observedPath,
+
+    /// Mode of the observed entry.
     required bool recursive,
+
+    /// The type of the change which happened to the observed entry. If it is
+    /// DELETED, then the observed entry will be automatically removed from the
+    /// list of observed entries.
     required ChangeType changeType,
+
+    /// List of changes to entries within the observed directory (including the
+    /// entry itself)
     List<Change>? changes,
+
+    /// Tag for the notification. Required if the file system was mounted with
+    /// the `supportsNotifyTag` option. Note, that this flag is
+    /// necessary to provide notifications about changes which changed even
+    /// when the system was shutdown.
     String? tag,
   }) : _wrapped = $js.NotifyOptions(
           fileSystemId: fileSystemId,
@@ -1687,7 +1920,10 @@ class ConfigureRequestedOptions {
   ConfigureRequestedOptions.fromJS(this._wrapped);
 
   ConfigureRequestedOptions({
+    /// The identifier of the file system to be configured.
     required String fileSystemId,
+
+    /// The unique identifier of this request.
     required int requestId,
   }) : _wrapped = $js.ConfigureRequestedOptions()
           ..fileSystemId = fileSystemId

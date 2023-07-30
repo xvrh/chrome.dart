@@ -129,20 +129,19 @@ class ChromeBrowserAction {
 
 typedef ColorArray = List<int>;
 
-class ImageDataType {
-  ImageDataType.fromJS(this._wrapped);
-
-  ImageDataType() : _wrapped = $js.ImageDataType();
-
-  final $js.ImageDataType _wrapped;
-
-  $js.ImageDataType get toJS => _wrapped;
-}
+/// Pixel data for an image. Must be an ImageData object; for example, from a
+/// `canvas` element.
+typedef ImageDataType = JSObject;
 
 class TabDetails {
   TabDetails.fromJS(this._wrapped);
 
-  TabDetails({int? tabId}) : _wrapped = $js.TabDetails(tabId: tabId);
+  TabDetails(
+      {
+      /// The ID of the tab to query state for. If no tab is specified, the
+      /// non-tab-specific state is returned.
+      int? tabId})
+      : _wrapped = $js.TabDetails(tabId: tabId);
 
   final $js.TabDetails _wrapped;
 
@@ -153,7 +152,11 @@ class SetTitleDetails {
   SetTitleDetails.fromJS(this._wrapped);
 
   SetTitleDetails({
+    /// The string the browser action should display when moused over.
     required String title,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetTitleDetails(
           title: title,
@@ -169,12 +172,32 @@ class SetIconDetails {
   SetIconDetails.fromJS(this._wrapped);
 
   SetIconDetails({
+    /// Either an ImageData object or a dictionary {size -> ImageData}
+    /// representing an icon to be set. If the icon is specified as a
+    /// dictionary, the image used is chosen depending on the screen's pixel
+    /// density. If the number of image pixels that fit into one screen space
+    /// unit equals `scale`, then an image with size `scale` * n is selected,
+    /// where <i>n</i> is the size of the icon in the UI. At least one image
+    /// must be specified. Note that 'details.imageData = foo' is equivalent to
+    /// 'details.imageData = {'16': foo}'
     Object? imageData,
+
+    /// Either a relative image path or a dictionary {size -> relative image
+    /// path} pointing to an icon to be set. If the icon is specified as a
+    /// dictionary, the image used is chosen depending on the screen's pixel
+    /// density. If the number of image pixels that fit into one screen space
+    /// unit equals `scale`, then an image with size `scale` * n is selected,
+    /// where <i>n</i> is the size of the icon in the UI. At least one image
+    /// must be specified. Note that 'details.path = foo' is equivalent to
+    /// 'details.path = {'16': foo}'
     Object? path,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
           imageData: switch (imageData) {
-            ImageDataType() => imageData.toJS,
+            ImageDataType() => imageData,
             Map() => imageData.jsify()!,
             Null() => null,
             _ => throw UnsupportedError(
@@ -199,7 +222,12 @@ class SetPopupDetails {
   SetPopupDetails.fromJS(this._wrapped);
 
   SetPopupDetails({
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
+
+    /// The relative path to the HTML file to show in a popup. If set to the
+    /// empty string (`''`), no popup is shown.
     required String popup,
   }) : _wrapped = $js.SetPopupDetails(
           tabId: tabId,
@@ -215,7 +243,14 @@ class SetBadgeTextDetails {
   SetBadgeTextDetails.fromJS(this._wrapped);
 
   SetBadgeTextDetails({
+    /// Any number of characters can be passed, but only about four can fit into
+    /// the space. If an empty string (`''`) is passed, the badge text is
+    /// cleared.  If `tabId` is specified and `text` is null, the text for the
+    /// specified tab is cleared and defaults to the global badge text.
     String? text,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetBadgeTextDetails(
           text: text,
@@ -231,7 +266,13 @@ class SetBadgeBackgroundColorDetails {
   SetBadgeBackgroundColorDetails.fromJS(this._wrapped);
 
   SetBadgeBackgroundColorDetails({
+    /// An array of four integers in the range 0-255 that make up the RGBA color
+    /// of the badge. Can also be a string with a CSS hex color value; for
+    /// example, `#FF0000` or `#F00` (red). Renders colors at full opacity.
     required Object color,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
           color: switch (color) {

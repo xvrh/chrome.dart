@@ -31,7 +31,10 @@ class MemoryInfo {
   MemoryInfo.fromJS(this._wrapped);
 
   MemoryInfo({
+    /// The total amount of physical memory capacity, in bytes.
     required double capacity,
+
+    /// The amount of available capacity, in bytes.
     required double availableCapacity,
   }) : _wrapped = $js.MemoryInfo()
           ..capacity = capacity

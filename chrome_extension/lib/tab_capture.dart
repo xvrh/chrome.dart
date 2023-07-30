@@ -114,8 +114,13 @@ class CaptureInfo {
   CaptureInfo.fromJS(this._wrapped);
 
   CaptureInfo({
+    /// The id of the tab whose status changed.
     required int tabId,
+
+    /// The new capture status of the tab.
     required TabCaptureState status,
+
+    /// Whether an element in the tab being captured is in fullscreen mode.
     required bool fullscreen,
   }) : _wrapped = $js.CaptureInfo()
           ..tabId = tabId
@@ -182,7 +187,18 @@ class GetMediaStreamOptions {
   GetMediaStreamOptions.fromJS(this._wrapped);
 
   GetMediaStreamOptions({
+    /// Optional tab id of the tab which will later invoke
+    /// `getUserMedia()` to consume the stream. If not specified
+    /// then the resulting stream can be used only by the calling extension.
+    /// The stream can only be used by frames in the given tab whose security
+    /// origin matches the consumber tab's origin. The tab's origin must be a
+    /// secure origin, e.g. HTTPS.
     int? consumerTabId,
+
+    /// Optional tab id of the tab which will be captured. If not specified
+    /// then the current active tab will be selected. Only tabs for which the
+    /// extension has been granted the `activeTab` permission can be
+    /// used as the target tab.
     int? targetTabId,
   }) : _wrapped = $js.GetMediaStreamOptions(
           consumerTabId: consumerTabId,

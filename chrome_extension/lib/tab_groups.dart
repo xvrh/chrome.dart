@@ -122,10 +122,20 @@ class TabGroup {
   TabGroup.fromJS(this._wrapped);
 
   TabGroup({
+    /// The ID of the group. Group IDs are unique within a browser session.
     required int id,
+
+    /// Whether the group is collapsed. A collapsed group is one whose tabs are
+    /// hidden.
     required bool collapsed,
+
+    /// The group's color.
     required Color color,
+
+    /// The title of the group.
     String? title,
+
+    /// The ID of the window that contains the group.
     required int windowId,
   }) : _wrapped = $js.TabGroup()
           ..id = id
@@ -174,9 +184,17 @@ class QueryInfo {
   QueryInfo.fromJS(this._wrapped);
 
   QueryInfo({
+    /// Whether the groups are collapsed.
     bool? collapsed,
+
+    /// The color of the groups.
     Color? color,
+
+    /// Match group titles against a pattern.
     String? title,
+
+    /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+    /// [current window](windows#current-window).
     int? windowId,
   }) : _wrapped = $js.QueryInfo(
           collapsed: collapsed,
@@ -194,8 +212,13 @@ class UpdateProperties {
   UpdateProperties.fromJS(this._wrapped);
 
   UpdateProperties({
+    /// Whether the group should be collapsed.
     bool? collapsed,
+
+    /// The color of the group.
     Color? color,
+
+    /// The title of the group.
     String? title,
   }) : _wrapped = $js.UpdateProperties(
           collapsed: collapsed,
@@ -212,7 +235,13 @@ class MoveProperties {
   MoveProperties.fromJS(this._wrapped);
 
   MoveProperties({
+    /// The window to move the group to. Defaults to the window the group is
+    /// currently in. Note that groups can only be moved to and from windows
+    /// with [windows.WindowType] type `"normal"`.
     int? windowId,
+
+    /// The position to move the group to. Use `-1` to place the group at the
+    /// end of the window.
     required int index,
   }) : _wrapped = $js.MoveProperties(
           windowId: windowId,

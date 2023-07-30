@@ -33,7 +33,10 @@ class ScanOptions {
   ScanOptions.fromJS(this._wrapped);
 
   ScanOptions({
+    /// The MIME types that are accepted by the caller.
     List<String>? mimeTypes,
+
+    /// The number of scanned images allowed (defaults to 1).
     int? maxImages,
   }) : _wrapped = $js.ScanOptions(
           mimeTypes: mimeTypes?.toJSArray((e) => e),
@@ -49,7 +52,11 @@ class ScanResults {
   ScanResults.fromJS(this._wrapped);
 
   ScanResults({
+    /// The data image URLs in a form that can be passed as the "src" value to
+    /// an image tag.
     required List<String> dataUrls,
+
+    /// The MIME type of `dataUrls`.
     required String mimeType,
   }) : _wrapped = $js.ScanResults()
           ..dataUrls = dataUrls.toJSArray((e) => e)

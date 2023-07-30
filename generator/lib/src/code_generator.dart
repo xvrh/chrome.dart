@@ -556,6 +556,7 @@ class DartApiGenerator extends _GeneratorBase {
           ..constructors.add(Constructor((b) => b
             ..optionalParameters
                 .addAll(dictionary.properties.map((p) => Parameter((b) => b
+                  ..docs.add(documentationComment(p.documentation, indent: 4))
                   ..name = p.name
                   ..type = p.type.dartType
                   ..named = true

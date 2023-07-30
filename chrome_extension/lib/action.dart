@@ -145,7 +145,12 @@ class ChromeAction {
 class TabDetails {
   TabDetails.fromJS(this._wrapped);
 
-  TabDetails({int? tabId}) : _wrapped = $js.TabDetails(tabId: tabId);
+  TabDetails(
+      {
+      /// The ID of the tab to query state for. If no tab is specified, the
+      /// non-tab-specific state is returned.
+      int? tabId})
+      : _wrapped = $js.TabDetails(tabId: tabId);
 
   final $js.TabDetails _wrapped;
 
@@ -155,7 +160,12 @@ class TabDetails {
 class UserSettings {
   UserSettings.fromJS(this._wrapped);
 
-  UserSettings({required bool isOnToolbar})
+  UserSettings(
+      {
+      /// Whether the extension's action icon is visible on browser windows'
+      /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
+      /// user).
+      required bool isOnToolbar})
       : _wrapped = $js.UserSettings()..isOnToolbar = isOnToolbar;
 
   final $js.UserSettings _wrapped;
@@ -174,7 +184,11 @@ class UserSettings {
 class OpenPopupOptions {
   OpenPopupOptions.fromJS(this._wrapped);
 
-  OpenPopupOptions({int? windowId})
+  OpenPopupOptions(
+      {
+      /// The id of the window to open the action popup in. Defaults to the
+      /// currently-active window if unspecified.
+      int? windowId})
       : _wrapped = $js.OpenPopupOptions(windowId: windowId);
 
   final $js.OpenPopupOptions _wrapped;
@@ -186,7 +200,11 @@ class SetTitleDetails {
   SetTitleDetails.fromJS(this._wrapped);
 
   SetTitleDetails({
+    /// The string the action should display when moused over.
     required String title,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetTitleDetails(
           title: title,
@@ -202,12 +220,32 @@ class SetIconDetails {
   SetIconDetails.fromJS(this._wrapped);
 
   SetIconDetails({
+    /// Either an ImageData object or a dictionary {size -> ImageData}
+    /// representing icon to be set. If the icon is specified as a dictionary,
+    /// the actual image to be used is chosen depending on screen's pixel
+    /// density. If the number of image pixels that fit into one screen space
+    /// unit equals `scale`, then image with size `scale` * n will be selected,
+    /// where n is the size of the icon in the UI. At least one image must be
+    /// specified. Note that 'details.imageData = foo' is equivalent to
+    /// 'details.imageData = {'16': foo}'
     Object? imageData,
+
+    /// Either a relative image path or a dictionary {size -> relative image
+    /// path} pointing to icon to be set. If the icon is specified as a
+    /// dictionary, the actual image to be used is chosen depending on screen's
+    /// pixel density. If the number of image pixels that fit into one screen
+    /// space unit equals `scale`, then image with size `scale` * n will be
+    /// selected, where n is the size of the icon in the UI. At least one image
+    /// must be specified. Note that 'details.path = foo' is equivalent to
+    /// 'details.path = {'16': foo}'
     Object? path,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
           imageData: switch (imageData) {
-            ImageDataType() => imageData.toJS,
+            ImageDataType() => imageData,
             Map() => imageData.jsify()!,
             Null() => null,
             _ => throw UnsupportedError(
@@ -232,7 +270,12 @@ class SetPopupDetails {
   SetPopupDetails.fromJS(this._wrapped);
 
   SetPopupDetails({
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
+
+    /// The relative path to the HTML file to show in a popup. If set to the
+    /// empty string (`''`), no popup is shown.
     required String popup,
   }) : _wrapped = $js.SetPopupDetails(
           tabId: tabId,
@@ -248,7 +291,12 @@ class SetBadgeTextDetails {
   SetBadgeTextDetails.fromJS(this._wrapped);
 
   SetBadgeTextDetails({
+    /// Any number of characters can be passed, but only about four can fit in
+    /// the space.
     required String text,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetBadgeTextDetails(
           text: text,
@@ -264,7 +312,14 @@ class SetBadgeBackgroundColorDetails {
   SetBadgeBackgroundColorDetails.fromJS(this._wrapped);
 
   SetBadgeBackgroundColorDetails({
+    /// An array of four integers in the range [0,255] that make up the RGBA
+    /// color of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can
+    /// also be a string with a CSS value, with opaque red being `#FF0000` or
+    /// `#F00`.
     required Object color,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
           color: switch (color) {
@@ -285,7 +340,17 @@ class SetBadgeTextColorDetails {
   SetBadgeTextColorDetails.fromJS(this._wrapped);
 
   SetBadgeTextColorDetails({
+    /// An array of four integers in the range [0,255] that make up the RGBA
+    /// color of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can
+    /// also be a string with a CSS value, with opaque red being `#FF0000` or
+    /// `#F00`. Not setting this value will cause a color to be automatically
+    /// chosen that will contrast with the badge's background color so the text
+    /// will be visible. Colors with alpha values equivalent to 0 will not be
+    /// set and will return an error.
     required Object color,
+
+    /// Limits the change to when a particular tab is selected. Automatically
+    /// resets when the tab is closed.
     int? tabId,
   }) : _wrapped = $js.SetBadgeTextColorDetails(
           color: switch (color) {

@@ -72,7 +72,13 @@ typedef LanguageCode = String;
 class GetMessageOptions {
   GetMessageOptions.fromJS(this._wrapped);
 
-  GetMessageOptions({bool? escapeLt})
+  GetMessageOptions(
+      {
+      /// Escape `<` in translation to `&amp;lt;`. This applies only to the
+      /// message itself, not to the placeholders. Developers might want to use
+      /// this if the translation is used in an HTML context. Closure Templates
+      /// used with Closure Compiler generate this automatically.
+      bool? escapeLt})
       : _wrapped = $js.GetMessageOptions(escapeLt: escapeLt);
 
   final $js.GetMessageOptions _wrapped;
@@ -84,7 +90,10 @@ class DetectLanguageCallbackResult {
   DetectLanguageCallbackResult.fromJS(this._wrapped);
 
   DetectLanguageCallbackResult({
+    /// CLD detected language reliability
     required bool isReliable,
+
+    /// array of detectedLanguage
     required List<DetectLanguageCallbackResultLanguages> languages,
   }) : _wrapped = $js.DetectLanguageCallbackResult()
           ..isReliable = isReliable
@@ -116,6 +125,8 @@ class DetectLanguageCallbackResultLanguages {
 
   DetectLanguageCallbackResultLanguages({
     required LanguageCode language,
+
+    /// The percentage of the detected language
     required int percentage,
   }) : _wrapped = $js.DetectLanguageCallbackResultLanguages()
           ..language = language

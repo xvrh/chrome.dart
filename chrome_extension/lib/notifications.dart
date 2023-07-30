@@ -207,7 +207,10 @@ class NotificationItem {
   NotificationItem.fromJS(this._wrapped);
 
   NotificationItem({
+    /// Title of one item of a list notification.
     required String title,
+
+    /// Additional details about this item.
     required String message,
   }) : _wrapped = $js.NotificationItem(
           title: title,
@@ -259,24 +262,75 @@ class NotificationOptions {
   NotificationOptions.fromJS(this._wrapped);
 
   NotificationOptions({
+    /// Which type of notification to display.
+    /// _Required for [notifications.create]_ method.
     TemplateType? type,
+
+    /// A URL to the sender's avatar, app icon, or a thumbnail for image
+    /// notifications.
+    ///
+    /// URLs can be a data URL, a blob URL, or a URL relative to a resource
+    /// within this extension's .crx file
+    /// _Required for [notifications.create]_ method.
     String? iconUrl,
     NotificationBitmap? iconBitmap,
+
+    /// A URL to the app icon mask. URLs have the same restrictions as
+    /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
+    ///
+    /// The app icon mask should be in alpha channel, as only the alpha channel
+    /// of the image will be considered.
     String? appIconMaskUrl,
     NotificationBitmap? appIconMaskBitmap,
+
+    /// Title of the notification (e.g. sender name for email).
+    /// _Required for [notifications.create]_ method.
     String? title,
+
+    /// Main notification content.
+    /// _Required for [notifications.create]_ method.
     String? message,
+
+    /// Alternate notification content with a lower-weight font.
     String? contextMessage,
+
+    /// Priority ranges from -2 to 2. -2 is lowest priority. 2 is highest. Zero
+    /// is default.  On platforms that don't support a notification center
+    /// (Windows, Linux & Mac), -2 and -1 result in an error as notifications
+    /// with those priorities will not be shown at all.
     int? priority,
+
+    /// A timestamp associated with the notification, in milliseconds past the
+    /// epoch (e.g. `Date.now() + n`).
     double? eventTime,
+
+    /// Text and icons for up to two notification action buttons.
     List<NotificationButton>? buttons,
+
+    /// Secondary notification content.
     String? expandedMessage,
+
+    /// A URL to the image thumbnail for image-type notifications.
+    /// URLs have the same restrictions as
+    /// $(ref:notifications.NotificationOptions.iconUrl iconUrl).
     String? imageUrl,
     NotificationBitmap? imageBitmap,
+
+    /// Items for multi-item notifications. Users on Mac OS X only see the first
+    /// item.
     List<NotificationItem>? items,
+
+    /// Current progress ranges from 0 to 100.
     int? progress,
     bool? isClickable,
+
+    /// Indicates that the notification should remain visible on screen until
+    /// the
+    /// user activates or dismisses the notification. This defaults to false.
     bool? requireInteraction,
+
+    /// Indicates that no sounds or vibrations should be made when the
+    /// notification is being shown. This defaults to false.
     bool? silent,
   }) : _wrapped = $js.NotificationOptions(
           type: type?.toJS,

@@ -123,8 +123,13 @@ class PrinterInfo {
   PrinterInfo.fromJS(this._wrapped);
 
   PrinterInfo({
+    /// Unique printer ID.
     required String id,
+
+    /// Printer's human readable name.
     required String name,
+
+    /// Printer's human readable description.
     String? description,
   }) : _wrapped = $js.PrinterInfo()
           ..id = id
@@ -158,10 +163,23 @@ class PrintJob {
   PrintJob.fromJS(this._wrapped);
 
   PrintJob({
+    /// ID of the printer which should handle the job.
     required String printerId,
+
+    /// The print job title.
     required String title,
+
+    /// Print ticket in
+    /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
+    /// CJT format</a>.
     required Object ticket,
+
+    /// The document content type. Supported formats are
+    /// `"application/pdf"` and `"image/pwg-raster"`.
     required String contentType,
+
+    /// Blob containing the document data to print. Format must match
+    /// |contentType|.
     required JSObject document,
   }) : _wrapped = $js.PrintJob()
           ..printerId = printerId

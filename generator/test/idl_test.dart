@@ -104,7 +104,7 @@ void chromeIDLParserDocStringTests() {
   test('comment with //', () {
     var doc = chromeIDLParser.docString.parse("// Some comment\n").value;
     expect(doc.length, equals(1));
-    expect(doc[0], equals(" Some comment"));
+    expect(doc[0], equals("Some comment"));
   });
 
   test('comment with // multiline', () {
@@ -118,10 +118,10 @@ void chromeIDLParserDocStringTests() {
 //""").value;
     expect(doc.length, equals(7));
     expect(doc[0], equals(''));
-    expect(doc[1], equals(' Some comment'));
+    expect(doc[1], equals('Some comment'));
     expect(doc[2], equals(''));
-    expect(doc[3], equals(' Some comment information.'));
-    expect(doc[4], equals(' Some more comment information.'));
+    expect(doc[3], equals('Some comment information.'));
+    expect(doc[4], equals('Some more comment information.'));
     expect(doc[5], equals(''));
     expect(doc[6], equals(''));
   });
@@ -216,7 +216,7 @@ value
     expect(enumValue, isNotNull);
     expect(enumValue.name, equals("value"));
     expect(enumValue.documentation.length, equals(1));
-    expect(enumValue.documentation[0], equals(" A comment about a value."));
+    expect(enumValue.documentation[0], equals("A comment about a value."));
   });
 
   test('enum value with multiline comments', () {
@@ -228,8 +228,8 @@ value
     expect(enumValue, isNotNull);
     expect(enumValue.name, equals("value"));
     expect(enumValue.documentation.length, equals(2));
-    expect(enumValue.documentation[0], equals(" A comment about a value."));
-    expect(enumValue.documentation[1], equals(" A second line of comments."));
+    expect(enumValue.documentation[0], equals("A comment about a value."));
+    expect(enumValue.documentation[1], equals("A second line of comments."));
   });
 
   test('enum value without comments', () {
@@ -296,23 +296,23 @@ VALUE};""").value;
     expect(enumDeclaration, isNotNull);
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation.length, equals(1));
-    expect(enumDeclaration.documentation[0], equals(" Comments for Values"));
+    expect(enumDeclaration.documentation[0], equals("Comments for Values"));
 
     expect(enumDeclaration.enums.length, equals(3));
     expect(enumDeclaration.enums[0].name, equals("value1"));
     expect(enumDeclaration.enums[0].documentation.length, equals(1));
     expect(enumDeclaration.enums[0].documentation[0],
-        equals(" Comments for value1"));
+        equals("Comments for value1"));
     expect(enumDeclaration.enums[1].name, equals("value_2"));
     expect(enumDeclaration.enums[1].documentation.length, equals(2));
     expect(enumDeclaration.enums[1].documentation[0],
-        equals(" Comments for value_2"));
+        equals("Comments for value_2"));
     expect(enumDeclaration.enums[1].documentation[1],
-        equals(" Added second line for comment"));
+        equals("Added second line for comment"));
     expect(enumDeclaration.enums[2].name, equals("VALUE"));
     expect(enumDeclaration.enums[2].documentation.length, equals(1));
     expect(enumDeclaration.enums[2].documentation[0],
-        equals(" Comments for Values"));
+        equals("Comments for Values"));
   });
 
   test('enum multiline with comments attribute', () {
@@ -343,23 +343,23 @@ VALUE};""").value;
 
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation.length, equals(1));
-    expect(enumDeclaration.documentation[0], equals(" Comments for Values"));
+    expect(enumDeclaration.documentation[0], equals("Comments for Values"));
 
     expect(enumDeclaration.enums.length, equals(3));
     expect(enumDeclaration.enums[0].name, equals("value1"));
     expect(enumDeclaration.enums[0].documentation.length, equals(1));
     expect(enumDeclaration.enums[0].documentation[0],
-        equals(" Comments for value1"));
+        equals("Comments for value1"));
     expect(enumDeclaration.enums[1].name, equals("value_2"));
     expect(enumDeclaration.enums[1].documentation.length, equals(2));
     expect(enumDeclaration.enums[1].documentation[0],
-        equals(" Comments for value_2"));
+        equals("Comments for value_2"));
     expect(enumDeclaration.enums[1].documentation[1],
-        equals(" Added second line for comment"));
+        equals("Added second line for comment"));
     expect(enumDeclaration.enums[2].name, equals("VALUE"));
     expect(enumDeclaration.enums[2].documentation.length, equals(1));
     expect(enumDeclaration.enums[2].documentation[0],
-        equals(" Comments for Values"));
+        equals("Comments for Values"));
   });
 }
 
@@ -407,8 +407,8 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.name, equals("entry"));
     expect(callbackParameter.isCallback, isFalse);
     expect(callbackParameter.isOptional, isFalse);
-    expect(callbackParameter.type.isArray, isFalse);
-    expect(callbackParameter.type.name, equals("Entry"));
+    expect(callbackParameter.types.isArray, isFalse);
+    expect(callbackParameter.types.name, equals("Entry"));
     expect(callbackParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(callbackParameter.attribute!.attributes[0].attributeValue,
@@ -424,8 +424,8 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.name, equals("mediaFileSystems"));
     expect(callbackParameter.isCallback, isFalse);
     expect(callbackParameter.isOptional, isFalse);
-    expect(callbackParameter.type.isArray, isTrue);
-    expect(callbackParameter.type.name, equals("DOMFileSystem"));
+    expect(callbackParameter.types.isArray, isTrue);
+    expect(callbackParameter.types.name, equals("DOMFileSystem"));
     expect(callbackParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(callbackParameter.attribute!.attributes[0].attributeValue,
@@ -442,8 +442,8 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.attribute, isNull);
     expect(callbackParameter.isCallback, isFalse);
     expect(callbackParameter.isOptional, isTrue);
-    expect(callbackParameter.type.isArray, isFalse);
-    expect(callbackParameter.type.name, equals("DOMString"));
+    expect(callbackParameter.types.isArray, isFalse);
+    expect(callbackParameter.types.name, equals("DOMString"));
   });
 
   test('callback parameter with array', () {
@@ -455,8 +455,8 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.attribute, isNull);
     expect(callbackParameter.isCallback, isFalse);
     expect(callbackParameter.isOptional, isFalse);
-    expect(callbackParameter.type.isArray, isTrue);
-    expect(callbackParameter.type.name, equals("Device"));
+    expect(callbackParameter.types.isArray, isTrue);
+    expect(callbackParameter.types.name, equals("Device"));
   });
 
   test('callback parameter', () {
@@ -468,8 +468,8 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.attribute, isNull);
     expect(callbackParameter.isCallback, isFalse);
     expect(callbackParameter.isOptional, isFalse);
-    expect(callbackParameter.type.isArray, isFalse);
-    expect(callbackParameter.type.name, equals("Device"));
+    expect(callbackParameter.types.isArray, isFalse);
+    expect(callbackParameter.types.name, equals("Device"));
   });
 }
 
@@ -497,8 +497,8 @@ void chromeIDLParserCallbackMethodTests() {
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isFalse);
-    expect(parameter.type.name, equals("long"));
+    expect(parameter.types.isArray, isFalse);
+    expect(parameter.types.name, equals("long"));
   });
 
   test('with one attribute parameter', () {
@@ -519,8 +519,8 @@ void chromeIDLParserCallbackMethodTests() {
         equals("DOMFileSystem"));
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isTrue);
-    expect(parameter.type.name, equals("DOMFileSystem"));
+    expect(parameter.types.isArray, isTrue);
+    expect(parameter.types.name, equals("DOMFileSystem"));
   });
 
   test('with multiple parameters', () {
@@ -535,16 +535,16 @@ InputDeviceInfo[] inputInfo)""").value;
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isTrue);
-    expect(parameter.type.name, equals("OutputDeviceInfo"));
+    expect(parameter.types.isArray, isTrue);
+    expect(parameter.types.name, equals("OutputDeviceInfo"));
 
     parameter = parameters[1];
     expect(parameter.name, equals("inputInfo"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isTrue);
-    expect(parameter.type.name, equals("InputDeviceInfo"));
+    expect(parameter.types.isArray, isTrue);
+    expect(parameter.types.name, equals("InputDeviceInfo"));
   });
 
   test('with mixed type parameters', () {
@@ -558,24 +558,24 @@ InputDeviceInfo[] inputInfo)""").value;
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isTrue);
-    expect(parameter.type.isArray, isFalse);
-    expect(parameter.type.name, equals("ArrayBuffer"));
+    expect(parameter.types.isArray, isFalse);
+    expect(parameter.types.name, equals("ArrayBuffer"));
 
     parameter = parameters[1];
     expect(parameter.name, equals("success"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isFalse);
-    expect(parameter.type.name, equals("bool"));
+    expect(parameter.types.isArray, isFalse);
+    expect(parameter.types.name, equals("bool"));
 
     parameter = parameters[2];
     expect(parameter.name, equals("codes"));
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isTrue);
-    expect(parameter.type.name, equals("DOMString"));
+    expect(parameter.types.isArray, isTrue);
+    expect(parameter.types.name, equals("DOMString"));
   });
 
   test('with `or` parameter type', () {
@@ -591,8 +591,10 @@ InputDeviceInfo[] inputInfo)""").value;
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isFalse);
-    expect(parameter.type.isArray, isFalse);
-    expect(parameter.type.name, equals("object"));
+    expect(parameter.types.length, 2);
+    expect(parameter.types[0].name, 'long');
+    expect(parameter.types[0].isArray, isFalse);
+    expect(parameter.types[1].name, 'DOMString');
   });
 
   test('with `or` parameter optional type', () {
@@ -608,8 +610,8 @@ InputDeviceInfo[] inputInfo)""").value;
     expect(parameter.attribute, isNull);
     expect(parameter.isCallback, isFalse);
     expect(parameter.isOptional, isTrue);
-    expect(parameter.type.isArray, isFalse);
-    expect(parameter.type.name, equals("object"));
+    expect(parameter.types.types.first.isArray, isFalse);
+    expect(parameter.types.types.first.name, equals("long"));
   });
 }
 
@@ -623,7 +625,7 @@ callback GetAuthTokenCallback = void (optional DOMString token);
     expect(callbackDeclaration.documentation, isEmpty);
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("token"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("DOMString"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("DOMString"));
     expect(callbackDeclaration.parameters[0].isOptional, isTrue);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNull);
@@ -645,10 +647,10 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
 
     expect(callbackDeclaration.name, equals("EntryCallback"));
     expect(callbackDeclaration.documentation.length, equals(1));
-    expect(callbackDeclaration.documentation[0], equals(" Some comment."));
+    expect(callbackDeclaration.documentation[0], equals("Some comment."));
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("entry"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("Entry"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("Entry"));
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
@@ -673,7 +675,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.documentation, isEmpty);
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("token"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("DOMString"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("DOMString"));
     expect(callbackDeclaration.parameters[0].isOptional, isTrue);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNull);
@@ -683,7 +685,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.documentation, isEmpty);
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("entry"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("Entry"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("Entry"));
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
@@ -709,9 +711,9 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.name, equals("GetAuthTokenCallback"));
     expect(callbackDeclaration.documentation.length, equals(1));
     expect(callbackDeclaration.parameters.length, equals(1));
-    expect(callbackDeclaration.documentation[0], equals(" Some comment."));
+    expect(callbackDeclaration.documentation[0], equals("Some comment."));
     expect(callbackDeclaration.parameters[0].name, equals("token"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("DOMString"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("DOMString"));
     expect(callbackDeclaration.parameters[0].isOptional, isTrue);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNull);
@@ -722,7 +724,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.documentation[0], equals(" Another comment. "));
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("entry"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("Entry"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("Entry"));
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNotNull);
@@ -769,8 +771,10 @@ void chromeIDLParserFieldOrTypeTests() {
     var fieldType =
         chromeIDLParser.fieldOrType.parse("(Device or DOMString)").value;
     expect(fieldType, isNotNull);
-    expect(fieldType.name, equals("object"));
-    expect(fieldType.isArray, isFalse);
+    expect(fieldType[0].name, equals("Device"));
+    expect(fieldType[0].isArray, isFalse);
+    expect(fieldType[1].name, equals("DOMString"));
+    expect(fieldType[1].isArray, isFalse);
   });
 
   test('field type `or` three choices', () {
@@ -778,8 +782,12 @@ void chromeIDLParserFieldOrTypeTests() {
         .parse("(Device or DOMString or DeviceTwo)")
         .value;
     expect(fieldType, isNotNull);
-    expect(fieldType.name, equals("object"));
-    expect(fieldType.isArray, isFalse);
+    expect(fieldType[0].name, equals("Device"));
+    expect(fieldType[0].isArray, isFalse);
+    expect(fieldType[1].name, equals("DOMString"));
+    expect(fieldType[1].isArray, isFalse);
+    expect(fieldType[2].name, equals("DeviceTwo"));
+    expect(fieldType[2].isArray, isFalse);
   });
 
   test('field type `or` five choices', () {
@@ -788,8 +796,8 @@ void chromeIDLParserFieldOrTypeTests() {
             "(Device or DOMString or DeviceTwo or DOMStringTwo or DeviceThree)")
         .value;
     expect(fieldType, isNotNull);
-    expect(fieldType.name, equals("object"));
-    expect(fieldType.isArray, isFalse);
+    expect(fieldType[0].name, equals("Device"));
+    expect(fieldType[0].isArray, isFalse);
   });
 }
 
@@ -803,8 +811,8 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.name, equals("entry"));
     expect(fieldMethodParameter.isCallback, isFalse);
     expect(fieldMethodParameter.isOptional, isFalse);
-    expect(fieldMethodParameter.type.isArray, isFalse);
-    expect(fieldMethodParameter.type.name, equals("Entry"));
+    expect(fieldMethodParameter.types.isArray, isFalse);
+    expect(fieldMethodParameter.types.name, equals("Entry"));
     expect(fieldMethodParameter.attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
     expect(fieldMethodParameter.attribute!.attributes[0].attributeValue,
@@ -821,8 +829,8 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.attribute, isNull);
     expect(fieldMethodParameter.isCallback, isFalse);
     expect(fieldMethodParameter.isOptional, isFalse);
-    expect(fieldMethodParameter.type.isArray, isFalse);
-    expect(fieldMethodParameter.type.name, equals("DOMString"));
+    expect(fieldMethodParameter.types.isArray, isFalse);
+    expect(fieldMethodParameter.types.name, equals("DOMString"));
   });
 
   test('array type without attribute', () {
@@ -834,8 +842,8 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.attribute, isNull);
     expect(fieldMethodParameter.isCallback, isFalse);
     expect(fieldMethodParameter.isOptional, isFalse);
-    expect(fieldMethodParameter.type.isArray, isTrue);
-    expect(fieldMethodParameter.type.name, equals("DOMString"));
+    expect(fieldMethodParameter.types.isArray, isTrue);
+    expect(fieldMethodParameter.types.name, equals("DOMString"));
   });
 
   test('with `or` type', () {
@@ -847,8 +855,8 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.attribute, isNull);
     expect(fieldMethodParameter.isCallback, isFalse);
     expect(fieldMethodParameter.isOptional, isFalse);
-    expect(fieldMethodParameter.type.isArray, isFalse);
-    expect(fieldMethodParameter.type.name, equals("object"));
+    expect(fieldMethodParameter.types[0].isArray, isFalse);
+    expect(fieldMethodParameter.types[0].name, equals("DOMString"));
   });
 
   test('with `or` three type', () {
@@ -860,8 +868,8 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.attribute, isNull);
     expect(fieldMethodParameter.isCallback, isFalse);
     expect(fieldMethodParameter.isOptional, isFalse);
-    expect(fieldMethodParameter.type.isArray, isFalse);
-    expect(fieldMethodParameter.type.name, equals("object"));
+    expect(fieldMethodParameter.types[0].isArray, isFalse);
+    expect(fieldMethodParameter.types[0].name, equals("DOMString"));
   });
 }
 
@@ -874,8 +882,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
-    expect(typeField[0].type.name, equals("FileEntry"));
-    expect(typeField[0].type.isArray, isFalse);
+    expect(typeField[0].types.name, equals("FileEntry"));
+    expect(typeField[0].types.isArray, isFalse);
     expect(typeField[0].isOptional, isFalse);
     expect(typeField[0].attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.INSTANCE_OF));
@@ -890,8 +898,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
-    expect(typeField[0].type.name, equals("DOMString"));
-    expect(typeField[0].type.isArray, isFalse);
+    expect(typeField[0].types.name, equals("DOMString"));
+    expect(typeField[0].types.isArray, isFalse);
     expect(typeField[0].isOptional, isTrue);
   });
 
@@ -903,8 +911,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
-    expect(typeField[0].type.name, equals("DOMString"));
-    expect(typeField[0].type.isArray, isFalse);
+    expect(typeField[0].types.name, equals("DOMString"));
+    expect(typeField[0].types.isArray, isFalse);
     expect(typeField[0].isOptional, isFalse);
   });
 
@@ -916,8 +924,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
-    expect(typeField[0].type.name, equals("DOMString"));
-    expect(typeField[0].type.isArray, isTrue);
+    expect(typeField[0].types.name, equals("DOMString"));
+    expect(typeField[0].types.isArray, isTrue);
     expect(typeField[0].isOptional, isTrue);
   });
 
@@ -929,8 +937,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField, isNotNull);
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("entry"));
-    expect(typeField[0].type.name, equals("DOMString"));
-    expect(typeField[0].type.isArray, isTrue);
+    expect(typeField[0].types.name, equals("DOMString"));
+    expect(typeField[0].types.isArray, isTrue);
     expect(typeField[0].isOptional, isFalse);
   });
 
@@ -943,8 +951,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("frame"));
     // TODO(adam): Maybe type needs to be an array of possible types.
-    expect(typeField[0].type.name, equals("object"));
-    expect(typeField[0].type.isArray, isFalse);
+    expect(typeField[0].types[0].name, equals("DOMString"));
+    expect(typeField[0].types[0].isArray, isFalse);
     expect(typeField[0].isOptional, isTrue);
   });
 
@@ -957,8 +965,8 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField.length, 1);
     expect(typeField[0].name, equals("frame"));
     // TODO(adam): Maybe type needs to be an array of possible types.
-    expect(typeField[0].type.name, equals("object"));
-    expect(typeField[0].type.isArray, isFalse);
+    expect(typeField[0].types[0].name, equals("DOMString"));
+    expect(typeField[0].types[0].isArray, isFalse);
     expect(typeField[0].isOptional, isTrue);
     expect(typeField[0].attribute!.attributes[0].attributeType,
         equals(IDLAttributeTypeEnum.NODOC));
@@ -990,10 +998,10 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeFieldMethod[0].parameters.length, 2);
     var parameter = typeFieldMethod[0].parameters[0];
     expect(parameter.name, equals("width"));
-    expect(parameter.type.name, equals("long"));
+    expect(parameter.types.name, equals("long"));
     parameter = typeFieldMethod[0].parameters[1];
     expect(parameter.name, equals("height"));
-    expect(parameter.type.name, equals("long"));
+    expect(parameter.types.name, equals("long"));
     expect(typeFieldMethod[0].attribute, isNull);
     expect(typeFieldMethod[0].returnType.name, equals("Sizes"));
     expect(typeFieldMethod[0].returnType.isArray, isTrue);
@@ -1096,7 +1104,7 @@ dictionary GetServicesOptions {
     expect(typeDeclaration.members.length, equals(1));
     expect(typeDeclaration.members[0].documentation.length, equals(2));
     expect(typeDeclaration.members[0].name, equals("deviceAddress"));
-    expect(typeDeclaration.members[0].type.name, equals("DOMString"));
+    expect(typeDeclaration.members[0].types.name, equals("DOMString"));
     expect(typeDeclaration.methods, isEmpty);
     expect(typeDeclaration.attribute, isNull);
   });
@@ -1138,11 +1146,11 @@ dictionary GetServicesOptions {
     expect(typeDeclaration.methods, isEmpty);
     expect(typeDeclaration.members.length, equals(2));
     expect(typeDeclaration.members[0].name, equals("profile"));
-    expect(typeDeclaration.members[0].type.name, equals("Profile"));
+    expect(typeDeclaration.members[0].types.name, equals("Profile"));
     expect(typeDeclaration.members[0].isOptional, isTrue);
 
     expect(typeDeclaration.members[1].name, equals("deviceCallback"));
-    expect(typeDeclaration.members[1].type.name, equals("DeviceCallback"));
+    expect(typeDeclaration.members[1].types.name, equals("DeviceCallback"));
     expect(typeDeclaration.members[1].isOptional, isFalse);
   });
 
@@ -1233,10 +1241,10 @@ void chromeIDLParserMethodsTests() {
     expect(methods[0].parameters.length, 2);
     var parameter = methods[0].parameters[0];
     expect(parameter.name, equals("width"));
-    expect(parameter.type.name, equals("long"));
+    expect(parameter.types.name, equals("long"));
     parameter = methods[0].parameters[1];
     expect(parameter.name, equals("height"));
-    expect(parameter.type.name, equals("long"));
+    expect(parameter.types.name, equals("long"));
     expect(methods[0].attribute, isNull);
     expect(methods[0].returnType.name, equals("Sizes"));
     expect(methods[0].returnType.isArray, isTrue);
@@ -1255,7 +1263,8 @@ void chromeIDLParserMethodsTests() {
     expect(methods[0].parameters.length, 1);
     var parameter = methods[0].parameters[0];
     expect(parameter.name, equals("x"));
-    expect(parameter.type.name, equals("object"));
+    expect(parameter.types[0].name, equals("long"));
+    expect(parameter.types[1].name, equals("DOMString"));
     expect(methods[0].attribute, isNull);
     expect(methods[0].returnType.name, equals("void"));
     expect(methods[0].returnType.isArray, isFalse);
@@ -1315,16 +1324,16 @@ void chromeIDLParserFunctionDeclarationTests() {
     expect(functionDeclaration.methods[0].parameters, hasLength(2));
     expect(
         functionDeclaration.methods[0].parameters[0].name, equals("details"));
-    expect(functionDeclaration.methods[0].parameters[0].type.name,
+    expect(functionDeclaration.methods[0].parameters[0].types.name,
         equals("MediaFileSystemsDetails"));
-    expect(functionDeclaration.methods[0].parameters[1].type.name,
+    expect(functionDeclaration.methods[0].parameters[1].types.name,
         equals("MediaFileSystemsCallback"));
     expect(
         functionDeclaration.methods[0].parameters[1].name, equals("callback"));
     expect(functionDeclaration.methods[0].parameters[1].isCallback, isTrue);
     expect(functionDeclaration.methods[1].parameters[0].name,
         equals("mediaFileSystem"));
-    expect(functionDeclaration.methods[1].parameters[0].type.name,
+    expect(functionDeclaration.methods[1].parameters[0].types.name,
         equals("DOMFileSystem"));
   });
 }
@@ -1920,7 +1929,7 @@ void miscParsingTests() {
     expect(callbackDeclaration.documentation, isEmpty);
     expect(callbackDeclaration.parameters.length, equals(1));
     expect(callbackDeclaration.parameters[0].name, equals("notifications"));
-    expect(callbackDeclaration.parameters[0].type.name, equals("object"));
+    expect(callbackDeclaration.parameters[0].types.name, equals("object"));
     expect(callbackDeclaration.parameters[0].isOptional, isFalse);
     expect(callbackDeclaration.parameters[0].isCallback, isFalse);
     expect(callbackDeclaration.parameters[0].attribute, isNull);
@@ -1940,7 +1949,7 @@ void miscParsingTests() {
     var parameters = callbackDeclaration.parameters;
     expect(parameters.length, equals(1));
     expect(parameters[0].name, equals("mediaFileSystems"));
-    expect(parameters[0].type.name, equals("DOMFileSystem"));
+    expect(parameters[0].types.name, equals("DOMFileSystem"));
     expect(parameters[0].isOptional, isTrue);
     expect(parameters[0].isCallback, isFalse);
     expect(parameters[0].attribute, isNotNull);

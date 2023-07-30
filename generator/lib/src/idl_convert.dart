@@ -84,7 +84,7 @@ class IdlModelConverter {
   Property _convertSyntheticParam(IDLParameter param) {
     ChromeType type;
     var callback = model.callbackDeclarations
-        .singleWhereOrNull((e) => e.name == param.type.name);
+        .singleWhereOrNull((e) => e.name == param.types.name);
 
     if (callback != null) {
       var positionalParameters = callback.parameters.map((p) {
@@ -102,7 +102,7 @@ class IdlModelConverter {
       type = AliasedType(callback.name, type,
           locationFile: _targetFileName, isNullable: param.isOptional);
     } else {
-      type = _typeFromName(param.type, isNullable: param.isOptional);
+      type = _typeFromName(param.types, isNullable: param.isOptional);
     }
 
     return Property(
@@ -122,7 +122,7 @@ class IdlModelConverter {
       }
       yield Property(
         prop.name,
-        type: _typeFromName(prop.returnType, isNullable: nullable),
+        type: _singleTypeFromName(prop.returnType, isNullable: nullable),
         documentation: _toDocumentation(prop.documentation),
       );
     }
@@ -135,7 +135,7 @@ class IdlModelConverter {
         if (member.name.startsWith('_')) continue;
 
         var p = Property(member.name,
-            type: _typeFromName(member.type,
+            type: _typeFromName(member.types,
                 isNullable:
                     member.isOptional || _hasPlatforms(member.attribute)),
             documentation: _toDocumentation(member.documentation));
@@ -174,9 +174,9 @@ class IdlModelConverter {
                 'Multiple callback for ${model.name} ${function.name}');
           }
           var callbackDeclaration = model.callbackDeclarations.singleWhere(
-              (c) => c.name == paramDecl.type.name,
+              (c) => c.name == paramDecl.types.name,
               orElse: () => throw StateError(
-                  'Look for callback ${paramDecl.type.name} ${model.name} ${function.name}'));
+                  'Look for callback ${paramDecl.types.name} ${model.name} ${function.name}'));
 
           callback = _asyncTypeFromParameter(callbackDeclaration.parameters,
               parentName: '${function.name.upperCamel}Result',
@@ -190,7 +190,7 @@ class IdlModelConverter {
           var property = Property(
             paramDecl.name,
             type:
-                _typeFromName(paramDecl.type, isNullable: paramDecl.isOptional),
+                _typeFromName(paramDecl.types, isNullable: paramDecl.isOptional),
             documentation: '',
           );
           parameters.add(property);
@@ -199,7 +199,7 @@ class IdlModelConverter {
       var returns = MethodReturn(
         type: callback ??
             (function.returnType.name != 'void'
-                ? _typeFromName(function.returnType, isNullable: false)
+                ? _singleTypeFromName(function.returnType, isNullable: false)
                 : null),
         documentation: null,
       );
@@ -230,7 +230,18 @@ class IdlModelConverter {
     }
   }
 
-  ChromeType _typeFromName(IDLType type, {required bool isNullable}) {
+  ChromeType _typeFromName(IDLTypeOrUnion type, {required bool isNullable}) {
+    if (type.length > 1) {
+      return ChoiceType([
+        for (var type in type.types)
+          _singleTypeFromName(type, isNullable: false),
+      ], isNullable: isNullable);
+    } else {
+      return _singleTypeFromName(type.types.first, isNullable: isNullable);
+    }
+  }
+
+  ChromeType _singleTypeFromName(IDLType type, {required bool isNullable}) {
     var name = type.name;
     var arrayIsNullable = isNullable;
     if (type.isArray) {

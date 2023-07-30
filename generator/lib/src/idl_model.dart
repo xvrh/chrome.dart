@@ -138,22 +138,22 @@ class IDLMethod {
 /// This class provides a model for IDL-specified fields.
 class IDLField {
   final String name;
-  final IDLType type;
+  final IDLTypeOrUnion types;
   final bool isOptional;
   final IDLAttributeDeclaration? attribute;
   final List<String> documentation;
 
-  IDLField(this.name, this.type,
+  IDLField(this.name, this.types,
       {this.attribute, this.isOptional = false, required this.documentation});
 
   String toString() =>
-      "IDLField($name, $type, $attribute, $isOptional, $documentation)";
+      "IDLField($name, $types, $attribute, $isOptional, $documentation)";
 }
 
 /// This class provides a model for IDL-specified parameters.
 class IDLParameter {
   final String name;
-  final IDLType type;
+  final IDLTypeOrUnion types;
   final bool isOptional;
   // TODO: rename all variable names of IDLAttributeDeclaration attribute
   // to IDLAttributeDeclaration attributeDeclaration.
@@ -164,7 +164,7 @@ class IDLParameter {
   //     optional CreateWindowCallback callback);
   final bool isCallback;
 
-  IDLParameter(this.name, this.type,
+  IDLParameter(this.name, this.types,
       {this.attribute, this.isOptional = false, this.isCallback = false});
 
   bool get supportsPromises =>
@@ -173,7 +173,7 @@ class IDLParameter {
       false;
 
   String toString() =>
-      "IDLParameter($name, $type, $attribute, $isOptional, $isCallback)";
+      "IDLParameter($name, $types, $attribute, $isOptional, $isCallback)";
 }
 
 /// This class provides an enumeration of the different types of attributes
@@ -270,6 +270,10 @@ enum IDLAttributeTypeEnum {
   ///
   /// [serializableFunction]
   SERIALIZABLE_FUNCTION("serializableFunction"),
+
+  DOCUMENTATION_TITLE("documentation_title"),
+  DOCUMENTATION_NAMESPACE("documentation_namespace"),
+  DOCUMENTED_IN("documented_in"),
   ;
 
   final String type;
@@ -311,7 +315,37 @@ class IDLEnumValue {
 
 class IDLType {
   final String name;
+
   final bool isArray;
+
   IDLType(this.name, {this.isArray = false});
+
+  @override
   String toString() => "IDLType($name, $isArray)";
+}
+
+class IDLTypeOrUnion {
+  final List<IDLType> types;
+
+  IDLTypeOrUnion(this.types): assert(types.isNotEmpty);
+
+  IDLType operator[](int index) => types[index];
+
+  int get length => types.length;
+
+  void apply(IDLType Function(IDLType) callback) {
+    for (var i = 0; i < types.length; i++) {
+      types[i] = callback(types[i]);
+    }
+  }
+
+  String get name {
+    assert(types.length == 1);
+    return types.first.name;
+  }
+
+  bool get isArray {
+    assert(types.length == 1);
+    return types.first.isArray;
+  }
 }

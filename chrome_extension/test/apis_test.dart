@@ -29,6 +29,7 @@ void main() {
   test('chrome.extension', () => runTest('test/apis/extension.dart'));
   test('chrome.i18n', () => runTest('test/apis/i18n.dart'));
   test('chrome.privacy', () => runTest('test/apis/privacy.dart'));
+  test('chrome.processes', () => runTest('test/apis/processes.dart'));
   test('chrome.runtime', () => runTest('test/apis/runtime.dart'));
   test('chrome.storage', () => runTest('test/apis/storage.dart'));
   test('chrome.system.cpu', () => runTest('test/apis/system_cpu.dart'));

@@ -129,17 +129,19 @@ class ChromeIDLGrammar extends GrammarDefinition {
         ref0(docString),
         ref0(attributeDeclaration).optional(),
         [
-          ref0(fieldType),
+          ref0(fieldType).map((e) => IDLTypeOrUnion([e])),
           ref0(fieldOrType),
         ].toChoiceParser(),
         ref1(token, '?').optional(),
         ref0(identifier),
         ref1(token, ';'),
-      ).toSequenceParser().map6((doc, attr, type, optional, name, _) =>
-          IDLField(name, typeWithAttribute(type, attr),
+      ).toSequenceParser().map6((doc, attr, types, optional, name, _) {
+        types.apply((type) => typeWithAttribute(type, attr));
+        return IDLField(name, types,
               attribute: attr,
               isOptional: optional != null,
-              documentation: doc));
+              documentation: doc);
+      });
 
   Parser<IDLMethod> method() => (
         ref0(docString),
@@ -177,34 +179,34 @@ class ChromeIDLGrammar extends GrammarDefinition {
         ref1(token, 'optional').optional(),
         ref0(parameterType),
         ref0(identifier),
-      ).toSequenceParser().map4((attr, optional, type, name) {
-        type = typeWithAttribute(type, attr);
+      ).toSequenceParser().map4((attr, optional, types, name) {
+        types.apply((type) => typeWithAttribute(type, attr));
 
-        return IDLParameter(name, type,
+        return IDLParameter(name, types,
             attribute: attr,
             isOptional: optional != null,
             isCallback: isCallback(name));
       });
 
-  Parser<IDLType> parameterType() => [
+  Parser<IDLTypeOrUnion> parameterType() => [
         (ref0(identifier), string('[]'))
             .toSequenceParser()
-            .map2((id, _) => IDLType(id, isArray: true)),
-        ref0(identifier).map((id) => IDLType(id)),
+            .map2((id, _) => IDLTypeOrUnion([IDLType(id, isArray: true)])),
+        ref0(identifier).map((id) => IDLTypeOrUnion([IDLType(id)])),
         ref0(fieldOrType)
       ].toChoiceParser();
 
-  Parser<IDLType> fieldOrType() => (
+  Parser<IDLTypeOrUnion> fieldOrType() => (
         ref1(token, '('),
         ref0(fieldSingleOrTypeDeclaration).plusSeparated(ref1(token, 'or')),
         ref1(token, ')')
-      ).toSequenceParser().map((_) => IDLType('object'));
+      ).toSequenceParser().map((e) => IDLTypeOrUnion(e.$2.elements));
 
   // TODO: return idl type with attribute. Not propagating at the moment.
-  Parser fieldSingleOrTypeDeclaration() => (
+  Parser<IDLType> fieldSingleOrTypeDeclaration() => (
         ref0(attributeDeclaration).optional(),
         ref0(fieldType)
-      ).toSequenceParser();
+      ).toSequenceParser().map((e) => e.$2);
 
   // TODO: refactor with callbackParameterType
   Parser<IDLType> fieldType() => (ref0(identifier), string('[]').optional())

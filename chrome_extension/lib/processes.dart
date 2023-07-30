@@ -48,7 +48,12 @@ class ChromeProcesses {
     bool includeMemory,
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.processes.getProcessInfo(
-      processIds.toJS,
+      switch (processIds) {
+        int() => processIds,
+        List<int>() => processIds.toJSArray((e) => e),
+        _ => throw UnsupportedError(
+            'Received type: ${processIds.runtimeType}. Supported types are: int, List<int>')
+      },
       includeMemory,
     ));
     return $res;

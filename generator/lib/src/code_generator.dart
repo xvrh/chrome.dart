@@ -137,6 +137,7 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
 
     return Method((b) => b
       ..docs.add(documentationComment(method.documentation, indent: 2))
+      ..annotations.addAll(_deprecatedAnnotation(method.deprecated))
       ..name = method.name
       ..external = true
       ..returns = returns
@@ -343,6 +344,7 @@ class DartApiGenerator extends _GeneratorBase {
           if (param.documentation.isNotEmpty)
             parameterDocumentation(param.name, param.documentation, indent: 4)
       ])
+      ..annotations.addAll(_deprecatedAnnotation(method.deprecated))
       ..name = method.name
       ..returns = returns
       ..modifier = methodModifier
@@ -751,6 +753,13 @@ Expression _staticInteropAnnotation() =>
 Expression _anonymousAnnotation() => refer('anonymous', _dartInteropUrl);
 Expression _jsAnnotation([String? name]) =>
     refer('JS', _dartInteropUrl).call([if (name != null) literalString(name)]);
+
+Iterable<Expression> _deprecatedAnnotation(String? deprecated) sync* {
+  if (deprecated!= null) {
+    yield refer('Deprecated').call([literalString(deprecated,raw: true)]);
+  }
+}
+
 
 String _toEnumValue(String input) {
   return enumValueIdentifier(input.lowerCamel);

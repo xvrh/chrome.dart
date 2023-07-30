@@ -25,6 +25,7 @@ void main() {
   test('chrome.bookmarks', () => runTest('test/apis/bookmarks.dart'));
   test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
+  test('chrome.extension', () => runTest('test/apis/extension.dart'));
   test('chrome.i18n', () => runTest('test/apis/i18n.dart'));
   test('chrome.privacy', () => runTest('test/apis/privacy.dart'));
   test('chrome.runtime', () => runTest('test/apis/runtime.dart'));

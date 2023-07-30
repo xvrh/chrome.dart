@@ -47,6 +47,7 @@ extension JSTabsExtension on JSTabs {
   /// an optional callback to run when a response is sent back.  The
   /// [extension.onRequest] event is fired in each content script running in the
   /// specified tab for the current extension.
+  @Deprecated(r'Please use $(ref:runtime.sendMessage).')
   external JSPromise sendRequest(
     int tabId,
     JSAny request,
@@ -65,12 +66,15 @@ extension JSTabsExtension on JSTabs {
   );
 
   /// Gets the tab that is selected in the specified window.
+  @Deprecated(r'Please use $(ref:tabs.query) <code>{active: true}</code>.')
   external JSPromise getSelected(
 
       /// Defaults to the [current window](windows#current-window).
       int? windowId);
 
   /// Gets details about all tabs in the specified window.
+  @Deprecated(
+      r'Please use $(ref:tabs.query) <code>{windowId: windowId}</code>.')
   external JSPromise getAllInWindow(
 
       /// Defaults to the [current window](windows#current-window).
@@ -161,6 +165,7 @@ extension JSTabsExtension on JSTabs {
 
   /// Injects JavaScript code into a page. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
+  @Deprecated(r'Replaced by $(ref:scripting.executeScript) in Manifest V3.')
   external JSPromise executeScript(
     /// The ID of the tab in which to run the script; defaults to the active tab
     /// of the current window.
@@ -174,6 +179,7 @@ extension JSTabsExtension on JSTabs {
   /// Injects CSS into a page. Styles inserted with this method can be removed
   /// with [scripting.removeCSS]. For details, see the [programmatic
   /// injection](content_scripts#pi) section of the content scripts doc.
+  @Deprecated(r'Replaced by $(ref:scripting.insertCSS) in Manifest V3.')
   external JSPromise insertCSS(
     /// The ID of the tab in which to insert the CSS; defaults to the active tab
     /// of the current window.
@@ -186,6 +192,7 @@ extension JSTabsExtension on JSTabs {
 
   /// Removes from a page CSS that was previously injected by a call to
   /// [scripting.insertCSS].
+  @Deprecated(r'Replaced by $(ref:scripting.removeCSS) in Manifest V3.')
   external JSPromise removeCSS(
     /// The ID of the tab from which to remove the CSS; defaults to the active
     /// tab of the current window.

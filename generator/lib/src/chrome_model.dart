@@ -86,12 +86,14 @@ class Method {
   final String documentation;
   final List<Property> parameters;
   final MethodReturn returns;
+  final String? deprecated;
 
   Method(
     this.name, {
     required this.parameters,
     required this.documentation,
     required this.returns,
+    required this.deprecated,
   });
 
   Iterable<ChromeType> inputTypes() sync* {

@@ -54,6 +54,7 @@ class ChromeTabs {
   /// an optional callback to run when a response is sent back.  The
   /// [extension.onRequest] event is fired in each content script running in the
   /// specified tab for the current extension.
+  @Deprecated(r'Please use $(ref:runtime.sendMessage).')
   Future<Object> sendRequest(
     int tabId,
     Object request,
@@ -86,6 +87,7 @@ class ChromeTabs {
 
   /// Gets the tab that is selected in the specified window.
   /// [windowId] Defaults to the [current window](windows#current-window).
+  @Deprecated(r'Please use $(ref:tabs.query) <code>{active: true}</code>.')
   Future<Tab> getSelected(int? windowId) async {
     var $res =
         await promiseToFuture<$js.Tab>($js.chrome.tabs.getSelected(windowId));
@@ -94,6 +96,8 @@ class ChromeTabs {
 
   /// Gets details about all tabs in the specified window.
   /// [windowId] Defaults to the [current window](windows#current-window).
+  @Deprecated(
+      r'Please use $(ref:tabs.query) <code>{windowId: windowId}</code>.')
   Future<List<Tab>> getAllInWindow(int? windowId) async {
     var $res = await promiseToFuture<JSArray>(
         $js.chrome.tabs.getAllInWindow(windowId));
@@ -247,6 +251,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the script to run. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  @Deprecated(r'Replaced by $(ref:scripting.executeScript) in Manifest V3.')
   Future<List<Object>?> executeScript(
     int? tabId,
     InjectDetails details,
@@ -265,6 +270,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the CSS text to insert. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  @Deprecated(r'Replaced by $(ref:scripting.insertCSS) in Manifest V3.')
   Future<void> insertCSS(
     int? tabId,
     InjectDetails details,
@@ -281,6 +287,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the CSS text to remove. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  @Deprecated(r'Replaced by $(ref:scripting.removeCSS) in Manifest V3.')
   Future<void> removeCSS(
     int? tabId,
     DeleteInjectionDetails details,

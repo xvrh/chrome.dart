@@ -182,6 +182,7 @@ class ChromeEnterprisePlatformKeys {
   ///                to this function will then generate a new Enterprise
   ///                Machine Key.
   /// |callback|: Called back with the challenge response.
+  @Deprecated(r'Use $(ref:challengeKey) instead.')
   Future<ByteBuffer> challengeMachineKey(
     ByteBuffer challenge,
     bool? registerKey,
@@ -227,6 +228,7 @@ class ChromeEnterprisePlatformKeys {
   ///                This key is 2048-bit RSA. Subsequent calls to this
   ///                function will then generate a new Enterprise User Key.
   /// |callback|: Called back with the challenge response.
+  @Deprecated(r'Use $(ref:challengeKey) instead.')
   Future<ByteBuffer> challengeUserKey(
     ByteBuffer challenge,
     bool registerKey,

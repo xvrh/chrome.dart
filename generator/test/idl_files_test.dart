@@ -40,7 +40,7 @@ void main() {
         ChromeIDLParser chromeIDLParser = new ChromeIDLParser();
         IDLNamespaceDeclaration namespace =
             chromeIDLParser.namespaceDeclaration.parse(webIdl).value;
-        /*ChromeLibrary chromeLibrary =*/ convert(namespace);
+       // /*ChromeLibrary chromeLibrary =*/ convert(namespace);
       });
     });
   });

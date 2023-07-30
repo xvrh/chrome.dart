@@ -30,6 +30,7 @@ extension JSExtensionExtension on JSExtension {
   /// [runtime.connect], but only sends a single request with an optional
   /// response. The [extension.onRequest] event is fired in each page of the
   /// extension.
+  @Deprecated(r'Please use $(ref:runtime.sendMessage).')
   external JSPromise sendRequest(
     /// The extension ID of the extension you want to connect to. If omitted,
     /// default is your own extension.
@@ -39,6 +40,7 @@ extension JSExtensionExtension on JSExtension {
 
   /// Converts a relative path within an extension install directory to a
   /// fully-qualified URL.
+  @Deprecated(r'Please use $(ref:runtime.getURL).')
   external String getURL(
 
       /// A path to a resource within an extension expressed relative to its
@@ -57,6 +59,8 @@ extension JSExtensionExtension on JSExtension {
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
+  @Deprecated(
+      r'Please use $(ref:extension.getViews) <code>{type: "tab"}</code>.')
   external JSArray getExtensionTabs(int? windowId);
 
   /// Retrieves the state of the extension's access to Incognito-mode. This

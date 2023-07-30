@@ -60,7 +60,7 @@ class JsonNamespace {
   }
 }
 
-@JsonSerializable(createToJson: false, fieldRename: FieldRename.snake)
+@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class JsonFunction {
   final String name;
   final String? type;
@@ -73,10 +73,47 @@ class JsonFunction {
 
   final JsonProperty? returns;
 
+  @JsonKey(name: 'returns_async')
   final JsonProperty? returnsAsync;
 
-  JsonFunction(this.name, this.type, this.description, this.parameters,
-      this.returns, this.returnsAsync);
+  final String? deprecated;
+
+  final bool? nodoc, nocompile;
+
+  final Map? options;
+
+  final bool? optional, allowAmbiguousOptionalArguments;
+
+  final int? maximumManifestVersion;
+
+  @JsonKey(name: 'min_version')
+  final String? minVersion;
+
+  final List<String>? platforms;
+
+  final List? filters;
+
+  final List<JsonProperty>? extraParameters;
+
+  JsonFunction(
+    this.name,
+    this.type,
+    this.description,
+    this.parameters,
+    this.returns,
+    this.returnsAsync,
+    this.deprecated,
+    this.nodoc,
+    this.nocompile,
+    this.options,
+    this.optional,
+    this.allowAmbiguousOptionalArguments,
+    this.maximumManifestVersion,
+    this.minVersion,
+    this.platforms,
+    this.filters,
+    this.extraParameters,
+  );
 
   factory JsonFunction.fromJson(Map<String, dynamic> json) =>
       _$JsonFunctionFromJson(json);

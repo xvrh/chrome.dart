@@ -71,6 +71,8 @@ extension JSBrowsingDataExtension on JSBrowsingData {
   external JSPromise removeLocalStorage(RemovalOptions options);
 
   /// Clears plugins' data.
+  @Deprecated(
+      r'Support for Flash has been removed. This function has no effect.')
   external JSPromise removePluginData(RemovalOptions options);
 
   /// Clears the browser's stored passwords.

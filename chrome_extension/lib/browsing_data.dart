@@ -103,6 +103,8 @@ class ChromeBrowsingData {
   }
 
   /// Clears plugins' data.
+  @Deprecated(
+      r'Support for Flash has been removed. This function has no effect.')
   Future<void> removePluginData(RemovalOptions options) async {
     await promiseToFuture<void>(
         $js.chrome.browsingData.removePluginData(options.toJS));

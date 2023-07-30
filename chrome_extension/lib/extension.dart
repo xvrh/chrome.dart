@@ -28,6 +28,7 @@ class ChromeExtension {
   /// extension.
   /// [extensionId] The extension ID of the extension you want to connect to.
   /// If omitted, default is your own extension.
+  @Deprecated(r'Please use $(ref:runtime.sendMessage).')
   Future<Object> sendRequest(
     String? extensionId,
     Object request,
@@ -43,6 +44,7 @@ class ChromeExtension {
   /// fully-qualified URL.
   /// [path] A path to a resource within an extension expressed relative to
   /// its install directory.
+  @Deprecated(r'Please use $(ref:runtime.getURL).')
   String getURL(String path) {
     return $js.chrome.extension.getURL(path);
   }
@@ -68,6 +70,8 @@ class ChromeExtension {
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
+  @Deprecated(
+      r'Please use $(ref:extension.getViews) <code>{type: "tab"}</code>.')
   List<JSObject> getExtensionTabs(int? windowId) {
     return $js.chrome.extension
         .getExtensionTabs(windowId)

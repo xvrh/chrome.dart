@@ -1,5 +1,6 @@
 library chrome_idl_convert_test;
 
+import 'package:chrome_extension_generator/src/chrome_type.dart' show Context;
 import 'package:chrome_extension_generator/src/idl_convert.dart';
 import 'package:chrome_extension_generator/src/idl_parser.dart';
 import 'package:test/test.dart';
@@ -46,7 +47,8 @@ namespace power {
 
     var namespace = chromeIDLParser.namespaceDeclaration.parse(testData).value;
 
-    var chromeLibrary = IdlModelConverter(namespace).convert();
+    var context = Context();
+    var chromeLibrary = IdlModelConverter(context, namespace).convert();
     expect(chromeLibrary, isNotNull);
     // TODO: finish testing this object.
   });

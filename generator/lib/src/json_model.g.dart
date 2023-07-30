@@ -29,22 +29,58 @@ JsonNamespace _$JsonNamespaceFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-JsonFunction _$JsonFunctionFromJson(Map<String, dynamic> json) => JsonFunction(
-      json['name'] as String,
-      json['type'] as String?,
-      json['description'] as String? ?? '',
-      (json['parameters'] as List<dynamic>?)
-              ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      json['returns'] == null
-          ? null
-          : JsonProperty.fromJson(json['returns'] as Map<String, dynamic>),
-      json['returns_async'] == null
-          ? null
-          : JsonProperty.fromJson(
-              json['returns_async'] as Map<String, dynamic>),
-    );
+JsonFunction _$JsonFunctionFromJson(Map<String, dynamic> json) {
+  $checkKeys(
+    json,
+    allowedKeys: const [
+      'name',
+      'type',
+      'description',
+      'parameters',
+      'returns',
+      'returns_async',
+      'deprecated',
+      'nodoc',
+      'nocompile',
+      'options',
+      'optional',
+      'allowAmbiguousOptionalArguments',
+      'maximumManifestVersion',
+      'min_version',
+      'platforms',
+      'filters',
+      'extraParameters'
+    ],
+  );
+  return JsonFunction(
+    json['name'] as String,
+    json['type'] as String?,
+    json['description'] as String? ?? '',
+    (json['parameters'] as List<dynamic>?)
+            ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [],
+    json['returns'] == null
+        ? null
+        : JsonProperty.fromJson(json['returns'] as Map<String, dynamic>),
+    json['returns_async'] == null
+        ? null
+        : JsonProperty.fromJson(json['returns_async'] as Map<String, dynamic>),
+    json['deprecated'] as String?,
+    json['nodoc'] as bool?,
+    json['nocompile'] as bool?,
+    json['options'] as Map<String, dynamic>?,
+    json['optional'] as bool?,
+    json['allowAmbiguousOptionalArguments'] as bool?,
+    json['maximumManifestVersion'] as int?,
+    json['min_version'] as String?,
+    (json['platforms'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    json['filters'] as List<dynamic>?,
+    (json['extraParameters'] as List<dynamic>?)
+        ?.map((e) => JsonProperty.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
 
 JsonDeclaredType _$JsonDeclaredTypeFromJson(Map<String, dynamic> json) {
   $checkKeys(

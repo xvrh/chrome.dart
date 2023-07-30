@@ -209,6 +209,10 @@ class IdlModelConverter {
         parameters: parameters,
         documentation: _toDocumentation(function.documentation),
         returns: returns,
+        deprecated: function.attribute?.attributes
+            .firstWhereOrNull(
+                (e) => e.attributeType == IDLAttributeTypeEnum.DEPRECATED)
+            ?.attributeValue,
       );
     }
   }

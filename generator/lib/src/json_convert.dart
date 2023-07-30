@@ -152,6 +152,7 @@ class JsonModelConverter {
       returns: returns,
       parameters: _functionParameters(function, returns: jsonReturns).toList(),
       documentation: function.description,
+      deprecated: function.deprecated,
     );
   }
 

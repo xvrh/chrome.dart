@@ -40,28 +40,34 @@ class ChromeApi {
   String get fileName => '${name.snakeCase}.dart';
 
   Iterable<ChromeType> get inputTypes sync* {
+    var seen = <Dictionary>{};
     for (var function in functions) {
-      yield* typesWithDictionaries(function.inputTypes());
+      yield* typesWithDictionaries(function.inputTypes(), seen);
     }
   }
 
   Iterable<ChromeType> get outputTypes sync* {
+    var seen = <Dictionary>{};
     for (var property in properties) {
-      yield* typesWithDictionaries(property.types());
+      yield* typesWithDictionaries(property.types(), seen);
     }
     for (var event in events) {
-      yield* typesWithDictionaries(event.outputTypes(this));
+      yield* typesWithDictionaries(event.outputTypes(this), seen);
     }
     for (var function in functions) {
-      yield* typesWithDictionaries(function.outputTypes());
+      yield* typesWithDictionaries(function.outputTypes(), seen);
     }
   }
 
-  Iterable<ChromeType> typesWithDictionaries(Iterable<ChromeType> types) sync* {
+  Iterable<ChromeType> typesWithDictionaries(
+      Iterable<ChromeType> types, Set<Dictionary> seen) sync* {
     for (var type in types) {
       if (type is DictionaryType && type.url == null) {
         var dict = dictionaries.singleWhere((e) => e.name == type.name);
-        yield* dict.types();
+        if (!seen.contains(dict)) {
+          seen.add(dict);
+          yield* typesWithDictionaries(dict.types(), seen);
+        }
       }
       yield type;
     }

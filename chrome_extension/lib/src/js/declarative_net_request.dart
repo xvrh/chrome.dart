@@ -244,294 +244,300 @@ extension RulesetExtension on Ruleset {
 
 @JS()
 @staticInterop
-class QueryKeyValue {}
+@anonymous
+class QueryKeyValue {
+  external factory QueryKeyValue({
+    String key,
+    String value,
 
-extension QueryKeyValueExtension on QueryKeyValue {
-  external String key;
-
-  external String value;
-
-  /// If true, the query key is replaced only if it's already present.
-  /// Otherwise, the key is also added if it's missing. Defaults to false.
-  external bool? replaceOnly;
+    /// If true, the query key is replaced only if it's already present.
+    /// Otherwise, the key is also added if it's missing. Defaults to false.
+    bool? replaceOnly,
+  });
 }
 
 @JS()
 @staticInterop
-class QueryTransform {}
+@anonymous
+class QueryTransform {
+  external factory QueryTransform({
+    /// The list of query keys to be removed.
+    JSArray? removeParams,
 
-extension QueryTransformExtension on QueryTransform {
-  /// The list of query keys to be removed.
-  external JSArray? removeParams;
-
-  /// The list of query key-value pairs to be added or replaced.
-  external JSArray? addOrReplaceParams;
+    /// The list of query key-value pairs to be added or replaced.
+    JSArray? addOrReplaceParams,
+  });
 }
 
 @JS()
 @staticInterop
-class URLTransform {}
+@anonymous
+class URLTransform {
+  external factory URLTransform({
+    /// The new scheme for the request. Allowed values are "http", "https",
+    /// "ftp" and "chrome-extension".
+    String? scheme,
 
-extension URLTransformExtension on URLTransform {
-  /// The new scheme for the request. Allowed values are "http", "https",
-  /// "ftp" and "chrome-extension".
-  external String? scheme;
+    /// The new host for the request.
+    String? host,
 
-  /// The new host for the request.
-  external String? host;
+    /// The new port for the request. If empty, the existing port is cleared.
+    String? port,
 
-  /// The new port for the request. If empty, the existing port is cleared.
-  external String? port;
+    /// The new path for the request. If empty, the existing path is cleared.
+    String? path,
 
-  /// The new path for the request. If empty, the existing path is cleared.
-  external String? path;
+    /// The new query for the request. Should be either empty, in which case the
+    /// existing query is cleared; or should begin with '?'.
+    String? query,
 
-  /// The new query for the request. Should be either empty, in which case the
-  /// existing query is cleared; or should begin with '?'.
-  external String? query;
+    /// Add, remove or replace query key-value pairs.
+    QueryTransform? queryTransform,
 
-  /// Add, remove or replace query key-value pairs.
-  external QueryTransform? queryTransform;
+    /// The new fragment for the request. Should be either empty, in which case
+    /// the existing fragment is cleared; or should begin with '#'.
+    String? fragment,
 
-  /// The new fragment for the request. Should be either empty, in which case
-  /// the existing fragment is cleared; or should begin with '#'.
-  external String? fragment;
+    /// The new username for the request.
+    String? username,
 
-  /// The new username for the request.
-  external String? username;
-
-  /// The new password for the request.
-  external String? password;
+    /// The new password for the request.
+    String? password,
+  });
 }
 
 @JS()
 @staticInterop
-class Redirect {}
+@anonymous
+class Redirect {
+  external factory Redirect({
+    /// Path relative to the extension directory. Should start with '/'.
+    String? extensionPath,
 
-extension RedirectExtension on Redirect {
-  /// Path relative to the extension directory. Should start with '/'.
-  external String? extensionPath;
+    /// Url transformations to perform.
+    URLTransform? transform,
 
-  /// Url transformations to perform.
-  external URLTransform? transform;
+    /// The redirect url. Redirects to JavaScript urls are not allowed.
+    String? url,
 
-  /// The redirect url. Redirects to JavaScript urls are not allowed.
-  external String? url;
-
-  /// Substitution pattern for rules which specify a `regexFilter`.
-  /// The first match of `regexFilter` within the url will be
-  /// replaced with this pattern. Within `regexSubstitution`,
-  /// backslash-escaped digits (\1 to \9) can be used to insert the
-  /// corresponding capture groups. \0 refers to the entire matching text.
-  external String? regexSubstitution;
+    /// Substitution pattern for rules which specify a `regexFilter`.
+    /// The first match of `regexFilter` within the url will be
+    /// replaced with this pattern. Within `regexSubstitution`,
+    /// backslash-escaped digits (\1 to \9) can be used to insert the
+    /// corresponding capture groups. \0 refers to the entire matching text.
+    String? regexSubstitution,
+  });
 }
 
 @JS()
 @staticInterop
-class RuleCondition {}
+@anonymous
+class RuleCondition {
+  external factory RuleCondition({
+    /// The pattern which is matched against the network request url.
+    /// Supported constructs:
+    ///
+    /// **'*'**  : Wildcard: Matches any number of characters.
+    ///
+    /// **'|'**  : Left/right anchor: If used at either end of the pattern,
+    ///               specifies the beginning/end of the url respectively.
+    ///
+    /// **'||'** : Domain name anchor: If used at the beginning of the pattern,
+    ///               specifies the start of a (sub-)domain of the URL.
+    ///
+    /// **'^'**  : Separator character: This matches anything except a letter, a
+    ///               digit or one of the following: _ - . %. This can also match
+    ///               the end of the URL.
+    ///
+    /// Therefore `urlFilter` is composed of the following parts:
+    /// (optional Left/Domain name anchor) + pattern + (optional Right anchor).
+    ///
+    /// If omitted, all urls are matched. An empty string is not allowed.
+    ///
+    /// A pattern beginning with `||*` is not allowed. Use
+    /// `*` instead.
+    ///
+    /// Note: Only one of `urlFilter` or `regexFilter` can
+    /// be specified.
+    ///
+    /// Note: The `urlFilter` must be composed of only ASCII
+    /// characters. This is matched against a url where the host is encoded in
+    /// the punycode format (in case of internationalized domains) and any other
+    /// non-ascii characters are url encoded in utf-8.
+    /// For example, when the request url is
+    /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
+    /// `urlFilter` will be matched against the url
+    /// http://abc.xn--p1ai/?q=%D1%84.
+    String? urlFilter,
 
-extension RuleConditionExtension on RuleCondition {
-  /// The pattern which is matched against the network request url.
-  /// Supported constructs:
-  ///
-  /// **'*'**  : Wildcard: Matches any number of characters.
-  ///
-  /// **'|'**  : Left/right anchor: If used at either end of the pattern,
-  ///               specifies the beginning/end of the url respectively.
-  ///
-  /// **'||'** : Domain name anchor: If used at the beginning of the pattern,
-  ///               specifies the start of a (sub-)domain of the URL.
-  ///
-  /// **'^'**  : Separator character: This matches anything except a letter, a
-  ///               digit or one of the following: _ - . %. This can also match
-  ///               the end of the URL.
-  ///
-  /// Therefore `urlFilter` is composed of the following parts:
-  /// (optional Left/Domain name anchor) + pattern + (optional Right anchor).
-  ///
-  /// If omitted, all urls are matched. An empty string is not allowed.
-  ///
-  /// A pattern beginning with `||*` is not allowed. Use
-  /// `*` instead.
-  ///
-  /// Note: Only one of `urlFilter` or `regexFilter` can
-  /// be specified.
-  ///
-  /// Note: The `urlFilter` must be composed of only ASCII
-  /// characters. This is matched against a url where the host is encoded in
-  /// the punycode format (in case of internationalized domains) and any other
-  /// non-ascii characters are url encoded in utf-8.
-  /// For example, when the request url is
-  /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
-  /// `urlFilter` will be matched against the url
-  /// http://abc.xn--p1ai/?q=%D1%84.
-  external String? urlFilter;
+    /// Regular expression to match against the network request url. This follows
+    /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
+    ///
+    /// Note: Only one of `urlFilter` or `regexFilter` can
+    /// be specified.
+    ///
+    /// Note: The `regexFilter` must be composed of only ASCII
+    /// characters. This is matched against a url where the host is encoded in
+    /// the punycode format (in case of internationalized domains) and any other
+    /// non-ascii characters are url encoded in utf-8.
+    String? regexFilter,
 
-  /// Regular expression to match against the network request url. This follows
-  /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
-  ///
-  /// Note: Only one of `urlFilter` or `regexFilter` can
-  /// be specified.
-  ///
-  /// Note: The `regexFilter` must be composed of only ASCII
-  /// characters. This is matched against a url where the host is encoded in
-  /// the punycode format (in case of internationalized domains) and any other
-  /// non-ascii characters are url encoded in utf-8.
-  external String? regexFilter;
+    /// Whether the `urlFilter` or `regexFilter`
+    /// (whichever is specified) is case sensitive. Default is true.
+    bool? isUrlFilterCaseSensitive,
 
-  /// Whether the `urlFilter` or `regexFilter`
-  /// (whichever is specified) is case sensitive. Default is true.
-  external bool? isUrlFilterCaseSensitive;
+    /// The rule will only match network requests originating from the list of
+    /// `initiatorDomains`. If the list is omitted, the rule is
+    /// applied to requests from all domains. An empty list is not allowed.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>
+    ///    This matches against the request initiator and not the request url.
+    ///  </li>
+    ///  <li>Sub-domains of the listed domains are also matched.</li>
+    /// </ul>
+    JSArray? initiatorDomains,
 
-  /// The rule will only match network requests originating from the list of
-  /// `initiatorDomains`. If the list is omitted, the rule is
-  /// applied to requests from all domains. An empty list is not allowed.
-  ///
-  /// Notes:
-  /// <ul>
-  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
-  ///  <li>The entries must consist of only ascii characters.</li>
-  ///  <li>Use punycode encoding for internationalized domains.</li>
-  ///  <li>
-  ///    This matches against the request initiator and not the request url.
-  ///  </li>
-  ///  <li>Sub-domains of the listed domains are also matched.</li>
-  /// </ul>
-  external JSArray? initiatorDomains;
+    /// The rule will not match network requests originating from the list of
+    /// `excludedInitiatorDomains`. If the list is empty or omitted,
+    /// no domains are excluded. This takes precedence over
+    /// `initiatorDomains`.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>
+    ///    This matches against the request initiator and not the request url.
+    ///  </li>
+    ///  <li>Sub-domains of the listed domains are also excluded.</li>
+    /// </ul>
+    JSArray? excludedInitiatorDomains,
 
-  /// The rule will not match network requests originating from the list of
-  /// `excludedInitiatorDomains`. If the list is empty or omitted,
-  /// no domains are excluded. This takes precedence over
-  /// `initiatorDomains`.
-  ///
-  /// Notes:
-  /// <ul>
-  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
-  ///  <li>The entries must consist of only ascii characters.</li>
-  ///  <li>Use punycode encoding for internationalized domains.</li>
-  ///  <li>
-  ///    This matches against the request initiator and not the request url.
-  ///  </li>
-  ///  <li>Sub-domains of the listed domains are also excluded.</li>
-  /// </ul>
-  external JSArray? excludedInitiatorDomains;
+    /// The rule will only match network requests when the domain matches one
+    /// from the list of `requestDomains`. If the list is omitted,
+    /// the rule is applied to requests from all domains. An empty list is not
+    /// allowed.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>Sub-domains of the listed domains are also matched.</li>
+    /// </ul>
+    JSArray? requestDomains,
 
-  /// The rule will only match network requests when the domain matches one
-  /// from the list of `requestDomains`. If the list is omitted,
-  /// the rule is applied to requests from all domains. An empty list is not
-  /// allowed.
-  ///
-  /// Notes:
-  /// <ul>
-  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
-  ///  <li>The entries must consist of only ascii characters.</li>
-  ///  <li>Use punycode encoding for internationalized domains.</li>
-  ///  <li>Sub-domains of the listed domains are also matched.</li>
-  /// </ul>
-  external JSArray? requestDomains;
+    /// The rule will not match network requests when the domains matches one
+    /// from the list of `excludedRequestDomains`. If the list is
+    /// empty or omitted, no domains are excluded. This takes precedence over
+    /// `requestDomains`.
+    ///
+    /// Notes:
+    /// <ul>
+    ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+    ///  <li>The entries must consist of only ascii characters.</li>
+    ///  <li>Use punycode encoding for internationalized domains.</li>
+    ///  <li>Sub-domains of the listed domains are also excluded.</li>
+    /// </ul>
+    JSArray? excludedRequestDomains,
 
-  /// The rule will not match network requests when the domains matches one
-  /// from the list of `excludedRequestDomains`. If the list is
-  /// empty or omitted, no domains are excluded. This takes precedence over
-  /// `requestDomains`.
-  ///
-  /// Notes:
-  /// <ul>
-  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
-  ///  <li>The entries must consist of only ascii characters.</li>
-  ///  <li>Use punycode encoding for internationalized domains.</li>
-  ///  <li>Sub-domains of the listed domains are also excluded.</li>
-  /// </ul>
-  external JSArray? excludedRequestDomains;
+    /// The rule will only match network requests originating from the list of
+    /// `domains`.
+    JSArray? domains,
 
-  /// The rule will only match network requests originating from the list of
-  /// `domains`.
-  external JSArray? domains;
+    /// The rule will not match network requests originating from the list of
+    /// `excludedDomains`.
+    JSArray? excludedDomains,
 
-  /// The rule will not match network requests originating from the list of
-  /// `excludedDomains`.
-  external JSArray? excludedDomains;
+    /// List of resource types which the rule can match. An empty list is not
+    /// allowed.
+    ///
+    /// Note: this must be specified for `allowAllRequests` rules and
+    /// may only include the `sub_frame` and `main_frame`
+    /// resource types.
+    JSArray? resourceTypes,
 
-  /// List of resource types which the rule can match. An empty list is not
-  /// allowed.
-  ///
-  /// Note: this must be specified for `allowAllRequests` rules and
-  /// may only include the `sub_frame` and `main_frame`
-  /// resource types.
-  external JSArray? resourceTypes;
+    /// List of resource types which the rule won't match. Only one of
+    /// `resourceTypes` and `excludedResourceTypes` should
+    /// be specified. If neither of them is specified, all resource types except
+    /// "main_frame" are blocked.
+    JSArray? excludedResourceTypes,
 
-  /// List of resource types which the rule won't match. Only one of
-  /// `resourceTypes` and `excludedResourceTypes` should
-  /// be specified. If neither of them is specified, all resource types except
-  /// "main_frame" are blocked.
-  external JSArray? excludedResourceTypes;
+    /// List of HTTP request methods which the rule can match. An empty list is
+    /// not allowed.
+    ///
+    /// Note: Specifying a `requestMethods` rule condition will also
+    /// exclude non-HTTP(s) requests, whereas specifying
+    /// `excludedRequestMethods` will not.
+    JSArray? requestMethods,
 
-  /// List of HTTP request methods which the rule can match. An empty list is
-  /// not allowed.
-  ///
-  /// Note: Specifying a `requestMethods` rule condition will also
-  /// exclude non-HTTP(s) requests, whereas specifying
-  /// `excludedRequestMethods` will not.
-  external JSArray? requestMethods;
+    /// List of request methods which the rule won't match. Only one of
+    /// `requestMethods` and `excludedRequestMethods`
+    /// should be specified. If neither of them is specified, all request methods
+    /// are matched.
+    JSArray? excludedRequestMethods,
 
-  /// List of request methods which the rule won't match. Only one of
-  /// `requestMethods` and `excludedRequestMethods`
-  /// should be specified. If neither of them is specified, all request methods
-  /// are matched.
-  external JSArray? excludedRequestMethods;
+    /// Specifies whether the network request is first-party or third-party to
+    /// the domain from which it originated. If omitted, all requests are
+    /// accepted.
+    DomainType? domainType,
 
-  /// Specifies whether the network request is first-party or third-party to
-  /// the domain from which it originated. If omitted, all requests are
-  /// accepted.
-  external DomainType? domainType;
+    /// List of [tabs.Tab.id] which the rule should match. An ID of
+    /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
+    /// tab. An empty list is not allowed. Only supported for session-scoped
+    /// rules.
+    JSArray? tabIds,
 
-  /// List of [tabs.Tab.id] which the rule should match. An ID of
-  /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
-  /// tab. An empty list is not allowed. Only supported for session-scoped
-  /// rules.
-  external JSArray? tabIds;
-
-  /// List of [tabs.Tab.id] which the rule should not match. An ID of
-  /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
-  /// tab. Only supported for session-scoped rules.
-  external JSArray? excludedTabIds;
+    /// List of [tabs.Tab.id] which the rule should not match. An ID of
+    /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
+    /// tab. Only supported for session-scoped rules.
+    JSArray? excludedTabIds,
+  });
 }
 
 @JS()
 @staticInterop
-class ModifyHeaderInfo {}
+@anonymous
+class ModifyHeaderInfo {
+  external factory ModifyHeaderInfo({
+    /// The name of the header to be modified.
+    String header,
 
-extension ModifyHeaderInfoExtension on ModifyHeaderInfo {
-  /// The name of the header to be modified.
-  external String header;
+    /// The operation to be performed on a header.
+    HeaderOperation operation,
 
-  /// The operation to be performed on a header.
-  external HeaderOperation operation;
-
-  /// The new value for the header. Must be specified for `append`
-  /// and `set` operations.
-  external String? value;
+    /// The new value for the header. Must be specified for `append`
+    /// and `set` operations.
+    String? value,
+  });
 }
 
 @JS()
 @staticInterop
-class RuleAction {}
+@anonymous
+class RuleAction {
+  external factory RuleAction({
+    /// The type of action to perform.
+    RuleActionType type,
 
-extension RuleActionExtension on RuleAction {
-  /// The type of action to perform.
-  external RuleActionType type;
+    /// Describes how the redirect should be performed. Only valid for redirect
+    /// rules.
+    Redirect? redirect,
 
-  /// Describes how the redirect should be performed. Only valid for redirect
-  /// rules.
-  external Redirect? redirect;
+    /// The request headers to modify for the request. Only valid if
+    /// RuleActionType is "modifyHeaders".
+    JSArray? requestHeaders,
 
-  /// The request headers to modify for the request. Only valid if
-  /// RuleActionType is "modifyHeaders".
-  external JSArray? requestHeaders;
-
-  /// The response headers to modify for the request. Only valid if
-  /// RuleActionType is "modifyHeaders".
-  external JSArray? responseHeaders;
+    /// The response headers to modify for the request. Only valid if
+    /// RuleActionType is "modifyHeaders".
+    JSArray? responseHeaders,
+  });
 }
 
 @JS()

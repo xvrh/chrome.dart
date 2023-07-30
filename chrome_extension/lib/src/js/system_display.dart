@@ -195,14 +195,15 @@ class Insets {
 
 @JS()
 @staticInterop
-class Point {}
+@anonymous
+class Point {
+  external factory Point({
+    /// The x-coordinate of the point.
+    int x,
 
-extension PointExtension on Point {
-  /// The x-coordinate of the point.
-  external int x;
-
-  /// The y-coordinate of the point.
-  external int y;
+    /// The y-coordinate of the point.
+    int y,
+  });
 }
 
 @JS()

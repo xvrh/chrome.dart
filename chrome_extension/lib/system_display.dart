@@ -297,25 +297,14 @@ class Point {
 
     /// The y-coordinate of the point.
     required int y,
-  }) : _wrapped = $js.Point()
-          ..x = x
-          ..y = y;
+  }) : _wrapped = $js.Point(
+          x: x,
+          y: y,
+        );
 
   final $js.Point _wrapped;
 
   $js.Point get toJS => _wrapped;
-
-  /// The x-coordinate of the point.
-  int get x => _wrapped.x;
-  set x(int v) {
-    _wrapped.x = v;
-  }
-
-  /// The y-coordinate of the point.
-  int get y => _wrapped.y;
-  set y(int v) {
-    _wrapped.y = v;
-  }
 }
 
 class TouchCalibrationPair {

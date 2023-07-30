@@ -17,7 +17,9 @@ void main() async {
   await chrome.power.requestKeepAwake(Level.display);
   
   // Use the chrome.storage API
-  await chrome.storage.sync.set('mykey', 'value');
+  await chrome.storage.sync.set({'mykey': 'value'});
+  var values = await chrome.storage.sync.get(null /* all */);
+  print(values['mykey']);
 
   // Use the chrome.alarms API
   await chrome.alarms.create('MyAlarm', AlarmCreateInfo(delayInMinutes: 2));

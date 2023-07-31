@@ -1,5 +1,10 @@
 import 'dart:convert';
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+import 'dart:js_util';
+
+import 'package:chrome_apis/extension.dart';
+import 'package:chrome_apis/runtime.dart';
 
 import 'test_context.dart';
 export 'test_context.dart';

@@ -111,11 +111,11 @@ extension EvalExceptionInfoExtension on EvalExceptionInfo {
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  external String code;
+  external String? code;
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  external String description;
+  external String? description;
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated, contains the array of the values that may be substituted into
@@ -124,10 +124,10 @@ extension EvalExceptionInfoExtension on EvalExceptionInfo {
   external JSArray details;
 
   /// Set if the evaluated code produces an unhandled exception.
-  external bool isException;
+  external bool? isException;
 
   /// Set if the evaluated code produces an unhandled exception.
-  external String value;
+  external String? value;
 }
 
 @JS()

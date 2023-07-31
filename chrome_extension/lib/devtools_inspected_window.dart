@@ -41,12 +41,13 @@ class ChromeDevtoolsInspectedWindow {
       expression,
       options?.toJS,
       (
-        JSAny result,
+        JSAny? result,
         $js.EvalExceptionInfo exceptionInfo,
       ) {
+        print("My fking callback");
         if (checkRuntimeLastError($completer)) {
           $completer.complete(EvalResult(
-            result: result.toDartMap(),
+            result: result?.toDartMap() ?? {},
             exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
           ));
         }
@@ -208,15 +209,15 @@ class EvalExceptionInfo {
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  String get code => _wrapped.code;
-  set code(String v) {
+  String? get code => _wrapped.code;
+  set code(String? v) {
     _wrapped.code = v;
   }
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  String get description => _wrapped.description;
-  set description(String v) {
+  String? get description => _wrapped.description;
+  set description(String? v) {
     _wrapped.description = v;
   }
 
@@ -231,14 +232,14 @@ class EvalExceptionInfo {
   }
 
   /// Set if the evaluated code produces an unhandled exception.
-  bool get isException => _wrapped.isException;
-  set isException(bool v) {
+  bool? get isException => _wrapped.isException;
+  set isException(bool? v) {
     _wrapped.isException = v;
   }
 
   /// Set if the evaluated code produces an unhandled exception.
-  String get value => _wrapped.value;
-  set value(String v) {
+  String? get value => _wrapped.value;
+  set value(String? v) {
     _wrapped.value = v;
   }
 }

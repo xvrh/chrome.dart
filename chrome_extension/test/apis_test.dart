@@ -9,7 +9,11 @@ import 'package:puppeteer/puppeteer.dart' as pup;
 import 'package:puppeteer/protocol/runtime.dart' as pup;
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+import 'package:shelf/shelf.dart' as shelf;
+import 'package:shelf/shelf_io.dart' as shelf;
+import 'package:shelf_router/shelf_router.dart' as shelf;
 
+import 'communication.dart';
 import 'test_context.dart';
 
 void main() {
@@ -27,7 +31,6 @@ void main() {
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
   test('chrome.declarativeNetRequest',
       () => runTest('test/apis/declarative_net_request.dart'));
-  test('chrome.devtools.panels', () => runTest('test/apis/devtools_panels.dart'));
   test('chrome.extension', () => runTest('test/apis/extension.dart'));
   test('chrome.i18n', () => runTest('test/apis/i18n.dart'));
   test('chrome.notifications', () => runTest('test/apis/notifications.dart'));
@@ -59,21 +62,8 @@ Future<void> runTest(String filePath, {File? manifest}) async {
   var extensionDir = chromeExtensionDir.createTempSync();
   var extensionPath = extensionDir.path;
 
-  var compileResult = await Process.run(Platform.resolvedExecutable, [
-    'compile',
-    'js',
-    filePath,
-    '--csp',
-    '--enable-asserts',
-    '--output',
-    p.join(extensionDir.path, 'background.js')
-  ]);
-  if (compileResult.exitCode != 0) {
-    throw Exception(
-        'Error when compiling JS (${compileResult.exitCode}).\n${compileResult.stdout}\n${compileResult.stderr}');
-  }
+  await _compileJs(filePath, p.join(extensionDir.path, 'background.js'));
   manifest.copySync(p.join(extensionPath, 'manifest.json'));
-  _copyDirectory(Directory('test/assets'), extensionDir);
 
   var browser = await puppeteer.launch(
     headless: false,
@@ -83,8 +73,7 @@ Future<void> runTest(String filePath, {File? manifest}) async {
     ],
   );
   try {
-    var targetName = manifestVersion < 3 ? 'background_page' : 'service_worker';
-
+    var targetName = 'service_worker';
     var backgroundPageTarget =
         browser.targets.firstWhereOrNull((t) => t.type == targetName);
     backgroundPageTarget ??=
@@ -92,39 +81,62 @@ Future<void> runTest(String filePath, {File? manifest}) async {
     expect(backgroundPageTarget.isPage, isFalse);
     var worker = (await backgroundPageTarget.worker)!;
 
-    var endCompleter = Completer<bool>();
+    var consoleResult = _listenConsole(DevTools(worker.client));
 
-    var endDetector = RegExp(r'[0-9]{2}:[0-9]{2}.*:(.*)');
-    DevTools(worker.client).runtime.onConsoleAPICalled.listen((e) {
-      var message = e.args.map((e) => e.value).join(',');
-      print('[Extension message] $message');
-
-      if (endDetector.firstMatch(message) case var match?) {
-        var testName = match.group(1)!.trim();
-        if (testName.contains('Some tests failed.')) {
-          endCompleter.complete(false);
-        } else if (testName.startsWith('All tests passed!')) {
-          endCompleter.complete(true);
-        }
-      }
-    });
     await waitFor(() async => await worker.evaluate(_checkIsReady));
 
     var context = TestContext(
         puppeteerUrl: browser.wsEndpoint,
         operatingSystem: Platform.operatingSystem);
-    await worker.evaluate('(context) => startFunction(context)',
-        args: [jsonEncode(context.toJson())]);
+    await worker.evaluate(_startFunction, args: [jsonEncode(context.toJson())]);
 
-    var isOk = await endCompleter.future;
+    var isOk = await consoleResult;
     if (!isOk) {
       fail('Some tests failed.');
     }
   } finally {
     await browser.close();
+    extensionDir.deleteSync(recursive: true);
   }
+}
 
-  extensionDir.deleteSync(recursive: true);
+Future<void> _compileJs(String input, String output,
+    {Map<String, String>? defines}) async {
+  var compileResult = await Process.run(Platform.resolvedExecutable, [
+    'compile',
+    'js',
+    input,
+    '--csp',
+    '--enable-asserts',
+    '--output',
+    output,
+    if (defines != null)
+      for (var e in defines.entries) '--define=${e.key}=${e.value}',
+  ]);
+  if (compileResult.exitCode != 0) {
+    throw Exception(
+        'Error when compiling JS (${compileResult.exitCode}).\n${compileResult.stdout}\n${compileResult.stderr}');
+  }
+}
+
+Future<bool> _listenConsole(DevTools devtools) {
+  var endCompleter = Completer<bool>();
+
+  var endDetector = RegExp(r'[0-9]{2}:[0-9]{2}.*:(.*)');
+  devtools.runtime.onConsoleAPICalled.listen((e) {
+    var message = e.args.map((e) => e.value).join(',');
+    print('[Extension message] $message');
+
+    if (endDetector.firstMatch(message) case var match?) {
+      var testName = match.group(1)!.trim();
+      if (testName.contains('Some tests failed.')) {
+        endCompleter.complete(false);
+      } else if (testName.startsWith('All tests passed!')) {
+        endCompleter.complete(true);
+      }
+    }
+  });
+  return endCompleter.future;
 }
 
 Future<void> waitFor(FutureOr<bool> Function() predicate,
@@ -143,6 +155,8 @@ Future<void> waitFor(FutureOr<bool> Function() predicate,
   }
 }
 
+final _startFunction = '(context) => startFunction(context)';
+
 final _checkIsReady = '''() => {
 try {
   return isReady === true;
@@ -157,18 +171,3 @@ int _readManifestVersion(File file) {
   return map['manifest_version']! as int;
 }
 
-void _copyDirectory(Directory source, Directory destination) {
-  /// create destination folder if not exist
-  if (!destination.existsSync()) {
-    destination.createSync(recursive: true);
-  }
-  /// get all files from source (recursive: false is important here)
-  source.listSync(recursive: false).forEach((entity) {
-    final newPath = p.join(destination.path,  p.basename(entity.path));
-    if (entity is File) {
-      entity.copySync(newPath);
-    } else if (entity is Directory) {
-      _copyDirectory(entity, Directory(newPath));
-    }
-  });
-}

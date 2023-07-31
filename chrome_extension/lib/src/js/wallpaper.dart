@@ -37,7 +37,7 @@ typedef WallpaperLayout = String;
 class SetWallpaperDetails {
   external factory SetWallpaperDetails({
     /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
-    JSAny? data,
+    JSArrayBuffer? data,
 
     /// The URL of the wallpaper to be set (can be relative).
     String? url,

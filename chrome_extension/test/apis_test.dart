@@ -25,12 +25,16 @@ void main() {
   test('chrome.bookmarks', () => runTest('test/apis/bookmarks.dart'));
   test('chrome.browsingData', () => runTest('test/apis/browsing_data.dart'));
   test('chrome.contextMenus', () => runTest('test/apis/context_menus.dart'));
-  test('chrome.declarativeNetRequest', () => runTest('test/apis/declarative_net_request.dart'));
+  test('chrome.declarativeNetRequest',
+      () => runTest('test/apis/declarative_net_request.dart'));
+  test('chrome.devtools.panels', () => runTest('test/apis/devtools_panels.dart'));
   test('chrome.extension', () => runTest('test/apis/extension.dart'));
   test('chrome.i18n', () => runTest('test/apis/i18n.dart'));
+  test('chrome.notifications', () => runTest('test/apis/notifications.dart'));
   test('chrome.privacy', () => runTest('test/apis/privacy.dart'));
   test('chrome.processes', () => runTest('test/apis/processes.dart'));
   test('chrome.runtime', () => runTest('test/apis/runtime.dart'));
+  test('chrome.search', () => runTest('test/apis/search.dart'));
   test('chrome.storage', () => runTest('test/apis/storage.dart'));
   test('chrome.system.cpu', () => runTest('test/apis/system_cpu.dart'));
   test('chrome.system.display', () => runTest('test/apis/system_display.dart'));
@@ -38,6 +42,7 @@ void main() {
   test('chrome.system.network', () => runTest('test/apis/system_network.dart'));
   test('chrome.system.storage', () => runTest('test/apis/system_storage.dart'));
   test('chrome.tabs', () => runTest('test/apis/tabs.dart'));
+  test('chrome.wallpaper', () => runTest('test/apis/wallpaper.dart'));
   test('chrome.windows', () => runTest('test/apis/windows.dart'));
 }
 
@@ -68,6 +73,7 @@ Future<void> runTest(String filePath, {File? manifest}) async {
         'Error when compiling JS (${compileResult.exitCode}).\n${compileResult.stdout}\n${compileResult.stderr}');
   }
   manifest.copySync(p.join(extensionPath, 'manifest.json'));
+  _copyDirectory(Directory('test/assets'), extensionDir);
 
   var browser = await puppeteer.launch(
     headless: false,
@@ -149,4 +155,20 @@ int _readManifestVersion(File file) {
   var content = file.readAsStringSync();
   var map = jsonDecode(content) as Map<String, dynamic>;
   return map['manifest_version']! as int;
+}
+
+void _copyDirectory(Directory source, Directory destination) {
+  /// create destination folder if not exist
+  if (!destination.existsSync()) {
+    destination.createSync(recursive: true);
+  }
+  /// get all files from source (recursive: false is important here)
+  source.listSync(recursive: false).forEach((entity) {
+    final newPath = p.join(destination.path,  p.basename(entity.path));
+    if (entity is File) {
+      entity.copySync(newPath);
+    } else if (entity is Directory) {
+      _copyDirectory(entity, Directory(newPath));
+    }
+  });
 }

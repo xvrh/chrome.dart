@@ -137,7 +137,7 @@ class AudioBuffer {
     /// exactly audioStreamOptions.bufferSize and encoded as mono, at
     /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
     /// the Float32Array type in javascript.
-    JSAny audioBuffer,
+    JSArrayBuffer audioBuffer,
 
     /// The character index associated with this audio buffer.
     int? charIndex,

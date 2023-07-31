@@ -184,7 +184,7 @@ sealed class _PrimitiveType extends ChromeType {
       'integer' || 'long' => _IntegerType(isNullable: isNullable),
       'number' || 'double' => _DoubleType(isNullable: isNullable),
       'boolean' => _BooleanType(isNullable: isNullable),
-      'ArrayBuffer' => _ArrayBufferType(isNullable: isNullable),
+      'ArrayBuffer' || 'binary' => _ArrayBufferType(isNullable: isNullable),
       _ => null,
     };
   }
@@ -347,7 +347,6 @@ class _VariousType extends ChromeType {
       'object',
       'any',
       'Date',
-      'binary',
       "InjectedFunction",
       'global',
     }.contains(input)) {

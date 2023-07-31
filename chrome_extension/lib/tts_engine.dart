@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'src/internal_helpers.dart';
 import 'src/js/tts_engine.dart' as $js;
 import 'tts.dart';
@@ -252,7 +254,7 @@ class AudioBuffer {
     /// exactly audioStreamOptions.bufferSize and encoded as mono, at
     /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float
     /// i.e. the Float32Array type in javascript.
-    required Object audioBuffer,
+    required ByteBuffer audioBuffer,
 
     /// The character index associated with this audio buffer.
     int? charIndex,

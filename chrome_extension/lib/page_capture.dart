@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'src/internal_helpers.dart';
 import 'src/js/page_capture.dart' as $js;
 
@@ -16,13 +18,13 @@ class ChromePageCapture {
   bool get isAvailable => $js.chrome.pageCaptureNullable != null;
 
   /// Saves the content of the tab with given id as MHTML.
-  Future<Object?> saveAsMHTML(SaveAsMhtmlDetails details) {
-    var $completer = Completer<Object?>();
+  Future<ByteBuffer?> saveAsMHTML(SaveAsMhtmlDetails details) {
+    var $completer = Completer<ByteBuffer?>();
     $js.chrome.pageCapture.saveAsMHTML(
       details.toJS,
-      (JSAny? mhtmlData) {
+      (JSArrayBuffer? mhtmlData) {
         if (checkRuntimeLastError($completer)) {
-          $completer.complete(mhtmlData);
+          $completer.complete(mhtmlData?.toDart);
         }
       }.toJS,
     );

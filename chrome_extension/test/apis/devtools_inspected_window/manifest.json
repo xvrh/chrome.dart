@@ -2,7 +2,7 @@
   "devtools_page": "devtools.html",
   "content_scripts": [
     {
-      "matches": ["https://dart.dev/*"],
+      "matches": ["@SERVER_URL/*"],
       "js": ["content_script.dart.js"],
       "all_frames": true
     }

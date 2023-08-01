@@ -385,18 +385,18 @@ class ChromeTabs {
   /// listen to onUpdated events so as to be notified when a URL is set or the
   /// tab is added to a tab group.
   Stream<Tab> get onCreated =>
-      $js.chrome.tabs.onCreated.asStream(($c) => ($js.Tab tab) {
-            $c.add(Tab.fromJS(tab));
+      $js.chrome.tabs.onCreated.asStream2(($c) => ($js.Tab tab) {
+            $c(Tab.fromJS(tab));
           }.toJS);
 
   /// Fired when a tab is updated.
   Stream<OnUpdatedEvent> get onUpdated =>
-      $js.chrome.tabs.onUpdated.asStream(($c) => (
+      $js.chrome.tabs.onUpdated.asStream2(($c) => (
             int tabId,
             $js.OnUpdatedChangeInfo changeInfo,
             $js.Tab tab,
           ) {
-            $c.add(OnUpdatedEvent(
+            $c(OnUpdatedEvent(
               tabId: tabId,
               changeInfo: OnUpdatedChangeInfo.fromJS(changeInfo),
               tab: Tab.fromJS(tab),
@@ -494,11 +494,11 @@ class ChromeTabs {
 
   /// Fired when a tab is closed.
   Stream<OnRemovedEvent> get onRemoved =>
-      $js.chrome.tabs.onRemoved.asStream(($c) => (
+      $js.chrome.tabs.onRemoved.asStream2(($c) => (
             int tabId,
             $js.OnRemovedRemoveInfo removeInfo,
           ) {
-            $c.add(OnRemovedEvent(
+            $c(OnRemovedEvent(
               tabId: tabId,
               removeInfo: OnRemovedRemoveInfo.fromJS(removeInfo),
             ));

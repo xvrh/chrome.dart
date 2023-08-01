@@ -10,7 +10,8 @@ import 'package:test/test.dart';
 import 'communication.dart';
 
 Future<void> runTests(String source,
-    {bool? devtools, Future Function(Browser)? afterBrowserOpen}) async {
+    {bool? devtools,
+    Future Function(RunnerTestContext)? afterBrowserOpen}) async {
   var sourceDir = Directory(source);
   var chromeExtensionDir = Directory(p.join('.dart_tool', 'chrome_extension'))
     ..createSync(recursive: true);
@@ -44,6 +45,7 @@ Future<void> runTests(String source,
 
   var manifestFile = File(p.join(extensionPath, 'manifest.json'));
   var manifestContent = manifestFile.readAsStringSync();
+  manifestContent = manifestContent.replaceAll('@SERVER_URL', serverUrl);
   var manifest = jsonDecode(manifestContent) as Map<String, dynamic>;
   manifest
     ..['manifest_version'] ??= 3
@@ -79,15 +81,18 @@ Future<void> runTests(String source,
     args: [
       '--disable-extensions-except=$extensionPath',
       '--load-extension=$extensionPath',
-      '--remote-debugging-port=$puppeteerPort'
+      '--remote-debugging-port=$puppeteerPort',
+      '--remote-allow-origins=*',
     ],
     devTools: devtools,
   );
-  await afterBrowserOpen?.call(browser);
+  await afterBrowserOpen
+      ?.call(RunnerTestContext(browser: browser, serverUrl: serverUrl));
 
   var endResult = await testCompleter.future;
 
   await browser.close();
+  await httpServer.close();
 
   if (!endResult.success) {
     fail('Some tests failed.');
@@ -137,4 +142,15 @@ Future<int> _getUnusedPort() {
     socket.close();
     return port;
   });
+}
+
+class RunnerTestContext {
+  final Browser browser;
+  final String serverUrl;
+
+  RunnerTestContext({required this.browser, required this.serverUrl});
+
+  String staticPath(String path) {
+    return p.url.join(serverUrl, 'static', path);
+  }
 }

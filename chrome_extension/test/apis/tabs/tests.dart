@@ -7,7 +7,7 @@ import '../../runner_client.dart';
 
 void main() => runTests(_tests);
 
-void _tests(ServerInfo context) {
+void _tests(TestContext context) {
   late Window window;
 
   setUp(() async {

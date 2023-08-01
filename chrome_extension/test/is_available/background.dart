@@ -6,7 +6,7 @@ import 'package:chrome_apis/chrome.dart';
 
 void main() => runTests(_tests);
 
-void _tests(ServerInfo context) {
+void _tests(TestContext context) {
   test('available', () async {
     check(chrome.action.isAvailable, because: 'action').isFalse();
     check(chrome.alarms.isAvailable, because: 'alarms').isFalse();

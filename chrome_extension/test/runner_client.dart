@@ -2,17 +2,18 @@ import 'dart:async';
 
 import 'communication.dart';
 import 'communication_client.dart';
-export 'communication.dart' show ServerInfo;
+import 'package:path/path.dart' as p;
 
 final _endDetector = RegExp(r'[0-9]{2}:[0-9]{2}.*:(.*)');
 
-Future<void> runTests(void Function(ServerInfo) callback) async {
+Future<void> runTests(void Function(TestContext) callback) async {
   try {
     var client = Client();
     var serverInfo = await client.serverInfo();
+    var context = TestContext(info: serverInfo, serverUrl: client.baseUrl);
 
     runZoned(() {
-      callback(serverInfo);
+      callback(context);
     }, zoneSpecification: ZoneSpecification(print: (self, parent, zone, line) {
       client.log(line);
 
@@ -27,5 +28,18 @@ Future<void> runTests(void Function(ServerInfo) callback) async {
     }));
   } catch (e) {
     print("Global error $e");
+  }
+}
+
+class TestContext {
+  final ServerInfo info;
+  final String serverUrl;
+
+  TestContext({required this.info, required this.serverUrl});
+
+  String get puppeteerUrl => info.puppeteerUrl;
+
+  String staticPath(String path) {
+    return p.url.join(serverUrl, 'static', path);
   }
 }

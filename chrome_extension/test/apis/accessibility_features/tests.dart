@@ -7,7 +7,7 @@ import 'package:chrome_apis/accessibility_features.dart';
 
 void main() => runTests(_tests);
 
-void _tests(ServerInfo context) {
+void _tests(TestContext context) {
   test('animationPolicy', () async {
     var setting = chrome.accessibilityFeatures.animationPolicy;
     var detail = await setting.get(GetDetails());

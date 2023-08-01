@@ -6,17 +6,13 @@ import 'package:checks/checks.dart';
 import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/storage.dart';
 import 'package:test/test.dart';
-
-import '../../client_side_wrapper.dart';
 import 'package:chrome_apis/devtools_panels.dart';
 
 import '../../runner_client.dart';
 
-void main() {
-  runTests(_tests);
-}
+void main() => runTests(_tests);
 
-void _tests(ServerInfo context) {
+void _tests(TestContext context) {
   test('create', () async {
     var panel = await chrome.devtools.panels
         .create('My panel', 'icon.png', 'panel.html');

@@ -3,13 +3,12 @@ import 'package:fetch_client/fetch_client.dart' as http;
 import 'communication.dart';
 import 'package:path/path.dart' as p;
 
-final _serverUrl = const String.fromEnvironment('server-url');
 
 class Client {
   final String baseUrl;
   final _client = http.FetchClient();
 
-  Client({String? baseUrl}) : baseUrl = baseUrl ?? _serverUrl;
+  Client({String? baseUrl}) : baseUrl = baseUrl ?? defaultServerUrl;
 
   Future<ServerInfo> serverInfo() async {
     return ServerInfo.fromJson(await _getJson('info'));

@@ -75,8 +75,8 @@ class ChromeHistory {
   /// all visits have been removed the URL is purged from history.
   Stream<OnVisitRemovedRemoved> get onVisitRemoved =>
       $js.chrome.history.onVisitRemoved
-          .asStream(($c) => ($js.OnVisitRemovedRemoved removed) {
-                $c.add(OnVisitRemovedRemoved.fromJS(removed));
+          .asStream2(($c) => ($js.OnVisitRemovedRemoved removed) {
+                $c(OnVisitRemovedRemoved.fromJS(removed));
               }.toJS);
 }
 

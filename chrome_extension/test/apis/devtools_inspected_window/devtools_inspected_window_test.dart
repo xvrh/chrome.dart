@@ -7,9 +7,9 @@ void main() {
     return runTests(
       'test/apis/devtools_inspected_window',
       devtools: true,
-      afterBrowserOpen: (browser) async {
-        var page = await browser.newPage();
-        await page.goto('https://dart.dev');
+      afterBrowserOpen: (context) async {
+        var page = (await context.browser.pages).first;
+        await page.goto(context.staticPath('assets/simple_page.html'));
       },
     );
   });

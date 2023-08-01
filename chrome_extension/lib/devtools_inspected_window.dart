@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_inspected_window.dart' as $js;
@@ -40,18 +42,19 @@ class ChromeDevtoolsInspectedWindow {
     $js.chrome.devtools.inspectedWindow.eval(
       expression,
       options?.toJS,
-      (
-        JSAny? result,
-        $js.EvalExceptionInfo exceptionInfo,
+      Zone.current.bindBinaryCallbackGuarded((
+        JSAny result,
+        $js.EvalExceptionInfo? exceptionInfo,
       ) {
         print("My fking callback");
         if (checkRuntimeLastError($completer)) {
           $completer.complete(EvalResult(
-            result: result?.toDartMap() ?? {},
-            exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
+            result: result?.toDartMap(),
+            exceptionInfo: exceptionInfo
+                ?.let((e) => EvalExceptionInfo.fromJS(exceptionInfo)),
           ));
         }
-      }.toJS,
+      }).toJS,
     );
     return $completer.future;
   }
@@ -202,8 +205,8 @@ class EvalExceptionInfo {
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  bool get isError => _wrapped.isError;
-  set isError(bool v) {
+  bool? get isError => _wrapped.isError;
+  set isError(bool? v) {
     _wrapped.isError = v;
   }
 
@@ -225,10 +228,10 @@ class EvalExceptionInfo {
   /// evaluated, contains the array of the values that may be substituted into
   /// the description string to provide more information about the cause of the
   /// error.
-  List<Object> get details =>
-      _wrapped.details.toDart.cast<JSAny>().map((e) => e).toList();
-  set details(List<Object> v) {
-    _wrapped.details = v.toJSArray((e) => e.toJS);
+  List<Object>? get details =>
+      _wrapped.details?.toDart.cast<JSAny>().map((e) => e).toList();
+  set details(List<Object>? v) {
+    _wrapped.details = v?.toJSArray((e) => e.toJS);
   }
 
   /// Set if the evaluated code produces an unhandled exception.
@@ -329,11 +332,11 @@ class EvalResult {
   });
 
   /// The result of evaluation.
-  final Map result;
+  final Map? result;
 
   /// An object providing details if an exception occurred while evaluating the
   /// expression.
-  final EvalExceptionInfo exceptionInfo;
+  final EvalExceptionInfo? exceptionInfo;
 }
 
 class GetContentResult {

@@ -7,7 +7,7 @@ import 'package:chrome_apis/action.dart';
 
 void main() => runTests(_tests);
 
-void _tests(ServerInfo context) {
+void _tests(TestContext context) {
   test('title -- global', () async {
     var title = 'test title';
     var details = SetTitleDetails(title: title);

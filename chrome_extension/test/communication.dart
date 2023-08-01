@@ -1,18 +1,12 @@
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:path/path.dart' as p;
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf_router/shelf_router.dart' as shelf;
-import 'package:http/http.dart' as http;
+import 'package:shelf_static/shelf_static.dart';
 
 part 'communication.g.dart';
 
-// Launch a websocket server
-// Compile JS with define that give the server url
-// Have the script connect to this server
-// Various endpoints:
-//   - Send a log (or a test report)
-//   - Send a terminate event
+final defaultServerUrl = const String.fromEnvironment('server-url');
 
 class Server {
   final ServerInfo Function() onInfo;
@@ -22,7 +16,8 @@ class Server {
   late final router = shelf.Router()
     ..get('/info', (request) => _info())
     ..post('/log', _log)
-    ..post('/terminate', _terminate);
+    ..post('/terminate', _terminate)
+    ..mount('/static', createStaticHandler('test'));
 
   Server({
     required this.onInfo,

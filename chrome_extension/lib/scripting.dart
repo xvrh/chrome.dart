@@ -225,9 +225,9 @@ class ScriptInjection {
     /// script reaches the target.
     bool? injectImmediately,
   }) : _wrapped = $js.ScriptInjection(
-          func: func?.toJS,
+          func: func?.toJSBox,
           args: args?.toJSArray((e) => e.jsify()!),
-          function: function?.toJS,
+          function: function?.toJSBox,
           files: files?.toJSArray((e) => e),
           target: target.toJS,
           world: world?.toJS,

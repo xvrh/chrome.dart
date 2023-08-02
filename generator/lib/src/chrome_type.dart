@@ -337,6 +337,7 @@ class _WebType extends ChromeType {
   Iterable<ChromeType> get children sync* {}
 }
 
+var _ = "delete this weird type";
 class _VariousType extends ChromeType {
   _VariousType({required super.isNullable});
 
@@ -366,7 +367,7 @@ class _VariousType extends ChromeType {
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    return accessor.nullSafePropertyIf('toJS', isNullable);
+    return accessor.nullSafePropertyIf('toJSBox', isNullable);
   }
 
   @override
@@ -636,7 +637,6 @@ class ListType extends ChromeType {
     // TODO:
     // remove map((e) => e)
     // try to tear-off result (when end with (e))
-    // check if cast<int>() is correct or need cast<JSNumber>()
   }
 
   @override
@@ -835,11 +835,28 @@ class ChoiceType extends ChromeType {
 
       var arguments = StringBuffer();
       for (var choice in choices) {
+        var jsTypeName = emit(choice.jsType);
+        if (jsTypeName.endsWith('?')) {
+          jsTypeName = jsTypeName.substring(0, jsTypeName.length - 2);
+        }
+        var whenMethod = const {
+          'int': 'isInt',
+          'String': 'isString',
+          'JSArray': 'isArray',
+          'ImageData': 'isImageData',
+          'JSAny': 'isMap',
+        }[jsTypeName];
+        code.Expression itemAccessor= code.refer('v');
+        if (whenMethod == null) {
+          whenMethod ??= 'isOther';
+    itemAccessor = itemAccessor.asA(choice.jsTypeReferencedFromDart);
+        }
+        var conversionCode = emit(choice.toDart(itemAccessor));
         arguments.writeln(
-            'when${emit(choice.jsType)}: (v) => ${emit(choice.toDart(code.refer('v')))},');
+            '$whenMethod: (v) => $conversionCode,');
       }
 
-      return 'jsChoice(${emit(accessor)}, $arguments)';
+      return '${emit(accessor)}$questionMark.when($arguments)';
     }));
   }
 

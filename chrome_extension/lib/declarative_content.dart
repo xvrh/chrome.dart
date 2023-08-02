@@ -229,10 +229,9 @@ class SetIcon {
   /// size of the icon in the UI. At least one image must be specified. Note
   /// that `details.imageData = foo` is equivalent to `details.imageData =
   /// {'16': foo}`.
-  Object? get imageData => jsChoice(
-        _wrapped.imageData,
-        whenImageDataType: (v) => v,
-        whenJSAny: (v) => v.toDartMap(),
+  Object? get imageData => _wrapped.imageData?.when(
+        isOther: (v) => (v as $js.ImageDataType),
+        isMap: (v) => v.toDartMap(),
       );
   set imageData(Object? v) {
     _wrapped.imageData = switch (v) {

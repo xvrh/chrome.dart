@@ -131,13 +131,9 @@ void _tests(TestContext context) {
     var moveProperties = MoveProperties(index: -1);
 
     var newTab = await chrome.tabs.create(createProperties);
-    var movedTabs = await chrome.tabs.move(newTab.id!, moveProperties);
-    expect(movedTabs, isNotNull);
-    "handle choices";
-    //expect(movedTabs, isA<Tab>());
-    //expect(movedTabs, hasLength(1));
-    //expect(movedTabs.first.id, newTab.id);
-    //expect(movedTabs.first.index, 1);
+    var movedTabs = (await chrome.tabs.move(newTab.id!, moveProperties)) as Tab;
+    expect(movedTabs.id, newTab.id);
+    expect(movedTabs.index, 1);
   });
 
   test('move 2 tabs', () async {
@@ -147,17 +143,15 @@ void _tests(TestContext context) {
 
     var newTab1 = await chrome.tabs.create(createProperties);
     var newTab2 = await chrome.tabs.create(createProperties2);
-    var movedTabs =
-        await chrome.tabs.move(<int>[newTab1.id!, newTab2.id!], moveProperties);
+    var movedTabs = (await chrome.tabs
+        .move(<int>[newTab1.id!, newTab2.id!], moveProperties)) as List<Tab>;
     expect(movedTabs, isNotNull);
 
-    "handle choices";
-    //expect(movedTabs, isA<List<Tab>>());
-//              expect(movedTabs, hasLength(2));
-//              expect(movedTabs[0].id, anyOf(newTab1.id, newTab2.id));
-//              expect(movedTabs[1].id, anyOf(newTab1.id, newTab2.id));
-//              expect(movedTabs[0].index, anyOf(1, 2));
-//              expect(movedTabs[1].index, anyOf(1, 2));
+    expect(movedTabs, hasLength(2));
+    expect(movedTabs[0].id, anyOf(newTab1.id, newTab2.id));
+    expect(movedTabs[1].id, anyOf(newTab1.id, newTab2.id));
+    expect(movedTabs[0].index, anyOf(1, 2));
+    expect(movedTabs[1].index, anyOf(1, 2));
   });
 
   test('reload', () async {

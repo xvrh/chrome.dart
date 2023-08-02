@@ -170,10 +170,9 @@ class ChromeTabs {
       },
       moveProperties.toJS,
     ));
-    return jsChoice(
-      $res,
-      whenTab: (v) => Tab.fromJS(v),
-      whenJSArray: (v) =>
+    return $res.when(
+      isOther: (v) => Tab.fromJS((v as $js.Tab)),
+      isArray: (v) =>
           v.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList(),
     );
   }

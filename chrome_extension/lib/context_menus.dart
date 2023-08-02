@@ -32,14 +32,15 @@ class ChromeContextMenus {
     CreateProperties createProperties,
     Function? callback,
   ) {
-    return jsChoice(
-      $js.chrome.contextMenus.create(
-        createProperties.toJS,
-        callback?.let(allowInterop),
-      ),
-      whenint: (v) => v,
-      whenString: (v) => v,
-    );
+    return $js.chrome.contextMenus
+        .create(
+          createProperties.toJS,
+          callback?.let(allowInterop),
+        )
+        .when(
+          isInt: (v) => v,
+          isString: (v) => v,
+        );
   }
 
   /// Updates a previously created context menu item.
@@ -244,10 +245,9 @@ class OnClickData {
   $js.OnClickData get toJS => _wrapped;
 
   /// The ID of the menu item that was clicked.
-  Object get menuItemId => jsChoice(
-        _wrapped.menuItemId,
-        whenint: (v) => v,
-        whenString: (v) => v,
+  Object get menuItemId => _wrapped.menuItemId.when(
+        isInt: (v) => v,
+        isString: (v) => v,
       );
   set menuItemId(Object v) {
     _wrapped.menuItemId = switch (v) {
@@ -259,10 +259,9 @@ class OnClickData {
   }
 
   /// The parent ID, if any, for the item clicked.
-  Object? get parentMenuItemId => jsChoice(
-        _wrapped.parentMenuItemId,
-        whenint: (v) => v,
-        whenString: (v) => v,
+  Object? get parentMenuItemId => _wrapped.parentMenuItemId?.when(
+        isInt: (v) => v,
+        isString: (v) => v,
       );
   set parentMenuItemId(Object? v) {
     _wrapped.parentMenuItemId = switch (v) {

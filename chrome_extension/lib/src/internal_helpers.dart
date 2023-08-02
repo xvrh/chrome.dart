@@ -40,6 +40,34 @@ extension JSAnyExtension on JSAny {
   }
 }
 
+extension JSChoiceExtension<T extends Object> on T {
+  Object when({
+    int Function(int)? isInt,
+    String Function(String)? isString,
+    List Function(JSArray)? isArray,
+    Map Function(JSAny)? isMap,
+    Object Function(Object)? isOther,
+  }) {
+    if (isArray != null && isJavaScriptArray(this)) {
+      return isArray(this as JSArray);
+    }
+    if (isInt != null && (this is num || instanceOfString(this, 'Number'))) {
+      return isInt(this as int);
+    }
+    if (isString != null && (this is String || instanceOfString(this, 'String'))) {
+      return isString(this as String);
+    }
+    if (isMap != null && isJavaScriptSimpleObject(this)) {
+      return isMap(this as JSAny);
+    }
+    if (isOther != null) {
+      return isOther(this);
+    }
+
+    throw Exception('Unknown javascript object $this ${this.runtimeType}');
+  }
+}
+
 extension EventStreamExtension on js.Event {
   Stream<T> asStreamDeprecated<T>(
       Function Function(void Function(T)) callbackFactory) {

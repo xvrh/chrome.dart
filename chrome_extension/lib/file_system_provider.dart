@@ -572,7 +572,7 @@ class EntryMetadata {
           ..isDirectory = isDirectory
           ..name = name
           ..size = size
-          ..modificationTime = modificationTime?.toJS
+          ..modificationTime = modificationTime?.toJSBox
           ..mimeType = mimeType
           ..thumbnail = thumbnail;
 
@@ -605,7 +605,7 @@ class EntryMetadata {
   /// `options`.
   Object? get modificationTime => _wrapped.modificationTime;
   set modificationTime(Object? v) {
-    _wrapped.modificationTime = v?.toJS;
+    _wrapped.modificationTime = v?.toJSBox;
   }
 
   /// Mime type for the entry. Always optional, but should be provided if

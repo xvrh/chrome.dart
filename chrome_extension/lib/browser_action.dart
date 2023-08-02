@@ -123,8 +123,8 @@ class ChromeBrowserAction {
   /// action has a popup.
   Stream<Tab> get onClicked =>
       $js.chrome.browserAction.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
-            $c.add(Tab.fromJS(tab));
-          }.toJS);
+            $c(Tab.fromJS(tab));
+          });
 }
 
 typedef ColorArray = List<int>;

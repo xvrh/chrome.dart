@@ -44,8 +44,8 @@ class ChromeWebNavigation {
   Stream<OnBeforeNavigateDetails> get onBeforeNavigate =>
       $js.chrome.webNavigation.onBeforeNavigate
           .asStream(($c) => ($js.OnBeforeNavigateDetails details) {
-                $c.add(OnBeforeNavigateDetails.fromJS(details));
-              }.toJS);
+                $c(OnBeforeNavigateDetails.fromJS(details));
+              });
 
   /// Fired when a navigation is committed. The document (and the resources it
   /// refers to, such as images and subframes) might still be downloading, but
@@ -54,64 +54,64 @@ class ChromeWebNavigation {
   Stream<OnCommittedDetails> get onCommitted =>
       $js.chrome.webNavigation.onCommitted
           .asStream(($c) => ($js.OnCommittedDetails details) {
-                $c.add(OnCommittedDetails.fromJS(details));
-              }.toJS);
+                $c(OnCommittedDetails.fromJS(details));
+              });
 
   /// Fired when the page's DOM is fully constructed, but the referenced
   /// resources may not finish loading.
   Stream<OnDomContentLoadedDetails> get onDOMContentLoaded =>
       $js.chrome.webNavigation.onDOMContentLoaded
           .asStream(($c) => ($js.OnDomContentLoadedDetails details) {
-                $c.add(OnDomContentLoadedDetails.fromJS(details));
-              }.toJS);
+                $c(OnDomContentLoadedDetails.fromJS(details));
+              });
 
   /// Fired when a document, including the resources it refers to, is completely
   /// loaded and initialized.
   Stream<OnCompletedDetails> get onCompleted =>
       $js.chrome.webNavigation.onCompleted
           .asStream(($c) => ($js.OnCompletedDetails details) {
-                $c.add(OnCompletedDetails.fromJS(details));
-              }.toJS);
+                $c(OnCompletedDetails.fromJS(details));
+              });
 
   /// Fired when an error occurs and the navigation is aborted. This can happen
   /// if either a network error occurred, or the user aborted the navigation.
   Stream<OnErrorOccurredDetails> get onErrorOccurred =>
       $js.chrome.webNavigation.onErrorOccurred
           .asStream(($c) => ($js.OnErrorOccurredDetails details) {
-                $c.add(OnErrorOccurredDetails.fromJS(details));
-              }.toJS);
+                $c(OnErrorOccurredDetails.fromJS(details));
+              });
 
   /// Fired when a new window, or a new tab in an existing window, is created to
   /// host a navigation.
   Stream<OnCreatedNavigationTargetDetails> get onCreatedNavigationTarget =>
       $js.chrome.webNavigation.onCreatedNavigationTarget
           .asStream(($c) => ($js.OnCreatedNavigationTargetDetails details) {
-                $c.add(OnCreatedNavigationTargetDetails.fromJS(details));
-              }.toJS);
+                $c(OnCreatedNavigationTargetDetails.fromJS(details));
+              });
 
   /// Fired when the reference fragment of a frame was updated. All future
   /// events for that frame will use the updated URL.
   Stream<OnReferenceFragmentUpdatedDetails> get onReferenceFragmentUpdated =>
       $js.chrome.webNavigation.onReferenceFragmentUpdated
           .asStream(($c) => ($js.OnReferenceFragmentUpdatedDetails details) {
-                $c.add(OnReferenceFragmentUpdatedDetails.fromJS(details));
-              }.toJS);
+                $c(OnReferenceFragmentUpdatedDetails.fromJS(details));
+              });
 
   /// Fired when the contents of the tab is replaced by a different (usually
   /// previously pre-rendered) tab.
   Stream<OnTabReplacedDetails> get onTabReplaced =>
       $js.chrome.webNavigation.onTabReplaced
           .asStream(($c) => ($js.OnTabReplacedDetails details) {
-                $c.add(OnTabReplacedDetails.fromJS(details));
-              }.toJS);
+                $c(OnTabReplacedDetails.fromJS(details));
+              });
 
   /// Fired when the frame's history was updated to a new URL. All future events
   /// for that frame will use the updated URL.
   Stream<OnHistoryStateUpdatedDetails> get onHistoryStateUpdated =>
       $js.chrome.webNavigation.onHistoryStateUpdated
           .asStream(($c) => ($js.OnHistoryStateUpdatedDetails details) {
-                $c.add(OnHistoryStateUpdatedDetails.fromJS(details));
-              }.toJS);
+                $c(OnHistoryStateUpdatedDetails.fromJS(details));
+              });
 }
 
 /// Cause of the navigation. The same transition types as defined in the history

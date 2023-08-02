@@ -262,8 +262,8 @@ class ChromeDeclarativeNetRequest {
   Stream<MatchedRuleInfoDebug> get onRuleMatchedDebug =>
       $js.chrome.declarativeNetRequest.onRuleMatchedDebug
           .asStream(($c) => ($js.MatchedRuleInfoDebug info) {
-                $c.add(MatchedRuleInfoDebug.fromJS(info));
-              }.toJS);
+                $c(MatchedRuleInfoDebug.fromJS(info));
+              });
 }
 
 /// This describes the resource type of the network request.

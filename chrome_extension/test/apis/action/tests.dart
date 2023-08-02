@@ -2,10 +2,10 @@ import 'package:chrome_apis/tabs.dart';
 import 'package:test/test.dart';
 import 'package:checks/checks.dart';
 import 'package:web/web.dart' as web;
-import '../../runner_client.dart';
+import '../../runner/runner_client.dart';
 import 'package:chrome_apis/action.dart';
 
-void main() => runTests(_tests);
+void main() => setup(_tests);
 
 void _tests(TestContext context) {
   test('title -- global', () async {

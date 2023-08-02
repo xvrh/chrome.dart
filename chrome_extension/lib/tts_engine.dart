@@ -63,14 +63,28 @@ class ChromeTtsEngine {
       $js.chrome.ttsEngine.onSpeak.asStream(($c) => (
             String utterance,
             $js.SpeakOptions options,
-            JSFunction sendTtsEvent,
+            Function sendTtsEvent,
           ) {
-            $c.add(OnSpeakEvent(
+            $c(OnSpeakEvent(
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
-              sendTtsEvent: sendTtsEvent,
+              sendTtsEvent: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendTtsEvent as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Called when the user makes a call to tts.speak() and one of the voices
   /// from this extension's manifest is the first to match the options object.
@@ -81,40 +95,68 @@ class ChromeTtsEngine {
             String utterance,
             $js.SpeakOptions options,
             $js.AudioStreamOptions audioStreamOptions,
-            JSFunction sendTtsAudio,
-            JSFunction sendError,
+            Function sendTtsAudio,
+            Function sendError,
           ) {
-            $c.add(OnSpeakWithAudioStreamEvent(
+            $c(OnSpeakWithAudioStreamEvent(
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
               audioStreamOptions: AudioStreamOptions.fromJS(audioStreamOptions),
-              sendTtsAudio: sendTtsAudio,
-              sendError: sendError,
+              sendTtsAudio: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendTtsAudio as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
+              sendError: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendError as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Fired when a call is made to tts.stop and this extension may be in the
   /// middle of speaking. If an extension receives a call to onStop and speech
   /// is already stopped, it should do nothing (not raise an error). If speech
   /// is in the paused state, this should cancel the paused state.
   Stream<void> get onStop => $js.chrome.ttsEngine.onStop.asStream(($c) => () {
-        $c.add(null);
-      }.toJS);
+        $c(null);
+      });
 
   /// Optional: if an engine supports the pause event, it should pause the
   /// current utterance being spoken, if any, until it receives a resume event
   /// or stop event. Note that a stop event should also clear the paused state.
   Stream<void> get onPause => $js.chrome.ttsEngine.onPause.asStream(($c) => () {
-        $c.add(null);
-      }.toJS);
+        $c(null);
+      });
 
   /// Optional: if an engine supports the pause event, it should also support
   /// the resume event, to continue speaking the current utterance, if any. Note
   /// that a stop event should also clear the paused state.
   Stream<void> get onResume =>
       $js.chrome.ttsEngine.onResume.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 enum VoiceGender {
@@ -293,7 +335,7 @@ class OnSpeakEvent {
 
   /// Call this function with events that occur in the process of speaking the
   /// utterance.
-  final JSFunction sendTtsEvent;
+  final Function sendTtsEvent;
 }
 
 class OnSpeakWithAudioStreamEvent {
@@ -322,8 +364,8 @@ class OnSpeakWithAudioStreamEvent {
 
   /// Call this function with audio that occur in the process of speaking the
   /// utterance.
-  final JSFunction sendTtsAudio;
+  final Function sendTtsAudio;
 
   /// Call this function to indicate an error with rendering this utterance.
-  final JSFunction sendError;
+  final Function sendError;
 }

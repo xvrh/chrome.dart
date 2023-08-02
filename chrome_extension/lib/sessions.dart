@@ -56,8 +56,8 @@ class ChromeSessions {
   /// does not monitor synced sessions changes.
   Stream<void> get onChanged =>
       $js.chrome.sessions.onChanged.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 class Filter {

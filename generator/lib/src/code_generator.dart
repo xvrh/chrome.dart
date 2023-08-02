@@ -358,8 +358,7 @@ class DartApiGenerator extends _GeneratorBase {
   Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
     Expression completeParameter = refer('null');
     if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-      completeParameter =
-          singleParam.type.toDart(refer(singleParam.name));
+      completeParameter = singleParam.type.toDart(refer(singleParam.name));
     } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
       completeParameter = asyncReturn.dartType.call([], {
         for (var jsParam in asyncReturn.jsCallback.positionalParameters)
@@ -429,10 +428,7 @@ class DartApiGenerator extends _GeneratorBase {
     if (jsReturnType != null) {
       return Block.of([
         declareVar(resultVariable).assign(callJsExpression).statement,
-        jsReturnType
-            .toDart(refer(resultVariable))
-            .returned
-            .statement,
+        jsReturnType.toDart(refer(resultVariable)).returned.statement,
       ]);
     } else {
       return callJsExpression.statement;
@@ -460,8 +456,8 @@ class DartApiGenerator extends _GeneratorBase {
                   ..type = jsParam.type.jsTypeReferencedFromDart)
             ])
             ..body = Block.of([
-              refer(r'$c').property('add').call([completeParameter]).statement
-            ])).closure.property('toJS').code).closure
+              refer(r'$c').call([completeParameter]).statement
+            ])).closure.code).closure
       ]).code
       ..lambda = true
       ..type = MethodType.getter);
@@ -533,8 +529,7 @@ class DartApiGenerator extends _GeneratorBase {
         if (isDictionaryAnonymous(dictionary)) {
           constructorSetter = type.jsTypeReferencedFromDart.call([], {
             for (var property in dictionary.properties)
-              property.name:
-                  property.type.toJS(refer(property.name)),
+              property.name: property.type.toJS(refer(property.name)),
           });
         } else {
           constructorSetter = type.jsTypeReferencedFromDart.call([]);
@@ -602,9 +597,8 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = property.type.dartType
       ..type = MethodType.getter
       ..lambda = true
-      ..body = property.type
-          .toDart(refer('_wrapped').property(property.name))
-          .code);
+      ..body =
+          property.type.toDart(refer('_wrapped').property(property.name)).code);
 
     yield Method((b) => b
       ..name = property.name
@@ -755,11 +749,10 @@ Expression _jsAnnotation([String? name]) =>
     refer('JS', _dartInteropUrl).call([if (name != null) literalString(name)]);
 
 Iterable<Expression> _deprecatedAnnotation(String? deprecated) sync* {
-  if (deprecated!= null) {
-    yield refer('Deprecated').call([literalString(deprecated,raw: true)]);
+  if (deprecated != null) {
+    yield refer('Deprecated').call([literalString(deprecated, raw: true)]);
   }
 }
-
 
 String _toEnumValue(String input) {
   return enumValueIdentifier(input.lowerCamel);

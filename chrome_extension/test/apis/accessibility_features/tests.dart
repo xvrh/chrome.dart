@@ -2,10 +2,10 @@ import 'package:checks/checks.dart';
 import 'package:chrome_apis/types.dart';
 import 'package:test/test.dart';
 
-import '../../runner_client.dart';
+import '../../runner/runner_client.dart';
 import 'package:chrome_apis/accessibility_features.dart';
 
-void main() => runTests(_tests);
+void main() => setup(_tests);
 
 void _tests(TestContext context) {
   test('animationPolicy', () async {

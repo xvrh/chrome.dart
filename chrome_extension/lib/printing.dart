@@ -74,11 +74,11 @@ class ChromePrinting {
             String jobId,
             $js.JobStatus status,
           ) {
-            $c.add(OnJobStatusChangedEvent(
+            $c(OnJobStatusChangedEvent(
               jobId: jobId,
               status: JobStatus.fromJS(status),
             ));
-          }.toJS);
+          });
 }
 
 /// The status of [submitJob] request.
@@ -351,7 +351,7 @@ class GetPrinterInfoResponse {
     /// The status of the printer.
     required PrinterStatus status,
   }) : _wrapped = $js.GetPrinterInfoResponse()
-          ..capabilities = capabilities?.toJS
+          ..capabilities = capabilities?.jsify()
           ..status = status.toJS;
 
   final $js.GetPrinterInfoResponse _wrapped;
@@ -362,9 +362,9 @@ class GetPrinterInfoResponse {
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   /// CDD format</a>.
   /// The property may be missing.
-  Object? get capabilities => _wrapped.capabilities;
+  Object? get capabilities => _wrapped.capabilities?.dartify();
   set capabilities(Object? v) {
-    _wrapped.capabilities = v?.toJS;
+    _wrapped.capabilities = v?.jsify();
   }
 
   /// The status of the printer.

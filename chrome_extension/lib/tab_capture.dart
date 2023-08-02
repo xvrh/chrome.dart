@@ -91,8 +91,8 @@ class ChromeTabCapture {
   Stream<CaptureInfo> get onStatusChanged =>
       $js.chrome.tabCapture.onStatusChanged
           .asStream(($c) => ($js.CaptureInfo info) {
-                $c.add(CaptureInfo.fromJS(info));
-              }.toJS);
+                $c(CaptureInfo.fromJS(info));
+              });
 }
 
 enum TabCaptureState {
@@ -154,7 +154,7 @@ class MediaStreamConstraint {
   MediaStreamConstraint.fromJS(this._wrapped);
 
   MediaStreamConstraint({required Object mandatory})
-      : _wrapped = $js.MediaStreamConstraint(mandatory: mandatory.toJS);
+      : _wrapped = $js.MediaStreamConstraint(mandatory: mandatory.jsify()!);
 
   final $js.MediaStreamConstraint _wrapped;
 

@@ -135,6 +135,7 @@ class LazyType extends ChromeType {
     ChromeType? tryParse(String input) {
       return _WebType.tryParse(input, isNullable: isNullable) ??
           JSFunctionType.tryParse(input, isNullable: isNullable) ??
+          _AnyType.tryParse(input, isNullable: isNullable) ??
           _VariousType.tryParse(input, isNullable: isNullable);
     }
 
@@ -171,8 +172,7 @@ class LazyType extends ChromeType {
       _resolved!.toDart(accessor);
 
   @override
-  code.Expression toJS(code.Expression accessor) =>
-      _resolved!.toJS(accessor);
+  code.Expression toJS(code.Expression accessor) => _resolved!.toJS(accessor);
 }
 
 sealed class _PrimitiveType extends ChromeType {
@@ -324,12 +324,10 @@ class _WebType extends ChromeType {
   code.Reference get jsType => dartType;
 
   @override
-  code.Expression toDart(code.Expression accessor) =>
-      accessor;
+  code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
-  code.Expression toJS(code.Expression accessor) =>
-      accessor;
+  code.Expression toJS(code.Expression accessor) => accessor;
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
@@ -344,8 +342,6 @@ class _VariousType extends ChromeType {
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
-      'object',
-      'any',
       'Date',
       "InjectedFunction",
       'global',
@@ -366,8 +362,7 @@ class _VariousType extends ChromeType {
     ..isNullable = isNullable);
 
   @override
-  code.Expression toDart(code.Expression accessor) =>
-      accessor;
+  code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
   code.Expression toJS(code.Expression accessor) {
@@ -377,6 +372,55 @@ class _VariousType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       _VariousType(isNullable: isNullable);
+
+  @override
+  Iterable<ChromeType> get children sync* {}
+}
+
+class _AnyType extends ChromeType {
+  _AnyType({required super.isNullable});
+
+  static ChromeType? tryParse(String input, {required bool isNullable}) {
+    if (const {
+      'object',
+      'any',
+    }.contains(input)) {
+      return _AnyType(isNullable: isNullable);
+    }
+    return null;
+  }
+
+  @override
+  code.Reference get dartType => code.TypeReference((b) => b
+    ..symbol = 'Object'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'JSAny'
+    ..isNullable = isNullable);
+
+  @override
+  code.Expression toDart(code.Expression accessor) {
+    var expr = accessor.nullSafePropertyIf('dartify', isNullable).call([]);
+    if (!isNullable) {
+      expr = expr.nullChecked;
+    }
+    return expr;
+  }
+
+  @override
+  code.Expression toJS(code.Expression accessor) {
+    var expr = accessor.nullSafePropertyIf('jsify', isNullable).call([]);
+    if (!isNullable) {
+      expr = expr.nullChecked;
+    }
+    return expr;
+  }
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      _AnyType(isNullable: isNullable);
 
   @override
   Iterable<ChromeType> get children sync* {}
@@ -431,21 +475,51 @@ class JSFunctionType extends ChromeType {
     return null;
   }
 
+  static final _parameterCount = 5;
+  final _allParameters =
+      List.generate(_parameterCount, (i) => 'Object? p${i + 1}').join(', ');
+
   @override
   code.Reference get dartType => code.TypeReference((b) => b
-    ..symbol = 'JSFunction'
+    ..symbol = 'Function'
     ..isNullable = isNullable);
 
   @override
-  code.Reference get jsType => dartType;
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'Function'
+    ..isNullable = isNullable);
 
   @override
-  code.Expression toDart(code.Expression accessor) =>
-      accessor;
+  code.Expression toDart(code.Expression accessor) {
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
+      String emit(code.Spec expression) =>
+          expression.accept(emitter).toString();
+
+      var jsParameters =
+          List.generate(_parameterCount, (_) => 'JSAny?').join(',');
+      var castedAccessor =
+          '${emit(accessor)} as JSAny? Function(${jsParameters})';
+      var forwardedParameters =
+          List.generate(_parameterCount, (i) => 'p${i + 1}?.jsify()')
+              .join(', ');
+      return '''
+([$_allParameters]) {
+  return ($castedAccessor)($forwardedParameters)?.dartify();
+}   
+''';
+    }));
+  }
 
   @override
-  code.Expression toJS(code.Expression accessor) =>
-      accessor;
+  code.Expression toJS(code.Expression accessor) {
+    var allowInterop = code.refer('allowInterop', 'dart:js_util');
+    if (!isNullable) {
+      return allowInterop.call([accessor]);
+    } else {
+      return accessor.nullSafeProperty('let').call([allowInterop]);
+    }
+  }
 
   @override
   ChromeType copyWith({required bool isNullable}) =>
@@ -630,12 +704,10 @@ class AliasedType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor) =>
-      original.toDart(accessor);
+  code.Expression toDart(code.Expression accessor) => original.toDart(accessor);
 
   @override
-  code.Expression toJS(code.Expression accessor) =>
-      original.toJS(accessor);
+  code.Expression toJS(code.Expression accessor) => original.toJS(accessor);
 
   @override
   Iterable<ChromeType> get children sync* {
@@ -671,13 +743,13 @@ class FunctionType extends ChromeType {
 
   @override
   code.Expression toDart(code.Expression accessor) {
-    return code.refer('UnimplementedError').call([]).thrown;
+    return code.refer("UnimplementedError").call([]).thrown;
   }
 
   @override
   code.Expression toJS(code.Expression accessor) {
     // Need to wrap with a function taking JS parameters and convert them to Dart
-    return code.refer('UnimplementedError').call([]).thrown;
+    return code.refer("UnimplementedError").call([]).thrown;
   }
 
   @override
@@ -755,14 +827,14 @@ class ChoiceType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor) =>
-      accessor;
+  code.Expression toDart(code.Expression accessor) => accessor;
 
   @override
   code.Expression toJS(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
       var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) => expression.accept(emitter).toString();
+      String emit(code.Spec expression) =>
+          expression.accept(emitter).toString();
 
       var buffer = StringBuffer();
       buffer.writeln('''switch (${emit(accessor)}) {''');

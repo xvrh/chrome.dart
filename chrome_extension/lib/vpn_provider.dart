@@ -79,12 +79,12 @@ class ChromeVpnProvider {
             $js.PlatformMessage message,
             String error,
           ) {
-            $c.add(OnPlatformMessageEvent(
+            $c(OnPlatformMessageEvent(
               id: id,
               message: PlatformMessage.fromJS(message),
               error: error,
             ));
-          }.toJS);
+          });
 
   /// Triggered when an IP packet is received via the tunnel for the VPN
   /// session owned by the extension.
@@ -92,16 +92,16 @@ class ChromeVpnProvider {
   Stream<ByteBuffer> get onPacketReceived =>
       $js.chrome.vpnProvider.onPacketReceived
           .asStream(($c) => (JSArrayBuffer data) {
-                $c.add(data.toDart);
-              }.toJS);
+                $c(data.toDart);
+              });
 
   /// Triggered when a configuration created by the extension is removed by the
   /// platform.
   /// |id|: ID of the removed configuration.
   Stream<String> get onConfigRemoved =>
       $js.chrome.vpnProvider.onConfigRemoved.asStream(($c) => (String id) {
-            $c.add(id);
-          }.toJS);
+            $c(id);
+          });
 
   /// Triggered when a configuration is created by the platform for the
   /// extension.
@@ -114,12 +114,12 @@ class ChromeVpnProvider {
             String name,
             JSAny data,
           ) {
-            $c.add(OnConfigCreatedEvent(
+            $c(OnConfigCreatedEvent(
               id: id,
               name: name,
-              data: data,
+              data: data.dartify()!,
             ));
-          }.toJS);
+          });
 
   /// Triggered when there is a UI event for the extension. UI events are
   /// signals from the platform that indicate to the app that a UI dialog
@@ -131,11 +131,11 @@ class ChromeVpnProvider {
             $js.UIEvent event,
             String? id,
           ) {
-            $c.add(OnUIEventEvent(
+            $c(OnUIEventEvent(
               event: UIEvent.fromJS(event),
               id: id,
             ));
-          }.toJS);
+          });
 }
 
 /// The enum is used by the platform to notify the client of the VPN session

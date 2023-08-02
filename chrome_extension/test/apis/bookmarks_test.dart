@@ -1,0 +1,7 @@
+import 'package:test/test.dart';
+
+import '../runner/runner.dart';
+
+void main() {
+  test('chrome.bookmarks', () => runTests('test/apis/bookmarks'));
+}

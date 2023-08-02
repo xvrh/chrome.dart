@@ -33,7 +33,7 @@ extension JSContextMenusExtension on JSContextMenus {
 
     /// Called when the item has been created in the browser. If an error occurs
     /// during creation, details will be available in [runtime.lastError].
-    JSFunction? callback,
+    Function? callback,
   );
 
   /// Updates a previously created context menu item.
@@ -167,7 +167,7 @@ class CreateProperties {
     /// A function that is called back when the menu item is clicked. Event pages
     /// cannot use this; instead, they should register a listener for
     /// [contextMenus.onClicked].
-    JSFunction? onclick,
+    Function? onclick,
 
     /// The ID of a parent menu item; this makes the item a child of a previously
     /// added item.
@@ -199,7 +199,7 @@ class UpdateProperties {
 
     /// Whether the item is visible in the menu.
     bool? visible,
-    JSFunction? onclick,
+    Function? onclick,
 
     /// The ID of the item to be made this item's parent. Note: You cannot set an
     /// item to become a child of its own descendant.

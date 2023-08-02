@@ -61,9 +61,9 @@ class ChromeTabs {
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.tabs.sendRequest(
       tabId,
-      request.toJS,
+      request.jsify()!,
     ));
-    return $res;
+    return $res.dartify()!;
   }
 
   /// Sends a single message to the content script(s) in the specified tab, with
@@ -79,10 +79,10 @@ class ChromeTabs {
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.tabs.sendMessage(
       tabId,
-      message.toJS,
+      message.jsify()!,
       options?.toJS,
     ));
-    return $res;
+    return $res.dartify()!;
   }
 
   /// Gets the tab that is selected in the specified window.
@@ -260,7 +260,7 @@ class ChromeTabs {
       tabId,
       details.toJS,
     ));
-    return $res?.toDart.cast<JSAny>().map((e) => e).toList();
+    return $res?.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
   }
 
   /// Injects CSS into a page. Styles inserted with this method can be removed
@@ -385,13 +385,13 @@ class ChromeTabs {
   /// listen to onUpdated events so as to be notified when a URL is set or the
   /// tab is added to a tab group.
   Stream<Tab> get onCreated =>
-      $js.chrome.tabs.onCreated.asStream2(($c) => ($js.Tab tab) {
+      $js.chrome.tabs.onCreated.asStream(($c) => ($js.Tab tab) {
             $c(Tab.fromJS(tab));
-          }.toJS);
+          });
 
   /// Fired when a tab is updated.
   Stream<OnUpdatedEvent> get onUpdated =>
-      $js.chrome.tabs.onUpdated.asStream2(($c) => (
+      $js.chrome.tabs.onUpdated.asStream(($c) => (
             int tabId,
             $js.OnUpdatedChangeInfo changeInfo,
             $js.Tab tab,
@@ -401,7 +401,7 @@ class ChromeTabs {
               changeInfo: OnUpdatedChangeInfo.fromJS(changeInfo),
               tab: Tab.fromJS(tab),
             ));
-          }.toJS);
+          });
 
   /// Fired when a tab is moved within a window. Only one move event is fired,
   /// representing the tab the user directly moved. Move events are not fired
@@ -412,11 +412,11 @@ class ChromeTabs {
         int tabId,
         $js.OnMovedMoveInfo moveInfo,
       ) {
-        $c.add(OnMovedEvent(
+        $c(OnMovedEvent(
           tabId: tabId,
           moveInfo: OnMovedMoveInfo.fromJS(moveInfo),
         ));
-      }.toJS);
+      });
 
   /// Fires when the selected tab in a window changes.
   Stream<OnSelectionChangedEvent> get onSelectionChanged =>
@@ -424,11 +424,11 @@ class ChromeTabs {
             int tabId,
             $js.OnSelectionChangedSelectInfo selectInfo,
           ) {
-            $c.add(OnSelectionChangedEvent(
+            $c(OnSelectionChangedEvent(
               tabId: tabId,
               selectInfo: OnSelectionChangedSelectInfo.fromJS(selectInfo),
             ));
-          }.toJS);
+          });
 
   /// Fires when the selected tab in a window changes. Note that the tab's URL
   /// may not be set at the time this event fired, but you can listen to
@@ -438,33 +438,33 @@ class ChromeTabs {
             int tabId,
             $js.OnActiveChangedSelectInfo selectInfo,
           ) {
-            $c.add(OnActiveChangedEvent(
+            $c(OnActiveChangedEvent(
               tabId: tabId,
               selectInfo: OnActiveChangedSelectInfo.fromJS(selectInfo),
             ));
-          }.toJS);
+          });
 
   /// Fires when the active tab in a window changes. Note that the tab's URL may
   /// not be set at the time this event fired, but you can listen to onUpdated
   /// events so as to be notified when a URL is set.
   Stream<OnActivatedActiveInfo> get onActivated => $js.chrome.tabs.onActivated
       .asStream(($c) => ($js.OnActivatedActiveInfo activeInfo) {
-            $c.add(OnActivatedActiveInfo.fromJS(activeInfo));
-          }.toJS);
+            $c(OnActivatedActiveInfo.fromJS(activeInfo));
+          });
 
   /// Fired when the highlighted or selected tabs in a window changes.
   Stream<OnHighlightChangedSelectInfo> get onHighlightChanged =>
       $js.chrome.tabs.onHighlightChanged
           .asStream(($c) => ($js.OnHighlightChangedSelectInfo selectInfo) {
-                $c.add(OnHighlightChangedSelectInfo.fromJS(selectInfo));
-              }.toJS);
+                $c(OnHighlightChangedSelectInfo.fromJS(selectInfo));
+              });
 
   /// Fired when the highlighted or selected tabs in a window changes.
   Stream<OnHighlightedHighlightInfo> get onHighlighted =>
       $js.chrome.tabs.onHighlighted
           .asStream(($c) => ($js.OnHighlightedHighlightInfo highlightInfo) {
-                $c.add(OnHighlightedHighlightInfo.fromJS(highlightInfo));
-              }.toJS);
+                $c(OnHighlightedHighlightInfo.fromJS(highlightInfo));
+              });
 
   /// Fired when a tab is detached from a window; for example, because it was
   /// moved between windows.
@@ -473,11 +473,11 @@ class ChromeTabs {
             int tabId,
             $js.OnDetachedDetachInfo detachInfo,
           ) {
-            $c.add(OnDetachedEvent(
+            $c(OnDetachedEvent(
               tabId: tabId,
               detachInfo: OnDetachedDetachInfo.fromJS(detachInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a tab is attached to a window; for example, because it was
   /// moved between windows.
@@ -486,15 +486,15 @@ class ChromeTabs {
             int tabId,
             $js.OnAttachedAttachInfo attachInfo,
           ) {
-            $c.add(OnAttachedEvent(
+            $c(OnAttachedEvent(
               tabId: tabId,
               attachInfo: OnAttachedAttachInfo.fromJS(attachInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a tab is closed.
   Stream<OnRemovedEvent> get onRemoved =>
-      $js.chrome.tabs.onRemoved.asStream2(($c) => (
+      $js.chrome.tabs.onRemoved.asStream(($c) => (
             int tabId,
             $js.OnRemovedRemoveInfo removeInfo,
           ) {
@@ -502,7 +502,7 @@ class ChromeTabs {
               tabId: tabId,
               removeInfo: OnRemovedRemoveInfo.fromJS(removeInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a tab is replaced with another tab due to prerendering or
   /// instant.
@@ -511,18 +511,18 @@ class ChromeTabs {
             int addedTabId,
             int removedTabId,
           ) {
-            $c.add(OnReplacedEvent(
+            $c(OnReplacedEvent(
               addedTabId: addedTabId,
               removedTabId: removedTabId,
             ));
-          }.toJS);
+          });
 
   /// Fired when a tab is zoomed.
   Stream<OnZoomChangeZoomChangeInfo> get onZoomChange =>
       $js.chrome.tabs.onZoomChange
           .asStream(($c) => ($js.OnZoomChangeZoomChangeInfo ZoomChangeInfo) {
-                $c.add(OnZoomChangeZoomChangeInfo.fromJS(ZoomChangeInfo));
-              }.toJS);
+                $c(OnZoomChangeZoomChangeInfo.fromJS(ZoomChangeInfo));
+              });
 }
 
 /// The tab's loading status.

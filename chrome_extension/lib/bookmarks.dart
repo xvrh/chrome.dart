@@ -155,11 +155,11 @@ class ChromeBookmarks {
             String id,
             $js.BookmarkTreeNode bookmark,
           ) {
-            $c.add(OnCreatedEvent(
+            $c(OnCreatedEvent(
               id: id,
               bookmark: BookmarkTreeNode.fromJS(bookmark),
             ));
-          }.toJS);
+          });
 
   /// Fired when a bookmark or folder is removed.  When a folder is removed
   /// recursively, a single notification is fired for the folder, and none for
@@ -169,11 +169,11 @@ class ChromeBookmarks {
             String id,
             $js.OnRemovedRemoveInfo removeInfo,
           ) {
-            $c.add(OnRemovedEvent(
+            $c(OnRemovedEvent(
               id: id,
               removeInfo: OnRemovedRemoveInfo.fromJS(removeInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a bookmark or folder changes.  **Note:** Currently, only title
   /// and url changes trigger this.
@@ -182,11 +182,11 @@ class ChromeBookmarks {
             String id,
             $js.OnChangedChangeInfo changeInfo,
           ) {
-            $c.add(OnChangedEvent(
+            $c(OnChangedEvent(
               id: id,
               changeInfo: OnChangedChangeInfo.fromJS(changeInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a bookmark or folder is moved to a different parent folder.
   Stream<OnMovedEvent> get onMoved =>
@@ -194,11 +194,11 @@ class ChromeBookmarks {
             String id,
             $js.OnMovedMoveInfo moveInfo,
           ) {
-            $c.add(OnMovedEvent(
+            $c(OnMovedEvent(
               id: id,
               moveInfo: OnMovedMoveInfo.fromJS(moveInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when the children of a folder have changed their order due to the
   /// order being sorted in the UI.  This is not called as a result of a move().
@@ -207,25 +207,25 @@ class ChromeBookmarks {
             String id,
             $js.OnChildrenReorderedReorderInfo reorderInfo,
           ) {
-            $c.add(OnChildrenReorderedEvent(
+            $c(OnChildrenReorderedEvent(
               id: id,
               reorderInfo: OnChildrenReorderedReorderInfo.fromJS(reorderInfo),
             ));
-          }.toJS);
+          });
 
   /// Fired when a bookmark import session is begun.  Expensive observers should
   /// ignore onCreated updates until onImportEnded is fired.  Observers should
   /// still handle other notifications immediately.
   Stream<void> get onImportBegan =>
       $js.chrome.bookmarks.onImportBegan.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// Fired when a bookmark import session is ended.
   Stream<void> get onImportEnded =>
       $js.chrome.bookmarks.onImportEnded.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 /// Indicates the reason why this node is unmodifiable. The [managed] value

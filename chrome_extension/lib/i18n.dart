@@ -42,7 +42,7 @@ class ChromeI18n {
   ) {
     return $js.chrome.i18n.getMessage(
       messageName,
-      substitutions?.toJS,
+      substitutions?.jsify(),
       options?.toJS,
     );
   }

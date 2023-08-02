@@ -56,7 +56,7 @@ class ChromeProcesses {
       },
       includeMemory,
     ));
-    return $res;
+    return $res.dartify()!;
   }
 
   /// Fired each time the Task Manager updates its process statistics,
@@ -67,8 +67,8 @@ class ChromeProcesses {
   /// aggregation over time will be populated in each Process object.
   Stream<Object> get onUpdated =>
       $js.chrome.processes.onUpdated.asStream(($c) => (JSAny processes) {
-            $c.add(processes);
-          }.toJS);
+            $c(processes.dartify()!);
+          });
 
   /// Fired each time the Task Manager updates its process statistics,
   /// providing the dictionary of updated Process objects, indexed by process
@@ -82,8 +82,8 @@ class ChromeProcesses {
   Stream<Object> get onUpdatedWithMemory =>
       $js.chrome.processes.onUpdatedWithMemory
           .asStream(($c) => (JSAny processes) {
-                $c.add(processes);
-              }.toJS);
+                $c(processes.dartify()!);
+              });
 
   /// Fired each time a process is created, providing the corrseponding Process
   /// object.
@@ -91,8 +91,8 @@ class ChromeProcesses {
   /// aggregation over time will not be populated in the object.
   Stream<Process> get onCreated =>
       $js.chrome.processes.onCreated.asStream(($c) => ($js.Process process) {
-            $c.add(Process.fromJS(process));
-          }.toJS);
+            $c(Process.fromJS(process));
+          });
 
   /// Fired each time a process becomes unresponsive, providing the
   /// corrseponding Process object.
@@ -101,8 +101,8 @@ class ChromeProcesses {
   /// for renderer processes.
   Stream<Process> get onUnresponsive => $js.chrome.processes.onUnresponsive
       .asStream(($c) => ($js.Process process) {
-            $c.add(Process.fromJS(process));
-          }.toJS);
+            $c(Process.fromJS(process));
+          });
 
   /// Fired each time a process is terminated, providing the type of exit.
   /// |processId|: The ID of the process that exited.
@@ -116,12 +116,12 @@ class ChromeProcesses {
             int exitType,
             int exitCode,
           ) {
-            $c.add(OnExitedEvent(
+            $c(OnExitedEvent(
               processId: processId,
               exitType: exitType,
               exitCode: exitCode,
             ));
-          }.toJS);
+          });
 }
 
 /// The types of the browser processes.

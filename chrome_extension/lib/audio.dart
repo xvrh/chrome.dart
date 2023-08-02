@@ -118,27 +118,27 @@ class ChromeAudio {
   Stream<LevelChangedEvent> get onLevelChanged =>
       $js.chrome.audio.onLevelChanged
           .asStream(($c) => ($js.LevelChangedEvent event) {
-                $c.add(LevelChangedEvent.fromJS(event));
-              }.toJS);
+                $c(LevelChangedEvent.fromJS(event));
+              });
 
   /// Fired when the mute state of the audio input or output changes.
   /// Note that mute state is system-wide and the new value applies to every
   /// audio device with specified stream type.
   Stream<MuteChangedEvent> get onMuteChanged => $js.chrome.audio.onMuteChanged
       .asStream(($c) => ($js.MuteChangedEvent event) {
-            $c.add(MuteChangedEvent.fromJS(event));
-          }.toJS);
+            $c(MuteChangedEvent.fromJS(event));
+          });
 
   /// Fired when audio devices change, either new devices being added, or
   /// existing devices being removed.
   /// |devices|: List of all present audio devices after the change.
   Stream<List<AudioDeviceInfo>> get onDeviceListChanged =>
       $js.chrome.audio.onDeviceListChanged.asStream(($c) => (JSArray devices) {
-            $c.add(devices.toDart
+            $c(devices.toDart
                 .cast<$js.AudioDeviceInfo>()
                 .map((e) => AudioDeviceInfo.fromJS(e))
                 .toList());
-          }.toJS);
+          });
 }
 
 /// Type of stream an audio device provides.

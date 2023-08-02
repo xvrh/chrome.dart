@@ -111,12 +111,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnUnmountRequestedEvent(
+            $c(OnUnmountRequestedEvent(
               options: UnmountRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when metadata of a file or a directory at `entryPath`
   /// is requested. The metadata must be returned with the
@@ -128,12 +128,12 @@ class ChromeFileSystemProvider {
             $js.MetadataCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnGetMetadataRequestedEvent(
+            $c(OnGetMetadataRequestedEvent(
               options: GetMetadataRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when a list of actions for a set of files or directories at
   /// `entryPaths` is requested. All of the returned actions must
@@ -147,12 +147,12 @@ class ChromeFileSystemProvider {
             $js.ActionsCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnGetActionsRequestedEvent(
+            $c(OnGetActionsRequestedEvent(
               options: GetActionsRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when contents of a directory at `directoryPath` are
   /// requested. The results must be returned in chunks by calling the
@@ -164,12 +164,12 @@ class ChromeFileSystemProvider {
             $js.EntriesCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnReadDirectoryRequestedEvent(
+            $c(OnReadDirectoryRequestedEvent(
               options: ReadDirectoryRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when opening a file at `filePath` is requested. If the
   /// file does not exist, then the operation must fail. Maximum number of
@@ -180,12 +180,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnOpenFileRequestedEvent(
+            $c(OnOpenFileRequestedEvent(
               options: OpenFileRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when opening a file previously opened with
   /// `openRequestId` is requested to be closed.
@@ -195,12 +195,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnCloseFileRequestedEvent(
+            $c(OnCloseFileRequestedEvent(
               options: CloseFileRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when reading contents of a file opened previously with
   /// `openRequestId` is requested. The results must be returned in
@@ -212,12 +212,12 @@ class ChromeFileSystemProvider {
             $js.FileDataCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnReadFileRequestedEvent(
+            $c(OnReadFileRequestedEvent(
               options: ReadFileRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when creating a directory is requested. The operation must fail
   /// with the EXISTS error if the target directory already exists.
@@ -230,12 +230,12 @@ class ChromeFileSystemProvider {
                 $js.ProviderSuccessCallback successCallback,
                 $js.ProviderErrorCallback errorCallback,
               ) {
-                $c.add(OnCreateDirectoryRequestedEvent(
+                $c(OnCreateDirectoryRequestedEvent(
                   options: CreateDirectoryRequestedOptions.fromJS(options),
                   successCallback: throw UnimplementedError(),
                   errorCallback: throw UnimplementedError(),
                 ));
-              }.toJS);
+              });
 
   /// Raised when deleting an entry is requested. If `recursive` is
   /// true, and the entry is a directory, then all of the entries inside
@@ -246,12 +246,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnDeleteEntryRequestedEvent(
+            $c(OnDeleteEntryRequestedEvent(
               options: DeleteEntryRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when creating a file is requested. If the file already exists,
   /// then `errorCallback` must be called with the
@@ -262,12 +262,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnCreateFileRequestedEvent(
+            $c(OnCreateFileRequestedEvent(
               options: CreateFileRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when copying an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
@@ -277,12 +277,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnCopyEntryRequestedEvent(
+            $c(OnCopyEntryRequestedEvent(
               options: CopyEntryRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when moving an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
@@ -292,12 +292,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnMoveEntryRequestedEvent(
+            $c(OnMoveEntryRequestedEvent(
               options: MoveEntryRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when truncating a file to a desired length is requested.
   /// If an error occurs, then `errorCallback` must be called.
@@ -307,12 +307,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnTruncateRequestedEvent(
+            $c(OnTruncateRequestedEvent(
               options: TruncateRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when writing contents to a file opened previously with
   /// `openRequestId` is requested.
@@ -322,12 +322,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnWriteFileRequestedEvent(
+            $c(OnWriteFileRequestedEvent(
               options: WriteFileRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when aborting an operation with `operationRequestId`
   /// is requested. The operation executed with `operationRequestId`
@@ -342,12 +342,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnAbortRequestedEvent(
+            $c(OnAbortRequestedEvent(
               options: AbortRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when showing a configuration dialog for `fileSystemId`
   /// is requested. If it's handled, the
@@ -359,12 +359,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnConfigureRequestedEvent(
+            $c(OnConfigureRequestedEvent(
               options: ConfigureRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when showing a dialog for mounting a new file system is requested.
   /// If the extension/app is a file handler, then this event shouldn't be
@@ -377,11 +377,11 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnMountRequestedEvent(
+            $c(OnMountRequestedEvent(
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when setting a new directory watcher is requested. If an error
   /// occurs, then `errorCallback` must be called.
@@ -391,12 +391,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnAddWatcherRequestedEvent(
+            $c(OnAddWatcherRequestedEvent(
               options: AddWatcherRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when the watcher should be removed. If an error occurs, then
   /// `errorCallback` must be called.
@@ -406,12 +406,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnRemoveWatcherRequestedEvent(
+            $c(OnRemoveWatcherRequestedEvent(
               options: RemoveWatcherRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Raised when executing an action for a set of files or directories is\
   /// requested. After the action is completed, `successCallback`
@@ -422,12 +422,12 @@ class ChromeFileSystemProvider {
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c.add(OnExecuteActionRequestedEvent(
+            $c(OnExecuteActionRequestedEvent(
               options: ExecuteActionRequestedOptions.fromJS(options),
               successCallback: throw UnimplementedError(),
               errorCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 }
 
 /// Error codes used by providing extensions in response to requests as well

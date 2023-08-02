@@ -148,11 +148,11 @@ class ChromeIdentity {
             $js.AccountInfo account,
             bool signedIn,
           ) {
-            $c.add(OnSignInChangedEvent(
+            $c(OnSignInChangedEvent(
               account: AccountInfo.fromJS(account),
               signedIn: signedIn,
             ));
-          }.toJS);
+          });
 }
 
 enum AccountStatus {

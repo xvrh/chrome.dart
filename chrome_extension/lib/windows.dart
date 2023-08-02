@@ -90,14 +90,14 @@ class ChromeWindows {
   /// Fired when a window is created.
   Stream<Window> get onCreated =>
       $js.chrome.windows.onCreated.asStream(($c) => ($js.Window window) {
-            $c.add(Window.fromJS(window));
-          }.toJS);
+            $c(Window.fromJS(window));
+          });
 
   /// Fired when a window is removed (closed).
   Stream<int> get onRemoved =>
       $js.chrome.windows.onRemoved.asStream(($c) => (int windowId) {
-            $c.add(windowId);
-          }.toJS);
+            $c(windowId);
+          });
 
   /// Fired when the currently focused window changes. Returns
   /// `chrome.windows.WINDOW_ID_NONE` if all Chrome windows have lost focus.
@@ -105,15 +105,15 @@ class ChromeWindows {
   /// immediately preceding a switch from one Chrome window to another.
   Stream<int> get onFocusChanged =>
       $js.chrome.windows.onFocusChanged.asStream(($c) => (int windowId) {
-            $c.add(windowId);
-          }.toJS);
+            $c(windowId);
+          });
 
   /// Fired when a window has been resized; this event is only dispatched when
   /// the new bounds are committed, and not for in-progress changes.
   Stream<Window> get onBoundsChanged =>
       $js.chrome.windows.onBoundsChanged.asStream(($c) => ($js.Window window) {
-            $c.add(Window.fromJS(window));
-          }.toJS);
+            $c(Window.fromJS(window));
+          });
 }
 
 /// The type of browser window this is. In some circumstances a window may not

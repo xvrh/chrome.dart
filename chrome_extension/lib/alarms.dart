@@ -84,8 +84,8 @@ class ChromeAlarms {
   /// |alarm|: The alarm that has elapsed.
   Stream<Alarm> get onAlarm =>
       $js.chrome.alarms.onAlarm.asStream(($c) => ($js.Alarm alarm) {
-            $c.add(Alarm.fromJS(alarm));
-          }.toJS);
+            $c(Alarm.fromJS(alarm));
+          });
 }
 
 class Alarm {

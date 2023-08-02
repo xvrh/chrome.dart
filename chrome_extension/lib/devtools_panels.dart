@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_panels.dart' as $js;
@@ -50,8 +52,9 @@ class ChromeDevtoolsPanels {
   /// [callback] A function that is called when the user clicks on a valid
   /// resource link in Developer Tools window. Note that if the user clicks an
   /// invalid URL or an XHR, this function is not called.
-  void setOpenResourceHandler(JSFunction? callback) {
-    $js.chrome.devtools.panels.setOpenResourceHandler(callback);
+  void setOpenResourceHandler(Function? callback) {
+    $js.chrome.devtools.panels
+        .setOpenResourceHandler(callback?.let(allowInterop));
   }
 
   /// Requests DevTools to open a URL in a Developer Tools panel.
@@ -66,13 +69,13 @@ class ChromeDevtoolsPanels {
     String url,
     int lineNumber,
     int? columnNumber,
-    JSFunction? callback,
+    Function? callback,
   ) {
     $js.chrome.devtools.panels.openResource(
       url,
       lineNumber,
       columnNumber,
-      callback,
+      callback?.let(allowInterop),
     );
   }
 
@@ -116,8 +119,8 @@ class ElementsPanel {
   /// Fired when an object is selected in the panel.
   Stream<void> get onSelectionChanged =>
       _wrapped.onSelectionChanged.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 class SourcesPanel {
@@ -147,8 +150,8 @@ class SourcesPanel {
   /// Fired when an object is selected in the panel.
   Stream<void> get onSelectionChanged =>
       _wrapped.onSelectionChanged.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 class ExtensionPanel {
@@ -187,22 +190,22 @@ class ExtensionPanel {
             String action,
             String? queryString,
           ) {
-            $c.add(ExtensionPanelOnSearchEvent(
+            $c(ExtensionPanelOnSearchEvent(
               action: action,
               queryString: queryString,
             ));
-          }.toJS);
+          });
 
   /// Fired when the user switches to the panel.
   Stream<Object> get onShown =>
       _wrapped.onShown.asStream(($c) => (JSAny window) {
-            $c.add(window);
-          }.toJS);
+            $c(window);
+          });
 
   /// Fired when the user switches away from the panel.
   Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
-        $c.add(null);
-      }.toJS);
+        $c(null);
+      });
 }
 
 class ExtensionSidebarPane {
@@ -231,12 +234,12 @@ class ExtensionSidebarPane {
   void setExpression(
     String expression,
     String? rootTitle,
-    JSFunction? callback,
+    Function? callback,
   ) {
     _wrapped.setExpression(
       expression,
       rootTitle,
-      callback,
+      callback?.let(allowInterop),
     );
   }
 
@@ -249,12 +252,12 @@ class ExtensionSidebarPane {
   void setObject(
     String jsonObject,
     String? rootTitle,
-    JSFunction? callback,
+    Function? callback,
   ) {
     _wrapped.setObject(
       jsonObject,
       rootTitle,
-      callback,
+      callback?.let(allowInterop),
     );
   }
 
@@ -268,14 +271,14 @@ class ExtensionSidebarPane {
   /// to the panel that hosts it.
   Stream<Object> get onShown =>
       _wrapped.onShown.asStream(($c) => (JSAny window) {
-            $c.add(window);
-          }.toJS);
+            $c(window);
+          });
 
   /// Fired when the sidebar pane becomes hidden as a result of the user
   /// switching away from the panel that hosts the sidebar pane.
   Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
-        $c.add(null);
-      }.toJS);
+        $c(null);
+      });
 }
 
 class Button {
@@ -307,8 +310,8 @@ class Button {
 
   /// Fired when the button is clicked.
   Stream<void> get onClicked => _wrapped.onClicked.asStream(($c) => () {
-        $c.add(null);
-      }.toJS);
+        $c(null);
+      });
 }
 
 class ExtensionPanelOnSearchEvent {

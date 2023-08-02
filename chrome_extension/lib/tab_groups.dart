@@ -71,14 +71,14 @@ class ChromeTabGroups {
   /// Fired when a group is created.
   Stream<TabGroup> get onCreated =>
       $js.chrome.tabGroups.onCreated.asStream(($c) => ($js.TabGroup group) {
-            $c.add(TabGroup.fromJS(group));
-          }.toJS);
+            $c(TabGroup.fromJS(group));
+          });
 
   /// Fired when a group is updated.
   Stream<TabGroup> get onUpdated =>
       $js.chrome.tabGroups.onUpdated.asStream(($c) => ($js.TabGroup group) {
-            $c.add(TabGroup.fromJS(group));
-          }.toJS);
+            $c(TabGroup.fromJS(group));
+          });
 
   /// Fired when a group is moved within a window. Move events are still fired
   /// for the individual tabs within the group, as well as for the group itself.
@@ -86,15 +86,15 @@ class ChromeTabGroups {
   /// will be removed from one window and created in another.
   Stream<TabGroup> get onMoved =>
       $js.chrome.tabGroups.onMoved.asStream(($c) => ($js.TabGroup group) {
-            $c.add(TabGroup.fromJS(group));
-          }.toJS);
+            $c(TabGroup.fromJS(group));
+          });
 
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
   Stream<TabGroup> get onRemoved =>
       $js.chrome.tabGroups.onRemoved.asStream(($c) => ($js.TabGroup group) {
-            $c.add(TabGroup.fromJS(group));
-          }.toJS);
+            $c(TabGroup.fromJS(group));
+          });
 }
 
 /// The group's color.

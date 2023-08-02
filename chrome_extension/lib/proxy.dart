@@ -25,8 +25,8 @@ class ChromeProxy {
   /// Notifies about proxy errors.
   Stream<OnProxyErrorDetails> get onProxyError => $js.chrome.proxy.onProxyError
       .asStream(($c) => ($js.OnProxyErrorDetails details) {
-            $c.add(OnProxyErrorDetails.fromJS(details));
-          }.toJS);
+            $c(OnProxyErrorDetails.fromJS(details));
+          });
 }
 
 enum Scheme {

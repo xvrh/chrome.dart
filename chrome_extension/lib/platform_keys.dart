@@ -70,15 +70,15 @@ class ChromePlatformKeys {
     var $completer = Completer<GetKeyPairResult>();
     $js.chrome.platformKeys.getKeyPair(
       certificate.toJS,
-      parameters.toJS,
+      parameters.jsify()!,
       (
         JSAny publicKey,
         JSAny? privateKey,
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(GetKeyPairResult(
-            publicKey: publicKey,
-            privateKey: privateKey,
+            publicKey: publicKey.dartify()!,
+            privateKey: privateKey?.dartify(),
           ));
         }
       }.toJS,
@@ -112,15 +112,15 @@ class ChromePlatformKeys {
     var $completer = Completer<GetKeyPairBySpkiResult>();
     $js.chrome.platformKeys.getKeyPairBySpki(
       publicKeySpkiDer.toJS,
-      parameters.toJS,
+      parameters.jsify()!,
       (
         JSAny publicKey,
         JSAny? privateKey,
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(GetKeyPairBySpkiResult(
-            publicKey: publicKey,
-            privateKey: privateKey,
+            publicKey: publicKey.dartify()!,
+            privateKey: privateKey?.dartify(),
           ));
         }
       }.toJS,
@@ -134,7 +134,7 @@ class ChromePlatformKeys {
   /// that allows crypto operations on keys of client certificates that are
   /// available to this extension.
   Object subtleCrypto() {
-    return $js.chrome.platformKeys.subtleCrypto();
+    return $js.chrome.platformKeys.subtleCrypto().dartify()!;
   }
 
   /// Checks whether `details.serverCertificateChain` can be trusted
@@ -190,7 +190,7 @@ class Match {
     required Object keyAlgorithm,
   }) : _wrapped = $js.Match()
           ..certificate = certificate.toJS
-          ..keyAlgorithm = keyAlgorithm.toJS;
+          ..keyAlgorithm = keyAlgorithm.jsify()!;
 
   final $js.Match _wrapped;
 
@@ -208,9 +208,9 @@ class Match {
   /// parameters that are inherent to the key of the certificate (e.g. the key
   /// length). Other parameters like the hash function used by the sign
   /// function are not included.
-  Object get keyAlgorithm => _wrapped.keyAlgorithm;
+  Object get keyAlgorithm => _wrapped.keyAlgorithm.dartify()!;
   set keyAlgorithm(Object v) {
-    _wrapped.keyAlgorithm = v.toJS;
+    _wrapped.keyAlgorithm = v.jsify()!;
   }
 }
 

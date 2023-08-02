@@ -81,12 +81,12 @@ class ChromeDebugger {
             String method,
             JSAny? params,
           ) {
-            $c.add(OnEventEvent(
+            $c(OnEventEvent(
               source: Debuggee.fromJS(source),
               method: method,
               params: params?.toDartMap(),
             ));
-          }.toJS);
+          });
 
   /// Fired when browser terminates debugging session for the tab. This happens
   /// when either the tab is being closed or Chrome DevTools is being invoked
@@ -96,11 +96,11 @@ class ChromeDebugger {
             $js.Debuggee source,
             $js.DetachReason reason,
           ) {
-            $c.add(OnDetachEvent(
+            $c(OnDetachEvent(
               source: Debuggee.fromJS(source),
               reason: DetachReason.fromJS(reason),
             ));
-          }.toJS);
+          });
 }
 
 /// Target type.

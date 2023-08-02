@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/context_menus.dart' as $js;
 import 'src/js/tabs.dart' as $js_tabs;
@@ -27,11 +29,11 @@ class ChromeContextMenus {
   /// [runtime.lastError].
   Object create(
     CreateProperties createProperties,
-    JSFunction? callback,
+    Function? callback,
   ) {
     return $js.chrome.contextMenus.create(
       createProperties.toJS,
-      callback,
+      callback?.let(allowInterop),
     );
   }
 
@@ -104,11 +106,11 @@ class ChromeContextMenus {
             $js.OnClickData info,
             $js_tabs.Tab? tab,
           ) {
-            $c.add(OnClickedEvent(
+            $c(OnClickedEvent(
               info: OnClickData.fromJS(info),
               tab: tab?.let(Tab.fromJS),
             ));
-          }.toJS);
+          });
 }
 
 /// The different contexts a menu can appear in. Specifying 'all' is equivalent
@@ -357,7 +359,7 @@ class CreateProperties {
     /// A function that is called back when the menu item is clicked. Event
     /// pages cannot use this; instead, they should register a listener for
     /// [contextMenus.onClicked].
-    JSFunction? onclick,
+    Function? onclick,
 
     /// The ID of a parent menu item; this makes the item a child of a
     /// previously added item.
@@ -383,7 +385,7 @@ class CreateProperties {
           checked: checked,
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
-          onclick: onclick,
+          onclick: onclick?.let(allowInterop),
           parentId: switch (parentId) {
             int() => parentId,
             String() => parentId,
@@ -412,7 +414,7 @@ class UpdateProperties {
 
     /// Whether the item is visible in the menu.
     bool? visible,
-    JSFunction? onclick,
+    Function? onclick,
 
     /// The ID of the item to be made this item's parent. Note: You cannot set
     /// an item to become a child of its own descendant.
@@ -426,7 +428,7 @@ class UpdateProperties {
           checked: checked,
           contexts: contexts?.toJSArray((e) => e.toJS),
           visible: visible,
-          onclick: onclick,
+          onclick: onclick?.let(allowInterop),
           parentId: switch (parentId) {
             int() => parentId,
             String() => parentId,

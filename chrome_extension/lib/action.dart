@@ -138,8 +138,8 @@ class ChromeAction {
   /// action has a popup.
   Stream<Tab> get onClicked =>
       $js.chrome.action.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
-            $c.add(Tab.fromJS(tab));
-          }.toJS);
+            $c(Tab.fromJS(tab));
+          });
 }
 
 class TabDetails {

@@ -37,8 +37,8 @@ class ChromeLoginState {
   Stream<SessionState> get onSessionStateChanged =>
       $js.chrome.loginState.onSessionStateChanged
           .asStream(($c) => ($js.SessionState sessionState) {
-                $c.add(SessionState.fromJS(sessionState));
-              }.toJS);
+                $c(SessionState.fromJS(sessionState));
+              });
 }
 
 enum ProfileType {

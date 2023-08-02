@@ -46,20 +46,34 @@ class ChromeOmnibox {
   /// before any onInputChanged events.
   Stream<void> get onInputStarted =>
       $js.chrome.omnibox.onInputStarted.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// User has changed what is typed into the omnibox.
   Stream<OnInputChangedEvent> get onInputChanged =>
       $js.chrome.omnibox.onInputChanged.asStream(($c) => (
             String text,
-            JSFunction suggest,
+            Function suggest,
           ) {
-            $c.add(OnInputChangedEvent(
+            $c(OnInputChangedEvent(
               text: text,
-              suggest: suggest,
+              suggest: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (suggest as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// User has accepted what is typed into the omnibox.
   Stream<OnInputEnteredEvent> get onInputEntered =>
@@ -67,23 +81,23 @@ class ChromeOmnibox {
             String text,
             $js.OnInputEnteredDisposition disposition,
           ) {
-            $c.add(OnInputEnteredEvent(
+            $c(OnInputEnteredEvent(
               text: text,
               disposition: OnInputEnteredDisposition.fromJS(disposition),
             ));
-          }.toJS);
+          });
 
   /// User has ended the keyword input session without accepting the input.
   Stream<void> get onInputCancelled =>
       $js.chrome.omnibox.onInputCancelled.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// User has deleted a suggested result.
   Stream<String> get onDeleteSuggestion =>
       $js.chrome.omnibox.onDeleteSuggestion.asStream(($c) => (String text) {
-            $c.add(text);
-          }.toJS);
+            $c(text);
+          });
 }
 
 /// The style type.
@@ -208,7 +222,7 @@ class OnInputChangedEvent {
 
   /// A callback passed to the onInputChanged event used for sending suggestions
   /// back to the browser.
-  final JSFunction suggest;
+  final Function suggest;
 }
 
 class OnInputEnteredEvent {

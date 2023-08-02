@@ -95,8 +95,8 @@ class ChromeSetting {
   /// Fired after the setting changes.
   Stream<OnChangeDetails> get onChange =>
       _wrapped.onChange.asStream(($c) => ($js.OnChangeDetails details) {
-            $c.add(OnChangeDetails.fromJS(details));
-          }.toJS);
+            $c(OnChangeDetails.fromJS(details));
+          });
 }
 
 class GetCallbackDetails {
@@ -114,7 +114,7 @@ class GetCallbackDetails {
     /// property in the [details] parameter of `get()` was true.
     bool? incognitoSpecific,
   }) : _wrapped = $js.GetCallbackDetails()
-          ..value = value.toJS
+          ..value = value.jsify()!
           ..levelOfControl = levelOfControl.toJS
           ..incognitoSpecific = incognitoSpecific;
 
@@ -123,9 +123,9 @@ class GetCallbackDetails {
   $js.GetCallbackDetails get toJS => _wrapped;
 
   /// The value of the setting.
-  Object get value => _wrapped.value;
+  Object get value => _wrapped.value.dartify()!;
   set value(Object v) {
-    _wrapped.value = v.toJS;
+    _wrapped.value = v.jsify()!;
   }
 
   /// The level of control of the setting.
@@ -171,7 +171,7 @@ class SetDetails {
     /// Where to set the setting (default: regular).
     ChromeSettingScope? scope,
   }) : _wrapped = $js.SetDetails(
-          value: value.toJS,
+          value: value.jsify()!,
           scope: scope?.toJS,
         );
 
@@ -209,7 +209,7 @@ class OnChangeDetails {
     /// enabled the extension in incognito mode.
     bool? incognitoSpecific,
   }) : _wrapped = $js.OnChangeDetails()
-          ..value = value.toJS
+          ..value = value.jsify()!
           ..levelOfControl = levelOfControl.toJS
           ..incognitoSpecific = incognitoSpecific;
 
@@ -218,9 +218,9 @@ class OnChangeDetails {
   $js.OnChangeDetails get toJS => _wrapped;
 
   /// The value of the setting after the change.
-  Object get value => _wrapped.value;
+  Object get value => _wrapped.value.dartify()!;
   set value(Object v) {
-    _wrapped.value = v.toJS;
+    _wrapped.value = v.jsify()!;
   }
 
   /// The level of control of the setting.

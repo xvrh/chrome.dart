@@ -109,8 +109,8 @@ class ChromeWebAuthenticationProxy {
   Stream<void> get onRemoteSessionStateChange =>
       $js.chrome.webAuthenticationProxy.onRemoteSessionStateChange
           .asStream(($c) => () {
-                $c.add(null);
-              }.toJS);
+                $c(null);
+              });
 
   /// Fires when a WebAuthn `navigator.credentials.create()` call
   /// occurs. The extension must supply a response by calling
@@ -119,8 +119,8 @@ class ChromeWebAuthenticationProxy {
   Stream<CreateRequest> get onCreateRequest =>
       $js.chrome.webAuthenticationProxy.onCreateRequest
           .asStream(($c) => ($js.CreateRequest requestInfo) {
-                $c.add(CreateRequest.fromJS(requestInfo));
-              }.toJS);
+                $c(CreateRequest.fromJS(requestInfo));
+              });
 
   /// Fires when a WebAuthn navigator.credentials.get() call occurs. The
   /// extension must supply a response by calling
@@ -129,8 +129,8 @@ class ChromeWebAuthenticationProxy {
   Stream<GetRequest> get onGetRequest =>
       $js.chrome.webAuthenticationProxy.onGetRequest
           .asStream(($c) => ($js.GetRequest requestInfo) {
-                $c.add(GetRequest.fromJS(requestInfo));
-              }.toJS);
+                $c(GetRequest.fromJS(requestInfo));
+              });
 
   /// Fires when a
   /// `PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()`
@@ -140,8 +140,8 @@ class ChromeWebAuthenticationProxy {
   Stream<IsUvpaaRequest> get onIsUvpaaRequest =>
       $js.chrome.webAuthenticationProxy.onIsUvpaaRequest
           .asStream(($c) => ($js.IsUvpaaRequest requestInfo) {
-                $c.add(IsUvpaaRequest.fromJS(requestInfo));
-              }.toJS);
+                $c(IsUvpaaRequest.fromJS(requestInfo));
+              });
 
   /// Fires when a `onCreateRequest` or `onGetRequest`
   /// event is canceled (because the WebAuthn request was aborted by the
@@ -152,8 +152,8 @@ class ChromeWebAuthenticationProxy {
   Stream<int> get onRequestCanceled =>
       $js.chrome.webAuthenticationProxy.onRequestCanceled
           .asStream(($c) => (int requestId) {
-                $c.add(requestId);
-              }.toJS);
+                $c(requestId);
+              });
 }
 
 class IsUvpaaRequest {

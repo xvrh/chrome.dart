@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
+import 'dart:js_util';
 
 export 'chrome.dart';
 export 'dart:js_interop';
@@ -33,17 +34,17 @@ extension ListToJsExtension<T> on List<T> {
 
 extension JSAnyExtension on JSAny {
   Map toDartMap() {
-    var map = dartify()! as Map;
+    var map = this.dartify()! as Map;
     // TODO: convert inner map and list?
     return map;
   }
 }
 
 extension EventStreamExtension on js.Event {
-  Stream<T> asStream<T>(
-      JSFunction Function(StreamController<T>) callbackFactory) {
+  Stream<T> asStreamDeprecated<T>(
+      Function Function(void Function(T)) callbackFactory) {
     var controller = StreamController<T>.broadcast();
-    var listener = callbackFactory(controller);
+    var listener = callbackFactory(controller.add);
     controller
       ..onListen = () {
         addListener(listener);
@@ -56,15 +57,14 @@ extension EventStreamExtension on js.Event {
     return controller.stream;
   }
 
-  Stream<T> asStream2<T>(
-      JSFunction Function(void Function(T)) callbackFactory) {
+  Stream<T> asStream<T>(Function Function(void Function(T)) callbackFactory) {
     return _EventStream<T>(this, callbackFactory);
   }
 }
 
 class _EventStream<T> extends Stream<T> {
   final js.Event _target;
-  final JSFunction Function(void Function(T)) _callbackFactory;
+  final Function Function(void Function(T)) _callbackFactory;
 
   _EventStream(this._target, this._callbackFactory);
 
@@ -88,17 +88,15 @@ class _EventStreamSubscription<T> implements StreamSubscription<T> {
   int _pauseCount = 0;
   js.Event? _target;
   void Function(T)? _onData;
-  late final JSFunction _callback;
+  late final Function _callback;
 
   _EventStreamSubscription(this._target, this._onData,
-      JSFunction Function(void Function(T)) callbackFactory) {
-    _callback = callbackFactory(_wrapZone(_addData));
-    print("Subscribe");
+      Function Function(void Function(T)) callbackFactory) {
+    _callback = allowInterop(callbackFactory(_wrapZone(_addData)));
     _tryResume();
   }
 
   void _addData(T data) {
-    print("Add data");
     _onData?.call(data);
   }
 
@@ -121,17 +119,14 @@ class _EventStreamSubscription<T> implements StreamSubscription<T> {
     if (_canceled) {
       throw StateError('Subscription has been canceled.');
     }
-    // Remove current event listener.
     _unlisten();
     _onData = handleData;
     _tryResume();
   }
 
-  /// Has no effect.
   @override
   void onError(Function? handleError) {}
 
-  /// Has no effect.
   @override
   void onDone(void Function()? handleDone) {}
 
@@ -157,16 +152,13 @@ class _EventStreamSubscription<T> implements StreamSubscription<T> {
   }
 
   void _tryResume() {
-    print("Try resume $_onData $isPaused");
     if (_onData != null && !isPaused) {
-      print("Start listen");
       _target!.addListener(_callback);
     }
   }
 
   void _unlisten() {
     if (_onData != null) {
-      print("Remove listen");
       _target!.removeListener(_callback);
     }
   }

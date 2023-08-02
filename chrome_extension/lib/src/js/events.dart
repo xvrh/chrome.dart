@@ -57,18 +57,18 @@ extension EventExtension on Event {
 
       /// Called when an event occurs. The parameters of this function depend on
       /// the type of event.
-      JSFunction callback);
+      Function callback);
 
   /// Deregisters an event listener _callback_ from an event.
   external void removeListener(
 
       /// Listener that shall be unregistered.
-      JSFunction callback);
+      Function callback);
 
   external bool hasListener(
 
       /// Listener whose registration status shall be tested.
-      JSFunction callback);
+      Function callback);
 
   external bool hasListeners();
 

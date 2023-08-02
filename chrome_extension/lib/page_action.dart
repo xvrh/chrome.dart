@@ -74,8 +74,8 @@ class ChromePageAction {
   /// page action has a popup.
   Stream<Tab> get onClicked =>
       $js.chrome.pageAction.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
-            $c.add(Tab.fromJS(tab));
-          }.toJS);
+            $c(Tab.fromJS(tab));
+          });
 }
 
 /// Pixel data for an image. Must be an ImageData object (for example, from a

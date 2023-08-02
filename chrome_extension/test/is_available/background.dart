@@ -1,10 +1,10 @@
 import 'package:checks/checks.dart';
 import 'package:test/test.dart';
 
-import '../runner_client.dart';
+import '../runner/runner_client.dart';
 import 'package:chrome_apis/chrome.dart';
 
-void main() => runTests(_tests);
+void main() => setup(_tests);
 
 void _tests(TestContext context) {
   test('available', () async {

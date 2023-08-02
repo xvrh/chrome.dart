@@ -51,14 +51,14 @@ class ChromeSystemStorage {
   /// Fired when a new removable storage is attached to the system.
   Stream<StorageUnitInfo> get onAttached => $js.chrome.system.storage.onAttached
       .asStream(($c) => ($js.StorageUnitInfo info) {
-            $c.add(StorageUnitInfo.fromJS(info));
-          }.toJS);
+            $c(StorageUnitInfo.fromJS(info));
+          });
 
   /// Fired when a removable storage is detached from the system.
   Stream<String> get onDetached =>
       $js.chrome.system.storage.onDetached.asStream(($c) => (String id) {
-            $c.add(id);
-          }.toJS);
+            $c(id);
+          });
 }
 
 enum StorageUnitType {

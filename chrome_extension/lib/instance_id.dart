@@ -58,8 +58,8 @@ class ChromeInstanceId {
   /// Fired when all the granted tokens need to be refreshed.
   Stream<void> get onTokenRefresh =>
       $js.chrome.instanceId.onTokenRefresh.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 class GetTokenParams {

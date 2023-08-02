@@ -62,8 +62,8 @@ class ChromeIdle {
   /// generates input on an idle system.
   Stream<IdleState> get onStateChanged =>
       $js.chrome.idle.onStateChanged.asStream(($c) => ($js.IdleState newState) {
-            $c.add(IdleState.fromJS(newState));
-          }.toJS);
+            $c(IdleState.fromJS(newState));
+          });
 }
 
 enum IdleState {

@@ -39,11 +39,11 @@ class ChromeStorage {
             JSAny changes,
             String areaName,
           ) {
-            $c.add(OnChangedEvent(
+            $c(OnChangedEvent(
               changes: changes.toDartMap(),
               areaName: areaName,
             ));
-          }.toJS);
+          });
 }
 
 /// The storage area's access level.
@@ -70,23 +70,23 @@ class StorageChange {
     /// The new value of the item, if there is a new value.
     Object? newValue,
   }) : _wrapped = $js.StorageChange()
-          ..oldValue = oldValue?.toJS
-          ..newValue = newValue?.toJS;
+          ..oldValue = oldValue?.jsify()
+          ..newValue = newValue?.jsify();
 
   final $js.StorageChange _wrapped;
 
   $js.StorageChange get toJS => _wrapped;
 
   /// The old value of the item, if there was an old value.
-  Object? get oldValue => _wrapped.oldValue;
+  Object? get oldValue => _wrapped.oldValue?.dartify();
   set oldValue(Object? v) {
-    _wrapped.oldValue = v?.toJS;
+    _wrapped.oldValue = v?.jsify();
   }
 
   /// The new value of the item, if there is a new value.
-  Object? get newValue => _wrapped.newValue;
+  Object? get newValue => _wrapped.newValue?.dartify();
   set newValue(Object? v) {
-    _wrapped.newValue = v?.toJS;
+    _wrapped.newValue = v?.jsify();
   }
 }
 
@@ -168,8 +168,8 @@ class StorageArea {
   /// Fired when one or more items change.
   Stream<Map> get onChanged =>
       _wrapped.onChanged.asStream(($c) => (JSAny changes) {
-            $c.add(changes.toDartMap());
-          }.toJS);
+            $c(changes.toDartMap());
+          });
 }
 
 class SetAccessLevelAccessOptions {

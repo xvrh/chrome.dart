@@ -73,8 +73,8 @@ class ChromeCookies {
   /// "explicit".
   Stream<OnChangedChangeInfo> get onChanged => $js.chrome.cookies.onChanged
       .asStream(($c) => ($js.OnChangedChangeInfo changeInfo) {
-            $c.add(OnChangedChangeInfo.fromJS(changeInfo));
-          }.toJS);
+            $c(OnChangedChangeInfo.fromJS(changeInfo));
+          });
 }
 
 /// A cookie's 'SameSite' state

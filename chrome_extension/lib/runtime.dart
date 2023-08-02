@@ -164,10 +164,10 @@ class ChromeRuntime {
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.runtime.sendMessage(
       extensionId,
-      message.toJS,
+      message.jsify()!,
       options?.toJS,
     ));
-    return $res;
+    return $res.dartify()!;
   }
 
   /// Send a single message to a native application.
@@ -228,15 +228,15 @@ class ChromeRuntime {
   /// extension is operating in 'split' incognito mode.
   Stream<void> get onStartup =>
       $js.chrome.runtime.onStartup.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// Fired when the extension is first installed, when the extension is updated
   /// to a new version, and when Chrome is updated to a new version.
   Stream<OnInstalledDetails> get onInstalled => $js.chrome.runtime.onInstalled
       .asStream(($c) => ($js.OnInstalledDetails details) {
-            $c.add(OnInstalledDetails.fromJS(details));
-          }.toJS);
+            $c(OnInstalledDetails.fromJS(details));
+          });
 
   /// Sent to the event page just before it is unloaded. This gives the
   /// extension opportunity to do some clean up. Note that since the page is
@@ -246,14 +246,14 @@ class ChromeRuntime {
   /// page won't be unloaded.
   Stream<void> get onSuspend =>
       $js.chrome.runtime.onSuspend.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// Sent after onSuspend to indicate that the app won't be unloaded after all.
   Stream<void> get onSuspendCanceled =>
       $js.chrome.runtime.onSuspendCanceled.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// Fired when an update is available, but isn't installed immediately because
   /// the app is currently running. If you do nothing, the update will be
@@ -268,36 +268,36 @@ class ChromeRuntime {
   Stream<OnUpdateAvailableDetails> get onUpdateAvailable =>
       $js.chrome.runtime.onUpdateAvailable
           .asStream(($c) => ($js.OnUpdateAvailableDetails details) {
-                $c.add(OnUpdateAvailableDetails.fromJS(details));
-              }.toJS);
+                $c(OnUpdateAvailableDetails.fromJS(details));
+              });
 
   /// Fired when a Chrome update is available, but isn't installed immediately
   /// because a browser restart is required.
   Stream<void> get onBrowserUpdateAvailable =>
       $js.chrome.runtime.onBrowserUpdateAvailable.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 
   /// Fired when a connection is made from either an extension process or a
   /// content script (by [runtime.connect]).
   Stream<Port> get onConnect =>
       $js.chrome.runtime.onConnect.asStream(($c) => ($js.Port port) {
-            $c.add(Port.fromJS(port));
-          }.toJS);
+            $c(Port.fromJS(port));
+          });
 
   /// Fired when a connection is made from another extension (by
   /// [runtime.connect]).
   Stream<Port> get onConnectExternal =>
       $js.chrome.runtime.onConnectExternal.asStream(($c) => ($js.Port port) {
-            $c.add(Port.fromJS(port));
-          }.toJS);
+            $c(Port.fromJS(port));
+          });
 
   /// Fired when a connection is made from a native application. Currently only
   /// supported on Chrome OS.
   Stream<Port> get onConnectNative =>
       $js.chrome.runtime.onConnectNative.asStream(($c) => ($js.Port port) {
-            $c.add(Port.fromJS(port));
-          }.toJS);
+            $c(Port.fromJS(port));
+          });
 
   /// Fired when a message is sent from either an extension process (by
   /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
@@ -305,14 +305,28 @@ class ChromeRuntime {
       $js.chrome.runtime.onMessage.asStream(($c) => (
             JSAny? message,
             $js.MessageSender sender,
-            JSFunction sendResponse,
+            Function sendResponse,
           ) {
-            $c.add(OnMessageEvent(
-              message: message,
+            $c(OnMessageEvent(
+              message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: sendResponse,
+              sendResponse: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendResponse as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Fired when a message is sent from another extension/app (by
   /// [runtime.sendMessage]). Cannot be used in a content script.
@@ -320,14 +334,28 @@ class ChromeRuntime {
       $js.chrome.runtime.onMessageExternal.asStream(($c) => (
             JSAny? message,
             $js.MessageSender sender,
-            JSFunction sendResponse,
+            Function sendResponse,
           ) {
-            $c.add(OnMessageExternalEvent(
-              message: message,
+            $c(OnMessageExternalEvent(
+              message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: sendResponse,
+              sendResponse: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendResponse as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Fired when an app or the device that it runs on needs to be restarted. The
   /// app should close all its windows at its earliest convenient time to let
@@ -337,8 +365,8 @@ class ChromeRuntime {
   Stream<OnRestartRequiredReason> get onRestartRequired =>
       $js.chrome.runtime.onRestartRequired
           .asStream(($c) => ($js.OnRestartRequiredReason reason) {
-                $c.add(OnRestartRequiredReason.fromJS(reason));
-              }.toJS);
+                $c(OnRestartRequiredReason.fromJS(reason));
+              });
 }
 
 /// The operating system Chrome is running on.
@@ -471,11 +499,11 @@ class Port {
     /// Immediately disconnect the port. Calling `disconnect()` on an
     /// already-disconnected port has no effect. When a port is disconnected, no
     /// new events will be dispatched to this port.
-    required JSFunction disconnect,
+    required Function disconnect,
 
     /// Send a message to the other end of the port. If the port is
     /// disconnected, an error is thrown.
-    required JSFunction postMessage,
+    required Function postMessage,
 
     /// This property will **only** be present on ports passed to
     /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
@@ -484,8 +512,8 @@ class Port {
     MessageSender? sender,
   }) : _wrapped = $js.Port()
           ..name = name
-          ..disconnect = disconnect
-          ..postMessage = postMessage
+          ..disconnect = allowInterop(disconnect)
+          ..postMessage = allowInterop(postMessage)
           ..sender = sender?.toJS;
 
   final $js.Port _wrapped;
@@ -501,16 +529,28 @@ class Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  JSFunction get disconnect => _wrapped.disconnect;
-  set disconnect(JSFunction v) {
-    _wrapped.disconnect = v;
+  Function get disconnect =>
+      ([Object? p1, Object? p2, Object? p3, Object? p4, Object? p5]) {
+        return (_wrapped.disconnect as JSAny? Function(
+                    JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                p1?.jsify(), p2?.jsify(), p3?.jsify(), p4?.jsify(), p5?.jsify())
+            ?.dartify();
+      };
+  set disconnect(Function v) {
+    _wrapped.disconnect = allowInterop(v);
   }
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  JSFunction get postMessage => _wrapped.postMessage;
-  set postMessage(JSFunction v) {
-    _wrapped.postMessage = v;
+  Function get postMessage =>
+      ([Object? p1, Object? p2, Object? p3, Object? p4, Object? p5]) {
+        return (_wrapped.postMessage as JSAny? Function(
+                    JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                p1?.jsify(), p2?.jsify(), p3?.jsify(), p4?.jsify(), p5?.jsify())
+            ?.dartify();
+      };
+  set postMessage(Function v) {
+    _wrapped.postMessage = allowInterop(v);
   }
 
   /// This property will **only** be present on ports passed to
@@ -529,8 +569,8 @@ class Port {
   /// (see also [Port lifetime](messaging#port-lifetime)).
   Stream<Port> get onDisconnect =>
       _wrapped.onDisconnect.asStream(($c) => ($js.Port port) {
-            $c.add(Port.fromJS(port));
-          }.toJS);
+            $c(Port.fromJS(port));
+          });
 
   /// This event is fired when $(ref:Port.postMessage postMessage) is called by
   /// the other end of the port.
@@ -539,11 +579,11 @@ class Port {
             JSAny message,
             $js.Port port,
           ) {
-            $c.add(PortOnMessageEvent(
-              message: message,
+            $c(PortOnMessageEvent(
+              message: message.dartify()!,
               port: Port.fromJS(port),
             ));
-          }.toJS);
+          });
 }
 
 class MessageSender {
@@ -1052,13 +1092,7 @@ class OnMessageEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final MyFunction sendResponse;
-}
-
-typedef MyFunction = JSFunction;
-
-extension MyFunctionExtension on MyFunction {
-  external void call(Object? self, Object arg);
+  final Function sendResponse;
 }
 
 class OnMessageExternalEvent {
@@ -1080,7 +1114,7 @@ class OnMessageExternalEvent {
   /// return true* from the event listener to indicate you wish to send a
   /// response asynchronously (this will keep the message channel open to the
   /// other end until `sendResponse` is called).
-  final JSFunction sendResponse;
+  final Function sendResponse;
 }
 
 class PortOnMessageEvent {

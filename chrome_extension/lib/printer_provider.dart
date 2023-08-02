@@ -25,8 +25,8 @@ class ChromePrinterProvider {
   Stream<PrintersCallback> get onGetPrintersRequested =>
       $js.chrome.printerProvider.onGetPrintersRequested
           .asStream(($c) => ($js.PrintersCallback resultCallback) {
-                $c.add(throw UnimplementedError());
-              }.toJS);
+                $c(throw UnimplementedError());
+              });
 
   /// Event fired when print manager requests information about a USB device
   /// that may be a printer.
@@ -43,11 +43,11 @@ class ChromePrinterProvider {
             $js_usb.Device device,
             $js.PrinterInfoCallback resultCallback,
           ) {
-            $c.add(OnGetUsbPrinterInfoRequestedEvent(
+            $c(OnGetUsbPrinterInfoRequestedEvent(
               device: Device.fromJS(device),
               resultCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Event fired when print manager requests printer capabilities.
   /// |printerId|: Unique ID of the printer whose capabilities are requested.
@@ -60,11 +60,11 @@ class ChromePrinterProvider {
             String printerId,
             $js.CapabilitiesCallback resultCallback,
           ) {
-            $c.add(OnGetCapabilityRequestedEvent(
+            $c(OnGetCapabilityRequestedEvent(
               printerId: printerId,
               resultCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 
   /// Event fired when print manager requests printing.
   /// |printJob|: The printing request parameters.
@@ -75,11 +75,11 @@ class ChromePrinterProvider {
             $js.PrintJob printJob,
             $js.PrintCallback resultCallback,
           ) {
-            $c.add(OnPrintRequestedEvent(
+            $c(OnPrintRequestedEvent(
               printJob: PrintJob.fromJS(printJob),
               resultCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 }
 
 /// Error codes returned in response to [onPrintRequested] event.
@@ -184,7 +184,7 @@ class PrintJob {
   }) : _wrapped = $js.PrintJob()
           ..printerId = printerId
           ..title = title
-          ..ticket = ticket.toJS
+          ..ticket = ticket.jsify()!
           ..contentType = contentType
           ..document = document;
 
@@ -207,9 +207,9 @@ class PrintJob {
   /// Print ticket in
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
   /// CJT format</a>.
-  Object get ticket => _wrapped.ticket;
+  Object get ticket => _wrapped.ticket.dartify()!;
   set ticket(Object v) {
-    _wrapped.ticket = v.toJS;
+    _wrapped.ticket = v.jsify()!;
   }
 
   /// The document content type. Supported formats are

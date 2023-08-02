@@ -97,7 +97,7 @@ class ChromeNotifications {
     var $completer = Completer<Object>();
     $js.chrome.notifications.getAll((JSAny notifications) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete(notifications);
+        $completer.complete(notifications.dartify()!);
       }
     }.toJS);
     return $completer.future;
@@ -122,17 +122,17 @@ class ChromeNotifications {
             String notificationId,
             bool byUser,
           ) {
-            $c.add(OnClosedEvent(
+            $c(OnClosedEvent(
               notificationId: notificationId,
               byUser: byUser,
             ));
-          }.toJS);
+          });
 
   /// The user clicked in a non-button area of the notification.
   Stream<String> get onClicked => $js.chrome.notifications.onClicked
       .asStream(($c) => (String notificationId) {
-            $c.add(notificationId);
-          }.toJS);
+            $c(notificationId);
+          });
 
   /// The user pressed a button in the notification.
   Stream<OnButtonClickedEvent> get onButtonClicked =>
@@ -140,27 +140,27 @@ class ChromeNotifications {
             String notificationId,
             int buttonIndex,
           ) {
-            $c.add(OnButtonClickedEvent(
+            $c(OnButtonClickedEvent(
               notificationId: notificationId,
               buttonIndex: buttonIndex,
             ));
-          }.toJS);
+          });
 
   /// The user changes the permission level.  As of Chrome 47, only ChromeOS
   /// has UI that dispatches this event.
   Stream<PermissionLevel> get onPermissionLevelChanged =>
       $js.chrome.notifications.onPermissionLevelChanged
           .asStream(($c) => ($js.PermissionLevel level) {
-                $c.add(PermissionLevel.fromJS(level));
-              }.toJS);
+                $c(PermissionLevel.fromJS(level));
+              });
 
   /// The user clicked on a link for the app's notification settings.  As of
   /// Chrome 47, only ChromeOS has UI that dispatches this event.
   /// As of Chrome 65, that UI has been removed from ChromeOS, too.
   Stream<void> get onShowSettings =>
       $js.chrome.notifications.onShowSettings.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 enum TemplateType {

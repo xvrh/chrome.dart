@@ -226,7 +226,7 @@ class ScriptInjection {
     bool? injectImmediately,
   }) : _wrapped = $js.ScriptInjection(
           func: func?.toJS,
-          args: args?.toJSArray((e) => e.toJS),
+          args: args?.toJSArray((e) => e.jsify()!),
           function: function?.toJS,
           files: files?.toJSArray((e) => e),
           target: target.toJS,
@@ -284,7 +284,7 @@ class InjectionResult {
     /// The document associated with the injection.
     required String documentId,
   }) : _wrapped = $js.InjectionResult()
-          ..result = result?.toJS
+          ..result = result?.jsify()
           ..frameId = frameId
           ..documentId = documentId;
 
@@ -293,9 +293,9 @@ class InjectionResult {
   $js.InjectionResult get toJS => _wrapped;
 
   /// The result of the script execution.
-  Object? get result => _wrapped.result;
+  Object? get result => _wrapped.result?.dartify();
   set result(Object? v) {
-    _wrapped.result = v?.toJS;
+    _wrapped.result = v?.jsify();
   }
 
   /// The frame associated with the injection.

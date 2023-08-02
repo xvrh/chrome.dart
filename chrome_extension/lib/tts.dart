@@ -74,8 +74,8 @@ class ChromeTts {
   /// Used to pass events back to the function calling speak().
   Stream<TtsEvent> get onEvent =>
       $js.chrome.tts.onEvent.asStream(($c) => ($js.TtsEvent event) {
-            $c.add(TtsEvent.fromJS(event));
-          }.toJS);
+            $c(TtsEvent.fromJS(event));
+          });
 }
 
 enum EventType {
@@ -161,7 +161,7 @@ class TtsOptions {
 
     /// This function is called with events that occur in the process of
     /// speaking the utterance.
-    JSFunction? onEvent,
+    Function? onEvent,
   }) : _wrapped = $js.TtsOptions(
           enqueue: enqueue,
           voiceName: voiceName,
@@ -173,7 +173,7 @@ class TtsOptions {
           volume: volume,
           requiredEventTypes: requiredEventTypes?.toJSArray((e) => e),
           desiredEventTypes: desiredEventTypes?.toJSArray((e) => e),
-          onEvent: onEvent,
+          onEvent: onEvent?.let(allowInterop),
         );
 
   final $js.TtsOptions _wrapped;

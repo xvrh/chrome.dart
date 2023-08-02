@@ -34,8 +34,8 @@ class ChromePrintingMetrics {
   Stream<PrintJobInfo> get onPrintJobFinished =>
       $js.chrome.printingMetrics.onPrintJobFinished
           .asStream(($c) => ($js.PrintJobInfo jobInfo) {
-                $c.add(PrintJobInfo.fromJS(jobInfo));
-              }.toJS);
+                $c(PrintJobInfo.fromJS(jobInfo));
+              });
 }
 
 /// The source of the print job.

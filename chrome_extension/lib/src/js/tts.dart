@@ -115,7 +115,7 @@ class TtsOptions {
 
     /// This function is called with events that occur in the process of speaking
     /// the utterance.
-    JSFunction? onEvent,
+    Function? onEvent,
   });
 }
 

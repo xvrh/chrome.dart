@@ -37,11 +37,11 @@ class ChromeCommands {
             String command,
             $js_tabs.Tab? tab,
           ) {
-            $c.add(OnCommandEvent(
+            $c(OnCommandEvent(
               command: command,
               tab: tab?.let(Tab.fromJS),
             ));
-          }.toJS);
+          });
 }
 
 class Command {

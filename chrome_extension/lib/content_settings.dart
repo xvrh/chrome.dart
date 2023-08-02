@@ -439,7 +439,7 @@ class GetCallbackDetails {
       /// The content setting. See the description of the individual
       /// ContentSetting objects for the possible values.
       required Object setting})
-      : _wrapped = $js.GetCallbackDetails()..setting = setting.toJS;
+      : _wrapped = $js.GetCallbackDetails()..setting = setting.jsify()!;
 
   final $js.GetCallbackDetails _wrapped;
 
@@ -447,9 +447,9 @@ class GetCallbackDetails {
 
   /// The content setting. See the description of the individual ContentSetting
   /// objects for the possible values.
-  Object get setting => _wrapped.setting;
+  Object get setting => _wrapped.setting.dartify()!;
   set setting(Object v) {
-    _wrapped.setting = v.toJS;
+    _wrapped.setting = v.jsify()!;
   }
 }
 
@@ -512,7 +512,7 @@ class SetDetails {
           primaryPattern: primaryPattern,
           secondaryPattern: secondaryPattern,
           resourceIdentifier: resourceIdentifier?.toJS,
-          setting: setting.toJS,
+          setting: setting.jsify()!,
           scope: scope?.toJS,
         );
 

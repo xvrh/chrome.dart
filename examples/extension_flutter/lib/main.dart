@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart' hide Tab;
 import 'package:chrome_apis/tabs.dart';
 import 'package:chrome_apis/system_memory.dart';

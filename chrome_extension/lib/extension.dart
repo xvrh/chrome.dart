@@ -35,9 +35,9 @@ class ChromeExtension {
   ) async {
     var $res = await promiseToFuture<JSAny>($js.chrome.extension.sendRequest(
       extensionId,
-      request.toJS,
+      request.jsify()!,
     ));
-    return $res;
+    return $res.dartify()!;
   }
 
   /// Converts a relative path within an extension install directory to a
@@ -123,28 +123,56 @@ class ChromeExtension {
       $js.chrome.extension.onRequest.asStream(($c) => (
             JSAny? request,
             $js_runtime.MessageSender sender,
-            JSFunction sendResponse,
+            Function sendResponse,
           ) {
-            $c.add(OnRequestEvent(
-              request: request,
+            $c(OnRequestEvent(
+              request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: sendResponse,
+              sendResponse: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendResponse as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Fired when a request is sent from another extension.
   Stream<OnRequestExternalEvent> get onRequestExternal =>
       $js.chrome.extension.onRequestExternal.asStream(($c) => (
             JSAny? request,
             $js_runtime.MessageSender sender,
-            JSFunction sendResponse,
+            Function sendResponse,
           ) {
-            $c.add(OnRequestExternalEvent(
-              request: request,
+            $c(OnRequestExternalEvent(
+              request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: sendResponse,
+              sendResponse: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (sendResponse as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 }
 
 /// The type of extension view.
@@ -222,7 +250,7 @@ class OnRequestEvent {
   /// should be any JSON-ifiable object, or undefined if there is no response.
   /// If you have more than one `onRequest` listener in the same document, then
   /// only one may send a response.
-  final JSFunction sendResponse;
+  final Function sendResponse;
 }
 
 class OnRequestExternalEvent {
@@ -239,5 +267,5 @@ class OnRequestExternalEvent {
 
   /// Function to call when you have a response. The argument should be any
   /// JSON-ifiable object, or undefined if there is no response.
-  final JSFunction sendResponse;
+  final Function sendResponse;
 }

@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:checks/checks.dart';
-import 'package:checks/context.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:test/test.dart';
 import 'package:chrome_apis/tabs.dart';
-import '../runner_client.dart';
-import 'package:async/async.dart';
+import '../runner/runner_client.dart';
 
-void main() => runTests(_tests);
+void main() => setup(_tests);
 
 void _tests(TestContext context) {
   test('connect to puppeteer', () async {
@@ -30,7 +27,6 @@ void _tests(TestContext context) {
 
     var completer = Completer();
     chrome.tabs.onUpdated.listen((event) {
-      print("Title ${event.changeInfo.title}");
       if (event.changeInfo.title == 'Simple page') {
         completer.complete();
       }
@@ -40,13 +36,5 @@ void _tests(TestContext context) {
     await page.goto(context.staticPath('assets/simple_page.html'));
 
     await completer.future;
-    //print('Dispatched: ${onTabUpdated.eventsDispatched}');
-//
-    //while (await onTabUpdated.hasNext) {
-    //  var onUpdated = await onTabUpdated.next;
-    //  if (onUpdated.changeInfo.title == 'Simple page') {
-    //    break;
-    //  }
-    //}
-  }, solo: true);
+  });
 }

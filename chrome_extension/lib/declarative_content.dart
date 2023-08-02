@@ -20,8 +20,8 @@ class ChromeDeclarativeContent {
 
   Stream<void> get onPageChanged =>
       $js.chrome.declarativeContent.onPageChanged.asStream(($c) => () {
-            $c.add(null);
-          }.toJS);
+            $c(null);
+          });
 }
 
 enum PageStateMatcherInstanceType {

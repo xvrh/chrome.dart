@@ -406,15 +406,15 @@ class ChromeUsb {
   /// through [getUserSelectedDevices].
   Stream<Device> get onDeviceAdded =>
       $js.chrome.usb.onDeviceAdded.asStream(($c) => ($js.Device device) {
-            $c.add(Device.fromJS(device));
-          }.toJS);
+            $c(Device.fromJS(device));
+          });
 
   /// Event generated when a device is removed from the system. See
   /// [onDeviceAdded] for which events are delivered.
   Stream<Device> get onDeviceRemoved =>
       $js.chrome.usb.onDeviceRemoved.asStream(($c) => ($js.Device device) {
-            $c.add(Device.fromJS(device));
-          }.toJS);
+            $c(Device.fromJS(device));
+          });
 }
 
 /// Direction, Recipient, RequestType, and TransferType all map to their

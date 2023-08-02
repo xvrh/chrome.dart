@@ -23,11 +23,11 @@ class ChromeFileBrowserHandler {
             String id,
             $js.FileHandlerExecuteEventDetails details,
           ) {
-            $c.add(OnExecuteEvent(
+            $c(OnExecuteEvent(
               id: id,
               details: FileHandlerExecuteEventDetails.fromJS(details),
             ));
-          }.toJS);
+          });
 }
 
 class FileHandlerExecuteEventDetails {
@@ -42,7 +42,7 @@ class FileHandlerExecuteEventDetails {
     /// browser session.
     int? tab_id,
   }) : _wrapped = $js.FileHandlerExecuteEventDetails()
-          ..entries = entries.toJSArray((e) => e.toJS)
+          ..entries = entries.toJSArray((e) => e.jsify()!)
           ..tab_id = tab_id;
 
   final $js.FileHandlerExecuteEventDetails _wrapped;
@@ -52,9 +52,9 @@ class FileHandlerExecuteEventDetails {
   /// Array of Entry instances representing files that are targets of this
   /// action (selected in ChromeOS file browser).
   List<Object> get entries =>
-      _wrapped.entries.toDart.cast<JSAny>().map((e) => e).toList();
+      _wrapped.entries.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
   set entries(List<Object> v) {
-    _wrapped.entries = v.toJSArray((e) => e.toJS);
+    _wrapped.entries = v.toJSArray((e) => e.jsify()!);
   }
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a

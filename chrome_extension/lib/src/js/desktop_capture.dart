@@ -43,7 +43,7 @@ extension JSDesktopCaptureExtension on JSDesktopCapture {
     /// therefore be provided to chooseDesktopMedia() rather than be deferred to
     /// getUserMedia().
     ChooseDesktopMediaOptions? options,
-    JSFunction callback,
+    Function callback,
   );
 
   /// Hides desktop media picker dialog shown by chooseDesktopMedia().

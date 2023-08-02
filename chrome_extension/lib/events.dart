@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/events.dart' as $js;
 
@@ -40,8 +42,8 @@ class Rule {
   }) : _wrapped = $js.Rule()
           ..id = id
           ..tags = tags?.toJSArray((e) => e)
-          ..conditions = conditions.toJSArray((e) => e.toJS)
-          ..actions = actions.toJSArray((e) => e.toJS)
+          ..conditions = conditions.toJSArray((e) => e.jsify()!)
+          ..actions = actions.toJSArray((e) => e.jsify()!)
           ..priority = priority;
 
   final $js.Rule _wrapped;
@@ -63,17 +65,19 @@ class Rule {
   }
 
   /// List of conditions that can trigger the actions.
-  List<Object> get conditions =>
-      _wrapped.conditions.toDart.cast<JSAny>().map((e) => e).toList();
+  List<Object> get conditions => _wrapped.conditions.toDart
+      .cast<JSAny>()
+      .map((e) => e.dartify()!)
+      .toList();
   set conditions(List<Object> v) {
-    _wrapped.conditions = v.toJSArray((e) => e.toJS);
+    _wrapped.conditions = v.toJSArray((e) => e.jsify()!);
   }
 
   /// List of actions that are triggered if one of the conditions is fulfilled.
   List<Object> get actions =>
-      _wrapped.actions.toDart.cast<JSAny>().map((e) => e).toList();
+      _wrapped.actions.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
   set actions(List<Object> v) {
-    _wrapped.actions = v.toJSArray((e) => e.toJS);
+    _wrapped.actions = v.toJSArray((e) => e.jsify()!);
   }
 
   /// Optional priority of this rule. Defaults to 100.
@@ -95,19 +99,19 @@ class Event {
   /// Registers an event listener _callback_ to an event.
   /// [callback] Called when an event occurs. The parameters of this function
   /// depend on the type of event.
-  void addListener(JSFunction callback) {
-    _wrapped.addListener(callback);
+  void addListener(Function callback) {
+    _wrapped.addListener(allowInterop(callback));
   }
 
   /// Deregisters an event listener _callback_ from an event.
   /// [callback] Listener that shall be unregistered.
-  void removeListener(JSFunction callback) {
-    _wrapped.removeListener(callback);
+  void removeListener(Function callback) {
+    _wrapped.removeListener(allowInterop(callback));
   }
 
   /// [callback] Listener whose registration status shall be tested.
-  bool hasListener(JSFunction callback) {
-    return _wrapped.hasListener(callback);
+  bool hasListener(Function callback) {
+    return _wrapped.hasListener(allowInterop(callback));
   }
 
   bool hasListeners() {
@@ -303,7 +307,7 @@ class UrlFilter {
           ..urlPrefix = urlPrefix
           ..urlSuffix = urlSuffix
           ..schemes = schemes?.toJSArray((e) => e)
-          ..ports = ports?.toJSArray((e) => e.toJS);
+          ..ports = ports?.toJSArray((e) => e.jsify()!);
 
   final $js.UrlFilter _wrapped;
 
@@ -450,8 +454,8 @@ class UrlFilter {
   /// lists. For example `[80, 443, [1000, 1200]]` matches all requests on port
   /// 80, 443 and in the range 1000-1200.
   List<Object>? get ports =>
-      _wrapped.ports?.toDart.cast<JSAny>().map((e) => e).toList();
+      _wrapped.ports?.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
   set ports(List<Object>? v) {
-    _wrapped.ports = v?.toJSArray((e) => e.toJS);
+    _wrapped.ports = v?.toJSArray((e) => e.jsify()!);
   }
 }

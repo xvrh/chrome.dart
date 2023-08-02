@@ -68,16 +68,16 @@ class ChromeHistory {
   /// This event fires before the page has loaded.
   Stream<HistoryItem> get onVisited =>
       $js.chrome.history.onVisited.asStream(($c) => ($js.HistoryItem result) {
-            $c.add(HistoryItem.fromJS(result));
-          }.toJS);
+            $c(HistoryItem.fromJS(result));
+          });
 
   /// Fired when one or more URLs are removed from the history service.  When
   /// all visits have been removed the URL is purged from history.
   Stream<OnVisitRemovedRemoved> get onVisitRemoved =>
       $js.chrome.history.onVisitRemoved
-          .asStream2(($c) => ($js.OnVisitRemovedRemoved removed) {
+          .asStream(($c) => ($js.OnVisitRemovedRemoved removed) {
                 $c(OnVisitRemovedRemoved.fromJS(removed));
-              }.toJS);
+              });
 }
 
 /// The [transition type](#transition_types) for this visit from its referrer.

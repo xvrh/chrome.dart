@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_inspected_window.dart' as $js;
@@ -42,19 +40,17 @@ class ChromeDevtoolsInspectedWindow {
     $js.chrome.devtools.inspectedWindow.eval(
       expression,
       options?.toJS,
-      Zone.current.bindBinaryCallbackGuarded((
+      (
         JSAny result,
-        $js.EvalExceptionInfo? exceptionInfo,
+        $js.EvalExceptionInfo exceptionInfo,
       ) {
-        print("My fking callback");
         if (checkRuntimeLastError($completer)) {
           $completer.complete(EvalResult(
-            result: result?.toDartMap(),
-            exceptionInfo: exceptionInfo
-                ?.let((e) => EvalExceptionInfo.fromJS(exceptionInfo)),
+            result: result.toDartMap(),
+            exceptionInfo: EvalExceptionInfo.fromJS(exceptionInfo),
           ));
         }
-      }).toJS,
+      }.toJS,
     );
     return $completer.future;
   }
@@ -86,8 +82,8 @@ class ChromeDevtoolsInspectedWindow {
   Stream<Resource> get onResourceAdded =>
       $js.chrome.devtools.inspectedWindow.onResourceAdded
           .asStream(($c) => ($js.Resource resource) {
-                $c.add(Resource.fromJS(resource));
-              }.toJS);
+                $c(Resource.fromJS(resource));
+              });
 
   /// Fired when a new revision of the resource is committed (e.g. user saves an
   /// edited version of the resource in the Developer Tools).
@@ -97,11 +93,11 @@ class ChromeDevtoolsInspectedWindow {
                 $js.Resource resource,
                 String content,
               ) {
-                $c.add(OnResourceContentCommittedEvent(
+                $c(OnResourceContentCommittedEvent(
                   resource: Resource.fromJS(resource),
                   content: content,
                 ));
-              }.toJS);
+              });
 }
 
 class Resource {
@@ -195,7 +191,7 @@ class EvalExceptionInfo {
           ..isError = isError
           ..code = code
           ..description = description
-          ..details = details.toJSArray((e) => e.toJS)
+          ..details = details.toJSArray((e) => e.jsify()!)
           ..isException = isException
           ..value = value;
 
@@ -205,22 +201,22 @@ class EvalExceptionInfo {
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  bool? get isError => _wrapped.isError;
-  set isError(bool? v) {
+  bool get isError => _wrapped.isError;
+  set isError(bool v) {
     _wrapped.isError = v;
   }
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  String? get code => _wrapped.code;
-  set code(String? v) {
+  String get code => _wrapped.code;
+  set code(String v) {
     _wrapped.code = v;
   }
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  String? get description => _wrapped.description;
-  set description(String? v) {
+  String get description => _wrapped.description;
+  set description(String v) {
     _wrapped.description = v;
   }
 
@@ -228,21 +224,21 @@ class EvalExceptionInfo {
   /// evaluated, contains the array of the values that may be substituted into
   /// the description string to provide more information about the cause of the
   /// error.
-  List<Object>? get details =>
-      _wrapped.details?.toDart.cast<JSAny>().map((e) => e).toList();
-  set details(List<Object>? v) {
-    _wrapped.details = v?.toJSArray((e) => e.toJS);
+  List<Object> get details =>
+      _wrapped.details.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
+  set details(List<Object> v) {
+    _wrapped.details = v.toJSArray((e) => e.jsify()!);
   }
 
   /// Set if the evaluated code produces an unhandled exception.
-  bool? get isException => _wrapped.isException;
-  set isException(bool? v) {
+  bool get isException => _wrapped.isException;
+  set isException(bool v) {
     _wrapped.isException = v;
   }
 
   /// Set if the evaluated code produces an unhandled exception.
-  String? get value => _wrapped.value;
-  set value(String? v) {
+  String get value => _wrapped.value;
+  set value(String v) {
     _wrapped.value = v;
   }
 }
@@ -332,11 +328,11 @@ class EvalResult {
   });
 
   /// The result of evaluation.
-  final Map? result;
+  final Map result;
 
   /// An object providing details if an exception occurred while evaluating the
   /// expression.
-  final EvalExceptionInfo? exceptionInfo;
+  final EvalExceptionInfo exceptionInfo;
 }
 
 class GetContentResult {

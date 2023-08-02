@@ -40,8 +40,8 @@ class ChromeWebRequest {
   Stream<OnBeforeRequestDetails> get onBeforeRequest =>
       $js.chrome.webRequest.onBeforeRequest
           .asStream(($c) => ($js.OnBeforeRequestDetails details) {
-                $c.add(OnBeforeRequestDetails.fromJS(details));
-              }.toJS);
+                $c(OnBeforeRequestDetails.fromJS(details));
+              });
 
   /// Fired before sending an HTTP request, once the request headers are
   /// available. This may occur after a TCP connection is made to the server,
@@ -49,8 +49,8 @@ class ChromeWebRequest {
   Stream<OnBeforeSendHeadersDetails> get onBeforeSendHeaders =>
       $js.chrome.webRequest.onBeforeSendHeaders
           .asStream(($c) => ($js.OnBeforeSendHeadersDetails details) {
-                $c.add(OnBeforeSendHeadersDetails.fromJS(details));
-              }.toJS);
+                $c(OnBeforeSendHeadersDetails.fromJS(details));
+              });
 
   /// Fired just before a request is going to be sent to the server
   /// (modifications of previous onBeforeSendHeaders callbacks are visible by
@@ -58,15 +58,15 @@ class ChromeWebRequest {
   Stream<OnSendHeadersDetails> get onSendHeaders =>
       $js.chrome.webRequest.onSendHeaders
           .asStream(($c) => ($js.OnSendHeadersDetails details) {
-                $c.add(OnSendHeadersDetails.fromJS(details));
-              }.toJS);
+                $c(OnSendHeadersDetails.fromJS(details));
+              });
 
   /// Fired when HTTP response headers of a request have been received.
   Stream<OnHeadersReceivedDetails> get onHeadersReceived =>
       $js.chrome.webRequest.onHeadersReceived
           .asStream(($c) => ($js.OnHeadersReceivedDetails details) {
-                $c.add(OnHeadersReceivedDetails.fromJS(details));
-              }.toJS);
+                $c(OnHeadersReceivedDetails.fromJS(details));
+              });
 
   /// Fired when an authentication failure is received. The listener has three
   /// options: it can provide authentication credentials, it can cancel the
@@ -78,13 +78,27 @@ class ChromeWebRequest {
   Stream<OnAuthRequiredEvent> get onAuthRequired =>
       $js.chrome.webRequest.onAuthRequired.asStream(($c) => (
             $js.OnAuthRequiredDetails details,
-            JSFunction? asyncCallback,
+            Function? asyncCallback,
           ) {
-            $c.add(OnAuthRequiredEvent(
+            $c(OnAuthRequiredEvent(
               details: OnAuthRequiredDetails.fromJS(details),
-              asyncCallback: asyncCallback,
+              asyncCallback: (
+                  [Object? p1,
+                  Object? p2,
+                  Object? p3,
+                  Object? p4,
+                  Object? p5]) {
+                return (asyncCallback as JSAny? Function(
+                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
+                        p1?.jsify(),
+                        p2?.jsify(),
+                        p3?.jsify(),
+                        p4?.jsify(),
+                        p5?.jsify())
+                    ?.dartify();
+              },
             ));
-          }.toJS);
+          });
 
   /// Fired when the first byte of the response body is received. For HTTP
   /// requests, this means that the status line and response headers are
@@ -92,37 +106,37 @@ class ChromeWebRequest {
   Stream<OnResponseStartedDetails> get onResponseStarted =>
       $js.chrome.webRequest.onResponseStarted
           .asStream(($c) => ($js.OnResponseStartedDetails details) {
-                $c.add(OnResponseStartedDetails.fromJS(details));
-              }.toJS);
+                $c(OnResponseStartedDetails.fromJS(details));
+              });
 
   /// Fired when a server-initiated redirect is about to occur.
   Stream<OnBeforeRedirectDetails> get onBeforeRedirect =>
       $js.chrome.webRequest.onBeforeRedirect
           .asStream(($c) => ($js.OnBeforeRedirectDetails details) {
-                $c.add(OnBeforeRedirectDetails.fromJS(details));
-              }.toJS);
+                $c(OnBeforeRedirectDetails.fromJS(details));
+              });
 
   /// Fired when a request is completed.
   Stream<OnCompletedDetails> get onCompleted =>
       $js.chrome.webRequest.onCompleted
           .asStream(($c) => ($js.OnCompletedDetails details) {
-                $c.add(OnCompletedDetails.fromJS(details));
-              }.toJS);
+                $c(OnCompletedDetails.fromJS(details));
+              });
 
   /// Fired when an error occurs.
   Stream<OnErrorOccurredDetails> get onErrorOccurred =>
       $js.chrome.webRequest.onErrorOccurred
           .asStream(($c) => ($js.OnErrorOccurredDetails details) {
-                $c.add(OnErrorOccurredDetails.fromJS(details));
-              }.toJS);
+                $c(OnErrorOccurredDetails.fromJS(details));
+              });
 
   /// Fired when an extension's proposed modification to a network request is
   /// ignored. This happens in case of conflicts with other extensions.
   Stream<OnActionIgnoredDetails> get onActionIgnored =>
       $js.chrome.webRequest.onActionIgnored
           .asStream(($c) => ($js.OnActionIgnoredDetails details) {
-                $c.add(OnActionIgnoredDetails.fromJS(details));
-              }.toJS);
+                $c(OnActionIgnoredDetails.fromJS(details));
+              });
 }
 
 enum ResourceType {
@@ -449,7 +463,7 @@ class UploadData {
     /// A string with the file's path and name.
     String? file,
   }) : _wrapped = $js.UploadData()
-          ..bytes = bytes?.toJS
+          ..bytes = bytes?.jsify()
           ..file = file;
 
   final $js.UploadData _wrapped;
@@ -457,9 +471,9 @@ class UploadData {
   $js.UploadData get toJS => _wrapped;
 
   /// An ArrayBuffer with a copy of the data.
-  Object? get bytes => _wrapped.bytes;
+  Object? get bytes => _wrapped.bytes?.dartify();
   set bytes(Object? v) {
-    _wrapped.bytes = v?.toJS;
+    _wrapped.bytes = v?.jsify();
   }
 
   /// A string with the file's path and name.
@@ -2464,5 +2478,5 @@ class OnAuthRequiredEvent {
 
   /// Only valid if `'asyncBlocking'` is specified as one of the
   /// `OnAuthRequiredOptions`.
-  final JSFunction? asyncCallback;
+  final Function? asyncCallback;
 }

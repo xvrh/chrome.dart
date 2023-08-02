@@ -107,27 +107,27 @@ class EvalExceptionInfo {}
 extension EvalExceptionInfoExtension on EvalExceptionInfo {
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  external bool? isError;
+  external bool isError;
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  external String? code;
+  external String code;
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated.
-  external String? description;
+  external String description;
 
   /// Set if the error occurred on the DevTools side before the expression is
   /// evaluated, contains the array of the values that may be substituted into
   /// the description string to provide more information about the cause of the
   /// error.
-  external JSArray? details;
+  external JSArray details;
 
   /// Set if the evaluated code produces an unhandled exception.
-  external bool? isException;
+  external bool isException;
 
   /// Set if the evaluated code produces an unhandled exception.
-  external String? value;
+  external String value;
 }
 
 @JS()

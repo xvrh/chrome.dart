@@ -277,11 +277,11 @@ extension PortExtension on Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  external JSFunction disconnect;
+  external Function disconnect;
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  external JSFunction postMessage;
+  external Function postMessage;
 
   /// This property will **only** be present on ports passed to
   /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal

@@ -3,9 +3,9 @@ import 'package:chrome_apis/tabs.dart';
 import 'package:chrome_apis/windows.dart';
 import 'package:test/test.dart';
 
-import '../../runner_client.dart';
+import '../../runner/runner_client.dart';
 
-void main() => runTests(_tests);
+void main() => setup(_tests);
 
 void _tests(TestContext context) {
   late Window window;

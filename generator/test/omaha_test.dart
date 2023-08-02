@@ -20,9 +20,9 @@ void defineTests() {
     late String html;
 
     setUp(() {
-      client = new MockSimpleHttpClient();
+      client = MockSimpleHttpClient();
       when(client.getHtmlAtUri(any)).thenAnswer((_) => new Future.value(html));
-      extractor = new OmahaVersionExtractor(client: client);
+      extractor = OmahaVersionExtractor(client: client);
     });
 
     test('correctly parses good, simple input', () async {

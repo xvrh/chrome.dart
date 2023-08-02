@@ -73,8 +73,8 @@ class ChromeCertificateProvider {
   Stream<CertificatesUpdateRequest> get onCertificatesUpdateRequested =>
       $js.chrome.certificateProvider.onCertificatesUpdateRequested
           .asStream(($c) => ($js.CertificatesUpdateRequest request) {
-                $c.add(CertificatesUpdateRequest.fromJS(request));
-              }.toJS);
+                $c(CertificatesUpdateRequest.fromJS(request));
+              });
 
   /// This event fires every time the browser needs to sign a message using a
   /// certificate provided by this extension via [setCertificates].
@@ -84,8 +84,8 @@ class ChromeCertificateProvider {
   Stream<SignatureRequest> get onSignatureRequested =>
       $js.chrome.certificateProvider.onSignatureRequested
           .asStream(($c) => ($js.SignatureRequest request) {
-                $c.add(SignatureRequest.fromJS(request));
-              }.toJS);
+                $c(SignatureRequest.fromJS(request));
+              });
 
   /// This event fires every time the browser requests the current list of
   /// certificates provided by this extension. The extension must call
@@ -94,8 +94,8 @@ class ChromeCertificateProvider {
   Stream<CertificatesCallback> get onCertificatesRequested =>
       $js.chrome.certificateProvider.onCertificatesRequested
           .asStream(($c) => ($js.CertificatesCallback reportCallback) {
-                $c.add(throw UnimplementedError());
-              }.toJS);
+                $c(throw UnimplementedError());
+              });
 
   /// This event fires every time the browser needs to sign a message using
   /// a certificate provided by this extension in reply to an
@@ -110,11 +110,11 @@ class ChromeCertificateProvider {
             $js.SignRequest request,
             $js.SignCallback reportCallback,
           ) {
-            $c.add(OnSignDigestRequestedEvent(
+            $c(OnSignDigestRequestedEvent(
               request: SignRequest.fromJS(request),
               reportCallback: throw UnimplementedError(),
             ));
-          }.toJS);
+          });
 }
 
 /// Types of supported cryptographic signature algorithms.

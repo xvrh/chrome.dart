@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'src/internal_helpers.dart';
 import 'src/js/desktop_capture.dart' as $js;
 import 'tabs.dart';
@@ -34,13 +36,13 @@ class ChromeDesktopCapture {
     List<DesktopCaptureSourceType> sources,
     Tab? targetTab,
     ChooseDesktopMediaOptions? options,
-    JSFunction callback,
+    Function callback,
   ) {
     return $js.chrome.desktopCapture.chooseDesktopMedia(
       sources.toJSArray((e) => e.toJS),
       targetTab?.toJS,
       options?.toJS,
-      callback,
+      allowInterop(callback),
     );
   }
 

@@ -18,4 +18,14 @@ void _tests(TestContext context) {
             title: 'Text'));
     check(id).equals('myid');
   }, skip: 'Cannot make the permission working yet');
+
+  test('getAll', () async {
+    var all = await chrome.notifications.getAll();
+    check(all).isNotNull();
+  });
+
+  test('getPermissionLevel', () async {
+    var level = await chrome.notifications.getPermissionLevel();
+    check(level).isNotNull();
+  });
 }

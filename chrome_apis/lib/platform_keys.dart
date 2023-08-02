@@ -65,7 +65,7 @@ class ChromePlatformKeys {
   /// "ECDSA" algorithms.
   Future<GetKeyPairResult> getKeyPair(
     ByteBuffer certificate,
-    Object parameters,
+    Map parameters,
   ) {
     var $completer = Completer<GetKeyPairResult>();
     $js.chrome.platformKeys.getKeyPair(
@@ -77,8 +77,8 @@ class ChromePlatformKeys {
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(GetKeyPairResult(
-            publicKey: publicKey.dartify()!,
-            privateKey: privateKey?.dartify(),
+            publicKey: publicKey.toDartMap(),
+            privateKey: privateKey?.toDartMap(),
           ));
         }
       }.toJS,
@@ -107,7 +107,7 @@ class ChromePlatformKeys {
   /// "SHA-512".
   Future<GetKeyPairBySpkiResult> getKeyPairBySpki(
     ByteBuffer publicKeySpkiDer,
-    Object parameters,
+    Map parameters,
   ) {
     var $completer = Completer<GetKeyPairBySpkiResult>();
     $js.chrome.platformKeys.getKeyPairBySpki(
@@ -119,8 +119,8 @@ class ChromePlatformKeys {
       ) {
         if (checkRuntimeLastError($completer)) {
           $completer.complete(GetKeyPairBySpkiResult(
-            publicKey: publicKey.dartify()!,
-            privateKey: privateKey?.dartify(),
+            publicKey: publicKey.toDartMap(),
+            privateKey: privateKey?.toDartMap(),
           ));
         }
       }.toJS,
@@ -133,8 +133,8 @@ class ChromePlatformKeys {
   /// SubtleCrypto</a>
   /// that allows crypto operations on keys of client certificates that are
   /// available to this extension.
-  Object subtleCrypto() {
-    return $js.chrome.platformKeys.subtleCrypto().dartify()!;
+  Map subtleCrypto() {
+    return $js.chrome.platformKeys.subtleCrypto().toDartMap();
   }
 
   /// Checks whether `details.serverCertificateChain` can be trusted
@@ -187,7 +187,7 @@ class Match {
     /// parameters that are inherent to the key of the certificate (e.g. the key
     /// length). Other parameters like the hash function used by the sign
     /// function are not included.
-    required Object keyAlgorithm,
+    required Map keyAlgorithm,
   }) : _wrapped = $js.Match()
           ..certificate = certificate.toJS
           ..keyAlgorithm = keyAlgorithm.jsify()!;
@@ -208,8 +208,8 @@ class Match {
   /// parameters that are inherent to the key of the certificate (e.g. the key
   /// length). Other parameters like the hash function used by the sign
   /// function are not included.
-  Object get keyAlgorithm => _wrapped.keyAlgorithm.dartify()!;
-  set keyAlgorithm(Object v) {
+  Map get keyAlgorithm => _wrapped.keyAlgorithm.toDartMap();
+  set keyAlgorithm(Map v) {
     _wrapped.keyAlgorithm = v.jsify()!;
   }
 }
@@ -349,9 +349,9 @@ class GetKeyPairResult {
     required this.privateKey,
   });
 
-  final Object publicKey;
+  final Map publicKey;
 
-  final Object? privateKey;
+  final Map? privateKey;
 }
 
 class GetKeyPairBySpkiResult {
@@ -360,7 +360,7 @@ class GetKeyPairBySpkiResult {
     required this.privateKey,
   });
 
-  final Object publicKey;
+  final Map publicKey;
 
-  final Object? privateKey;
+  final Map? privateKey;
 }

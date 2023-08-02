@@ -117,7 +117,7 @@ class ChromeVpnProvider {
             $c(OnConfigCreatedEvent(
               id: id,
               name: name,
-              data: data.dartify()!,
+              data: data.toDartMap(),
             ));
           });
 
@@ -316,7 +316,7 @@ class OnConfigCreatedEvent {
 
   final String name;
 
-  final Object data;
+  final Map data;
 }
 
 class OnUIEventEvent {

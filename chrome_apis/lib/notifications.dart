@@ -94,11 +94,11 @@ class ChromeNotifications {
 
   /// Retrieves all the notifications of this app or extension.
   /// |callback|: Returns the set of notification_ids currently in the system.
-  Future<Object> getAll() {
-    var $completer = Completer<Object>();
+  Future<Map> getAll() {
+    var $completer = Completer<Map>();
     $js.chrome.notifications.getAll((JSAny notifications) {
       if (checkRuntimeLastError($completer)) {
-        $completer.complete(notifications.dartify()!);
+        $completer.complete(notifications.toDartMap());
       }
     }.toJS);
     return $completer.future;

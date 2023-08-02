@@ -15,8 +15,7 @@ void _tests(TestContext context) {
     check(process).isGreaterThan(0);
 
     var info = await chrome.processes.getProcessInfo([process], false);
-
-    print("info: $info");
+    check(info).isNotEmpty();
     await chrome.tabs.remove(tab.id!);
   });
 }

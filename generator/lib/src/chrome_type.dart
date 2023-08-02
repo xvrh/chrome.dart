@@ -133,8 +133,7 @@ class LazyType extends ChromeType {
     }
 
     ChromeType? tryParse(String input) {
-      "";
-      //if (input == 'object') return MapType(isNullable: isNullable);
+      if (input == 'object') return MapType(isNullable: isNullable);
       return _WebType.tryParse(input, isNullable: isNullable) ??
           JSFunctionType.tryParse(input, isNullable: isNullable) ??
           _AnyType.tryParse(input, isNullable: isNullable) ??
@@ -385,7 +384,6 @@ class _AnyType extends ChromeType {
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
-      "object",
       'any',
     }.contains(input)) {
       return _AnyType(isNullable: isNullable);

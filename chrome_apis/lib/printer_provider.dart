@@ -116,7 +116,7 @@ typedef PrinterInfoCallback = void Function(PrinterInfo?);
 /// |capabilities|: Device capabilities in
 /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">CDD
 /// format</a>.
-typedef CapabilitiesCallback = void Function(Object);
+typedef CapabilitiesCallback = void Function(Map);
 
 typedef PrintCallback = void Function(PrintError);
 
@@ -173,7 +173,7 @@ class PrintJob {
     /// Print ticket in
     /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
     /// CJT format</a>.
-    required Object ticket,
+    required Map ticket,
 
     /// The document content type. Supported formats are
     /// `"application/pdf"` and `"image/pwg-raster"`.
@@ -208,8 +208,8 @@ class PrintJob {
   /// Print ticket in
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
   /// CJT format</a>.
-  Object get ticket => _wrapped.ticket.dartify()!;
-  set ticket(Object v) {
+  Map get ticket => _wrapped.ticket.toDartMap();
+  set ticket(Map v) {
     _wrapped.ticket = v.jsify()!;
   }
 

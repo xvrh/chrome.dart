@@ -346,7 +346,7 @@ class GetPrinterInfoResponse {
     /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
     /// CDD format</a>.
     /// The property may be missing.
-    Object? capabilities,
+    Map? capabilities,
 
     /// The status of the printer.
     required PrinterStatus status,
@@ -362,8 +362,8 @@ class GetPrinterInfoResponse {
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">
   /// CDD format</a>.
   /// The property may be missing.
-  Object? get capabilities => _wrapped.capabilities?.dartify();
-  set capabilities(Object? v) {
+  Map? get capabilities => _wrapped.capabilities?.toDartMap();
+  set capabilities(Map? v) {
     _wrapped.capabilities = v?.jsify();
   }
 

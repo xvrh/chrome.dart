@@ -43,7 +43,7 @@ class ChromeProcesses {
   /// |includeMemory|: True if detailed memory usage is required. Note,
   /// collecting memory usage information incurs extra CPU usage and should
   /// only be queried for when needed.
-  Future<Object> getProcessInfo(
+  Future<Map> getProcessInfo(
     Object processIds,
     bool includeMemory,
   ) async {
@@ -56,7 +56,7 @@ class ChromeProcesses {
       },
       includeMemory,
     ));
-    return $res.dartify()!;
+    return $res.toDartMap();
   }
 
   /// Fired each time the Task Manager updates its process statistics,
@@ -65,9 +65,9 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Metrics requiring
   /// aggregation over time will be populated in each Process object.
-  Stream<Object> get onUpdated =>
+  Stream<Map> get onUpdated =>
       $js.chrome.processes.onUpdated.asStream(($c) => (JSAny processes) {
-            $c(processes.dartify()!);
+            $c(processes.toDartMap());
           });
 
   /// Fired each time the Task Manager updates its process statistics,
@@ -79,10 +79,10 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Memory usage details will
   /// be included in each Process object.
-  Stream<Object> get onUpdatedWithMemory =>
+  Stream<Map> get onUpdatedWithMemory =>
       $js.chrome.processes.onUpdatedWithMemory
           .asStream(($c) => (JSAny processes) {
-                $c(processes.dartify()!);
+                $c(processes.toDartMap());
               });
 
   /// Fired each time a process is created, providing the corrseponding Process

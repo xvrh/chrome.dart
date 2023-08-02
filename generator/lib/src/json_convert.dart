@@ -373,6 +373,6 @@ class JsonModelConverter {
         typeName = 'integer';
       }
     }
-    return typeName ?? 'object';
+    return typeName!;
   }
 }

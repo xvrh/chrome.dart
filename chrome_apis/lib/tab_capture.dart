@@ -153,7 +153,7 @@ class CaptureInfo {
 class MediaStreamConstraint {
   MediaStreamConstraint.fromJS(this._wrapped);
 
-  MediaStreamConstraint({required Object mandatory})
+  MediaStreamConstraint({required Map mandatory})
       : _wrapped = $js.MediaStreamConstraint(mandatory: mandatory.jsify()!);
 
   final $js.MediaStreamConstraint _wrapped;

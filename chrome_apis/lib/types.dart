@@ -15,7 +15,7 @@ extension ChromeTypesExtension on Chrome {
 class ChromeTypes {
   ChromeTypes._();
 
-  bool get isAvailable => $js.chrome.typesNullable != null;
+  bool get isAvailable => $js.chrome.typesNullable != null && alwaysTrue;
 }
 
 /// The scope of the ChromeSetting. One of<ul><li>[regular]: setting for the

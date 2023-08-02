@@ -17,7 +17,8 @@ extension ChromeSystemNetworkExtension on ChromeSystem {
 class ChromeSystemNetwork {
   ChromeSystemNetwork._();
 
-  bool get isAvailable => $js.chrome.systemNullable?.networkNullable != null;
+  bool get isAvailable =>
+      $js.chrome.systemNullable?.networkNullable != null && alwaysTrue;
 
   /// Retrieves information about local adapters on this system.
   /// |callback| : Called when local adapter information is available.

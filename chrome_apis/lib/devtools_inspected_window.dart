@@ -19,7 +19,8 @@ class ChromeDevtoolsInspectedWindow {
   ChromeDevtoolsInspectedWindow._();
 
   bool get isAvailable =>
-      $js.chrome.devtoolsNullable?.inspectedWindowNullable != null;
+      $js.chrome.devtoolsNullable?.inspectedWindowNullable != null &&
+      alwaysTrue;
 
   /// Evaluates a JavaScript expression in the context of the main frame of the
   /// inspected page. The expression must evaluate to a JSON-compliant object,

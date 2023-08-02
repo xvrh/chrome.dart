@@ -16,7 +16,7 @@ extension ChromeWallpaperExtension on Chrome {
 class ChromeWallpaper {
   ChromeWallpaper._();
 
-  bool get isAvailable => $js.chrome.wallpaperNullable != null;
+  bool get isAvailable => $js.chrome.wallpaperNullable != null && alwaysTrue;
 
   /// Sets wallpaper to the image at _url_ or _wallpaperData_ with the specified
   /// _layout_

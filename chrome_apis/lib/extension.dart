@@ -20,7 +20,7 @@ extension ChromeExtensionExtension on Chrome {
 class ChromeExtension {
   ChromeExtension._();
 
-  bool get isAvailable => $js.chrome.extensionNullable != null;
+  bool get isAvailable => $js.chrome.extensionNullable != null && alwaysTrue;
 
   /// Sends a single request to other listeners within the extension. Similar to
   /// [runtime.connect], but only sends a single request with an optional

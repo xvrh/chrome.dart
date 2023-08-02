@@ -15,7 +15,7 @@ extension ChromeIdentityExtension on Chrome {
 class ChromeIdentity {
   ChromeIdentity._();
 
-  bool get isAvailable => $js.chrome.identityNullable != null;
+  bool get isAvailable => $js.chrome.identityNullable != null && alwaysTrue;
 
   /// Retrieves a list of AccountInfo objects describing the accounts
   /// present on the profile.

@@ -16,7 +16,7 @@ extension ChromeDownloadsExtension on Chrome {
 class ChromeDownloads {
   ChromeDownloads._();
 
-  bool get isAvailable => $js.chrome.downloadsNullable != null;
+  bool get isAvailable => $js.chrome.downloadsNullable != null && alwaysTrue;
 
   /// Download a URL. If the URL uses the HTTP[S] protocol, then the request
   /// will include all cookies currently set for its hostname. If both

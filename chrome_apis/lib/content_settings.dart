@@ -18,7 +18,8 @@ extension ChromeContentSettingsExtension on Chrome {
 class ChromeContentSettings {
   ChromeContentSettings._();
 
-  bool get isAvailable => $js.chrome.contentSettingsNullable != null;
+  bool get isAvailable =>
+      $js.chrome.contentSettingsNullable != null && alwaysTrue;
 
   /// Whether to allow sites to use the [Private State Tokens
   /// API](https://developer.chrome.com/docs/privacy-sandbox/trust-tokens/). One

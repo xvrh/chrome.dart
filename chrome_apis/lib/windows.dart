@@ -18,7 +18,7 @@ extension ChromeWindowsExtension on Chrome {
 class ChromeWindows {
   ChromeWindows._();
 
-  bool get isAvailable => $js.chrome.windowsNullable != null;
+  bool get isAvailable => $js.chrome.windowsNullable != null && alwaysTrue;
 
   /// Gets details about a window.
   Future<Window> get(

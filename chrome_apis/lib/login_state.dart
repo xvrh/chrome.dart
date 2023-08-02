@@ -16,7 +16,7 @@ extension ChromeLoginStateExtension on Chrome {
 class ChromeLoginState {
   ChromeLoginState._();
 
-  bool get isAvailable => $js.chrome.loginStateNullable != null;
+  bool get isAvailable => $js.chrome.loginStateNullable != null && alwaysTrue;
 
   /// Gets the type of the profile the extension is in.
   Future<ProfileType> getProfileType() async {

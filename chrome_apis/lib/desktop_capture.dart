@@ -17,7 +17,8 @@ extension ChromeDesktopCaptureExtension on Chrome {
 class ChromeDesktopCapture {
   ChromeDesktopCapture._();
 
-  bool get isAvailable => $js.chrome.desktopCaptureNullable != null;
+  bool get isAvailable =>
+      $js.chrome.desktopCaptureNullable != null && alwaysTrue;
 
   /// Shows desktop media picker UI with the specified set of sources.
   /// [sources] Set of sources that should be shown to the user. The sources

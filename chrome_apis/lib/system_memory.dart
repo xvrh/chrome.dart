@@ -17,7 +17,8 @@ extension ChromeSystemMemoryExtension on ChromeSystem {
 class ChromeSystemMemory {
   ChromeSystemMemory._();
 
-  bool get isAvailable => $js.chrome.systemNullable?.memoryNullable != null;
+  bool get isAvailable =>
+      $js.chrome.systemNullable?.memoryNullable != null && alwaysTrue;
 
   /// Get physical memory information.
   Future<MemoryInfo> getInfo() async {

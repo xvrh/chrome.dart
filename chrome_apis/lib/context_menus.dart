@@ -19,7 +19,7 @@ extension ChromeContextMenusExtension on Chrome {
 class ChromeContextMenus {
   ChromeContextMenus._();
 
-  bool get isAvailable => $js.chrome.contextMenusNullable != null;
+  bool get isAvailable => $js.chrome.contextMenusNullable != null && alwaysTrue;
 
   /// Creates a new context menu item. If an error occurs during creation, it
   /// may not be detected until the creation callback fires; details will be in

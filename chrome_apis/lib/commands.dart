@@ -19,7 +19,7 @@ extension ChromeCommandsExtension on Chrome {
 class ChromeCommands {
   ChromeCommands._();
 
-  bool get isAvailable => $js.chrome.commandsNullable != null;
+  bool get isAvailable => $js.chrome.commandsNullable != null && alwaysTrue;
 
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).

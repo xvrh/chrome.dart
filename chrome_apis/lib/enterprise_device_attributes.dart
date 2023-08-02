@@ -23,7 +23,8 @@ class ChromeEnterpriseDeviceAttributes {
   ChromeEnterpriseDeviceAttributes._();
 
   bool get isAvailable =>
-      $js.chrome.enterpriseNullable?.deviceAttributesNullable != null;
+      $js.chrome.enterpriseNullable?.deviceAttributesNullable != null &&
+      alwaysTrue;
 
   /// Fetches the value of
   /// [the device identifier of the directory

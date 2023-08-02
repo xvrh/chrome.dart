@@ -21,7 +21,8 @@ extension ChromeDeclarativeNetRequestExtension on Chrome {
 class ChromeDeclarativeNetRequest {
   ChromeDeclarativeNetRequest._();
 
-  bool get isAvailable => $js.chrome.declarativeNetRequestNullable != null;
+  bool get isAvailable =>
+      $js.chrome.declarativeNetRequestNullable != null && alwaysTrue;
 
   /// Modifies the current set of dynamic rules for the extension.
   /// The rules with IDs listed in `options.removeRuleIds` are first

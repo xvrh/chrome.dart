@@ -15,7 +15,7 @@ extension ChromeSearchExtension on Chrome {
 class ChromeSearch {
   ChromeSearch._();
 
-  bool get isAvailable => $js.chrome.searchNullable != null;
+  bool get isAvailable => $js.chrome.searchNullable != null && alwaysTrue;
 
   /// Used to query the default search provider.
   /// In case of an error,

@@ -16,7 +16,7 @@ extension ChromeStorageExtension on Chrome {
 class ChromeStorage {
   ChromeStorage._();
 
-  bool get isAvailable => $js.chrome.storageNullable != null;
+  bool get isAvailable => $js.chrome.storageNullable != null && alwaysTrue;
 
   /// Items in the `sync` storage area are synced using Chrome Sync.
   StorageArea get sync => StorageArea.fromJS($js.chrome.storage.sync);

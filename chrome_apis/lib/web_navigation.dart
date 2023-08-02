@@ -17,7 +17,8 @@ extension ChromeWebNavigationExtension on Chrome {
 class ChromeWebNavigation {
   ChromeWebNavigation._();
 
-  bool get isAvailable => $js.chrome.webNavigationNullable != null;
+  bool get isAvailable =>
+      $js.chrome.webNavigationNullable != null && alwaysTrue;
 
   /// Retrieves information about the given frame. A frame refers to an <iframe>
   /// or a <frame> of a web page and is identified by a tab ID and a frame ID.

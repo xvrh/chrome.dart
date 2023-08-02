@@ -15,7 +15,7 @@ extension ChromeOffscreenExtension on Chrome {
 class ChromeOffscreen {
   ChromeOffscreen._();
 
-  bool get isAvailable => $js.chrome.offscreenNullable != null;
+  bool get isAvailable => $js.chrome.offscreenNullable != null && alwaysTrue;
 
   /// Creates a new offscreen document for the extension.
   /// |parameters|: The parameters describing the offscreen document to create.

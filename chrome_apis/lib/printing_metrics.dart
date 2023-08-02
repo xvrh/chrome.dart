@@ -17,7 +17,8 @@ extension ChromePrintingMetricsExtension on Chrome {
 class ChromePrintingMetrics {
   ChromePrintingMetrics._();
 
-  bool get isAvailable => $js.chrome.printingMetricsNullable != null;
+  bool get isAvailable =>
+      $js.chrome.printingMetricsNullable != null && alwaysTrue;
 
   /// Returns the list of the finished print jobs.
   Future<List<PrintJobInfo>> getPrintJobs() async {

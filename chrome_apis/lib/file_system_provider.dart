@@ -17,7 +17,8 @@ extension ChromeFileSystemProviderExtension on Chrome {
 class ChromeFileSystemProvider {
   ChromeFileSystemProvider._();
 
-  bool get isAvailable => $js.chrome.fileSystemProviderNullable != null;
+  bool get isAvailable =>
+      $js.chrome.fileSystemProviderNullable != null && alwaysTrue;
 
   /// Mounts a file system with the given `fileSystemId` and
   /// `displayName`. `displayName` will be shown in the

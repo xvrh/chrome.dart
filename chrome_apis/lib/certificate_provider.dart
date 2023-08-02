@@ -17,7 +17,8 @@ extension ChromeCertificateProviderExtension on Chrome {
 class ChromeCertificateProvider {
   ChromeCertificateProvider._();
 
-  bool get isAvailable => $js.chrome.certificateProviderNullable != null;
+  bool get isAvailable =>
+      $js.chrome.certificateProviderNullable != null && alwaysTrue;
 
   /// Requests the PIN from the user. Only one ongoing request at a time is
   /// allowed. The requests issued while another flow is ongoing are rejected.

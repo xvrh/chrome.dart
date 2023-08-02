@@ -24,7 +24,8 @@ class ChromeEnterpriseNetworkingAttributes {
   ChromeEnterpriseNetworkingAttributes._();
 
   bool get isAvailable =>
-      $js.chrome.enterpriseNullable?.networkingAttributesNullable != null;
+      $js.chrome.enterpriseNullable?.networkingAttributesNullable != null &&
+      alwaysTrue;
 
   /// Retrieves the network details of the device's default network.
   /// If the user is not affiliated or the device is not connected to a

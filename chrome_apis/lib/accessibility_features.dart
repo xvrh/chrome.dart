@@ -22,7 +22,8 @@ extension ChromeAccessibilityFeaturesExtension on Chrome {
 class ChromeAccessibilityFeatures {
   ChromeAccessibilityFeatures._();
 
-  bool get isAvailable => $js.chrome.accessibilityFeaturesNullable != null;
+  bool get isAvailable =>
+      $js.chrome.accessibilityFeaturesNullable != null && alwaysTrue;
 
   /// *ChromeOS only.*
   ///

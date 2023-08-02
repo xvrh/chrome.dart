@@ -15,7 +15,8 @@ extension ChromeFileBrowserHandlerExtension on Chrome {
 class ChromeFileBrowserHandler {
   ChromeFileBrowserHandler._();
 
-  bool get isAvailable => $js.chrome.fileBrowserHandlerNullable != null;
+  bool get isAvailable =>
+      $js.chrome.fileBrowserHandlerNullable != null && alwaysTrue;
 
   /// Fired when file system action is executed from ChromeOS file browser.
   Stream<OnExecuteEvent> get onExecute =>

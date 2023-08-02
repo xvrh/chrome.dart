@@ -23,7 +23,7 @@ class ChromeEnterprisePlatformKeys {
   ChromeEnterprisePlatformKeys._();
 
   bool get isAvailable =>
-      $js.chrome.enterpriseNullable?.platformKeysNullable != null;
+      $js.chrome.enterpriseNullable?.platformKeysNullable != null && alwaysTrue;
 
   /// Returns the available Tokens. In a regular user's session the list will
   /// always contain the user's token with `id` `"user"`.

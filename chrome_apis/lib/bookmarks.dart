@@ -17,7 +17,7 @@ extension ChromeBookmarksExtension on Chrome {
 class ChromeBookmarks {
   ChromeBookmarks._();
 
-  bool get isAvailable => $js.chrome.bookmarksNullable != null;
+  bool get isAvailable => $js.chrome.bookmarksNullable != null && alwaysTrue;
 
   /// Retrieves the specified BookmarkTreeNode(s).
   /// [idOrIdList] A single string-valued id, or an array of string-valued ids

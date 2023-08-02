@@ -19,7 +19,7 @@ extension ChromeRuntimeExtension on Chrome {
 class ChromeRuntime {
   ChromeRuntime._();
 
-  bool get isAvailable => $js.chrome.runtimeNullable != null;
+  bool get isAvailable => $js.chrome.runtimeNullable != null && alwaysTrue;
 
   /// Retrieves the JavaScript 'window' object for the background page running
   /// inside the current extension/app. If the background page is an event page,

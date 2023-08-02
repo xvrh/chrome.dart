@@ -8,6 +8,9 @@ export 'dart:async' show Completer;
 import '../runtime.dart';
 import 'js/events.dart' as js;
 
+// A dummy property to use in all generated file to prevent unused imports of this file
+final alwaysTrue = true;
+
 extension ScopingFunctions<T extends Object?> on T {
   /// Calls the specified function [block] with `this` value
   /// as its argument and returns its result.

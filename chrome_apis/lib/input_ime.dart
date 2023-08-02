@@ -19,7 +19,8 @@ extension ChromeInputImeExtension on ChromeInput {
 class ChromeInputIme {
   ChromeInputIme._();
 
-  bool get isAvailable => $js.chrome.inputNullable?.imeNullable != null;
+  bool get isAvailable =>
+      $js.chrome.inputNullable?.imeNullable != null && alwaysTrue;
 
   /// Set the current composition. If this extension does not own the active
   /// IME, this fails.

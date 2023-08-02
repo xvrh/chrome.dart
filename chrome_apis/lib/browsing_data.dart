@@ -16,7 +16,7 @@ extension ChromeBrowsingDataExtension on Chrome {
 class ChromeBrowsingData {
   ChromeBrowsingData._();
 
-  bool get isAvailable => $js.chrome.browsingDataNullable != null;
+  bool get isAvailable => $js.chrome.browsingDataNullable != null && alwaysTrue;
 
   /// Reports which types of data are currently selected in the 'Clear browsing
   /// data' settings UI.  Note: some of the data types included in this API are

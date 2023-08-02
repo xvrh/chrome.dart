@@ -18,7 +18,7 @@ extension ChromeSessionsExtension on Chrome {
 class ChromeSessions {
   ChromeSessions._();
 
-  bool get isAvailable => $js.chrome.sessionsNullable != null;
+  bool get isAvailable => $js.chrome.sessionsNullable != null && alwaysTrue;
 
   /// Gets the list of recently closed tabs and/or windows.
   Future<List<Session>> getRecentlyClosed(Filter? filter) async {

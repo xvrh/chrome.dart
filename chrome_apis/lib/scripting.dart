@@ -17,7 +17,7 @@ extension ChromeScriptingExtension on Chrome {
 class ChromeScripting {
   ChromeScripting._();
 
-  bool get isAvailable => $js.chrome.scriptingNullable != null;
+  bool get isAvailable => $js.chrome.scriptingNullable != null && alwaysTrue;
 
   /// Injects a script into a target context. The script will be run at
   /// `document_idle`. If the script evaluates to a promise,

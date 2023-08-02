@@ -17,7 +17,7 @@ extension ChromePrintingExtension on Chrome {
 class ChromePrinting {
   ChromePrinting._();
 
-  bool get isAvailable => $js.chrome.printingNullable != null;
+  bool get isAvailable => $js.chrome.printingNullable != null && alwaysTrue;
 
   /// Submits the job for print.
   /// If the extension is not listed in PrintingAPIExtensionsAllowlist policy,

@@ -16,7 +16,7 @@ extension ChromeProcessesExtension on Chrome {
 class ChromeProcesses {
   ChromeProcesses._();
 
-  bool get isAvailable => $js.chrome.processesNullable != null;
+  bool get isAvailable => $js.chrome.processesNullable != null && alwaysTrue;
 
   /// Returns the ID of the renderer process for the specified tab.
   /// |tabId|: The ID of the tab for which the renderer process ID is to be

@@ -16,7 +16,8 @@ extension ChromeDevtoolsRecorderExtension on ChromeDevtools {
 class ChromeDevtoolsRecorder {
   ChromeDevtoolsRecorder._();
 
-  bool get isAvailable => $js.chrome.devtoolsNullable?.recorderNullable != null;
+  bool get isAvailable =>
+      $js.chrome.devtoolsNullable?.recorderNullable != null && alwaysTrue;
 
   /// Registers a Recorder extension plugin.
   /// [plugin] An instance implementing the RecorderExtensionPlugin interface.

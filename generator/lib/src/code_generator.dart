@@ -275,7 +275,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..type = MethodType.getter
       ..lambda = true
       ..returns = refer('bool')
-      ..body = referTo.notEqualTo(refer('null')).code);
+      ..body = referTo.notEqualTo(refer('null')).and(refer('alwaysTrue')).code);
   }
 
   Reference get _extensionOn {

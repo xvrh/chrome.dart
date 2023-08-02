@@ -18,7 +18,8 @@ extension ChromeWebAuthenticationProxyExtension on Chrome {
 class ChromeWebAuthenticationProxy {
   ChromeWebAuthenticationProxy._();
 
-  bool get isAvailable => $js.chrome.webAuthenticationProxyNullable != null;
+  bool get isAvailable =>
+      $js.chrome.webAuthenticationProxyNullable != null && alwaysTrue;
 
   /// Reports the result of a `navigator.credentials.create()`
   /// call. The extension must call this for every

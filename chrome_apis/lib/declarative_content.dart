@@ -16,7 +16,8 @@ extension ChromeDeclarativeContentExtension on Chrome {
 class ChromeDeclarativeContent {
   ChromeDeclarativeContent._();
 
-  bool get isAvailable => $js.chrome.declarativeContentNullable != null;
+  bool get isAvailable =>
+      $js.chrome.declarativeContentNullable != null && alwaysTrue;
 
   Stream<void> get onPageChanged =>
       $js.chrome.declarativeContent.onPageChanged.asStream(($c) => () {

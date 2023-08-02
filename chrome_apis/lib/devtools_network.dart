@@ -16,7 +16,8 @@ extension ChromeDevtoolsNetworkExtension on ChromeDevtools {
 class ChromeDevtoolsNetwork {
   ChromeDevtoolsNetwork._();
 
-  bool get isAvailable => $js.chrome.devtoolsNullable?.networkNullable != null;
+  bool get isAvailable =>
+      $js.chrome.devtoolsNullable?.networkNullable != null && alwaysTrue;
 
   /// Returns HAR log that contains all known network requests.
   /// [returns] A function that receives the HAR log when the request

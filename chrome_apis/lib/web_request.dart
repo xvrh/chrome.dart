@@ -15,7 +15,7 @@ extension ChromeWebRequestExtension on Chrome {
 class ChromeWebRequest {
   ChromeWebRequest._();
 
-  bool get isAvailable => $js.chrome.webRequestNullable != null;
+  bool get isAvailable => $js.chrome.webRequestNullable != null && alwaysTrue;
 
   /// Needs to be called when the behavior of the webRequest handlers has
   /// changed to prevent incorrect handling due to caching. This function call

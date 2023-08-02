@@ -23,7 +23,7 @@ extension ChromeUsbExtension on Chrome {
 class ChromeUsb {
   ChromeUsb._();
 
-  bool get isAvailable => $js.chrome.usbNullable != null;
+  bool get isAvailable => $js.chrome.usbNullable != null && alwaysTrue;
 
   /// Enumerates connected USB devices.
   /// |options|: The properties to search for on target devices.

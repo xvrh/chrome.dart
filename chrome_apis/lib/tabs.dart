@@ -20,7 +20,7 @@ extension ChromeTabsExtension on Chrome {
 class ChromeTabs {
   ChromeTabs._();
 
-  bool get isAvailable => $js.chrome.tabsNullable != null;
+  bool get isAvailable => $js.chrome.tabsNullable != null && alwaysTrue;
 
   /// Retrieves details about the specified tab.
   Future<Tab> get(int tabId) async {

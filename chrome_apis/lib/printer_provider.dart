@@ -17,7 +17,8 @@ extension ChromePrinterProviderExtension on Chrome {
 class ChromePrinterProvider {
   ChromePrinterProvider._();
 
-  bool get isAvailable => $js.chrome.printerProviderNullable != null;
+  bool get isAvailable =>
+      $js.chrome.printerProviderNullable != null && alwaysTrue;
 
   /// Event fired when print manager requests printers provided by extensions.
   /// |resultCallback|: Callback to return printer list. Every listener must

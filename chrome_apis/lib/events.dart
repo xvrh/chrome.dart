@@ -16,7 +16,7 @@ extension ChromeEventsExtension on Chrome {
 class ChromeEvents {
   ChromeEvents._();
 
-  bool get isAvailable => $js.chrome.eventsNullable != null;
+  bool get isAvailable => $js.chrome.eventsNullable != null && alwaysTrue;
 }
 
 class Rule {

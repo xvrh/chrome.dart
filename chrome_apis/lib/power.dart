@@ -16,7 +16,7 @@ extension ChromePowerExtension on Chrome {
 class ChromePower {
   ChromePower._();
 
-  bool get isAvailable => $js.chrome.powerNullable != null;
+  bool get isAvailable => $js.chrome.powerNullable != null && alwaysTrue;
 
   /// Requests that power management be temporarily disabled. |level|
   /// describes the degree to which power management should be disabled.

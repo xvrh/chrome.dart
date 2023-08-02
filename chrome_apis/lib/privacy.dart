@@ -17,7 +17,7 @@ extension ChromePrivacyExtension on Chrome {
 class ChromePrivacy {
   ChromePrivacy._();
 
-  bool get isAvailable => $js.chrome.privacyNullable != null;
+  bool get isAvailable => $js.chrome.privacyNullable != null && alwaysTrue;
 
   /// Settings that influence Chrome's handling of network connections in
   /// general.

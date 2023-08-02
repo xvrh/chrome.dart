@@ -20,7 +20,7 @@ extension ChromePlatformKeysExtension on Chrome {
 class ChromePlatformKeys {
   ChromePlatformKeys._();
 
-  bool get isAvailable => $js.chrome.platformKeysNullable != null;
+  bool get isAvailable => $js.chrome.platformKeysNullable != null && alwaysTrue;
 
   /// This method filters from a list of client certificates the ones that
   /// are known to the platform, match `request` and for which the

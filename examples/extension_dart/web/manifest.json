@@ -1,7 +1,7 @@
 {
-  "name": "chrome_ext.dart - test",
+  "name": "extension_dart",
   "version": "1.0",
-  "description": "unit test for chrome_ext.dart",
+  "description": "Demonstrate the chrome apis in a Dart app",
   "permissions": [
     "activeTab",
     "contextMenus",
@@ -9,7 +9,7 @@
     "notifications"
   ],
   "action": {
-    "default_popup": "harness.html",
+    "default_popup": "index.html",
     "default_icon": "Dart_Logo_16.png"
   },
   "icons": {"128": "dart_icon.png"},

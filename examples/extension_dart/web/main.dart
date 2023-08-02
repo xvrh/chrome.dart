@@ -7,28 +7,6 @@ void main() {
   button.addEventListener(
       'click',
           (PointerEvent e) async {
-        print('onClick ${e.width} ${e.timeStamp}');
-        try {
-          window.myFunction();
-        } catch (e) {
-          print('Catched error $e');
-        }
-
+        // Demonstrate apis
       }.toJS);
-
-  var r = window.myFunction();
-  print('$r');
-
-}
-
-@JS()
-@staticInterop
-external Window get window;
-
-@JS()
-@staticInterop
-class Window {}
-
-extension on Window {
-  external JSAny? myFunction();
 }

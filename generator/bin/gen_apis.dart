@@ -10,7 +10,7 @@ import 'package:chrome_extension_generator/src/idl_convert.dart' as idl;
 import 'package:chrome_extension_generator/src/utils/string.dart';
 
 final idlPath = 'idl';
-final targetPath = '../chrome_extension/lib';
+final targetPath = '../chrome_apis/lib';
 
 void main() {
   var groups = <String, List<ChromeApi>>{};

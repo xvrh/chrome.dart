@@ -104,6 +104,8 @@ class StorageArea {
   /// specifying default values (see description of the object).  An empty
   /// list or object will return an empty result object.  Pass in `null` to
   /// get the entire contents of storage.
+  /// [returns] Callback with storage items, or on failure (in which case
+  /// [runtime.lastError] will be set).
   Future<Map> get(Object? keys) async {
     var $res = await promiseToFuture<JSAny>(_wrapped.get(switch (keys) {
       String() => keys,
@@ -120,6 +122,8 @@ class StorageArea {
   /// [keys] A single key or list of keys to get the total usage for. An empty
   /// list will return 0. Pass in `null` to get the total usage of all of
   /// storage.
+  /// [returns] Callback with the amount of space being used by storage, or on
+  /// failure (in which case [runtime.lastError] will be set).
   Future<int> getBytesInUse(Object? keys) async {
     var $res = await promiseToFuture<int>(_wrapped.getBytesInUse(switch (keys) {
       String() => keys,
@@ -139,12 +143,16 @@ class StorageArea {
   /// a `typeof` `"object"` and `"function"` will typically serialize to `{}`,
   /// with the exception of `Array` (serializes as expected), `Date`, and
   /// `Regex` (serialize using their `String` representation).
+  /// [returns] Callback on success, or on failure (in which case
+  /// [runtime.lastError] will be set).
   Future<void> set(Map items) async {
     await promiseToFuture<void>(_wrapped.set(items.jsify()!));
   }
 
   /// Removes one or more items from storage.
   /// [keys] A single key or a list of keys for items to remove.
+  /// [returns] Callback on success, or on failure (in which case
+  /// [runtime.lastError] will be set).
   Future<void> remove(Object keys) async {
     await promiseToFuture<void>(_wrapped.remove(switch (keys) {
       String() => keys,
@@ -155,12 +163,16 @@ class StorageArea {
   }
 
   /// Removes all items from storage.
+  /// [returns] Callback on success, or on failure (in which case
+  /// [runtime.lastError] will be set).
   Future<void> clear() async {
     await promiseToFuture<void>(_wrapped.clear());
   }
 
   /// Sets the desired access level for the storage area. The default will be
   /// only trusted contexts.
+  /// [returns] Callback on success, or on failure (in which case
+  /// [runtime.lastError] will be set).
   Future<void> setAccessLevel(SetAccessLevelAccessOptions accessOptions) async {
     await promiseToFuture<void>(_wrapped.setAccessLevel(accessOptions.toJS));
   }

@@ -82,12 +82,14 @@ class ChromeSetting {
 
   /// Sets the value of a setting.
   /// [details] Which setting to change.
+  /// [returns] Called at the completion of the set operation.
   Future<void> set(SetDetails details) async {
     await promiseToFuture<void>(_wrapped.set(details.toJS));
   }
 
   /// Clears the setting, restoring any default value.
   /// [details] Which setting to clear.
+  /// [returns] Called at the completion of the clear operation.
   Future<void> clear(ClearDetails details) async {
     await promiseToFuture<void>(_wrapped.clear(details.toJS));
   }

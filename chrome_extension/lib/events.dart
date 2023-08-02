@@ -110,10 +110,12 @@ class Event {
   }
 
   /// [callback] Listener whose registration status shall be tested.
+  /// [returns] True if _callback_ is registered to the event.
   bool hasListener(Function callback) {
     return _wrapped.hasListener(allowInterop(callback));
   }
 
+  /// [returns] True if any event listeners are registered to the event.
   bool hasListeners() {
     return _wrapped.hasListeners();
   }
@@ -124,6 +126,7 @@ class Event {
   /// identfies the <webview> associated with this function call.
   /// [rules] Rules to be registered. These do not replace previously
   /// registered rules.
+  /// [returns] Called with registered rules.
   Future<List<Rule>> addRules(
     String eventName,
     int webViewInstanceId,
@@ -152,6 +155,7 @@ class Event {
   /// identfies the <webview> associated with this function call.
   /// [ruleIdentifiers] If an array is passed, only rules with identifiers
   /// contained in this array are returned.
+  /// [returns] Called with registered rules.
   Future<List<Rule>> getRules(
     String eventName,
     int webViewInstanceId,
@@ -180,6 +184,7 @@ class Event {
   /// identfies the <webview> associated with this function call.
   /// [ruleIdentifiers] If an array is passed, only rules with identifiers
   /// contained in this array are unregistered.
+  /// [returns] Called when rules were unregistered.
   Future<void> removeRules(
     String eventName,
     int webViewInstanceId,

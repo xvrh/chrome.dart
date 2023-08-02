@@ -47,6 +47,7 @@ class ChromeRuntime {
 
   /// Returns details about the app or extension from the manifest. The object
   /// returned is a serialization of the full [manifest file](manifest.html).
+  /// [returns] The manifest details.
   Map getManifest() {
     return $js.chrome.runtime.getManifest().toDartMap();
   }
@@ -55,6 +56,7 @@ class ChromeRuntime {
   /// fully-qualified URL.
   /// [path] A path to a resource within an app/extension expressed relative
   /// to its install directory.
+  /// [returns] The fully-qualified URL to the resource.
   String getURL(String path) {
     return $js.chrome.runtime.getURL(path);
   }
@@ -65,6 +67,8 @@ class ChromeRuntime {
   /// [url] URL to be opened after the extension is uninstalled. This URL must
   /// have an http: or https: scheme. Set an empty string to not open a new
   /// tab upon uninstallation.
+  /// [returns] Called when the uninstall URL is set. If the given URL is
+  /// invalid, [runtime.lastError] will be set.
   Future<void> setUninstallURL(String url) async {
     await promiseToFuture<void>($js.chrome.runtime.setUninstallURL(url));
   }
@@ -111,6 +115,8 @@ class ChromeRuntime {
   /// the first extension to invoke this API.
   /// [seconds] Time to wait in seconds before rebooting the device, or -1 to
   /// cancel a scheduled reboot.
+  /// [returns] A callback to be invoked when a restart request was
+  /// successfully rescheduled.
   Future<void> restartAfterDelay(int seconds) async {
     await promiseToFuture<void>($js.chrome.runtime.restartAfterDelay(seconds));
   }
@@ -126,6 +132,9 @@ class ChromeRuntime {
   /// a connection will be attempted with your own extension. Required if
   /// sending messages from a web page for [web
   /// messaging](manifest/externally_connectable.html).
+  /// [returns] Port through which messages can be sent and received. The
+  /// port's $(ref:Port onDisconnect) event is fired if the extension/app does
+  /// not exist.
   Port connect(
     String? extensionId,
     ConnectInfo? connectInfo,
@@ -139,6 +148,8 @@ class ChromeRuntime {
   /// Connects to a native application in the host machine. See [Native
   /// Messaging](nativeMessaging) for more information.
   /// [application] The name of the registered application to connect to.
+  /// [returns] Port through which messages can be sent and received with the
+  /// application
   Port connectNative(String application) {
     return Port.fromJS($js.chrome.runtime.connectNative(application));
   }
@@ -186,6 +197,7 @@ class ChromeRuntime {
   }
 
   /// Returns information about the current platform.
+  /// [returns] Called with results
   Future<PlatformInfo> getPlatformInfo() async {
     var $res = await promiseToFuture<$js.PlatformInfo>(
         $js.chrome.runtime.getPlatformInfo());
@@ -207,6 +219,7 @@ class ChromeRuntime {
   /// [filter] A filter to find matching contexts. A context matches if it
   /// matches all specified fields in the filter. Any unspecified field in the
   /// filter matches all contexts.
+  /// [returns] Invoked with the matching contexts, if any.
   Future<List<ExtensionContext>> getContexts(ContextFilter filter) async {
     var $res = await promiseToFuture<JSArray>(
         $js.chrome.runtime.getContexts(filter.toJS));
@@ -310,19 +323,9 @@ class ChromeRuntime {
             $c(OnMessageEvent(
               message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendResponse as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendResponse: ([Object? p1, Object? p2]) {
+                return (sendResponse as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));
@@ -339,19 +342,9 @@ class ChromeRuntime {
             $c(OnMessageExternalEvent(
               message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendResponse as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendResponse: ([Object? p1, Object? p2]) {
+                return (sendResponse as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));
@@ -529,11 +522,9 @@ class Port {
   /// Immediately disconnect the port. Calling `disconnect()` on an
   /// already-disconnected port has no effect. When a port is disconnected, no
   /// new events will be dispatched to this port.
-  Function get disconnect =>
-      ([Object? p1, Object? p2, Object? p3, Object? p4, Object? p5]) {
-        return (_wrapped.disconnect as JSAny? Function(
-                    JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                p1?.jsify(), p2?.jsify(), p3?.jsify(), p4?.jsify(), p5?.jsify())
+  Function get disconnect => ([Object? p1, Object? p2]) {
+        return (_wrapped.disconnect as JSAny? Function(JSAny?, JSAny?))(
+                p1?.jsify(), p2?.jsify())
             ?.dartify();
       };
   set disconnect(Function v) {
@@ -542,11 +533,9 @@ class Port {
 
   /// Send a message to the other end of the port. If the port is disconnected,
   /// an error is thrown.
-  Function get postMessage =>
-      ([Object? p1, Object? p2, Object? p3, Object? p4, Object? p5]) {
-        return (_wrapped.postMessage as JSAny? Function(
-                    JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                p1?.jsify(), p2?.jsify(), p3?.jsify(), p4?.jsify(), p5?.jsify())
+  Function get postMessage => ([Object? p1, Object? p2]) {
+        return (_wrapped.postMessage as JSAny? Function(JSAny?, JSAny?))(
+                p1?.jsify(), p2?.jsify())
             ?.dartify();
       };
   set postMessage(Function v) {

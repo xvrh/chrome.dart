@@ -27,6 +27,7 @@ class ChromeDevtoolsPanels {
   /// [iconPath] Path of the panel's icon relative to the extension directory.
   /// [pagePath] Path of the panel's HTML page relative to the extension
   /// directory.
+  /// [returns] A function that is called when the panel is created.
   Future<ExtensionPanel> create(
     String title,
     String iconPath,
@@ -103,6 +104,7 @@ class ElementsPanel {
 
   /// Creates a pane within panel's sidebar.
   /// [title] Text that is displayed in sidebar caption.
+  /// [returns] A callback invoked when the sidebar is created.
   Future<ExtensionSidebarPane> createSidebarPane(String title) {
     var $completer = Completer<ExtensionSidebarPane>();
     _wrapped.createSidebarPane(
@@ -134,6 +136,7 @@ class SourcesPanel {
 
   /// Creates a pane within panel's sidebar.
   /// [title] Text that is displayed in sidebar caption.
+  /// [returns] A callback invoked when the sidebar is created.
   Future<ExtensionSidebarPane> createSidebarPane(String title) {
     var $completer = Completer<ExtensionSidebarPane>();
     _wrapped.createSidebarPane(

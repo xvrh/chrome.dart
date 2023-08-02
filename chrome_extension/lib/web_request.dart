@@ -82,19 +82,9 @@ class ChromeWebRequest {
           ) {
             $c(OnAuthRequiredEvent(
               details: OnAuthRequiredDetails.fromJS(details),
-              asyncCallback: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (asyncCallback as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              asyncCallback: ([Object? p1, Object? p2]) {
+                return (asyncCallback as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));

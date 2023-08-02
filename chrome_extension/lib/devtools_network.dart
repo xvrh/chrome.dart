@@ -19,6 +19,8 @@ class ChromeDevtoolsNetwork {
   bool get isAvailable => $js.chrome.devtoolsNullable?.networkNullable != null;
 
   /// Returns HAR log that contains all known network requests.
+  /// [returns] A function that receives the HAR log when the request
+  /// completes.
   Future<Map> getHAR() {
     var $completer = Completer<Map>();
     $js.chrome.devtools.network.getHAR((JSAny harLog) {
@@ -54,6 +56,8 @@ class Request {
   $js.Request get toJS => _wrapped;
 
   /// Returns content of the response body.
+  /// [returns] A function that receives the response body when the request
+  /// completes.
   Future<GetContentResult> getContent() {
     var $completer = Completer<GetContentResult>();
     _wrapped.getContent((

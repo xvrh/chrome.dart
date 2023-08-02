@@ -23,6 +23,8 @@ class ChromeGcm {
   /// [senderIds] A list of server IDs that are allowed to send messages to
   /// the application. It should contain at least one and no more than 100
   /// sender IDs.
+  /// [returns] Function called when registration completes. It should check
+  /// [runtime.lastError] for error when `registrationId` is empty.
   Future<String> register(List<String> senderIds) {
     var $completer = Completer<String>();
     $js.chrome.gcm.register(
@@ -37,6 +39,8 @@ class ChromeGcm {
   }
 
   /// Unregisters the application from FCM.
+  /// [returns] A function called after the unregistration completes.
+  /// Unregistration was successful if [runtime.lastError] is not set.
   Future<void> unregister() {
     var $completer = Completer<void>();
     $js.chrome.gcm.unregister(() {
@@ -49,6 +53,9 @@ class ChromeGcm {
 
   /// Sends a message according to its contents.
   /// [message] A message to send to the other party via FCM.
+  /// [returns] A function called after the message is successfully queued for
+  /// sending. [runtime.lastError] should be checked, to ensure a message was
+  /// sent without problems.
   Future<String> send(SendMessage message) {
     var $completer = Completer<String>();
     $js.chrome.gcm.send(

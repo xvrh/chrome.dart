@@ -57,19 +57,9 @@ class ChromeOmnibox {
           ) {
             $c(OnInputChangedEvent(
               text: text,
-              suggest: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (suggest as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              suggest: ([Object? p1, Object? p2]) {
+                return (suggest as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));

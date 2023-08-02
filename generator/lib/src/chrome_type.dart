@@ -475,7 +475,7 @@ class JSFunctionType extends ChromeType {
     return null;
   }
 
-  static final _parameterCount = 5;
+  static final _parameterCount = 2;
   final _allParameters =
       List.generate(_parameterCount, (i) => 'Object? p${i + 1}').join(', ');
 
@@ -499,7 +499,7 @@ class JSFunctionType extends ChromeType {
       var jsParameters =
           List.generate(_parameterCount, (_) => 'JSAny?').join(',');
       var castedAccessor =
-          '${emit(accessor)} as JSAny? Function(${jsParameters})';
+          '${emit(accessor)} as JSAny? Function($jsParameters)';
       var forwardedParameters =
           List.generate(_parameterCount, (i) => 'p${i + 1}?.jsify()')
               .join(', ');
@@ -827,7 +827,21 @@ class ChoiceType extends ChromeType {
   }
 
   @override
-  code.Expression toDart(code.Expression accessor) => accessor;
+  code.Expression toDart(code.Expression accessor) {
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
+      String emit(code.Spec expression) =>
+          expression.accept(emitter).toString();
+
+      var arguments = StringBuffer();
+      for (var choice in choices) {
+        arguments.writeln(
+            'when${emit(choice.jsType)}: (v) => ${emit(choice.toDart(code.refer('v')))},');
+      }
+
+      return 'jsChoice(${emit(accessor)}, $arguments)';
+    }));
+  }
 
   @override
   code.Expression toJS(code.Expression accessor) {

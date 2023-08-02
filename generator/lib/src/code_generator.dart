@@ -342,7 +342,9 @@ class DartApiGenerator extends _GeneratorBase {
       ..docs.addAll([
         for (var param in method.parameters)
           if (param.documentation.isNotEmpty)
-            parameterDocumentation(param.name, param.documentation, indent: 4)
+            parameterDocumentation(param.name, param.documentation, indent: 4),
+        if (method.returns.documentation case var doc?)
+          if (doc.isNotEmpty) parameterDocumentation('returns', doc, indent: 4)
       ])
       ..annotations.addAll(_deprecatedAnnotation(method.deprecated))
       ..name = method.name

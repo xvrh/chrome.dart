@@ -68,19 +68,9 @@ class ChromeTtsEngine {
             $c(OnSpeakEvent(
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
-              sendTtsEvent: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendTtsEvent as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendTtsEvent: ([Object? p1, Object? p2]) {
+                return (sendTtsEvent as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));
@@ -102,34 +92,14 @@ class ChromeTtsEngine {
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
               audioStreamOptions: AudioStreamOptions.fromJS(audioStreamOptions),
-              sendTtsAudio: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendTtsAudio as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendTtsAudio: ([Object? p1, Object? p2]) {
+                return (sendTtsAudio as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
-              sendError: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendError as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendError: ([Object? p1, Object? p2]) {
+                return (sendError as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));

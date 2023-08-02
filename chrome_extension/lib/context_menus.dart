@@ -27,13 +27,18 @@ class ChromeContextMenus {
   /// [callback] Called when the item has been created in the browser. If an
   /// error occurs during creation, details will be available in
   /// [runtime.lastError].
+  /// [returns] The ID of the newly created item.
   Object create(
     CreateProperties createProperties,
     Function? callback,
   ) {
-    return $js.chrome.contextMenus.create(
-      createProperties.toJS,
-      callback?.let(allowInterop),
+    return jsChoice(
+      $js.chrome.contextMenus.create(
+        createProperties.toJS,
+        callback?.let(allowInterop),
+      ),
+      whenint: (v) => v,
+      whenString: (v) => v,
     );
   }
 
@@ -41,6 +46,7 @@ class ChromeContextMenus {
   /// [id] The ID of the item to update.
   /// [updateProperties] The properties to update. Accepts the same values as
   /// the [contextMenus.create] function.
+  /// [returns] Called when the context menu has been updated.
   Future<void> update(
     Object id,
     UpdateProperties updateProperties,
@@ -65,6 +71,7 @@ class ChromeContextMenus {
 
   /// Removes a context menu item.
   /// [menuItemId] The ID of the context menu item to remove.
+  /// [returns] Called when the context menu has been removed.
   Future<void> remove(Object menuItemId) {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.remove(
@@ -84,6 +91,7 @@ class ChromeContextMenus {
   }
 
   /// Removes all context menu items added by this extension.
+  /// [returns] Called when removal is complete.
   Future<void> removeAll() {
     var $completer = Completer<void>();
     $js.chrome.contextMenus.removeAll(() {
@@ -236,7 +244,11 @@ class OnClickData {
   $js.OnClickData get toJS => _wrapped;
 
   /// The ID of the menu item that was clicked.
-  Object get menuItemId => _wrapped.menuItemId;
+  Object get menuItemId => jsChoice(
+        _wrapped.menuItemId,
+        whenint: (v) => v,
+        whenString: (v) => v,
+      );
   set menuItemId(Object v) {
     _wrapped.menuItemId = switch (v) {
       int() => v,
@@ -247,7 +259,11 @@ class OnClickData {
   }
 
   /// The parent ID, if any, for the item clicked.
-  Object? get parentMenuItemId => _wrapped.parentMenuItemId;
+  Object? get parentMenuItemId => jsChoice(
+        _wrapped.parentMenuItemId,
+        whenint: (v) => v,
+        whenString: (v) => v,
+      );
   set parentMenuItemId(Object? v) {
     _wrapped.parentMenuItemId = switch (v) {
       int() => v,

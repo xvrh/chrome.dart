@@ -35,6 +35,7 @@ class ChromeI18n {
   /// href='i18n-messages'>`messages.json`</a> file.
   /// [substitutions] Up to 9 substitution strings, if the message requires
   /// any.
+  /// [returns] Message localized for current locale.
   String getMessage(
     String messageName,
     Object? substitutions,
@@ -49,6 +50,7 @@ class ChromeI18n {
 
   /// Gets the browser UI language of the browser. This is different from
   /// [i18n.getAcceptLanguages] which returns the preferred user languages.
+  /// [returns] The browser UI language code such as en-US or fr-FR.
   String getUILanguage() {
     return $js.chrome.i18n.getUILanguage();
   }

@@ -40,6 +40,9 @@ class ChromeTabs {
   /// [runtime.onConnect] event is fired in each content script running in the
   /// specified tab for the current extension. For more details, see [Content
   /// Script Messaging](messaging).
+  /// [returns] A port that can be used to communicate with the content
+  /// scripts running in the specified tab. The port's [runtime.Port] event is
+  /// fired if the tab closes or does not exist.
   Port connect(
     int tabId,
     ConnectInfo? connectInfo,
@@ -167,7 +170,12 @@ class ChromeTabs {
       },
       moveProperties.toJS,
     ));
-    return $res;
+    return jsChoice(
+      $res,
+      whenTab: (v) => Tab.fromJS(v),
+      whenJSArray: (v) =>
+          v.toDart.cast<$js.Tab>().map((e) => Tab.fromJS(e)).toList(),
+    );
   }
 
   /// Reload a tab.
@@ -251,6 +259,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the script to run. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  /// [returns] Called after all the JavaScript has been executed.
   @Deprecated(r'Replaced by $(ref:scripting.executeScript) in Manifest V3.')
   Future<List<Object>?> executeScript(
     int? tabId,
@@ -270,6 +279,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the CSS text to insert. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  /// [returns] Called when all the CSS has been inserted.
   @Deprecated(r'Replaced by $(ref:scripting.insertCSS) in Manifest V3.')
   Future<void> insertCSS(
     int? tabId,
@@ -287,6 +297,7 @@ class ChromeTabs {
   /// active tab of the current window.
   /// [details] Details of the CSS text to remove. Either the code or the file
   /// property must be set, but both may not be set at the same time.
+  /// [returns] Called when all the CSS has been removed.
   @Deprecated(r'Replaced by $(ref:scripting.removeCSS) in Manifest V3.')
   Future<void> removeCSS(
     int? tabId,
@@ -304,6 +315,7 @@ class ChromeTabs {
   /// [zoomFactor] The new zoom factor. A value of `0` sets the tab to its
   /// current default zoom factor. Values greater than `0` specify a (possibly
   /// non-default) zoom factor for the tab.
+  /// [returns] Called after the zoom factor has been changed.
   Future<void> setZoom(
     int? tabId,
     double zoomFactor,
@@ -317,6 +329,8 @@ class ChromeTabs {
   /// Gets the current zoom factor of a specified tab.
   /// [tabId] The ID of the tab to get the current zoom factor from; defaults
   /// to the active tab of the current window.
+  /// [returns] Called with the tab's current zoom factor after it has been
+  /// fetched.
   Future<double> getZoom(int? tabId) async {
     var $res = await promiseToFuture<double>($js.chrome.tabs.getZoom(tabId));
     return $res;
@@ -327,6 +341,7 @@ class ChromeTabs {
   /// [tabId] The ID of the tab to change the zoom settings for; defaults to
   /// the active tab of the current window.
   /// [zoomSettings] Defines how zoom changes are handled and at what scope.
+  /// [returns] Called after the zoom settings are changed.
   Future<void> setZoomSettings(
     int? tabId,
     ZoomSettings zoomSettings,
@@ -340,6 +355,7 @@ class ChromeTabs {
   /// Gets the current zoom settings of a specified tab.
   /// [tabId] The ID of the tab to get the current zoom settings from;
   /// defaults to the active tab of the current window.
+  /// [returns] Called with the tab's current zoom settings.
   Future<ZoomSettings> getZoomSettings(int? tabId) async {
     var $res = await promiseToFuture<$js.ZoomSettings>(
         $js.chrome.tabs.getZoomSettings(tabId));
@@ -352,6 +368,7 @@ class ChromeTabs {
   /// discarded unless it is active or already discarded. If omitted, the
   /// browser discards the least important tab. This can fail if no
   /// discardable tabs exist.
+  /// [returns] Called after the operation is completed.
   Future<Tab?> discard(int? tabId) async {
     var $res = await promiseToFuture<$js.Tab?>($js.chrome.tabs.discard(tabId));
     return $res?.let(Tab.fromJS);

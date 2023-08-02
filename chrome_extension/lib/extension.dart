@@ -44,6 +44,7 @@ class ChromeExtension {
   /// fully-qualified URL.
   /// [path] A path to a resource within an extension expressed relative to
   /// its install directory.
+  /// [returns] The fully-qualified URL to the resource.
   @Deprecated(r'Please use $(ref:runtime.getURL).')
   String getURL(String path) {
     return $js.chrome.extension.getURL(path);
@@ -51,6 +52,7 @@ class ChromeExtension {
 
   /// Returns an array of the JavaScript 'window' objects for each of the pages
   /// running inside the current extension.
+  /// [returns] Array of global objects
   List<JSObject> getViews(GetViewsFetchProperties? fetchProperties) {
     return $js.chrome.extension
         .getViews(fetchProperties?.toJS)
@@ -70,6 +72,7 @@ class ChromeExtension {
   /// Returns an array of the JavaScript 'window' objects for each of the tabs
   /// running inside the current extension. If `windowId` is specified, returns
   /// only the 'window' objects of tabs attached to the specified window.
+  /// [returns] Array of global window objects
   @Deprecated(
       r'Please use $(ref:extension.getViews) <code>{type: "tab"}</code>.')
   List<JSObject> getExtensionTabs(int? windowId) {
@@ -128,19 +131,9 @@ class ChromeExtension {
             $c(OnRequestEvent(
               request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendResponse as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendResponse: ([Object? p1, Object? p2]) {
+                return (sendResponse as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));
@@ -156,19 +149,9 @@ class ChromeExtension {
             $c(OnRequestExternalEvent(
               request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
-              sendResponse: (
-                  [Object? p1,
-                  Object? p2,
-                  Object? p3,
-                  Object? p4,
-                  Object? p5]) {
-                return (sendResponse as JSAny? Function(
-                            JSAny?, JSAny?, JSAny?, JSAny?, JSAny?))(
-                        p1?.jsify(),
-                        p2?.jsify(),
-                        p3?.jsify(),
-                        p4?.jsify(),
-                        p5?.jsify())
+              sendResponse: ([Object? p1, Object? p2]) {
+                return (sendResponse as JSAny? Function(JSAny?, JSAny?))(
+                        p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));

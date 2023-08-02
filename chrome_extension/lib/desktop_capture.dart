@@ -32,6 +32,8 @@ class ChromeDesktopCapture {
   /// which need to be applied before the user makes their selection, and must
   /// therefore be provided to chooseDesktopMedia() rather than be deferred to
   /// getUserMedia().
+  /// [returns] An id that can be passed to cancelChooseDesktopMedia() in case
+  /// the prompt need to be canceled.
   int chooseDesktopMedia(
     List<DesktopCaptureSourceType> sources,
     Tab? targetTab,

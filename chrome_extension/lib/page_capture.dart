@@ -18,6 +18,7 @@ class ChromePageCapture {
   bool get isAvailable => $js.chrome.pageCaptureNullable != null;
 
   /// Saves the content of the tab with given id as MHTML.
+  /// [returns] Called when the MHTML has been generated.
   Future<ByteBuffer?> saveAsMHTML(SaveAsMhtmlDetails details) {
     var $completer = Completer<ByteBuffer?>();
     $js.chrome.pageCapture.saveAsMHTML(

@@ -26,6 +26,9 @@ class ChromeTts {
   /// strip away the tags and speak the text. The maximum length of the text
   /// is 32,768 characters.
   /// [options] The speech options.
+  /// [returns] Called right away, before speech finishes. Check
+  /// [runtime.lastError] to make sure there were no errors. Use
+  /// options.onEvent to get more detailed feedback.
   Future<void> speak(
     String utterance,
     TtsOptions? options,

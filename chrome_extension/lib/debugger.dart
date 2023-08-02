@@ -29,6 +29,9 @@ class ChromeDebugger {
   /// only attach to the debuggee with matching major version and greater or
   /// equal minor version. List of the protocol versions can be obtained
   /// [here](https://developer.chrome.com/devtools/docs/debugger-protocol).
+  /// [returns] Called once the attach operation succeeds or fails. Callback
+  /// receives no arguments. If the attach fails, [runtime.lastError] will be
+  /// set to the error message.
   Future<void> attach(
     Debuggee target,
     String requiredVersion,
@@ -41,6 +44,9 @@ class ChromeDebugger {
 
   /// Detaches debugger from the given target.
   /// [target] Debugging target from which you want to detach.
+  /// [returns] Called once the detach operation succeeds or fails. Callback
+  /// receives no arguments. If the detach fails, [runtime.lastError] will be
+  /// set to the error message.
   Future<void> detach(Debuggee target) async {
     await promiseToFuture<void>($js.chrome.debugger.detach(target.toJS));
   }
@@ -52,6 +58,9 @@ class ChromeDebugger {
   /// protocol](https://developer.chrome.com/devtools/docs/debugger-protocol).
   /// [commandParams] JSON object with request parameters. This object must
   /// conform to the remote debugging params scheme for given method.
+  /// [returns] Response body. If an error occurs while posting the message,
+  /// the callback will be called with no arguments and [runtime.lastError]
+  /// will be set to the error message.
   Future<Map?> sendCommand(
     Debuggee target,
     String method,

@@ -32,6 +32,7 @@ class ChromeDevtoolsInspectedWindow {
   /// true and `value` is set to the string value of thrown object.
   /// [expression] An expression to evaluate.
   /// [options] The options parameter can contain one or more options.
+  /// [returns] A function called when evaluation completes.
   Future<EvalResult> eval(
     String expression,
     EvalOptions? options,
@@ -61,6 +62,8 @@ class ChromeDevtoolsInspectedWindow {
   }
 
   /// Retrieves the list of resources from the inspected page.
+  /// [returns] A function that receives the list of resources when the
+  /// request completes.
   Future<List<Resource>> getResources() {
     var $completer = Completer<List<Resource>>();
     $js.chrome.devtools.inspectedWindow.getResources((JSArray resources) {
@@ -120,6 +123,8 @@ class Resource {
   }
 
   /// Gets the content of the resource.
+  /// [returns] A function that receives resource content when the request
+  /// completes.
   Future<GetContentResult> getContent() {
     var $completer = Completer<GetContentResult>();
     _wrapped.getContent((
@@ -142,6 +147,7 @@ class Resource {
   /// [commit] True if the user has finished editing the resource, and the new
   /// content of the resource should be persisted; false if this is a minor
   /// change sent in progress of the user editing the resource.
+  /// [returns] A function called upon request completion.
   Future<Map?> setContent(
     String content,
     bool commit,

@@ -23,6 +23,7 @@ class ChromeCommands {
 
   /// Returns all the registered extension commands for this extension and their
   /// shortcut (if active).
+  /// [returns] Called to return the registered commands.
   Future<List<Command>> getAll() async {
     var $res = await promiseToFuture<JSArray>($js.chrome.commands.getAll());
     return $res.toDart

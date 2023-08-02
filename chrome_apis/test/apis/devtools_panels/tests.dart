@@ -1,11 +1,5 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:checks/checks.dart';
-import 'package:chrome_apis/runtime.dart';
-import 'package:chrome_apis/src/internal_helpers.dart';
-import 'package:chrome_apis/storage.dart';
 import 'package:test/test.dart';
 import 'package:chrome_apis/devtools_panels.dart';
 

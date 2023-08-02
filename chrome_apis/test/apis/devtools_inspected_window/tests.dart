@@ -1,5 +1,4 @@
 import 'package:checks/checks.dart';
-import 'package:puppeteer/puppeteer.dart';
 import 'package:test/test.dart';
 
 import 'package:chrome_apis/devtools_inspected_window.dart';
@@ -10,7 +9,7 @@ void main() => setup(_tests);
 
 void _tests(TestContext context) {
   test('tabId', () async {
-    var tabId = await chrome.devtools.inspectedWindow.tabId;
+    var tabId = chrome.devtools.inspectedWindow.tabId;
     check(tabId).isGreaterThan(0);
   });
 

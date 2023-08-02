@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 
 import 'package:chrome_apis/runtime.dart' as runtime;
 import 'package:test/test.dart';

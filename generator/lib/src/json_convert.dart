@@ -348,8 +348,7 @@ class JsonModelConverter {
       ], isNullable: nullable);
     } else if (prop.items case var items?) {
       isArray = true;
-      type = context.createType(_extractType(items),
-          locationFile: _targetFileName, isNullable: false);
+      type = _propertyType(items);
     } else if (prop.additionalProperties != null && prop.isInstanceOf == null) {
       type = MapType(isNullable: nullable);
     } else {

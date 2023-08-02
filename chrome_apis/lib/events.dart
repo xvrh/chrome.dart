@@ -312,7 +312,12 @@ class UrlFilter {
           ..urlPrefix = urlPrefix
           ..urlSuffix = urlSuffix
           ..schemes = schemes?.toJSArray((e) => e)
-          ..ports = ports?.toJSArray((e) => e.jsify()!);
+          ..ports = ports?.toJSArray((e) => switch (e) {
+                int() => e,
+                List<int>() => e.toJSArray((e) => e),
+                _ => throw UnsupportedError(
+                    'Received type: ${e.runtimeType}. Supported types are: int, List<int>')
+              });
 
   final $js.UrlFilter _wrapped;
 
@@ -458,9 +463,19 @@ class UrlFilter {
   /// Matches if the port of the URL is contained in any of the specified port
   /// lists. For example `[80, 443, [1000, 1200]]` matches all requests on port
   /// 80, 443 and in the range 1000-1200.
-  List<Object>? get ports =>
-      _wrapped.ports?.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
+  List<Object>? get ports => _wrapped.ports?.toDart
+      .cast<Object>()
+      .map((e) => e.when(
+            isInt: (v) => v,
+            isArray: (v) => v.toDart.cast<int>().map((e) => e).toList(),
+          ))
+      .toList();
   set ports(List<Object>? v) {
-    _wrapped.ports = v?.toJSArray((e) => e.jsify()!);
+    _wrapped.ports = v?.toJSArray((e) => switch (e) {
+          int() => e,
+          List<int>() => e.toJSArray((e) => e),
+          _ => throw UnsupportedError(
+              'Received type: ${e.runtimeType}. Supported types are: int, List<int>')
+        });
   }
 }

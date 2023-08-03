@@ -13,13 +13,16 @@ jobs:
         sdk: ['stable']
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: ${{ matrix.sdk }}
+          channel: 'master'
       - uses: actions/checkout@v2
       - run: dart --version
-      - run: dart pub get
-        working-directory: chrome_apis
+      - run: |
+          (cd chrome_apis && dart pub get) && \
+          (cd generator && dart pub get) && \
+          (cd examples/extension_dart && dart pub get) && \
+          (cd examples/extension_flutter && flutter pub get)
       - run: dart pub get
         working-directory: generator
       - run: dart analyze --fatal-infos .
@@ -28,6 +31,8 @@ jobs:
         working-directory: chrome_apis
       - name: dart test generator
         run: dart test
+        working-directory: generator
+      - run: dart tool/gen_apis.dart
         working-directory: generator
       - run: dart tool/prepare_submit.dart
         working-directory: generator

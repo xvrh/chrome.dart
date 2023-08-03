@@ -29,8 +29,13 @@ jobs:
       - run: dart pub get
         working-directory: generator
       - run: flutter analyze --fatal-infos .
-      - name: dart test chrome_apis
-        run: dart test
+      - run: dart_master run puppeteer:download_chrome
+        working-directory: chrome_apis
+      - run: xvfb-run --auto-servernum dart test
+        if: runner.os == 'Linux'
+        working-directory: chrome_apis
+      - run: dart test
+        if: runner.os != 'Linux'
         working-directory: chrome_apis
       - name: dart test generator
         run: dart test

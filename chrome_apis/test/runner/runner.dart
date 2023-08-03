@@ -76,8 +76,8 @@ Future<void> runTests(String source,
   browser = await puppeteer.launch(
     headless: false,
     args: [
-      '--disable-extensions-except=$extensionPath',
-      '--load-extension=$extensionPath',
+      '--disable-extensions-except=${Directory(extensionPath).absolute.path}',
+      '--load-extension=${Directory(extensionPath).absolute.path}',
       '--remote-debugging-port=$puppeteerPort',
       '--remote-allow-origins=*',
     ],

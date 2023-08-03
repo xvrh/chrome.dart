@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/idle.dart' as $js;
 
@@ -60,9 +64,9 @@ class ChromeIdle {
   /// activates, "idle" if the system is unlocked and the user has not generated
   /// any input for a specified number of seconds, and "active" when the user
   /// generates input on an idle system.
-  Stream<IdleState> get onStateChanged =>
+  EventStream<IdleState> get onStateChanged =>
       $js.chrome.idle.onStateChanged.asStream(($c) => ($js.IdleState newState) {
-            $c(IdleState.fromJS(newState));
+            return $c(IdleState.fromJS(newState));
           });
 }
 

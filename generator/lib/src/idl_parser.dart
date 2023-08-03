@@ -138,9 +138,7 @@ class ChromeIDLGrammar extends GrammarDefinition {
       ).toSequenceParser().map6((doc, attr, types, optional, name, _) {
         types.apply((type) => typeWithAttribute(type, attr));
         return IDLField(name, types,
-              attribute: attr,
-              isOptional: optional != null,
-              documentation: doc);
+            attribute: attr, isOptional: optional != null, documentation: doc);
       });
 
   Parser<IDLMethod> method() => (
@@ -388,7 +386,7 @@ bool isCallback(String name) =>
 
 IDLType typeWithAttribute(IDLType type, IDLAttributeDeclaration? attribute) {
   var instanceOfAttribute = attribute?.attributes.firstWhereOrNull(
-      (e) => e.attributeType == IDLAttributeTypeEnum.INSTANCE_OF);
+      (e) => e.attributeType == IDLAttributeTypeEnum.instanceOf);
   if (type.name == 'object' && instanceOfAttribute != null) {
     type = idlAttributeTypeMapping(instanceOfAttribute, isArray: type.isArray);
   }
@@ -398,7 +396,7 @@ IDLType typeWithAttribute(IDLType type, IDLAttributeDeclaration? attribute) {
 /// Mapping the type of an attribute.
 IDLType idlAttributeTypeMapping(IDLAttribute instanceOfAttribute,
     {bool isArray = false}) {
-  assert(instanceOfAttribute.attributeType == IDLAttributeTypeEnum.INSTANCE_OF);
+  assert(instanceOfAttribute.attributeType == IDLAttributeTypeEnum.instanceOf);
   return IDLType(instanceOfAttribute.attributeValue!, isArray: isArray);
 }
 

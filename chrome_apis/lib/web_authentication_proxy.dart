@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -107,30 +111,30 @@ class ChromeWebAuthenticationProxy {
   /// `attach()` or `detach()` API methods accordingly.
   ///
   /// The event listener must be registered synchronously at load time.
-  Stream<void> get onRemoteSessionStateChange =>
+  EventStream<void> get onRemoteSessionStateChange =>
       $js.chrome.webAuthenticationProxy.onRemoteSessionStateChange
           .asStream(($c) => () {
-                $c(null);
+                return $c(null);
               });
 
   /// Fires when a WebAuthn `navigator.credentials.create()` call
   /// occurs. The extension must supply a response by calling
   /// `completeCreateRequest()` with the `requestId` from
   /// `requestInfo`.
-  Stream<CreateRequest> get onCreateRequest =>
+  EventStream<CreateRequest> get onCreateRequest =>
       $js.chrome.webAuthenticationProxy.onCreateRequest
           .asStream(($c) => ($js.CreateRequest requestInfo) {
-                $c(CreateRequest.fromJS(requestInfo));
+                return $c(CreateRequest.fromJS(requestInfo));
               });
 
   /// Fires when a WebAuthn navigator.credentials.get() call occurs. The
   /// extension must supply a response by calling
   /// `completeGetRequest()` with the `requestId` from
   /// `requestInfo`
-  Stream<GetRequest> get onGetRequest =>
+  EventStream<GetRequest> get onGetRequest =>
       $js.chrome.webAuthenticationProxy.onGetRequest
           .asStream(($c) => ($js.GetRequest requestInfo) {
-                $c(GetRequest.fromJS(requestInfo));
+                return $c(GetRequest.fromJS(requestInfo));
               });
 
   /// Fires when a
@@ -138,10 +142,10 @@ class ChromeWebAuthenticationProxy {
   /// call occurs. The extension must supply a response by calling
   /// `completeIsUvpaaRequest()` with the `requestId`
   /// from `requestInfo`
-  Stream<IsUvpaaRequest> get onIsUvpaaRequest =>
+  EventStream<IsUvpaaRequest> get onIsUvpaaRequest =>
       $js.chrome.webAuthenticationProxy.onIsUvpaaRequest
           .asStream(($c) => ($js.IsUvpaaRequest requestInfo) {
-                $c(IsUvpaaRequest.fromJS(requestInfo));
+                return $c(IsUvpaaRequest.fromJS(requestInfo));
               });
 
   /// Fires when a `onCreateRequest` or `onGetRequest`
@@ -150,10 +154,10 @@ class ChromeWebAuthenticationProxy {
   /// extension should cancel processing of the corresponding request on the
   /// client side. Extensions cannot complete a request once it has been
   /// canceled.
-  Stream<int> get onRequestCanceled =>
+  EventStream<int> get onRequestCanceled =>
       $js.chrome.webAuthenticationProxy.onRequestCanceled
           .asStream(($c) => (int requestId) {
-                $c(requestId);
+                return $c(requestId);
               });
 }
 
@@ -164,7 +168,7 @@ class IsUvpaaRequest {
       {
       /// An opaque identifier for the request.
       required int requestId})
-      : _wrapped = $js.IsUvpaaRequest()..requestId = requestId;
+      : _wrapped = $js.IsUvpaaRequest(requestId: requestId);
 
   final $js.IsUvpaaRequest _wrapped;
 
@@ -190,9 +194,10 @@ class CreateRequest {
     /// href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
     /// `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
     required String requestDetailsJson,
-  }) : _wrapped = $js.CreateRequest()
-          ..requestId = requestId
-          ..requestDetailsJson = requestDetailsJson;
+  }) : _wrapped = $js.CreateRequest(
+          requestId: requestId,
+          requestDetailsJson: requestDetailsJson,
+        );
 
   final $js.CreateRequest _wrapped;
 
@@ -228,9 +233,10 @@ class GetRequest {
     /// href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
     /// `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
     required String requestDetailsJson,
-  }) : _wrapped = $js.GetRequest()
-          ..requestId = requestId
-          ..requestDetailsJson = requestDetailsJson;
+  }) : _wrapped = $js.GetRequest(
+          requestId: requestId,
+          requestDetailsJson: requestDetailsJson,
+        );
 
   final $js.GetRequest _wrapped;
 
@@ -267,6 +273,16 @@ class DOMExceptionDetails {
   final $js.DOMExceptionDetails _wrapped;
 
   $js.DOMExceptionDetails get toJS => _wrapped;
+
+  String get name => _wrapped.name;
+  set name(String v) {
+    _wrapped.name = v;
+  }
+
+  String get message => _wrapped.message;
+  set message(String v) {
+    _wrapped.message = v;
+  }
 }
 
 class CreateResponseDetails {
@@ -293,6 +309,28 @@ class CreateResponseDetails {
   final $js.CreateResponseDetails _wrapped;
 
   $js.CreateResponseDetails get toJS => _wrapped;
+
+  /// The `requestId` of the `CreateRequest`.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    _wrapped.requestId = v;
+  }
+
+  /// The `DOMException` yielded by the remote request, if any.
+  DOMExceptionDetails? get error =>
+      _wrapped.error?.let(DOMExceptionDetails.fromJS);
+  set error(DOMExceptionDetails? v) {
+    _wrapped.error = v?.toJS;
+  }
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  String? get responseJson => _wrapped.responseJson;
+  set responseJson(String? v) {
+    _wrapped.responseJson = v;
+  }
 }
 
 class GetResponseDetails {
@@ -319,6 +357,28 @@ class GetResponseDetails {
   final $js.GetResponseDetails _wrapped;
 
   $js.GetResponseDetails get toJS => _wrapped;
+
+  /// The `requestId` of the `CreateRequest`.
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    _wrapped.requestId = v;
+  }
+
+  /// The `DOMException` yielded by the remote request, if any.
+  DOMExceptionDetails? get error =>
+      _wrapped.error?.let(DOMExceptionDetails.fromJS);
+  set error(DOMExceptionDetails? v) {
+    _wrapped.error = v?.toJS;
+  }
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  String? get responseJson => _wrapped.responseJson;
+  set responseJson(String? v) {
+    _wrapped.responseJson = v;
+  }
 }
 
 class IsUvpaaResponseDetails {
@@ -335,4 +395,14 @@ class IsUvpaaResponseDetails {
   final $js.IsUvpaaResponseDetails _wrapped;
 
   $js.IsUvpaaResponseDetails get toJS => _wrapped;
+
+  int get requestId => _wrapped.requestId;
+  set requestId(int v) {
+    _wrapped.requestId = v;
+  }
+
+  bool get isUvpaa => _wrapped.isUvpaa;
+  set isUvpaa(bool v) {
+    _wrapped.isUvpaa = v;
+  }
 }

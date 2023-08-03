@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -61,4 +66,17 @@ class CreateParameters {
     /// user.
     String justification,
   });
+}
+
+extension CreateParametersExtension on CreateParameters {
+  /// The reason(s) the extension is creating the offscreen document.
+  external JSArray reasons;
+
+  /// The (relative) URL to load in the document.
+  external String url;
+
+  /// A developer-provided string that explains, in more detail, the need for
+  /// the background context. The user agent _may_ use this in display to the
+  /// user.
+  external String justification;
 }

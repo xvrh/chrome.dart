@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -54,9 +58,9 @@ class ChromeSessions {
 
   /// Fired when recently closed tabs and/or windows are changed. This event
   /// does not monitor synced sessions changes.
-  Stream<void> get onChanged =>
+  EventStream<void> get onChanged =>
       $js.chrome.sessions.onChanged.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -74,6 +78,14 @@ class Filter {
   final $js.Filter _wrapped;
 
   $js.Filter get toJS => _wrapped;
+
+  /// The maximum number of entries to be fetched in the requested list. Omit
+  /// this parameter to fetch the maximum number of entries
+  /// ([sessions.MAX_SESSION_RESULTS]).
+  int? get maxResults => _wrapped.maxResults;
+  set maxResults(int? v) {
+    _wrapped.maxResults = v;
+  }
 }
 
 class Session {
@@ -91,10 +103,11 @@ class Session {
     /// The [windows.Window], if this entry describes a window. Either this or
     /// [sessions.Session.tab] will be set.
     Window? window,
-  }) : _wrapped = $js.Session()
-          ..lastModified = lastModified
-          ..tab = tab?.toJS
-          ..window = window?.toJS;
+  }) : _wrapped = $js.Session(
+          lastModified: lastModified,
+          tab: tab?.toJS,
+          window: window?.toJS,
+        );
 
   final $js.Session _wrapped;
 
@@ -134,10 +147,11 @@ class Device {
     /// A list of open window sessions for the foreign device, sorted from most
     /// recently to least recently modified session.
     required List<Session> sessions,
-  }) : _wrapped = $js.Device()
-          ..info = info
-          ..deviceName = deviceName
-          ..sessions = sessions.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.Device(
+          info: info,
+          deviceName: deviceName,
+          sessions: sessions.toJSArray((e) => e.toJS),
+        );
 
   final $js.Device _wrapped;
 

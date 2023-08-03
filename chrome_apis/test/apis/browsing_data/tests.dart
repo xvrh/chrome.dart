@@ -24,13 +24,13 @@ void _tests(TestContext context) {
           fileSystems: true,
           formData: true,
           history: true,
-          indexedDB: true,
+          indexedDb: true,
           localStorage: true,
           serverBoundCertificates: true,
           serviceWorkers: true,
           pluginData: true,
           passwords: true,
-          webSQL: true),
+          webSql: true),
     );
   });
 }

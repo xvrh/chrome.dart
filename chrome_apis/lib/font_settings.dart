@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -117,32 +121,32 @@ class ChromeFontSettings {
   }
 
   /// Fired when a font setting changes.
-  Stream<OnFontChangedDetails> get onFontChanged =>
+  EventStream<OnFontChangedDetails> get onFontChanged =>
       $js.chrome.fontSettings.onFontChanged
           .asStream(($c) => ($js.OnFontChangedDetails details) {
-                $c(OnFontChangedDetails.fromJS(details));
+                return $c(OnFontChangedDetails.fromJS(details));
               });
 
   /// Fired when the default font size setting changes.
-  Stream<OnDefaultFontSizeChangedDetails> get onDefaultFontSizeChanged =>
+  EventStream<OnDefaultFontSizeChangedDetails> get onDefaultFontSizeChanged =>
       $js.chrome.fontSettings.onDefaultFontSizeChanged
           .asStream(($c) => ($js.OnDefaultFontSizeChangedDetails details) {
-                $c(OnDefaultFontSizeChangedDetails.fromJS(details));
+                return $c(OnDefaultFontSizeChangedDetails.fromJS(details));
               });
 
   /// Fired when the default fixed font size setting changes.
-  Stream<OnDefaultFixedFontSizeChangedDetails>
+  EventStream<OnDefaultFixedFontSizeChangedDetails>
       get onDefaultFixedFontSizeChanged => $js
           .chrome.fontSettings.onDefaultFixedFontSizeChanged
           .asStream(($c) => ($js.OnDefaultFixedFontSizeChangedDetails details) {
-                $c(OnDefaultFixedFontSizeChangedDetails.fromJS(details));
+                return $c(OnDefaultFixedFontSizeChangedDetails.fromJS(details));
               });
 
   /// Fired when the minimum font size setting changes.
-  Stream<OnMinimumFontSizeChangedDetails> get onMinimumFontSizeChanged =>
+  EventStream<OnMinimumFontSizeChangedDetails> get onMinimumFontSizeChanged =>
       $js.chrome.fontSettings.onMinimumFontSizeChanged
           .asStream(($c) => ($js.OnMinimumFontSizeChangedDetails details) {
-                $c(OnMinimumFontSizeChangedDetails.fromJS(details));
+                return $c(OnMinimumFontSizeChangedDetails.fromJS(details));
               });
 }
 
@@ -360,9 +364,10 @@ class FontName {
 
     /// The display name of the font.
     required String displayName,
-  }) : _wrapped = $js.FontName()
-          ..fontId = fontId
-          ..displayName = displayName;
+  }) : _wrapped = $js.FontName(
+          fontId: fontId,
+          displayName: displayName,
+        );
 
   final $js.FontName _wrapped;
 
@@ -396,11 +401,12 @@ class OnFontChangedDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.OnFontChangedDetails()
-          ..fontId = fontId
-          ..script = script?.toJS
-          ..genericFamily = genericFamily.toJS
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.OnFontChangedDetails(
+          fontId: fontId,
+          script: script?.toJS,
+          genericFamily: genericFamily.toJS,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.OnFontChangedDetails _wrapped;
 
@@ -442,9 +448,10 @@ class OnDefaultFontSizeChangedDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.OnDefaultFontSizeChangedDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.OnDefaultFontSizeChangedDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.OnDefaultFontSizeChangedDetails _wrapped;
 
@@ -473,9 +480,10 @@ class OnDefaultFixedFontSizeChangedDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.OnDefaultFixedFontSizeChangedDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.OnDefaultFixedFontSizeChangedDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.OnDefaultFixedFontSizeChangedDetails _wrapped;
 
@@ -504,9 +512,10 @@ class OnMinimumFontSizeChangedDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.OnMinimumFontSizeChangedDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.OnMinimumFontSizeChangedDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.OnMinimumFontSizeChangedDetails _wrapped;
 
@@ -544,6 +553,20 @@ class ClearFontDetails {
   final $js.ClearFontDetails _wrapped;
 
   $js.ClearFontDetails get toJS => _wrapped;
+
+  /// The script for which the font should be cleared. If omitted, the global
+  /// script font setting is cleared.
+  ScriptCode? get script => _wrapped.script?.let(ScriptCode.fromJS);
+  set script(ScriptCode? v) {
+    _wrapped.script = v?.toJS;
+  }
+
+  /// The generic font family for which the font should be cleared.
+  GenericFamily get genericFamily =>
+      GenericFamily.fromJS(_wrapped.genericFamily);
+  set genericFamily(GenericFamily v) {
+    _wrapped.genericFamily = v.toJS;
+  }
 }
 
 class GetFontCallbackDetails {
@@ -559,9 +582,10 @@ class GetFontCallbackDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.GetFontCallbackDetails()
-          ..fontId = fontId
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.GetFontCallbackDetails(
+          fontId: fontId,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.GetFontCallbackDetails _wrapped;
 
@@ -603,6 +627,20 @@ class GetFontDetails {
   final $js.GetFontDetails _wrapped;
 
   $js.GetFontDetails get toJS => _wrapped;
+
+  /// The script for which the font should be retrieved. If omitted, the font
+  /// setting for the global script (script code "Zyyy") is retrieved.
+  ScriptCode? get script => _wrapped.script?.let(ScriptCode.fromJS);
+  set script(ScriptCode? v) {
+    _wrapped.script = v?.toJS;
+  }
+
+  /// The generic font family for which the font should be retrieved.
+  GenericFamily get genericFamily =>
+      GenericFamily.fromJS(_wrapped.genericFamily);
+  set genericFamily(GenericFamily v) {
+    _wrapped.genericFamily = v.toJS;
+  }
 }
 
 class SetFontDetails {
@@ -628,6 +666,27 @@ class SetFontDetails {
   final $js.SetFontDetails _wrapped;
 
   $js.SetFontDetails get toJS => _wrapped;
+
+  /// The script code which the font should be set. If omitted, the font setting
+  /// for the global script (script code "Zyyy") is set.
+  ScriptCode? get script => _wrapped.script?.let(ScriptCode.fromJS);
+  set script(ScriptCode? v) {
+    _wrapped.script = v?.toJS;
+  }
+
+  /// The generic font family for which the font should be set.
+  GenericFamily get genericFamily =>
+      GenericFamily.fromJS(_wrapped.genericFamily);
+  set genericFamily(GenericFamily v) {
+    _wrapped.genericFamily = v.toJS;
+  }
+
+  /// The font ID. The empty string means to fallback to the global script font
+  /// setting.
+  String get fontId => _wrapped.fontId;
+  set fontId(String v) {
+    _wrapped.fontId = v;
+  }
 }
 
 class ClearDefaultFontSizeDetails {
@@ -649,9 +708,10 @@ class GetDefaultFontSizeCallbackDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.GetDefaultFontSizeCallbackDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.GetDefaultFontSizeCallbackDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.GetDefaultFontSizeCallbackDetails _wrapped;
 
@@ -693,6 +753,12 @@ class SetDefaultFontSizeDetails {
   final $js.SetDefaultFontSizeDetails _wrapped;
 
   $js.SetDefaultFontSizeDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    _wrapped.pixelSize = v;
+  }
 }
 
 class ClearDefaultFixedFontSizeDetails {
@@ -715,9 +781,10 @@ class GetDefaultFixedFontSizeCallbackDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.GetDefaultFixedFontSizeCallbackDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.GetDefaultFixedFontSizeCallbackDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.GetDefaultFixedFontSizeCallbackDetails _wrapped;
 
@@ -760,6 +827,12 @@ class SetDefaultFixedFontSizeDetails {
   final $js.SetDefaultFixedFontSizeDetails _wrapped;
 
   $js.SetDefaultFixedFontSizeDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    _wrapped.pixelSize = v;
+  }
 }
 
 class ClearMinimumFontSizeDetails {
@@ -781,9 +854,10 @@ class GetMinimumFontSizeCallbackDetails {
 
     /// The level of control this extension has over the setting.
     required LevelOfControl levelOfControl,
-  }) : _wrapped = $js.GetMinimumFontSizeCallbackDetails()
-          ..pixelSize = pixelSize
-          ..levelOfControl = levelOfControl.toJS;
+  }) : _wrapped = $js.GetMinimumFontSizeCallbackDetails(
+          pixelSize: pixelSize,
+          levelOfControl: levelOfControl.toJS,
+        );
 
   final $js.GetMinimumFontSizeCallbackDetails _wrapped;
 
@@ -825,4 +899,10 @@ class SetMinimumFontSizeDetails {
   final $js.SetMinimumFontSizeDetails _wrapped;
 
   $js.SetMinimumFontSizeDetails get toJS => _wrapped;
+
+  /// The font size in pixels.
+  int get pixelSize => _wrapped.pixelSize;
+  set pixelSize(int v) {
+    _wrapped.pixelSize = v;
+  }
 }

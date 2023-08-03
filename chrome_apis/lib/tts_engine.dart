@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -59,13 +63,13 @@ class ChromeTtsEngine {
 
   /// Called when the user makes a call to tts.speak() and one of the voices
   /// from this extension's manifest is the first to match the options object.
-  Stream<OnSpeakEvent> get onSpeak =>
+  EventStream<OnSpeakEvent> get onSpeak =>
       $js.chrome.ttsEngine.onSpeak.asStream(($c) => (
             String utterance,
             $js.SpeakOptions options,
             Function sendTtsEvent,
           ) {
-            $c(OnSpeakEvent(
+            return $c(OnSpeakEvent(
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
               sendTtsEvent: ([Object? p1, Object? p2]) {
@@ -80,7 +84,7 @@ class ChromeTtsEngine {
   /// from this extension's manifest is the first to match the options object.
   /// Differs from ttsEngine.onSpeak in that Chrome provides audio playback
   /// services and handles dispatching tts events.
-  Stream<OnSpeakWithAudioStreamEvent> get onSpeakWithAudioStream =>
+  EventStream<OnSpeakWithAudioStreamEvent> get onSpeakWithAudioStream =>
       $js.chrome.ttsEngine.onSpeakWithAudioStream.asStream(($c) => (
             String utterance,
             $js.SpeakOptions options,
@@ -88,7 +92,7 @@ class ChromeTtsEngine {
             Function sendTtsAudio,
             Function sendError,
           ) {
-            $c(OnSpeakWithAudioStreamEvent(
+            return $c(OnSpeakWithAudioStreamEvent(
               utterance: utterance,
               options: SpeakOptions.fromJS(options),
               audioStreamOptions: AudioStreamOptions.fromJS(audioStreamOptions),
@@ -109,23 +113,25 @@ class ChromeTtsEngine {
   /// middle of speaking. If an extension receives a call to onStop and speech
   /// is already stopped, it should do nothing (not raise an error). If speech
   /// is in the paused state, this should cancel the paused state.
-  Stream<void> get onStop => $js.chrome.ttsEngine.onStop.asStream(($c) => () {
-        $c(null);
-      });
+  EventStream<void> get onStop =>
+      $js.chrome.ttsEngine.onStop.asStream(($c) => () {
+            return $c(null);
+          });
 
   /// Optional: if an engine supports the pause event, it should pause the
   /// current utterance being spoken, if any, until it receives a resume event
   /// or stop event. Note that a stop event should also clear the paused state.
-  Stream<void> get onPause => $js.chrome.ttsEngine.onPause.asStream(($c) => () {
-        $c(null);
-      });
+  EventStream<void> get onPause =>
+      $js.chrome.ttsEngine.onPause.asStream(($c) => () {
+            return $c(null);
+          });
 
   /// Optional: if an engine supports the pause event, it should also support
   /// the resume event, to continue speaking the current utterance, if any. Note
   /// that a stop event should also clear the paused state.
-  Stream<void> get onResume =>
+  EventStream<void> get onResume =>
       $js.chrome.ttsEngine.onResume.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -171,13 +177,14 @@ class SpeakOptions {
     /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1
     /// being highest, with a default of 1.0.
     double? volume,
-  }) : _wrapped = $js.SpeakOptions()
-          ..voiceName = voiceName
-          ..lang = lang
-          ..gender = gender?.toJS
-          ..rate = rate
-          ..pitch = pitch
-          ..volume = volume;
+  }) : _wrapped = $js.SpeakOptions(
+          voiceName: voiceName,
+          lang: lang,
+          gender: gender?.toJS,
+          rate: rate,
+          pitch: pitch,
+          volume: volume,
+        );
 
   final $js.SpeakOptions _wrapped;
 
@@ -237,9 +244,10 @@ class AudioStreamOptions {
 
     /// The number of samples within an audio buffer.
     required int bufferSize,
-  }) : _wrapped = $js.AudioStreamOptions()
-          ..sampleRate = sampleRate
-          ..bufferSize = bufferSize;
+  }) : _wrapped = $js.AudioStreamOptions(
+          sampleRate: sampleRate,
+          bufferSize: bufferSize,
+        );
 
   final $js.AudioStreamOptions _wrapped;
 
@@ -282,6 +290,27 @@ class AudioBuffer {
   final $js.AudioBuffer _wrapped;
 
   $js.AudioBuffer get toJS => _wrapped;
+
+  /// The audio buffer from the text-to-speech engine. It should have length
+  /// exactly audioStreamOptions.bufferSize and encoded as mono, at
+  /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
+  /// the Float32Array type in javascript.
+  ByteBuffer get audioBuffer => _wrapped.audioBuffer.toDart;
+  set audioBuffer(ByteBuffer v) {
+    _wrapped.audioBuffer = v.toJS;
+  }
+
+  /// The character index associated with this audio buffer.
+  int? get charIndex => _wrapped.charIndex;
+  set charIndex(int? v) {
+    _wrapped.charIndex = v;
+  }
+
+  /// True if this audio buffer is the last for the text being spoken.
+  bool? get isLastBuffer => _wrapped.isLastBuffer;
+  set isLastBuffer(bool? v) {
+    _wrapped.isLastBuffer = v;
+  }
 }
 
 class OnSpeakEvent {

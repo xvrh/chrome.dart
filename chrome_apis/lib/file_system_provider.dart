@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 import 'dart:typed_data';
 
@@ -106,19 +110,21 @@ class ChromeFileSystemProvider {
   /// [unmount] API method must be called together with
   /// `successCallback`. If unmounting is not possible (eg. due to
   /// a pending operation), then `errorCallback` must be called.
-  Stream<OnUnmountRequestedEvent> get onUnmountRequested =>
+  EventStream<OnUnmountRequestedEvent> get onUnmountRequested =>
       $js.chrome.fileSystemProvider.onUnmountRequested.asStream(($c) => (
             $js.UnmountRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnUnmountRequestedEvent(
+            return $c(OnUnmountRequestedEvent(
               options: UnmountRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -127,19 +133,21 @@ class ChromeFileSystemProvider {
   /// is requested. The metadata must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  Stream<OnGetMetadataRequestedEvent> get onGetMetadataRequested =>
+  EventStream<OnGetMetadataRequestedEvent> get onGetMetadataRequested =>
       $js.chrome.fileSystemProvider.onGetMetadataRequested.asStream(($c) => (
             $js.GetMetadataRequestedOptions options,
             $js.MetadataCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnGetMetadataRequestedEvent(
+            return $c(OnGetMetadataRequestedEvent(
               options: GetMetadataRequestedOptions.fromJS(options),
               successCallback: (EntryMetadata metadata) {
-                successCallback(metadata.toJS);
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)(metadata.toJS);
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -150,19 +158,21 @@ class ChromeFileSystemProvider {
   /// should be returned. The actions must be returned with the
   /// `successCallback` call. In case of an error,
   /// `errorCallback` must be called.
-  Stream<OnGetActionsRequestedEvent> get onGetActionsRequested =>
+  EventStream<OnGetActionsRequestedEvent> get onGetActionsRequested =>
       $js.chrome.fileSystemProvider.onGetActionsRequested.asStream(($c) => (
             $js.GetActionsRequestedOptions options,
             $js.ActionsCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnGetActionsRequestedEvent(
+            return $c(OnGetActionsRequestedEvent(
               options: GetActionsRequestedOptions.fromJS(options),
               successCallback: (List<Action> actions) {
-                successCallback(actions.toJSArray((e) => e.toJS));
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)(actions.toJSArray((e) => e.toJS));
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -171,19 +181,22 @@ class ChromeFileSystemProvider {
   /// requested. The results must be returned in chunks by calling the
   /// `successCallback` several times. In case of an error,
   /// `errorCallback` must be called.
-  Stream<OnReadDirectoryRequestedEvent> get onReadDirectoryRequested =>
+  EventStream<OnReadDirectoryRequestedEvent> get onReadDirectoryRequested =>
       $js.chrome.fileSystemProvider.onReadDirectoryRequested.asStream(($c) => (
             $js.ReadDirectoryRequestedOptions options,
             $js.EntriesCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnReadDirectoryRequestedEvent(
+            return $c(OnReadDirectoryRequestedEvent(
               options: ReadDirectoryRequestedOptions.fromJS(options),
               successCallback: (List<EntryMetadata> entries, bool hasMore) {
-                successCallback(entries.toJSArray((e) => e.toJS), hasMore);
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)(
+                    entries.toJSArray((e) => e.toJS), hasMore);
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -191,38 +204,42 @@ class ChromeFileSystemProvider {
   /// Raised when opening a file at `filePath` is requested. If the
   /// file does not exist, then the operation must fail. Maximum number of
   /// files opened at once can be specified with `MountOptions`.
-  Stream<OnOpenFileRequestedEvent> get onOpenFileRequested =>
+  EventStream<OnOpenFileRequestedEvent> get onOpenFileRequested =>
       $js.chrome.fileSystemProvider.onOpenFileRequested.asStream(($c) => (
             $js.OpenFileRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnOpenFileRequestedEvent(
+            return $c(OnOpenFileRequestedEvent(
               options: OpenFileRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when opening a file previously opened with
   /// `openRequestId` is requested to be closed.
-  Stream<OnCloseFileRequestedEvent> get onCloseFileRequested =>
+  EventStream<OnCloseFileRequestedEvent> get onCloseFileRequested =>
       $js.chrome.fileSystemProvider.onCloseFileRequested.asStream(($c) => (
             $js.CloseFileRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnCloseFileRequestedEvent(
+            return $c(OnCloseFileRequestedEvent(
               options: CloseFileRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -231,19 +248,21 @@ class ChromeFileSystemProvider {
   /// `openRequestId` is requested. The results must be returned in
   /// chunks by calling `successCallback` several times. In case of
   /// an error, `errorCallback` must be called.
-  Stream<OnReadFileRequestedEvent> get onReadFileRequested =>
+  EventStream<OnReadFileRequestedEvent> get onReadFileRequested =>
       $js.chrome.fileSystemProvider.onReadFileRequested.asStream(($c) => (
             $js.ReadFileRequestedOptions options,
             $js.FileDataCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnReadFileRequestedEvent(
+            return $c(OnReadFileRequestedEvent(
               options: ReadFileRequestedOptions.fromJS(options),
               successCallback: (ByteBuffer data, bool hasMore) {
-                successCallback(data.toJS, hasMore);
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)(data.toJS, hasMore);
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -252,20 +271,22 @@ class ChromeFileSystemProvider {
   /// with the EXISTS error if the target directory already exists.
   /// If `recursive` is true, then all of the missing directories
   /// on the directory path must be created.
-  Stream<OnCreateDirectoryRequestedEvent> get onCreateDirectoryRequested =>
+  EventStream<OnCreateDirectoryRequestedEvent> get onCreateDirectoryRequested =>
       $js.chrome.fileSystemProvider.onCreateDirectoryRequested
           .asStream(($c) => (
                 $js.CreateDirectoryRequestedOptions options,
                 $js.ProviderSuccessCallback successCallback,
                 $js.ProviderErrorCallback errorCallback,
               ) {
-                $c(OnCreateDirectoryRequestedEvent(
+                return $c(OnCreateDirectoryRequestedEvent(
                   options: CreateDirectoryRequestedOptions.fromJS(options),
                   successCallback: () {
-                    successCallback();
+                    //ignore: avoid_dynamic_calls
+                    (successCallback as Function)();
                   },
                   errorCallback: (ProviderError error) {
-                    errorCallback(error.toJS);
+                    //ignore: avoid_dynamic_calls
+                    (errorCallback as Function)(error.toJS);
                   },
                 ));
               });
@@ -273,19 +294,21 @@ class ChromeFileSystemProvider {
   /// Raised when deleting an entry is requested. If `recursive` is
   /// true, and the entry is a directory, then all of the entries inside
   /// must be recursively deleted as well.
-  Stream<OnDeleteEntryRequestedEvent> get onDeleteEntryRequested =>
+  EventStream<OnDeleteEntryRequestedEvent> get onDeleteEntryRequested =>
       $js.chrome.fileSystemProvider.onDeleteEntryRequested.asStream(($c) => (
             $js.DeleteEntryRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnDeleteEntryRequestedEvent(
+            return $c(OnDeleteEntryRequestedEvent(
               options: DeleteEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -293,95 +316,105 @@ class ChromeFileSystemProvider {
   /// Raised when creating a file is requested. If the file already exists,
   /// then `errorCallback` must be called with the
   /// `"EXISTS"` error code.
-  Stream<OnCreateFileRequestedEvent> get onCreateFileRequested =>
+  EventStream<OnCreateFileRequestedEvent> get onCreateFileRequested =>
       $js.chrome.fileSystemProvider.onCreateFileRequested.asStream(($c) => (
             $js.CreateFileRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnCreateFileRequestedEvent(
+            return $c(OnCreateFileRequestedEvent(
               options: CreateFileRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when copying an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream<OnCopyEntryRequestedEvent> get onCopyEntryRequested =>
+  EventStream<OnCopyEntryRequestedEvent> get onCopyEntryRequested =>
       $js.chrome.fileSystemProvider.onCopyEntryRequested.asStream(($c) => (
             $js.CopyEntryRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnCopyEntryRequestedEvent(
+            return $c(OnCopyEntryRequestedEvent(
               options: CopyEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when moving an entry (recursively if a directory) is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream<OnMoveEntryRequestedEvent> get onMoveEntryRequested =>
+  EventStream<OnMoveEntryRequestedEvent> get onMoveEntryRequested =>
       $js.chrome.fileSystemProvider.onMoveEntryRequested.asStream(($c) => (
             $js.MoveEntryRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnMoveEntryRequestedEvent(
+            return $c(OnMoveEntryRequestedEvent(
               options: MoveEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when truncating a file to a desired length is requested.
   /// If an error occurs, then `errorCallback` must be called.
-  Stream<OnTruncateRequestedEvent> get onTruncateRequested =>
+  EventStream<OnTruncateRequestedEvent> get onTruncateRequested =>
       $js.chrome.fileSystemProvider.onTruncateRequested.asStream(($c) => (
             $js.TruncateRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnTruncateRequestedEvent(
+            return $c(OnTruncateRequestedEvent(
               options: TruncateRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when writing contents to a file opened previously with
   /// `openRequestId` is requested.
-  Stream<OnWriteFileRequestedEvent> get onWriteFileRequested =>
+  EventStream<OnWriteFileRequestedEvent> get onWriteFileRequested =>
       $js.chrome.fileSystemProvider.onWriteFileRequested.asStream(($c) => (
             $js.WriteFileRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnWriteFileRequestedEvent(
+            return $c(OnWriteFileRequestedEvent(
               options: WriteFileRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -393,19 +426,21 @@ class ChromeFileSystemProvider {
   /// `errorCallback` must be called. Note, that callbacks of the
   /// aborted operation must not be called, as they will be ignored. Despite
   /// calling `errorCallback`, the request may be forcibly aborted.
-  Stream<OnAbortRequestedEvent> get onAbortRequested =>
+  EventStream<OnAbortRequestedEvent> get onAbortRequested =>
       $js.chrome.fileSystemProvider.onAbortRequested.asStream(($c) => (
             $js.AbortRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnAbortRequestedEvent(
+            return $c(OnAbortRequestedEvent(
               options: AbortRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -414,19 +449,21 @@ class ChromeFileSystemProvider {
   /// is requested. If it's handled, the
   /// `file_system_provider.configurable` manfiest option must be
   /// set to true.
-  Stream<OnConfigureRequestedEvent> get onConfigureRequested =>
+  EventStream<OnConfigureRequestedEvent> get onConfigureRequested =>
       $js.chrome.fileSystemProvider.onConfigureRequested.asStream(($c) => (
             $js.ConfigureRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnConfigureRequestedEvent(
+            return $c(OnConfigureRequestedEvent(
               options: ConfigureRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -437,55 +474,61 @@ class ChromeFileSystemProvider {
   /// order to mount new file systems when a file is opened. For multiple
   /// mounts, the `file_system_provider.multiple_mounts` manifest
   /// option must be set to true.
-  Stream<OnMountRequestedEvent> get onMountRequested =>
+  EventStream<OnMountRequestedEvent> get onMountRequested =>
       $js.chrome.fileSystemProvider.onMountRequested.asStream(($c) => (
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnMountRequestedEvent(
+            return $c(OnMountRequestedEvent(
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when setting a new directory watcher is requested. If an error
   /// occurs, then `errorCallback` must be called.
-  Stream<OnAddWatcherRequestedEvent> get onAddWatcherRequested =>
+  EventStream<OnAddWatcherRequestedEvent> get onAddWatcherRequested =>
       $js.chrome.fileSystemProvider.onAddWatcherRequested.asStream(($c) => (
             $js.AddWatcherRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnAddWatcherRequestedEvent(
+            return $c(OnAddWatcherRequestedEvent(
               options: AddWatcherRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
 
   /// Raised when the watcher should be removed. If an error occurs, then
   /// `errorCallback` must be called.
-  Stream<OnRemoveWatcherRequestedEvent> get onRemoveWatcherRequested =>
+  EventStream<OnRemoveWatcherRequestedEvent> get onRemoveWatcherRequested =>
       $js.chrome.fileSystemProvider.onRemoveWatcherRequested.asStream(($c) => (
             $js.RemoveWatcherRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnRemoveWatcherRequestedEvent(
+            return $c(OnRemoveWatcherRequestedEvent(
               options: RemoveWatcherRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -493,19 +536,21 @@ class ChromeFileSystemProvider {
   /// Raised when executing an action for a set of files or directories is\
   /// requested. After the action is completed, `successCallback`
   /// must be called. On error, `errorCallback` must be called.
-  Stream<OnExecuteActionRequestedEvent> get onExecuteActionRequested =>
+  EventStream<OnExecuteActionRequestedEvent> get onExecuteActionRequested =>
       $js.chrome.fileSystemProvider.onExecuteActionRequested.asStream(($c) => (
             $js.ExecuteActionRequestedOptions options,
             $js.ProviderSuccessCallback successCallback,
             $js.ProviderErrorCallback errorCallback,
           ) {
-            $c(OnExecuteActionRequestedEvent(
+            return $c(OnExecuteActionRequestedEvent(
               options: ExecuteActionRequestedOptions.fromJS(options),
               successCallback: () {
-                successCallback();
+                //ignore: avoid_dynamic_calls
+                (successCallback as Function)();
               },
               errorCallback: (ProviderError error) {
-                errorCallback(error.toJS);
+                //ignore: avoid_dynamic_calls
+                (errorCallback as Function)(error.toJS);
               },
             ));
           });
@@ -649,13 +694,14 @@ class EntryMetadata {
     /// 32 KB in size. Optional, but can be provided only when explicitly
     /// requested by the [onGetMetadataRequested] event.
     String? thumbnail,
-  }) : _wrapped = $js.EntryMetadata()
-          ..isDirectory = isDirectory
-          ..name = name
-          ..size = size
-          ..modificationTime = modificationTime
-          ..mimeType = mimeType
-          ..thumbnail = thumbnail;
+  }) : _wrapped = $js.EntryMetadata(
+          isDirectory: isDirectory,
+          name: name,
+          size: size,
+          modificationTime: modificationTime,
+          mimeType: mimeType,
+          thumbnail: thumbnail,
+        );
 
   final $js.EntryMetadata _wrapped;
 
@@ -718,10 +764,11 @@ class Watcher {
 
     /// Tag used by the last notification for the watcher.
     String? lastTag,
-  }) : _wrapped = $js.Watcher()
-          ..entryPath = entryPath
-          ..recursive = recursive
-          ..lastTag = lastTag;
+  }) : _wrapped = $js.Watcher(
+          entryPath: entryPath,
+          recursive: recursive,
+          lastTag: lastTag,
+        );
 
   final $js.Watcher _wrapped;
 
@@ -759,10 +806,11 @@ class OpenedFile {
 
     /// Whether the file was opened for reading or writing.
     required OpenFileMode mode,
-  }) : _wrapped = $js.OpenedFile()
-          ..openRequestId = openRequestId
-          ..filePath = filePath
-          ..mode = mode.toJS;
+  }) : _wrapped = $js.OpenedFile(
+          openRequestId: openRequestId,
+          filePath: filePath,
+          mode: mode.toJS,
+        );
 
   final $js.OpenedFile _wrapped;
 
@@ -814,14 +862,15 @@ class FileSystemInfo {
 
     /// List of watchers.
     required List<Watcher> watchers,
-  }) : _wrapped = $js.FileSystemInfo()
-          ..fileSystemId = fileSystemId
-          ..displayName = displayName
-          ..writable = writable
-          ..openedFilesLimit = openedFilesLimit
-          ..openedFiles = openedFiles.toJSArray((e) => e.toJS)
-          ..supportsNotifyTag = supportsNotifyTag
-          ..watchers = watchers.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.FileSystemInfo(
+          fileSystemId: fileSystemId,
+          displayName: displayName,
+          writable: writable,
+          openedFilesLimit: openedFilesLimit,
+          openedFiles: openedFiles.toJSArray((e) => e.toJS),
+          supportsNotifyTag: supportsNotifyTag,
+          watchers: watchers.toJSArray((e) => e.toJS),
+        );
 
   final $js.FileSystemInfo _wrapped;
 
@@ -918,6 +967,47 @@ class MountOptions {
   final $js.MountOptions _wrapped;
 
   $js.MountOptions get toJS => _wrapped;
+
+  /// The string indentifier of the file system. Must be unique per each
+  /// extension.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    _wrapped.fileSystemId = v;
+  }
+
+  /// A human-readable name for the file system.
+  String get displayName => _wrapped.displayName;
+  set displayName(String v) {
+    _wrapped.displayName = v;
+  }
+
+  /// Whether the file system supports operations which may change contents
+  /// of the file system (such as creating, deleting or writing to files).
+  bool? get writable => _wrapped.writable;
+  set writable(bool? v) {
+    _wrapped.writable = v;
+  }
+
+  /// The maximum number of files that can be opened at once. If not specified,
+  /// or 0, then not limited.
+  int? get openedFilesLimit => _wrapped.openedFilesLimit;
+  set openedFilesLimit(int? v) {
+    _wrapped.openedFilesLimit = v;
+  }
+
+  /// Whether the file system supports the `tag` field for observed
+  /// directories.
+  bool? get supportsNotifyTag => _wrapped.supportsNotifyTag;
+  set supportsNotifyTag(bool? v) {
+    _wrapped.supportsNotifyTag = v;
+  }
+
+  /// Whether the framework should resume the file system at the next sign-in
+  /// session. True by default.
+  bool? get persistent => _wrapped.persistent;
+  set persistent(bool? v) {
+    _wrapped.persistent = v;
+  }
 }
 
 class UnmountOptions {
@@ -932,6 +1022,12 @@ class UnmountOptions {
   final $js.UnmountOptions _wrapped;
 
   $js.UnmountOptions get toJS => _wrapped;
+
+  /// The identifier of the file system to be unmounted.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    _wrapped.fileSystemId = v;
+  }
 }
 
 class UnmountRequestedOptions {
@@ -943,9 +1039,10 @@ class UnmountRequestedOptions {
 
     /// The unique identifier of this request.
     required int requestId,
-  }) : _wrapped = $js.UnmountRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId;
+  }) : _wrapped = $js.UnmountRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+        );
 
   final $js.UnmountRequestedOptions _wrapped;
 
@@ -995,16 +1092,17 @@ class GetMetadataRequestedOptions {
 
     /// Set to `true` if the thumbnail is requested.
     required bool thumbnail,
-  }) : _wrapped = $js.GetMetadataRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPath = entryPath
-          ..isDirectory = isDirectory
-          ..name = name
-          ..size = size
-          ..modificationTime = modificationTime
-          ..mimeType = mimeType
-          ..thumbnail = thumbnail;
+  }) : _wrapped = $js.GetMetadataRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPath: entryPath,
+          isDirectory: isDirectory,
+          name: name,
+          size: size,
+          modificationTime: modificationTime,
+          mimeType: mimeType,
+          thumbnail: thumbnail,
+        );
 
   final $js.GetMetadataRequestedOptions _wrapped;
 
@@ -1078,10 +1176,11 @@ class GetActionsRequestedOptions {
 
     /// List of paths of entries for the list of actions.
     required List<String> entryPaths,
-  }) : _wrapped = $js.GetActionsRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPaths = entryPaths.toJSArray((e) => e);
+  }) : _wrapped = $js.GetActionsRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPaths: entryPaths.toJSArray((e) => e),
+        );
 
   final $js.GetActionsRequestedOptions _wrapped;
 
@@ -1138,16 +1237,17 @@ class ReadDirectoryRequestedOptions {
 
     /// Set to `true` if the thumbnail is requested.
     required bool thumbnail,
-  }) : _wrapped = $js.ReadDirectoryRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..directoryPath = directoryPath
-          ..isDirectory = isDirectory
-          ..name = name
-          ..size = size
-          ..modificationTime = modificationTime
-          ..mimeType = mimeType
-          ..thumbnail = thumbnail;
+  }) : _wrapped = $js.ReadDirectoryRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          directoryPath: directoryPath,
+          isDirectory: isDirectory,
+          name: name,
+          size: size,
+          modificationTime: modificationTime,
+          mimeType: mimeType,
+          thumbnail: thumbnail,
+        );
 
   final $js.ReadDirectoryRequestedOptions _wrapped;
 
@@ -1225,11 +1325,12 @@ class OpenFileRequestedOptions {
 
     /// Whether the file will be used for reading or writing.
     required OpenFileMode mode,
-  }) : _wrapped = $js.OpenFileRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..filePath = filePath
-          ..mode = mode.toJS;
+  }) : _wrapped = $js.OpenFileRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          filePath: filePath,
+          mode: mode.toJS,
+        );
 
   final $js.OpenFileRequestedOptions _wrapped;
 
@@ -1273,10 +1374,11 @@ class CloseFileRequestedOptions {
 
     /// A request ID used to open the file.
     required int openRequestId,
-  }) : _wrapped = $js.CloseFileRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..openRequestId = openRequestId;
+  }) : _wrapped = $js.CloseFileRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          openRequestId: openRequestId,
+        );
 
   final $js.CloseFileRequestedOptions _wrapped;
 
@@ -1319,12 +1421,13 @@ class ReadFileRequestedOptions {
 
     /// Number of bytes to be returned.
     required double length,
-  }) : _wrapped = $js.ReadFileRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..openRequestId = openRequestId
-          ..offset = offset
-          ..length = length;
+  }) : _wrapped = $js.ReadFileRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          openRequestId: openRequestId,
+          offset: offset,
+          length: length,
+        );
 
   final $js.ReadFileRequestedOptions _wrapped;
 
@@ -1376,11 +1479,12 @@ class CreateDirectoryRequestedOptions {
 
     /// Whether the operation is recursive (for directories only).
     required bool recursive,
-  }) : _wrapped = $js.CreateDirectoryRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..directoryPath = directoryPath
-          ..recursive = recursive;
+  }) : _wrapped = $js.CreateDirectoryRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          directoryPath: directoryPath,
+          recursive: recursive,
+        );
 
   final $js.CreateDirectoryRequestedOptions _wrapped;
 
@@ -1426,11 +1530,12 @@ class DeleteEntryRequestedOptions {
 
     /// Whether the operation is recursive (for directories only).
     required bool recursive,
-  }) : _wrapped = $js.DeleteEntryRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPath = entryPath
-          ..recursive = recursive;
+  }) : _wrapped = $js.DeleteEntryRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPath: entryPath,
+          recursive: recursive,
+        );
 
   final $js.DeleteEntryRequestedOptions _wrapped;
 
@@ -1473,10 +1578,11 @@ class CreateFileRequestedOptions {
 
     /// The path of the file to be created.
     required String filePath,
-  }) : _wrapped = $js.CreateFileRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..filePath = filePath;
+  }) : _wrapped = $js.CreateFileRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          filePath: filePath,
+        );
 
   final $js.CreateFileRequestedOptions _wrapped;
 
@@ -1516,11 +1622,12 @@ class CopyEntryRequestedOptions {
 
     /// The destination path for the copy operation.
     required String targetPath,
-  }) : _wrapped = $js.CopyEntryRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..sourcePath = sourcePath
-          ..targetPath = targetPath;
+  }) : _wrapped = $js.CopyEntryRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          sourcePath: sourcePath,
+          targetPath: targetPath,
+        );
 
   final $js.CopyEntryRequestedOptions _wrapped;
 
@@ -1566,11 +1673,12 @@ class MoveEntryRequestedOptions {
 
     /// The destination path for the copy operation.
     required String targetPath,
-  }) : _wrapped = $js.MoveEntryRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..sourcePath = sourcePath
-          ..targetPath = targetPath;
+  }) : _wrapped = $js.MoveEntryRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          sourcePath: sourcePath,
+          targetPath: targetPath,
+        );
 
   final $js.MoveEntryRequestedOptions _wrapped;
 
@@ -1616,11 +1724,12 @@ class TruncateRequestedOptions {
 
     /// Number of bytes to be retained after the operation completes.
     required double length,
-  }) : _wrapped = $js.TruncateRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..filePath = filePath
-          ..length = length;
+  }) : _wrapped = $js.TruncateRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          filePath: filePath,
+          length: length,
+        );
 
   final $js.TruncateRequestedOptions _wrapped;
 
@@ -1669,12 +1778,13 @@ class WriteFileRequestedOptions {
 
     /// Buffer of bytes to be written to the file.
     required ByteBuffer data,
-  }) : _wrapped = $js.WriteFileRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..openRequestId = openRequestId
-          ..offset = offset
-          ..data = data.toJS;
+  }) : _wrapped = $js.WriteFileRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          openRequestId: openRequestId,
+          offset: offset,
+          data: data.toJS,
+        );
 
   final $js.WriteFileRequestedOptions _wrapped;
 
@@ -1723,10 +1833,11 @@ class AbortRequestedOptions {
 
     /// An ID of the request to be aborted.
     required int operationRequestId,
-  }) : _wrapped = $js.AbortRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..operationRequestId = operationRequestId;
+  }) : _wrapped = $js.AbortRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          operationRequestId: operationRequestId,
+        );
 
   final $js.AbortRequestedOptions _wrapped;
 
@@ -1768,11 +1879,12 @@ class AddWatcherRequestedOptions {
     /// be
     /// true for directories only.
     required bool recursive,
-  }) : _wrapped = $js.AddWatcherRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPath = entryPath
-          ..recursive = recursive;
+  }) : _wrapped = $js.AddWatcherRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPath: entryPath,
+          recursive: recursive,
+        );
 
   final $js.AddWatcherRequestedOptions _wrapped;
 
@@ -1819,11 +1931,12 @@ class RemoveWatcherRequestedOptions {
 
     /// Mode of the watcher.
     required bool recursive,
-  }) : _wrapped = $js.RemoveWatcherRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPath = entryPath
-          ..recursive = recursive;
+  }) : _wrapped = $js.RemoveWatcherRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPath: entryPath,
+          recursive: recursive,
+        );
 
   final $js.RemoveWatcherRequestedOptions _wrapped;
 
@@ -1864,9 +1977,10 @@ class Action {
 
     /// The title of the action. It may be ignored for common actions.
     String? title,
-  }) : _wrapped = $js.Action()
-          ..id = id
-          ..title = title;
+  }) : _wrapped = $js.Action(
+          id: id,
+          title: title,
+        );
 
   final $js.Action _wrapped;
 
@@ -1901,11 +2015,12 @@ class ExecuteActionRequestedOptions {
 
     /// The identifier of the action to be executed.
     required String actionId,
-  }) : _wrapped = $js.ExecuteActionRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId
-          ..entryPaths = entryPaths.toJSArray((e) => e)
-          ..actionId = actionId;
+  }) : _wrapped = $js.ExecuteActionRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+          entryPaths: entryPaths.toJSArray((e) => e),
+          actionId: actionId,
+        );
 
   final $js.ExecuteActionRequestedOptions _wrapped;
 
@@ -1954,6 +2069,18 @@ class Change {
   final $js.Change _wrapped;
 
   $js.Change get toJS => _wrapped;
+
+  /// The path of the changed entry.
+  String get entryPath => _wrapped.entryPath;
+  set entryPath(String v) {
+    _wrapped.entryPath = v;
+  }
+
+  /// The type of the change which happened to the entry.
+  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
+  set changeType(ChangeType v) {
+    _wrapped.changeType = v.toJS;
+  }
 }
 
 class NotifyOptions {
@@ -1995,6 +2122,51 @@ class NotifyOptions {
   final $js.NotifyOptions _wrapped;
 
   $js.NotifyOptions get toJS => _wrapped;
+
+  /// The identifier of the file system related to this change.
+  String get fileSystemId => _wrapped.fileSystemId;
+  set fileSystemId(String v) {
+    _wrapped.fileSystemId = v;
+  }
+
+  /// The path of the observed entry.
+  String get observedPath => _wrapped.observedPath;
+  set observedPath(String v) {
+    _wrapped.observedPath = v;
+  }
+
+  /// Mode of the observed entry.
+  bool get recursive => _wrapped.recursive;
+  set recursive(bool v) {
+    _wrapped.recursive = v;
+  }
+
+  /// The type of the change which happened to the observed entry. If it is
+  /// DELETED, then the observed entry will be automatically removed from the
+  /// list of observed entries.
+  ChangeType get changeType => ChangeType.fromJS(_wrapped.changeType);
+  set changeType(ChangeType v) {
+    _wrapped.changeType = v.toJS;
+  }
+
+  /// List of changes to entries within the observed directory (including the
+  /// entry itself)
+  List<Change>? get changes => _wrapped.changes?.toDart
+      .cast<$js.Change>()
+      .map((e) => Change.fromJS(e))
+      .toList();
+  set changes(List<Change>? v) {
+    _wrapped.changes = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// Tag for the notification. Required if the file system was mounted with
+  /// the `supportsNotifyTag` option. Note, that this flag is
+  /// necessary to provide notifications about changes which changed even
+  /// when the system was shutdown.
+  String? get tag => _wrapped.tag;
+  set tag(String? v) {
+    _wrapped.tag = v;
+  }
 }
 
 class ConfigureRequestedOptions {
@@ -2006,9 +2178,10 @@ class ConfigureRequestedOptions {
 
     /// The unique identifier of this request.
     required int requestId,
-  }) : _wrapped = $js.ConfigureRequestedOptions()
-          ..fileSystemId = fileSystemId
-          ..requestId = requestId;
+  }) : _wrapped = $js.ConfigureRequestedOptions(
+          fileSystemId: fileSystemId,
+          requestId: requestId,
+        );
 
   final $js.ConfigureRequestedOptions _wrapped;
 
@@ -2036,9 +2209,9 @@ class OnUnmountRequestedEvent {
 
   final UnmountRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnGetMetadataRequestedEvent {
@@ -2050,9 +2223,9 @@ class OnGetMetadataRequestedEvent {
 
   final GetMetadataRequestedOptions options;
 
-  final MetadataCallback successCallback;
+  final void Function(EntryMetadata) successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnGetActionsRequestedEvent {
@@ -2064,9 +2237,9 @@ class OnGetActionsRequestedEvent {
 
   final GetActionsRequestedOptions options;
 
-  final ActionsCallback successCallback;
+  final void Function(List<Action>) successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnReadDirectoryRequestedEvent {
@@ -2078,9 +2251,12 @@ class OnReadDirectoryRequestedEvent {
 
   final ReadDirectoryRequestedOptions options;
 
-  final EntriesCallback successCallback;
+  final void Function(
+    List<EntryMetadata>,
+    bool,
+  ) successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnOpenFileRequestedEvent {
@@ -2092,9 +2268,9 @@ class OnOpenFileRequestedEvent {
 
   final OpenFileRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnCloseFileRequestedEvent {
@@ -2106,9 +2282,9 @@ class OnCloseFileRequestedEvent {
 
   final CloseFileRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnReadFileRequestedEvent {
@@ -2120,9 +2296,12 @@ class OnReadFileRequestedEvent {
 
   final ReadFileRequestedOptions options;
 
-  final FileDataCallback successCallback;
+  final void Function(
+    ByteBuffer,
+    bool,
+  ) successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnCreateDirectoryRequestedEvent {
@@ -2134,9 +2313,9 @@ class OnCreateDirectoryRequestedEvent {
 
   final CreateDirectoryRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnDeleteEntryRequestedEvent {
@@ -2148,9 +2327,9 @@ class OnDeleteEntryRequestedEvent {
 
   final DeleteEntryRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnCreateFileRequestedEvent {
@@ -2162,9 +2341,9 @@ class OnCreateFileRequestedEvent {
 
   final CreateFileRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnCopyEntryRequestedEvent {
@@ -2176,9 +2355,9 @@ class OnCopyEntryRequestedEvent {
 
   final CopyEntryRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnMoveEntryRequestedEvent {
@@ -2190,9 +2369,9 @@ class OnMoveEntryRequestedEvent {
 
   final MoveEntryRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnTruncateRequestedEvent {
@@ -2204,9 +2383,9 @@ class OnTruncateRequestedEvent {
 
   final TruncateRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnWriteFileRequestedEvent {
@@ -2218,9 +2397,9 @@ class OnWriteFileRequestedEvent {
 
   final WriteFileRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnAbortRequestedEvent {
@@ -2232,9 +2411,9 @@ class OnAbortRequestedEvent {
 
   final AbortRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnConfigureRequestedEvent {
@@ -2246,9 +2425,9 @@ class OnConfigureRequestedEvent {
 
   final ConfigureRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnMountRequestedEvent {
@@ -2257,9 +2436,9 @@ class OnMountRequestedEvent {
     required this.errorCallback,
   });
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnAddWatcherRequestedEvent {
@@ -2271,9 +2450,9 @@ class OnAddWatcherRequestedEvent {
 
   final AddWatcherRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnRemoveWatcherRequestedEvent {
@@ -2285,9 +2464,9 @@ class OnRemoveWatcherRequestedEvent {
 
   final RemoveWatcherRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }
 
 class OnExecuteActionRequestedEvent {
@@ -2299,7 +2478,7 @@ class OnExecuteActionRequestedEvent {
 
   final ExecuteActionRequestedOptions options;
 
-  final ProviderSuccessCallback successCallback;
+  final void Function() successCallback;
 
-  final ProviderErrorCallback errorCallback;
+  final void Function(ProviderError) errorCallback;
 }

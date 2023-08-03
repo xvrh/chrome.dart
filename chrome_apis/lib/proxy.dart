@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/proxy.dart' as $js;
 import 'types.dart';
@@ -23,10 +27,11 @@ class ChromeProxy {
   ChromeSetting get settings => ChromeSetting.fromJS($js.chrome.proxy.settings);
 
   /// Notifies about proxy errors.
-  Stream<OnProxyErrorDetails> get onProxyError => $js.chrome.proxy.onProxyError
-      .asStream(($c) => ($js.OnProxyErrorDetails details) {
-            $c(OnProxyErrorDetails.fromJS(details));
-          });
+  EventStream<OnProxyErrorDetails> get onProxyError =>
+      $js.chrome.proxy.onProxyError
+          .asStream(($c) => ($js.OnProxyErrorDetails details) {
+                return $c(OnProxyErrorDetails.fromJS(details));
+              });
 }
 
 enum Scheme {
@@ -75,10 +80,11 @@ class ProxyServer {
     /// The port of the proxy server. Defaults to a port that depends on the
     /// scheme.
     int? port,
-  }) : _wrapped = $js.ProxyServer()
-          ..scheme = scheme?.toJS
-          ..host = host
-          ..port = port;
+  }) : _wrapped = $js.ProxyServer(
+          scheme: scheme?.toJS,
+          host: host,
+          port: port,
+        );
 
   final $js.ProxyServer _wrapped;
 
@@ -128,13 +134,14 @@ class ProxyRules {
 
     /// List of servers to connect to without a proxy server.
     List<String>? bypassList,
-  }) : _wrapped = $js.ProxyRules()
-          ..singleProxy = singleProxy?.toJS
-          ..proxyForHttp = proxyForHttp?.toJS
-          ..proxyForHttps = proxyForHttps?.toJS
-          ..proxyForFtp = proxyForFtp?.toJS
-          ..fallbackProxy = fallbackProxy?.toJS
-          ..bypassList = bypassList?.toJSArray((e) => e);
+  }) : _wrapped = $js.ProxyRules(
+          singleProxy: singleProxy?.toJS,
+          proxyForHttp: proxyForHttp?.toJS,
+          proxyForHttps: proxyForHttps?.toJS,
+          proxyForFtp: proxyForFtp?.toJS,
+          fallbackProxy: fallbackProxy?.toJS,
+          bypassList: bypassList?.toJSArray((e) => e),
+        );
 
   final $js.ProxyRules _wrapped;
 
@@ -196,10 +203,11 @@ class PacScript {
     /// If true, an invalid PAC script will prevent the network stack from
     /// falling back to direct connections. Defaults to false.
     bool? mandatory,
-  }) : _wrapped = $js.PacScript()
-          ..url = url
-          ..data = data
-          ..mandatory = mandatory;
+  }) : _wrapped = $js.PacScript(
+          url: url,
+          data: data,
+          mandatory: mandatory,
+        );
 
   final $js.PacScript _wrapped;
 
@@ -243,10 +251,11 @@ class ProxyConfig {
     /// 'fixed_servers' = Manually specify proxy servers
     /// 'system' = Use system proxy settings
     required Mode mode,
-  }) : _wrapped = $js.ProxyConfig()
-          ..rules = rules?.toJS
-          ..pacScript = pacScript?.toJS
-          ..mode = mode.toJS;
+  }) : _wrapped = $js.ProxyConfig(
+          rules: rules?.toJS,
+          pacScript: pacScript?.toJS,
+          mode: mode.toJS,
+        );
 
   final $js.ProxyConfig _wrapped;
 
@@ -290,10 +299,11 @@ class OnProxyErrorDetails {
 
     /// Additional details about the error such as a JavaScript runtime error.
     required String details,
-  }) : _wrapped = $js.OnProxyErrorDetails()
-          ..fatal = fatal
-          ..error = error
-          ..details = details;
+  }) : _wrapped = $js.OnProxyErrorDetails(
+          fatal: fatal,
+          error: error,
+          details: details,
+        );
 
   final $js.OnProxyErrorDetails _wrapped;
 

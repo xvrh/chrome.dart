@@ -137,7 +137,7 @@ void chromeIDLParserAttributeDeclarationTests() {
     expect(attributes.length, equals(1));
     var attribute = attributes[0];
     expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.instanceOf));
     expect(attribute.attributeValue, equals("Window"));
   });
 
@@ -150,7 +150,7 @@ void chromeIDLParserAttributeDeclarationTests() {
     expect(attributes.length, equals(1));
     var attribute = attributes[0];
     expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.nodoc));
   });
 
   test('attribute with [legalValues=(16,32)]', () {
@@ -163,7 +163,7 @@ void chromeIDLParserAttributeDeclarationTests() {
     expect(attributes.length, equals(1));
     var attribute = attributes[0];
     expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.LEGAL_VALUES));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.legalValues));
     expect(attribute.attributeValues!.length, equals(2));
     expect(attribute.attributeValues![0], equals(16));
     expect(attribute.attributeValues![1], equals(32));
@@ -179,7 +179,7 @@ void chromeIDLParserAttributeDeclarationTests() {
     expect(attributes.length, equals(1));
     var attribute = attributes[0];
     expect(attribute, isNotNull);
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.PLATFORMS));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.platforms));
     expect(attribute.attributeValues!.length, equals(2));
     expect(attribute.attributeValues![0], equals('chromeos'));
     expect(attribute.attributeValues![1], equals('lacros'));
@@ -193,9 +193,9 @@ void chromeIDLParserAttributeDeclarationTests() {
     var attributes = attributeDeclaration.attributes;
     expect(attributeDeclaration.attributes.length, equals(2));
     var attribute = attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NOCOMPILE));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.nocompile));
     attribute = attributes[1];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.nodoc));
   });
 
   test('attribute with [implemented_in]', () {
@@ -268,7 +268,7 @@ void chromeIDLParserEnumDeclarationTests() {
     expect(enumDeclaration.attribute, isNotNull);
     expect(enumDeclaration.attribute!.attributes.length, equals(1));
     expect(enumDeclaration.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.NODOC));
+        equals(IDLAttributeTypeEnum.nodoc));
     expect(enumDeclaration.enums.length, equals(3));
     expect(enumDeclaration.enums[0].name, equals("value1"));
     expect(enumDeclaration.enums[0].documentation, isEmpty);
@@ -337,9 +337,9 @@ VALUE};""").value;
     var attributes = enumDeclaration.attribute!.attributes;
     expect(attributes.length, equals(2));
     var attribute = attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NOCOMPILE));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.nocompile));
     attribute = attributes[1];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.NODOC));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.nodoc));
 
     expect(enumDeclaration.name, equals("Values"));
     expect(enumDeclaration.documentation.length, equals(1));
@@ -410,7 +410,7 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.types.isArray, isFalse);
     expect(callbackParameter.types.name, equals("Entry"));
     expect(callbackParameter.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.INSTANCE_OF));
+        equals(IDLAttributeTypeEnum.instanceOf));
     expect(callbackParameter.attribute!.attributes[0].attributeValue,
         equals("Entry"));
   });
@@ -427,7 +427,7 @@ void chromeIDLParserCallbackParameterTests() {
     expect(callbackParameter.types.isArray, isTrue);
     expect(callbackParameter.types.name, equals("DOMFileSystem"));
     expect(callbackParameter.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.INSTANCE_OF));
+        equals(IDLAttributeTypeEnum.instanceOf));
     expect(callbackParameter.attribute!.attributes[0].attributeValue,
         equals("DOMFileSystem"));
   });
@@ -514,7 +514,7 @@ void chromeIDLParserCallbackMethodTests() {
     expect(parameter.attribute!.attributes, isNotNull);
     expect(parameter.attribute!.attributes.length, equals(1));
     expect(parameter.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.INSTANCE_OF));
+        equals(IDLAttributeTypeEnum.instanceOf));
     expect(parameter.attribute!.attributes[0].attributeValue,
         equals("DOMFileSystem"));
     expect(parameter.isCallback, isFalse);
@@ -657,7 +657,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
     var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.instanceOf));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
@@ -692,7 +692,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
     var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.instanceOf));
     expect(attribute.attributeValue, equals("Entry"));
   });
 
@@ -731,7 +731,7 @@ callback EntryCallback = void ([instanceOf=Entry] object entry);
     expect(callbackDeclaration.parameters[0].attribute!.attributes.length,
         equals(1));
     var attribute = callbackDeclaration.parameters[0].attribute!.attributes[0];
-    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.INSTANCE_OF));
+    expect(attribute.attributeType, equals(IDLAttributeTypeEnum.instanceOf));
     expect(attribute.attributeValue, equals("Entry"));
   });
 }
@@ -814,7 +814,7 @@ void chromeIDLParserFieldMethodParametersTests() {
     expect(fieldMethodParameter.types.isArray, isFalse);
     expect(fieldMethodParameter.types.name, equals("Entry"));
     expect(fieldMethodParameter.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.INSTANCE_OF));
+        equals(IDLAttributeTypeEnum.instanceOf));
     expect(fieldMethodParameter.attribute!.attributes[0].attributeValue,
         equals("Entry"));
   });
@@ -886,7 +886,7 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField[0].types.isArray, isFalse);
     expect(typeField[0].isOptional, isFalse);
     expect(typeField[0].attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.INSTANCE_OF));
+        equals(IDLAttributeTypeEnum.instanceOf));
     expect(typeField[0].attribute!.attributes[0].attributeValue,
         equals("FileEntry"));
   });
@@ -969,7 +969,7 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeField[0].types[0].isArray, isFalse);
     expect(typeField[0].isOptional, isTrue);
     expect(typeField[0].attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.NODOC));
+        equals(IDLAttributeTypeEnum.nodoc));
   });
 
   test('field void method no parameters', () {
@@ -1019,7 +1019,7 @@ void chromeIDLParserTypeBodyTests() {
     expect(typeFieldMethod[0].parameters, isEmpty);
     expect(typeFieldMethod[0].attribute!.attributes.length, equals(1));
     var attribute = typeFieldMethod[0].attribute!.attributes[0];
-    expect(attribute.attributeType, IDLAttributeTypeEnum.NODOC);
+    expect(attribute.attributeType, IDLAttributeTypeEnum.nodoc);
     expect(typeFieldMethod[0].returnType.name, equals("void"));
     expect(typeFieldMethod[0].returnType.isArray, isFalse);
     expect(typeFieldMethod[0].documentation, isEmpty);
@@ -1171,7 +1171,7 @@ dictionary GetServicesOptions {
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("AppWindow"));
     expect(typeDeclaration.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.NOINLINE_DOC));
+        equals(IDLAttributeTypeEnum.noinlineDoc));
     expect(typeDeclaration.documentation, isEmpty);
     expect(typeDeclaration.members, isEmpty);
     expect(typeDeclaration.methods.length, equals(3));
@@ -1222,7 +1222,7 @@ dictionary GetServicesOptions {
     expect(typeDeclaration, isNotNull);
     expect(typeDeclaration.name, equals("AppWindow"));
     expect(typeDeclaration.attribute!.attributes[0].attributeType,
-        equals(IDLAttributeTypeEnum.NOINLINE_DOC));
+        equals(IDLAttributeTypeEnum.noinlineDoc));
     expect(typeDeclaration.documentation, isEmpty);
     expect(typeDeclaration.members.length, equals(3));
     expect(typeDeclaration.methods.length, equals(7));

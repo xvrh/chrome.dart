@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -57,15 +61,15 @@ class ChromePermissions {
   }
 
   /// Fired when the extension acquires new permissions.
-  Stream<Permissions> get onAdded => $js.chrome.permissions.onAdded
+  EventStream<Permissions> get onAdded => $js.chrome.permissions.onAdded
       .asStream(($c) => ($js.Permissions permissions) {
-            $c(Permissions.fromJS(permissions));
+            return $c(Permissions.fromJS(permissions));
           });
 
   /// Fired when access to permissions has been removed from the extension.
-  Stream<Permissions> get onRemoved => $js.chrome.permissions.onRemoved
+  EventStream<Permissions> get onRemoved => $js.chrome.permissions.onRemoved
       .asStream(($c) => ($js.Permissions permissions) {
-            $c(Permissions.fromJS(permissions));
+            return $c(Permissions.fromJS(permissions));
           });
 }
 
@@ -88,4 +92,20 @@ class Permissions {
   final $js.Permissions _wrapped;
 
   $js.Permissions get toJS => _wrapped;
+
+  /// List of named permissions (does not include hosts or origins).
+  List<String>? get permissions =>
+      _wrapped.permissions?.toDart.cast<String>().map((e) => e).toList();
+  set permissions(List<String>? v) {
+    _wrapped.permissions = v?.toJSArray((e) => e);
+  }
+
+  /// The list of host permissions, including those specified in the
+  /// `optional_permissions` or `permissions` keys in the manifest, and those
+  /// associated with [Content Scripts](content_scripts).
+  List<String>? get origins =>
+      _wrapped.origins?.toDart.cast<String>().map((e) => e).toList();
+  set origins(List<String>? v) {
+    _wrapped.origins = v?.toJSArray((e) => e);
+  }
 }

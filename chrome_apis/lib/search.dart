@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -67,4 +71,24 @@ class QueryInfo {
   final $js.QueryInfo _wrapped;
 
   $js.QueryInfo get toJS => _wrapped;
+
+  /// String to query with the default search provider.
+  String get text => _wrapped.text;
+  set text(String v) {
+    _wrapped.text = v;
+  }
+
+  /// Location where search results should be displayed.
+  /// `CURRENT_TAB` is the default.
+  Disposition? get disposition => _wrapped.disposition?.let(Disposition.fromJS);
+  set disposition(Disposition? v) {
+    _wrapped.disposition = v?.toJS;
+  }
+
+  /// Location where search results should be displayed.
+  /// `tabId` cannot be used with `disposition`.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }

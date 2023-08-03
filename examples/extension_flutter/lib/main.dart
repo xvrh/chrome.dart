@@ -99,7 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: FutureBuilder<List<Tab>>(
               future: _tabs,
               builder: (context, snapshot) {
-                print('Got $snapshot');
                 if (snapshot.hasError) {
                   return ErrorWidget(snapshot.error!);
                 } else if (snapshot.connectionState != ConnectionState.done) {

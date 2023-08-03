@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -114,6 +119,30 @@ class RemovalOptions {
   });
 }
 
+extension RemovalOptionsExtension on RemovalOptions {
+  /// Remove data accumulated on or after this date, represented in milliseconds
+  /// since the epoch (accessible via the `getTime` method of the JavaScript
+  /// `Date` object). If absent, defaults to 0 (which would remove all browsing
+  /// data).
+  external double? since;
+
+  /// An object whose properties specify which origin types ought to be cleared.
+  /// If this object isn't specified, it defaults to clearing only "unprotected"
+  /// origins. Please ensure that you _really_ want to remove application data
+  /// before adding 'protectedWeb' or 'extensions'.
+  external RemovalOptionsOriginTypes? originTypes;
+
+  /// When present, only data for origins in this list is deleted. Only
+  /// supported for cookies, storage and cache. Cookies are cleared for the
+  /// whole registrable domain.
+  external JSArray? origins;
+
+  /// When present, data for origins in this list is excluded from deletion.
+  /// Can't be used together with `origins`. Only supported for cookies, storage
+  /// and cache.  Cookies are excluded for the whole registrable domain.
+  external JSArray? excludeOrigins;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -166,9 +195,71 @@ class DataTypeSet {
   });
 }
 
+extension DataTypeSetExtension on DataTypeSet {
+  /// Websites' appcaches.
+  external bool? appcache;
+
+  /// The browser's cache.
+  external bool? cache;
+
+  /// Cache storage
+  external bool? cacheStorage;
+
+  /// The browser's cookies.
+  external bool? cookies;
+
+  /// The browser's download list.
+  external bool? downloads;
+
+  /// Websites' file systems.
+  external bool? fileSystems;
+
+  /// The browser's stored form data.
+  external bool? formData;
+
+  /// The browser's history.
+  external bool? history;
+
+  /// Websites' IndexedDB data.
+  external bool? indexedDB;
+
+  /// Websites' local storage data.
+  external bool? localStorage;
+
+  /// Server-bound certificates.
+  external bool? serverBoundCertificates;
+
+  /// Stored passwords.
+  external bool? passwords;
+
+  /// Plugins' data.
+  external bool? pluginData;
+
+  /// Service Workers.
+  external bool? serviceWorkers;
+
+  /// Websites' WebSQL data.
+  external bool? webSQL;
+}
+
 @JS()
 @staticInterop
-class SettingsCallbackResult {}
+@anonymous
+class SettingsCallbackResult {
+  external factory SettingsCallbackResult({
+    RemovalOptions options,
+
+    /// All of the types will be present in the result, with values of `true` if
+    /// they are both selected to be removed and permitted to be removed,
+    /// otherwise `false`.
+    DataTypeSet dataToRemove,
+
+    /// All of the types will be present in the result, with values of `true` if
+    /// they are permitted to be removed (e.g., by enterprise policy) and `false`
+    /// if not.
+    DataTypeSet dataRemovalPermitted,
+  });
+}
 
 extension SettingsCallbackResultExtension on SettingsCallbackResult {
   external RemovalOptions options;
@@ -199,4 +290,16 @@ class RemovalOptionsOriginTypes {
     /// careful!).
     bool? extension,
   });
+}
+
+extension RemovalOptionsOriginTypesExtension on RemovalOptionsOriginTypes {
+  /// Normal websites.
+  external bool? unprotectedWeb;
+
+  /// Websites that have been installed as hosted applications (be careful!).
+  external bool? protectedWeb;
+
+  /// Extensions and packaged applications a user has installed (be _really_
+  /// careful!).
+  external bool? extension;
 }

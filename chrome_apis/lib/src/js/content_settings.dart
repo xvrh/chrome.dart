@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -178,7 +183,16 @@ typedef MultipleAutomaticDownloadsContentSetting = String;
 
 @JS()
 @staticInterop
-class ResourceIdentifier {}
+@anonymous
+class ResourceIdentifier {
+  external factory ResourceIdentifier({
+    /// The resource identifier for the given content type.
+    String id,
+
+    /// A human readable description of the resource.
+    String? description,
+  });
+}
 
 extension ResourceIdentifierExtension on ResourceIdentifier {
   /// The resource identifier for the given content type.
@@ -190,7 +204,10 @@ extension ResourceIdentifierExtension on ResourceIdentifier {
 
 @JS()
 @staticInterop
-class ContentSetting {}
+@anonymous
+class ContentSetting {
+  external factory ContentSetting();
+}
 
 extension ContentSettingExtension on ContentSetting {
   /// Clear all content setting rules set by this extension.
@@ -215,9 +232,21 @@ class ClearDetails {
       Scope? scope});
 }
 
+extension ClearDetailsExtension on ClearDetails {
+  /// Where to clear the setting (default: regular).
+  external Scope? scope;
+}
+
 @JS()
 @staticInterop
-class GetCallbackDetails {}
+@anonymous
+class GetCallbackDetails {
+  external factory GetCallbackDetails(
+      {
+      /// The content setting. See the description of the individual ContentSetting
+      /// objects for the possible values.
+      JSAny setting});
+}
 
 extension GetCallbackDetailsExtension on GetCallbackDetails {
   /// The content setting. See the description of the individual ContentSetting
@@ -249,6 +278,25 @@ class GetDetails {
   });
 }
 
+extension GetDetailsExtension on GetDetails {
+  /// The primary URL for which the content setting should be retrieved. Note
+  /// that the meaning of a primary URL depends on the content type.
+  external String primaryUrl;
+
+  /// The secondary URL for which the content setting should be retrieved.
+  /// Defaults to the primary URL. Note that the meaning of a secondary URL
+  /// depends on the content type, and not all content types use secondary URLs.
+  external String? secondaryUrl;
+
+  /// A more specific identifier of the type of content for which the settings
+  /// should be retrieved.
+  external ResourceIdentifier? resourceIdentifier;
+
+  /// Whether to check the content settings for an incognito session. (default
+  /// false)
+  external bool? incognito;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -273,4 +321,25 @@ class SetDetails {
     /// Where to set the setting (default: regular).
     Scope? scope,
   });
+}
+
+extension SetDetailsExtension on SetDetails {
+  /// The pattern for the primary URL. For details on the format of a pattern,
+  /// see [Content Setting Patterns](contentSettings#patterns).
+  external String primaryPattern;
+
+  /// The pattern for the secondary URL. Defaults to matching all URLs. For
+  /// details on the format of a pattern, see [Content Setting
+  /// Patterns](contentSettings#patterns).
+  external String? secondaryPattern;
+
+  /// The resource identifier for the content type.
+  external ResourceIdentifier? resourceIdentifier;
+
+  /// The setting applied by this rule. See the description of the individual
+  /// ContentSetting objects for the possible values.
+  external JSAny setting;
+
+  /// Where to set the setting (default: regular).
+  external Scope? scope;
 }

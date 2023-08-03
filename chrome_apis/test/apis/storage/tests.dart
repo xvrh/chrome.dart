@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/storage.dart';
 import 'package:test/test.dart';
-import 'package:async/async.dart';
 import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);
@@ -16,7 +15,6 @@ void _tests(TestContext context) {
   });
 
   test('get(null)', () async {
-    "chrome.storage.sync.MAX_ITEMS;";
     var storage = chrome.storage.local;
     await storage.set({'mykey': 'myvalue', 1: 2, true: false, null: null});
 
@@ -130,5 +128,13 @@ void _tests(TestContext context) {
       subscription.cancel();
     }));
     await storage.set({'mykey': 'value2'});
+  });
+
+  test('properties on specific storages', () async {
+    check(chrome.storage.local.quotaBytes).equals(10485760);
+    check(chrome.storage.session.quotaBytes).equals(10485760);
+    check(chrome.storage.sync.quotaBytes).equals(102400);
+    check(chrome.storage.sync.quotaBytesPerItem).equals(8192);
+    check(chrome.storage.sync.maxItems).equals(512);
   });
 }

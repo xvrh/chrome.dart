@@ -1,4 +1,3 @@
-
 import 'package:checks/checks.dart';
 import 'package:test/test.dart';
 import 'package:chrome_apis/devtools_panels.dart';
@@ -11,8 +10,7 @@ void _tests(TestContext context) {
   test('create', () async {
     var panel = await chrome.devtools.panels
         .create('My panel', 'icon.png', 'panel.html');
-    var button =
-        await panel.createStatusBarButton('icon2.png', 'Tooltip', false);
+    var button = panel.createStatusBarButton('icon2.png', 'Tooltip', false);
     button.update('newicon.png', 'New tooltip', true);
   });
 

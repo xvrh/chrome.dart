@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -75,9 +79,9 @@ class ChromeTts {
   }
 
   /// Used to pass events back to the function calling speak().
-  Stream<TtsEvent> get onEvent =>
+  EventStream<TtsEvent> get onEvent =>
       $js.chrome.tts.onEvent.asStream(($c) => ($js.TtsEvent event) {
-            $c(TtsEvent.fromJS(event));
+            return $c(TtsEvent.fromJS(event));
           });
 }
 
@@ -182,6 +186,91 @@ class TtsOptions {
   final $js.TtsOptions _wrapped;
 
   $js.TtsOptions get toJS => _wrapped;
+
+  /// If true, enqueues this utterance if TTS is already in progress. If false
+  /// (the default), interrupts any current speech and flushes the speech queue
+  /// before speaking this new utterance.
+  bool? get enqueue => _wrapped.enqueue;
+  set enqueue(bool? v) {
+    _wrapped.enqueue = v;
+  }
+
+  /// The name of the voice to use for synthesis. If empty, uses any available
+  /// voice.
+  String? get voiceName => _wrapped.voiceName;
+  set voiceName(String? v) {
+    _wrapped.voiceName = v;
+  }
+
+  /// The extension ID of the speech engine to use, if known.
+  String? get extensionId => _wrapped.extensionId;
+  set extensionId(String? v) {
+    _wrapped.extensionId = v;
+  }
+
+  /// The language to be used for synthesis, in the form _language_-_region_.
+  /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+  String? get lang => _wrapped.lang;
+  set lang(String? v) {
+    _wrapped.lang = v;
+  }
+
+  /// Gender of voice for synthesized speech.
+  VoiceGender? get gender => _wrapped.gender?.let(VoiceGender.fromJS);
+  set gender(VoiceGender? v) {
+    _wrapped.gender = v?.toJS;
+  }
+
+  /// Speaking rate relative to the default rate for this voice. 1.0 is the
+  /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
+  /// fast, and 0.5 is half as fast. Values below 0.1 or above 10.0 are strictly
+  /// disallowed, but many voices will constrain the minimum and maximum rates
+  /// further-for example a particular voice may not actually speak faster than
+  /// 3 times normal even if you specify a value larger than 3.0.
+  double? get rate => _wrapped.rate;
+  set rate(double? v) {
+    _wrapped.rate = v;
+  }
+
+  /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
+  /// highest. 1.0 corresponds to a voice's default pitch.
+  double? get pitch => _wrapped.pitch;
+  set pitch(double? v) {
+    _wrapped.pitch = v;
+  }
+
+  /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
+  /// highest, with a default of 1.0.
+  double? get volume => _wrapped.volume;
+  set volume(double? v) {
+    _wrapped.volume = v;
+  }
+
+  /// The TTS event types the voice must support.
+  List<String>? get requiredEventTypes =>
+      _wrapped.requiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
+  set requiredEventTypes(List<String>? v) {
+    _wrapped.requiredEventTypes = v?.toJSArray((e) => e);
+  }
+
+  /// The TTS event types that you are interested in listening to. If missing,
+  /// all event types may be sent.
+  List<String>? get desiredEventTypes =>
+      _wrapped.desiredEventTypes?.toDart.cast<String>().map((e) => e).toList();
+  set desiredEventTypes(List<String>? v) {
+    _wrapped.desiredEventTypes = v?.toJSArray((e) => e);
+  }
+
+  /// This function is called with events that occur in the process of speaking
+  /// the utterance.
+  Function? get onEvent => ([Object? p1, Object? p2]) {
+        return (_wrapped.onEvent as JSAny? Function(JSAny?, JSAny?)?)
+            ?.call(p1?.jsify(), p2?.jsify())
+            ?.dartify();
+      };
+  set onEvent(Function? v) {
+    _wrapped.onEvent = v?.let(allowInterop);
+  }
 }
 
 class TtsEvent {
@@ -220,13 +309,14 @@ class TtsEvent {
     /// event, this is the length of the word which will be spoken next. It will
     /// be set to -1 if not set by the speech engine.
     int? length,
-  }) : _wrapped = $js.TtsEvent()
-          ..type = type.toJS
-          ..charIndex = charIndex
-          ..errorMessage = errorMessage
-          ..srcId = srcId
-          ..isFinalEvent = isFinalEvent
-          ..length = length;
+  }) : _wrapped = $js.TtsEvent(
+          type: type.toJS,
+          charIndex: charIndex,
+          errorMessage: errorMessage,
+          srcId: srcId,
+          isFinalEvent: isFinalEvent,
+          length: length,
+        );
 
   final $js.TtsEvent _wrapped;
 
@@ -307,13 +397,14 @@ class TtsVoice {
 
     /// All of the callback event types that this voice is capable of sending.
     List<EventType>? eventTypes,
-  }) : _wrapped = $js.TtsVoice()
-          ..voiceName = voiceName
-          ..lang = lang
-          ..gender = gender?.toJS
-          ..remote = remote
-          ..extensionId = extensionId
-          ..eventTypes = eventTypes?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.TtsVoice(
+          voiceName: voiceName,
+          lang: lang,
+          gender: gender?.toJS,
+          remote: remote,
+          extensionId: extensionId,
+          eventTypes: eventTypes?.toJSArray((e) => e.toJS),
+        );
 
   final $js.TtsVoice _wrapped;
 

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -57,16 +61,16 @@ class SidePanel {
   SidePanel(
       {
       /// Developer specified path for side panel display.
-      required String default_path})
-      : _wrapped = $js.SidePanel()..default_path = default_path;
+      required String defaultPath})
+      : _wrapped = $js.SidePanel(default_path: defaultPath);
 
   final $js.SidePanel _wrapped;
 
   $js.SidePanel get toJS => _wrapped;
 
   /// Developer specified path for side panel display.
-  String get default_path => _wrapped.default_path;
-  set default_path(String v) {
+  String get defaultPath => _wrapped.default_path;
+  set defaultPath(String v) {
     _wrapped.default_path = v;
   }
 }
@@ -74,15 +78,15 @@ class SidePanel {
 class ManifestKeys {
   ManifestKeys.fromJS(this._wrapped);
 
-  ManifestKeys({required SidePanel side_panel})
-      : _wrapped = $js.ManifestKeys()..side_panel = side_panel.toJS;
+  ManifestKeys({required SidePanel sidePanel})
+      : _wrapped = $js.ManifestKeys(side_panel: sidePanel.toJS);
 
   final $js.ManifestKeys _wrapped;
 
   $js.ManifestKeys get toJS => _wrapped;
 
-  SidePanel get side_panel => SidePanel.fromJS(_wrapped.side_panel);
-  set side_panel(SidePanel v) {
+  SidePanel get sidePanel => SidePanel.fromJS(_wrapped.side_panel);
+  set sidePanel(SidePanel v) {
     _wrapped.side_panel = v.toJS;
   }
 }
@@ -115,6 +119,30 @@ class PanelOptions {
   final $js.PanelOptions _wrapped;
 
   $js.PanelOptions get toJS => _wrapped;
+
+  /// If specified, the side panel options will only apply to the tab with
+  /// this id. If omitted, these options set the default behavior (used for any
+  /// tab that doesn't have specific settings). Note: if the same path is set
+  /// for this tabId and the default tabId, then the panel for this tabId will
+  /// be a different instance than the panel for the default tabId.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The path to the side panel HTML file to use. This must be a local
+  /// resource within the extension package.
+  String? get path => _wrapped.path;
+  set path(String? v) {
+    _wrapped.path = v;
+  }
+
+  /// Whether the side panel should be enabled. This is optional. The default
+  /// value is true.
+  bool? get enabled => _wrapped.enabled;
+  set enabled(bool? v) {
+    _wrapped.enabled = v;
+  }
 }
 
 class PanelBehavior {
@@ -132,6 +160,13 @@ class PanelBehavior {
   final $js.PanelBehavior _wrapped;
 
   $js.PanelBehavior get toJS => _wrapped;
+
+  /// Whether clicking the extension's icon will toggle showing the extension's
+  /// entry in the side panel. Defaults to false.
+  bool? get openPanelOnActionClick => _wrapped.openPanelOnActionClick;
+  set openPanelOnActionClick(bool? v) {
+    _wrapped.openPanelOnActionClick = v;
+  }
 }
 
 class GetPanelOptions {
@@ -148,4 +183,12 @@ class GetPanelOptions {
   final $js.GetPanelOptions _wrapped;
 
   $js.GetPanelOptions get toJS => _wrapped;
+
+  /// If specified, the side panel options for the given tab will be returned.
+  /// Otherwise, returns the default side panel options (used for any tab that
+  /// doesn't have specific settings).
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -76,7 +81,19 @@ typedef TabCaptureState = String;
 
 @JS()
 @staticInterop
-class CaptureInfo {}
+@anonymous
+class CaptureInfo {
+  external factory CaptureInfo({
+    /// The id of the tab whose status changed.
+    int tabId,
+
+    /// The new capture status of the tab.
+    TabCaptureState status,
+
+    /// Whether an element in the tab being captured is in fullscreen mode.
+    bool fullscreen,
+  });
+}
 
 extension CaptureInfoExtension on CaptureInfo {
   /// The id of the tab whose status changed.
@@ -96,6 +113,10 @@ class MediaStreamConstraint {
   external factory MediaStreamConstraint({JSAny mandatory});
 }
 
+extension MediaStreamConstraintExtension on MediaStreamConstraint {
+  external JSAny mandatory;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -107,6 +128,18 @@ class CaptureOptions {
     MediaStreamConstraint? videoConstraints,
     String? presentationId,
   });
+}
+
+extension CaptureOptionsExtension on CaptureOptions {
+  external bool? audio;
+
+  external bool? video;
+
+  external MediaStreamConstraint? audioConstraints;
+
+  external MediaStreamConstraint? videoConstraints;
+
+  external String? presentationId;
 }
 
 @JS()
@@ -128,4 +161,20 @@ class GetMediaStreamOptions {
     /// used as the target tab.
     int? targetTabId,
   });
+}
+
+extension GetMediaStreamOptionsExtension on GetMediaStreamOptions {
+  /// Optional tab id of the tab which will later invoke
+  /// `getUserMedia()` to consume the stream. If not specified
+  /// then the resulting stream can be used only by the calling extension.
+  /// The stream can only be used by frames in the given tab whose security
+  /// origin matches the consumber tab's origin. The tab's origin must be a
+  /// secure origin, e.g. HTTPS.
+  external int? consumerTabId;
+
+  /// Optional tab id of the tab which will be captured. If not specified
+  /// then the current active tab will be selected. Only tabs for which the
+  /// extension has been granted the `activeTab` permission can be
+  /// used as the target tab.
+  external int? targetTabId;
 }

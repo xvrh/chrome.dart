@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_recorder.dart' as $js;
@@ -61,6 +65,34 @@ class RecorderExtensionPlugin {
   final $js.RecorderExtensionPlugin _wrapped;
 
   $js.RecorderExtensionPlugin get toJS => _wrapped;
+
+  /// Converts a recording from the Recorder panel format into a string.
+  /// [recording] A recording of the user interaction with the page. This
+  /// should match <a
+  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
+  /// recording schema</a>.
+  void stringify(Map recording) {
+    _wrapped.stringify(recording.jsify()!);
+  }
+
+  /// Converts a step of the recording from the Recorder panel format into a
+  /// string.
+  /// [step] A step of the recording of a user interaction with the page. This
+  /// should match <a
+  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/modules/Schema.md#step">Puppeteer's
+  /// step schema</a>.
+  void stringifyStep(Map step) {
+    _wrapped.stringifyStep(step.jsify()!);
+  }
+
+  /// Allows the extension to implement custom replay functionality.
+  /// [recording] A recording of the user interaction with the page. This
+  /// should match <a
+  /// href="https://github.com/puppeteer/replay/blob/main/docs/api/interfaces/Schema.UserFlow.md">Puppeteer's
+  /// recording schema</a>.
+  void replay(Map recording) {
+    _wrapped.replay(recording.jsify()!);
+  }
 }
 
 class RecorderView {
@@ -79,12 +111,12 @@ class RecorderView {
   }
 
   /// Fired when the view is shown.
-  Stream<void> get onShown => _wrapped.onShown.asStream(($c) => () {
-        $c(null);
+  EventStream<void> get onShown => _wrapped.onShown.asStream(($c) => () {
+        return $c(null);
       });
 
   /// Fired when the view is hidden.
-  Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
-        $c(null);
+  EventStream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
+        return $c(null);
       });
 }

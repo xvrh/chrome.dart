@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -37,9 +41,10 @@ class MemoryInfo {
 
     /// The amount of available capacity, in bytes.
     required double availableCapacity,
-  }) : _wrapped = $js.MemoryInfo()
-          ..capacity = capacity
-          ..availableCapacity = availableCapacity;
+  }) : _wrapped = $js.MemoryInfo(
+          capacity: capacity,
+          availableCapacity: availableCapacity,
+        );
 
   final $js.MemoryInfo _wrapped;
 

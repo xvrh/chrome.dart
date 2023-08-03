@@ -22,18 +22,18 @@ void defineTests() {
     late List<String> html;
 
     setUp(() {
-      mockClient = new MockHttpClient();
-      mockRequest = new MockHttpClientRequest();
-      mockResponse = new MockHttpClientResponse();
+      mockClient = MockHttpClient();
+      mockRequest = MockHttpClientRequest();
+      mockResponse = MockHttpClientResponse();
 
       when(mockClient.getUrl(any)).thenAnswer((_) async => mockRequest);
-      when(mockRequest.done).thenAnswer((_) => new Future(() => mockResponse));
+      when(mockRequest.done).thenAnswer((_) => Future(() => mockResponse));
       when(mockRequest.close()).thenAnswer((_) => Future.value(mockResponse));
       when(mockResponse.transform(any)).thenAnswer((_) async* {
         yield html.join('\n');
       });
 
-      simpleClient = new SimpleHttpClient(client: mockClient);
+      simpleClient = SimpleHttpClient(client: mockClient);
     });
 
     test('returns string', () async {

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -45,10 +49,11 @@ class NetworkInterface {
 
     /// The prefix length
     required int prefixLength,
-  }) : _wrapped = $js.NetworkInterface()
-          ..name = name
-          ..address = address
-          ..prefixLength = prefixLength;
+  }) : _wrapped = $js.NetworkInterface(
+          name: name,
+          address: address,
+          prefixLength: prefixLength,
+        );
 
   final $js.NetworkInterface _wrapped;
 

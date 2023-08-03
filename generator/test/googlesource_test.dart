@@ -14,7 +14,7 @@ void defineTests() {
     GoogleSourceFile file;
 
     void testHtmlConversion(List<String> lines) {
-      file = new GoogleSourceFile(asHtml(lines), 'example.com');
+      file = GoogleSourceFile(asHtml(lines), 'example.com');
 
       expect(file.fileContents, lines.join('\n'));
     }
@@ -32,10 +32,10 @@ void defineTests() {
     });
 
     test('unescapes files', () {
-      var testEscapeString = 'this & that is <\"\'>';
+      var testEscapeString = 'this & that is <"\'>';
       var escapedHtmlFile = '<table><tr><td></td><td><a name="1"></a><span>'
           '${htmlEscape.convert(testEscapeString)}</span></td></tr></table>';
-      file = new GoogleSourceFile(escapedHtmlFile, 'www.example.com');
+      file = GoogleSourceFile(escapedHtmlFile, 'www.example.com');
 
       expect(file.fileContents, testEscapeString);
     });
@@ -47,8 +47,8 @@ void defineTests() {
     late GoogleSourceCrawler crawler;
 
     setUp(() {
-      client = new FakeSimpleHttpClient();
-      crawler = new GoogleSourceCrawler(baseUri, client: client);
+      client = FakeSimpleHttpClient();
+      crawler = GoogleSourceCrawler(baseUri, client: client);
     });
 
     test('returns correct files in single directory', () async {
@@ -99,6 +99,7 @@ class FakeSimpleHttpClient implements SimpleHttpClient {
     reset();
   }
 
+  @override
   Future<String> getHtmlAtUri(_) {
     var html = '';
     if (_htmlOutputList.isNotEmpty) {
@@ -107,7 +108,7 @@ class FakeSimpleHttpClient implements SimpleHttpClient {
     if (_callCount != _htmlOutputList.length - 1) {
       _callCount++;
     }
-    return new Future.value(html);
+    return Future.value(html);
   }
 
   void reset() {
@@ -121,11 +122,11 @@ class FakeSimpleHttpClient implements SimpleHttpClient {
 }
 
 var test1 = [
-  '<ol>'
-      '<li><a href="/test/a.idl">a.idl</a></li>'
-      '<li><a href="/test/b.idl">b.idl</a></li>'
-      '<li><a href="/test/c.idl">c.idl</a></li>'
-      '</ol>',
+  '''<ol>
+      <li><a href="/test/a.idl">a.idl</a></li>
+      <li><a href="/test/b.idl">b.idl</a></li>
+      <li><a href="/test/c.idl">c.idl</a></li>
+      </ol>''',
   'a contents',
   'b contents',
   'c contents'
@@ -140,9 +141,9 @@ var test2 = [
 ];
 
 var test3 = [
-  '<ol><li><a href="/test/a.idl">a.idl</a></li>'
-      '<li><a href="/test/b.txt">b.txt</a></li>'
-      '<li><a href="/test/c.json">c.json</a></li></ol>',
+  '''<ol><li><a href="/test/a.idl">a.idl</a></li>
+      <li><a href="/test/b.txt">b.txt</a></li>
+      <li><a href="/test/c.json">c.json</a></li></ol>''',
   'a contents',
   'b contents',
   'c contents'

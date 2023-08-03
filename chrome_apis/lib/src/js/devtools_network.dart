@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -42,7 +47,10 @@ extension JSDevtoolsNetworkExtension on JSDevtoolsNetwork {
 
 @JS()
 @staticInterop
-class Request {}
+@anonymous
+class Request {
+  external factory Request();
+}
 
 extension RequestExtension on Request {
   /// Returns content of the response body.

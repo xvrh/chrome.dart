@@ -18,21 +18,6 @@ class _GeneratorBase {
   final model.ChromeApi api;
 
   _GeneratorBase(this.api);
-
-  bool isDictionaryAnonymous(model.Dictionary dictionary) {
-    if (dictionary.isAnonymous) return true;
-
-    var isInputType = api.inputTypes
-        .any((e) => e is DictionaryType && e.name == dictionary.name);
-    var isOutputType = api.outputTypes
-        .any((e) => e is DictionaryType && e.name == dictionary.name);
-
-    if (isInputType && isOutputType) {
-      //TODO: need to split the dictionary type at the binding level
-      //throw UnimplementedError('Type used both in input and output: ${dictionary.name}/${api.name}');
-    }
-    return isInputType;
-  }
 }
 
 class JsBindingGenerator extends _GeneratorBase {
@@ -42,6 +27,9 @@ class JsBindingGenerator extends _GeneratorBase {
 
   String toCode() {
     final library = Library((b) => b
+      ..name = ''
+      ..comments.add('ignore_for_file: non_constant_identifier_names')
+      ..comments.add('ignore_for_file: unnecessary_import')
       ..directives.addAll([
         Directive.export('chrome.dart'),
         if (api.group case var group?)
@@ -112,7 +100,7 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
   Method _function(model.Method method) {
     var parameters = method.parameters
         .map((p) => Parameter((b) => b
-          ..name = p.name
+          ..name = p.rawName
           ..type = p.type.jsType
           ..docs.add(documentationComment(p.documentation, indent: 4))))
         .toList();
@@ -155,7 +143,7 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
 
   Method _property(model.Property prop) {
     return Method((b) => b
-      ..name = prop.name
+      ..name = prop.rawName
       ..returns = prop.type.jsType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..external = true
@@ -163,8 +151,8 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
   }
 
   Iterable<Spec> _dictionary(model.Dictionary type) sync* {
-    if (isDictionaryAnonymous(type)) {
-      yield Class((b) => b
+    yield Class((b) {
+      b
         ..annotations.addAll([
           _jsAnnotation(),
           _staticInteropAnnotation(),
@@ -175,24 +163,24 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
           ..external = true
           ..factory = true
           ..optionalParameters
-              .addAll(type.properties.map(_typePropertyAsParameter)))));
-    } else {
-      yield Class((b) => b
-        ..annotations.addAll([_jsAnnotation(), _staticInteropAnnotation()])
-        ..name = type.name);
-      yield Extension((b) => b
-        ..name = '${type.name}Extension'
-        ..on = refer(type.name)
-        ..fields.addAll(type.properties.map(_typeProperty))
-        ..methods.addAll(type.methods.map(_function))
-        ..methods.addAll(type.events.map(_event)));
-    }
+              .addAll(type.properties.map(_typePropertyAsParameter))));
+
+      if (type.extend case var extend?) {
+        b.extend = refer(extend);
+      }
+    });
+    yield Extension((b) => b
+      ..name = '${type.name}Extension'
+      ..on = refer(type.name)
+      ..fields.addAll(type.properties.map(_typeProperty))
+      ..methods.addAll(type.methods.map(_function))
+      ..methods.addAll(type.events.map(_event)));
   }
 
   Field _typeProperty(model.Property property) {
     return Field((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
-      ..name = property.name
+      ..name = property.rawName
       ..external = true
       ..type = property.type.jsType);
   }
@@ -200,7 +188,7 @@ return ${api.nameWithoutGroup.lowerCamel}Nullable;
   Parameter _typePropertyAsParameter(model.Property property) {
     return Parameter((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
-      ..name = property.name
+      ..name = property.rawName
       ..named = true
       ..type = property.type.jsType);
   }
@@ -215,6 +203,8 @@ class DartApiGenerator extends _GeneratorBase {
 
   String toCode() {
     final library = Library((b) => b
+      ..name = ''
+      ..comments.add('ignore_for_file: unnecessary_parenthesis')
       ..directives.addAll([
         Directive.export('src/chrome.dart', show: ['chrome']),
         Directive.import(_internalHelpers),
@@ -304,7 +294,7 @@ class DartApiGenerator extends _GeneratorBase {
 
     var referTo = source.property(method.name);
     var callParameters = <Expression>[
-      for (var p in method.parameters) p.type.toJS(refer(p.name))
+      for (var p in method.parameters) p.type.toJS(refer(p.rawName))
     ];
 
     if (method.returns.type case model.AsyncReturnType asyncReturn) {
@@ -342,7 +332,8 @@ class DartApiGenerator extends _GeneratorBase {
       ..docs.addAll([
         for (var param in method.parameters)
           if (param.documentation.isNotEmpty)
-            parameterDocumentation(param.name, param.documentation, indent: 4),
+            parameterDocumentation(param.rawName, param.documentation,
+                indent: 4),
         if (method.returns.documentation case var doc?)
           if (doc.isNotEmpty) parameterDocumentation('returns', doc, indent: 4)
       ])
@@ -353,18 +344,18 @@ class DartApiGenerator extends _GeneratorBase {
       ..body = body
       ..requiredParameters
           .addAll(method.parameters.map((p) => Parameter((b) => b
-            ..name = p.name
+            ..name = p.dartName
             ..type = p.type.dartType))));
   }
 
   Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
     Expression completeParameter = refer('null');
     if (asyncReturn.jsCallback.positionalParameters case [var singleParam]) {
-      completeParameter = singleParam.type.toDart(refer(singleParam.name));
+      completeParameter = singleParam.type.toDart(refer(singleParam.rawName));
     } else if (asyncReturn.jsCallback.positionalParameters.length > 1) {
       completeParameter = asyncReturn.dartType.call([], {
         for (var jsParam in asyncReturn.jsCallback.positionalParameters)
-          jsParam.name: jsParam.type.toDart(refer(jsParam.name))
+          jsParam.dartName: jsParam.type.toDart(refer(jsParam.rawName))
       });
     }
     return completeParameter;
@@ -395,7 +386,7 @@ class DartApiGenerator extends _GeneratorBase {
           ..requiredParameters.addAll([
             for (var jsParam in asyncReturn.jsCallback.positionalParameters)
               Parameter((b) => b
-                ..name = jsParam.name
+                ..name = jsParam.rawName
                 ..type = jsParam.type.jsTypeReferencedFromDart)
           ])
           ..body = Code('''if (checkRuntimeLastError($completerVar)) {
@@ -444,7 +435,7 @@ class DartApiGenerator extends _GeneratorBase {
       ..name = event.name
       ..docs.add(documentationComment(event.documentation, indent: 2))
       ..returns = TypeReference((b) => b
-        ..symbol = 'Stream'
+        ..symbol = 'EventStream'
         ..types.add(event.type.dartType))
       ..body = source.property(event.name).property('asStream').call([
         Method((b) => b
@@ -454,11 +445,11 @@ class DartApiGenerator extends _GeneratorBase {
             ..requiredParameters.addAll([
               for (var jsParam in event.type.jsCallback.positionalParameters)
                 Parameter((b) => b
-                  ..name = jsParam.name
+                  ..name = jsParam.rawName
                   ..type = jsParam.type.jsTypeReferencedFromDart)
             ])
             ..body = Block.of([
-              refer(r'$c').call([completeParameter]).statement
+              refer(r'$c').call([completeParameter]).returned.statement
             ])).closure.code).closure
       ]).code
       ..lambda = true
@@ -466,10 +457,10 @@ class DartApiGenerator extends _GeneratorBase {
   }
 
   Method _property(model.Property prop) {
-    var referTo = _referJsBinding().property(prop.name);
+    var referTo = _referJsBinding().property(prop.rawName);
 
     return Method((b) => b
-      ..name = prop.name.lowerCamel
+      ..name = prop.dartName
       ..returns = prop.type.dartType
       ..docs.add(documentationComment(prop.documentation, indent: 2))
       ..type = MethodType.getter
@@ -523,64 +514,78 @@ class DartApiGenerator extends _GeneratorBase {
     yield Class((b) {
       b.name = dictionary.name;
 
+      var extend = dictionary.extend;
+      if (extend != null) {
+        b.extend = refer(extend);
+      }
+
       if (!dictionary.isSyntheticEvent) {
-        //TODO: don't generate some classes that are anonymous and used only
-        // at the root of the input function
-
         Expression constructorSetter;
-        if (isDictionaryAnonymous(dictionary)) {
-          constructorSetter = type.jsTypeReferencedFromDart.call([], {
-            for (var property in dictionary.properties)
-              property.name: property.type.toJS(refer(property.name)),
-          });
-        } else {
-          constructorSetter = type.jsTypeReferencedFromDart.call([]);
-          for (var property in dictionary.properties) {
-            constructorSetter = constructorSetter
-                .cascade(property.name)
-                .assign(property.type.toJS(refer(property.name)));
-          }
-        }
+        constructorSetter = type.jsTypeReferencedFromDart.call([], {
+          for (var property in dictionary.properties)
+            property.rawName: property.type.toJS(refer(property.dartName)),
+        });
 
-        b
-          ..fields.add(Field((b) => b
-            ..name = wrappedVariable
-            ..modifier = FieldModifier.final$
-            ..type = refer(dictionary.name, _jsFile)))
-          ..constructors.add(Constructor((b) => b
+        if (extend != null) {
+          b.constructors.add(Constructor((b) => b
             ..name = 'fromJS'
             ..requiredParameters.add(Parameter((b) => b
+              ..name = 'wrapped'
+              ..type = refer(dictionary.name, _jsFile)))
+            ..initializers.add(Code('super.fromJS(wrapped)'))));
+        } else {
+          b
+            ..fields.add(Field((b) => b
               ..name = wrappedVariable
-              ..toThis = true))))
-          ..constructors.add(Constructor((b) => b
+              ..modifier = FieldModifier.final$
+              ..type = refer(dictionary.name, _jsFile)))
+            ..constructors.add(Constructor((b) => b
+              ..name = 'fromJS'
+              ..requiredParameters.add(Parameter((b) => b
+                ..name = wrappedVariable
+                ..toThis = true))));
+        }
+
+        if (extend != null) {
+          b.methods.add(Method((b) => b
+            ..name = wrappedVariable
+            ..type = MethodType.getter
+            ..returns = refer(dictionary.name, _jsFile)
+            ..body =
+                Code('super.$wrappedVariable as $_jsPrefix.${dictionary.name}')
+            ..lambda = true
+            ..annotations.add(refer('override'))));
+        } else {
+          b.constructors.add(Constructor((b) => b
             ..optionalParameters
                 .addAll(dictionary.properties.map((p) => Parameter((b) => b
                   ..docs.add(documentationComment(p.documentation, indent: 4))
-                  ..name = p.name
+                  ..name = p.dartName
                   ..type = p.type.dartType
                   ..named = true
                   ..required = !p.type.isNullable)))
             ..initializers
-                .add(refer(wrappedVariable).assign(constructorSetter).code)))
-          ..methods.add(Method((b) => b
+                .add(refer(wrappedVariable).assign(constructorSetter).code)));
+          b.methods.add(Method((b) => b
             ..name = 'toJS'
             ..type = MethodType.getter
             ..returns = refer(dictionary.name, _jsFile)
             ..lambda = true
             ..body = Code(wrappedVariable)));
+        }
       } else {
         b
           ..constructors.add(Constructor((b) => b
             ..optionalParameters
                 .addAll(dictionary.properties.map((p) => Parameter((b) => b
-                  ..name = p.name
+                  ..name = p.dartName
                   ..named = true
                   ..required = true
                   ..toThis = true)))))
           ..fields.addAll(dictionary.properties.map(_syntheticProperty));
       }
 
-      if (!dictionary.isSyntheticEvent && !isDictionaryAnonymous(dictionary)) {
+      if (!dictionary.isSyntheticEvent) {
         b
           ..methods.addAll(
               dictionary.properties.map(_wrappingProperty).expand((e) => e))
@@ -595,21 +600,22 @@ class DartApiGenerator extends _GeneratorBase {
   Iterable<Method> _wrappingProperty(model.Property property) sync* {
     yield Method((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
-      ..name = property.name
+      ..name = property.dartName
       ..returns = property.type.dartType
       ..type = MethodType.getter
       ..lambda = true
-      ..body =
-          property.type.toDart(refer('_wrapped').property(property.name)).code);
+      ..body = property.type
+          .toDart(refer('_wrapped').property(property.rawName))
+          .code);
 
     yield Method((b) => b
-      ..name = property.name
+      ..name = property.dartName
       ..type = MethodType.setter
       ..requiredParameters.add(Parameter((b) => b
         ..name = 'v'
         ..type = property.type.dartType))
       ..body = refer('_wrapped')
-          .property(property.name)
+          .property(property.rawName)
           .assign(property.type.toJS(refer('v')))
           .statement);
   }
@@ -617,7 +623,7 @@ class DartApiGenerator extends _GeneratorBase {
   Field _syntheticProperty(model.Property property) {
     return Field((b) => b
       ..docs.add(documentationComment(property.documentation, indent: 2))
-      ..name = property.name
+      ..name = property.dartName
       ..type = property.type.dartType
       ..modifier = FieldModifier.final$);
   }

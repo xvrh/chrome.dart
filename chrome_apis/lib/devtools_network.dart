@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_network.dart' as $js;
@@ -34,16 +38,16 @@ class ChromeDevtoolsNetwork {
 
   /// Fired when a network request is finished and all request data are
   /// available.
-  Stream<Request> get onRequestFinished =>
+  EventStream<Request> get onRequestFinished =>
       $js.chrome.devtools.network.onRequestFinished
           .asStream(($c) => ($js.Request request) {
-                $c(Request.fromJS(request));
+                return $c(Request.fromJS(request));
               });
 
   /// Fired when the inspected window navigates to a new page.
-  Stream<String> get onNavigated =>
+  EventStream<String> get onNavigated =>
       $js.chrome.devtools.network.onNavigated.asStream(($c) => (String url) {
-            $c(url);
+            return $c(url);
           });
 }
 

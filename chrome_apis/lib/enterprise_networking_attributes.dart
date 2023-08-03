@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'enterprise.dart';
@@ -51,10 +55,11 @@ class NetworkDetails {
 
     /// The device's local IPv6 address (undefined if not configured).
     String? ipv6,
-  }) : _wrapped = $js.NetworkDetails()
-          ..macAddress = macAddress
-          ..ipv4 = ipv4
-          ..ipv6 = ipv6;
+  }) : _wrapped = $js.NetworkDetails(
+          macAddress: macAddress,
+          ipv4: ipv4,
+          ipv6: ipv6,
+        );
 
   final $js.NetworkDetails _wrapped;
 

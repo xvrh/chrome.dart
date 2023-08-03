@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -95,9 +99,9 @@ class ChromeSetting {
   }
 
   /// Fired after the setting changes.
-  Stream<OnChangeDetails> get onChange =>
+  EventStream<OnChangeDetails> get onChange =>
       _wrapped.onChange.asStream(($c) => ($js.OnChangeDetails details) {
-            $c(OnChangeDetails.fromJS(details));
+            return $c(OnChangeDetails.fromJS(details));
           });
 }
 
@@ -115,10 +119,11 @@ class GetCallbackDetails {
     /// session.<br/>This property will _only_ be present if the [incognito]
     /// property in the [details] parameter of `get()` was true.
     bool? incognitoSpecific,
-  }) : _wrapped = $js.GetCallbackDetails()
-          ..value = value.jsify()!
-          ..levelOfControl = levelOfControl.toJS
-          ..incognitoSpecific = incognitoSpecific;
+  }) : _wrapped = $js.GetCallbackDetails(
+          value: value.jsify()!,
+          levelOfControl: levelOfControl.toJS,
+          incognitoSpecific: incognitoSpecific,
+        );
 
   final $js.GetCallbackDetails _wrapped;
 
@@ -159,6 +164,13 @@ class GetDetails {
   final $js.GetDetails _wrapped;
 
   $js.GetDetails get toJS => _wrapped;
+
+  /// Whether to return the value that applies to the incognito session (default
+  /// false).
+  bool? get incognito => _wrapped.incognito;
+  set incognito(bool? v) {
+    _wrapped.incognito = v;
+  }
 }
 
 class SetDetails {
@@ -180,6 +192,21 @@ class SetDetails {
   final $js.SetDetails _wrapped;
 
   $js.SetDetails get toJS => _wrapped;
+
+  /// The value of the setting. <br/>Note that every setting has a specific
+  /// value type, which is described together with the setting. An extension
+  /// should _not_ set a value of a different type.
+  Object get value => _wrapped.value.dartify()!;
+  set value(Object v) {
+    _wrapped.value = v.jsify()!;
+  }
+
+  /// Where to set the setting (default: regular).
+  ChromeSettingScope? get scope =>
+      _wrapped.scope?.let(ChromeSettingScope.fromJS);
+  set scope(ChromeSettingScope? v) {
+    _wrapped.scope = v?.toJS;
+  }
 }
 
 class ClearDetails {
@@ -194,6 +221,13 @@ class ClearDetails {
   final $js.ClearDetails _wrapped;
 
   $js.ClearDetails get toJS => _wrapped;
+
+  /// Where to clear the setting (default: regular).
+  ChromeSettingScope? get scope =>
+      _wrapped.scope?.let(ChromeSettingScope.fromJS);
+  set scope(ChromeSettingScope? v) {
+    _wrapped.scope = v?.toJS;
+  }
 }
 
 class OnChangeDetails {
@@ -210,10 +244,11 @@ class OnChangeDetails {
     /// session.<br/>This property will _only_ be present if the user has
     /// enabled the extension in incognito mode.
     bool? incognitoSpecific,
-  }) : _wrapped = $js.OnChangeDetails()
-          ..value = value.jsify()!
-          ..levelOfControl = levelOfControl.toJS
-          ..incognitoSpecific = incognitoSpecific;
+  }) : _wrapped = $js.OnChangeDetails(
+          value: value.jsify()!,
+          levelOfControl: levelOfControl.toJS,
+          incognitoSpecific: incognitoSpecific,
+        );
 
   final $js.OnChangeDetails _wrapped;
 

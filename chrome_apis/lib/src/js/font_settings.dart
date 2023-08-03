@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -111,7 +116,16 @@ typedef LevelOfControl = String;
 
 @JS()
 @staticInterop
-class FontName {}
+@anonymous
+class FontName {
+  external factory FontName({
+    /// The font ID.
+    String fontId,
+
+    /// The display name of the font.
+    String displayName,
+  });
+}
 
 extension FontNameExtension on FontName {
   /// The font ID.
@@ -123,7 +137,22 @@ extension FontNameExtension on FontName {
 
 @JS()
 @staticInterop
-class OnFontChangedDetails {}
+@anonymous
+class OnFontChangedDetails {
+  external factory OnFontChangedDetails({
+    /// The font ID. See the description in `getFont`.
+    String fontId,
+
+    /// The script code for which the font setting has changed.
+    ScriptCode? script,
+
+    /// The generic font family for which the font setting has changed.
+    GenericFamily genericFamily,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension OnFontChangedDetailsExtension on OnFontChangedDetails {
   /// The font ID. See the description in `getFont`.
@@ -141,7 +170,16 @@ extension OnFontChangedDetailsExtension on OnFontChangedDetails {
 
 @JS()
 @staticInterop
-class OnDefaultFontSizeChangedDetails {}
+@anonymous
+class OnDefaultFontSizeChangedDetails {
+  external factory OnDefaultFontSizeChangedDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension OnDefaultFontSizeChangedDetailsExtension
     on OnDefaultFontSizeChangedDetails {
@@ -154,7 +192,16 @@ extension OnDefaultFontSizeChangedDetailsExtension
 
 @JS()
 @staticInterop
-class OnDefaultFixedFontSizeChangedDetails {}
+@anonymous
+class OnDefaultFixedFontSizeChangedDetails {
+  external factory OnDefaultFixedFontSizeChangedDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension OnDefaultFixedFontSizeChangedDetailsExtension
     on OnDefaultFixedFontSizeChangedDetails {
@@ -167,7 +214,16 @@ extension OnDefaultFixedFontSizeChangedDetailsExtension
 
 @JS()
 @staticInterop
-class OnMinimumFontSizeChangedDetails {}
+@anonymous
+class OnMinimumFontSizeChangedDetails {
+  external factory OnMinimumFontSizeChangedDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension OnMinimumFontSizeChangedDetailsExtension
     on OnMinimumFontSizeChangedDetails {
@@ -192,9 +248,31 @@ class ClearFontDetails {
   });
 }
 
+extension ClearFontDetailsExtension on ClearFontDetails {
+  /// The script for which the font should be cleared. If omitted, the global
+  /// script font setting is cleared.
+  external ScriptCode? script;
+
+  /// The generic font family for which the font should be cleared.
+  external GenericFamily genericFamily;
+}
+
 @JS()
 @staticInterop
-class GetFontCallbackDetails {}
+@anonymous
+class GetFontCallbackDetails {
+  external factory GetFontCallbackDetails({
+    /// The font ID. Rather than the literal font ID preference value, this may be
+    /// the ID of the font that the system resolves the preference value to. So,
+    /// [fontId] can differ from the font passed to `setFont`, if, for example,
+    /// the font is not available on the system. The empty string signifies
+    /// fallback to the global script font setting.
+    String fontId,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension GetFontCallbackDetailsExtension on GetFontCallbackDetails {
   /// The font ID. Rather than the literal font ID preference value, this may be
@@ -222,6 +300,15 @@ class GetFontDetails {
   });
 }
 
+extension GetFontDetailsExtension on GetFontDetails {
+  /// The script for which the font should be retrieved. If omitted, the font
+  /// setting for the global script (script code "Zyyy") is retrieved.
+  external ScriptCode? script;
+
+  /// The generic font family for which the font should be retrieved.
+  external GenericFamily genericFamily;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -240,6 +327,19 @@ class SetFontDetails {
   });
 }
 
+extension SetFontDetailsExtension on SetFontDetails {
+  /// The script code which the font should be set. If omitted, the font setting
+  /// for the global script (script code "Zyyy") is set.
+  external ScriptCode? script;
+
+  /// The generic font family for which the font should be set.
+  external GenericFamily genericFamily;
+
+  /// The font ID. The empty string means to fallback to the global script font
+  /// setting.
+  external String fontId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -247,9 +347,20 @@ class ClearDefaultFontSizeDetails {
   external factory ClearDefaultFontSizeDetails();
 }
 
+extension ClearDefaultFontSizeDetailsExtension on ClearDefaultFontSizeDetails {}
+
 @JS()
 @staticInterop
-class GetDefaultFontSizeCallbackDetails {}
+@anonymous
+class GetDefaultFontSizeCallbackDetails {
+  external factory GetDefaultFontSizeCallbackDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension GetDefaultFontSizeCallbackDetailsExtension
     on GetDefaultFontSizeCallbackDetails {
@@ -267,6 +378,8 @@ class GetDefaultFontSizeDetails {
   external factory GetDefaultFontSizeDetails();
 }
 
+extension GetDefaultFontSizeDetailsExtension on GetDefaultFontSizeDetails {}
+
 @JS()
 @staticInterop
 @anonymous
@@ -277,6 +390,11 @@ class SetDefaultFontSizeDetails {
       int pixelSize});
 }
 
+extension SetDefaultFontSizeDetailsExtension on SetDefaultFontSizeDetails {
+  /// The font size in pixels.
+  external int pixelSize;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -284,9 +402,21 @@ class ClearDefaultFixedFontSizeDetails {
   external factory ClearDefaultFixedFontSizeDetails();
 }
 
+extension ClearDefaultFixedFontSizeDetailsExtension
+    on ClearDefaultFixedFontSizeDetails {}
+
 @JS()
 @staticInterop
-class GetDefaultFixedFontSizeCallbackDetails {}
+@anonymous
+class GetDefaultFixedFontSizeCallbackDetails {
+  external factory GetDefaultFixedFontSizeCallbackDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension GetDefaultFixedFontSizeCallbackDetailsExtension
     on GetDefaultFixedFontSizeCallbackDetails {
@@ -304,6 +434,9 @@ class GetDefaultFixedFontSizeDetails {
   external factory GetDefaultFixedFontSizeDetails();
 }
 
+extension GetDefaultFixedFontSizeDetailsExtension
+    on GetDefaultFixedFontSizeDetails {}
+
 @JS()
 @staticInterop
 @anonymous
@@ -314,6 +447,12 @@ class SetDefaultFixedFontSizeDetails {
       int pixelSize});
 }
 
+extension SetDefaultFixedFontSizeDetailsExtension
+    on SetDefaultFixedFontSizeDetails {
+  /// The font size in pixels.
+  external int pixelSize;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -321,9 +460,20 @@ class ClearMinimumFontSizeDetails {
   external factory ClearMinimumFontSizeDetails();
 }
 
+extension ClearMinimumFontSizeDetailsExtension on ClearMinimumFontSizeDetails {}
+
 @JS()
 @staticInterop
-class GetMinimumFontSizeCallbackDetails {}
+@anonymous
+class GetMinimumFontSizeCallbackDetails {
+  external factory GetMinimumFontSizeCallbackDetails({
+    /// The font size in pixels.
+    int pixelSize,
+
+    /// The level of control this extension has over the setting.
+    LevelOfControl levelOfControl,
+  });
+}
 
 extension GetMinimumFontSizeCallbackDetailsExtension
     on GetMinimumFontSizeCallbackDetails {
@@ -341,6 +491,8 @@ class GetMinimumFontSizeDetails {
   external factory GetMinimumFontSizeDetails();
 }
 
+extension GetMinimumFontSizeDetailsExtension on GetMinimumFontSizeDetails {}
+
 @JS()
 @staticInterop
 @anonymous
@@ -349,4 +501,9 @@ class SetMinimumFontSizeDetails {
       {
       /// The font size in pixels.
       int pixelSize});
+}
+
+extension SetMinimumFontSizeDetailsExtension on SetMinimumFontSizeDetails {
+  /// The font size in pixels.
+  external int pixelSize;
 }

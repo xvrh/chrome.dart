@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -117,9 +122,28 @@ class GetViewsFetchProperties {
   });
 }
 
+extension GetViewsFetchPropertiesExtension on GetViewsFetchProperties {
+  /// The type of view to get. If omitted, returns all views (including
+  /// background pages and tabs).
+  external ViewType? type;
+
+  /// The window to restrict the search to. If omitted, returns all views.
+  external int? windowId;
+
+  /// Find a view according to a tab id. If this field is omitted, returns all
+  /// views.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
-class ExtensionLastError {}
+@anonymous
+class ExtensionLastError {
+  external factory ExtensionLastError(
+      {
+      /// Description of the error that has taken place.
+      String message});
+}
 
 extension ExtensionLastErrorExtension on ExtensionLastError {
   /// Description of the error that has taken place.

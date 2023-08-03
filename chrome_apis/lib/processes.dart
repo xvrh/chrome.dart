@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -65,9 +69,9 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Metrics requiring
   /// aggregation over time will be populated in each Process object.
-  Stream<Map> get onUpdated =>
+  EventStream<Map> get onUpdated =>
       $js.chrome.processes.onUpdated.asStream(($c) => (JSAny processes) {
-            $c(processes.toDartMap());
+            return $c(processes.toDartMap());
           });
 
   /// Fired each time the Task Manager updates its process statistics,
@@ -79,19 +83,19 @@ class ChromeProcesses {
   /// |processes|: A dictionary of updated [Process] objects for each live
   /// process in the browser, indexed by process ID.  Memory usage details will
   /// be included in each Process object.
-  Stream<Map> get onUpdatedWithMemory =>
+  EventStream<Map> get onUpdatedWithMemory =>
       $js.chrome.processes.onUpdatedWithMemory
           .asStream(($c) => (JSAny processes) {
-                $c(processes.toDartMap());
+                return $c(processes.toDartMap());
               });
 
   /// Fired each time a process is created, providing the corrseponding Process
   /// object.
   /// |process|: Details of the process that was created. Metrics requiring
   /// aggregation over time will not be populated in the object.
-  Stream<Process> get onCreated =>
+  EventStream<Process> get onCreated =>
       $js.chrome.processes.onCreated.asStream(($c) => ($js.Process process) {
-            $c(Process.fromJS(process));
+            return $c(Process.fromJS(process));
           });
 
   /// Fired each time a process becomes unresponsive, providing the
@@ -99,9 +103,9 @@ class ChromeProcesses {
   /// |process|: Details of the unresponsive process. Metrics requiring
   /// aggregation over time will not be populated in the object. Only available
   /// for renderer processes.
-  Stream<Process> get onUnresponsive => $js.chrome.processes.onUnresponsive
+  EventStream<Process> get onUnresponsive => $js.chrome.processes.onUnresponsive
       .asStream(($c) => ($js.Process process) {
-            $c(Process.fromJS(process));
+            return $c(Process.fromJS(process));
           });
 
   /// Fired each time a process is terminated, providing the type of exit.
@@ -110,13 +114,13 @@ class ChromeProcesses {
   /// abnormal, killed, crashed. Only available for renderer processes.
   /// |exitCode|: The exit code if the process exited abnormally. Only
   /// available for renderer processes.
-  Stream<OnExitedEvent> get onExited =>
+  EventStream<OnExitedEvent> get onExited =>
       $js.chrome.processes.onExited.asStream(($c) => (
             int processId,
             int exitType,
             int exitCode,
           ) {
-            $c(OnExitedEvent(
+            return $c(OnExitedEvent(
               processId: processId,
               exitType: exitType,
               exitCode: exitCode,
@@ -157,9 +161,10 @@ class TaskInfo {
     /// Optional tab ID, if this task represents a tab running on a renderer
     /// process.
     int? tabId,
-  }) : _wrapped = $js.TaskInfo()
-          ..title = title
-          ..tabId = tabId;
+  }) : _wrapped = $js.TaskInfo(
+          title: title,
+          tabId: tabId,
+        );
 
   final $js.TaskInfo _wrapped;
 
@@ -188,9 +193,10 @@ class Cache {
 
     /// The part of the cache that is utilized, in bytes.
     required double liveSize,
-  }) : _wrapped = $js.Cache()
-          ..size = size
-          ..liveSize = liveSize;
+  }) : _wrapped = $js.Cache(
+          size: size,
+          liveSize: liveSize,
+        );
 
   final $js.Cache _wrapped;
 
@@ -279,22 +285,23 @@ class Process {
     /// available when receiving the object as part of a callback from onUpdated
     /// or onUpdatedWithMemory.
     Cache? cssCache,
-  }) : _wrapped = $js.Process()
-          ..id = id
-          ..osProcessId = osProcessId
-          ..type = type.toJS
-          ..profile = profile
-          ..naclDebugPort = naclDebugPort
-          ..tasks = tasks.toJSArray((e) => e.toJS)
-          ..cpu = cpu
-          ..network = network
-          ..privateMemory = privateMemory
-          ..jsMemoryAllocated = jsMemoryAllocated
-          ..jsMemoryUsed = jsMemoryUsed
-          ..sqliteMemory = sqliteMemory
-          ..imageCache = imageCache?.toJS
-          ..scriptCache = scriptCache?.toJS
-          ..cssCache = cssCache?.toJS;
+  }) : _wrapped = $js.Process(
+          id: id,
+          osProcessId: osProcessId,
+          type: type.toJS,
+          profile: profile,
+          naclDebugPort: naclDebugPort,
+          tasks: tasks.toJSArray((e) => e.toJS),
+          cpu: cpu,
+          network: network,
+          privateMemory: privateMemory,
+          jsMemoryAllocated: jsMemoryAllocated,
+          jsMemoryUsed: jsMemoryUsed,
+          sqliteMemory: sqliteMemory,
+          imageCache: imageCache?.toJS,
+          scriptCache: scriptCache?.toJS,
+          cssCache: cssCache?.toJS,
+        );
 
   final $js.Process _wrapped;
 

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'printing.dart';
@@ -32,10 +36,10 @@ class ChromePrintingMetrics {
 
   /// Event fired when the print job is finished.
   /// This includes any of termination statuses: FAILED, CANCELED and PRINTED.
-  Stream<PrintJobInfo> get onPrintJobFinished =>
+  EventStream<PrintJobInfo> get onPrintJobFinished =>
       $js.chrome.printingMetrics.onPrintJobFinished
           .asStream(($c) => ($js.PrintJobInfo jobInfo) {
-                $c(PrintJobInfo.fromJS(jobInfo));
+                return $c(PrintJobInfo.fromJS(jobInfo));
               });
 }
 
@@ -147,10 +151,11 @@ class MediaSize {
     /// href="https://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml">
     /// IANA page</a> .
     required String vendorId,
-  }) : _wrapped = $js.MediaSize()
-          ..width = width
-          ..height = height
-          ..vendorId = vendorId;
+  }) : _wrapped = $js.MediaSize(
+          width: width,
+          height: height,
+          vendorId: vendorId,
+        );
 
   final $js.MediaSize _wrapped;
 
@@ -194,11 +199,12 @@ class PrintSettings {
 
     /// The requested number of copies.
     required int copies,
-  }) : _wrapped = $js.PrintSettings()
-          ..color = color.toJS
-          ..duplex = duplex.toJS
-          ..mediaSize = mediaSize.toJS
-          ..copies = copies;
+  }) : _wrapped = $js.PrintSettings(
+          color: color.toJS,
+          duplex: duplex.toJS,
+          mediaSize: mediaSize.toJS,
+          copies: copies,
+        );
 
   final $js.PrintSettings _wrapped;
 
@@ -242,10 +248,11 @@ class Printer {
 
     /// The source of the printer.
     required PrinterSource source,
-  }) : _wrapped = $js.Printer()
-          ..name = name
-          ..uri = uri
-          ..source = source.toJS;
+  }) : _wrapped = $js.Printer(
+          name: name,
+          uri: uri,
+          source: source.toJS,
+        );
 
   final $js.Printer _wrapped;
 
@@ -306,19 +313,20 @@ class PrintJobInfo {
     required int numberOfPages,
 
     /// The status of the printer.
-    required PrinterStatus printer_status,
-  }) : _wrapped = $js.PrintJobInfo()
-          ..id = id
-          ..title = title
-          ..source = source.toJS
-          ..sourceId = sourceId
-          ..status = status.toJS
-          ..creationTime = creationTime
-          ..completionTime = completionTime
-          ..printer = printer.toJS
-          ..settings = settings.toJS
-          ..numberOfPages = numberOfPages
-          ..printer_status = printer_status.toJS;
+    required PrinterStatus printerStatus,
+  }) : _wrapped = $js.PrintJobInfo(
+          id: id,
+          title: title,
+          source: source.toJS,
+          sourceId: sourceId,
+          status: status.toJS,
+          creationTime: creationTime,
+          completionTime: completionTime,
+          printer: printer.toJS,
+          settings: settings.toJS,
+          numberOfPages: numberOfPages,
+          printer_status: printerStatus.toJS,
+        );
 
   final $js.PrintJobInfo _wrapped;
 
@@ -385,9 +393,9 @@ class PrintJobInfo {
   }
 
   /// The status of the printer.
-  PrinterStatus get printer_status =>
+  PrinterStatus get printerStatus =>
       PrinterStatus.fromJS(_wrapped.printer_status);
-  set printer_status(PrinterStatus v) {
+  set printerStatus(PrinterStatus v) {
     _wrapped.printer_status = v.toJS;
   }
 }

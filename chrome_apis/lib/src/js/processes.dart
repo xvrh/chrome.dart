@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -92,7 +97,17 @@ typedef ProcessType = String;
 
 @JS()
 @staticInterop
-class TaskInfo {}
+@anonymous
+class TaskInfo {
+  external factory TaskInfo({
+    /// The title of the task.
+    String title,
+
+    /// Optional tab ID, if this task represents a tab running on a renderer
+    /// process.
+    int? tabId,
+  });
+}
 
 extension TaskInfoExtension on TaskInfo {
   /// The title of the task.
@@ -105,7 +120,16 @@ extension TaskInfoExtension on TaskInfo {
 
 @JS()
 @staticInterop
-class Cache {}
+@anonymous
+class Cache {
+  external factory Cache({
+    /// The size of the cache, in bytes.
+    double size,
+
+    /// The part of the cache that is utilized, in bytes.
+    double liveSize,
+  });
+}
 
 extension CacheExtension on Cache {
   /// The size of the cache, in bytes.
@@ -117,7 +141,77 @@ extension CacheExtension on Cache {
 
 @JS()
 @staticInterop
-class Process {}
+@anonymous
+class Process {
+  external factory Process({
+    /// Unique ID of the process provided by the browser.
+    int id,
+
+    /// The ID of the process, as provided by the OS.
+    int osProcessId,
+
+    /// The type of process.
+    ProcessType type,
+
+    /// The profile which the process is associated with.
+    String profile,
+
+    /// The debugging port for Native Client processes. Zero for other process
+    /// types and for NaCl processes that do not have debugging enabled.
+    int naclDebugPort,
+
+    /// Array of TaskInfos representing the tasks running on this process.
+    JSArray tasks,
+
+    /// The most recent measurement of the process's CPU usage, expressed as the
+    /// percentage of a single CPU core used in total, by all of the process's
+    /// threads. This gives a value from zero to CpuInfo.numOfProcessors*100,
+    /// which can exceed 100% in multi-threaded processes.
+    /// Only available when receiving the object as part of a callback from
+    /// onUpdated or onUpdatedWithMemory.
+    double? cpu,
+
+    /// The most recent measurement of the process network usage, in bytes per
+    /// second. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
+    double? network,
+
+    /// The most recent measurement of the process private memory usage, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdatedWithMemory or getProcessInfo with the includeMemory flag.
+    double? privateMemory,
+
+    /// The most recent measurement of the process JavaScript allocated memory,
+    /// in bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
+    double? jsMemoryAllocated,
+
+    /// The most recent measurement of the process JavaScript memory used, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
+    double? jsMemoryUsed,
+
+    /// The most recent measurement of the process's SQLite memory usage, in
+    /// bytes. Only available when receiving the object as part of a callback
+    /// from onUpdated or onUpdatedWithMemory.
+    double? sqliteMemory,
+
+    /// The most recent information about the image cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
+    Cache? imageCache,
+
+    /// The most recent information about the script cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
+    Cache? scriptCache,
+
+    /// The most recent information about the CSS cache for the process. Only
+    /// available when receiving the object as part of a callback from onUpdated
+    /// or onUpdatedWithMemory.
+    Cache? cssCache,
+  });
+}
 
 extension ProcessExtension on Process {
   /// Unique ID of the process provided by the browser.

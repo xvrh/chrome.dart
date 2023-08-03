@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -20,7 +24,7 @@ class ChromeI18n {
 
   /// Gets the accept-languages of the browser. This is different from the
   /// locale used by the browser; to get the locale, use [i18n.getUILanguage].
-  Future<List<LanguageCode>> getAcceptLanguages() async {
+  Future<List<String>> getAcceptLanguages() async {
     var $res =
         await promiseToFuture<JSArray>($js.chrome.i18n.getAcceptLanguages());
     return $res.toDart.cast<$js.LanguageCode>().map((e) => e).toList();
@@ -86,6 +90,15 @@ class GetMessageOptions {
   final $js.GetMessageOptions _wrapped;
 
   $js.GetMessageOptions get toJS => _wrapped;
+
+  /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
+  /// itself, not to the placeholders. Developers might want to use this if the
+  /// translation is used in an HTML context. Closure Templates used with
+  /// Closure Compiler generate this automatically.
+  bool? get escapeLt => _wrapped.escapeLt;
+  set escapeLt(bool? v) {
+    _wrapped.escapeLt = v;
+  }
 }
 
 class DetectLanguageCallbackResult {
@@ -97,9 +110,10 @@ class DetectLanguageCallbackResult {
 
     /// array of detectedLanguage
     required List<DetectLanguageCallbackResultLanguages> languages,
-  }) : _wrapped = $js.DetectLanguageCallbackResult()
-          ..isReliable = isReliable
-          ..languages = languages.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.DetectLanguageCallbackResult(
+          isReliable: isReliable,
+          languages: languages.toJSArray((e) => e.toJS),
+        );
 
   final $js.DetectLanguageCallbackResult _wrapped;
 
@@ -126,20 +140,21 @@ class DetectLanguageCallbackResultLanguages {
   DetectLanguageCallbackResultLanguages.fromJS(this._wrapped);
 
   DetectLanguageCallbackResultLanguages({
-    required LanguageCode language,
+    required String language,
 
     /// The percentage of the detected language
     required int percentage,
-  }) : _wrapped = $js.DetectLanguageCallbackResultLanguages()
-          ..language = language
-          ..percentage = percentage;
+  }) : _wrapped = $js.DetectLanguageCallbackResultLanguages(
+          language: language,
+          percentage: percentage,
+        );
 
   final $js.DetectLanguageCallbackResultLanguages _wrapped;
 
   $js.DetectLanguageCallbackResultLanguages get toJS => _wrapped;
 
-  LanguageCode get language => _wrapped.language;
-  set language(LanguageCode v) {
+  String get language => _wrapped.language;
+  set language(String v) {
     _wrapped.language = v;
   }
 

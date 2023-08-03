@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -123,7 +128,47 @@ typedef BookmarkTreeNodeUnmodifiable = String;
 
 @JS()
 @staticInterop
-class BookmarkTreeNode {}
+@anonymous
+class BookmarkTreeNode {
+  external factory BookmarkTreeNode({
+    /// The unique identifier for the node. IDs are unique within the current
+    /// profile, and they remain valid even after the browser is restarted.
+    String id,
+
+    /// The `id` of the parent folder.  Omitted for the root node.
+    String? parentId,
+
+    /// The 0-based position of this node within its parent folder.
+    int? index,
+
+    /// The URL navigated to when a user clicks the bookmark. Omitted for folders.
+    String? url,
+
+    /// The text displayed for the node.
+    String title,
+
+    /// When this node was created, in milliseconds since the epoch (`new
+    /// Date(dateAdded)`).
+    double? dateAdded,
+
+    /// When this node was last opened, in milliseconds since the epoch. Not set
+    /// for folders.
+    double? dateLastUsed,
+
+    /// When the contents of this folder last changed, in milliseconds since the
+    /// epoch.
+    double? dateGroupModified,
+
+    /// Indicates the reason why this node is unmodifiable. The [managed] value
+    /// indicates that this node was configured by the system administrator or by
+    /// the custodian of a supervised user. Omitted if the node can be modified by
+    /// the user and the extension (default).
+    BookmarkTreeNodeUnmodifiable? unmodifiable,
+
+    /// An ordered list of children of this node.
+    JSArray? children,
+  });
+}
 
 extension BookmarkTreeNodeExtension on BookmarkTreeNode {
   /// The unique identifier for the node. IDs are unique within the current
@@ -177,9 +222,27 @@ class CreateDetails {
   });
 }
 
+extension CreateDetailsExtension on CreateDetails {
+  /// Defaults to the Other Bookmarks folder.
+  external String? parentId;
+
+  external int? index;
+
+  external String? title;
+
+  external String? url;
+}
+
 @JS()
 @staticInterop
-class OnRemovedRemoveInfo {}
+@anonymous
+class OnRemovedRemoveInfo {
+  external factory OnRemovedRemoveInfo({
+    String parentId,
+    int index,
+    BookmarkTreeNode node,
+  });
+}
 
 extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
   external String parentId;
@@ -191,7 +254,13 @@ extension OnRemovedRemoveInfoExtension on OnRemovedRemoveInfo {
 
 @JS()
 @staticInterop
-class OnChangedChangeInfo {}
+@anonymous
+class OnChangedChangeInfo {
+  external factory OnChangedChangeInfo({
+    String title,
+    String? url,
+  });
+}
 
 extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
   external String title;
@@ -201,7 +270,15 @@ extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
 
 @JS()
 @staticInterop
-class OnMovedMoveInfo {}
+@anonymous
+class OnMovedMoveInfo {
+  external factory OnMovedMoveInfo({
+    String parentId,
+    int index,
+    String oldParentId,
+    int oldIndex,
+  });
+}
 
 extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
   external String parentId;
@@ -215,7 +292,10 @@ extension OnMovedMoveInfoExtension on OnMovedMoveInfo {
 
 @JS()
 @staticInterop
-class OnChildrenReorderedReorderInfo {}
+@anonymous
+class OnChildrenReorderedReorderInfo {
+  external factory OnChildrenReorderedReorderInfo({JSArray childIds});
+}
 
 extension OnChildrenReorderedReorderInfoExtension
     on OnChildrenReorderedReorderInfo {
@@ -239,6 +319,18 @@ class SearchQuery {
   });
 }
 
+extension SearchQueryExtension on SearchQuery {
+  /// A string of words and quoted phrases that are matched against bookmark
+  /// URLs and titles.
+  external String? query;
+
+  /// The URL of the bookmark; matches verbatim. Note that folders have no URL.
+  external String? url;
+
+  /// The title of the bookmark; matches verbatim.
+  external String? title;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -249,6 +341,12 @@ class MoveDestination {
   });
 }
 
+extension MoveDestinationExtension on MoveDestination {
+  external String? parentId;
+
+  external int? index;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -257,4 +355,10 @@ class UpdateChanges {
     String? title,
     String? url,
   });
+}
+
+extension UpdateChangesExtension on UpdateChanges {
+  external String? title;
+
+  external String? url;
 }

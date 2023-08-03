@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -404,16 +408,16 @@ class ChromeUsb {
   /// device. Permission may have been granted at install time, when the user
   /// accepted an optional permission (see [permissions.request]), or
   /// through [getUserSelectedDevices].
-  Stream<Device> get onDeviceAdded =>
+  EventStream<Device> get onDeviceAdded =>
       $js.chrome.usb.onDeviceAdded.asStream(($c) => ($js.Device device) {
-            $c(Device.fromJS(device));
+            return $c(Device.fromJS(device));
           });
 
   /// Event generated when a device is removed from the system. See
   /// [onDeviceAdded] for which events are delivered.
-  Stream<Device> get onDeviceRemoved =>
+  EventStream<Device> get onDeviceRemoved =>
       $js.chrome.usb.onDeviceRemoved.asStream(($c) => ($js.Device device) {
-            $c(Device.fromJS(device));
+            return $c(Device.fromJS(device));
           });
 }
 
@@ -548,6 +552,49 @@ class Device {
   final $js.Device _wrapped;
 
   $js.Device get toJS => _wrapped;
+
+  /// An opaque ID for the USB device. It remains unchanged until the device is
+  /// unplugged.
+  int get device => _wrapped.device;
+  set device(int v) {
+    _wrapped.device = v;
+  }
+
+  /// The device vendor ID.
+  int get vendorId => _wrapped.vendorId;
+  set vendorId(int v) {
+    _wrapped.vendorId = v;
+  }
+
+  /// The product ID.
+  int get productId => _wrapped.productId;
+  set productId(int v) {
+    _wrapped.productId = v;
+  }
+
+  /// The device version (bcdDevice field).
+  int get version => _wrapped.version;
+  set version(int v) {
+    _wrapped.version = v;
+  }
+
+  /// The iProduct string read from the device, if available.
+  String get productName => _wrapped.productName;
+  set productName(String v) {
+    _wrapped.productName = v;
+  }
+
+  /// The iManufacturer string read from the device, if available.
+  String get manufacturerName => _wrapped.manufacturerName;
+  set manufacturerName(String v) {
+    _wrapped.manufacturerName = v;
+  }
+
+  /// The iSerialNumber string read from the device, if available.
+  String get serialNumber => _wrapped.serialNumber;
+  set serialNumber(String v) {
+    _wrapped.serialNumber = v;
+  }
 }
 
 class ConnectionHandle {
@@ -574,6 +621,27 @@ class ConnectionHandle {
   final $js.ConnectionHandle _wrapped;
 
   $js.ConnectionHandle get toJS => _wrapped;
+
+  /// An opaque handle representing this connection to the USB device and all
+  /// associated claimed interfaces and pending transfers. A new handle is
+  /// created each time the device is opened. The connection handle is
+  /// different from [Device.device].
+  int get handle => _wrapped.handle;
+  set handle(int v) {
+    _wrapped.handle = v;
+  }
+
+  /// The device vendor ID.
+  int get vendorId => _wrapped.vendorId;
+  set vendorId(int v) {
+    _wrapped.vendorId = v;
+  }
+
+  /// The product ID.
+  int get productId => _wrapped.productId;
+  set productId(int v) {
+    _wrapped.productId = v;
+  }
 }
 
 class EndpointDescriptor {
@@ -602,16 +670,17 @@ class EndpointDescriptor {
     int? pollingInterval,
 
     /// Extra descriptor data associated with this endpoint.
-    required ByteBuffer extra_data,
-  }) : _wrapped = $js.EndpointDescriptor()
-          ..address = address
-          ..type = type.toJS
-          ..direction = direction.toJS
-          ..maximumPacketSize = maximumPacketSize
-          ..synchronization = synchronization?.toJS
-          ..usage = usage?.toJS
-          ..pollingInterval = pollingInterval
-          ..extra_data = extra_data.toJS;
+    required ByteBuffer extraData,
+  }) : _wrapped = $js.EndpointDescriptor(
+          address: address,
+          type: type.toJS,
+          direction: direction.toJS,
+          maximumPacketSize: maximumPacketSize,
+          synchronization: synchronization?.toJS,
+          usage: usage?.toJS,
+          pollingInterval: pollingInterval,
+          extra_data: extraData.toJS,
+        );
 
   final $js.EndpointDescriptor _wrapped;
 
@@ -661,8 +730,8 @@ class EndpointDescriptor {
   }
 
   /// Extra descriptor data associated with this endpoint.
-  ByteBuffer get extra_data => _wrapped.extra_data.toDart;
-  set extra_data(ByteBuffer v) {
+  ByteBuffer get extraData => _wrapped.extra_data.toDart;
+  set extraData(ByteBuffer v) {
     _wrapped.extra_data = v.toJS;
   }
 }
@@ -693,16 +762,17 @@ class InterfaceDescriptor {
     required List<EndpointDescriptor> endpoints,
 
     /// Extra descriptor data associated with this interface.
-    required ByteBuffer extra_data,
-  }) : _wrapped = $js.InterfaceDescriptor()
-          ..interfaceNumber = interfaceNumber
-          ..alternateSetting = alternateSetting
-          ..interfaceClass = interfaceClass
-          ..interfaceSubclass = interfaceSubclass
-          ..interfaceProtocol = interfaceProtocol
-          ..description = description
-          ..endpoints = endpoints.toJSArray((e) => e.toJS)
-          ..extra_data = extra_data.toJS;
+    required ByteBuffer extraData,
+  }) : _wrapped = $js.InterfaceDescriptor(
+          interfaceNumber: interfaceNumber,
+          alternateSetting: alternateSetting,
+          interfaceClass: interfaceClass,
+          interfaceSubclass: interfaceSubclass,
+          interfaceProtocol: interfaceProtocol,
+          description: description,
+          endpoints: endpoints.toJSArray((e) => e.toJS),
+          extra_data: extraData.toJS,
+        );
 
   final $js.InterfaceDescriptor _wrapped;
 
@@ -754,8 +824,8 @@ class InterfaceDescriptor {
   }
 
   /// Extra descriptor data associated with this interface.
-  ByteBuffer get extra_data => _wrapped.extra_data.toDart;
-  set extra_data(ByteBuffer v) {
+  ByteBuffer get extraData => _wrapped.extra_data.toDart;
+  set extraData(ByteBuffer v) {
     _wrapped.extra_data = v.toJS;
   }
 }
@@ -786,16 +856,17 @@ class ConfigDescriptor {
     required List<InterfaceDescriptor> interfaces,
 
     /// Extra descriptor data associated with this configuration.
-    required ByteBuffer extra_data,
-  }) : _wrapped = $js.ConfigDescriptor()
-          ..active = active
-          ..configurationValue = configurationValue
-          ..description = description
-          ..selfPowered = selfPowered
-          ..remoteWakeup = remoteWakeup
-          ..maxPower = maxPower
-          ..interfaces = interfaces.toJSArray((e) => e.toJS)
-          ..extra_data = extra_data.toJS;
+    required ByteBuffer extraData,
+  }) : _wrapped = $js.ConfigDescriptor(
+          active: active,
+          configurationValue: configurationValue,
+          description: description,
+          selfPowered: selfPowered,
+          remoteWakeup: remoteWakeup,
+          maxPower: maxPower,
+          interfaces: interfaces.toJSArray((e) => e.toJS),
+          extra_data: extraData.toJS,
+        );
 
   final $js.ConfigDescriptor _wrapped;
 
@@ -847,8 +918,8 @@ class ConfigDescriptor {
   }
 
   /// Extra descriptor data associated with this configuration.
-  ByteBuffer get extra_data => _wrapped.extra_data.toDart;
-  set extra_data(ByteBuffer v) {
+  ByteBuffer get extraData => _wrapped.extra_data.toDart;
+  set extraData(ByteBuffer v) {
     _wrapped.extra_data = v.toJS;
   }
 }
@@ -902,6 +973,64 @@ class ControlTransferInfo {
   final $js.ControlTransferInfo _wrapped;
 
   $js.ControlTransferInfo get toJS => _wrapped;
+
+  /// The transfer direction (`"in"` or `"out"`).
+  Direction get direction => Direction.fromJS(_wrapped.direction);
+  set direction(Direction v) {
+    _wrapped.direction = v.toJS;
+  }
+
+  /// The transfer target. The target given by `index` must be
+  /// claimed if `"interface"` or `"endpoint"`.
+  Recipient get recipient => Recipient.fromJS(_wrapped.recipient);
+  set recipient(Recipient v) {
+    _wrapped.recipient = v.toJS;
+  }
+
+  /// The request type.
+  RequestType get requestType => RequestType.fromJS(_wrapped.requestType);
+  set requestType(RequestType v) {
+    _wrapped.requestType = v.toJS;
+  }
+
+  /// The `bRequest` field, see <i>Universal Serial Bus
+  /// Specification Revision 1.1</i> &sect; 9.3.
+  int get request => _wrapped.request;
+  set request(int v) {
+    _wrapped.request = v;
+  }
+
+  /// The `wValue` field, see <i>Ibid</i>.
+  int get value => _wrapped.value;
+  set value(int v) {
+    _wrapped.value = v;
+  }
+
+  /// The `wIndex` field, see <i>Ibid</i>.
+  int get index => _wrapped.index;
+  set index(int v) {
+    _wrapped.index = v;
+  }
+
+  /// The maximum number of bytes to receive (required only by input
+  /// transfers).
+  int? get length => _wrapped.length;
+  set length(int? v) {
+    _wrapped.length = v;
+  }
+
+  /// The data to transmit (required only by output transfers).
+  ByteBuffer? get data => _wrapped.data?.toDart;
+  set data(ByteBuffer? v) {
+    _wrapped.data = v?.toJS;
+  }
+
+  /// Request timeout (in milliseconds). The default value `0`
+  /// indicates no timeout.
+  int? get timeout => _wrapped.timeout;
+  set timeout(int? v) {
+    _wrapped.timeout = v;
+  }
 }
 
 class GenericTransferInfo {
@@ -936,6 +1065,39 @@ class GenericTransferInfo {
   final $js.GenericTransferInfo _wrapped;
 
   $js.GenericTransferInfo get toJS => _wrapped;
+
+  /// The transfer direction (`"in"` or `"out"`).
+  Direction get direction => Direction.fromJS(_wrapped.direction);
+  set direction(Direction v) {
+    _wrapped.direction = v.toJS;
+  }
+
+  /// The target endpoint address. The interface containing this endpoint must
+  /// be claimed.
+  int get endpoint => _wrapped.endpoint;
+  set endpoint(int v) {
+    _wrapped.endpoint = v;
+  }
+
+  /// The maximum number of bytes to receive (required only by input
+  /// transfers).
+  int? get length => _wrapped.length;
+  set length(int? v) {
+    _wrapped.length = v;
+  }
+
+  /// The data to transmit (required only by output transfers).
+  ByteBuffer? get data => _wrapped.data?.toDart;
+  set data(ByteBuffer? v) {
+    _wrapped.data = v?.toJS;
+  }
+
+  /// Request timeout (in milliseconds). The default value `0`
+  /// indicates no timeout.
+  int? get timeout => _wrapped.timeout;
+  set timeout(int? v) {
+    _wrapped.timeout = v;
+  }
 }
 
 class IsochronousTransferInfo {
@@ -962,6 +1124,27 @@ class IsochronousTransferInfo {
   final $js.IsochronousTransferInfo _wrapped;
 
   $js.IsochronousTransferInfo get toJS => _wrapped;
+
+  /// Transfer parameters. The transfer length or data buffer specified in this
+  /// parameter block is split along `packetLength` boundaries to
+  /// form the individual packets of the transfer.
+  GenericTransferInfo get transferInfo =>
+      GenericTransferInfo.fromJS(_wrapped.transferInfo);
+  set transferInfo(GenericTransferInfo v) {
+    _wrapped.transferInfo = v.toJS;
+  }
+
+  /// The total number of packets in this transfer.
+  int get packets => _wrapped.packets;
+  set packets(int v) {
+    _wrapped.packets = v;
+  }
+
+  /// The length of each of the packets in this transfer.
+  int get packetLength => _wrapped.packetLength;
+  set packetLength(int v) {
+    _wrapped.packetLength = v;
+  }
 }
 
 class TransferResultInfo {
@@ -975,9 +1158,10 @@ class TransferResultInfo {
     /// The data returned by an input transfer. `undefined` for output
     /// transfers.
     ByteBuffer? data,
-  }) : _wrapped = $js.TransferResultInfo()
-          ..resultCode = resultCode
-          ..data = data?.toJS;
+  }) : _wrapped = $js.TransferResultInfo(
+          resultCode: resultCode,
+          data: data?.toJS,
+        );
 
   final $js.TransferResultInfo _wrapped;
 
@@ -1027,6 +1211,36 @@ class DeviceFilter {
   final $js.DeviceFilter _wrapped;
 
   $js.DeviceFilter get toJS => _wrapped;
+
+  /// Device vendor ID.
+  int? get vendorId => _wrapped.vendorId;
+  set vendorId(int? v) {
+    _wrapped.vendorId = v;
+  }
+
+  /// Device product ID, checked only if the vendor ID matches.
+  int? get productId => _wrapped.productId;
+  set productId(int? v) {
+    _wrapped.productId = v;
+  }
+
+  /// USB interface class, matches any interface on the device.
+  int? get interfaceClass => _wrapped.interfaceClass;
+  set interfaceClass(int? v) {
+    _wrapped.interfaceClass = v;
+  }
+
+  /// USB interface sub-class, checked only if the interface class matches.
+  int? get interfaceSubclass => _wrapped.interfaceSubclass;
+  set interfaceSubclass(int? v) {
+    _wrapped.interfaceSubclass = v;
+  }
+
+  /// USB interface protocol, checked only if the interface sub-class matches.
+  int? get interfaceProtocol => _wrapped.interfaceProtocol;
+  set interfaceProtocol(int? v) {
+    _wrapped.interfaceProtocol = v;
+  }
 }
 
 class EnumerateDevicesOptions {
@@ -1049,6 +1263,26 @@ class EnumerateDevicesOptions {
   final $js.EnumerateDevicesOptions _wrapped;
 
   $js.EnumerateDevicesOptions get toJS => _wrapped;
+
+  int? get vendorId => _wrapped.vendorId;
+  set vendorId(int? v) {
+    _wrapped.vendorId = v;
+  }
+
+  int? get productId => _wrapped.productId;
+  set productId(int? v) {
+    _wrapped.productId = v;
+  }
+
+  /// A device matching any given filter will be returned. An empty filter list
+  /// will return all devices the app has permission for.
+  List<DeviceFilter>? get filters => _wrapped.filters?.toDart
+      .cast<$js.DeviceFilter>()
+      .map((e) => DeviceFilter.fromJS(e))
+      .toList();
+  set filters(List<DeviceFilter>? v) {
+    _wrapped.filters = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class EnumerateDevicesAndRequestAccessOptions {
@@ -1073,6 +1307,25 @@ class EnumerateDevicesAndRequestAccessOptions {
   final $js.EnumerateDevicesAndRequestAccessOptions _wrapped;
 
   $js.EnumerateDevicesAndRequestAccessOptions get toJS => _wrapped;
+
+  /// The device vendor ID.
+  int get vendorId => _wrapped.vendorId;
+  set vendorId(int v) {
+    _wrapped.vendorId = v;
+  }
+
+  /// The product ID.
+  int get productId => _wrapped.productId;
+  set productId(int v) {
+    _wrapped.productId = v;
+  }
+
+  /// The interface ID to request access to.
+  /// Only available on Chrome OS. It has no effect on other platforms.
+  int? get interfaceId => _wrapped.interfaceId;
+  set interfaceId(int? v) {
+    _wrapped.interfaceId = v;
+  }
 }
 
 class DevicePromptOptions {
@@ -1094,4 +1347,20 @@ class DevicePromptOptions {
   final $js.DevicePromptOptions _wrapped;
 
   $js.DevicePromptOptions get toJS => _wrapped;
+
+  /// Allow the user to select multiple devices.
+  bool? get multiple => _wrapped.multiple;
+  set multiple(bool? v) {
+    _wrapped.multiple = v;
+  }
+
+  /// Filter the list of devices presented to the user. If multiple filters are
+  /// provided devices matching any filter will be displayed.
+  List<DeviceFilter>? get filters => _wrapped.filters?.toDart
+      .cast<$js.DeviceFilter>()
+      .map((e) => DeviceFilter.fromJS(e))
+      .toList();
+  set filters(List<DeviceFilter>? v) {
+    _wrapped.filters = v?.toJSArray((e) => e.toJS);
+  }
 }

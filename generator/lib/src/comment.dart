@@ -7,7 +7,8 @@ String documentationComment(String documentation, {required int indent}) {
   return _toComment(documentation, indent: indent);
 }
 
-String parameterDocumentation(String paramName, String documentation, {required int indent}) {
+String parameterDocumentation(String paramName, String documentation,
+    {required int indent}) {
   return documentationComment('[$paramName] $documentation', indent: indent);
 }
 
@@ -77,15 +78,14 @@ String convertHtmlToDartdoc(String str) {
 
   // $(ref:sessions) ==> [sessions]
   str = str.replaceAllMapped(
-      new RegExp(r"\$\(ref:([\.\w]*)\)"), (Match m) => "[${m.group(1)}]");
+      RegExp(r"\$\(ref:([\.\w]*)\)"), (Match m) => "[${m.group(1)}]");
 
   // $ref:runtime.onConnect ==> [runtime.onConnect]
   str = str.replaceAllMapped(
-      new RegExp(r"\$ref:([\.\w]*)"), (Match m) => "[${m.group(1)}]");
+      RegExp(r"\$ref:([\.\w]*)"), (Match m) => "[${m.group(1)}]");
 
   // <a href='content_scripts.html#pi'>programmatic injection</a> ==> [foo](url)
-  str = str.replaceAllMapped(
-      new RegExp(r"""<a href=['"](\S*)['"]>([\w ]*)</a>"""),
+  str = str.replaceAllMapped(RegExp(r"""<a href=['"](\S*)['"]>([\w ]*)</a>"""),
       (Match m) => "[${m.group(2)}](${m.group(1)})");
 
   return str;

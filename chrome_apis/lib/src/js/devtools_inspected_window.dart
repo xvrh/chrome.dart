@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -72,7 +77,13 @@ extension JSDevtoolsInspectedWindowExtension on JSDevtoolsInspectedWindow {
 
 @JS()
 @staticInterop
-class Resource {}
+@anonymous
+class Resource {
+  external factory Resource(
+      {
+      /// The URL of the resource.
+      String url});
+}
 
 extension ResourceExtension on Resource {
   /// The URL of the resource.
@@ -102,7 +113,34 @@ extension ResourceExtension on Resource {
 
 @JS()
 @staticInterop
-class EvalExceptionInfo {}
+@anonymous
+class EvalExceptionInfo {
+  external factory EvalExceptionInfo({
+    /// Set if the error occurred on the DevTools side before the expression is
+    /// evaluated.
+    bool isError,
+
+    /// Set if the error occurred on the DevTools side before the expression is
+    /// evaluated.
+    String code,
+
+    /// Set if the error occurred on the DevTools side before the expression is
+    /// evaluated.
+    String description,
+
+    /// Set if the error occurred on the DevTools side before the expression is
+    /// evaluated, contains the array of the values that may be substituted into
+    /// the description string to provide more information about the cause of the
+    /// error.
+    JSArray details,
+
+    /// Set if the evaluated code produces an unhandled exception.
+    bool isException,
+
+    /// Set if the evaluated code produces an unhandled exception.
+    String value,
+  });
+}
 
 extension EvalExceptionInfoExtension on EvalExceptionInfo {
   /// Set if the error occurred on the DevTools side before the expression is
@@ -154,6 +192,25 @@ class EvalOptions {
   });
 }
 
+extension EvalOptionsExtension on EvalOptions {
+  /// If specified, the expression is evaluated on the iframe whose URL matches
+  /// the one specified. By default, the expression is evaluated in the top
+  /// frame of the inspected page.
+  external String? frameURL;
+
+  /// Evaluate the expression in the context of the content script of the
+  /// calling extension, provided that the content script is already injected
+  /// into the inspected page. If not, the expression is not evaluated and the
+  /// callback is invoked with the exception parameter set to an object that has
+  /// the `isError` field set to true and the `code` field set to `E_NOTFOUND`.
+  external bool? useContentScriptContext;
+
+  /// Evaluate the expression in the context of a content script of an extension
+  /// that matches the specified origin. If given, scriptExecutionContext
+  /// overrides the 'true' setting on useContentScriptContext.
+  external String? scriptExecutionContext;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -177,4 +234,24 @@ class ReloadOptions {
     /// the user presses Ctrl+R.
     String? injectedScript,
   });
+}
+
+extension ReloadOptionsExtension on ReloadOptions {
+  /// When true, the loader will bypass the cache for all inspected page
+  /// resources loaded before the `load` event is fired. The effect is similar
+  /// to pressing Ctrl+Shift+R in the inspected window or within the Developer
+  /// Tools window.
+  external bool? ignoreCache;
+
+  /// If specified, the string will override the value of the `User-Agent` HTTP
+  /// header that's sent while loading the resources of the inspected page. The
+  /// string will also override the value of the `navigator.userAgent` property
+  /// that's returned to any scripts that are running within the inspected page.
+  external String? userAgent;
+
+  /// If specified, the script will be injected into every frame of the
+  /// inspected page immediately upon load, before any of the frame's scripts.
+  /// The script will not be injected after subsequent reloads-for example, if
+  /// the user presses Ctrl+R.
+  external String? injectedScript;
 }

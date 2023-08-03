@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -178,27 +182,28 @@ class ChromeManagement {
   }
 
   /// Fired when an app or extension has been installed.
-  Stream<ExtensionInfo> get onInstalled => $js.chrome.management.onInstalled
-      .asStream(($c) => ($js.ExtensionInfo info) {
-            $c(ExtensionInfo.fromJS(info));
-          });
+  EventStream<ExtensionInfo> get onInstalled =>
+      $js.chrome.management.onInstalled
+          .asStream(($c) => ($js.ExtensionInfo info) {
+                return $c(ExtensionInfo.fromJS(info));
+              });
 
   /// Fired when an app or extension has been uninstalled.
-  Stream<String> get onUninstalled =>
+  EventStream<String> get onUninstalled =>
       $js.chrome.management.onUninstalled.asStream(($c) => (String id) {
-            $c(id);
+            return $c(id);
           });
 
   /// Fired when an app or extension has been enabled.
-  Stream<ExtensionInfo> get onEnabled => $js.chrome.management.onEnabled
+  EventStream<ExtensionInfo> get onEnabled => $js.chrome.management.onEnabled
       .asStream(($c) => ($js.ExtensionInfo info) {
-            $c(ExtensionInfo.fromJS(info));
+            return $c(ExtensionInfo.fromJS(info));
           });
 
   /// Fired when an app or extension has been disabled.
-  Stream<ExtensionInfo> get onDisabled => $js.chrome.management.onDisabled
+  EventStream<ExtensionInfo> get onDisabled => $js.chrome.management.onDisabled
       .asStream(($c) => ($js.ExtensionInfo info) {
-            $c(ExtensionInfo.fromJS(info));
+            return $c(ExtensionInfo.fromJS(info));
           });
 }
 
@@ -284,9 +289,10 @@ class IconInfo {
     /// (to indicate that an extension is disabled, for example), append
     /// `?grayscale=true` to the URL.
     required String url,
-  }) : _wrapped = $js.IconInfo()
-          ..size = size
-          ..url = url;
+  }) : _wrapped = $js.IconInfo(
+          size: size,
+          url: url,
+        );
 
   final $js.IconInfo _wrapped;
 
@@ -386,31 +392,31 @@ class ExtensionInfo {
 
     /// The currently available launch types (only present for apps).
     List<LaunchType>? availableLaunchTypes,
-  }) : _wrapped = $js.ExtensionInfo()
-          ..id = id
-          ..name = name
-          ..shortName = shortName
-          ..description = description
-          ..version = version
-          ..versionName = versionName
-          ..mayDisable = mayDisable
-          ..mayEnable = mayEnable
-          ..enabled = enabled
-          ..disabledReason = disabledReason?.toJS
-          ..isApp = isApp
-          ..type = type.toJS
-          ..appLaunchUrl = appLaunchUrl
-          ..homepageUrl = homepageUrl
-          ..updateUrl = updateUrl
-          ..offlineEnabled = offlineEnabled
-          ..optionsUrl = optionsUrl
-          ..icons = icons?.toJSArray((e) => e.toJS)
-          ..permissions = permissions.toJSArray((e) => e)
-          ..hostPermissions = hostPermissions.toJSArray((e) => e)
-          ..installType = installType.toJS
-          ..launchType = launchType?.toJS
-          ..availableLaunchTypes =
-              availableLaunchTypes?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.ExtensionInfo(
+          id: id,
+          name: name,
+          shortName: shortName,
+          description: description,
+          version: version,
+          versionName: versionName,
+          mayDisable: mayDisable,
+          mayEnable: mayEnable,
+          enabled: enabled,
+          disabledReason: disabledReason?.toJS,
+          isApp: isApp,
+          type: type.toJS,
+          appLaunchUrl: appLaunchUrl,
+          homepageUrl: homepageUrl,
+          updateUrl: updateUrl,
+          offlineEnabled: offlineEnabled,
+          optionsUrl: optionsUrl,
+          icons: icons?.toJSArray((e) => e.toJS),
+          permissions: permissions.toJSArray((e) => e),
+          hostPermissions: hostPermissions.toJSArray((e) => e),
+          installType: installType.toJS,
+          launchType: launchType?.toJS,
+          availableLaunchTypes: availableLaunchTypes?.toJSArray((e) => e.toJS),
+        );
 
   final $js.ExtensionInfo _wrapped;
 
@@ -587,4 +593,12 @@ class UninstallOptions {
   final $js.UninstallOptions _wrapped;
 
   $js.UninstallOptions get toJS => _wrapped;
+
+  /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
+  /// to false for self uninstalls. If an extension uninstalls another
+  /// extension, this parameter is ignored and the dialog is always shown.
+  bool? get showConfirmDialog => _wrapped.showConfirmDialog;
+  set showConfirmDialog(bool? v) {
+    _wrapped.showConfirmDialog = v;
+  }
 }

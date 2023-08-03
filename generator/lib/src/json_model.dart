@@ -167,6 +167,9 @@ class JsonDeclaredType {
   @JsonKey(includeFromJson: false)
   bool isAnonymous = false;
 
+  @JsonKey(includeFromJson: false)
+  String? extend;
+
   JsonDeclaredType(
     this.id,
     this.description, {

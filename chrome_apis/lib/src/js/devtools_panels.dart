@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -82,7 +87,10 @@ extension JSDevtoolsPanelsExtension on JSDevtoolsPanels {
 
 @JS()
 @staticInterop
-class ElementsPanel {}
+@anonymous
+class ElementsPanel {
+  external factory ElementsPanel();
+}
 
 extension ElementsPanelExtension on ElementsPanel {
   /// Creates a pane within panel's sidebar.
@@ -100,7 +108,10 @@ extension ElementsPanelExtension on ElementsPanel {
 
 @JS()
 @staticInterop
-class SourcesPanel {}
+@anonymous
+class SourcesPanel {
+  external factory SourcesPanel();
+}
 
 extension SourcesPanelExtension on SourcesPanel {
   /// Creates a pane within panel's sidebar.
@@ -118,7 +129,10 @@ extension SourcesPanelExtension on SourcesPanel {
 
 @JS()
 @staticInterop
-class ExtensionPanel {}
+@anonymous
+class ExtensionPanel {
+  external factory ExtensionPanel();
+}
 
 extension ExtensionPanelExtension on ExtensionPanel {
   /// Appends a button to the status bar of the panel.
@@ -148,7 +162,10 @@ extension ExtensionPanelExtension on ExtensionPanel {
 
 @JS()
 @staticInterop
-class ExtensionSidebarPane {}
+@anonymous
+class ExtensionSidebarPane {
+  external factory ExtensionSidebarPane();
+}
 
 extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
   /// Sets the height of the sidebar.
@@ -203,7 +220,10 @@ extension ExtensionSidebarPaneExtension on ExtensionSidebarPane {
 
 @JS()
 @staticInterop
-class Button {}
+@anonymous
+class Button {
+  external factory Button();
+}
 
 extension ButtonExtension on Button {
   /// Updates the attributes of the button. If some of the arguments are omitted

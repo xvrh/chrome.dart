@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -31,7 +36,16 @@ extension JSTopSitesExtension on JSTopSites {
 
 @JS()
 @staticInterop
-class MostVisitedURL {}
+@anonymous
+class MostVisitedURL {
+  external factory MostVisitedURL({
+    /// The most visited URL.
+    String url,
+
+    /// The title of the page
+    String title,
+  });
+}
 
 extension MostVisitedURLExtension on MostVisitedURL {
   /// The most visited URL.

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'runtime.dart';
@@ -122,13 +126,13 @@ class ChromeExtension {
 
   /// Fired when a request is sent from either an extension process or a content
   /// script.
-  Stream<OnRequestEvent> get onRequest =>
+  EventStream<OnRequestEvent> get onRequest =>
       $js.chrome.extension.onRequest.asStream(($c) => (
             JSAny? request,
             $js_runtime.MessageSender sender,
             Function sendResponse,
           ) {
-            $c(OnRequestEvent(
+            return $c(OnRequestEvent(
               request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
               sendResponse: ([Object? p1, Object? p2]) {
@@ -140,13 +144,13 @@ class ChromeExtension {
           });
 
   /// Fired when a request is sent from another extension.
-  Stream<OnRequestExternalEvent> get onRequestExternal =>
+  EventStream<OnRequestExternalEvent> get onRequestExternal =>
       $js.chrome.extension.onRequestExternal.asStream(($c) => (
             JSAny? request,
             $js_runtime.MessageSender sender,
             Function sendResponse,
           ) {
-            $c(OnRequestExternalEvent(
+            return $c(OnRequestExternalEvent(
               request: request?.dartify(),
               sender: MessageSender.fromJS(sender),
               sendResponse: ([Object? p1, Object? p2]) {
@@ -195,6 +199,26 @@ class GetViewsFetchProperties {
   final $js.GetViewsFetchProperties _wrapped;
 
   $js.GetViewsFetchProperties get toJS => _wrapped;
+
+  /// The type of view to get. If omitted, returns all views (including
+  /// background pages and tabs).
+  ViewType? get type => _wrapped.type?.let(ViewType.fromJS);
+  set type(ViewType? v) {
+    _wrapped.type = v?.toJS;
+  }
+
+  /// The window to restrict the search to. If omitted, returns all views.
+  int? get windowId => _wrapped.windowId;
+  set windowId(int? v) {
+    _wrapped.windowId = v;
+  }
+
+  /// Find a view according to a tab id. If this field is omitted, returns all
+  /// views.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class ExtensionLastError {
@@ -204,7 +228,7 @@ class ExtensionLastError {
       {
       /// Description of the error that has taken place.
       required String message})
-      : _wrapped = $js.ExtensionLastError()..message = message;
+      : _wrapped = $js.ExtensionLastError(message: message);
 
   final $js.ExtensionLastError _wrapped;
 

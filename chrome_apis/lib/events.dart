@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -39,12 +43,13 @@ class Rule {
 
     /// Optional priority of this rule. Defaults to 100.
     int? priority,
-  }) : _wrapped = $js.Rule()
-          ..id = id
-          ..tags = tags?.toJSArray((e) => e)
-          ..conditions = conditions.toJSArray((e) => e.jsify()!)
-          ..actions = actions.toJSArray((e) => e.jsify()!)
-          ..priority = priority;
+  }) : _wrapped = $js.Rule(
+          id: id,
+          tags: tags?.toJSArray((e) => e),
+          conditions: conditions.toJSArray((e) => e.jsify()!),
+          actions: actions.toJSArray((e) => e.jsify()!),
+          priority: priority,
+        );
 
   final $js.Rule _wrapped;
 
@@ -292,32 +297,33 @@ class UrlFilter {
     /// lists. For example `[80, 443, [1000, 1200]]` matches all requests on
     /// port 80, 443 and in the range 1000-1200.
     List<Object>? ports,
-  }) : _wrapped = $js.UrlFilter()
-          ..hostContains = hostContains
-          ..hostEquals = hostEquals
-          ..hostPrefix = hostPrefix
-          ..hostSuffix = hostSuffix
-          ..pathContains = pathContains
-          ..pathEquals = pathEquals
-          ..pathPrefix = pathPrefix
-          ..pathSuffix = pathSuffix
-          ..queryContains = queryContains
-          ..queryEquals = queryEquals
-          ..queryPrefix = queryPrefix
-          ..querySuffix = querySuffix
-          ..urlContains = urlContains
-          ..urlEquals = urlEquals
-          ..urlMatches = urlMatches
-          ..originAndPathMatches = originAndPathMatches
-          ..urlPrefix = urlPrefix
-          ..urlSuffix = urlSuffix
-          ..schemes = schemes?.toJSArray((e) => e)
-          ..ports = ports?.toJSArray((e) => switch (e) {
+  }) : _wrapped = $js.UrlFilter(
+          hostContains: hostContains,
+          hostEquals: hostEquals,
+          hostPrefix: hostPrefix,
+          hostSuffix: hostSuffix,
+          pathContains: pathContains,
+          pathEquals: pathEquals,
+          pathPrefix: pathPrefix,
+          pathSuffix: pathSuffix,
+          queryContains: queryContains,
+          queryEquals: queryEquals,
+          queryPrefix: queryPrefix,
+          querySuffix: querySuffix,
+          urlContains: urlContains,
+          urlEquals: urlEquals,
+          urlMatches: urlMatches,
+          originAndPathMatches: originAndPathMatches,
+          urlPrefix: urlPrefix,
+          urlSuffix: urlSuffix,
+          schemes: schemes?.toJSArray((e) => e),
+          ports: ports?.toJSArray((e) => switch (e) {
                 int() => e,
                 List<int>() => e.toJSArray((e) => e),
                 _ => throw UnsupportedError(
                     'Received type: ${e.runtimeType}. Supported types are: int, List<int>')
-              });
+              }),
+        );
 
   final $js.UrlFilter _wrapped;
 

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -44,18 +48,18 @@ class ChromeOmnibox {
   /// User has started a keyword input session by typing the extension's
   /// keyword. This is guaranteed to be sent exactly once per input session, and
   /// before any onInputChanged events.
-  Stream<void> get onInputStarted =>
+  EventStream<void> get onInputStarted =>
       $js.chrome.omnibox.onInputStarted.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// User has changed what is typed into the omnibox.
-  Stream<OnInputChangedEvent> get onInputChanged =>
+  EventStream<OnInputChangedEvent> get onInputChanged =>
       $js.chrome.omnibox.onInputChanged.asStream(($c) => (
             String text,
             Function suggest,
           ) {
-            $c(OnInputChangedEvent(
+            return $c(OnInputChangedEvent(
               text: text,
               suggest: ([Object? p1, Object? p2]) {
                 return (suggest as JSAny? Function(JSAny?, JSAny?))(
@@ -66,27 +70,27 @@ class ChromeOmnibox {
           });
 
   /// User has accepted what is typed into the omnibox.
-  Stream<OnInputEnteredEvent> get onInputEntered =>
+  EventStream<OnInputEnteredEvent> get onInputEntered =>
       $js.chrome.omnibox.onInputEntered.asStream(($c) => (
             String text,
             $js.OnInputEnteredDisposition disposition,
           ) {
-            $c(OnInputEnteredEvent(
+            return $c(OnInputEnteredEvent(
               text: text,
               disposition: OnInputEnteredDisposition.fromJS(disposition),
             ));
           });
 
   /// User has ended the keyword input session without accepting the input.
-  Stream<void> get onInputCancelled =>
+  EventStream<void> get onInputCancelled =>
       $js.chrome.omnibox.onInputCancelled.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// User has deleted a suggested result.
-  Stream<String> get onDeleteSuggestion =>
+  EventStream<String> get onDeleteSuggestion =>
       $js.chrome.omnibox.onDeleteSuggestion.asStream(($c) => (String text) {
-            $c(text);
+            return $c(text);
           });
 }
 
@@ -141,6 +145,22 @@ class MatchClassification {
   final $js.MatchClassification _wrapped;
 
   $js.MatchClassification get toJS => _wrapped;
+
+  int get offset => _wrapped.offset;
+  set offset(int v) {
+    _wrapped.offset = v;
+  }
+
+  /// The style type
+  DescriptionStyleType get type => DescriptionStyleType.fromJS(_wrapped.type);
+  set type(DescriptionStyleType v) {
+    _wrapped.type = v.toJS;
+  }
+
+  int? get length => _wrapped.length;
+  set length(int? v) {
+    _wrapped.length = v;
+  }
 }
 
 class SuggestResult {
@@ -176,6 +196,42 @@ class SuggestResult {
   final $js.SuggestResult _wrapped;
 
   $js.SuggestResult get toJS => _wrapped;
+
+  /// The text that is put into the URL bar, and that is sent to the extension
+  /// when the user chooses this entry.
+  String get content => _wrapped.content;
+  set content(String v) {
+    _wrapped.content = v;
+  }
+
+  /// The text that is displayed in the URL dropdown. Can contain XML-style
+  /// markup for styling. The supported tags are 'url' (for a literal URL),
+  /// 'match' (for highlighting text that matched what the user's query), and
+  /// 'dim' (for dim helper text). The styles can be nested, eg.
+  /// <dim><match>dimmed match</match></dim>. You must escape the five
+  /// predefined entities to display them as text:
+  /// stackoverflow.com/a/1091953/89484
+  String get description => _wrapped.description;
+  set description(String v) {
+    _wrapped.description = v;
+  }
+
+  /// Whether the suggest result can be deleted by the user.
+  bool? get deletable => _wrapped.deletable;
+  set deletable(bool? v) {
+    _wrapped.deletable = v;
+  }
+
+  /// An array of style ranges for the description, as provided by the
+  /// extension.
+  List<MatchClassification>? get descriptionStyles =>
+      _wrapped.descriptionStyles?.toDart
+          .cast<$js.MatchClassification>()
+          .map((e) => MatchClassification.fromJS(e))
+          .toList();
+  set descriptionStyles(List<MatchClassification>? v) {
+    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class DefaultSuggestResult {
@@ -200,6 +256,27 @@ class DefaultSuggestResult {
   final $js.DefaultSuggestResult _wrapped;
 
   $js.DefaultSuggestResult get toJS => _wrapped;
+
+  /// The text that is displayed in the URL dropdown. Can contain XML-style
+  /// markup for styling. The supported tags are 'url' (for a literal URL),
+  /// 'match' (for highlighting text that matched what the user's query), and
+  /// 'dim' (for dim helper text). The styles can be nested, eg.
+  /// <dim><match>dimmed match</match></dim>.
+  String get description => _wrapped.description;
+  set description(String v) {
+    _wrapped.description = v;
+  }
+
+  /// An array of style ranges for the description, as provided by the
+  /// extension.
+  List<MatchClassification>? get descriptionStyles =>
+      _wrapped.descriptionStyles?.toDart
+          .cast<$js.MatchClassification>()
+          .map((e) => MatchClassification.fromJS(e))
+          .toList();
+  set descriptionStyles(List<MatchClassification>? v) {
+    _wrapped.descriptionStyles = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class OnInputChangedEvent {

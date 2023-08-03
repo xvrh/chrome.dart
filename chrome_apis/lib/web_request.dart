@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'extension_types.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/web_request.dart' as $js;
@@ -37,35 +41,35 @@ class ChromeWebRequest {
       $js.chrome.webRequest.MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES;
 
   /// Fired when a request is about to occur.
-  Stream<OnBeforeRequestDetails> get onBeforeRequest =>
+  EventStream<OnBeforeRequestDetails> get onBeforeRequest =>
       $js.chrome.webRequest.onBeforeRequest
           .asStream(($c) => ($js.OnBeforeRequestDetails details) {
-                $c(OnBeforeRequestDetails.fromJS(details));
+                return $c(OnBeforeRequestDetails.fromJS(details));
               });
 
   /// Fired before sending an HTTP request, once the request headers are
   /// available. This may occur after a TCP connection is made to the server,
   /// but before any HTTP data is sent.
-  Stream<OnBeforeSendHeadersDetails> get onBeforeSendHeaders =>
+  EventStream<OnBeforeSendHeadersDetails> get onBeforeSendHeaders =>
       $js.chrome.webRequest.onBeforeSendHeaders
           .asStream(($c) => ($js.OnBeforeSendHeadersDetails details) {
-                $c(OnBeforeSendHeadersDetails.fromJS(details));
+                return $c(OnBeforeSendHeadersDetails.fromJS(details));
               });
 
   /// Fired just before a request is going to be sent to the server
   /// (modifications of previous onBeforeSendHeaders callbacks are visible by
   /// the time onSendHeaders is fired).
-  Stream<OnSendHeadersDetails> get onSendHeaders =>
+  EventStream<OnSendHeadersDetails> get onSendHeaders =>
       $js.chrome.webRequest.onSendHeaders
           .asStream(($c) => ($js.OnSendHeadersDetails details) {
-                $c(OnSendHeadersDetails.fromJS(details));
+                return $c(OnSendHeadersDetails.fromJS(details));
               });
 
   /// Fired when HTTP response headers of a request have been received.
-  Stream<OnHeadersReceivedDetails> get onHeadersReceived =>
+  EventStream<OnHeadersReceivedDetails> get onHeadersReceived =>
       $js.chrome.webRequest.onHeadersReceived
           .asStream(($c) => ($js.OnHeadersReceivedDetails details) {
-                $c(OnHeadersReceivedDetails.fromJS(details));
+                return $c(OnHeadersReceivedDetails.fromJS(details));
               });
 
   /// Fired when an authentication failure is received. The listener has three
@@ -75,16 +79,16 @@ class ChromeWebRequest {
   /// multiple times for the same request. Note, only one of `'blocking'` or
   /// `'asyncBlocking'` modes must be specified in the `extraInfoSpec`
   /// parameter.
-  Stream<OnAuthRequiredEvent> get onAuthRequired =>
+  EventStream<OnAuthRequiredEvent> get onAuthRequired =>
       $js.chrome.webRequest.onAuthRequired.asStream(($c) => (
             $js.OnAuthRequiredDetails details,
             Function? asyncCallback,
           ) {
-            $c(OnAuthRequiredEvent(
+            return $c(OnAuthRequiredEvent(
               details: OnAuthRequiredDetails.fromJS(details),
               asyncCallback: ([Object? p1, Object? p2]) {
-                return (asyncCallback as JSAny? Function(JSAny?, JSAny?))(
-                        p1?.jsify(), p2?.jsify())
+                return (asyncCallback as JSAny? Function(JSAny?, JSAny?)?)
+                    ?.call(p1?.jsify(), p2?.jsify())
                     ?.dartify();
               },
             ));
@@ -93,39 +97,39 @@ class ChromeWebRequest {
   /// Fired when the first byte of the response body is received. For HTTP
   /// requests, this means that the status line and response headers are
   /// available.
-  Stream<OnResponseStartedDetails> get onResponseStarted =>
+  EventStream<OnResponseStartedDetails> get onResponseStarted =>
       $js.chrome.webRequest.onResponseStarted
           .asStream(($c) => ($js.OnResponseStartedDetails details) {
-                $c(OnResponseStartedDetails.fromJS(details));
+                return $c(OnResponseStartedDetails.fromJS(details));
               });
 
   /// Fired when a server-initiated redirect is about to occur.
-  Stream<OnBeforeRedirectDetails> get onBeforeRedirect =>
+  EventStream<OnBeforeRedirectDetails> get onBeforeRedirect =>
       $js.chrome.webRequest.onBeforeRedirect
           .asStream(($c) => ($js.OnBeforeRedirectDetails details) {
-                $c(OnBeforeRedirectDetails.fromJS(details));
+                return $c(OnBeforeRedirectDetails.fromJS(details));
               });
 
   /// Fired when a request is completed.
-  Stream<OnCompletedDetails> get onCompleted =>
+  EventStream<OnCompletedDetails> get onCompleted =>
       $js.chrome.webRequest.onCompleted
           .asStream(($c) => ($js.OnCompletedDetails details) {
-                $c(OnCompletedDetails.fromJS(details));
+                return $c(OnCompletedDetails.fromJS(details));
               });
 
   /// Fired when an error occurs.
-  Stream<OnErrorOccurredDetails> get onErrorOccurred =>
+  EventStream<OnErrorOccurredDetails> get onErrorOccurred =>
       $js.chrome.webRequest.onErrorOccurred
           .asStream(($c) => ($js.OnErrorOccurredDetails details) {
-                $c(OnErrorOccurredDetails.fromJS(details));
+                return $c(OnErrorOccurredDetails.fromJS(details));
               });
 
   /// Fired when an extension's proposed modification to a network request is
   /// ignored. This happens in case of conflicts with other extensions.
-  Stream<OnActionIgnoredDetails> get onActionIgnored =>
+  EventStream<OnActionIgnoredDetails> get onActionIgnored =>
       $js.chrome.webRequest.onActionIgnored
           .asStream(($c) => ($js.OnActionIgnoredDetails details) {
-                $c(OnActionIgnoredDetails.fromJS(details));
+                return $c(OnActionIgnoredDetails.fromJS(details));
               });
 }
 
@@ -307,11 +311,12 @@ class RequestFilter {
     List<ResourceType>? types,
     int? tabId,
     int? windowId,
-  }) : _wrapped = $js.RequestFilter()
-          ..urls = urls.toJSArray((e) => e)
-          ..types = types?.toJSArray((e) => e.toJS)
-          ..tabId = tabId
-          ..windowId = windowId;
+  }) : _wrapped = $js.RequestFilter(
+          urls: urls.toJSArray((e) => e),
+          types: types?.toJSArray((e) => e.toJS),
+          tabId: tabId,
+          windowId: windowId,
+        );
 
   final $js.RequestFilter _wrapped;
 
@@ -367,24 +372,25 @@ class BlockingResponse {
 
     /// Only used as a response to the onBeforeSendHeaders event. If set, the
     /// request is made with these request headers instead.
-    HttpHeaders? requestHeaders,
+    List<HttpHeadersItems>? requestHeaders,
 
     /// Only used as a response to the onHeadersReceived event. If set, the
     /// server is assumed to have responded with these response headers instead.
     /// Only return `responseHeaders` if you really want to modify the headers
     /// in order to limit the number of conflicts (only one extension may modify
     /// `responseHeaders` for each request).
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// Only used as a response to the onAuthRequired event. If set, the request
     /// is made using the supplied credentials.
     BlockingResponseAuthCredentials? authCredentials,
-  }) : _wrapped = $js.BlockingResponse()
-          ..cancel = cancel
-          ..redirectUrl = redirectUrl
-          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS)
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..authCredentials = authCredentials?.toJS;
+  }) : _wrapped = $js.BlockingResponse(
+          cancel: cancel,
+          redirectUrl: redirectUrl,
+          requestHeaders: requestHeaders?.toJSArray((e) => e.toJS),
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          authCredentials: authCredentials?.toJS,
+        );
 
   final $js.BlockingResponse _wrapped;
 
@@ -413,11 +419,11 @@ class BlockingResponse {
 
   /// Only used as a response to the onBeforeSendHeaders event. If set, the
   /// request is made with these request headers instead.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
+  List<HttpHeadersItems>? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
-  set requestHeaders(HttpHeaders? v) {
+  set requestHeaders(List<HttpHeadersItems>? v) {
     _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -426,11 +432,12 @@ class BlockingResponse {
   /// return `responseHeaders` if you really want to modify the headers in order
   /// to limit the number of conflicts (only one extension may modify
   /// `responseHeaders` for each request).
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -452,9 +459,10 @@ class UploadData {
 
     /// A string with the file's path and name.
     String? file,
-  }) : _wrapped = $js.UploadData()
-          ..bytes = bytes?.jsify()
-          ..file = file;
+  }) : _wrapped = $js.UploadData(
+          bytes: bytes?.jsify(),
+          file: file,
+        );
 
   final $js.UploadData _wrapped;
 
@@ -527,21 +535,22 @@ class OnBeforeRequestDetails {
 
     /// The time when this signal is triggered, in milliseconds since the epoch.
     required double timeStamp,
-  }) : _wrapped = $js.OnBeforeRequestDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle?.toJS
-          ..frameType = frameType?.toJS
-          ..requestBody = requestBody?.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp;
+  }) : _wrapped = $js.OnBeforeRequestDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle?.toJS,
+          frameType: frameType?.toJS,
+          requestBody: requestBody?.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+        );
 
   final $js.OnBeforeRequestDetails _wrapped;
 
@@ -697,22 +706,23 @@ class OnBeforeSendHeadersDetails {
 
     /// The HTTP request headers that are going to be sent out with this
     /// request.
-    HttpHeaders? requestHeaders,
-  }) : _wrapped = $js.OnBeforeSendHeadersDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..initiator = initiator
-          ..type = type.toJS
-          ..timeStamp = timeStamp
-          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS);
+    List<HttpHeadersItems>? requestHeaders,
+  }) : _wrapped = $js.OnBeforeSendHeadersDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          initiator: initiator,
+          type: type.toJS,
+          timeStamp: timeStamp,
+          requestHeaders: requestHeaders?.toJSArray((e) => e.toJS),
+        );
 
   final $js.OnBeforeSendHeadersDetails _wrapped;
 
@@ -807,11 +817,11 @@ class OnBeforeSendHeadersDetails {
   }
 
   /// The HTTP request headers that are going to be sent out with this request.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
+  List<HttpHeadersItems>? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
-  set requestHeaders(HttpHeaders? v) {
+  set requestHeaders(List<HttpHeadersItems>? v) {
     _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 }
@@ -868,22 +878,23 @@ class OnSendHeadersDetails {
     required double timeStamp,
 
     /// The HTTP request headers that have been sent out with this request.
-    HttpHeaders? requestHeaders,
-  }) : _wrapped = $js.OnSendHeadersDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..requestHeaders = requestHeaders?.toJSArray((e) => e.toJS);
+    List<HttpHeadersItems>? requestHeaders,
+  }) : _wrapped = $js.OnSendHeadersDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          requestHeaders: requestHeaders?.toJSArray((e) => e.toJS),
+        );
 
   final $js.OnSendHeadersDetails _wrapped;
 
@@ -978,11 +989,11 @@ class OnSendHeadersDetails {
   }
 
   /// The HTTP request headers that have been sent out with this request.
-  HttpHeaders? get requestHeaders => _wrapped.requestHeaders?.toDart
+  List<HttpHeadersItems>? get requestHeaders => _wrapped.requestHeaders?.toDart
       .cast<$js.HttpHeadersItems>()
       .map((e) => HttpHeadersItems.fromJS(e))
       .toList();
-  set requestHeaders(HttpHeaders? v) {
+  set requestHeaders(List<HttpHeadersItems>? v) {
     _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
   }
 }
@@ -1043,27 +1054,28 @@ class OnHeadersReceivedDetails {
     required String statusLine,
 
     /// The HTTP response headers that have been received with this response.
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// Standard HTTP status code returned by the server.
     required int statusCode,
-  }) : _wrapped = $js.OnHeadersReceivedDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..statusLine = statusLine
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..statusCode = statusCode;
+  }) : _wrapped = $js.OnHeadersReceivedDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          statusLine: statusLine,
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          statusCode: statusCode,
+        );
 
   final $js.OnHeadersReceivedDetails _wrapped;
 
@@ -1165,11 +1177,12 @@ class OnHeadersReceivedDetails {
   }
 
   /// The HTTP response headers that have been received with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -1244,7 +1257,7 @@ class OnAuthRequiredDetails {
     required bool isProxy,
 
     /// The HTTP response headers that were received along with this response.
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
     /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
@@ -1253,27 +1266,28 @@ class OnAuthRequiredDetails {
 
     /// Standard HTTP status code returned by the server.
     required int statusCode,
-  }) : _wrapped = $js.OnAuthRequiredDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..scheme = scheme
-          ..realm = realm
-          ..challenger = challenger.toJS
-          ..isProxy = isProxy
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..statusLine = statusLine
-          ..statusCode = statusCode;
+  }) : _wrapped = $js.OnAuthRequiredDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          scheme: scheme,
+          realm: realm,
+          challenger: challenger.toJS,
+          isProxy: isProxy,
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          statusLine: statusLine,
+          statusCode: statusCode,
+        );
 
   final $js.OnAuthRequiredDetails _wrapped;
 
@@ -1393,11 +1407,12 @@ class OnAuthRequiredDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -1478,31 +1493,32 @@ class OnResponseStartedDetails {
     required int statusCode,
 
     /// The HTTP response headers that were received along with this response.
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
     /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
     /// string if there are no headers.
     required String statusLine,
-  }) : _wrapped = $js.OnResponseStartedDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..ip = ip
-          ..fromCache = fromCache
-          ..statusCode = statusCode
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..statusLine = statusLine;
+  }) : _wrapped = $js.OnResponseStartedDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          ip: ip,
+          fromCache: fromCache,
+          statusCode: statusCode,
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          statusLine: statusLine,
+        );
 
   final $js.OnResponseStartedDetails _wrapped;
 
@@ -1616,11 +1632,12 @@ class OnResponseStartedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -1698,32 +1715,33 @@ class OnBeforeRedirectDetails {
     required String redirectUrl,
 
     /// The HTTP response headers that were received along with this redirect.
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
     /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
     /// string if there are no headers.
     required String statusLine,
-  }) : _wrapped = $js.OnBeforeRedirectDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..ip = ip
-          ..fromCache = fromCache
-          ..statusCode = statusCode
-          ..redirectUrl = redirectUrl
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..statusLine = statusLine;
+  }) : _wrapped = $js.OnBeforeRedirectDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          ip: ip,
+          fromCache: fromCache,
+          statusCode: statusCode,
+          redirectUrl: redirectUrl,
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          statusLine: statusLine,
+        );
 
   final $js.OnBeforeRedirectDetails _wrapped;
 
@@ -1843,11 +1861,12 @@ class OnBeforeRedirectDetails {
   }
 
   /// The HTTP response headers that were received along with this redirect.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -1922,31 +1941,32 @@ class OnCompletedDetails {
     required int statusCode,
 
     /// The HTTP response headers that were received along with this response.
-    HttpHeaders? responseHeaders,
+    List<HttpHeadersItems>? responseHeaders,
 
     /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
     /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
     /// string if there are no headers.
     required String statusLine,
-  }) : _wrapped = $js.OnCompletedDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..ip = ip
-          ..fromCache = fromCache
-          ..statusCode = statusCode
-          ..responseHeaders = responseHeaders?.toJSArray((e) => e.toJS)
-          ..statusLine = statusLine;
+  }) : _wrapped = $js.OnCompletedDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          ip: ip,
+          fromCache: fromCache,
+          statusCode: statusCode,
+          responseHeaders: responseHeaders?.toJSArray((e) => e.toJS),
+          statusLine: statusLine,
+        );
 
   final $js.OnCompletedDetails _wrapped;
 
@@ -2060,11 +2080,12 @@ class OnCompletedDetails {
   }
 
   /// The HTTP response headers that were received along with this response.
-  HttpHeaders? get responseHeaders => _wrapped.responseHeaders?.toDart
-      .cast<$js.HttpHeadersItems>()
-      .map((e) => HttpHeadersItems.fromJS(e))
-      .toList();
-  set responseHeaders(HttpHeaders? v) {
+  List<HttpHeadersItems>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.HttpHeadersItems>()
+          .map((e) => HttpHeadersItems.fromJS(e))
+          .toList();
+  set responseHeaders(List<HttpHeadersItems>? v) {
     _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
   }
 
@@ -2140,23 +2161,24 @@ class OnErrorOccurredDetails {
     /// backwards compatible between releases. You must not parse and act based
     /// upon its content.
     required String error,
-  }) : _wrapped = $js.OnErrorOccurredDetails()
-          ..requestId = requestId
-          ..url = url
-          ..method = method
-          ..frameId = frameId
-          ..parentFrameId = parentFrameId
-          ..documentId = documentId
-          ..parentDocumentId = parentDocumentId
-          ..documentLifecycle = documentLifecycle.toJS
-          ..frameType = frameType.toJS
-          ..tabId = tabId
-          ..type = type.toJS
-          ..initiator = initiator
-          ..timeStamp = timeStamp
-          ..ip = ip
-          ..fromCache = fromCache
-          ..error = error;
+  }) : _wrapped = $js.OnErrorOccurredDetails(
+          requestId: requestId,
+          url: url,
+          method: method,
+          frameId: frameId,
+          parentFrameId: parentFrameId,
+          documentId: documentId,
+          parentDocumentId: parentDocumentId,
+          documentLifecycle: documentLifecycle.toJS,
+          frameType: frameType.toJS,
+          tabId: tabId,
+          type: type.toJS,
+          initiator: initiator,
+          timeStamp: timeStamp,
+          ip: ip,
+          fromCache: fromCache,
+          error: error,
+        );
 
   final $js.OnErrorOccurredDetails _wrapped;
 
@@ -2284,9 +2306,10 @@ class OnActionIgnoredDetails {
 
     /// The proposed action which was ignored.
     required IgnoredActionType action,
-  }) : _wrapped = $js.OnActionIgnoredDetails()
-          ..requestId = requestId
-          ..action = action.toJS;
+  }) : _wrapped = $js.OnActionIgnoredDetails(
+          requestId: requestId,
+          action: action.toJS,
+        );
 
   final $js.OnActionIgnoredDetails _wrapped;
 
@@ -2320,10 +2343,11 @@ class HttpHeadersItems {
     /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
     /// individual byte values (0..255).
     List<int>? binaryValue,
-  }) : _wrapped = $js.HttpHeadersItems()
-          ..name = name
-          ..value = value
-          ..binaryValue = binaryValue?.toJSArray((e) => e);
+  }) : _wrapped = $js.HttpHeadersItems(
+          name: name,
+          value: value,
+          binaryValue: binaryValue?.toJSArray((e) => e),
+        );
 
   final $js.HttpHeadersItems _wrapped;
 
@@ -2356,9 +2380,10 @@ class BlockingResponseAuthCredentials {
   BlockingResponseAuthCredentials({
     required String username,
     required String password,
-  }) : _wrapped = $js.BlockingResponseAuthCredentials()
-          ..username = username
-          ..password = password;
+  }) : _wrapped = $js.BlockingResponseAuthCredentials(
+          username: username,
+          password: password,
+        );
 
   final $js.BlockingResponseAuthCredentials _wrapped;
 
@@ -2395,10 +2420,11 @@ class OnBeforeRequestDetailsRequestBody {
     /// in formData, then the unparsed request body elements are contained in
     /// this array.
     List<UploadData>? raw,
-  }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody()
-          ..error = error
-          ..formData = formData?.jsify()
-          ..raw = raw?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.OnBeforeRequestDetailsRequestBody(
+          error: error,
+          formData: formData?.jsify(),
+          raw: raw?.toJSArray((e) => e.toJS),
+        );
 
   final $js.OnBeforeRequestDetailsRequestBody _wrapped;
 
@@ -2439,9 +2465,10 @@ class OnAuthRequiredDetailsChallenger {
   OnAuthRequiredDetailsChallenger({
     required String host,
     required int port,
-  }) : _wrapped = $js.OnAuthRequiredDetailsChallenger()
-          ..host = host
-          ..port = port;
+  }) : _wrapped = $js.OnAuthRequiredDetailsChallenger(
+          host: host,
+          port: port,
+        );
 
   final $js.OnAuthRequiredDetailsChallenger _wrapped;
 

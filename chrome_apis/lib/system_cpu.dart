@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -44,11 +48,12 @@ class CpuTime {
     /// The total cumulative time for this processor.  This value is equal to
     /// user + kernel + idle.
     required double total,
-  }) : _wrapped = $js.CpuTime()
-          ..user = user
-          ..kernel = kernel
-          ..idle = idle
-          ..total = total;
+  }) : _wrapped = $js.CpuTime(
+          user: user,
+          kernel: kernel,
+          idle: idle,
+          total: total,
+        );
 
   final $js.CpuTime _wrapped;
 
@@ -87,7 +92,7 @@ class ProcessorInfo {
       {
       /// Cumulative usage info for this logical processor.
       required CpuTime usage})
-      : _wrapped = $js.ProcessorInfo()..usage = usage.toJS;
+      : _wrapped = $js.ProcessorInfo(usage: usage.toJS);
 
   final $js.ProcessorInfo _wrapped;
 
@@ -126,13 +131,14 @@ class CpuInfo {
     ///
     /// **Currently supported on Chrome OS only.**
     required List<double> temperatures,
-  }) : _wrapped = $js.CpuInfo()
-          ..numOfProcessors = numOfProcessors
-          ..archName = archName
-          ..modelName = modelName
-          ..features = features.toJSArray((e) => e)
-          ..processors = processors.toJSArray((e) => e.toJS)
-          ..temperatures = temperatures.toJSArray((e) => e);
+  }) : _wrapped = $js.CpuInfo(
+          numOfProcessors: numOfProcessors,
+          archName: archName,
+          modelName: modelName,
+          features: features.toJSArray((e) => e),
+          processors: processors.toJSArray((e) => e.toJS),
+          temperatures: temperatures.toJSArray((e) => e),
+        );
 
   final $js.CpuInfo _wrapped;
 

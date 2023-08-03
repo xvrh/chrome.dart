@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -40,4 +45,9 @@ class SaveAsMhtmlDetails {
       {
       /// The id of the tab to save as MHTML.
       int tabId});
+}
+
+extension SaveAsMhtmlDetailsExtension on SaveAsMhtmlDetails {
+  /// The id of the tab to save as MHTML.
+  external int tabId;
 }

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -86,7 +91,39 @@ typedef TransitionQualifier = String;
 
 @JS()
 @staticInterop
-class OnBeforeNavigateDetails {}
+@anonymous
+class OnBeforeNavigateDetails {
+  external factory OnBeforeNavigateDetails({
+    /// The ID of the tab in which the navigation is about to occur.
+    int tabId,
+    String url,
+
+    /// The value of -1.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique for a given
+    /// tab and process.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// The time when the browser was about to start the navigation, in
+    /// milliseconds since the epoch.
+    double timeStamp,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnBeforeNavigateDetailsExtension on OnBeforeNavigateDetails {
   /// The ID of the tab in which the navigation is about to occur.
@@ -122,7 +159,48 @@ extension OnBeforeNavigateDetailsExtension on OnBeforeNavigateDetails {
 
 @JS()
 @staticInterop
-class OnCommittedDetails {}
+@anonymous
+class OnCommittedDetails {
+  external factory OnCommittedDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// Cause of the navigation.
+    TransitionType transitionType,
+
+    /// A list of transition qualifiers.
+    JSArray transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnCommittedDetailsExtension on OnCommittedDetails {
   /// The ID of the tab in which the navigation occurs.
@@ -167,7 +245,42 @@ extension OnCommittedDetailsExtension on OnCommittedDetails {
 
 @JS()
 @staticInterop
-class OnDomContentLoadedDetails {}
+@anonymous
+class OnDomContentLoadedDetails {
+  external factory OnDomContentLoadedDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// The time when the page's DOM was fully constructed, in milliseconds since
+    /// the epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnDomContentLoadedDetailsExtension on OnDomContentLoadedDetails {
   /// The ID of the tab in which the navigation occurs.
@@ -206,7 +319,42 @@ extension OnDomContentLoadedDetailsExtension on OnDomContentLoadedDetails {
 
 @JS()
 @staticInterop
-class OnCompletedDetails {}
+@anonymous
+class OnCompletedDetails {
+  external factory OnCompletedDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// The time when the document finished loading, in milliseconds since the
+    /// epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnCompletedDetailsExtension on OnCompletedDetails {
   /// The ID of the tab in which the navigation occurs.
@@ -245,7 +393,44 @@ extension OnCompletedDetailsExtension on OnCompletedDetails {
 
 @JS()
 @staticInterop
-class OnErrorOccurredDetails {}
+@anonymous
+class OnErrorOccurredDetails {
+  external factory OnErrorOccurredDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The value of -1.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// The error description.
+    String error,
+
+    /// The time when the error occurred, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   /// The ID of the tab in which the navigation occurs.
@@ -286,7 +471,30 @@ extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
 
 @JS()
 @staticInterop
-class OnCreatedNavigationTargetDetails {}
+@anonymous
+class OnCreatedNavigationTargetDetails {
+  external factory OnCreatedNavigationTargetDetails({
+    /// The ID of the tab in which the navigation is triggered.
+    int sourceTabId,
+
+    /// The ID of the process that runs the renderer for the source frame.
+    int sourceProcessId,
+
+    /// The ID of the frame with sourceTabId in which the navigation is triggered.
+    /// 0 indicates the main frame.
+    int sourceFrameId,
+
+    /// The URL to be opened in the new window.
+    String url,
+
+    /// The ID of the tab in which the url is opened
+    int tabId,
+
+    /// The time when the browser was about to create a new view, in milliseconds
+    /// since the epoch.
+    double timeStamp,
+  });
+}
 
 extension OnCreatedNavigationTargetDetailsExtension
     on OnCreatedNavigationTargetDetails {
@@ -313,7 +521,48 @@ extension OnCreatedNavigationTargetDetailsExtension
 
 @JS()
 @staticInterop
-class OnReferenceFragmentUpdatedDetails {}
+@anonymous
+class OnReferenceFragmentUpdatedDetails {
+  external factory OnReferenceFragmentUpdatedDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// Cause of the navigation.
+    TransitionType transitionType,
+
+    /// A list of transition qualifiers.
+    JSArray transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnReferenceFragmentUpdatedDetailsExtension
     on OnReferenceFragmentUpdatedDetails {
@@ -359,7 +608,19 @@ extension OnReferenceFragmentUpdatedDetailsExtension
 
 @JS()
 @staticInterop
-class OnTabReplacedDetails {}
+@anonymous
+class OnTabReplacedDetails {
+  external factory OnTabReplacedDetails({
+    /// The ID of the tab that was replaced.
+    int replacedTabId,
+
+    /// The ID of the tab that replaced the old tab.
+    int tabId,
+
+    /// The time when the replacement happened, in milliseconds since the epoch.
+    double timeStamp,
+  });
+}
 
 extension OnTabReplacedDetailsExtension on OnTabReplacedDetails {
   /// The ID of the tab that was replaced.
@@ -374,7 +635,48 @@ extension OnTabReplacedDetailsExtension on OnTabReplacedDetails {
 
 @JS()
 @staticInterop
-class OnHistoryStateUpdatedDetails {}
+@anonymous
+class OnHistoryStateUpdatedDetails {
+  external factory OnHistoryStateUpdatedDetails({
+    /// The ID of the tab in which the navigation occurs.
+    int tabId,
+    String url,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// 0 indicates the navigation happens in the tab content window; a positive
+    /// value indicates navigation in a subframe. Frame IDs are unique within a
+    /// tab.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// Cause of the navigation.
+    TransitionType transitionType,
+
+    /// A list of transition qualifiers.
+    JSArray transitionQualifiers,
+
+    /// The time when the navigation was committed, in milliseconds since the
+    /// epoch.
+    double timeStamp,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension OnHistoryStateUpdatedDetailsExtension
     on OnHistoryStateUpdatedDetails {
@@ -420,7 +722,36 @@ extension OnHistoryStateUpdatedDetailsExtension
 
 @JS()
 @staticInterop
-class GetFrameCallbackDetails {}
+@anonymous
+class GetFrameCallbackDetails {
+  external factory GetFrameCallbackDetails({
+    /// True if the last navigation in this frame was interrupted by an error,
+    /// i.e. the onErrorOccurred event fired.
+    bool errorOccurred,
+
+    /// The URL currently associated with this frame, if the frame identified by
+    /// the frameId existed at one point in the given tab. The fact that an URL is
+    /// associated with a given frameId does not imply that the corresponding
+    /// frame still exists.
+    String url,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension GetFrameCallbackDetailsExtension on GetFrameCallbackDetails {
   /// True if the last navigation in this frame was interrupted by an error,
@@ -470,9 +801,57 @@ class GetFrameDetails {
   });
 }
 
+extension GetFrameDetailsExtension on GetFrameDetails {
+  /// The ID of the tab in which the frame is.
+  external int? tabId;
+
+  /// The ID of the process that runs the renderer for this tab.
+  external int? processId;
+
+  /// The ID of the frame in the given tab.
+  external int? frameId;
+
+  /// The UUID of the document. If the frameId and/or tabId are provided they
+  /// will be validated to match the document found by provided document ID.
+  external String? documentId;
+}
+
 @JS()
 @staticInterop
-class GetAllFramesCallbackDetails {}
+@anonymous
+class GetAllFramesCallbackDetails {
+  external factory GetAllFramesCallbackDetails({
+    /// True if the last navigation in this frame was interrupted by an error,
+    /// i.e. the onErrorOccurred event fired.
+    bool errorOccurred,
+
+    /// The ID of the process that runs the renderer for this frame.
+    int processId,
+
+    /// The ID of the frame. 0 indicates that this is the main frame; a positive
+    /// value indicates the ID of a subframe.
+    int frameId,
+
+    /// The ID of the parent frame, or `-1` if this is the main frame.
+    int parentFrameId,
+
+    /// The URL currently associated with this frame.
+    String url,
+
+    /// A UUID of the document loaded.
+    String documentId,
+
+    /// A UUID of the parent document owning this frame. This is not set if there
+    /// is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the navigation occurred in.
+    FrameType frameType,
+  });
+}
 
 extension GetAllFramesCallbackDetailsExtension on GetAllFramesCallbackDetails {
   /// True if the last navigation in this frame was interrupted by an error,
@@ -514,4 +893,9 @@ class GetAllFramesDetails {
       {
       /// The ID of the tab.
       int tabId});
+}
+
+extension GetAllFramesDetailsExtension on GetAllFramesDetails {
+  /// The ID of the tab.
+  external int tabId;
 }

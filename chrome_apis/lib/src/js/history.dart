@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -62,7 +67,30 @@ typedef TransitionType = String;
 
 @JS()
 @staticInterop
-class HistoryItem {}
+@anonymous
+class HistoryItem {
+  external factory HistoryItem({
+    /// The unique identifier for the item.
+    String id,
+
+    /// The URL navigated to by a user.
+    String? url,
+
+    /// The title of the page when it was last loaded.
+    String? title,
+
+    /// When this page was last loaded, represented in milliseconds since the
+    /// epoch.
+    double? lastVisitTime,
+
+    /// The number of times the user has navigated to this page.
+    int? visitCount,
+
+    /// The number of times the user has navigated to this page by typing in the
+    /// address.
+    int? typedCount,
+  });
+}
 
 extension HistoryItemExtension on HistoryItem {
   /// The unique identifier for the item.
@@ -88,7 +116,25 @@ extension HistoryItemExtension on HistoryItem {
 
 @JS()
 @staticInterop
-class VisitItem {}
+@anonymous
+class VisitItem {
+  external factory VisitItem({
+    /// The unique identifier for the item.
+    String id,
+
+    /// The unique identifier for this visit.
+    String visitId,
+
+    /// When this visit occurred, represented in milliseconds since the epoch.
+    double? visitTime,
+
+    /// The visit ID of the referrer.
+    String referringVisitId,
+
+    /// The [transition type](#transition_types) for this visit from its referrer.
+    TransitionType transition,
+  });
+}
 
 extension VisitItemExtension on VisitItem {
   /// The unique identifier for the item.
@@ -118,9 +164,22 @@ class UrlDetails {
       String url});
 }
 
+extension UrlDetailsExtension on UrlDetails {
+  /// The URL for the operation. It must be in the format as returned from a
+  /// call to history.search.
+  external String url;
+}
+
 @JS()
 @staticInterop
-class OnVisitRemovedRemoved {}
+@anonymous
+class OnVisitRemovedRemoved {
+  external factory OnVisitRemovedRemoved({
+    /// True if all history was removed.  If true, then urls will be empty.
+    bool allHistory,
+    JSArray? urls,
+  });
+}
 
 extension OnVisitRemovedRemovedExtension on OnVisitRemovedRemoved {
   /// True if all history was removed.  If true, then urls will be empty.
@@ -152,6 +211,24 @@ class SearchQuery {
   });
 }
 
+extension SearchQueryExtension on SearchQuery {
+  /// A free-text query to the history service.  Leave empty to retrieve all
+  /// pages.
+  external String text;
+
+  /// Limit results to those visited after this date, represented in
+  /// milliseconds since the epoch. If not specified, this defaults to 24 hours
+  /// in the past.
+  external double? startTime;
+
+  /// Limit results to those visited before this date, represented in
+  /// milliseconds since the epoch.
+  external double? endTime;
+
+  /// The maximum number of results to retrieve.  Defaults to 100.
+  external int? maxResults;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -165,4 +242,14 @@ class DeleteRangeRange {
     /// the epoch.
     double endTime,
   });
+}
+
+extension DeleteRangeRangeExtension on DeleteRangeRange {
+  /// Items added to history after this date, represented in milliseconds since
+  /// the epoch.
+  external double startTime;
+
+  /// Items added to history before this date, represented in milliseconds since
+  /// the epoch.
+  external double endTime;
 }

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -130,4 +134,29 @@ class ChooseDesktopMediaOptions {
   final $js.ChooseDesktopMediaOptions _wrapped;
 
   $js.ChooseDesktopMediaOptions get toJS => _wrapped;
+
+  /// Mirrors
+  /// [systemAudio](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio).
+  SystemAudioPreferenceEnum? get systemAudio =>
+      _wrapped.systemAudio?.let(SystemAudioPreferenceEnum.fromJS);
+  set systemAudio(SystemAudioPreferenceEnum? v) {
+    _wrapped.systemAudio = v?.toJS;
+  }
+
+  /// Mirrors
+  /// [selfBrowserSurface](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface).
+  SelfCapturePreferenceEnum? get selfBrowserSurface =>
+      _wrapped.selfBrowserSurface?.let(SelfCapturePreferenceEnum.fromJS);
+  set selfBrowserSurface(SelfCapturePreferenceEnum? v) {
+    _wrapped.selfBrowserSurface = v?.toJS;
+  }
+
+  /// Indicates that the caller intends to perform local audio suppression, and
+  /// that the media picker shown to the user should therefore reflect that with
+  /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
+  bool? get suppressLocalAudioPlaybackIntended =>
+      _wrapped.suppressLocalAudioPlaybackIntended;
+  set suppressLocalAudioPlaybackIntended(bool? v) {
+    _wrapped.suppressLocalAudioPlaybackIntended = v;
+  }
 }

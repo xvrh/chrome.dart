@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/dom.dart' as $js;
 

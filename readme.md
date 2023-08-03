@@ -1,7 +1,5 @@
 # chrome_apis
 
-[![Build Status](https://travis-ci.org/dart-gde/chrome.dart.svg?branch=master)](https://travis-ci.org/dart-gde/chrome.dart)
-
 A library for accessing the `chrome.*` APIs available in Chrome extensions.
 This allows to build Chrome extension with Dart/Flutter and to interop with the native APIs easily with a high-level type-safe interface.
 

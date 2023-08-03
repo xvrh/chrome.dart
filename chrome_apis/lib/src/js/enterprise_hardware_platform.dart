@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -37,7 +42,13 @@ extension JSEnterpriseHardwarePlatformExtension
 
 @JS()
 @staticInterop
-class HardwarePlatformInfo {}
+@anonymous
+class HardwarePlatformInfo {
+  external factory HardwarePlatformInfo({
+    String model,
+    String manufacturer,
+  });
+}
 
 extension HardwarePlatformInfoExtension on HardwarePlatformInfo {
   external String model;

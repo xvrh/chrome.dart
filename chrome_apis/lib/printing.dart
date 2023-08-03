@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'printer_provider.dart';
@@ -69,12 +73,12 @@ class ChromePrinting {
 
   /// Event fired when the status of the job is changed.
   /// This is only fired for the jobs created by this extension.
-  Stream<OnJobStatusChangedEvent> get onJobStatusChanged =>
+  EventStream<OnJobStatusChangedEvent> get onJobStatusChanged =>
       $js.chrome.printing.onJobStatusChanged.asStream(($c) => (
             String jobId,
             $js.JobStatus status,
           ) {
-            $c(OnJobStatusChangedEvent(
+            return $c(OnJobStatusChangedEvent(
               jobId: jobId,
               status: JobStatus.fromJS(status),
             ));
@@ -205,6 +209,23 @@ class SubmitJobRequest {
   final $js.SubmitJobRequest _wrapped;
 
   $js.SubmitJobRequest get toJS => _wrapped;
+
+  /// The print job to be submitted.
+  /// The only supported content type is "application/pdf", and the CJT ticket
+  /// shouldn't include FitToPageTicketItem, PageRangeTicketItem,
+  /// ReverseOrderTicketItem and VendorTicketItem fields since they are
+  /// irrelevant for native printing. All other fields must be present.
+  PrintJob get job => PrintJob.fromJS(_wrapped.job);
+  set job(PrintJob v) {
+    _wrapped.job = v.toJS;
+  }
+
+  /// Used internally to store the blob uuid after parameter customization and
+  /// shouldn't be populated by the extension.
+  String? get documentBlobUuid => _wrapped.documentBlobUuid;
+  set documentBlobUuid(String? v) {
+    _wrapped.documentBlobUuid = v;
+  }
 }
 
 class SubmitJobResponse {
@@ -217,9 +238,10 @@ class SubmitJobResponse {
     /// The id of created print job. This is a unique identifier among all print
     /// jobs on the device. If status is not OK, jobId will be null.
     String? jobId,
-  }) : _wrapped = $js.SubmitJobResponse()
-          ..status = status.toJS
-          ..jobId = jobId;
+  }) : _wrapped = $js.SubmitJobResponse(
+          status: status.toJS,
+          jobId: jobId,
+        );
 
   final $js.SubmitJobResponse _wrapped;
 
@@ -273,14 +295,15 @@ class Printer {
     /// minimum value is 0. Missing value indicates that the printer wasn't used
     /// recently. This value is guaranteed to be unique amongst printers.
     int? recentlyUsedRank,
-  }) : _wrapped = $js.Printer()
-          ..id = id
-          ..name = name
-          ..description = description
-          ..uri = uri
-          ..source = source.toJS
-          ..isDefault = isDefault
-          ..recentlyUsedRank = recentlyUsedRank;
+  }) : _wrapped = $js.Printer(
+          id: id,
+          name: name,
+          description: description,
+          uri: uri,
+          source: source.toJS,
+          isDefault: isDefault,
+          recentlyUsedRank: recentlyUsedRank,
+        );
 
   final $js.Printer _wrapped;
 
@@ -350,9 +373,10 @@ class GetPrinterInfoResponse {
 
     /// The status of the printer.
     required PrinterStatus status,
-  }) : _wrapped = $js.GetPrinterInfoResponse()
-          ..capabilities = capabilities?.jsify()
-          ..status = status.toJS;
+  }) : _wrapped = $js.GetPrinterInfoResponse(
+          capabilities: capabilities?.jsify(),
+          status: status.toJS,
+        );
 
   final $js.GetPrinterInfoResponse _wrapped;
 

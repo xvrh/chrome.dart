@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -186,7 +191,48 @@ typedef Algorithm = String;
 
 @JS()
 @staticInterop
-class Token {}
+@anonymous
+class Token {
+  external factory Token({
+    /// Uniquely identifies this `Token`.
+    /// Static IDs are `"user"` and `"system"`,
+    /// referring to the platform's user-specific and the system-wide hardware
+    /// token, respectively. Any other tokens (with other identifiers) might be
+    /// returned by [enterprise.platformKeys.getTokens].
+    String id,
+
+    /// Implements the WebCrypto's
+    /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
+    /// interface. The cryptographic operations, including key generation, are
+    /// hardware-backed.
+    /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
+    /// `modulusLength` up to 2048 and ECDSA with
+    /// `namedCurve` P-256 can be generated. Each key can be
+    /// used for signing data at most once.
+    /// Keys generated on a specific `Token` cannot be used with
+    /// any other Tokens, nor can they be used with
+    /// `window.crypto.subtle`. Equally, `Key` objects
+    /// created with `window.crypto.subtle` cannot be used with this
+    /// interface.
+    JSObject subtleCrypto,
+
+    /// Implements the WebCrypto's
+    /// [SubtleCrypto](http://www.w3.org/TR/WebCryptoAPI/#subtlecrypto-interface)
+    /// interface. The cryptographic operations, including key generation, are
+    /// software-backed. Protection of the keys, and thus implementation of the
+    /// non-extractable property, is done in software, so the keys are less
+    /// protected than hardware-backed keys.
+    /// Only non-extractable RSASSA-PKCS1-V1_5 keys with
+    /// `modulusLength` up to 2048 can be generated. Each key can be
+    /// used for signing data at most once.
+    /// Keys generated on a specific `Token` cannot be used with
+    /// any other Tokens, nor can they be used with
+    /// `window.crypto.subtle`. Equally, `Key` objects
+    /// created with `window.crypto.subtle` cannot be used with this
+    /// interface.
+    JSObject softwareBackedSubtleCrypto,
+  });
+}
 
 extension TokenExtension on Token {
   /// Uniquely identifies this `Token`.
@@ -238,6 +284,11 @@ class RegisterKeyOptions {
       Algorithm algorithm});
 }
 
+extension RegisterKeyOptionsExtension on RegisterKeyOptions {
+  /// Which algorithm the registered key should use.
+  external Algorithm algorithm;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -256,4 +307,19 @@ class ChallengeKeyOptions {
     /// Which Enterprise Key to challenge.
     Scope scope,
   });
+}
+
+extension ChallengeKeyOptionsExtension on ChallengeKeyOptions {
+  /// A challenge as emitted by the Verified Access Web API.
+  external JSArrayBuffer challenge;
+
+  /// If present, registers the challenged key with the specified
+  /// `scope`'s token.  The key can then be associated with a
+  /// certificate and used like any other signing key.  Subsequent calls to
+  /// this function will then generate a new Enterprise Key in the specified
+  /// `scope`.
+  external RegisterKeyOptions? registerKey;
+
+  /// Which Enterprise Key to challenge.
+  external Scope scope;
 }

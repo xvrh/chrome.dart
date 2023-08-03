@@ -6,14 +6,13 @@ import 'dart:io';
 class SimpleHttpClient {
   final HttpClient _client;
 
-  SimpleHttpClient({HttpClient? client})
-      : this._client = client ?? new HttpClient();
+  SimpleHttpClient({HttpClient? client}) : _client = client ?? HttpClient();
 
   /// Download the HTML source of the page at the given [Uri].
   Future<String> getHtmlAtUri(Uri uri) async {
-    HttpClientRequest request = await _client.getUrl(uri);
-    request.close();
-    HttpClientResponse response = await request.done;
+    var request = await _client.getUrl(uri);
+    await request.close();
+    var response = await request.done;
     return await response.transform(utf8.decoder).join('');
   }
 }

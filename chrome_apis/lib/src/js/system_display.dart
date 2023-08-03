@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -174,6 +179,20 @@ class Bounds {
   });
 }
 
+extension BoundsExtension on Bounds {
+  /// The x-coordinate of the upper-left corner.
+  external int left;
+
+  /// The y-coordinate of the upper-left corner.
+  external int top;
+
+  /// The width of the display in pixels.
+  external int width;
+
+  /// The height of the display in pixels.
+  external int height;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -193,6 +212,20 @@ class Insets {
   });
 }
 
+extension InsetsExtension on Insets {
+  /// The x-axis distance from the left bound.
+  external int left;
+
+  /// The y-axis distance from the top bound.
+  external int top;
+
+  /// The x-axis distance from the right bound.
+  external int right;
+
+  /// The y-axis distance from the bottom bound.
+  external int bottom;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -206,6 +239,14 @@ class Point {
   });
 }
 
+extension PointExtension on Point {
+  /// The x-coordinate of the point.
+  external int x;
+
+  /// The y-coordinate of the point.
+  external int y;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -217,6 +258,14 @@ class TouchCalibrationPair {
     /// The coordinates of the touch point corresponding to the display point.
     Point touchPoint,
   });
+}
+
+extension TouchCalibrationPairExtension on TouchCalibrationPair {
+  /// The coordinates of the display point.
+  external Point displayPoint;
+
+  /// The coordinates of the touch point corresponding to the display point.
+  external Point touchPoint;
 }
 
 @JS()
@@ -236,6 +285,20 @@ class TouchCalibrationPairQuad {
     /// Fourth pair of touch and display point required for touch calibration.
     TouchCalibrationPair pair4,
   });
+}
+
+extension TouchCalibrationPairQuadExtension on TouchCalibrationPairQuad {
+  /// First pair of touch and display point required for touch calibration.
+  external TouchCalibrationPair pair1;
+
+  /// Second pair of touch and display point required for touch calibration.
+  external TouchCalibrationPair pair2;
+
+  /// Third pair of touch and display point required for touch calibration.
+  external TouchCalibrationPair pair3;
+
+  /// Fourth pair of touch and display point required for touch calibration.
+  external TouchCalibrationPair pair4;
 }
 
 @JS()
@@ -275,6 +338,38 @@ class DisplayMode {
   });
 }
 
+extension DisplayModeExtension on DisplayMode {
+  /// The display mode width in device independent (user visible) pixels.
+  external int width;
+
+  /// The display mode height in device independent (user visible) pixels.
+  external int height;
+
+  /// The display mode width in native pixels.
+  external int widthInNativePixels;
+
+  /// The display mode height in native pixels.
+  external int heightInNativePixels;
+
+  /// The display mode UI scale factor.
+  external double? uiScale;
+
+  /// The display mode device scale factor.
+  external double deviceScaleFactor;
+
+  /// The display mode refresh rate in hertz.
+  external double refreshRate;
+
+  /// True if the mode is the display's native mode.
+  external bool isNative;
+
+  /// True if the display mode is currently selected.
+  external bool isSelected;
+
+  /// True if this mode is interlaced, false if not provided.
+  external bool? isInterlaced;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -296,9 +391,37 @@ class DisplayLayout {
   });
 }
 
+extension DisplayLayoutExtension on DisplayLayout {
+  /// The unique identifier of the display.
+  external String id;
+
+  /// The unique identifier of the parent display. Empty if this is the root.
+  external String parentId;
+
+  /// The layout position of this display relative to the parent. This will
+  /// be ignored for the root.
+  external LayoutPosition position;
+
+  /// The offset of the display along the connected edge. 0 indicates that
+  /// the topmost or leftmost corners are aligned.
+  external int offset;
+}
+
 @JS()
 @staticInterop
-class Edid {}
+@anonymous
+class Edid {
+  external factory Edid({
+    /// 3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
+    String manufacturerId,
+
+    /// 2 byte manufacturer-assigned code, Sec. 3.4.2 page 21. Required in v1.4.
+    String productId,
+
+    /// Year of manufacturer, Sec. 3.4.4 page 22. Required in v1.4.
+    int yearOfManufacture,
+  });
+}
 
 extension EdidExtension on Edid {
   /// 3 character manufacturer code. See Sec. 3.4.1 page 21. Required in v1.4.
@@ -313,7 +436,96 @@ extension EdidExtension on Edid {
 
 @JS()
 @staticInterop
-class DisplayUnitInfo {}
+@anonymous
+class DisplayUnitInfo {
+  external factory DisplayUnitInfo({
+    /// The unique identifier of the display.
+    String id,
+
+    /// The user-friendly name (e.g. "HP LCD monitor").
+    String name,
+
+    /// NOTE: This is only available to Chrome OS Kiosk apps and Web UI.
+    Edid? edid,
+
+    /// Chrome OS only. Identifier of the display that is being mirrored if
+    /// mirroring is enabled, otherwise empty. This will be set for all displays
+    /// (including the display being mirrored).
+    String mirroringSourceId,
+
+    /// Chrome OS only. Identifiers of the displays to which the source display
+    /// is being mirrored. Empty if no displays are being mirrored. This will be
+    /// set to the same value for all displays. This must not include
+    /// |mirroringSourceId|.
+    JSArray mirroringDestinationIds,
+
+    /// True if this is the primary display.
+    bool isPrimary,
+
+    /// True if this is an internal display.
+    bool isInternal,
+
+    /// True if this display is enabled.
+    bool isEnabled,
+
+    /// True for all displays when in unified desktop mode. See documentation
+    /// for [enableUnifiedDesktop].
+    bool isUnified,
+
+    /// True when the auto-rotation is allowed. It happens when the device is in
+    /// a tablet physical state or kSupportsClamshellAutoRotation is set.
+    /// Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
+    /// Settings switches to a mojo API.
+    bool? isAutoRotationAllowed,
+
+    /// The number of pixels per inch along the x-axis.
+    double dpiX,
+
+    /// The number of pixels per inch along the y-axis.
+    double dpiY,
+
+    /// The display's clockwise rotation in degrees relative to the vertical
+    /// position.
+    /// Currently exposed only on ChromeOS. Will be set to 0 on other platforms.
+    /// A value of -1 will be interpreted as auto-rotate when the device is in
+    /// a physical tablet state.
+    int rotation,
+
+    /// The display's logical bounds.
+    Bounds bounds,
+
+    /// The display's insets within its screen's bounds.
+    /// Currently exposed only on ChromeOS. Will be set to empty insets on
+    /// other platforms.
+    Insets overscan,
+
+    /// The usable work area of the display within the display bounds. The work
+    /// area excludes areas of the display reserved for OS, for example taskbar
+    /// and launcher.
+    Bounds workArea,
+
+    /// The list of available display modes. The current mode will have
+    /// isSelected=true. Only available on Chrome OS. Will be set to an empty
+    /// array on other platforms.
+    JSArray modes,
+
+    /// True if this display has a touch input device associated with it.
+    bool hasTouchSupport,
+
+    /// True if this display has an accelerometer associated with it.
+    /// Provided for ChromeOS Settings UI only. TODO(stevenjb): Remove when
+    /// Settings switches to a mojo API. NOTE: The name of this may change.
+    bool hasAccelerometerSupport,
+
+    /// A list of zoom factor values that can be set for the display.
+    JSArray availableDisplayZoomFactors,
+
+    /// The ratio between the display's current and default zoom.
+    /// For example, value 1 is equivalent to 100% zoom, and value 1.5 is
+    /// equivalent to 150% zoom.
+    double displayZoomFactor,
+  });
+}
 
 extension DisplayUnitInfoExtension on DisplayUnitInfo {
   /// The unique identifier of the display.
@@ -463,6 +675,61 @@ class DisplayProperties {
   });
 }
 
+extension DisplayPropertiesExtension on DisplayProperties {
+  /// Chrome OS only. If set to true, changes the display mode to unified
+  /// desktop (see [enableUnifiedDesktop] for details). If set to false,
+  /// unified desktop mode will be disabled. This is only valid for the
+  /// primary display. If provided, mirroringSourceId must not be provided and
+  /// other properties will be ignored. This is has no effect if not provided.
+  external bool? isUnified;
+
+  /// Chrome OS only. If set and not empty, enables mirroring for this display
+  /// only. Otherwise disables mirroring for all displays. This value should
+  /// indicate the id of the source display to mirror, which must not be the
+  /// same as the id passed to setDisplayProperties. If set, no other property
+  /// may be set.
+  external String? mirroringSourceId;
+
+  /// If set to true, makes the display primary. No-op if set to false.
+  /// Note: If set, the display is considered primary for all other properties
+  /// (i.e. [isUnified] may be set and bounds origin may not).
+  external bool? isPrimary;
+
+  /// If set, sets the display's overscan insets to the provided values. Note
+  /// that overscan values may not be negative or larger than a half of the
+  /// screen's size. Overscan cannot be changed on the internal monitor.
+  external Insets? overscan;
+
+  /// If set, updates the display's rotation.
+  /// Legal values are [0, 90, 180, 270]. The rotation is set clockwise,
+  /// relative to the display's vertical position.
+  external int? rotation;
+
+  /// If set, updates the display's logical bounds origin along the x-axis.
+  /// Applied together with [boundsOriginY]. Defaults to the current value
+  /// if not set and [boundsOriginY] is set. Note that when updating the
+  /// display origin, some constraints will be applied, so the final bounds
+  /// origin may be different than the one set. The final bounds can be
+  /// retrieved using [getInfo]. The bounds origin cannot be changed on
+  /// the primary display.
+  external int? boundsOriginX;
+
+  /// If set, updates the display's logical bounds origin along the y-axis.
+  /// See documentation for [boundsOriginX] parameter.
+  external int? boundsOriginY;
+
+  /// If set, updates the display mode to the mode matching this value.
+  /// If other parameters are invalid, this will not be applied. If the
+  /// display mode is invalid, it will not be applied and an error will be
+  /// set, but other properties will still be applied.
+  external DisplayMode? displayMode;
+
+  /// If set, updates the zoom associated with the display. This zoom performs
+  /// re-layout and repaint thus resulting in a better quality zoom than just
+  /// performing a pixel by pixel stretch enlargement.
+  external double? displayZoomFactor;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -473,6 +740,13 @@ class GetInfoFlags {
       /// by [getInfo] when in unified desktop mode (see
       /// [enableUnifiedDesktop]). Defaults to false.
       bool? singleUnified});
+}
+
+extension GetInfoFlagsExtension on GetInfoFlags {
+  /// If set to true, only a single [DisplayUnitInfo] will be returned
+  /// by [getInfo] when in unified desktop mode (see
+  /// [enableUnifiedDesktop]). Defaults to false.
+  external bool? singleUnified;
 }
 
 @JS()
@@ -490,4 +764,16 @@ class MirrorModeInfo {
     /// 'mixed'.
     JSArray? mirroringDestinationIds,
   });
+}
+
+extension MirrorModeInfoExtension on MirrorModeInfo {
+  /// The mirror mode that should be set.
+  external MirrorMode mode;
+
+  /// The id of the mirroring source display. This is only valid for 'mixed'.
+  external String? mirroringSourceId;
+
+  /// The ids of the mirroring destination displays. This is only valid for
+  /// 'mixed'.
+  external JSArray? mirroringDestinationIds;
 }

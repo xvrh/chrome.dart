@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -241,7 +246,35 @@ typedef FileDataCallback = JSFunction;
 
 @JS()
 @staticInterop
-class EntryMetadata {}
+@anonymous
+class EntryMetadata {
+  external factory EntryMetadata({
+    /// True if it is a directory. Must be provided if requested in
+    /// `options`.
+    bool? isDirectory,
+
+    /// Name of this entry (not full path name). Must not contain '/'. For root
+    /// it must be empty. Must be provided if requested in `options`.
+    String? name,
+
+    /// File size in bytes. Must be provided if requested in
+    /// `options`.
+    double? size,
+
+    /// The last modified time of this entry. Must be provided if requested in
+    /// `options`.
+    JSAny? modificationTime,
+
+    /// Mime type for the entry. Always optional, but should be provided if
+    /// requested in `options`.
+    String? mimeType,
+
+    /// Thumbnail image as a data URI in either PNG, JPEG or WEBP format, at most
+    /// 32 KB in size. Optional, but can be provided only when explicitly
+    /// requested by the [onGetMetadataRequested] event.
+    String? thumbnail,
+  });
+}
 
 extension EntryMetadataExtension on EntryMetadata {
   /// True if it is a directory. Must be provided if requested in
@@ -272,7 +305,20 @@ extension EntryMetadataExtension on EntryMetadata {
 
 @JS()
 @staticInterop
-class Watcher {}
+@anonymous
+class Watcher {
+  external factory Watcher({
+    /// The path of the entry being observed.
+    String entryPath,
+
+    /// Whether watching should include all child entries recursively. It can be
+    /// true for directories only.
+    bool recursive,
+
+    /// Tag used by the last notification for the watcher.
+    String? lastTag,
+  });
+}
 
 extension WatcherExtension on Watcher {
   /// The path of the entry being observed.
@@ -288,7 +334,19 @@ extension WatcherExtension on Watcher {
 
 @JS()
 @staticInterop
-class OpenedFile {}
+@anonymous
+class OpenedFile {
+  external factory OpenedFile({
+    /// A request ID to be be used by consecutive read/write and close requests.
+    int openRequestId,
+
+    /// The path of the opened file.
+    String filePath,
+
+    /// Whether the file was opened for reading or writing.
+    OpenFileMode mode,
+  });
+}
 
 extension OpenedFileExtension on OpenedFile {
   /// A request ID to be be used by consecutive read/write and close requests.
@@ -303,7 +361,34 @@ extension OpenedFileExtension on OpenedFile {
 
 @JS()
 @staticInterop
-class FileSystemInfo {}
+@anonymous
+class FileSystemInfo {
+  external factory FileSystemInfo({
+    /// The identifier of the file system.
+    String fileSystemId,
+
+    /// A human-readable name for the file system.
+    String displayName,
+
+    /// Whether the file system supports operations which may change contents
+    /// of the file system (such as creating, deleting or writing to files).
+    bool writable,
+
+    /// The maximum number of files that can be opened at once. If 0, then not
+    /// limited.
+    int openedFilesLimit,
+
+    /// List of currently opened files.
+    JSArray openedFiles,
+
+    /// Whether the file system supports the `tag` field for observing
+    /// directories.
+    bool? supportsNotifyTag,
+
+    /// List of watchers.
+    JSArray watchers,
+  });
+}
 
 extension FileSystemInfoExtension on FileSystemInfo {
   /// The identifier of the file system.
@@ -361,6 +446,31 @@ class MountOptions {
   });
 }
 
+extension MountOptionsExtension on MountOptions {
+  /// The string indentifier of the file system. Must be unique per each
+  /// extension.
+  external String fileSystemId;
+
+  /// A human-readable name for the file system.
+  external String displayName;
+
+  /// Whether the file system supports operations which may change contents
+  /// of the file system (such as creating, deleting or writing to files).
+  external bool? writable;
+
+  /// The maximum number of files that can be opened at once. If not specified,
+  /// or 0, then not limited.
+  external int? openedFilesLimit;
+
+  /// Whether the file system supports the `tag` field for observed
+  /// directories.
+  external bool? supportsNotifyTag;
+
+  /// Whether the framework should resume the file system at the next sign-in
+  /// session. True by default.
+  external bool? persistent;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -371,9 +481,23 @@ class UnmountOptions {
       String fileSystemId});
 }
 
+extension UnmountOptionsExtension on UnmountOptions {
+  /// The identifier of the file system to be unmounted.
+  external String fileSystemId;
+}
+
 @JS()
 @staticInterop
-class UnmountRequestedOptions {}
+@anonymous
+class UnmountRequestedOptions {
+  external factory UnmountRequestedOptions({
+    /// The identifier of the file system to be unmounted.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+  });
+}
 
 extension UnmountRequestedOptionsExtension on UnmountRequestedOptions {
   /// The identifier of the file system to be unmounted.
@@ -385,7 +509,38 @@ extension UnmountRequestedOptionsExtension on UnmountRequestedOptions {
 
 @JS()
 @staticInterop
-class GetMetadataRequestedOptions {}
+@anonymous
+class GetMetadataRequestedOptions {
+  external factory GetMetadataRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the entry to fetch metadata about.
+    String entryPath,
+
+    /// Set to `true` if `is_directory` value is requested.
+    bool isDirectory,
+
+    /// Set to `true` if `name` value is requested.
+    bool name,
+
+    /// Set to `true` if `size` value is requested.
+    bool size,
+
+    /// Set to `true` if `modificationTime` value is
+    /// requested.
+    bool modificationTime,
+
+    /// Set to `true` if `mimeType` value is requested.
+    bool mimeType,
+
+    /// Set to `true` if the thumbnail is requested.
+    bool thumbnail,
+  });
+}
 
 extension GetMetadataRequestedOptionsExtension on GetMetadataRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -419,7 +574,19 @@ extension GetMetadataRequestedOptionsExtension on GetMetadataRequestedOptions {
 
 @JS()
 @staticInterop
-class GetActionsRequestedOptions {}
+@anonymous
+class GetActionsRequestedOptions {
+  external factory GetActionsRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// List of paths of entries for the list of actions.
+    JSArray entryPaths,
+  });
+}
 
 extension GetActionsRequestedOptionsExtension on GetActionsRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -434,7 +601,38 @@ extension GetActionsRequestedOptionsExtension on GetActionsRequestedOptions {
 
 @JS()
 @staticInterop
-class ReadDirectoryRequestedOptions {}
+@anonymous
+class ReadDirectoryRequestedOptions {
+  external factory ReadDirectoryRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the directory which contents are requested.
+    String directoryPath,
+
+    /// Set to `true` if `is_directory` value is requested.
+    bool isDirectory,
+
+    /// Set to `true` if `name` value is requested.
+    bool name,
+
+    /// Set to `true` if `size` value is requested.
+    bool size,
+
+    /// Set to `true` if `modificationTime` value is
+    /// requested.
+    bool modificationTime,
+
+    /// Set to `true` if `mimeType` value is requested.
+    bool mimeType,
+
+    /// Set to `true` if the thumbnail is requested.
+    bool thumbnail,
+  });
+}
 
 extension ReadDirectoryRequestedOptionsExtension
     on ReadDirectoryRequestedOptions {
@@ -469,7 +667,23 @@ extension ReadDirectoryRequestedOptionsExtension
 
 @JS()
 @staticInterop
-class OpenFileRequestedOptions {}
+@anonymous
+class OpenFileRequestedOptions {
+  external factory OpenFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// A request ID which will be used by consecutive read/write and close
+    /// requests.
+    int requestId,
+
+    /// The path of the file to be opened.
+    String filePath,
+
+    /// Whether the file will be used for reading or writing.
+    OpenFileMode mode,
+  });
+}
 
 extension OpenFileRequestedOptionsExtension on OpenFileRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -488,7 +702,19 @@ extension OpenFileRequestedOptionsExtension on OpenFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CloseFileRequestedOptions {}
+@anonymous
+class CloseFileRequestedOptions {
+  external factory CloseFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// A request ID used to open the file.
+    int openRequestId,
+  });
+}
 
 extension CloseFileRequestedOptionsExtension on CloseFileRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -503,7 +729,25 @@ extension CloseFileRequestedOptionsExtension on CloseFileRequestedOptions {
 
 @JS()
 @staticInterop
-class ReadFileRequestedOptions {}
+@anonymous
+class ReadFileRequestedOptions {
+  external factory ReadFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// A request ID used to open the file.
+    int openRequestId,
+
+    /// Position in the file (in bytes) to start reading from.
+    double offset,
+
+    /// Number of bytes to be returned.
+    double length,
+  });
+}
 
 extension ReadFileRequestedOptionsExtension on ReadFileRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -524,7 +768,22 @@ extension ReadFileRequestedOptionsExtension on ReadFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CreateDirectoryRequestedOptions {}
+@anonymous
+class CreateDirectoryRequestedOptions {
+  external factory CreateDirectoryRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the directory to be created.
+    String directoryPath,
+
+    /// Whether the operation is recursive (for directories only).
+    bool recursive,
+  });
+}
 
 extension CreateDirectoryRequestedOptionsExtension
     on CreateDirectoryRequestedOptions {
@@ -543,7 +802,22 @@ extension CreateDirectoryRequestedOptionsExtension
 
 @JS()
 @staticInterop
-class DeleteEntryRequestedOptions {}
+@anonymous
+class DeleteEntryRequestedOptions {
+  external factory DeleteEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the entry to be deleted.
+    String entryPath,
+
+    /// Whether the operation is recursive (for directories only).
+    bool recursive,
+  });
+}
 
 extension DeleteEntryRequestedOptionsExtension on DeleteEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -561,7 +835,19 @@ extension DeleteEntryRequestedOptionsExtension on DeleteEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class CreateFileRequestedOptions {}
+@anonymous
+class CreateFileRequestedOptions {
+  external factory CreateFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the file to be created.
+    String filePath,
+  });
+}
 
 extension CreateFileRequestedOptionsExtension on CreateFileRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -576,7 +862,22 @@ extension CreateFileRequestedOptionsExtension on CreateFileRequestedOptions {
 
 @JS()
 @staticInterop
-class CopyEntryRequestedOptions {}
+@anonymous
+class CopyEntryRequestedOptions {
+  external factory CopyEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The source path of the entry to be copied.
+    String sourcePath,
+
+    /// The destination path for the copy operation.
+    String targetPath,
+  });
+}
 
 extension CopyEntryRequestedOptionsExtension on CopyEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -594,7 +895,22 @@ extension CopyEntryRequestedOptionsExtension on CopyEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class MoveEntryRequestedOptions {}
+@anonymous
+class MoveEntryRequestedOptions {
+  external factory MoveEntryRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The source path of the entry to be moved into a new place.
+    String sourcePath,
+
+    /// The destination path for the copy operation.
+    String targetPath,
+  });
+}
 
 extension MoveEntryRequestedOptionsExtension on MoveEntryRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -612,7 +928,22 @@ extension MoveEntryRequestedOptionsExtension on MoveEntryRequestedOptions {
 
 @JS()
 @staticInterop
-class TruncateRequestedOptions {}
+@anonymous
+class TruncateRequestedOptions {
+  external factory TruncateRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the file to be truncated.
+    String filePath,
+
+    /// Number of bytes to be retained after the operation completes.
+    double length,
+  });
+}
 
 extension TruncateRequestedOptionsExtension on TruncateRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -630,7 +961,25 @@ extension TruncateRequestedOptionsExtension on TruncateRequestedOptions {
 
 @JS()
 @staticInterop
-class WriteFileRequestedOptions {}
+@anonymous
+class WriteFileRequestedOptions {
+  external factory WriteFileRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// A request ID used to open the file.
+    int openRequestId,
+
+    /// Position in the file (in bytes) to start writing the bytes from.
+    double offset,
+
+    /// Buffer of bytes to be written to the file.
+    JSArrayBuffer data,
+  });
+}
 
 extension WriteFileRequestedOptionsExtension on WriteFileRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -651,7 +1000,19 @@ extension WriteFileRequestedOptionsExtension on WriteFileRequestedOptions {
 
 @JS()
 @staticInterop
-class AbortRequestedOptions {}
+@anonymous
+class AbortRequestedOptions {
+  external factory AbortRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// An ID of the request to be aborted.
+    int operationRequestId,
+  });
+}
 
 extension AbortRequestedOptionsExtension on AbortRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -666,7 +1027,23 @@ extension AbortRequestedOptionsExtension on AbortRequestedOptions {
 
 @JS()
 @staticInterop
-class AddWatcherRequestedOptions {}
+@anonymous
+class AddWatcherRequestedOptions {
+  external factory AddWatcherRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the entry to be observed.
+    String entryPath,
+
+    /// Whether observing should include all child entries recursively. It can be
+    /// true for directories only.
+    bool recursive,
+  });
+}
 
 extension AddWatcherRequestedOptionsExtension on AddWatcherRequestedOptions {
   /// The identifier of the file system related to this operation.
@@ -685,7 +1062,22 @@ extension AddWatcherRequestedOptionsExtension on AddWatcherRequestedOptions {
 
 @JS()
 @staticInterop
-class RemoveWatcherRequestedOptions {}
+@anonymous
+class RemoveWatcherRequestedOptions {
+  external factory RemoveWatcherRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The path of the watched entry.
+    String entryPath,
+
+    /// Mode of the watcher.
+    bool recursive,
+  });
+}
 
 extension RemoveWatcherRequestedOptionsExtension
     on RemoveWatcherRequestedOptions {
@@ -704,7 +1096,17 @@ extension RemoveWatcherRequestedOptionsExtension
 
 @JS()
 @staticInterop
-class Action {}
+@anonymous
+class Action {
+  external factory Action({
+    /// The identifier of the action. Any string or [CommonActionId] for
+    /// common actions.
+    String id,
+
+    /// The title of the action. It may be ignored for common actions.
+    String? title,
+  });
+}
 
 extension ActionExtension on Action {
   /// The identifier of the action. Any string or [CommonActionId] for
@@ -717,7 +1119,22 @@ extension ActionExtension on Action {
 
 @JS()
 @staticInterop
-class ExecuteActionRequestedOptions {}
+@anonymous
+class ExecuteActionRequestedOptions {
+  external factory ExecuteActionRequestedOptions({
+    /// The identifier of the file system related to this operation.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+
+    /// The set of paths of the entries to be used for the action.
+    JSArray entryPaths,
+
+    /// The identifier of the action to be executed.
+    String actionId,
+  });
+}
 
 extension ExecuteActionRequestedOptionsExtension
     on ExecuteActionRequestedOptions {
@@ -745,6 +1162,14 @@ class Change {
     /// The type of the change which happened to the entry.
     ChangeType changeType,
   });
+}
+
+extension ChangeExtension on Change {
+  /// The path of the changed entry.
+  external String entryPath;
+
+  /// The type of the change which happened to the entry.
+  external ChangeType changeType;
 }
 
 @JS()
@@ -778,9 +1203,44 @@ class NotifyOptions {
   });
 }
 
+extension NotifyOptionsExtension on NotifyOptions {
+  /// The identifier of the file system related to this change.
+  external String fileSystemId;
+
+  /// The path of the observed entry.
+  external String observedPath;
+
+  /// Mode of the observed entry.
+  external bool recursive;
+
+  /// The type of the change which happened to the observed entry. If it is
+  /// DELETED, then the observed entry will be automatically removed from the
+  /// list of observed entries.
+  external ChangeType changeType;
+
+  /// List of changes to entries within the observed directory (including the
+  /// entry itself)
+  external JSArray? changes;
+
+  /// Tag for the notification. Required if the file system was mounted with
+  /// the `supportsNotifyTag` option. Note, that this flag is
+  /// necessary to provide notifications about changes which changed even
+  /// when the system was shutdown.
+  external String? tag;
+}
+
 @JS()
 @staticInterop
-class ConfigureRequestedOptions {}
+@anonymous
+class ConfigureRequestedOptions {
+  external factory ConfigureRequestedOptions({
+    /// The identifier of the file system to be configured.
+    String fileSystemId,
+
+    /// The unique identifier of this request.
+    int requestId,
+  });
+}
 
 extension ConfigureRequestedOptionsExtension on ConfigureRequestedOptions {
   /// The identifier of the file system to be configured.

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -126,7 +131,13 @@ extension JSWebAuthenticationProxyExtension on JSWebAuthenticationProxy {
 
 @JS()
 @staticInterop
-class IsUvpaaRequest {}
+@anonymous
+class IsUvpaaRequest {
+  external factory IsUvpaaRequest(
+      {
+      /// An opaque identifier for the request.
+      int requestId});
+}
 
 extension IsUvpaaRequestExtension on IsUvpaaRequest {
   /// An opaque identifier for the request.
@@ -135,7 +146,20 @@ extension IsUvpaaRequestExtension on IsUvpaaRequest {
 
 @JS()
 @staticInterop
-class CreateRequest {}
+@anonymous
+class CreateRequest {
+  external factory CreateRequest({
+    /// An opaque identifier for the request.
+    int requestId,
+
+    /// The `PublicKeyCredentialCreationOptions` passed to
+    /// `navigator.credentials.create()`, serialized as a JSON
+    /// string. The serialization format is compatible with <a
+    /// href="https://w3c.github.io/webauthn/#sctn-parseCreationOptionsFromJSON">
+    /// `PublicKeyCredential.parseCreationOptionsFromJSON()`</a>.
+    String requestDetailsJson,
+  });
+}
 
 extension CreateRequestExtension on CreateRequest {
   /// An opaque identifier for the request.
@@ -151,7 +175,20 @@ extension CreateRequestExtension on CreateRequest {
 
 @JS()
 @staticInterop
-class GetRequest {}
+@anonymous
+class GetRequest {
+  external factory GetRequest({
+    /// An opaque identifier for the request.
+    int requestId,
+
+    /// The `PublicKeyCredentialRequestOptions` passed to
+    /// `navigator.credentials.get()`, serialized as a JSON string.
+    /// The serialization format is compatible with <a
+    /// href="https://w3c.github.io/webauthn/#sctn-parseRequestOptionsFromJSON">
+    /// `PublicKeyCredential.parseRequestOptionsFromJSON()`</a>.
+    String requestDetailsJson,
+  });
+}
 
 extension GetRequestExtension on GetRequest {
   /// An opaque identifier for the request.
@@ -175,6 +212,12 @@ class DOMExceptionDetails {
   });
 }
 
+extension DOMExceptionDetailsExtension on DOMExceptionDetails {
+  external String name;
+
+  external String message;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -192,6 +235,20 @@ class CreateResponseDetails {
     /// `PublicKeyCredential.toJSON()`</a>.
     String? responseJson,
   });
+}
+
+extension CreateResponseDetailsExtension on CreateResponseDetails {
+  /// The `requestId` of the `CreateRequest`.
+  external int requestId;
+
+  /// The `DOMException` yielded by the remote request, if any.
+  external DOMExceptionDetails? error;
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  external String? responseJson;
 }
 
 @JS()
@@ -213,6 +270,20 @@ class GetResponseDetails {
   });
 }
 
+extension GetResponseDetailsExtension on GetResponseDetails {
+  /// The `requestId` of the `CreateRequest`.
+  external int requestId;
+
+  /// The `DOMException` yielded by the remote request, if any.
+  external DOMExceptionDetails? error;
+
+  /// The `PublicKeyCredential`, yielded by the remote request, if
+  /// any, serialized as a JSON string by calling
+  /// href="https://w3c.github.io/webauthn/#dom-publickeycredential-tojson">
+  /// `PublicKeyCredential.toJSON()`</a>.
+  external String? responseJson;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -221,4 +292,10 @@ class IsUvpaaResponseDetails {
     int requestId,
     bool isUvpaa,
   });
+}
+
+extension IsUvpaaResponseDetailsExtension on IsUvpaaResponseDetails {
+  external int requestId;
+
+  external bool isUvpaa;
 }

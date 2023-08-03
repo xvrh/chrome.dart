@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:checks/checks.dart';
 import 'package:test/test.dart';
 import 'package:web/web.dart' as web;

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -86,7 +91,36 @@ typedef VoiceGender = String;
 
 @JS()
 @staticInterop
-class SpeakOptions {}
+@anonymous
+class SpeakOptions {
+  external factory SpeakOptions({
+    /// The name of the voice to use for synthesis.
+    String? voiceName,
+
+    /// The language to be used for synthesis, in the form _language_-_region_.
+    /// Examples: 'en', 'en-US', 'en-GB', 'zh-CN'.
+    String? lang,
+
+    /// Gender of voice for synthesized speech.
+    VoiceGender? gender,
+
+    /// Speaking rate relative to the default rate for this voice. 1.0 is the
+    /// default rate, normally around 180 to 220 words per minute. 2.0 is twice as
+    /// fast, and 0.5 is half as fast. This value is guaranteed to be between 0.1
+    /// and 10.0, inclusive. When a voice does not support this full range of
+    /// rates, don't return an error. Instead, clip the rate to the range the
+    /// voice supports.
+    double? rate,
+
+    /// Speaking pitch between 0 and 2 inclusive, with 0 being lowest and 2 being
+    /// highest. 1.0 corresponds to this voice's default pitch.
+    double? pitch,
+
+    /// Speaking volume between 0 and 1 inclusive, with 0 being lowest and 1 being
+    /// highest, with a default of 1.0.
+    double? volume,
+  });
+}
 
 extension SpeakOptionsExtension on SpeakOptions {
   /// The name of the voice to use for synthesis.
@@ -118,7 +152,16 @@ extension SpeakOptionsExtension on SpeakOptions {
 
 @JS()
 @staticInterop
-class AudioStreamOptions {}
+@anonymous
+class AudioStreamOptions {
+  external factory AudioStreamOptions({
+    /// The sample rate expected in an audio buffer.
+    int sampleRate,
+
+    /// The number of samples within an audio buffer.
+    int bufferSize,
+  });
+}
 
 extension AudioStreamOptionsExtension on AudioStreamOptions {
   /// The sample rate expected in an audio buffer.
@@ -145,4 +188,18 @@ class AudioBuffer {
     /// True if this audio buffer is the last for the text being spoken.
     bool? isLastBuffer,
   });
+}
+
+extension AudioBufferExtension on AudioBuffer {
+  /// The audio buffer from the text-to-speech engine. It should have length
+  /// exactly audioStreamOptions.bufferSize and encoded as mono, at
+  /// audioStreamOptions.sampleRate, and as linear pcm, 32-bit signed float i.e.
+  /// the Float32Array type in javascript.
+  external JSArrayBuffer audioBuffer;
+
+  /// The character index associated with this audio buffer.
+  external int? charIndex;
+
+  /// True if this audio buffer is the last for the text being spoken.
+  external bool? isLastBuffer;
 }

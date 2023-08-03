@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/privacy.dart' as $js;
 import 'types.dart';
@@ -67,10 +71,11 @@ class PrivacyNetwork {
     /// impacts how WebRTC traffic will be routed and how much local address
     /// information is exposed. This preference's value is of type
     /// IPHandlingPolicy, defaulting to `default`.
-    required ChromeSetting webRTCIPHandlingPolicy,
-  }) : _wrapped = $js.PrivacyNetwork()
-          ..networkPredictionEnabled = networkPredictionEnabled.toJS
-          ..webRTCIPHandlingPolicy = webRTCIPHandlingPolicy.toJS;
+    required ChromeSetting webRtcipHandlingPolicy,
+  }) : _wrapped = $js.PrivacyNetwork(
+          networkPredictionEnabled: networkPredictionEnabled.toJS,
+          webRTCIPHandlingPolicy: webRtcipHandlingPolicy.toJS,
+        );
 
   final $js.PrivacyNetwork _wrapped;
 
@@ -92,9 +97,9 @@ class PrivacyNetwork {
   /// impacts how WebRTC traffic will be routed and how much local address
   /// information is exposed. This preference's value is of type
   /// IPHandlingPolicy, defaulting to `default`.
-  ChromeSetting get webRTCIPHandlingPolicy =>
+  ChromeSetting get webRtcipHandlingPolicy =>
       ChromeSetting.fromJS(_wrapped.webRTCIPHandlingPolicy);
-  set webRTCIPHandlingPolicy(ChromeSetting v) {
+  set webRtcipHandlingPolicy(ChromeSetting v) {
     _wrapped.webRTCIPHandlingPolicy = v.toJS;
   }
 }
@@ -145,18 +150,19 @@ class PrivacyServices {
     /// If enabled, Chrome offers to translate pages that aren't in a language
     /// you read. This preference's value is a boolean, defaulting to `true`.
     required ChromeSetting translationServiceEnabled,
-  }) : _wrapped = $js.PrivacyServices()
-          ..alternateErrorPagesEnabled = alternateErrorPagesEnabled.toJS
-          ..autofillEnabled = autofillEnabled.toJS
-          ..autofillAddressEnabled = autofillAddressEnabled.toJS
-          ..autofillCreditCardEnabled = autofillCreditCardEnabled.toJS
-          ..passwordSavingEnabled = passwordSavingEnabled.toJS
-          ..safeBrowsingEnabled = safeBrowsingEnabled.toJS
-          ..safeBrowsingExtendedReportingEnabled =
-              safeBrowsingExtendedReportingEnabled.toJS
-          ..searchSuggestEnabled = searchSuggestEnabled.toJS
-          ..spellingServiceEnabled = spellingServiceEnabled.toJS
-          ..translationServiceEnabled = translationServiceEnabled.toJS;
+  }) : _wrapped = $js.PrivacyServices(
+          alternateErrorPagesEnabled: alternateErrorPagesEnabled.toJS,
+          autofillEnabled: autofillEnabled.toJS,
+          autofillAddressEnabled: autofillAddressEnabled.toJS,
+          autofillCreditCardEnabled: autofillCreditCardEnabled.toJS,
+          passwordSavingEnabled: passwordSavingEnabled.toJS,
+          safeBrowsingEnabled: safeBrowsingEnabled.toJS,
+          safeBrowsingExtendedReportingEnabled:
+              safeBrowsingExtendedReportingEnabled.toJS,
+          searchSuggestEnabled: searchSuggestEnabled.toJS,
+          spellingServiceEnabled: spellingServiceEnabled.toJS,
+          translationServiceEnabled: translationServiceEnabled.toJS,
+        );
 
   final $js.PrivacyServices _wrapped;
 
@@ -307,16 +313,17 @@ class PrivacyWebsites {
     /// unique ID to plugins in order to run protected content. The value of
     /// this preference is of type boolean, and the default value is `true`.
     ChromeSetting? protectedContentEnabled,
-  }) : _wrapped = $js.PrivacyWebsites()
-          ..thirdPartyCookiesAllowed = thirdPartyCookiesAllowed.toJS
-          ..privacySandboxEnabled = privacySandboxEnabled.toJS
-          ..topicsEnabled = topicsEnabled.toJS
-          ..fledgeEnabled = fledgeEnabled.toJS
-          ..adMeasurementEnabled = adMeasurementEnabled.toJS
-          ..hyperlinkAuditingEnabled = hyperlinkAuditingEnabled.toJS
-          ..referrersEnabled = referrersEnabled.toJS
-          ..doNotTrackEnabled = doNotTrackEnabled.toJS
-          ..protectedContentEnabled = protectedContentEnabled?.toJS;
+  }) : _wrapped = $js.PrivacyWebsites(
+          thirdPartyCookiesAllowed: thirdPartyCookiesAllowed.toJS,
+          privacySandboxEnabled: privacySandboxEnabled.toJS,
+          topicsEnabled: topicsEnabled.toJS,
+          fledgeEnabled: fledgeEnabled.toJS,
+          adMeasurementEnabled: adMeasurementEnabled.toJS,
+          hyperlinkAuditingEnabled: hyperlinkAuditingEnabled.toJS,
+          referrersEnabled: referrersEnabled.toJS,
+          doNotTrackEnabled: doNotTrackEnabled.toJS,
+          protectedContentEnabled: protectedContentEnabled?.toJS,
+        );
 
   final $js.PrivacyWebsites _wrapped;
 

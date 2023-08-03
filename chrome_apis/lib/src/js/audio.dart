@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -95,7 +100,34 @@ typedef DeviceType = String;
 
 @JS()
 @staticInterop
-class AudioDeviceInfo {}
+@anonymous
+class AudioDeviceInfo {
+  external factory AudioDeviceInfo({
+    /// The unique identifier of the audio device.
+    String id,
+
+    /// Stream type associated with this device.
+    StreamType streamType,
+
+    /// Type of the device.
+    DeviceType deviceType,
+
+    /// The user-friendly name (e.g. "USB Microphone").
+    String displayName,
+
+    /// Device name.
+    String deviceName,
+
+    /// True if this is the current active device.
+    bool isActive,
+
+    /// The sound level of the device, volume for output, gain for input.
+    int level,
+
+    /// The stable/persisted device id string when available.
+    String? stableDeviceId,
+  });
+}
 
 extension AudioDeviceInfoExtension on AudioDeviceInfo {
   /// The unique identifier of the audio device.
@@ -138,6 +170,16 @@ class DeviceFilter {
   });
 }
 
+extension DeviceFilterExtension on DeviceFilter {
+  /// If set, only audio devices whose stream type is included in this list
+  /// will satisfy the filter.
+  external JSArray? streamTypes;
+
+  /// If set, only audio devices whose active state matches this value will
+  /// satisfy the filter.
+  external bool? isActive;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -151,6 +193,16 @@ class DeviceProperties {
       /// If used with audio input device, represents audio device gain.
       /// If used with audio output device, represents audio device volume.
       int? level});
+}
+
+extension DevicePropertiesExtension on DeviceProperties {
+  ///
+  ///   The audio device's desired sound level. Defaults to the device's
+  ///   current sound level.
+  ///
+  /// If used with audio input device, represents audio device gain.
+  /// If used with audio output device, represents audio device volume.
+  external int? level;
 }
 
 @JS()
@@ -170,9 +222,31 @@ class DeviceIdLists {
   });
 }
 
+extension DeviceIdListsExtension on DeviceIdLists {
+  /// List of input devices specified by their ID.
+  /// To indicate input devices should be unaffected, leave this property
+  ///   unset.
+  external JSArray? input;
+
+  /// List of output devices specified by their ID.
+  /// To indicate output devices should be unaffected, leave this property
+  ///   unset.
+  external JSArray? output;
+}
+
 @JS()
 @staticInterop
-class MuteChangedEvent {}
+@anonymous
+class MuteChangedEvent {
+  external factory MuteChangedEvent({
+    /// The type of the stream for which the mute value changed. The updated mute
+    /// value applies to all devices with this stream type.
+    StreamType streamType,
+
+    /// Whether or not the stream is now muted.
+    bool isMuted,
+  });
+}
 
 extension MuteChangedEventExtension on MuteChangedEvent {
   /// The type of the stream for which the mute value changed. The updated mute
@@ -185,7 +259,16 @@ extension MuteChangedEventExtension on MuteChangedEvent {
 
 @JS()
 @staticInterop
-class LevelChangedEvent {}
+@anonymous
+class LevelChangedEvent {
+  external factory LevelChangedEvent({
+    /// ID of device whose sound level has changed.
+    String deviceId,
+
+    /// The device's new sound level.
+    int level,
+  });
+}
 
 extension LevelChangedEventExtension on LevelChangedEvent {
   /// ID of device whose sound level has changed.

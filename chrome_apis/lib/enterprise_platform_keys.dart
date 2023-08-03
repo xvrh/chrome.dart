@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:typed_data';
 
 import 'enterprise.dart';
@@ -316,10 +320,11 @@ class Token {
     /// created with `window.crypto.subtle` cannot be used with this
     /// interface.
     required JSObject softwareBackedSubtleCrypto,
-  }) : _wrapped = $js.Token()
-          ..id = id
-          ..subtleCrypto = subtleCrypto
-          ..softwareBackedSubtleCrypto = softwareBackedSubtleCrypto;
+  }) : _wrapped = $js.Token(
+          id: id,
+          subtleCrypto: subtleCrypto,
+          softwareBackedSubtleCrypto: softwareBackedSubtleCrypto,
+        );
 
   final $js.Token _wrapped;
 
@@ -386,6 +391,12 @@ class RegisterKeyOptions {
   final $js.RegisterKeyOptions _wrapped;
 
   $js.RegisterKeyOptions get toJS => _wrapped;
+
+  /// Which algorithm the registered key should use.
+  Algorithm get algorithm => Algorithm.fromJS(_wrapped.algorithm);
+  set algorithm(Algorithm v) {
+    _wrapped.algorithm = v.toJS;
+  }
 }
 
 class ChallengeKeyOptions {
@@ -413,4 +424,27 @@ class ChallengeKeyOptions {
   final $js.ChallengeKeyOptions _wrapped;
 
   $js.ChallengeKeyOptions get toJS => _wrapped;
+
+  /// A challenge as emitted by the Verified Access Web API.
+  ByteBuffer get challenge => _wrapped.challenge.toDart;
+  set challenge(ByteBuffer v) {
+    _wrapped.challenge = v.toJS;
+  }
+
+  /// If present, registers the challenged key with the specified
+  /// `scope`'s token.  The key can then be associated with a
+  /// certificate and used like any other signing key.  Subsequent calls to
+  /// this function will then generate a new Enterprise Key in the specified
+  /// `scope`.
+  RegisterKeyOptions? get registerKey =>
+      _wrapped.registerKey?.let(RegisterKeyOptions.fromJS);
+  set registerKey(RegisterKeyOptions? v) {
+    _wrapped.registerKey = v?.toJS;
+  }
+
+  /// Which Enterprise Key to challenge.
+  Scope get scope => Scope.fromJS(_wrapped.scope);
+  set scope(Scope v) {
+    _wrapped.scope = v.toJS;
+  }
 }

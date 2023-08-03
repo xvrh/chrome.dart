@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -66,4 +71,14 @@ class Permissions {
     /// associated with [Content Scripts](content_scripts).
     JSArray? origins,
   });
+}
+
+extension PermissionsExtension on Permissions {
+  /// List of named permissions (does not include hosts or origins).
+  external JSArray? permissions;
+
+  /// The list of host permissions, including those specified in the
+  /// `optional_permissions` or `permissions` keys in the manifest, and those
+  /// associated with [Content Scripts](content_scripts).
+  external JSArray? origins;
 }

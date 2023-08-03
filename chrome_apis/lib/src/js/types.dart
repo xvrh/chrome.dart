@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -45,7 +50,10 @@ typedef LevelOfControl = String;
 
 @JS()
 @staticInterop
-class ChromeSetting {}
+@anonymous
+class ChromeSetting {
+  external factory ChromeSetting();
+}
 
 extension ChromeSettingExtension on ChromeSetting {
   /// Gets the value of a setting.
@@ -72,7 +80,21 @@ extension ChromeSettingExtension on ChromeSetting {
 
 @JS()
 @staticInterop
-class GetCallbackDetails {}
+@anonymous
+class GetCallbackDetails {
+  external factory GetCallbackDetails({
+    /// The value of the setting.
+    JSAny value,
+
+    /// The level of control of the setting.
+    LevelOfControl levelOfControl,
+
+    /// Whether the effective value is specific to the incognito session.<br/>This
+    /// property will _only_ be present if the [incognito] property in the
+    /// [details] parameter of `get()` was true.
+    bool? incognitoSpecific,
+  });
+}
 
 extension GetCallbackDetailsExtension on GetCallbackDetails {
   /// The value of the setting.
@@ -98,6 +120,12 @@ class GetDetails {
       bool? incognito});
 }
 
+extension GetDetailsExtension on GetDetails {
+  /// Whether to return the value that applies to the incognito session (default
+  /// false).
+  external bool? incognito;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -113,6 +141,16 @@ class SetDetails {
   });
 }
 
+extension SetDetailsExtension on SetDetails {
+  /// The value of the setting. <br/>Note that every setting has a specific
+  /// value type, which is described together with the setting. An extension
+  /// should _not_ set a value of a different type.
+  external JSAny value;
+
+  /// Where to set the setting (default: regular).
+  external ChromeSettingScope? scope;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -123,9 +161,28 @@ class ClearDetails {
       ChromeSettingScope? scope});
 }
 
+extension ClearDetailsExtension on ClearDetails {
+  /// Where to clear the setting (default: regular).
+  external ChromeSettingScope? scope;
+}
+
 @JS()
 @staticInterop
-class OnChangeDetails {}
+@anonymous
+class OnChangeDetails {
+  external factory OnChangeDetails({
+    /// The value of the setting after the change.
+    JSAny value,
+
+    /// The level of control of the setting.
+    LevelOfControl levelOfControl,
+
+    /// Whether the value that has changed is specific to the incognito
+    /// session.<br/>This property will _only_ be present if the user has enabled
+    /// the extension in incognito mode.
+    bool? incognitoSpecific,
+  });
+}
 
 extension OnChangeDetailsExtension on OnChangeDetails {
   /// The value of the setting after the change.

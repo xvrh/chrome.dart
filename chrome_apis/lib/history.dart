@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -66,17 +70,17 @@ class ChromeHistory {
 
   /// Fired when a URL is visited, providing the HistoryItem data for that URL.
   /// This event fires before the page has loaded.
-  Stream<HistoryItem> get onVisited =>
+  EventStream<HistoryItem> get onVisited =>
       $js.chrome.history.onVisited.asStream(($c) => ($js.HistoryItem result) {
-            $c(HistoryItem.fromJS(result));
+            return $c(HistoryItem.fromJS(result));
           });
 
   /// Fired when one or more URLs are removed from the history service.  When
   /// all visits have been removed the URL is purged from history.
-  Stream<OnVisitRemovedRemoved> get onVisitRemoved =>
+  EventStream<OnVisitRemovedRemoved> get onVisitRemoved =>
       $js.chrome.history.onVisitRemoved
           .asStream(($c) => ($js.OnVisitRemovedRemoved removed) {
-                $c(OnVisitRemovedRemoved.fromJS(removed));
+                return $c(OnVisitRemovedRemoved.fromJS(removed));
               });
 }
 
@@ -126,13 +130,14 @@ class HistoryItem {
     /// The number of times the user has navigated to this page by typing in the
     /// address.
     int? typedCount,
-  }) : _wrapped = $js.HistoryItem()
-          ..id = id
-          ..url = url
-          ..title = title
-          ..lastVisitTime = lastVisitTime
-          ..visitCount = visitCount
-          ..typedCount = typedCount;
+  }) : _wrapped = $js.HistoryItem(
+          id: id,
+          url: url,
+          title: title,
+          lastVisitTime: lastVisitTime,
+          visitCount: visitCount,
+          typedCount: typedCount,
+        );
 
   final $js.HistoryItem _wrapped;
 
@@ -196,12 +201,13 @@ class VisitItem {
     /// The [transition type](#transition_types) for this visit from its
     /// referrer.
     required TransitionType transition,
-  }) : _wrapped = $js.VisitItem()
-          ..id = id
-          ..visitId = visitId
-          ..visitTime = visitTime
-          ..referringVisitId = referringVisitId
-          ..transition = transition.toJS;
+  }) : _wrapped = $js.VisitItem(
+          id: id,
+          visitId: visitId,
+          visitTime: visitTime,
+          referringVisitId: referringVisitId,
+          transition: transition.toJS,
+        );
 
   final $js.VisitItem _wrapped;
 
@@ -251,6 +257,13 @@ class UrlDetails {
   final $js.UrlDetails _wrapped;
 
   $js.UrlDetails get toJS => _wrapped;
+
+  /// The URL for the operation. It must be in the format as returned from a
+  /// call to history.search.
+  String get url => _wrapped.url;
+  set url(String v) {
+    _wrapped.url = v;
+  }
 }
 
 class OnVisitRemovedRemoved {
@@ -260,9 +273,10 @@ class OnVisitRemovedRemoved {
     /// True if all history was removed.  If true, then urls will be empty.
     required bool allHistory,
     List<String>? urls,
-  }) : _wrapped = $js.OnVisitRemovedRemoved()
-          ..allHistory = allHistory
-          ..urls = urls?.toJSArray((e) => e);
+  }) : _wrapped = $js.OnVisitRemovedRemoved(
+          allHistory: allHistory,
+          urls: urls?.toJSArray((e) => e),
+        );
 
   final $js.OnVisitRemovedRemoved _wrapped;
 
@@ -310,6 +324,34 @@ class SearchQuery {
   final $js.SearchQuery _wrapped;
 
   $js.SearchQuery get toJS => _wrapped;
+
+  /// A free-text query to the history service.  Leave empty to retrieve all
+  /// pages.
+  String get text => _wrapped.text;
+  set text(String v) {
+    _wrapped.text = v;
+  }
+
+  /// Limit results to those visited after this date, represented in
+  /// milliseconds since the epoch. If not specified, this defaults to 24 hours
+  /// in the past.
+  double? get startTime => _wrapped.startTime;
+  set startTime(double? v) {
+    _wrapped.startTime = v;
+  }
+
+  /// Limit results to those visited before this date, represented in
+  /// milliseconds since the epoch.
+  double? get endTime => _wrapped.endTime;
+  set endTime(double? v) {
+    _wrapped.endTime = v;
+  }
+
+  /// The maximum number of results to retrieve.  Defaults to 100.
+  int? get maxResults => _wrapped.maxResults;
+  set maxResults(int? v) {
+    _wrapped.maxResults = v;
+  }
 }
 
 class DeleteRangeRange {
@@ -331,4 +373,18 @@ class DeleteRangeRange {
   final $js.DeleteRangeRange _wrapped;
 
   $js.DeleteRangeRange get toJS => _wrapped;
+
+  /// Items added to history after this date, represented in milliseconds since
+  /// the epoch.
+  double get startTime => _wrapped.startTime;
+  set startTime(double v) {
+    _wrapped.startTime = v;
+  }
+
+  /// Items added to history before this date, represented in milliseconds since
+  /// the epoch.
+  double get endTime => _wrapped.endTime;
+  set endTime(double v) {
+    _wrapped.endTime = v;
+  }
 }

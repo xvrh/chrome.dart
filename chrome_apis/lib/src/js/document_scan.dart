@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -44,9 +49,27 @@ class ScanOptions {
   });
 }
 
+extension ScanOptionsExtension on ScanOptions {
+  /// The MIME types that are accepted by the caller.
+  external JSArray? mimeTypes;
+
+  /// The number of scanned images allowed (defaults to 1).
+  external int? maxImages;
+}
+
 @JS()
 @staticInterop
-class ScanResults {}
+@anonymous
+class ScanResults {
+  external factory ScanResults({
+    /// The data image URLs in a form that can be passed as the "src" value to
+    /// an image tag.
+    JSArray dataUrls,
+
+    /// The MIME type of `dataUrls`.
+    String mimeType,
+  });
+}
 
 extension ScanResultsExtension on ScanResults {
   /// The data image URLs in a form that can be passed as the "src" value to

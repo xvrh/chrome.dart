@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -73,7 +78,19 @@ typedef PrintCallback = JSFunction;
 
 @JS()
 @staticInterop
-class PrinterInfo {}
+@anonymous
+class PrinterInfo {
+  external factory PrinterInfo({
+    /// Unique printer ID.
+    String id,
+
+    /// Printer's human readable name.
+    String name,
+
+    /// Printer's human readable description.
+    String? description,
+  });
+}
 
 extension PrinterInfoExtension on PrinterInfo {
   /// Unique printer ID.
@@ -88,7 +105,29 @@ extension PrinterInfoExtension on PrinterInfo {
 
 @JS()
 @staticInterop
-class PrintJob {}
+@anonymous
+class PrintJob {
+  external factory PrintJob({
+    /// ID of the printer which should handle the job.
+    String printerId,
+
+    /// The print job title.
+    String title,
+
+    /// Print ticket in
+    /// <a href="https://developers.google.com/cloud-print/docs/cdd#cjt">
+    /// CJT format</a>.
+    JSAny ticket,
+
+    /// The document content type. Supported formats are
+    /// `"application/pdf"` and `"image/pwg-raster"`.
+    String contentType,
+
+    /// Blob containing the document data to print. Format must match
+    /// |contentType|.
+    JSObject document,
+  });
+}
 
 extension PrintJobExtension on PrintJob {
   /// ID of the printer which should handle the job.

@@ -1,6 +1,9 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
-import 'browser_action.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/action.dart' as $js;
 import 'src/js/browser_action.dart' as $js_browser_action;
@@ -81,7 +84,7 @@ class ChromeAction {
   }
 
   /// Gets the background color of the action.
-  Future<ColorArray> getBadgeBackgroundColor(TabDetails details) async {
+  Future<List<int>> getBadgeBackgroundColor(TabDetails details) async {
     var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeBackgroundColor(details.toJS));
     return $res.toDart.cast<int>().map((e) => e).toList();
@@ -94,7 +97,7 @@ class ChromeAction {
   }
 
   /// Gets the text color of the action.
-  Future<ColorArray> getBadgeTextColor(TabDetails details) async {
+  Future<List<int>> getBadgeTextColor(TabDetails details) async {
     var $res = await promiseToFuture<$js_browser_action.ColorArray>(
         $js.chrome.action.getBadgeTextColor(details.toJS));
     return $res.toDart.cast<int>().map((e) => e).toList();
@@ -136,9 +139,9 @@ class ChromeAction {
 
   /// Fired when an action icon is clicked.  This event will not fire if the
   /// action has a popup.
-  Stream<Tab> get onClicked =>
+  EventStream<Tab> get onClicked =>
       $js.chrome.action.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
-            $c(Tab.fromJS(tab));
+            return $c(Tab.fromJS(tab));
           });
 }
 
@@ -155,6 +158,13 @@ class TabDetails {
   final $js.TabDetails _wrapped;
 
   $js.TabDetails get toJS => _wrapped;
+
+  /// The ID of the tab to query state for. If no tab is specified, the
+  /// non-tab-specific state is returned.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class UserSettings {
@@ -166,7 +176,7 @@ class UserSettings {
       /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
       /// user).
       required bool isOnToolbar})
-      : _wrapped = $js.UserSettings()..isOnToolbar = isOnToolbar;
+      : _wrapped = $js.UserSettings(isOnToolbar: isOnToolbar);
 
   final $js.UserSettings _wrapped;
 
@@ -194,6 +204,13 @@ class OpenPopupOptions {
   final $js.OpenPopupOptions _wrapped;
 
   $js.OpenPopupOptions get toJS => _wrapped;
+
+  /// The id of the window to open the action popup in. Defaults to the
+  /// currently-active window if unspecified.
+  int? get windowId => _wrapped.windowId;
+  set windowId(int? v) {
+    _wrapped.windowId = v;
+  }
 }
 
 class SetTitleDetails {
@@ -214,6 +231,19 @@ class SetTitleDetails {
   final $js.SetTitleDetails _wrapped;
 
   $js.SetTitleDetails get toJS => _wrapped;
+
+  /// The string the action should display when moused over.
+  String get title => _wrapped.title;
+  set title(String v) {
+    _wrapped.title = v;
+  }
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class SetIconDetails {
@@ -245,16 +275,16 @@ class SetIconDetails {
     int? tabId,
   }) : _wrapped = $js.SetIconDetails(
           imageData: switch (imageData) {
-            ImageDataType() => imageData,
+            JSObject() => imageData,
             Map() => imageData.jsify()!,
-            Null() => null,
+            null => null,
             _ => throw UnsupportedError(
-                'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
+                'Received type: ${imageData.runtimeType}. Supported types are: JSObject, Map')
           },
           path: switch (path) {
             String() => path,
             Map() => path.jsify()!,
-            Null() => null,
+            null => null,
             _ => throw UnsupportedError(
                 'Received type: ${path.runtimeType}. Supported types are: String, Map')
           },
@@ -264,6 +294,56 @@ class SetIconDetails {
   final $js.SetIconDetails _wrapped;
 
   $js.SetIconDetails get toJS => _wrapped;
+
+  /// Either an ImageData object or a dictionary {size -> ImageData}
+  /// representing icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+  /// {'16': foo}'
+  Object? get imageData => _wrapped.imageData?.when(
+        isOther: (v) => (v as $js_browser_action.ImageDataType),
+        isMap: (v) => v.toDartMap(),
+      );
+  set imageData(Object? v) {
+    _wrapped.imageData = switch (v) {
+      JSObject() => v,
+      Map() => v.jsify()!,
+      null => null,
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: JSObject, Map')
+    };
+  }
+
+  /// Either a relative image path or a dictionary {size -> relative image path}
+  /// pointing to icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+  Object? get path => _wrapped.path?.when(
+        isString: (v) => v,
+        isMap: (v) => v.toDartMap(),
+      );
+  set path(Object? v) {
+    _wrapped.path = switch (v) {
+      String() => v,
+      Map() => v.jsify()!,
+      null => null,
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: String, Map')
+    };
+  }
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class SetPopupDetails {
@@ -285,6 +365,20 @@ class SetPopupDetails {
   final $js.SetPopupDetails _wrapped;
 
   $js.SetPopupDetails get toJS => _wrapped;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The relative path to the HTML file to show in a popup. If set to the empty
+  /// string (`''`), no popup is shown.
+  String get popup => _wrapped.popup;
+  set popup(String v) {
+    _wrapped.popup = v;
+  }
 }
 
 class SetBadgeTextDetails {
@@ -306,6 +400,20 @@ class SetBadgeTextDetails {
   final $js.SetBadgeTextDetails _wrapped;
 
   $js.SetBadgeTextDetails get toJS => _wrapped;
+
+  /// Any number of characters can be passed, but only about four can fit in the
+  /// space.
+  String get text => _wrapped.text;
+  set text(String v) {
+    _wrapped.text = v;
+  }
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class SetBadgeBackgroundColorDetails {
@@ -324,9 +432,9 @@ class SetBadgeBackgroundColorDetails {
   }) : _wrapped = $js.SetBadgeBackgroundColorDetails(
           color: switch (color) {
             String() => color,
-            ColorArray() => color.toJSArray((e) => e),
+            List<int>() => color.toJSArray((e) => e),
             _ => throw UnsupportedError(
-                'Received type: ${color.runtimeType}. Supported types are: String, ColorArray')
+                'Received type: ${color.runtimeType}. Supported types are: String, List<int>')
           },
           tabId: tabId,
         );
@@ -334,6 +442,33 @@ class SetBadgeBackgroundColorDetails {
   final $js.SetBadgeBackgroundColorDetails _wrapped;
 
   $js.SetBadgeBackgroundColorDetails get toJS => _wrapped;
+
+  /// An array of four integers in the range [0,255] that make up the RGBA color
+  /// of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can also be a
+  /// string with a CSS value, with opaque red being `#FF0000` or `#F00`.
+  Object get color => _wrapped.color.when(
+        isString: (v) => v,
+        isOther: (v) => (v as $js_browser_action.ColorArray)
+            .toDart
+            .cast<int>()
+            .map((e) => e)
+            .toList(),
+      );
+  set color(Object v) {
+    _wrapped.color = switch (v) {
+      String() => v,
+      List<int>() => v.toJSArray((e) => e),
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: String, List<int>')
+    };
+  }
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class SetBadgeTextColorDetails {
@@ -355,9 +490,9 @@ class SetBadgeTextColorDetails {
   }) : _wrapped = $js.SetBadgeTextColorDetails(
           color: switch (color) {
             String() => color,
-            ColorArray() => color.toJSArray((e) => e),
+            List<int>() => color.toJSArray((e) => e),
             _ => throw UnsupportedError(
-                'Received type: ${color.runtimeType}. Supported types are: String, ColorArray')
+                'Received type: ${color.runtimeType}. Supported types are: String, List<int>')
           },
           tabId: tabId,
         );
@@ -365,4 +500,35 @@ class SetBadgeTextColorDetails {
   final $js.SetBadgeTextColorDetails _wrapped;
 
   $js.SetBadgeTextColorDetails get toJS => _wrapped;
+
+  /// An array of four integers in the range [0,255] that make up the RGBA color
+  /// of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can also be a
+  /// string with a CSS value, with opaque red being `#FF0000` or `#F00`. Not
+  /// setting this value will cause a color to be automatically chosen that will
+  /// contrast with the badge's background color so the text will be visible.
+  /// Colors with alpha values equivalent to 0 will not be set and will return
+  /// an error.
+  Object get color => _wrapped.color.when(
+        isString: (v) => v,
+        isOther: (v) => (v as $js_browser_action.ColorArray)
+            .toDart
+            .cast<int>()
+            .map((e) => e)
+            .toList(),
+      );
+  set color(Object v) {
+    _wrapped.color = switch (v) {
+      String() => v,
+      List<int>() => v.toJSArray((e) => e),
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: String, List<int>')
+    };
+  }
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }

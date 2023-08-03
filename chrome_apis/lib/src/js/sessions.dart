@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -62,9 +67,31 @@ class Filter {
       int? maxResults});
 }
 
+extension FilterExtension on Filter {
+  /// The maximum number of entries to be fetched in the requested list. Omit
+  /// this parameter to fetch the maximum number of entries
+  /// ([sessions.MAX_SESSION_RESULTS]).
+  external int? maxResults;
+}
+
 @JS()
 @staticInterop
-class Session {}
+@anonymous
+class Session {
+  external factory Session({
+    /// The time when the window or tab was closed or modified, represented in
+    /// milliseconds since the epoch.
+    int lastModified,
+
+    /// The [tabs.Tab], if this entry describes a tab. Either this or
+    /// [sessions.Session.window] will be set.
+    Tab? tab,
+
+    /// The [windows.Window], if this entry describes a window. Either this or
+    /// [sessions.Session.tab] will be set.
+    Window? window,
+  });
+}
 
 extension SessionExtension on Session {
   /// The time when the window or tab was closed or modified, represented in
@@ -82,7 +109,19 @@ extension SessionExtension on Session {
 
 @JS()
 @staticInterop
-class Device {}
+@anonymous
+class Device {
+  external factory Device({
+    String info,
+
+    /// The name of the foreign device.
+    String deviceName,
+
+    /// A list of open window sessions for the foreign device, sorted from most
+    /// recently to least recently modified session.
+    JSArray sessions,
+  });
+}
 
 extension DeviceExtension on Device {
   external String info;

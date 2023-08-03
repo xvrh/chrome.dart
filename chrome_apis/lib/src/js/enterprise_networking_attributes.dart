@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -41,7 +46,19 @@ extension JSEnterpriseNetworkingAttributesExtension
 
 @JS()
 @staticInterop
-class NetworkDetails {}
+@anonymous
+class NetworkDetails {
+  external factory NetworkDetails({
+    /// The device's MAC address.
+    String macAddress,
+
+    /// The device's local IPv4 address (undefined if not configured).
+    String? ipv4,
+
+    /// The device's local IPv6 address (undefined if not configured).
+    String? ipv6,
+  });
+}
 
 extension NetworkDetailsExtension on NetworkDetails {
   /// The device's MAC address.

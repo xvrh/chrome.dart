@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -52,7 +57,25 @@ typedef EjectDeviceResultCode = String;
 
 @JS()
 @staticInterop
-class StorageUnitInfo {}
+@anonymous
+class StorageUnitInfo {
+  external factory StorageUnitInfo({
+    /// The transient ID that uniquely identifies the storage device.
+    /// This ID will be persistent within the same run of a single application.
+    /// It will not be a persistent identifier between different runs of an
+    /// application, or between different applications.
+    String id,
+
+    /// The name of the storage unit.
+    String name,
+
+    /// The media type of the storage unit.
+    StorageUnitType type,
+
+    /// The total amount of the storage space, in bytes.
+    double capacity,
+  });
+}
 
 extension StorageUnitInfoExtension on StorageUnitInfo {
   /// The transient ID that uniquely identifies the storage device.
@@ -73,7 +96,16 @@ extension StorageUnitInfoExtension on StorageUnitInfo {
 
 @JS()
 @staticInterop
-class StorageAvailableCapacityInfo {}
+@anonymous
+class StorageAvailableCapacityInfo {
+  external factory StorageAvailableCapacityInfo({
+    /// A copied |id| of getAvailableCapacity function parameter |id|.
+    String id,
+
+    /// The available capacity of the storage device, in bytes.
+    double availableCapacity,
+  });
+}
 
 extension StorageAvailableCapacityInfoExtension
     on StorageAvailableCapacityInfo {

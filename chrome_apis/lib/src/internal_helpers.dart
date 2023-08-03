@@ -57,7 +57,8 @@ extension JSChoiceExtension<T extends Object> on T {
     if (isInt != null && (this is num || instanceOfString(this, 'Number'))) {
       return isInt(this as int);
     }
-    if (isString != null && (this is String || instanceOfString(this, 'String'))) {
+    if (isString != null &&
+        (this is String || instanceOfString(this, 'String'))) {
       return isString(this as String);
     }
     if (isMap != null && isJavaScriptSimpleObject(this)) {
@@ -67,7 +68,7 @@ extension JSChoiceExtension<T extends Object> on T {
       return isOther(this);
     }
 
-    throw Exception('Unknown javascript object $this ${this.runtimeType}');
+    throw Exception('Unknown javascript object $this $runtimeType');
   }
 }
 
@@ -88,16 +89,17 @@ extension EventStreamExtension on js.Event {
     return controller.stream;
   }
 
-  Stream<T> asStream<T>(Function Function(void Function(dynamic)) callbackFactory) {
-    return _EventStream<T>(this, callbackFactory);
+  EventStream<T> asStream<T>(
+      Function Function(void Function(T)) callbackFactory) {
+    return EventStream<T>(this, callbackFactory);
   }
 }
 
-class _EventStream<T> extends Stream<T> {
+class EventStream<T> extends Stream<T> {
   final js.Event _target;
   final Function Function(void Function(T)) _callbackFactory;
 
-  _EventStream(this._target, this._callbackFactory);
+  EventStream(this._target, this._callbackFactory);
 
   @override
   Stream<T> asBroadcastStream(
@@ -110,7 +112,7 @@ class _EventStream<T> extends Stream<T> {
 
   @pragma('dart2js:tryInline')
   @override
-  StreamSubscription<T> listen(void Function(T)? onData,
+  StreamSubscription<T> listen(dynamic Function(T)? onData,
           {Function? onError, void Function()? onDone, bool? cancelOnError}) =>
       _EventStreamSubscription<T>(this._target, onData, _callbackFactory);
 }
@@ -118,17 +120,17 @@ class _EventStream<T> extends Stream<T> {
 class _EventStreamSubscription<T> implements StreamSubscription<T> {
   int _pauseCount = 0;
   js.Event? _target;
-  void Function(T)? _onData;
+  dynamic Function(T)? _onData;
   late final Function _callback;
 
   _EventStreamSubscription(this._target, this._onData,
-      Function Function(void Function(T)) callbackFactory) {
+      Function Function(dynamic Function(T)) callbackFactory) {
     _callback = allowInterop(callbackFactory(_wrapZone(_addData)));
     _tryResume();
   }
 
-  void _addData(T data) {
-    _onData?.call(data);
+  dynamic _addData(T data) {
+    return _onData?.call(data);
   }
 
   @override
@@ -200,8 +202,8 @@ class _EventStreamSubscription<T> implements StreamSubscription<T> {
       Completer<E>().future;
 }
 
-void Function(T) _wrapZone<T>(void Function(T) callback) {
+R Function(T) _wrapZone<T, R>(R Function(T) callback) {
   // For performance reasons avoid wrapping if we are in the root zone.
   if (Zone.current == Zone.root) return callback;
-  return Zone.current.bindUnaryCallbackGuarded(callback);
+  return Zone.current.bindUnaryCallback(callback);
 }

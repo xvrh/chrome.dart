@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -84,13 +88,13 @@ class ChromeDebugger {
   }
 
   /// Fired whenever debugging target issues instrumentation event.
-  Stream<OnEventEvent> get onEvent =>
+  EventStream<OnEventEvent> get onEvent =>
       $js.chrome.debugger.onEvent.asStream(($c) => (
             $js.Debuggee source,
             String method,
             JSAny? params,
           ) {
-            $c(OnEventEvent(
+            return $c(OnEventEvent(
               source: Debuggee.fromJS(source),
               method: method,
               params: params?.toDartMap(),
@@ -100,12 +104,12 @@ class ChromeDebugger {
   /// Fired when browser terminates debugging session for the tab. This happens
   /// when either the tab is being closed or Chrome DevTools is being invoked
   /// for the attached tab.
-  Stream<OnDetachEvent> get onDetach =>
+  EventStream<OnDetachEvent> get onDetach =>
       $js.chrome.debugger.onDetach.asStream(($c) => (
             $js.Debuggee source,
             $js.DetachReason reason,
           ) {
-            $c(OnDetachEvent(
+            return $c(OnDetachEvent(
               source: Debuggee.fromJS(source),
               reason: DetachReason.fromJS(reason),
             ));
@@ -165,6 +169,26 @@ class Debuggee {
   final $js.Debuggee _wrapped;
 
   $js.Debuggee get toJS => _wrapped;
+
+  /// The id of the tab which you intend to debug.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The id of the extension which you intend to debug. Attaching to an
+  /// extension background page is only possible when the
+  /// `--silent-debugger-extension-api` command-line switch is used.
+  String? get extensionId => _wrapped.extensionId;
+  set extensionId(String? v) {
+    _wrapped.extensionId = v;
+  }
+
+  /// The opaque id of the debug target.
+  String? get targetId => _wrapped.targetId;
+  set targetId(String? v) {
+    _wrapped.targetId = v;
+  }
 }
 
 class TargetInfo {
@@ -194,15 +218,16 @@ class TargetInfo {
 
     /// Target favicon URL.
     String? faviconUrl,
-  }) : _wrapped = $js.TargetInfo()
-          ..type = type.toJS
-          ..id = id
-          ..tabId = tabId
-          ..extensionId = extensionId
-          ..attached = attached
-          ..title = title
-          ..url = url
-          ..faviconUrl = faviconUrl;
+  }) : _wrapped = $js.TargetInfo(
+          type: type.toJS,
+          id: id,
+          tabId: tabId,
+          extensionId: extensionId,
+          attached: attached,
+          title: title,
+          url: url,
+          faviconUrl: faviconUrl,
+        );
 
   final $js.TargetInfo _wrapped;
 

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -66,9 +70,9 @@ class ChromeInstanceId {
   }
 
   /// Fired when all the granted tokens need to be refreshed.
-  Stream<void> get onTokenRefresh =>
+  EventStream<void> get onTokenRefresh =>
       $js.chrome.instanceId.onTokenRefresh.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -97,6 +101,28 @@ class GetTokenParams {
   final $js.GetTokenParams _wrapped;
 
   $js.GetTokenParams get toJS => _wrapped;
+
+  /// Identifies the entity that is authorized to access resources associated
+  /// with this Instance ID. It can be a project ID from [Google developer
+  /// console](https://code.google.com/apis/console).
+  String get authorizedEntity => _wrapped.authorizedEntity;
+  set authorizedEntity(String v) {
+    _wrapped.authorizedEntity = v;
+  }
+
+  /// Identifies authorized actions that the authorized entity can take. E.g.
+  /// for sending GCM messages, `GCM` scope should be used.
+  String get scope => _wrapped.scope;
+  set scope(String v) {
+    _wrapped.scope = v;
+  }
+
+  /// Allows including a small number of string key/value pairs that will be
+  /// associated with the token and may be used in processing the request.
+  Map? get options => _wrapped.options?.toDartMap();
+  set options(Map? v) {
+    _wrapped.options = v?.jsify();
+  }
 }
 
 class DeleteTokenParams {
@@ -116,4 +142,16 @@ class DeleteTokenParams {
   final $js.DeleteTokenParams _wrapped;
 
   $js.DeleteTokenParams get toJS => _wrapped;
+
+  /// The authorized entity that is used to obtain the token.
+  String get authorizedEntity => _wrapped.authorizedEntity;
+  set authorizedEntity(String v) {
+    _wrapped.authorizedEntity = v;
+  }
+
+  /// The scope that is used to obtain the token.
+  String get scope => _wrapped.scope;
+  set scope(String v) {
+    _wrapped.scope = v;
+  }
 }

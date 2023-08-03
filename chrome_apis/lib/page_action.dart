@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -72,9 +76,9 @@ class ChromePageAction {
 
   /// Fired when a page action icon is clicked.  This event will not fire if the
   /// page action has a popup.
-  Stream<Tab> get onClicked =>
+  EventStream<Tab> get onClicked =>
       $js.chrome.pageAction.onClicked.asStream(($c) => ($js_tabs.Tab tab) {
-            $c(Tab.fromJS(tab));
+            return $c(Tab.fromJS(tab));
           });
 }
 
@@ -95,6 +99,13 @@ class TabDetails {
   final $js.TabDetails _wrapped;
 
   $js.TabDetails get toJS => _wrapped;
+
+  /// The ID of the tab to query state for. If no tab is specified, the
+  /// non-tab-specific state is returned.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class SetTitleDetails {
@@ -114,6 +125,18 @@ class SetTitleDetails {
   final $js.SetTitleDetails _wrapped;
 
   $js.SetTitleDetails get toJS => _wrapped;
+
+  /// The id of the tab for which you want to modify the page action.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The tooltip string.
+  String get title => _wrapped.title;
+  set title(String v) {
+    _wrapped.title = v;
+  }
 }
 
 class SetIconDetails {
@@ -148,16 +171,16 @@ class SetIconDetails {
   }) : _wrapped = $js.SetIconDetails(
           tabId: tabId,
           imageData: switch (imageData) {
-            ImageDataType() => imageData,
+            JSObject() => imageData,
             Map() => imageData.jsify()!,
-            Null() => null,
+            null => null,
             _ => throw UnsupportedError(
-                'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
+                'Received type: ${imageData.runtimeType}. Supported types are: JSObject, Map')
           },
           path: switch (path) {
             String() => path,
             Map() => path.jsify()!,
-            Null() => null,
+            null => null,
             _ => throw UnsupportedError(
                 'Received type: ${path.runtimeType}. Supported types are: String, Map')
           },
@@ -167,6 +190,61 @@ class SetIconDetails {
   final $js.SetIconDetails _wrapped;
 
   $js.SetIconDetails get toJS => _wrapped;
+
+  /// The id of the tab for which you want to modify the page action.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
+
+  /// Either an ImageData object or a dictionary {size -> ImageData}
+  /// representing icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+  /// {'16': foo}'
+  Object? get imageData => _wrapped.imageData?.when(
+        isOther: (v) => (v as $js.ImageDataType),
+        isMap: (v) => v.toDartMap(),
+      );
+  set imageData(Object? v) {
+    _wrapped.imageData = switch (v) {
+      JSObject() => v,
+      Map() => v.jsify()!,
+      null => null,
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: JSObject, Map')
+    };
+  }
+
+  /// Either a relative image path or a dictionary {size -> relative image path}
+  /// pointing to icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+  Object? get path => _wrapped.path?.when(
+        isString: (v) => v,
+        isMap: (v) => v.toDartMap(),
+      );
+  set path(Object? v) {
+    _wrapped.path = switch (v) {
+      String() => v,
+      Map() => v.jsify()!,
+      null => null,
+      _ => throw UnsupportedError(
+          'Received type: ${v.runtimeType}. Supported types are: String, Map')
+    };
+  }
+
+  /// **Deprecated.** This argument is ignored.
+  int? get iconIndex => _wrapped.iconIndex;
+  set iconIndex(int? v) {
+    _wrapped.iconIndex = v;
+  }
 }
 
 class SetPopupDetails {
@@ -187,4 +265,17 @@ class SetPopupDetails {
   final $js.SetPopupDetails _wrapped;
 
   $js.SetPopupDetails get toJS => _wrapped;
+
+  /// The id of the tab for which you want to modify the page action.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The relative path to the HTML file to show in a popup. If set to the empty
+  /// string (`''`), no popup is shown.
+  String get popup => _wrapped.popup;
+  set popup(String v) {
+    _wrapped.popup = v;
+  }
 }

@@ -1,12 +1,8 @@
-library test_chrome_idl_files;
-
 import 'dart:io';
-import 'dart:mirrors';
 
 import 'package:chrome_extension_generator/src/chrome_type.dart';
-import 'package:chrome_extension_generator/src/idl_model.dart';
+import 'package:chrome_extension_generator/src/idl_convert.dart';
 import 'package:chrome_extension_generator/src/idl_parser.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 void main() {
@@ -25,7 +21,7 @@ void main() {
         var namespace =
             chromeIDLParser.namespaceDeclaration.parse(webIdl).value;
         var context = Context();
-        // /*ChromeLibrary chromeLibrary =*/ convert(context, namespace);
+        IdlModelConverter(context, namespace);
       });
     }
   });

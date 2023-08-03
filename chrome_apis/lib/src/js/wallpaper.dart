@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -52,4 +57,22 @@ class SetWallpaperDetails {
     /// supported yet.
     bool? thumbnail,
   });
+}
+
+extension SetWallpaperDetailsExtension on SetWallpaperDetails {
+  /// The jpeg or png encoded wallpaper image as an ArrayBuffer.
+  external JSArrayBuffer? data;
+
+  /// The URL of the wallpaper to be set (can be relative).
+  external String? url;
+
+  /// The supported wallpaper layouts.
+  external WallpaperLayout layout;
+
+  /// The file name of the saved wallpaper.
+  external String filename;
+
+  /// True if a 128x60 thumbnail should be generated. Layout and ratio are not
+  /// supported yet.
+  external bool? thumbnail;
 }

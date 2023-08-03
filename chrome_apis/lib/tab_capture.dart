@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/tab_capture.dart' as $js;
 
@@ -88,10 +92,10 @@ class ChromeTabCapture {
   /// This allows extension authors to keep track of the capture status of
   /// tabs to keep UI elements like page actions in sync.
   /// |info| : CaptureInfo with new capture status for the tab.
-  Stream<CaptureInfo> get onStatusChanged =>
+  EventStream<CaptureInfo> get onStatusChanged =>
       $js.chrome.tabCapture.onStatusChanged
           .asStream(($c) => ($js.CaptureInfo info) {
-                $c(CaptureInfo.fromJS(info));
+                return $c(CaptureInfo.fromJS(info));
               });
 }
 
@@ -122,10 +126,11 @@ class CaptureInfo {
 
     /// Whether an element in the tab being captured is in fullscreen mode.
     required bool fullscreen,
-  }) : _wrapped = $js.CaptureInfo()
-          ..tabId = tabId
-          ..status = status.toJS
-          ..fullscreen = fullscreen;
+  }) : _wrapped = $js.CaptureInfo(
+          tabId: tabId,
+          status: status.toJS,
+          fullscreen: fullscreen,
+        );
 
   final $js.CaptureInfo _wrapped;
 
@@ -159,6 +164,11 @@ class MediaStreamConstraint {
   final $js.MediaStreamConstraint _wrapped;
 
   $js.MediaStreamConstraint get toJS => _wrapped;
+
+  Map get mandatory => _wrapped.mandatory.toDartMap();
+  set mandatory(Map v) {
+    _wrapped.mandatory = v.jsify()!;
+  }
 }
 
 class CaptureOptions {
@@ -181,6 +191,33 @@ class CaptureOptions {
   final $js.CaptureOptions _wrapped;
 
   $js.CaptureOptions get toJS => _wrapped;
+
+  bool? get audio => _wrapped.audio;
+  set audio(bool? v) {
+    _wrapped.audio = v;
+  }
+
+  bool? get video => _wrapped.video;
+  set video(bool? v) {
+    _wrapped.video = v;
+  }
+
+  MediaStreamConstraint? get audioConstraints =>
+      _wrapped.audioConstraints?.let(MediaStreamConstraint.fromJS);
+  set audioConstraints(MediaStreamConstraint? v) {
+    _wrapped.audioConstraints = v?.toJS;
+  }
+
+  MediaStreamConstraint? get videoConstraints =>
+      _wrapped.videoConstraints?.let(MediaStreamConstraint.fromJS);
+  set videoConstraints(MediaStreamConstraint? v) {
+    _wrapped.videoConstraints = v?.toJS;
+  }
+
+  String? get presentationId => _wrapped.presentationId;
+  set presentationId(String? v) {
+    _wrapped.presentationId = v;
+  }
 }
 
 class GetMediaStreamOptions {
@@ -208,4 +245,24 @@ class GetMediaStreamOptions {
   final $js.GetMediaStreamOptions _wrapped;
 
   $js.GetMediaStreamOptions get toJS => _wrapped;
+
+  /// Optional tab id of the tab which will later invoke
+  /// `getUserMedia()` to consume the stream. If not specified
+  /// then the resulting stream can be used only by the calling extension.
+  /// The stream can only be used by frames in the given tab whose security
+  /// origin matches the consumber tab's origin. The tab's origin must be a
+  /// secure origin, e.g. HTTPS.
+  int? get consumerTabId => _wrapped.consumerTabId;
+  set consumerTabId(int? v) {
+    _wrapped.consumerTabId = v;
+  }
+
+  /// Optional tab id of the tab which will be captured. If not specified
+  /// then the current active tab will be selected. Only tabs for which the
+  /// extension has been granted the `activeTab` permission can be
+  /// used as the target tab.
+  int? get targetTabId => _wrapped.targetTabId;
+  set targetTabId(int? v) {
+    _wrapped.targetTabId = v;
+  }
 }

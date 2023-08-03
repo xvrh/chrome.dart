@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -268,7 +273,28 @@ typedef ContextType = String;
 
 @JS()
 @staticInterop
-class Port {}
+@anonymous
+class Port {
+  external factory Port({
+    /// The name of the port, as specified in the call to [runtime.connect].
+    String name,
+
+    /// Immediately disconnect the port. Calling `disconnect()` on an
+    /// already-disconnected port has no effect. When a port is disconnected, no
+    /// new events will be dispatched to this port.
+    Function disconnect,
+
+    /// Send a message to the other end of the port. If the port is disconnected,
+    /// an error is thrown.
+    Function postMessage,
+
+    /// This property will **only** be present on ports passed to
+    /// $(ref:runtime.onConnect onConnect) / $(ref:runtime.onConnectExternal
+    /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
+    /// listeners.
+    MessageSender? sender,
+  });
+}
 
 extension PortExtension on Port {
   /// The name of the port, as specified in the call to [runtime.connect].
@@ -303,7 +329,57 @@ extension PortExtension on Port {
 
 @JS()
 @staticInterop
-class MessageSender {}
+@anonymous
+class MessageSender {
+  external factory MessageSender({
+    /// The [tabs.Tab] which opened the connection, if any. This property will
+    /// *only* be present when the connection was opened from a tab (including
+    /// content scripts), and *only* if the receiver is an extension, not an app.
+    Tab? tab,
+
+    /// The [frame](webNavigation#frame_ids) that opened the connection. 0 for
+    /// top-level frames, positive for child frames. This will only be set when
+    /// `tab` is set.
+    int? frameId,
+
+    /// The guest process id of the requesting webview, if available. Only
+    /// available for component extensions.
+    int? guestProcessId,
+
+    /// The guest render frame routing id of the requesting webview, if available.
+    /// Only available for component extensions.
+    int? guestRenderFrameRoutingId,
+
+    /// The ID of the extension or app that opened the connection, if any.
+    String? id,
+
+    /// The URL of the page or frame that opened the connection. If the sender is
+    /// in an iframe, it will be iframe's URL not the URL of the page which hosts
+    /// it.
+    String? url,
+
+    /// The name of the native application that opened the connection, if any.
+    String? nativeApplication,
+
+    /// The TLS channel ID of the page or frame that opened the connection, if
+    /// requested by the extension or app, and if available.
+    String? tlsChannelId,
+
+    /// The origin of the page or frame that opened the connection. It can vary
+    /// from the url property (e.g., about:blank) or can be opaque (e.g.,
+    /// sandboxed iframes). This is useful for identifying if the origin can be
+    /// trusted if we can't immediately tell from the URL.
+    String? origin,
+
+    /// A UUID of the document that opened the connection.
+    String? documentId,
+
+    /// The lifecycle the document that opened the connection is in at the time
+    /// the port was created. Note that the lifecycle state of the document may
+    /// have changed since port creation.
+    String? documentLifecycle,
+  });
+}
 
 extension MessageSenderExtension on MessageSender {
   /// The [tabs.Tab] which opened the connection, if any. This property will
@@ -356,7 +432,20 @@ extension MessageSenderExtension on MessageSender {
 
 @JS()
 @staticInterop
-class PlatformInfo {}
+@anonymous
+class PlatformInfo {
+  external factory PlatformInfo({
+    /// The operating system Chrome is running on.
+    PlatformOs os,
+
+    /// The machine's processor architecture.
+    PlatformArch arch,
+
+    /// The native client architecture. This may be different from arch on some
+    /// platforms.
+    PlatformNaclArch nacl_arch,
+  });
+}
 
 extension PlatformInfoExtension on PlatformInfo {
   /// The operating system Chrome is running on.
@@ -372,7 +461,43 @@ extension PlatformInfoExtension on PlatformInfo {
 
 @JS()
 @staticInterop
-class ExtensionContext {}
+@anonymous
+class ExtensionContext {
+  external factory ExtensionContext({
+    /// The type of context this corresponds to.
+    ContextType contextType,
+
+    /// A unique identifier for this context
+    String contextId,
+
+    /// The ID of the tab for this context, or -1 if this context is not hosted in
+    /// a tab.
+    int tabId,
+
+    /// The ID of the window for this context, or -1 if this context is not hosted
+    /// in a window.
+    int windowId,
+
+    /// A UUID for the document associated with this context, or undefined if this
+    /// context is hosted not in a document.
+    String? documentId,
+
+    /// The ID of the frame for this context, or -1 if this context is not hosted
+    /// in a frame.
+    int frameId,
+
+    /// The URL of the document associated with this context, or undefined if the
+    /// context is not hosted in a document.
+    String? documentUrl,
+
+    /// The origin of the document associated with this context, or undefined if
+    /// the context is not hosted in a document.
+    String? documentOrigin,
+
+    /// Whether the context is associated with an incognito profile.
+    bool incognito,
+  });
+}
 
 extension ExtensionContextExtension on ExtensionContext {
   /// The type of context this corresponds to.
@@ -426,9 +551,43 @@ class ContextFilter {
   });
 }
 
+extension ContextFilterExtension on ContextFilter {
+  external JSArray? contextTypes;
+
+  external JSArray? contextIds;
+
+  external JSArray? tabIds;
+
+  external JSArray? windowIds;
+
+  external JSArray? documentIds;
+
+  external JSArray? frameIds;
+
+  external JSArray? documentUrls;
+
+  external JSArray? documentOrigins;
+
+  external bool? incognito;
+}
+
 @JS()
 @staticInterop
-class OnInstalledDetails {}
+@anonymous
+class OnInstalledDetails {
+  external factory OnInstalledDetails({
+    /// The reason that this event is being dispatched.
+    OnInstalledReason reason,
+
+    /// Indicates the previous version of the extension, which has just been
+    /// updated. This is present only if 'reason' is 'update'.
+    String? previousVersion,
+
+    /// Indicates the ID of the imported shared module extension which updated.
+    /// This is present only if 'reason' is 'shared_module_update'.
+    String? id,
+  });
+}
 
 extension OnInstalledDetailsExtension on OnInstalledDetails {
   /// The reason that this event is being dispatched.
@@ -445,7 +604,13 @@ extension OnInstalledDetailsExtension on OnInstalledDetails {
 
 @JS()
 @staticInterop
-class OnUpdateAvailableDetails {}
+@anonymous
+class OnUpdateAvailableDetails {
+  external factory OnUpdateAvailableDetails(
+      {
+      /// The version number of the available update.
+      String version});
+}
 
 extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
   /// The version number of the available update.
@@ -454,7 +619,17 @@ extension OnUpdateAvailableDetailsExtension on OnUpdateAvailableDetails {
 
 @JS()
 @staticInterop
-class RequestUpdateCheckCallbackResult {}
+@anonymous
+class RequestUpdateCheckCallbackResult {
+  external factory RequestUpdateCheckCallbackResult({
+    /// Result of the update check.
+    RequestUpdateCheckStatus status,
+
+    /// If an update is available, this contains the version of the available
+    /// update.
+    String? version,
+  });
+}
 
 extension RequestUpdateCheckCallbackResultExtension
     on RequestUpdateCheckCallbackResult {
@@ -481,6 +656,16 @@ class ConnectInfo {
   });
 }
 
+extension ConnectInfoExtension on ConnectInfo {
+  /// Will be passed into onConnect for processes that are listening for the
+  /// connection event.
+  external String? name;
+
+  /// Whether the TLS channel ID will be passed into onConnectExternal for
+  /// processes that are listening for the connection event.
+  external bool? includeTlsChannelId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -492,9 +677,21 @@ class SendMessageOptions {
       bool? includeTlsChannelId});
 }
 
+extension SendMessageOptionsExtension on SendMessageOptions {
+  /// Whether the TLS channel ID will be passed into onMessageExternal for
+  /// processes that are listening for the connection event.
+  external bool? includeTlsChannelId;
+}
+
 @JS()
 @staticInterop
-class RuntimeLastError {}
+@anonymous
+class RuntimeLastError {
+  external factory RuntimeLastError(
+      {
+      /// Details about the error which occurred.
+      String? message});
+}
 
 extension RuntimeLastErrorExtension on RuntimeLastError {
   /// Details about the error which occurred.

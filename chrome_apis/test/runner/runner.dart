@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf;
-import 'package:shelf_router/shelf_router.dart' as shelf;
 import 'package:puppeteer/puppeteer.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -81,6 +86,15 @@ class MatchClassification {
   });
 }
 
+extension MatchClassificationExtension on MatchClassification {
+  external int offset;
+
+  /// The style type
+  external DescriptionStyleType type;
+
+  external int? length;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -108,6 +122,28 @@ class SuggestResult {
   });
 }
 
+extension SuggestResultExtension on SuggestResult {
+  /// The text that is put into the URL bar, and that is sent to the extension
+  /// when the user chooses this entry.
+  external String content;
+
+  /// The text that is displayed in the URL dropdown. Can contain XML-style
+  /// markup for styling. The supported tags are 'url' (for a literal URL),
+  /// 'match' (for highlighting text that matched what the user's query), and
+  /// 'dim' (for dim helper text). The styles can be nested, eg.
+  /// <dim><match>dimmed match</match></dim>. You must escape the five
+  /// predefined entities to display them as text:
+  /// stackoverflow.com/a/1091953/89484
+  external String description;
+
+  /// Whether the suggest result can be deleted by the user.
+  external bool? deletable;
+
+  /// An array of style ranges for the description, as provided by the
+  /// extension.
+  external JSArray? descriptionStyles;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -124,4 +160,17 @@ class DefaultSuggestResult {
     /// extension.
     JSArray? descriptionStyles,
   });
+}
+
+extension DefaultSuggestResultExtension on DefaultSuggestResult {
+  /// The text that is displayed in the URL dropdown. Can contain XML-style
+  /// markup for styling. The supported tags are 'url' (for a literal URL),
+  /// 'match' (for highlighting text that matched what the user's query), and
+  /// 'dim' (for dim helper text). The styles can be nested, eg.
+  /// <dim><match>dimmed match</match></dim>.
+  external String description;
+
+  /// An array of style ranges for the description, as provided by the
+  /// extension.
+  external JSArray? descriptionStyles;
 }

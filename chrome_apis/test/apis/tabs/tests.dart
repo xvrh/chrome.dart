@@ -104,8 +104,8 @@ void _tests(TestContext context) {
   });
 
   test('highlight', () async {
-    var highlightInfo = new HighlightInfo(
-        windowId: window.id, tabs: [window.tabs!.first.index]);
+    var highlightInfo =
+        HighlightInfo(windowId: window.id, tabs: [window.tabs!.first.index]);
     var newWindow = await chrome.tabs.highlight(highlightInfo);
     expect(newWindow.id, window.id);
     expect(newWindow.tabs!.first.highlighted, isTrue);
@@ -190,7 +190,7 @@ void _tests(TestContext context) {
       subscription.cancel();
     }));
 
-    var createProperties = new CreateProperties(windowId: window.id);
+    var createProperties = CreateProperties(windowId: window.id);
     await chrome.tabs.create(createProperties);
   });
 

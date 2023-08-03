@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -38,9 +42,10 @@ class MostVisitedURL {
 
     /// The title of the page
     required String title,
-  }) : _wrapped = $js.MostVisitedURL()
-          ..url = url
-          ..title = title;
+  }) : _wrapped = $js.MostVisitedURL(
+          url: url,
+          title: title,
+        );
 
   final $js.MostVisitedURL _wrapped;
 

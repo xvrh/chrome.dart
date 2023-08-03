@@ -57,9 +57,6 @@ sealed class ChromeType {
   String get questionMark => isNullable ? '?' : '';
 
   ChromeType copyWith({required bool isNullable});
-
-  // TODO: replace by a visitor
-  Iterable<ChromeType> get children;
 }
 
 class LazyType extends ChromeType {
@@ -77,12 +74,6 @@ class LazyType extends ChromeType {
     required bool isNullable,
   }) : super(isNullable: isNullable) {
     context._lazyTypes.add(this);
-  }
-
-  @override
-  Iterable<ChromeType> get children sync* {
-    yield _resolved!;
-    yield* _resolved!.children;
   }
 
   @override
@@ -135,7 +126,7 @@ class LazyType extends ChromeType {
     ChromeType? tryParse(String input) {
       if (input == 'object') return MapType(isNullable: isNullable);
       return _WebType.tryParse(input, isNullable: isNullable) ??
-          JSFunctionType.tryParse(input, isNullable: isNullable) ??
+          DynamicFunctionType.tryParse(input, isNullable: isNullable) ??
           _AnyType.tryParse(input, isNullable: isNullable) ??
           _VariousType.tryParse(input, isNullable: isNullable);
     }
@@ -212,9 +203,6 @@ sealed class _PrimitiveType extends ChromeType {
   code.Expression toJS(code.Expression accessor) {
     return accessor;
   }
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class _StringType extends _PrimitiveType {
@@ -292,9 +280,6 @@ class _ArrayBufferType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       _ArrayBufferType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class _WebType extends ChromeType {
@@ -334,9 +319,6 @@ class _WebType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       _WebType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class _VariousType extends ChromeType {
@@ -374,9 +356,6 @@ class _VariousType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       _VariousType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class _AnyType extends ChromeType {
@@ -422,9 +401,6 @@ class _AnyType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       _AnyType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class MapType extends ChromeType {
@@ -456,76 +432,6 @@ class MapType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       MapType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
-}
-
-//TODO: delete this class and replace with FunctionType and correct parameters?
-var b = "";
-
-class JSFunctionType extends ChromeType {
-  JSFunctionType({required super.isNullable});
-
-  static ChromeType? tryParse(String input, {required bool isNullable}) {
-    if (const {
-      'function',
-    }.contains(input)) {
-      return JSFunctionType(isNullable: isNullable);
-    }
-    return null;
-  }
-
-  static final _parameterCount = 2;
-  final _allParameters =
-      List.generate(_parameterCount, (i) => 'Object? p${i + 1}').join(', ');
-
-  @override
-  code.Reference get dartType => code.TypeReference((b) => b
-    ..symbol = 'Function'
-    ..isNullable = isNullable);
-
-  @override
-  code.Reference get jsType => code.TypeReference((b) => b
-    ..symbol = 'Function'
-    ..isNullable = isNullable);
-
-  @override
-  code.Expression toDart(code.Expression accessor) {
-    return code.CodeExpression(code.Code.scope((allocate) {
-      var emit = _createEmit(allocate);
-
-      var jsParameters =
-          List.generate(_parameterCount, (_) => 'JSAny?').join(',');
-      var castedAccessor =
-          '${emit(accessor)} as JSAny? Function($jsParameters)';
-      var forwardedParameters =
-          List.generate(_parameterCount, (i) => 'p${i + 1}?.jsify()')
-              .join(', ');
-      return '''
-([$_allParameters]) {
-  return ($castedAccessor)($forwardedParameters)?.dartify();
-}   
-''';
-    }));
-  }
-
-  @override
-  code.Expression toJS(code.Expression accessor) {
-    var allowInterop = code.refer('allowInterop', 'dart:js_util');
-    if (!isNullable) {
-      return allowInterop.call([accessor]);
-    } else {
-      return accessor.nullSafeProperty('let').call([allowInterop]);
-    }
-  }
-
-  @override
-  ChromeType copyWith({required bool isNullable}) =>
-      JSFunctionType(isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 abstract class _LocalType extends ChromeType {
@@ -571,9 +477,6 @@ abstract class _LocalType extends ChromeType {
   code.Expression toJS(code.Expression accessor) {
     return accessor.nullSafePropertyIf('toJS', isNullable);
   }
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 class DictionaryType extends _LocalType {
@@ -646,12 +549,6 @@ class ListType extends ChromeType {
         ..body = item.toJS(code.refer('e')).code).closure
     ]);
   }
-
-  @override
-  Iterable<ChromeType> get children sync* {
-    yield item;
-    yield* item.children;
-  }
 }
 
 class AliasedType extends ChromeType {
@@ -691,27 +588,74 @@ class AliasedType extends ChromeType {
   }
 
   @override
-  code.Reference get dartType {
-    var originalType = original.jsType;
-    if (originalType is code.TypeReference) {
-      return originalType.rebuild((b) => b
-        ..symbol = alias
-        ..url = url);
-    }
-    return originalType;
-  }
+  code.Reference get dartType => original.dartType;
 
   @override
   code.Expression toDart(code.Expression accessor) => original.toDart(accessor);
 
   @override
   code.Expression toJS(code.Expression accessor) => original.toJS(accessor);
+}
+
+class DynamicFunctionType extends ChromeType {
+  DynamicFunctionType({required super.isNullable});
+
+  static ChromeType? tryParse(String input, {required bool isNullable}) {
+    if (const {
+      'function',
+    }.contains(input)) {
+      return DynamicFunctionType(isNullable: isNullable);
+    }
+    return null;
+  }
+
+  static final _parameterCount = 2;
+  final _allParameters =
+      List.generate(_parameterCount, (i) => 'Object? p${i + 1}').join(', ');
 
   @override
-  Iterable<ChromeType> get children sync* {
-    yield original;
-    yield* original.children;
+  code.Reference get dartType => code.TypeReference((b) => b
+    ..symbol = 'Function'
+    ..isNullable = isNullable);
+
+  @override
+  code.Reference get jsType => code.TypeReference((b) => b
+    ..symbol = 'Function'
+    ..isNullable = isNullable);
+
+  @override
+  code.Expression toDart(code.Expression accessor) {
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emit = _createEmit(allocate);
+
+      var jsParameters =
+          List.generate(_parameterCount, (_) => 'JSAny?').join(',');
+      var castedAccessor =
+          '${emit(accessor)} as JSAny? Function($jsParameters)$questionMark';
+      var forwardedParameters =
+          List.generate(_parameterCount, (i) => 'p${i + 1}?.jsify()')
+              .join(', ');
+      return '''
+([$_allParameters]) {
+  return ($castedAccessor)${isNullable ? '?.call' : ''}($forwardedParameters)?.dartify();
+}   
+''';
+    }));
   }
+
+  @override
+  code.Expression toJS(code.Expression accessor) {
+    var allowInterop = code.refer('allowInterop', 'dart:js_util');
+    if (!isNullable) {
+      return allowInterop.call([accessor]);
+    } else {
+      return accessor.nullSafeProperty('let').call([allowInterop]);
+    }
+  }
+
+  @override
+  ChromeType copyWith({required bool isNullable}) =>
+      DynamicFunctionType(isNullable: isNullable);
 }
 
 class FunctionType extends ChromeType {
@@ -730,15 +674,6 @@ class FunctionType extends ChromeType {
     ..symbol = 'JSFunction'
     ..isNullable = isNullable);
 
-  /*@override
-  code.Reference get jsType {
-    return code.FunctionType((b) => b
-      ..returnType = returns?.jsType ?? code.refer('void')
-      ..requiredParameters
-          .addAll(positionalParameters.map((p) => p.type.jsType))
-      ..isNullable = isNullable);
-  }*/
-
   @override
   code.Reference get dartType {
     return code.FunctionType((b) => b
@@ -756,17 +691,19 @@ class FunctionType extends ChromeType {
       var buffer = StringBuffer();
       var dartParameters = <String>[
         for (var param in positionalParameters)
-          '${emit(param.type.dartType)} ${param.name}',
+          '${emit(param.type.dartType)} ${param.dartName}',
       ];
       var forwardParameter = <String>[
         for (var param in positionalParameters)
-          emit(param.type.toJS(code.refer(param.name))),
+          emit(param.type.toJS(code.refer(param.dartName))),
       ];
 
       var returnKeyword = returns != null ? 'return' : '';
       buffer.writeln('(${dartParameters.join(',')}) {');
+      //TODO: find a proper way
+      buffer.writeln('  //ignore: avoid_dynamic_calls');
       buffer.writeln(
-          '$returnKeyword ${emit(accessor)}(${forwardParameter.join(',')});');
+          '$returnKeyword (${emit(accessor)} as Function)(${forwardParameter.join(',')});');
       buffer.writeln('}');
 
       return '$buffer';
@@ -781,11 +718,11 @@ class FunctionType extends ChromeType {
       var buffer = StringBuffer();
       var parameters = <String>[
         for (var param in positionalParameters)
-          '${emit(param.type.jsTypeReferencedFromDart)} ${param.name}',
+          '${emit(param.type.jsTypeReferencedFromDart)} ${param.rawName}',
       ];
       var forwardParameter = <String>[
         for (var param in positionalParameters)
-          emit(param.type.toDart(code.refer(param.name))),
+          emit(param.type.toDart(code.refer(param.rawName))),
       ];
 
       var returnKeyword = returns != null ? 'return' : '';
@@ -797,25 +734,15 @@ class FunctionType extends ChromeType {
       return '$buffer';
     }));
   }
-
-  @override
-  Iterable<ChromeType> get children sync* {
-    if (returns != null) {
-      yield returns!;
-      yield* returns!.children;
-    }
-    for (var param in positionalParameters) {
-      yield param.type;
-      yield* param.type.children;
-    }
-  }
 }
 
 class FunctionParameter {
-  final String name;
+  final String rawName;
   final ChromeType type;
 
-  FunctionParameter(this.name, this.type);
+  FunctionParameter(this.rawName, this.type);
+
+  String get dartName => rawName.lowerCamel;
 }
 
 class AsyncReturnType extends ChromeType {
@@ -843,16 +770,6 @@ class AsyncReturnType extends ChromeType {
   @override
   code.Expression toJS(code.Expression accessor) =>
       dart?.toJS(accessor) ?? accessor;
-
-  @override
-  Iterable<ChromeType> get children sync* {
-    if (dart != null) {
-      yield dart!;
-      yield* dart!.children;
-    }
-    yield jsCallback;
-    yield* jsCallback.children;
-  }
 }
 
 class ChoiceType extends ChromeType {
@@ -919,7 +836,7 @@ class ChoiceType extends ChromeType {
         }
       }
       if (isNullable) {
-        buffer.writeln('Null() => null,');
+        buffer.writeln('null => null,');
       }
       var supportedTypes = choices.map((c) => emit(c.dartType)).join(', ');
       buffer.writeln(
@@ -933,9 +850,6 @@ class ChoiceType extends ChromeType {
   @override
   ChromeType copyWith({required bool isNullable}) =>
       ChoiceType(choices, isNullable: isNullable);
-
-  @override
-  Iterable<ChromeType> get children sync* {}
 }
 
 extension on code.Expression {

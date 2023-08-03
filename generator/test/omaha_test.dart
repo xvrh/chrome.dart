@@ -21,7 +21,7 @@ void defineTests() {
 
     setUp(() {
       client = MockSimpleHttpClient();
-      when(client.getHtmlAtUri(any)).thenAnswer((_) => new Future.value(html));
+      when(client.getHtmlAtUri(any)).thenAnswer((_) => Future.value(html));
       extractor = OmahaVersionExtractor(client: client);
     });
 

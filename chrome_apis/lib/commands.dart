@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -33,12 +37,12 @@ class ChromeCommands {
   }
 
   /// Fired when a registered command is activated using a keyboard shortcut.
-  Stream<OnCommandEvent> get onCommand =>
+  EventStream<OnCommandEvent> get onCommand =>
       $js.chrome.commands.onCommand.asStream(($c) => (
             String command,
             $js_tabs.Tab? tab,
           ) {
-            $c(OnCommandEvent(
+            return $c(OnCommandEvent(
               command: command,
               tab: tab?.let(Tab.fromJS),
             ));
@@ -57,10 +61,11 @@ class Command {
 
     /// The shortcut active for this command, or blank if not active.
     String? shortcut,
-  }) : _wrapped = $js.Command()
-          ..name = name
-          ..description = description
-          ..shortcut = shortcut;
+  }) : _wrapped = $js.Command(
+          name: name,
+          description: description,
+          shortcut: shortcut,
+        );
 
   final $js.Command _wrapped;
 

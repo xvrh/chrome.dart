@@ -1,4 +1,3 @@
-
 import 'package:chrome_apis/runtime.dart' as runtime;
 import 'package:test/test.dart';
 import 'package:chrome_apis/context_menus.dart';
@@ -10,9 +9,9 @@ void main() => setup(_tests);
 void _tests(TestContext context) {
   var id = 'setupMenuItem';
 
-  setUp(() async {
+  setUp(() {
     var createProperties = CreateProperties(id: id, title: 'setup menu item');
-    await chrome.contextMenus.create(createProperties, () {});
+    chrome.contextMenus.create(createProperties, () {});
   });
 
   tearDown(() async {
@@ -101,10 +100,4 @@ void _tests(TestContext context) {
     expect(() async => await chrome.contextMenus.remove('not a real id'),
         throwsA(isA<Exception>()));
   });
-
-  "";
-  //test('onClicked', () {
-  //  // TODO(DrMarcII): figure out a mechanism for selecting menu
-  //  chrome.contextMenus.onClicked.listen((_) {}).cancel();
-  //});
 }

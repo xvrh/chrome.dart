@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -47,4 +52,17 @@ class QueryInfo {
     /// `tabId` cannot be used with `disposition`.
     int? tabId,
   });
+}
+
+extension QueryInfoExtension on QueryInfo {
+  /// String to query with the default search provider.
+  external String text;
+
+  /// Location where search results should be displayed.
+  /// `CURRENT_TAB` is the default.
+  external Disposition? disposition;
+
+  /// Location where search results should be displayed.
+  /// `tabId` cannot be used with `disposition`.
+  external int? tabId;
 }

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -31,7 +36,16 @@ extension JSSystemMemoryExtension on JSSystemMemory {
 
 @JS()
 @staticInterop
-class MemoryInfo {}
+@anonymous
+class MemoryInfo {
+  external factory MemoryInfo({
+    /// The total amount of physical memory capacity, in bytes.
+    double capacity,
+
+    /// The amount of available capacity, in bytes.
+    double availableCapacity,
+  });
+}
 
 extension MemoryInfoExtension on MemoryInfo {
   /// The total amount of physical memory capacity, in bytes.

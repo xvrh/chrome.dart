@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -107,7 +112,20 @@ typedef HttpHeaders = JSArray;
 
 @JS()
 @staticInterop
-class RequestFilter {}
+@anonymous
+class RequestFilter {
+  external factory RequestFilter({
+    /// A list of URLs or URL patterns. Requests that cannot match any of the URLs
+    /// will be filtered out.
+    JSArray urls,
+
+    /// A list of request types. Requests that cannot match any of the types will
+    /// be filtered out.
+    JSArray? types,
+    int? tabId,
+    int? windowId,
+  });
+}
 
 extension RequestFilterExtension on RequestFilter {
   /// A list of URLs or URL patterns. Requests that cannot match any of the URLs
@@ -125,7 +143,40 @@ extension RequestFilterExtension on RequestFilter {
 
 @JS()
 @staticInterop
-class BlockingResponse {}
+@anonymous
+class BlockingResponse {
+  external factory BlockingResponse({
+    /// If true, the request is cancelled. This prevents the request from being
+    /// sent. This can be used as a response to the onBeforeRequest,
+    /// onBeforeSendHeaders, onHeadersReceived and onAuthRequired events.
+    bool? cancel,
+
+    /// Only used as a response to the onBeforeRequest and onHeadersReceived
+    /// events. If set, the original request is prevented from being
+    /// sent/completed and is instead redirected to the given URL. Redirections to
+    /// non-HTTP schemes such as `data:` are allowed. Redirects initiated by a
+    /// redirect action use the original request method for the redirect, with one
+    /// exception: If the redirect is initiated at the onHeadersReceived stage,
+    /// then the redirect will be issued using the GET method. Redirects from URLs
+    /// with `ws://` and `wss://` schemes are **ignored**.
+    String? redirectUrl,
+
+    /// Only used as a response to the onBeforeSendHeaders event. If set, the
+    /// request is made with these request headers instead.
+    HttpHeaders? requestHeaders,
+
+    /// Only used as a response to the onHeadersReceived event. If set, the server
+    /// is assumed to have responded with these response headers instead. Only
+    /// return `responseHeaders` if you really want to modify the headers in order
+    /// to limit the number of conflicts (only one extension may modify
+    /// `responseHeaders` for each request).
+    HttpHeaders? responseHeaders,
+
+    /// Only used as a response to the onAuthRequired event. If set, the request
+    /// is made using the supplied credentials.
+    BlockingResponseAuthCredentials? authCredentials,
+  });
+}
 
 extension BlockingResponseExtension on BlockingResponse {
   /// If true, the request is cancelled. This prevents the request from being
@@ -161,7 +212,16 @@ extension BlockingResponseExtension on BlockingResponse {
 
 @JS()
 @staticInterop
-class UploadData {}
+@anonymous
+class UploadData {
+  external factory UploadData({
+    /// An ArrayBuffer with a copy of the data.
+    JSAny? bytes,
+
+    /// A string with the file's path and name.
+    String? file,
+  });
+}
 
 extension UploadDataExtension on UploadData {
   /// An ArrayBuffer with a copy of the data.
@@ -173,7 +233,61 @@ extension UploadDataExtension on UploadData {
 
 @JS()
 @staticInterop
-class OnBeforeRequestDetails {}
+@anonymous
+class OnBeforeRequestDetails {
+  external factory OnBeforeRequestDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String? documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle? documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType? frameType,
+
+    /// Contains the HTTP request body data. Only provided if extraInfoSpec
+    /// contains 'requestBody'.
+    OnBeforeRequestDetailsRequestBody? requestBody,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+  });
+}
 
 extension OnBeforeRequestDetailsExtension on OnBeforeRequestDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -231,7 +345,60 @@ extension OnBeforeRequestDetailsExtension on OnBeforeRequestDetails {
 
 @JS()
 @staticInterop
-class OnBeforeSendHeadersDetails {}
+@anonymous
+class OnBeforeSendHeadersDetails {
+  external factory OnBeforeSendHeadersDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The HTTP request headers that are going to be sent out with this request.
+    HttpHeaders? requestHeaders,
+  });
+}
 
 extension OnBeforeSendHeadersDetailsExtension on OnBeforeSendHeadersDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -288,7 +455,60 @@ extension OnBeforeSendHeadersDetailsExtension on OnBeforeSendHeadersDetails {
 
 @JS()
 @staticInterop
-class OnSendHeadersDetails {}
+@anonymous
+class OnSendHeadersDetails {
+  external factory OnSendHeadersDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The HTTP request headers that have been sent out with this request.
+    HttpHeaders? requestHeaders,
+  });
+}
 
 extension OnSendHeadersDetailsExtension on OnSendHeadersDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -345,7 +565,67 @@ extension OnSendHeadersDetailsExtension on OnSendHeadersDetails {
 
 @JS()
 @staticInterop
-class OnHeadersReceivedDetails {}
+@anonymous
+class OnHeadersReceivedDetails {
+  external factory OnHeadersReceivedDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
+    /// HTTP/0.9 responses (i.e., responses that lack a status line).
+    String statusLine,
+
+    /// The HTTP response headers that have been received with this response.
+    HttpHeaders? responseHeaders,
+
+    /// Standard HTTP status code returned by the server.
+    int statusCode,
+  });
+}
 
 extension OnHeadersReceivedDetailsExtension on OnHeadersReceivedDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -409,7 +689,80 @@ extension OnHeadersReceivedDetailsExtension on OnHeadersReceivedDetails {
 
 @JS()
 @staticInterop
-class OnAuthRequiredDetails {}
+@anonymous
+class OnAuthRequiredDetails {
+  external factory OnAuthRequiredDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The authentication scheme, e.g. Basic or Digest.
+    String scheme,
+
+    /// The authentication realm provided by the server, if there is one.
+    String? realm,
+
+    /// The server requesting authentication.
+    OnAuthRequiredDetailsChallenger challenger,
+
+    /// True for Proxy-Authenticate, false for WWW-Authenticate.
+    bool isProxy,
+
+    /// The HTTP response headers that were received along with this response.
+    HttpHeaders? responseHeaders,
+
+    /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
+    /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
+    /// string if there are no headers.
+    String statusLine,
+
+    /// Standard HTTP status code returned by the server.
+    int statusCode,
+  });
+}
 
 extension OnAuthRequiredDetailsExtension on OnAuthRequiredDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -486,7 +839,75 @@ extension OnAuthRequiredDetailsExtension on OnAuthRequiredDetails {
 
 @JS()
 @staticInterop
-class OnResponseStartedDetails {}
+@anonymous
+class OnResponseStartedDetails {
+  external factory OnResponseStartedDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The server IP address that the request was actually sent to. Note that it
+    /// may be a literal IPv6 address.
+    String? ip,
+
+    /// Indicates if this response was fetched from disk cache.
+    bool fromCache,
+
+    /// Standard HTTP status code returned by the server.
+    int statusCode,
+
+    /// The HTTP response headers that were received along with this response.
+    HttpHeaders? responseHeaders,
+
+    /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
+    /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
+    /// string if there are no headers.
+    String statusLine,
+  });
+}
 
 extension OnResponseStartedDetailsExtension on OnResponseStartedDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -558,7 +979,78 @@ extension OnResponseStartedDetailsExtension on OnResponseStartedDetails {
 
 @JS()
 @staticInterop
-class OnBeforeRedirectDetails {}
+@anonymous
+class OnBeforeRedirectDetails {
+  external factory OnBeforeRedirectDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The server IP address that the request was actually sent to. Note that it
+    /// may be a literal IPv6 address.
+    String? ip,
+
+    /// Indicates if this response was fetched from disk cache.
+    bool fromCache,
+
+    /// Standard HTTP status code returned by the server.
+    int statusCode,
+
+    /// The new URL.
+    String redirectUrl,
+
+    /// The HTTP response headers that were received along with this redirect.
+    HttpHeaders? responseHeaders,
+
+    /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
+    /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
+    /// string if there are no headers.
+    String statusLine,
+  });
+}
 
 extension OnBeforeRedirectDetailsExtension on OnBeforeRedirectDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -633,7 +1125,75 @@ extension OnBeforeRedirectDetailsExtension on OnBeforeRedirectDetails {
 
 @JS()
 @staticInterop
-class OnCompletedDetails {}
+@anonymous
+class OnCompletedDetails {
+  external factory OnCompletedDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The server IP address that the request was actually sent to. Note that it
+    /// may be a literal IPv6 address.
+    String? ip,
+
+    /// Indicates if this response was fetched from disk cache.
+    bool fromCache,
+
+    /// Standard HTTP status code returned by the server.
+    int statusCode,
+
+    /// The HTTP response headers that were received along with this response.
+    HttpHeaders? responseHeaders,
+
+    /// HTTP status line of the response or the 'HTTP/0.9 200 OK' string for
+    /// HTTP/0.9 responses (i.e., responses that lack a status line) or an empty
+    /// string if there are no headers.
+    String statusLine,
+  });
+}
 
 extension OnCompletedDetailsExtension on OnCompletedDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -705,7 +1265,70 @@ extension OnCompletedDetailsExtension on OnCompletedDetails {
 
 @JS()
 @staticInterop
-class OnErrorOccurredDetails {}
+@anonymous
+class OnErrorOccurredDetails {
+  external factory OnErrorOccurredDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+    String url,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId` indicates the ID of this frame,
+    /// not the ID of the outer frame. Frame IDs are unique within a tab.
+    int frameId,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The UUID of the document making the request. This value is not present if
+    /// the request is a navigation of a frame.
+    String documentId,
+
+    /// The UUID of the parent document owning this frame. This is not set if
+    /// there is no parent.
+    String? parentDocumentId,
+
+    /// The lifecycle the document is in.
+    DocumentLifecycle documentLifecycle,
+
+    /// The type of frame the request occurred in.
+    FrameType frameType,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// How the requested resource will be used.
+    ResourceType type,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// The time when this signal is triggered, in milliseconds since the epoch.
+    double timeStamp,
+
+    /// The server IP address that the request was actually sent to. Note that it
+    /// may be a literal IPv6 address.
+    String? ip,
+
+    /// Indicates if this response was fetched from disk cache.
+    bool fromCache,
+
+    /// The error description. This string is _not_ guaranteed to remain backwards
+    /// compatible between releases. You must not parse and act based upon its
+    /// content.
+    String error,
+  });
+}
 
 extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -772,7 +1395,18 @@ extension OnErrorOccurredDetailsExtension on OnErrorOccurredDetails {
 
 @JS()
 @staticInterop
-class OnActionIgnoredDetails {}
+@anonymous
+class OnActionIgnoredDetails {
+  external factory OnActionIgnoredDetails({
+    /// The ID of the request. Request IDs are unique within a browser session. As
+    /// a result, they could be used to relate different events of the same
+    /// request.
+    String requestId,
+
+    /// The proposed action which was ignored.
+    IgnoredActionType action,
+  });
+}
 
 extension OnActionIgnoredDetailsExtension on OnActionIgnoredDetails {
   /// The ID of the request. Request IDs are unique within a browser session. As
@@ -786,7 +1420,20 @@ extension OnActionIgnoredDetailsExtension on OnActionIgnoredDetails {
 
 @JS()
 @staticInterop
-class HttpHeadersItems {}
+@anonymous
+class HttpHeadersItems {
+  external factory HttpHeadersItems({
+    /// Name of the HTTP header.
+    String name,
+
+    /// Value of the HTTP header if it can be represented by UTF-8.
+    String? value,
+
+    /// Value of the HTTP header if it cannot be represented by UTF-8, stored as
+    /// individual byte values (0..255).
+    JSArray? binaryValue,
+  });
+}
 
 extension HttpHeadersItemsExtension on HttpHeadersItems {
   /// Name of the HTTP header.
@@ -802,7 +1449,13 @@ extension HttpHeadersItemsExtension on HttpHeadersItems {
 
 @JS()
 @staticInterop
-class BlockingResponseAuthCredentials {}
+@anonymous
+class BlockingResponseAuthCredentials {
+  external factory BlockingResponseAuthCredentials({
+    String username,
+    String password,
+  });
+}
 
 extension BlockingResponseAuthCredentialsExtension
     on BlockingResponseAuthCredentials {
@@ -813,7 +1466,26 @@ extension BlockingResponseAuthCredentialsExtension
 
 @JS()
 @staticInterop
-class OnBeforeRequestDetailsRequestBody {}
+@anonymous
+class OnBeforeRequestDetailsRequestBody {
+  external factory OnBeforeRequestDetailsRequestBody({
+    /// Errors when obtaining request body data.
+    String? error,
+
+    /// If the request method is POST and the body is a sequence of key-value
+    /// pairs encoded in UTF8, encoded as either multipart/form-data, or
+    /// application/x-www-form-urlencoded, this dictionary is present and for each
+    /// key contains the list of all values for that key. If the data is of
+    /// another media type, or if it is malformed, the dictionary is not present.
+    /// An example value of this dictionary is {'key': ['value1', 'value2']}.
+    JSAny? formData,
+
+    /// If the request method is PUT or POST, and the body is not already parsed
+    /// in formData, then the unparsed request body elements are contained in this
+    /// array.
+    JSArray? raw,
+  });
+}
 
 extension OnBeforeRequestDetailsRequestBodyExtension
     on OnBeforeRequestDetailsRequestBody {
@@ -836,7 +1508,13 @@ extension OnBeforeRequestDetailsRequestBodyExtension
 
 @JS()
 @staticInterop
-class OnAuthRequiredDetailsChallenger {}
+@anonymous
+class OnAuthRequiredDetailsChallenger {
+  external factory OnAuthRequiredDetailsChallenger({
+    String host,
+    int port,
+  });
+}
 
 extension OnAuthRequiredDetailsChallengerExtension
     on OnAuthRequiredDetailsChallenger {

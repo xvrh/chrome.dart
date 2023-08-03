@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -164,7 +169,19 @@ typedef ExtensionInstallType = String;
 
 @JS()
 @staticInterop
-class IconInfo {}
+@anonymous
+class IconInfo {
+  external factory IconInfo({
+    /// A number representing the width and height of the icon. Likely values
+    /// include (but are not limited to) 128, 48, 24, and 16.
+    int size,
+
+    /// The URL for this icon image. To display a grayscale version of the icon
+    /// (to indicate that an extension is disabled, for example), append
+    /// `?grayscale=true` to the URL.
+    String url,
+  });
+}
 
 extension IconInfoExtension on IconInfo {
   /// A number representing the width and height of the icon. Likely values
@@ -179,7 +196,85 @@ extension IconInfoExtension on IconInfo {
 
 @JS()
 @staticInterop
-class ExtensionInfo {}
+@anonymous
+class ExtensionInfo {
+  external factory ExtensionInfo({
+    /// The extension's unique identifier.
+    String id,
+
+    /// The name of this extension, app, or theme.
+    String name,
+
+    /// A short version of the name of this extension, app, or theme.
+    String shortName,
+
+    /// The description of this extension, app, or theme.
+    String description,
+
+    /// The [version](manifest/version) of this extension, app, or theme.
+    String version,
+
+    /// The [version name](manifest/version#version_name) of this extension, app,
+    /// or theme if the manifest specified one.
+    String? versionName,
+
+    /// Whether this extension can be disabled or uninstalled by the user.
+    bool mayDisable,
+
+    /// Whether this extension can be enabled by the user. This is only returned
+    /// for extensions which are not enabled.
+    bool? mayEnable,
+
+    /// Whether it is currently enabled or disabled.
+    bool enabled,
+
+    /// A reason the item is disabled.
+    ExtensionDisabledReason? disabledReason,
+
+    /// True if this is an app.
+    bool isApp,
+
+    /// The type of this extension, app, or theme.
+    ExtensionType type,
+
+    /// The launch url (only present for apps).
+    String? appLaunchUrl,
+
+    /// The URL of the homepage of this extension, app, or theme.
+    String? homepageUrl,
+
+    /// The update URL of this extension, app, or theme.
+    String? updateUrl,
+
+    /// Whether the extension, app, or theme declares that it supports offline.
+    bool offlineEnabled,
+
+    /// The url for the item's options page, if it has one.
+    String optionsUrl,
+
+    /// A list of icon information. Note that this just reflects what was declared
+    /// in the manifest, and the actual image at that url may be larger or smaller
+    /// than what was declared, so you might consider using explicit width and
+    /// height attributes on img tags referencing these images. See the [manifest
+    /// documentation on icons](manifest/icons) for more details.
+    JSArray? icons,
+
+    /// Returns a list of API based permissions.
+    JSArray permissions,
+
+    /// Returns a list of host based permissions.
+    JSArray hostPermissions,
+
+    /// How the extension was installed.
+    ExtensionInstallType installType,
+
+    /// The app launch type (only present for apps).
+    LaunchType? launchType,
+
+    /// The currently available launch types (only present for apps).
+    JSArray? availableLaunchTypes,
+  });
+}
 
 extension ExtensionInfoExtension on ExtensionInfo {
   /// The extension's unique identifier.
@@ -268,4 +363,11 @@ class UninstallOptions {
       /// to false for self uninstalls. If an extension uninstalls another
       /// extension, this parameter is ignored and the dialog is always shown.
       bool? showConfirmDialog});
+}
+
+extension UninstallOptionsExtension on UninstallOptions {
+  /// Whether or not a confirm-uninstall dialog should prompt the user. Defaults
+  /// to false for self uninstalls. If an extension uninstalls another
+  /// extension, this parameter is ignored and the dialog is always shown.
+  external bool? showConfirmDialog;
 }

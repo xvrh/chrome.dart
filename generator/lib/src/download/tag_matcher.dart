@@ -3,8 +3,7 @@
 class TagMatcher implements Pattern {
   static const _tagString = 'TAG';
   static const _tagTemplate = '<$_tagString([^>]*)?>(.*?)</$_tagString>';
-  final _attributeMatcher = RegExp('([^ ]*?)=\"(.*?)\"');
-  final String _tagName;
+  final _attributeMatcher = RegExp('([^ ]*?)="(.*?)"');
   final RegExp _regExp;
 
   static final anyTag = TagMatcher('.*?');
@@ -14,8 +13,7 @@ class TagMatcher implements Pattern {
   static final spanMatcher = TagMatcher('span');
 
   TagMatcher(String tagName)
-      : _tagName = tagName,
-        _regExp = RegExp(_tagTemplate.replaceAll(_tagString, tagName));
+      : _regExp = RegExp(_tagTemplate.replaceAll(_tagString, tagName));
 
   @override
   Match matchAsPrefix(String string, [int start = 0]) =>

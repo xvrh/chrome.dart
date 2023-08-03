@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -83,4 +88,19 @@ class ChooseDesktopMediaOptions {
     /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
     bool? suppressLocalAudioPlaybackIntended,
   });
+}
+
+extension ChooseDesktopMediaOptionsExtension on ChooseDesktopMediaOptions {
+  /// Mirrors
+  /// [systemAudio](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-systemaudio).
+  external SystemAudioPreferenceEnum? systemAudio;
+
+  /// Mirrors
+  /// [selfBrowserSurface](https://w3c.github.io/mediacapture-screen-share/#dom-displaymediastreamconstraints-selfbrowsersurface).
+  external SelfCapturePreferenceEnum? selfBrowserSurface;
+
+  /// Indicates that the caller intends to perform local audio suppression, and
+  /// that the media picker shown to the user should therefore reflect that with
+  /// the appropriate warnings, as it does when getDisplayMedia() is invoked.
+  external bool? suppressLocalAudioPlaybackIntended;
 }

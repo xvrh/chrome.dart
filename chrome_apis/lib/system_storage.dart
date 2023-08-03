@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -50,15 +54,16 @@ class ChromeSystemStorage {
   }
 
   /// Fired when a new removable storage is attached to the system.
-  Stream<StorageUnitInfo> get onAttached => $js.chrome.system.storage.onAttached
-      .asStream(($c) => ($js.StorageUnitInfo info) {
-            $c(StorageUnitInfo.fromJS(info));
-          });
+  EventStream<StorageUnitInfo> get onAttached =>
+      $js.chrome.system.storage.onAttached
+          .asStream(($c) => ($js.StorageUnitInfo info) {
+                return $c(StorageUnitInfo.fromJS(info));
+              });
 
   /// Fired when a removable storage is detached from the system.
-  Stream<String> get onDetached =>
+  EventStream<String> get onDetached =>
       $js.chrome.system.storage.onDetached.asStream(($c) => (String id) {
-            $c(id);
+            return $c(id);
           });
 }
 
@@ -124,11 +129,12 @@ class StorageUnitInfo {
 
     /// The total amount of the storage space, in bytes.
     required double capacity,
-  }) : _wrapped = $js.StorageUnitInfo()
-          ..id = id
-          ..name = name
-          ..type = type.toJS
-          ..capacity = capacity;
+  }) : _wrapped = $js.StorageUnitInfo(
+          id: id,
+          name: name,
+          type: type.toJS,
+          capacity: capacity,
+        );
 
   final $js.StorageUnitInfo _wrapped;
 
@@ -171,9 +177,10 @@ class StorageAvailableCapacityInfo {
 
     /// The available capacity of the storage device, in bytes.
     required double availableCapacity,
-  }) : _wrapped = $js.StorageAvailableCapacityInfo()
-          ..id = id
-          ..availableCapacity = availableCapacity;
+  }) : _wrapped = $js.StorageAvailableCapacityInfo(
+          id: id,
+          availableCapacity: availableCapacity,
+        );
 
   final $js.StorageAvailableCapacityInfo _wrapped;
 

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'extension_types.dart';
@@ -260,10 +264,10 @@ class ChromeDeclarativeNetRequest {
   /// as this is intended to be used for debugging purposes only.
   /// |info|: The rule that has been matched along with information about the
   /// associated request.
-  Stream<MatchedRuleInfoDebug> get onRuleMatchedDebug =>
+  EventStream<MatchedRuleInfoDebug> get onRuleMatchedDebug =>
       $js.chrome.declarativeNetRequest.onRuleMatchedDebug
           .asStream(($c) => ($js.MatchedRuleInfoDebug info) {
-                $c(MatchedRuleInfoDebug.fromJS(info));
+                return $c(MatchedRuleInfoDebug.fromJS(info));
               });
 }
 
@@ -420,10 +424,11 @@ class Ruleset {
 
     /// Whether the ruleset is enabled by default.
     required bool enabled,
-  }) : _wrapped = $js.Ruleset()
-          ..id = id
-          ..path = path
-          ..enabled = enabled;
+  }) : _wrapped = $js.Ruleset(
+          id: id,
+          path: path,
+          enabled: enabled,
+        );
 
   final $js.Ruleset _wrapped;
 
@@ -468,6 +473,23 @@ class QueryKeyValue {
   final $js.QueryKeyValue _wrapped;
 
   $js.QueryKeyValue get toJS => _wrapped;
+
+  String get key => _wrapped.key;
+  set key(String v) {
+    _wrapped.key = v;
+  }
+
+  String get value => _wrapped.value;
+  set value(String v) {
+    _wrapped.value = v;
+  }
+
+  /// If true, the query key is replaced only if it's already present.
+  /// Otherwise, the key is also added if it's missing. Defaults to false.
+  bool? get replaceOnly => _wrapped.replaceOnly;
+  set replaceOnly(bool? v) {
+    _wrapped.replaceOnly = v;
+  }
 }
 
 class QueryTransform {
@@ -487,6 +509,23 @@ class QueryTransform {
   final $js.QueryTransform _wrapped;
 
   $js.QueryTransform get toJS => _wrapped;
+
+  /// The list of query keys to be removed.
+  List<String>? get removeParams =>
+      _wrapped.removeParams?.toDart.cast<String>().map((e) => e).toList();
+  set removeParams(List<String>? v) {
+    _wrapped.removeParams = v?.toJSArray((e) => e);
+  }
+
+  /// The list of query key-value pairs to be added or replaced.
+  List<QueryKeyValue>? get addOrReplaceParams =>
+      _wrapped.addOrReplaceParams?.toDart
+          .cast<$js.QueryKeyValue>()
+          .map((e) => QueryKeyValue.fromJS(e))
+          .toList();
+  set addOrReplaceParams(List<QueryKeyValue>? v) {
+    _wrapped.addOrReplaceParams = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class URLTransform {
@@ -537,6 +576,64 @@ class URLTransform {
   final $js.URLTransform _wrapped;
 
   $js.URLTransform get toJS => _wrapped;
+
+  /// The new scheme for the request. Allowed values are "http", "https",
+  /// "ftp" and "chrome-extension".
+  String? get scheme => _wrapped.scheme;
+  set scheme(String? v) {
+    _wrapped.scheme = v;
+  }
+
+  /// The new host for the request.
+  String? get host => _wrapped.host;
+  set host(String? v) {
+    _wrapped.host = v;
+  }
+
+  /// The new port for the request. If empty, the existing port is cleared.
+  String? get port => _wrapped.port;
+  set port(String? v) {
+    _wrapped.port = v;
+  }
+
+  /// The new path for the request. If empty, the existing path is cleared.
+  String? get path => _wrapped.path;
+  set path(String? v) {
+    _wrapped.path = v;
+  }
+
+  /// The new query for the request. Should be either empty, in which case the
+  /// existing query is cleared; or should begin with '?'.
+  String? get query => _wrapped.query;
+  set query(String? v) {
+    _wrapped.query = v;
+  }
+
+  /// Add, remove or replace query key-value pairs.
+  QueryTransform? get queryTransform =>
+      _wrapped.queryTransform?.let(QueryTransform.fromJS);
+  set queryTransform(QueryTransform? v) {
+    _wrapped.queryTransform = v?.toJS;
+  }
+
+  /// The new fragment for the request. Should be either empty, in which case
+  /// the existing fragment is cleared; or should begin with '#'.
+  String? get fragment => _wrapped.fragment;
+  set fragment(String? v) {
+    _wrapped.fragment = v;
+  }
+
+  /// The new username for the request.
+  String? get username => _wrapped.username;
+  set username(String? v) {
+    _wrapped.username = v;
+  }
+
+  /// The new password for the request.
+  String? get password => _wrapped.password;
+  set password(String? v) {
+    _wrapped.password = v;
+  }
 }
 
 class Redirect {
@@ -568,6 +665,34 @@ class Redirect {
   final $js.Redirect _wrapped;
 
   $js.Redirect get toJS => _wrapped;
+
+  /// Path relative to the extension directory. Should start with '/'.
+  String? get extensionPath => _wrapped.extensionPath;
+  set extensionPath(String? v) {
+    _wrapped.extensionPath = v;
+  }
+
+  /// Url transformations to perform.
+  URLTransform? get transform => _wrapped.transform?.let(URLTransform.fromJS);
+  set transform(URLTransform? v) {
+    _wrapped.transform = v?.toJS;
+  }
+
+  /// The redirect url. Redirects to JavaScript urls are not allowed.
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    _wrapped.url = v;
+  }
+
+  /// Substitution pattern for rules which specify a `regexFilter`.
+  /// The first match of `regexFilter` within the url will be
+  /// replaced with this pattern. Within `regexSubstitution`,
+  /// backslash-escaped digits (\1 to \9) can be used to insert the
+  /// corresponding capture groups. \0 refers to the entire matching text.
+  String? get regexSubstitution => _wrapped.regexSubstitution;
+  set regexSubstitution(String? v) {
+    _wrapped.regexSubstitution = v;
+  }
 }
 
 class RuleCondition {
@@ -767,6 +892,247 @@ class RuleCondition {
   final $js.RuleCondition _wrapped;
 
   $js.RuleCondition get toJS => _wrapped;
+
+  /// The pattern which is matched against the network request url.
+  /// Supported constructs:
+  ///
+  /// **'*'**  : Wildcard: Matches any number of characters.
+  ///
+  /// **'|'**  : Left/right anchor: If used at either end of the pattern,
+  ///               specifies the beginning/end of the url respectively.
+  ///
+  /// **'||'** : Domain name anchor: If used at the beginning of the pattern,
+  ///               specifies the start of a (sub-)domain of the URL.
+  ///
+  /// **'^'**  : Separator character: This matches anything except a letter, a
+  ///               digit or one of the following: _ - . %. This can also match
+  ///               the end of the URL.
+  ///
+  /// Therefore `urlFilter` is composed of the following parts:
+  /// (optional Left/Domain name anchor) + pattern + (optional Right anchor).
+  ///
+  /// If omitted, all urls are matched. An empty string is not allowed.
+  ///
+  /// A pattern beginning with `||*` is not allowed. Use
+  /// `*` instead.
+  ///
+  /// Note: Only one of `urlFilter` or `regexFilter` can
+  /// be specified.
+  ///
+  /// Note: The `urlFilter` must be composed of only ASCII
+  /// characters. This is matched against a url where the host is encoded in
+  /// the punycode format (in case of internationalized domains) and any other
+  /// non-ascii characters are url encoded in utf-8.
+  /// For example, when the request url is
+  /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
+  /// `urlFilter` will be matched against the url
+  /// http://abc.xn--p1ai/?q=%D1%84.
+  String? get urlFilter => _wrapped.urlFilter;
+  set urlFilter(String? v) {
+    _wrapped.urlFilter = v;
+  }
+
+  /// Regular expression to match against the network request url. This follows
+  /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
+  ///
+  /// Note: Only one of `urlFilter` or `regexFilter` can
+  /// be specified.
+  ///
+  /// Note: The `regexFilter` must be composed of only ASCII
+  /// characters. This is matched against a url where the host is encoded in
+  /// the punycode format (in case of internationalized domains) and any other
+  /// non-ascii characters are url encoded in utf-8.
+  String? get regexFilter => _wrapped.regexFilter;
+  set regexFilter(String? v) {
+    _wrapped.regexFilter = v;
+  }
+
+  /// Whether the `urlFilter` or `regexFilter`
+  /// (whichever is specified) is case sensitive. Default is true.
+  bool? get isUrlFilterCaseSensitive => _wrapped.isUrlFilterCaseSensitive;
+  set isUrlFilterCaseSensitive(bool? v) {
+    _wrapped.isUrlFilterCaseSensitive = v;
+  }
+
+  /// The rule will only match network requests originating from the list of
+  /// `initiatorDomains`. If the list is omitted, the rule is
+  /// applied to requests from all domains. An empty list is not allowed.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>
+  ///    This matches against the request initiator and not the request url.
+  ///  </li>
+  ///  <li>Sub-domains of the listed domains are also matched.</li>
+  /// </ul>
+  List<String>? get initiatorDomains =>
+      _wrapped.initiatorDomains?.toDart.cast<String>().map((e) => e).toList();
+  set initiatorDomains(List<String>? v) {
+    _wrapped.initiatorDomains = v?.toJSArray((e) => e);
+  }
+
+  /// The rule will not match network requests originating from the list of
+  /// `excludedInitiatorDomains`. If the list is empty or omitted,
+  /// no domains are excluded. This takes precedence over
+  /// `initiatorDomains`.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>
+  ///    This matches against the request initiator and not the request url.
+  ///  </li>
+  ///  <li>Sub-domains of the listed domains are also excluded.</li>
+  /// </ul>
+  List<String>? get excludedInitiatorDomains =>
+      _wrapped.excludedInitiatorDomains?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
+  set excludedInitiatorDomains(List<String>? v) {
+    _wrapped.excludedInitiatorDomains = v?.toJSArray((e) => e);
+  }
+
+  /// The rule will only match network requests when the domain matches one
+  /// from the list of `requestDomains`. If the list is omitted,
+  /// the rule is applied to requests from all domains. An empty list is not
+  /// allowed.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>Sub-domains of the listed domains are also matched.</li>
+  /// </ul>
+  List<String>? get requestDomains =>
+      _wrapped.requestDomains?.toDart.cast<String>().map((e) => e).toList();
+  set requestDomains(List<String>? v) {
+    _wrapped.requestDomains = v?.toJSArray((e) => e);
+  }
+
+  /// The rule will not match network requests when the domains matches one
+  /// from the list of `excludedRequestDomains`. If the list is
+  /// empty or omitted, no domains are excluded. This takes precedence over
+  /// `requestDomains`.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>Sub-domains of the listed domains are also excluded.</li>
+  /// </ul>
+  List<String>? get excludedRequestDomains =>
+      _wrapped.excludedRequestDomains?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
+  set excludedRequestDomains(List<String>? v) {
+    _wrapped.excludedRequestDomains = v?.toJSArray((e) => e);
+  }
+
+  /// The rule will only match network requests originating from the list of
+  /// `domains`.
+  List<String>? get domains =>
+      _wrapped.domains?.toDart.cast<String>().map((e) => e).toList();
+  set domains(List<String>? v) {
+    _wrapped.domains = v?.toJSArray((e) => e);
+  }
+
+  /// The rule will not match network requests originating from the list of
+  /// `excludedDomains`.
+  List<String>? get excludedDomains =>
+      _wrapped.excludedDomains?.toDart.cast<String>().map((e) => e).toList();
+  set excludedDomains(List<String>? v) {
+    _wrapped.excludedDomains = v?.toJSArray((e) => e);
+  }
+
+  /// List of resource types which the rule can match. An empty list is not
+  /// allowed.
+  ///
+  /// Note: this must be specified for `allowAllRequests` rules and
+  /// may only include the `sub_frame` and `main_frame`
+  /// resource types.
+  List<ResourceType>? get resourceTypes => _wrapped.resourceTypes?.toDart
+      .cast<$js.ResourceType>()
+      .map((e) => ResourceType.fromJS(e))
+      .toList();
+  set resourceTypes(List<ResourceType>? v) {
+    _wrapped.resourceTypes = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// List of resource types which the rule won't match. Only one of
+  /// `resourceTypes` and `excludedResourceTypes` should
+  /// be specified. If neither of them is specified, all resource types except
+  /// "main_frame" are blocked.
+  List<ResourceType>? get excludedResourceTypes =>
+      _wrapped.excludedResourceTypes?.toDart
+          .cast<$js.ResourceType>()
+          .map((e) => ResourceType.fromJS(e))
+          .toList();
+  set excludedResourceTypes(List<ResourceType>? v) {
+    _wrapped.excludedResourceTypes = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// List of HTTP request methods which the rule can match. An empty list is
+  /// not allowed.
+  ///
+  /// Note: Specifying a `requestMethods` rule condition will also
+  /// exclude non-HTTP(s) requests, whereas specifying
+  /// `excludedRequestMethods` will not.
+  List<RequestMethod>? get requestMethods => _wrapped.requestMethods?.toDart
+      .cast<$js.RequestMethod>()
+      .map((e) => RequestMethod.fromJS(e))
+      .toList();
+  set requestMethods(List<RequestMethod>? v) {
+    _wrapped.requestMethods = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// List of request methods which the rule won't match. Only one of
+  /// `requestMethods` and `excludedRequestMethods`
+  /// should be specified. If neither of them is specified, all request methods
+  /// are matched.
+  List<RequestMethod>? get excludedRequestMethods =>
+      _wrapped.excludedRequestMethods?.toDart
+          .cast<$js.RequestMethod>()
+          .map((e) => RequestMethod.fromJS(e))
+          .toList();
+  set excludedRequestMethods(List<RequestMethod>? v) {
+    _wrapped.excludedRequestMethods = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// Specifies whether the network request is first-party or third-party to
+  /// the domain from which it originated. If omitted, all requests are
+  /// accepted.
+  DomainType? get domainType => _wrapped.domainType?.let(DomainType.fromJS);
+  set domainType(DomainType? v) {
+    _wrapped.domainType = v?.toJS;
+  }
+
+  /// List of [tabs.Tab.id] which the rule should match. An ID of
+  /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
+  /// tab. An empty list is not allowed. Only supported for session-scoped
+  /// rules.
+  List<int>? get tabIds =>
+      _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
+  set tabIds(List<int>? v) {
+    _wrapped.tabIds = v?.toJSArray((e) => e);
+  }
+
+  /// List of [tabs.Tab.id] which the rule should not match. An ID of
+  /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
+  /// tab. Only supported for session-scoped rules.
+  List<int>? get excludedTabIds =>
+      _wrapped.excludedTabIds?.toDart.cast<int>().map((e) => e).toList();
+  set excludedTabIds(List<int>? v) {
+    _wrapped.excludedTabIds = v?.toJSArray((e) => e);
+  }
 }
 
 class ModifyHeaderInfo {
@@ -791,6 +1157,25 @@ class ModifyHeaderInfo {
   final $js.ModifyHeaderInfo _wrapped;
 
   $js.ModifyHeaderInfo get toJS => _wrapped;
+
+  /// The name of the header to be modified.
+  String get header => _wrapped.header;
+  set header(String v) {
+    _wrapped.header = v;
+  }
+
+  /// The operation to be performed on a header.
+  HeaderOperation get operation => HeaderOperation.fromJS(_wrapped.operation);
+  set operation(HeaderOperation v) {
+    _wrapped.operation = v.toJS;
+  }
+
+  /// The new value for the header. Must be specified for `append`
+  /// and `set` operations.
+  String? get value => _wrapped.value;
+  set value(String? v) {
+    _wrapped.value = v;
+  }
 }
 
 class RuleAction {
@@ -821,6 +1206,40 @@ class RuleAction {
   final $js.RuleAction _wrapped;
 
   $js.RuleAction get toJS => _wrapped;
+
+  /// The type of action to perform.
+  RuleActionType get type => RuleActionType.fromJS(_wrapped.type);
+  set type(RuleActionType v) {
+    _wrapped.type = v.toJS;
+  }
+
+  /// Describes how the redirect should be performed. Only valid for redirect
+  /// rules.
+  Redirect? get redirect => _wrapped.redirect?.let(Redirect.fromJS);
+  set redirect(Redirect? v) {
+    _wrapped.redirect = v?.toJS;
+  }
+
+  /// The request headers to modify for the request. Only valid if
+  /// RuleActionType is "modifyHeaders".
+  List<ModifyHeaderInfo>? get requestHeaders => _wrapped.requestHeaders?.toDart
+      .cast<$js.ModifyHeaderInfo>()
+      .map((e) => ModifyHeaderInfo.fromJS(e))
+      .toList();
+  set requestHeaders(List<ModifyHeaderInfo>? v) {
+    _wrapped.requestHeaders = v?.toJSArray((e) => e.toJS);
+  }
+
+  /// The response headers to modify for the request. Only valid if
+  /// RuleActionType is "modifyHeaders".
+  List<ModifyHeaderInfo>? get responseHeaders =>
+      _wrapped.responseHeaders?.toDart
+          .cast<$js.ModifyHeaderInfo>()
+          .map((e) => ModifyHeaderInfo.fromJS(e))
+          .toList();
+  set responseHeaders(List<ModifyHeaderInfo>? v) {
+    _wrapped.responseHeaders = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class Rule {
@@ -848,6 +1267,30 @@ class Rule {
   final $js.Rule _wrapped;
 
   $js.Rule get toJS => _wrapped;
+
+  /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
+  int get id => _wrapped.id;
+  set id(int v) {
+    _wrapped.id = v;
+  }
+
+  /// Rule priority. Defaults to 1. When specified, should be >= 1.
+  int? get priority => _wrapped.priority;
+  set priority(int? v) {
+    _wrapped.priority = v;
+  }
+
+  /// The condition under which this rule is triggered.
+  RuleCondition get condition => RuleCondition.fromJS(_wrapped.condition);
+  set condition(RuleCondition v) {
+    _wrapped.condition = v.toJS;
+  }
+
+  /// The action to take if this rule is matched.
+  RuleAction get action => RuleAction.fromJS(_wrapped.action);
+  set action(RuleAction v) {
+    _wrapped.action = v.toJS;
+  }
 }
 
 class MatchedRule {
@@ -861,9 +1304,10 @@ class MatchedRule {
     /// from the set of dynamic rules, this will be equal to
     /// [DYNAMIC_RULESET_ID].
     required String rulesetId,
-  }) : _wrapped = $js.MatchedRule()
-          ..ruleId = ruleId
-          ..rulesetId = rulesetId;
+  }) : _wrapped = $js.MatchedRule(
+          ruleId: ruleId,
+          rulesetId: rulesetId,
+        );
 
   final $js.MatchedRule _wrapped;
 
@@ -896,6 +1340,13 @@ class GetRulesFilter {
   final $js.GetRulesFilter _wrapped;
 
   $js.GetRulesFilter get toJS => _wrapped;
+
+  /// If specified, only rules with matching IDs are included.
+  List<int>? get ruleIds =>
+      _wrapped.ruleIds?.toDart.cast<int>().map((e) => e).toList();
+  set ruleIds(List<int>? v) {
+    _wrapped.ruleIds = v?.toJSArray((e) => e);
+  }
 }
 
 class MatchedRuleInfo {
@@ -912,10 +1363,11 @@ class MatchedRuleInfo {
     /// The tabId of the tab from which the request originated if the tab is
     /// still active. Else -1.
     required int tabId,
-  }) : _wrapped = $js.MatchedRuleInfo()
-          ..rule = rule.toJS
-          ..timeStamp = timeStamp
-          ..tabId = tabId;
+  }) : _wrapped = $js.MatchedRuleInfo(
+          rule: rule.toJS,
+          timeStamp: timeStamp,
+          tabId: tabId,
+        );
 
   final $js.MatchedRuleInfo _wrapped;
 
@@ -960,6 +1412,19 @@ class MatchedRulesFilter {
   final $js.MatchedRulesFilter _wrapped;
 
   $js.MatchedRulesFilter get toJS => _wrapped;
+
+  /// If specified, only matches rules for the given tab. Matches rules not
+  /// associated with any active tab if set to -1.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
+
+  /// If specified, only matches rules after the given timestamp.
+  double? get minTimeStamp => _wrapped.minTimeStamp;
+  set minTimeStamp(double? v) {
+    _wrapped.minTimeStamp = v;
+  }
 }
 
 class RulesMatchedDetails {
@@ -969,8 +1434,8 @@ class RulesMatchedDetails {
       {
       /// Rules matching the given filter.
       required List<MatchedRuleInfo> rulesMatchedInfo})
-      : _wrapped = $js.RulesMatchedDetails()
-          ..rulesMatchedInfo = rulesMatchedInfo.toJSArray((e) => e.toJS);
+      : _wrapped = $js.RulesMatchedDetails(
+            rulesMatchedInfo: rulesMatchedInfo.toJSArray((e) => e.toJS));
 
   final $js.RulesMatchedDetails _wrapped;
 
@@ -1036,19 +1501,20 @@ class RequestDetails {
 
     /// The resource type of the request.
     required ResourceType type,
-  }) : _wrapped = $js.RequestDetails()
-          ..requestId = requestId
-          ..url = url
-          ..initiator = initiator
-          ..method = method
-          ..frameId = frameId
-          ..documentId = documentId
-          ..frameType = frameType?.toJS
-          ..documentLifecycle = documentLifecycle?.toJS
-          ..parentFrameId = parentFrameId
-          ..parentDocumentId = parentDocumentId
-          ..tabId = tabId
-          ..type = type.toJS;
+  }) : _wrapped = $js.RequestDetails(
+          requestId: requestId,
+          url: url,
+          initiator: initiator,
+          method: method,
+          frameId: frameId,
+          documentId: documentId,
+          frameType: frameType?.toJS,
+          documentLifecycle: documentLifecycle?.toJS,
+          parentFrameId: parentFrameId,
+          parentDocumentId: parentDocumentId,
+          tabId: tabId,
+          type: type.toJS,
+        );
 
   final $js.RequestDetails _wrapped;
 
@@ -1171,6 +1637,39 @@ class TestMatchRequestDetails {
   final $js.TestMatchRequestDetails _wrapped;
 
   $js.TestMatchRequestDetails get toJS => _wrapped;
+
+  /// The URL of the hypothetical request.
+  String get url => _wrapped.url;
+  set url(String v) {
+    _wrapped.url = v;
+  }
+
+  /// The initiator URL (if any) for the hypothetical request.
+  String? get initiator => _wrapped.initiator;
+  set initiator(String? v) {
+    _wrapped.initiator = v;
+  }
+
+  /// Standard HTTP method of the hypothetical request. Defaults to "get" for
+  /// HTTP requests and is ignored for non-HTTP requests.
+  RequestMethod? get method => _wrapped.method?.let(RequestMethod.fromJS);
+  set method(RequestMethod? v) {
+    _wrapped.method = v?.toJS;
+  }
+
+  /// The resource type of the hypothetical request.
+  ResourceType get type => ResourceType.fromJS(_wrapped.type);
+  set type(ResourceType v) {
+    _wrapped.type = v.toJS;
+  }
+
+  /// The ID of the tab in which the hypothetical request takes place. Does
+  /// not need to correspond to a real tab ID. Default is -1, meaning that
+  /// the request isn't related to a tab.
+  int? get tabId => _wrapped.tabId;
+  set tabId(int? v) {
+    _wrapped.tabId = v;
+  }
 }
 
 class MatchedRuleInfoDebug {
@@ -1181,9 +1680,10 @@ class MatchedRuleInfoDebug {
 
     /// Details about the request for which the rule was matched.
     required RequestDetails request,
-  }) : _wrapped = $js.MatchedRuleInfoDebug()
-          ..rule = rule.toJS
-          ..request = request.toJS;
+  }) : _wrapped = $js.MatchedRuleInfoDebug(
+          rule: rule.toJS,
+          request: request.toJS,
+        );
 
   final $js.MatchedRuleInfoDebug _wrapped;
 
@@ -1204,19 +1704,19 @@ class MatchedRuleInfoDebug {
 class DNRInfo {
   DNRInfo.fromJS(this._wrapped);
 
-  DNRInfo({required List<Ruleset> rule_resources})
-      : _wrapped = $js.DNRInfo()
-          ..rule_resources = rule_resources.toJSArray((e) => e.toJS);
+  DNRInfo({required List<Ruleset> ruleResources})
+      : _wrapped =
+            $js.DNRInfo(rule_resources: ruleResources.toJSArray((e) => e.toJS));
 
   final $js.DNRInfo _wrapped;
 
   $js.DNRInfo get toJS => _wrapped;
 
-  List<Ruleset> get rule_resources => _wrapped.rule_resources.toDart
+  List<Ruleset> get ruleResources => _wrapped.rule_resources.toDart
       .cast<$js.Ruleset>()
       .map((e) => Ruleset.fromJS(e))
       .toList();
-  set rule_resources(List<Ruleset> v) {
+  set ruleResources(List<Ruleset> v) {
     _wrapped.rule_resources = v.toJSArray((e) => e.toJS);
   }
 }
@@ -1224,17 +1724,17 @@ class DNRInfo {
 class ManifestKeys {
   ManifestKeys.fromJS(this._wrapped);
 
-  ManifestKeys({required DNRInfo declarative_net_request})
-      : _wrapped = $js.ManifestKeys()
-          ..declarative_net_request = declarative_net_request.toJS;
+  ManifestKeys({required DNRInfo declarativeNetRequest})
+      : _wrapped = $js.ManifestKeys(
+            declarative_net_request: declarativeNetRequest.toJS);
 
   final $js.ManifestKeys _wrapped;
 
   $js.ManifestKeys get toJS => _wrapped;
 
-  DNRInfo get declarative_net_request =>
+  DNRInfo get declarativeNetRequest =>
       DNRInfo.fromJS(_wrapped.declarative_net_request);
-  set declarative_net_request(DNRInfo v) {
+  set declarativeNetRequest(DNRInfo v) {
     _wrapped.declarative_net_request = v.toJS;
   }
 }
@@ -1263,6 +1763,27 @@ class RegexOptions {
   final $js.RegexOptions _wrapped;
 
   $js.RegexOptions get toJS => _wrapped;
+
+  /// The regular expresson to check.
+  String get regex => _wrapped.regex;
+  set regex(String v) {
+    _wrapped.regex = v;
+  }
+
+  /// Whether the `regex` specified is case sensitive. Default is
+  /// true.
+  bool? get isCaseSensitive => _wrapped.isCaseSensitive;
+  set isCaseSensitive(bool? v) {
+    _wrapped.isCaseSensitive = v;
+  }
+
+  /// Whether the `regex` specified requires capturing. Capturing is
+  /// only required for redirect rules which specify a
+  /// `regexSubstition` action. The default is false.
+  bool? get requireCapturing => _wrapped.requireCapturing;
+  set requireCapturing(bool? v) {
+    _wrapped.requireCapturing = v;
+  }
 }
 
 class IsRegexSupportedResult {
@@ -1274,9 +1795,10 @@ class IsRegexSupportedResult {
     /// Specifies the reason why the regular expression is not supported. Only
     /// provided if `isSupported` is false.
     UnsupportedRegexReason? reason,
-  }) : _wrapped = $js.IsRegexSupportedResult()
-          ..isSupported = isSupported
-          ..reason = reason?.toJS;
+  }) : _wrapped = $js.IsRegexSupportedResult(
+          isSupported: isSupported,
+          reason: reason?.toJS,
+        );
 
   final $js.IsRegexSupportedResult _wrapped;
 
@@ -1303,8 +1825,8 @@ class TestMatchOutcomeResult {
       {
       /// The rules (if any) that match the hypothetical request.
       required List<MatchedRule> matchedRules})
-      : _wrapped = $js.TestMatchOutcomeResult()
-          ..matchedRules = matchedRules.toJSArray((e) => e.toJS);
+      : _wrapped = $js.TestMatchOutcomeResult(
+            matchedRules: matchedRules.toJSArray((e) => e.toJS));
 
   final $js.TestMatchOutcomeResult _wrapped;
 
@@ -1337,6 +1859,22 @@ class UpdateRuleOptions {
   final $js.UpdateRuleOptions _wrapped;
 
   $js.UpdateRuleOptions get toJS => _wrapped;
+
+  /// IDs of the rules to remove. Any invalid IDs will be ignored.
+  List<int>? get removeRuleIds =>
+      _wrapped.removeRuleIds?.toDart.cast<int>().map((e) => e).toList();
+  set removeRuleIds(List<int>? v) {
+    _wrapped.removeRuleIds = v?.toJSArray((e) => e);
+  }
+
+  /// Rules to add.
+  List<Rule>? get addRules => _wrapped.addRules?.toDart
+      .cast<$js.Rule>()
+      .map((e) => Rule.fromJS(e))
+      .toList();
+  set addRules(List<Rule>? v) {
+    _wrapped.addRules = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class UpdateRulesetOptions {
@@ -1358,6 +1896,22 @@ class UpdateRulesetOptions {
   final $js.UpdateRulesetOptions _wrapped;
 
   $js.UpdateRulesetOptions get toJS => _wrapped;
+
+  /// The set of ids corresponding to a static [Ruleset] that should be
+  /// disabled.
+  List<String>? get disableRulesetIds =>
+      _wrapped.disableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
+  set disableRulesetIds(List<String>? v) {
+    _wrapped.disableRulesetIds = v?.toJSArray((e) => e);
+  }
+
+  /// The set of ids corresponding to a static [Ruleset] that should be
+  /// enabled.
+  List<String>? get enableRulesetIds =>
+      _wrapped.enableRulesetIds?.toDart.cast<String>().map((e) => e).toList();
+  set enableRulesetIds(List<String>? v) {
+    _wrapped.enableRulesetIds = v?.toJSArray((e) => e);
+  }
 }
 
 class UpdateStaticRulesOptions {
@@ -1381,6 +1935,26 @@ class UpdateStaticRulesOptions {
   final $js.UpdateStaticRulesOptions _wrapped;
 
   $js.UpdateStaticRulesOptions get toJS => _wrapped;
+
+  /// The id corresponding to a static [Ruleset].
+  String get rulesetId => _wrapped.rulesetId;
+  set rulesetId(String v) {
+    _wrapped.rulesetId = v;
+  }
+
+  /// Set of ids corresponding to rules in the [Ruleset] to disable.
+  List<int>? get disableRuleIds =>
+      _wrapped.disableRuleIds?.toDart.cast<int>().map((e) => e).toList();
+  set disableRuleIds(List<int>? v) {
+    _wrapped.disableRuleIds = v?.toJSArray((e) => e);
+  }
+
+  /// Set of ids corresponding to rules in the [Ruleset] to enable.
+  List<int>? get enableRuleIds =>
+      _wrapped.enableRuleIds?.toDart.cast<int>().map((e) => e).toList();
+  set enableRuleIds(List<int>? v) {
+    _wrapped.enableRuleIds = v?.toJSArray((e) => e);
+  }
 }
 
 class GetDisabledRuleIdsOptions {
@@ -1395,6 +1969,12 @@ class GetDisabledRuleIdsOptions {
   final $js.GetDisabledRuleIdsOptions _wrapped;
 
   $js.GetDisabledRuleIdsOptions get toJS => _wrapped;
+
+  /// The id corresponding to a static [Ruleset].
+  String get rulesetId => _wrapped.rulesetId;
+  set rulesetId(String v) {
+    _wrapped.rulesetId = v;
+  }
 }
 
 class TabActionCountUpdate {
@@ -1415,6 +1995,19 @@ class TabActionCountUpdate {
   final $js.TabActionCountUpdate _wrapped;
 
   $js.TabActionCountUpdate get toJS => _wrapped;
+
+  /// The tab for which to update the action count.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The amount to increment the tab's action count by. Negative values will
+  /// decrement the count.
+  int get increment => _wrapped.increment;
+  set increment(int v) {
+    _wrapped.increment = v;
+  }
 }
 
 class ExtensionActionOptions {
@@ -1435,4 +2028,19 @@ class ExtensionActionOptions {
   final $js.ExtensionActionOptions _wrapped;
 
   $js.ExtensionActionOptions get toJS => _wrapped;
+
+  /// Whether to automatically display the action count for a page as the
+  /// extension's badge text. This preference is persisted across sessions.
+  bool? get displayActionCountAsBadgeText =>
+      _wrapped.displayActionCountAsBadgeText;
+  set displayActionCountAsBadgeText(bool? v) {
+    _wrapped.displayActionCountAsBadgeText = v;
+  }
+
+  /// Details of how the tab's action count should be adjusted.
+  TabActionCountUpdate? get tabUpdate =>
+      _wrapped.tabUpdate?.let(TabActionCountUpdate.fromJS);
+  set tabUpdate(TabActionCountUpdate? v) {
+    _wrapped.tabUpdate = v?.toJS;
+  }
 }

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -35,7 +40,19 @@ extension JSCommandsExtension on JSCommands {
 
 @JS()
 @staticInterop
-class Command {}
+@anonymous
+class Command {
+  external factory Command({
+    /// The name of the Extension Command
+    String? name,
+
+    /// The Extension Command description
+    String? description,
+
+    /// The shortcut active for this command, or blank if not active.
+    String? shortcut,
+  });
+}
 
 extension CommandExtension on Command {
   /// The name of the Extension Command

@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -82,9 +86,9 @@ class ChromeAlarms {
 
   /// Fired when an alarm has elapsed. Useful for event pages.
   /// |alarm|: The alarm that has elapsed.
-  Stream<Alarm> get onAlarm =>
+  EventStream<Alarm> get onAlarm =>
       $js.chrome.alarms.onAlarm.asStream(($c) => ($js.Alarm alarm) {
-            $c(Alarm.fromJS(alarm));
+            return $c(Alarm.fromJS(alarm));
           });
 }
 
@@ -103,10 +107,11 @@ class Alarm {
     /// If not null, the alarm is a repeating alarm and will fire again in
     /// [periodInMinutes] minutes.
     double? periodInMinutes,
-  }) : _wrapped = $js.Alarm()
-          ..name = name
-          ..scheduledTime = scheduledTime
-          ..periodInMinutes = periodInMinutes;
+  }) : _wrapped = $js.Alarm(
+          name: name,
+          scheduledTime: scheduledTime,
+          periodInMinutes: periodInMinutes,
+        );
 
   final $js.Alarm _wrapped;
 
@@ -163,4 +168,30 @@ class AlarmCreateInfo {
   final $js.AlarmCreateInfo _wrapped;
 
   $js.AlarmCreateInfo get toJS => _wrapped;
+
+  /// Time at which the alarm should fire, in milliseconds past the epoch
+  /// (e.g. `Date.now() + n`).
+  double? get when => _wrapped.when;
+  set when(double? v) {
+    _wrapped.when = v;
+  }
+
+  /// Length of time in minutes after which the `onAlarm` event
+  /// should fire.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  double? get delayInMinutes => _wrapped.delayInMinutes;
+  set delayInMinutes(double? v) {
+    _wrapped.delayInMinutes = v;
+  }
+
+  /// If set, the onAlarm event should fire every [periodInMinutes]
+  /// minutes after the initial event specified by [when] or
+  /// [delayInMinutes].  If not set, the alarm will only fire once.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  double? get periodInMinutes => _wrapped.periodInMinutes;
+  set periodInMinutes(double? v) {
+    _wrapped.periodInMinutes = v;
+  }
 }

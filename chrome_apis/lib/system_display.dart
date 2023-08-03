@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -191,9 +195,9 @@ class ChromeSystemDisplay {
   }
 
   /// Fired when anything changes to the display configuration.
-  Stream<void> get onDisplayChanged =>
+  EventStream<void> get onDisplayChanged =>
       $js.chrome.system.display.onDisplayChanged.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -260,6 +264,30 @@ class Bounds {
   final $js.Bounds _wrapped;
 
   $js.Bounds get toJS => _wrapped;
+
+  /// The x-coordinate of the upper-left corner.
+  int get left => _wrapped.left;
+  set left(int v) {
+    _wrapped.left = v;
+  }
+
+  /// The y-coordinate of the upper-left corner.
+  int get top => _wrapped.top;
+  set top(int v) {
+    _wrapped.top = v;
+  }
+
+  /// The width of the display in pixels.
+  int get width => _wrapped.width;
+  set width(int v) {
+    _wrapped.width = v;
+  }
+
+  /// The height of the display in pixels.
+  int get height => _wrapped.height;
+  set height(int v) {
+    _wrapped.height = v;
+  }
 }
 
 class Insets {
@@ -287,6 +315,30 @@ class Insets {
   final $js.Insets _wrapped;
 
   $js.Insets get toJS => _wrapped;
+
+  /// The x-axis distance from the left bound.
+  int get left => _wrapped.left;
+  set left(int v) {
+    _wrapped.left = v;
+  }
+
+  /// The y-axis distance from the top bound.
+  int get top => _wrapped.top;
+  set top(int v) {
+    _wrapped.top = v;
+  }
+
+  /// The x-axis distance from the right bound.
+  int get right => _wrapped.right;
+  set right(int v) {
+    _wrapped.right = v;
+  }
+
+  /// The y-axis distance from the bottom bound.
+  int get bottom => _wrapped.bottom;
+  set bottom(int v) {
+    _wrapped.bottom = v;
+  }
 }
 
 class Point {
@@ -306,6 +358,18 @@ class Point {
   final $js.Point _wrapped;
 
   $js.Point get toJS => _wrapped;
+
+  /// The x-coordinate of the point.
+  int get x => _wrapped.x;
+  set x(int v) {
+    _wrapped.x = v;
+  }
+
+  /// The y-coordinate of the point.
+  int get y => _wrapped.y;
+  set y(int v) {
+    _wrapped.y = v;
+  }
 }
 
 class TouchCalibrationPair {
@@ -325,6 +389,18 @@ class TouchCalibrationPair {
   final $js.TouchCalibrationPair _wrapped;
 
   $js.TouchCalibrationPair get toJS => _wrapped;
+
+  /// The coordinates of the display point.
+  Point get displayPoint => Point.fromJS(_wrapped.displayPoint);
+  set displayPoint(Point v) {
+    _wrapped.displayPoint = v.toJS;
+  }
+
+  /// The coordinates of the touch point corresponding to the display point.
+  Point get touchPoint => Point.fromJS(_wrapped.touchPoint);
+  set touchPoint(Point v) {
+    _wrapped.touchPoint = v.toJS;
+  }
 }
 
 class TouchCalibrationPairQuad {
@@ -352,6 +428,30 @@ class TouchCalibrationPairQuad {
   final $js.TouchCalibrationPairQuad _wrapped;
 
   $js.TouchCalibrationPairQuad get toJS => _wrapped;
+
+  /// First pair of touch and display point required for touch calibration.
+  TouchCalibrationPair get pair1 => TouchCalibrationPair.fromJS(_wrapped.pair1);
+  set pair1(TouchCalibrationPair v) {
+    _wrapped.pair1 = v.toJS;
+  }
+
+  /// Second pair of touch and display point required for touch calibration.
+  TouchCalibrationPair get pair2 => TouchCalibrationPair.fromJS(_wrapped.pair2);
+  set pair2(TouchCalibrationPair v) {
+    _wrapped.pair2 = v.toJS;
+  }
+
+  /// Third pair of touch and display point required for touch calibration.
+  TouchCalibrationPair get pair3 => TouchCalibrationPair.fromJS(_wrapped.pair3);
+  set pair3(TouchCalibrationPair v) {
+    _wrapped.pair3 = v.toJS;
+  }
+
+  /// Fourth pair of touch and display point required for touch calibration.
+  TouchCalibrationPair get pair4 => TouchCalibrationPair.fromJS(_wrapped.pair4);
+  set pair4(TouchCalibrationPair v) {
+    _wrapped.pair4 = v.toJS;
+  }
 }
 
 class DisplayMode {
@@ -403,6 +503,66 @@ class DisplayMode {
   final $js.DisplayMode _wrapped;
 
   $js.DisplayMode get toJS => _wrapped;
+
+  /// The display mode width in device independent (user visible) pixels.
+  int get width => _wrapped.width;
+  set width(int v) {
+    _wrapped.width = v;
+  }
+
+  /// The display mode height in device independent (user visible) pixels.
+  int get height => _wrapped.height;
+  set height(int v) {
+    _wrapped.height = v;
+  }
+
+  /// The display mode width in native pixels.
+  int get widthInNativePixels => _wrapped.widthInNativePixels;
+  set widthInNativePixels(int v) {
+    _wrapped.widthInNativePixels = v;
+  }
+
+  /// The display mode height in native pixels.
+  int get heightInNativePixels => _wrapped.heightInNativePixels;
+  set heightInNativePixels(int v) {
+    _wrapped.heightInNativePixels = v;
+  }
+
+  /// The display mode UI scale factor.
+  double? get uiScale => _wrapped.uiScale;
+  set uiScale(double? v) {
+    _wrapped.uiScale = v;
+  }
+
+  /// The display mode device scale factor.
+  double get deviceScaleFactor => _wrapped.deviceScaleFactor;
+  set deviceScaleFactor(double v) {
+    _wrapped.deviceScaleFactor = v;
+  }
+
+  /// The display mode refresh rate in hertz.
+  double get refreshRate => _wrapped.refreshRate;
+  set refreshRate(double v) {
+    _wrapped.refreshRate = v;
+  }
+
+  /// True if the mode is the display's native mode.
+  bool get isNative => _wrapped.isNative;
+  set isNative(bool v) {
+    _wrapped.isNative = v;
+  }
+
+  /// True if the display mode is currently selected.
+  bool get isSelected => _wrapped.isSelected;
+  set isSelected(bool v) {
+    _wrapped.isSelected = v;
+  }
+
+  /// True if this mode is interlaced, false if not provided.
+  bool? get isInterlaced => _wrapped.isInterlaced;
+  set isInterlaced(bool? v) {
+    _wrapped.isInterlaced = v;
+  }
 }
 
 class DisplayLayout {
@@ -432,6 +592,32 @@ class DisplayLayout {
   final $js.DisplayLayout _wrapped;
 
   $js.DisplayLayout get toJS => _wrapped;
+
+  /// The unique identifier of the display.
+  String get id => _wrapped.id;
+  set id(String v) {
+    _wrapped.id = v;
+  }
+
+  /// The unique identifier of the parent display. Empty if this is the root.
+  String get parentId => _wrapped.parentId;
+  set parentId(String v) {
+    _wrapped.parentId = v;
+  }
+
+  /// The layout position of this display relative to the parent. This will
+  /// be ignored for the root.
+  LayoutPosition get position => LayoutPosition.fromJS(_wrapped.position);
+  set position(LayoutPosition v) {
+    _wrapped.position = v.toJS;
+  }
+
+  /// The offset of the display along the connected edge. 0 indicates that
+  /// the topmost or leftmost corners are aligned.
+  int get offset => _wrapped.offset;
+  set offset(int v) {
+    _wrapped.offset = v;
+  }
 }
 
 class Edid {
@@ -446,10 +632,11 @@ class Edid {
 
     /// Year of manufacturer, Sec. 3.4.4 page 22. Required in v1.4.
     required int yearOfManufacture,
-  }) : _wrapped = $js.Edid()
-          ..manufacturerId = manufacturerId
-          ..productId = productId
-          ..yearOfManufacture = yearOfManufacture;
+  }) : _wrapped = $js.Edid(
+          manufacturerId: manufacturerId,
+          productId: productId,
+          yearOfManufacture: yearOfManufacture,
+        );
 
   final $js.Edid _wrapped;
 
@@ -518,10 +705,10 @@ class DisplayUnitInfo {
     bool? isAutoRotationAllowed,
 
     /// The number of pixels per inch along the x-axis.
-    required double dpiX,
+    required double dpix,
 
     /// The number of pixels per inch along the y-axis.
-    required double dpiY,
+    required double dpiy,
 
     /// The display's clockwise rotation in degrees relative to the vertical
     /// position.
@@ -563,30 +750,30 @@ class DisplayUnitInfo {
     /// For example, value 1 is equivalent to 100% zoom, and value 1.5 is
     /// equivalent to 150% zoom.
     required double displayZoomFactor,
-  }) : _wrapped = $js.DisplayUnitInfo()
-          ..id = id
-          ..name = name
-          ..edid = edid?.toJS
-          ..mirroringSourceId = mirroringSourceId
-          ..mirroringDestinationIds =
-              mirroringDestinationIds.toJSArray((e) => e)
-          ..isPrimary = isPrimary
-          ..isInternal = isInternal
-          ..isEnabled = isEnabled
-          ..isUnified = isUnified
-          ..isAutoRotationAllowed = isAutoRotationAllowed
-          ..dpiX = dpiX
-          ..dpiY = dpiY
-          ..rotation = rotation
-          ..bounds = bounds.toJS
-          ..overscan = overscan.toJS
-          ..workArea = workArea.toJS
-          ..modes = modes.toJSArray((e) => e.toJS)
-          ..hasTouchSupport = hasTouchSupport
-          ..hasAccelerometerSupport = hasAccelerometerSupport
-          ..availableDisplayZoomFactors =
-              availableDisplayZoomFactors.toJSArray((e) => e)
-          ..displayZoomFactor = displayZoomFactor;
+  }) : _wrapped = $js.DisplayUnitInfo(
+          id: id,
+          name: name,
+          edid: edid?.toJS,
+          mirroringSourceId: mirroringSourceId,
+          mirroringDestinationIds: mirroringDestinationIds.toJSArray((e) => e),
+          isPrimary: isPrimary,
+          isInternal: isInternal,
+          isEnabled: isEnabled,
+          isUnified: isUnified,
+          isAutoRotationAllowed: isAutoRotationAllowed,
+          dpiX: dpix,
+          dpiY: dpiy,
+          rotation: rotation,
+          bounds: bounds.toJS,
+          overscan: overscan.toJS,
+          workArea: workArea.toJS,
+          modes: modes.toJSArray((e) => e.toJS),
+          hasTouchSupport: hasTouchSupport,
+          hasAccelerometerSupport: hasAccelerometerSupport,
+          availableDisplayZoomFactors:
+              availableDisplayZoomFactors.toJSArray((e) => e),
+          displayZoomFactor: displayZoomFactor,
+        );
 
   final $js.DisplayUnitInfo _wrapped;
 
@@ -666,14 +853,14 @@ class DisplayUnitInfo {
   }
 
   /// The number of pixels per inch along the x-axis.
-  double get dpiX => _wrapped.dpiX;
-  set dpiX(double v) {
+  double get dpix => _wrapped.dpiX;
+  set dpix(double v) {
     _wrapped.dpiX = v;
   }
 
   /// The number of pixels per inch along the y-axis.
-  double get dpiY => _wrapped.dpiY;
-  set dpiY(double v) {
+  double get dpiy => _wrapped.dpiY;
+  set dpiy(double v) {
     _wrapped.dpiY = v;
   }
 
@@ -793,11 +980,11 @@ class DisplayProperties {
     /// origin may be different than the one set. The final bounds can be
     /// retrieved using [getInfo]. The bounds origin cannot be changed on
     /// the primary display.
-    int? boundsOriginX,
+    int? boundsOriginx,
 
     /// If set, updates the display's logical bounds origin along the y-axis.
     /// See documentation for [boundsOriginX] parameter.
-    int? boundsOriginY,
+    int? boundsOriginy,
 
     /// If set, updates the display mode to the mode matching this value.
     /// If other parameters are invalid, this will not be applied. If the
@@ -815,8 +1002,8 @@ class DisplayProperties {
           isPrimary: isPrimary,
           overscan: overscan?.toJS,
           rotation: rotation,
-          boundsOriginX: boundsOriginX,
-          boundsOriginY: boundsOriginY,
+          boundsOriginX: boundsOriginx,
+          boundsOriginY: boundsOriginy,
           displayMode: displayMode?.toJS,
           displayZoomFactor: displayZoomFactor,
         );
@@ -824,6 +1011,86 @@ class DisplayProperties {
   final $js.DisplayProperties _wrapped;
 
   $js.DisplayProperties get toJS => _wrapped;
+
+  /// Chrome OS only. If set to true, changes the display mode to unified
+  /// desktop (see [enableUnifiedDesktop] for details). If set to false,
+  /// unified desktop mode will be disabled. This is only valid for the
+  /// primary display. If provided, mirroringSourceId must not be provided and
+  /// other properties will be ignored. This is has no effect if not provided.
+  bool? get isUnified => _wrapped.isUnified;
+  set isUnified(bool? v) {
+    _wrapped.isUnified = v;
+  }
+
+  /// Chrome OS only. If set and not empty, enables mirroring for this display
+  /// only. Otherwise disables mirroring for all displays. This value should
+  /// indicate the id of the source display to mirror, which must not be the
+  /// same as the id passed to setDisplayProperties. If set, no other property
+  /// may be set.
+  String? get mirroringSourceId => _wrapped.mirroringSourceId;
+  set mirroringSourceId(String? v) {
+    _wrapped.mirroringSourceId = v;
+  }
+
+  /// If set to true, makes the display primary. No-op if set to false.
+  /// Note: If set, the display is considered primary for all other properties
+  /// (i.e. [isUnified] may be set and bounds origin may not).
+  bool? get isPrimary => _wrapped.isPrimary;
+  set isPrimary(bool? v) {
+    _wrapped.isPrimary = v;
+  }
+
+  /// If set, sets the display's overscan insets to the provided values. Note
+  /// that overscan values may not be negative or larger than a half of the
+  /// screen's size. Overscan cannot be changed on the internal monitor.
+  Insets? get overscan => _wrapped.overscan?.let(Insets.fromJS);
+  set overscan(Insets? v) {
+    _wrapped.overscan = v?.toJS;
+  }
+
+  /// If set, updates the display's rotation.
+  /// Legal values are [0, 90, 180, 270]. The rotation is set clockwise,
+  /// relative to the display's vertical position.
+  int? get rotation => _wrapped.rotation;
+  set rotation(int? v) {
+    _wrapped.rotation = v;
+  }
+
+  /// If set, updates the display's logical bounds origin along the x-axis.
+  /// Applied together with [boundsOriginY]. Defaults to the current value
+  /// if not set and [boundsOriginY] is set. Note that when updating the
+  /// display origin, some constraints will be applied, so the final bounds
+  /// origin may be different than the one set. The final bounds can be
+  /// retrieved using [getInfo]. The bounds origin cannot be changed on
+  /// the primary display.
+  int? get boundsOriginx => _wrapped.boundsOriginX;
+  set boundsOriginx(int? v) {
+    _wrapped.boundsOriginX = v;
+  }
+
+  /// If set, updates the display's logical bounds origin along the y-axis.
+  /// See documentation for [boundsOriginX] parameter.
+  int? get boundsOriginy => _wrapped.boundsOriginY;
+  set boundsOriginy(int? v) {
+    _wrapped.boundsOriginY = v;
+  }
+
+  /// If set, updates the display mode to the mode matching this value.
+  /// If other parameters are invalid, this will not be applied. If the
+  /// display mode is invalid, it will not be applied and an error will be
+  /// set, but other properties will still be applied.
+  DisplayMode? get displayMode => _wrapped.displayMode?.let(DisplayMode.fromJS);
+  set displayMode(DisplayMode? v) {
+    _wrapped.displayMode = v?.toJS;
+  }
+
+  /// If set, updates the zoom associated with the display. This zoom performs
+  /// re-layout and repaint thus resulting in a better quality zoom than just
+  /// performing a pixel by pixel stretch enlargement.
+  double? get displayZoomFactor => _wrapped.displayZoomFactor;
+  set displayZoomFactor(double? v) {
+    _wrapped.displayZoomFactor = v;
+  }
 }
 
 class GetInfoFlags {
@@ -840,6 +1107,14 @@ class GetInfoFlags {
   final $js.GetInfoFlags _wrapped;
 
   $js.GetInfoFlags get toJS => _wrapped;
+
+  /// If set to true, only a single [DisplayUnitInfo] will be returned
+  /// by [getInfo] when in unified desktop mode (see
+  /// [enableUnifiedDesktop]). Defaults to false.
+  bool? get singleUnified => _wrapped.singleUnified;
+  set singleUnified(bool? v) {
+    _wrapped.singleUnified = v;
+  }
 }
 
 class MirrorModeInfo {
@@ -864,4 +1139,27 @@ class MirrorModeInfo {
   final $js.MirrorModeInfo _wrapped;
 
   $js.MirrorModeInfo get toJS => _wrapped;
+
+  /// The mirror mode that should be set.
+  MirrorMode get mode => MirrorMode.fromJS(_wrapped.mode);
+  set mode(MirrorMode v) {
+    _wrapped.mode = v.toJS;
+  }
+
+  /// The id of the mirroring source display. This is only valid for 'mixed'.
+  String? get mirroringSourceId => _wrapped.mirroringSourceId;
+  set mirroringSourceId(String? v) {
+    _wrapped.mirroringSourceId = v;
+  }
+
+  /// The ids of the mirroring destination displays. This is only valid for
+  /// 'mixed'.
+  List<String>? get mirroringDestinationIds =>
+      _wrapped.mirroringDestinationIds?.toDart
+          .cast<String>()
+          .map((e) => e)
+          .toList();
+  set mirroringDestinationIds(List<String>? v) {
+    _wrapped.mirroringDestinationIds = v?.toJSArray((e) => e);
+  }
 }

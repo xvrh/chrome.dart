@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -73,6 +78,21 @@ class GetTokenParams {
   });
 }
 
+extension GetTokenParamsExtension on GetTokenParams {
+  /// Identifies the entity that is authorized to access resources associated
+  /// with this Instance ID. It can be a project ID from [Google developer
+  /// console](https://code.google.com/apis/console).
+  external String authorizedEntity;
+
+  /// Identifies authorized actions that the authorized entity can take. E.g.
+  /// for sending GCM messages, `GCM` scope should be used.
+  external String scope;
+
+  /// Allows including a small number of string key/value pairs that will be
+  /// associated with the token and may be used in processing the request.
+  external JSAny? options;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -84,4 +104,12 @@ class DeleteTokenParams {
     /// The scope that is used to obtain the token.
     String scope,
   });
+}
+
+extension DeleteTokenParamsExtension on DeleteTokenParams {
+  /// The authorized entity that is used to obtain the token.
+  external String authorizedEntity;
+
+  /// The scope that is used to obtain the token.
+  external String scope;
 }

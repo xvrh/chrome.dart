@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -76,7 +81,22 @@ extension JSAlarmsExtension on JSAlarms {
 
 @JS()
 @staticInterop
-class Alarm {}
+@anonymous
+class Alarm {
+  external factory Alarm({
+    /// Name of this alarm.
+    String name,
+
+    /// Time at which this alarm was scheduled to fire, in milliseconds past the
+    /// epoch (e.g. `Date.now() + n`).  For performance reasons, the
+    /// alarm may have been delayed an arbitrary amount beyond this.
+    double scheduledTime,
+
+    /// If not null, the alarm is a repeating alarm and will fire again in
+    /// [periodInMinutes] minutes.
+    double? periodInMinutes,
+  });
+}
 
 extension AlarmExtension on Alarm {
   /// Name of this alarm.
@@ -114,4 +134,23 @@ class AlarmCreateInfo {
     /// <!-- TODO: need minimum=0 -->
     double? periodInMinutes,
   });
+}
+
+extension AlarmCreateInfoExtension on AlarmCreateInfo {
+  /// Time at which the alarm should fire, in milliseconds past the epoch
+  /// (e.g. `Date.now() + n`).
+  external double? when;
+
+  /// Length of time in minutes after which the `onAlarm` event
+  /// should fire.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  external double? delayInMinutes;
+
+  /// If set, the onAlarm event should fire every [periodInMinutes]
+  /// minutes after the initial event specified by [when] or
+  /// [delayInMinutes].  If not set, the alarm will only fire once.
+  ///
+  /// <!-- TODO: need minimum=0 -->
+  external double? periodInMinutes;
 }

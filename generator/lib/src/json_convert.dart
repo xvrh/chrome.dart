@@ -77,7 +77,7 @@ class JsonModelConverter {
               p, '${returnName ?? ''}_${p.name!}', parentName,
               anonymous: false, isNullable: p.optional ?? false) ??
           _propertyType(p);
-      singleParameter = FunctionParameter(p.name!, type);
+      singleParameter = FunctionParameter(p.name!.lowerCamel, type);
       allParameters.add(singleParameter);
     }
     var jsReturnType =
@@ -185,16 +185,13 @@ class JsonModelConverter {
           property.additionalProperties != null) {
         return null;
       }
-      if (property.$ref != null) {
-        //TODO: use extend to add the properties!!
-        return null;
-      }
       var typeName =
           '${name.startsWith(parent) ? '' : parent} $name'.upperCamel;
       _dictionariesToGenerate.add(JsonDeclaredType(
           typeName, property.description,
           properties: property.properties)
-        ..isAnonymous = anonymous);
+        ..isAnonymous = anonymous
+        ..extend = property.$ref);
       type = DictionaryType(typeName,
           locationFile: _targetFileName, isNullable: isNullable);
     } else if (property.enums != null) {
@@ -264,6 +261,7 @@ class JsonModelConverter {
         events: events,
         documentation: t.description,
         isAnonymous: t.isAnonymous,
+        extend: t.extend,
       );
     }
   }

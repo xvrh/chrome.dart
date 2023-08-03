@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/printer_provider.dart' as $js;
 import 'src/js/usb.dart' as $js_usb;
@@ -23,11 +27,13 @@ class ChromePrinterProvider {
   /// Event fired when print manager requests printers provided by extensions.
   /// |resultCallback|: Callback to return printer list. Every listener must
   /// call callback exactly once.
-  Stream<PrintersCallback> get onGetPrintersRequested =>
+  EventStream<void Function(List<PrinterInfo>)> get onGetPrintersRequested =>
       $js.chrome.printerProvider.onGetPrintersRequested
           .asStream(($c) => ($js.PrintersCallback resultCallback) {
-                $c((List<PrinterInfo> printerInfo) {
-                  resultCallback(printerInfo.toJSArray((e) => e.toJS));
+                return $c((List<PrinterInfo> printerInfo) {
+                  //ignore: avoid_dynamic_calls
+                  (resultCallback
+                      as Function)(printerInfo.toJSArray((e) => e.toJS));
                 });
               });
 
@@ -41,18 +47,21 @@ class ChromePrinterProvider {
   /// must call callback exactly once. If the parameter to this callback is
   /// undefined that indicates that the application has determined that the
   /// device is not supported.
-  Stream<OnGetUsbPrinterInfoRequestedEvent> get onGetUsbPrinterInfoRequested =>
-      $js.chrome.printerProvider.onGetUsbPrinterInfoRequested.asStream(($c) => (
-            $js_usb.Device device,
-            $js.PrinterInfoCallback resultCallback,
-          ) {
-            $c(OnGetUsbPrinterInfoRequestedEvent(
-              device: Device.fromJS(device),
-              resultCallback: (PrinterInfo? printerInfo) {
-                resultCallback(printerInfo?.toJS);
-              },
-            ));
-          });
+  EventStream<OnGetUsbPrinterInfoRequestedEvent>
+      get onGetUsbPrinterInfoRequested =>
+          $js.chrome.printerProvider.onGetUsbPrinterInfoRequested
+              .asStream(($c) => (
+                    $js_usb.Device device,
+                    $js.PrinterInfoCallback resultCallback,
+                  ) {
+                    return $c(OnGetUsbPrinterInfoRequestedEvent(
+                      device: Device.fromJS(device),
+                      resultCallback: (PrinterInfo? printerInfo) {
+                        //ignore: avoid_dynamic_calls
+                        (resultCallback as Function)(printerInfo?.toJS);
+                      },
+                    ));
+                  });
 
   /// Event fired when print manager requests printer capabilities.
   /// |printerId|: Unique ID of the printer whose capabilities are requested.
@@ -60,15 +69,16 @@ class ChromePrinterProvider {
   /// <a href="https://developers.google.com/cloud-print/docs/cdd#cdd">CDD
   /// format</a>.
   /// The receiving listener must call callback exectly once.
-  Stream<OnGetCapabilityRequestedEvent> get onGetCapabilityRequested =>
+  EventStream<OnGetCapabilityRequestedEvent> get onGetCapabilityRequested =>
       $js.chrome.printerProvider.onGetCapabilityRequested.asStream(($c) => (
             String printerId,
             $js.CapabilitiesCallback resultCallback,
           ) {
-            $c(OnGetCapabilityRequestedEvent(
+            return $c(OnGetCapabilityRequestedEvent(
               printerId: printerId,
               resultCallback: (Map capabilities) {
-                resultCallback(capabilities.jsify()!);
+                //ignore: avoid_dynamic_calls
+                (resultCallback as Function)(capabilities.jsify()!);
               },
             ));
           });
@@ -77,15 +87,16 @@ class ChromePrinterProvider {
   /// |printJob|: The printing request parameters.
   /// |resultCallback|: Callback that should be called when the printing
   /// request is completed.
-  Stream<OnPrintRequestedEvent> get onPrintRequested =>
+  EventStream<OnPrintRequestedEvent> get onPrintRequested =>
       $js.chrome.printerProvider.onPrintRequested.asStream(($c) => (
             $js.PrintJob printJob,
             $js.PrintCallback resultCallback,
           ) {
-            $c(OnPrintRequestedEvent(
+            return $c(OnPrintRequestedEvent(
               printJob: PrintJob.fromJS(printJob),
               resultCallback: (PrintError result) {
-                resultCallback(result.toJS);
+                //ignore: avoid_dynamic_calls
+                (resultCallback as Function)(result.toJS);
               },
             ));
           });
@@ -140,10 +151,11 @@ class PrinterInfo {
 
     /// Printer's human readable description.
     String? description,
-  }) : _wrapped = $js.PrinterInfo()
-          ..id = id
-          ..name = name
-          ..description = description;
+  }) : _wrapped = $js.PrinterInfo(
+          id: id,
+          name: name,
+          description: description,
+        );
 
   final $js.PrinterInfo _wrapped;
 
@@ -190,12 +202,13 @@ class PrintJob {
     /// Blob containing the document data to print. Format must match
     /// |contentType|.
     required JSObject document,
-  }) : _wrapped = $js.PrintJob()
-          ..printerId = printerId
-          ..title = title
-          ..ticket = ticket.jsify()!
-          ..contentType = contentType
-          ..document = document;
+  }) : _wrapped = $js.PrintJob(
+          printerId: printerId,
+          title: title,
+          ticket: ticket.jsify()!,
+          contentType: contentType,
+          document: document,
+        );
 
   final $js.PrintJob _wrapped;
 
@@ -244,7 +257,7 @@ class OnGetUsbPrinterInfoRequestedEvent {
 
   final Device device;
 
-  final PrinterInfoCallback resultCallback;
+  final void Function(PrinterInfo?) resultCallback;
 }
 
 class OnGetCapabilityRequestedEvent {
@@ -255,7 +268,7 @@ class OnGetCapabilityRequestedEvent {
 
   final String printerId;
 
-  final CapabilitiesCallback resultCallback;
+  final void Function(Map) resultCallback;
 }
 
 class OnPrintRequestedEvent {
@@ -266,5 +279,5 @@ class OnPrintRequestedEvent {
 
   final PrintJob printJob;
 
-  final PrintCallback resultCallback;
+  final void Function(PrintError) resultCallback;
 }

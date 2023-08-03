@@ -17,6 +17,7 @@ dev_dependencies:
   json_annotation:
   json_serializable:
   lints:
+  path:
   puppeteer:
   shelf:
   shelf_router:

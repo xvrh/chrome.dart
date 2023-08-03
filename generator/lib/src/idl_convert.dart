@@ -41,8 +41,8 @@ class IdlModelConverter {
     if (parameters.length == 1) {
       var createdProperty = _convertSyntheticParam(parameters.first);
       dartType = createdProperty.type;
-      allParameters
-          .add(FunctionParameter(createdProperty.name, createdProperty.type));
+      allParameters.add(
+          FunctionParameter(createdProperty.rawName, createdProperty.type));
     } else if (parameters.length > 1) {
       var newTypeName = parentName;
 
@@ -50,8 +50,8 @@ class IdlModelConverter {
       for (var param in parameters) {
         var syntheticProperty = _convertSyntheticParam(param);
         properties.add(syntheticProperty);
-        allParameters.add(
-            FunctionParameter(syntheticProperty.name, syntheticProperty.type));
+        allParameters.add(FunctionParameter(
+            syntheticProperty.rawName, syntheticProperty.type));
       }
 
       var syntheticType = Dictionary(newTypeName,
@@ -90,7 +90,7 @@ class IdlModelConverter {
       var positionalParameters = callback.parameters.map((p) {
         var innerParam = _convertSyntheticParam(p);
 
-        return FunctionParameter(innerParam.name, innerParam.type);
+        return FunctionParameter(innerParam.rawName, innerParam.type);
       }).toList();
       type = FunctionType(null, positionalParameters,
           isNullable: param.isOptional);
@@ -189,8 +189,8 @@ class IdlModelConverter {
         } else {
           var property = Property(
             paramDecl.name,
-            type:
-                _typeFromName(paramDecl.types, isNullable: paramDecl.isOptional),
+            type: _typeFromName(paramDecl.types,
+                isNullable: paramDecl.isOptional),
             documentation: '',
           );
           parameters.add(property);
@@ -211,7 +211,7 @@ class IdlModelConverter {
         returns: returns,
         deprecated: function.attribute?.attributes
             .firstWhereOrNull(
-                (e) => e.attributeType == IDLAttributeTypeEnum.DEPRECATED)
+                (e) => e.attributeType == IDLAttributeTypeEnum.deprecated)
             ?.attributeValue,
       );
     }
@@ -261,6 +261,6 @@ String _toDocumentation(List<String> documentation) => documentation.join('\n');
 
 bool _hasPlatforms(IDLAttributeDeclaration? attribute) {
   return attribute?.attributes
-          .any((a) => a.attributeType == IDLAttributeTypeEnum.PLATFORMS) ??
+          .any((a) => a.attributeType == IDLAttributeTypeEnum.platforms) ??
       false;
 }

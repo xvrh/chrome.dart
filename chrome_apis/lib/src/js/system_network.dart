@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -32,7 +37,20 @@ extension JSSystemNetworkExtension on JSSystemNetwork {
 
 @JS()
 @staticInterop
-class NetworkInterface {}
+@anonymous
+class NetworkInterface {
+  external factory NetworkInterface({
+    /// The underlying name of the adapter. On *nix, this will typically be
+    /// "eth0", "wlan0", etc.
+    String name,
+
+    /// The available IPv4/6 address.
+    String address,
+
+    /// The prefix length
+    int prefixLength,
+  });
+}
 
 extension NetworkInterfaceExtension on NetworkInterface {
   /// The underlying name of the adapter. On *nix, this will typically be

@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:checks/checks.dart';
-import 'package:chrome_apis/src/internal_helpers.dart';
 import 'package:test/test.dart';
-import 'package:web/web.dart' as web;
 import '../../runner/runner_client.dart';
 import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/tabs.dart' as tabs;
@@ -45,5 +43,23 @@ void _tests(TestContext context) {
     check(response as Map).deepEquals({
       'response': {'a': 1, 'b': true}
     });
+  });
+
+  test('sendMessage with async', () async {
+    var [tab] = await chrome.tabs
+        .query(tabs.QueryInfo(active: true, lastFocusedWindow: true));
+    var response = await chrome.tabs.sendMessage(tab.id!, 'async', null);
+
+    check(response as Map).deepEquals({'response': 'async'});
+  });
+
+  test('sendMessage no response', () async {
+    var [tab] = await chrome.tabs
+        .query(tabs.QueryInfo(active: true, lastFocusedWindow: true));
+    expect(
+        () => chrome.tabs
+            .sendMessage(tab.id!, 'no_response', null)
+            .timeout(Duration(milliseconds: 200)),
+        throwsA(isA<TimeoutException>()));
   });
 }

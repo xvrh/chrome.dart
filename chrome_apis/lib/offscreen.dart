@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -121,4 +125,27 @@ class CreateParameters {
   final $js.CreateParameters _wrapped;
 
   $js.CreateParameters get toJS => _wrapped;
+
+  /// The reason(s) the extension is creating the offscreen document.
+  List<Reason> get reasons => _wrapped.reasons.toDart
+      .cast<$js.Reason>()
+      .map((e) => Reason.fromJS(e))
+      .toList();
+  set reasons(List<Reason> v) {
+    _wrapped.reasons = v.toJSArray((e) => e.toJS);
+  }
+
+  /// The (relative) URL to load in the document.
+  String get url => _wrapped.url;
+  set url(String v) {
+    _wrapped.url = v;
+  }
+
+  /// A developer-provided string that explains, in more detail, the need for
+  /// the background context. The user agent _may_ use this in display to the
+  /// user.
+  String get justification => _wrapped.justification;
+  set justification(String v) {
+    _wrapped.justification = v;
+  }
 }

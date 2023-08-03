@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 import 'dart:typed_data';
 
@@ -73,13 +77,13 @@ class ChromeVpnProvider {
   /// message types may be added in future Chrome versions to support new
   /// features.
   /// |error|: Error message when there is an error.
-  Stream<OnPlatformMessageEvent> get onPlatformMessage =>
+  EventStream<OnPlatformMessageEvent> get onPlatformMessage =>
       $js.chrome.vpnProvider.onPlatformMessage.asStream(($c) => (
             String id,
             $js.PlatformMessage message,
             String error,
           ) {
-            $c(OnPlatformMessageEvent(
+            return $c(OnPlatformMessageEvent(
               id: id,
               message: PlatformMessage.fromJS(message),
               error: error,
@@ -89,18 +93,18 @@ class ChromeVpnProvider {
   /// Triggered when an IP packet is received via the tunnel for the VPN
   /// session owned by the extension.
   /// |data|: The IP packet received from the platform.
-  Stream<ByteBuffer> get onPacketReceived =>
+  EventStream<ByteBuffer> get onPacketReceived =>
       $js.chrome.vpnProvider.onPacketReceived
           .asStream(($c) => (JSArrayBuffer data) {
-                $c(data.toDart);
+                return $c(data.toDart);
               });
 
   /// Triggered when a configuration created by the extension is removed by the
   /// platform.
   /// |id|: ID of the removed configuration.
-  Stream<String> get onConfigRemoved =>
+  EventStream<String> get onConfigRemoved =>
       $js.chrome.vpnProvider.onConfigRemoved.asStream(($c) => (String id) {
-            $c(id);
+            return $c(id);
           });
 
   /// Triggered when a configuration is created by the platform for the
@@ -108,13 +112,13 @@ class ChromeVpnProvider {
   /// |id|: ID of the configuration created.
   /// |name|: Name of the configuration created.
   /// |data|: Configuration data provided by the administrator.
-  Stream<OnConfigCreatedEvent> get onConfigCreated =>
+  EventStream<OnConfigCreatedEvent> get onConfigCreated =>
       $js.chrome.vpnProvider.onConfigCreated.asStream(($c) => (
             String id,
             String name,
             JSAny data,
           ) {
-            $c(OnConfigCreatedEvent(
+            return $c(OnConfigCreatedEvent(
               id: id,
               name: name,
               data: data.toDartMap(),
@@ -126,12 +130,12 @@ class ChromeVpnProvider {
   /// needs to be shown to the user.
   /// |event|: The UI event that is triggered.
   /// |id|: ID of the configuration for which the UI event was triggered.
-  Stream<OnUIEventEvent> get onUIEvent =>
+  EventStream<OnUIEventEvent> get onUIEvent =>
       $js.chrome.vpnProvider.onUIEvent.asStream(($c) => (
             $js.UIEvent event,
             String? id,
           ) {
-            $c(OnUIEventEvent(
+            return $c(OnUIEventEvent(
               event: UIEvent.fromJS(event),
               id: id,
             ));
@@ -289,6 +293,88 @@ class Parameters {
   final $js.Parameters _wrapped;
 
   $js.Parameters get toJS => _wrapped;
+
+  /// IP address for the VPN interface in CIDR notation.
+  /// IPv4 is currently the only supported mode.
+  String get address => _wrapped.address;
+  set address(String v) {
+    _wrapped.address = v;
+  }
+
+  /// Broadcast address for the VPN interface. (default: deduced
+  /// from IP address and mask)
+  String? get broadcastAddress => _wrapped.broadcastAddress;
+  set broadcastAddress(String? v) {
+    _wrapped.broadcastAddress = v;
+  }
+
+  /// MTU setting for the VPN interface. (default: 1500 bytes)
+  String? get mtu => _wrapped.mtu;
+  set mtu(String? v) {
+    _wrapped.mtu = v;
+  }
+
+  /// Exclude network traffic to the list of IP blocks in CIDR notation from
+  /// the tunnel. This can be used to bypass traffic to and from the VPN
+  /// server.
+  /// When many rules match a destination, the rule with the longest matching
+  /// prefix wins.
+  /// Entries that correspond to the same CIDR block are treated as duplicates.
+  /// Such duplicates in the collated (exclusionList + inclusionList) list are
+  /// eliminated and the exact duplicate entry that will be eliminated is
+  /// undefined.
+  List<String> get exclusionList =>
+      _wrapped.exclusionList.toDart.cast<String>().map((e) => e).toList();
+  set exclusionList(List<String> v) {
+    _wrapped.exclusionList = v.toJSArray((e) => e);
+  }
+
+  /// Include network traffic to the list of IP blocks in CIDR notation to the
+  /// tunnel. This parameter can be used to set up a split tunnel. By default
+  /// no traffic is directed to the tunnel. Adding the entry "0.0.0.0/0" to
+  /// this list gets all the user traffic redirected to the tunnel.
+  /// When many rules match a destination, the rule with the longest matching
+  /// prefix wins.
+  /// Entries that correspond to the same CIDR block are treated as duplicates.
+  /// Such duplicates in the collated (exclusionList + inclusionList) list are
+  /// eliminated and the exact duplicate entry that will be eliminated is
+  /// undefined.
+  List<String> get inclusionList =>
+      _wrapped.inclusionList.toDart.cast<String>().map((e) => e).toList();
+  set inclusionList(List<String> v) {
+    _wrapped.inclusionList = v.toJSArray((e) => e);
+  }
+
+  /// A list of search domains. (default: no search domain)
+  List<String>? get domainSearch =>
+      _wrapped.domainSearch?.toDart.cast<String>().map((e) => e).toList();
+  set domainSearch(List<String>? v) {
+    _wrapped.domainSearch = v?.toJSArray((e) => e);
+  }
+
+  /// A list of IPs for the DNS servers.
+  List<String> get dnsServers =>
+      _wrapped.dnsServers.toDart.cast<String>().map((e) => e).toList();
+  set dnsServers(List<String> v) {
+    _wrapped.dnsServers = v.toJSArray((e) => e);
+  }
+
+  /// Whether or not the VPN extension implements auto-reconnection.
+  ///
+  /// If true, the `linkDown`, `linkUp`,
+  /// `linkChanged`, `suspend`, and `resume`
+  /// platform messages will be used to signal the respective events.
+  /// If false, the system will forcibly disconnect the VPN if the network
+  /// topology changes, and the user will need to reconnect manually.
+  /// (default: false)
+  ///
+  /// This property is new in Chrome 51; it will generate an exception in
+  /// earlier versions. try/catch can be used to conditionally enable the
+  /// feature based on browser support.
+  String? get reconnect => _wrapped.reconnect;
+  set reconnect(String? v) {
+    _wrapped.reconnect = v;
+  }
 }
 
 class OnPlatformMessageEvent {

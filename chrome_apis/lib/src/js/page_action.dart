@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -80,6 +85,12 @@ class TabDetails {
       int? tabId});
 }
 
+extension TabDetailsExtension on TabDetails {
+  /// The ID of the tab to query state for. If no tab is specified, the
+  /// non-tab-specific state is returned.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -91,6 +102,14 @@ class SetTitleDetails {
     /// The tooltip string.
     String title,
   });
+}
+
+extension SetTitleDetailsExtension on SetTitleDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int tabId;
+
+  /// The tooltip string.
+  external String title;
 }
 
 @JS()
@@ -125,6 +144,33 @@ class SetIconDetails {
   });
 }
 
+extension SetIconDetailsExtension on SetIconDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int tabId;
+
+  /// Either an ImageData object or a dictionary {size -> ImageData}
+  /// representing icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+  /// {'16': foo}'
+  external Object? imageData;
+
+  /// Either a relative image path or a dictionary {size -> relative image path}
+  /// pointing to icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+  external Object? path;
+
+  /// **Deprecated.** This argument is ignored.
+  external int? iconIndex;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -137,4 +183,13 @@ class SetPopupDetails {
     /// string (`''`), no popup is shown.
     String popup,
   });
+}
+
+extension SetPopupDetailsExtension on SetPopupDetails {
+  /// The id of the tab for which you want to modify the page action.
+  external int tabId;
+
+  /// The relative path to the HTML file to show in a popup. If set to the empty
+  /// string (`''`), no popup is shown.
+  external String popup;
 }

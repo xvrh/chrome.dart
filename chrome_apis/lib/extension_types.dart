@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/extension_types.dart' as $js;
 
@@ -121,9 +125,10 @@ class ImageDetails {
     /// resulting image will have more visual artifacts, and the number of bytes
     /// needed to store it will decrease.
     int? quality,
-  }) : _wrapped = $js.ImageDetails()
-          ..format = format?.toJS
-          ..quality = quality;
+  }) : _wrapped = $js.ImageDetails(
+          format: format?.toJS,
+          quality: quality,
+        );
 
   final $js.ImageDetails _wrapped;
 
@@ -185,14 +190,15 @@ class InjectDetails {
     /// the CSS to inject. This may only be specified for CSS, not JavaScript.
     /// Defaults to `"author"`.
     CSSOrigin? cssOrigin,
-  }) : _wrapped = $js.InjectDetails()
-          ..code = code
-          ..file = file
-          ..allFrames = allFrames
-          ..frameId = frameId
-          ..matchAboutBlank = matchAboutBlank
-          ..runAt = runAt?.toJS
-          ..cssOrigin = cssOrigin?.toJS;
+  }) : _wrapped = $js.InjectDetails(
+          code: code,
+          file: file,
+          allFrames: allFrames,
+          frameId: frameId,
+          matchAboutBlank: matchAboutBlank,
+          runAt: runAt?.toJS,
+          cssOrigin: cssOrigin?.toJS,
+        );
 
   final $js.InjectDetails _wrapped;
 
@@ -284,13 +290,14 @@ class DeleteInjectionDetails {
     /// The [origin](https://www.w3.org/TR/css3-cascade/#cascading-origins) of
     /// the CSS to remove. Defaults to `"author"`.
     CSSOrigin? cssOrigin,
-  }) : _wrapped = $js.DeleteInjectionDetails()
-          ..code = code
-          ..file = file
-          ..allFrames = allFrames
-          ..frameId = frameId
-          ..matchAboutBlank = matchAboutBlank
-          ..cssOrigin = cssOrigin?.toJS;
+  }) : _wrapped = $js.DeleteInjectionDetails(
+          code: code,
+          file: file,
+          allFrames: allFrames,
+          frameId: frameId,
+          matchAboutBlank: matchAboutBlank,
+          cssOrigin: cssOrigin?.toJS,
+        );
 
   final $js.DeleteInjectionDetails _wrapped;
 

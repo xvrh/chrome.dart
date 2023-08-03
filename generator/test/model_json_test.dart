@@ -2,9 +2,7 @@ library model_json_test;
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:mirrors';
 
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import 'package:chrome_extension_generator/src/json_model.dart' as json_model;
@@ -14,12 +12,12 @@ void main() {
     // Define a test for each .json file in idl/
     // The unittest script likes to be run with the cwd set to the project root.
     var idlPath = 'idl';
-    Iterable<File> jsonFiles = new Directory(idlPath)
+    var jsonFiles = Directory(idlPath)
         .listSync(recursive: true, followLinks: false)
         .whereType<File>()
         .where((f) => f.path.endsWith('.json'));
 
-    for (File file in jsonFiles) {
+    for (var file in jsonFiles) {
       // skip _api_features.json, _manifest_features.json, _permission_features.json
       if (!file.path.contains('/_') &&
           !file.path.contains('test_presubmit') &&
@@ -36,21 +34,21 @@ void main() {
 
   group("json model parameters", () {
     test("parse browser_action.json", () {
-      File file = new File('idl/chrome/browser_action.json');
+      var file = File('idl/chrome/browser_action.json');
       var namespace = json_model.JsonNamespace.parse(file.readAsStringSync());
       expect(namespace.namespace, isNotNull);
       expect(namespace.functions.any((e) => e.name == "setTitle"), isTrue);
-      json_model.JsonFunction function =
+      var function =
           namespace.functions.singleWhere((e) => e.name == "setTitle");
       expect(function.parameters.length, 1);
       var parameter = function.parameters[0];
       expect(parameter, isNotNull);
       expect(parameter.type, "object");
       expect(parameter.properties!.length, 2);
-      json_model.JsonProperty titleProperty = parameter.properties!['title']!;
+      var titleProperty = parameter.properties!['title']!;
       expect(titleProperty, isNotNull);
       expect(titleProperty.type, equals("string"));
-      json_model.JsonProperty tabIdProperty = parameter.properties!['tabId']!;
+      var tabIdProperty = parameter.properties!['tabId']!;
       expect(tabIdProperty, isNotNull);
       expect(tabIdProperty.type, equals("integer"));
       expect(tabIdProperty.optional, true);
@@ -59,7 +57,7 @@ void main() {
 
   group('json enums', () {
     test('simple enum', () {
-      String data = '''{
+      var data = '''{
         "id": "simpleEnum",
         "type": "string",
         "description": "A simple enum with two values",
@@ -75,7 +73,7 @@ void main() {
     });
 
     test('enums with descriptions included', () {
-      String data = '''{
+      var data = '''{
         "id": "describedEnum",
         "type": "string",
         "description": "An enum with two values with descriptions",
@@ -101,7 +99,7 @@ void main() {
   group("individual parsing tests", () {
     test("parameters that have 'choices'", () {
       // TODO: move to file.
-      String data = """[{
+      var data = r"""[{
         "name": "setIcon",
         "type": "function",
         "description": "Sets the icon for the browser action. The icon can be specified either as the path to an image file or as the pixel data from a canvas element, or as dictionary of either one of those. Either the <b>path</b> or the <b>imageData</b> property must be specified.",
@@ -112,12 +110,12 @@ void main() {
             "properties": {
               "imageData": {
                 "choices": [
-                  { "\$ref": "ImageDataType" },
+                  { "$ref": "ImageDataType" },
                   {
                     "type": "object",
                     "properties": {
-                      "19": {"\$ref": "ImageDataType", "optional": true},
-                      "38": {"\$ref": "ImageDataType", "optional": true}
+                      "19": {"$ref": "ImageDataType", "optional": true},
+                      "38": {"$ref": "ImageDataType", "optional": true}
                      }
                   }
                 ],
@@ -154,13 +152,13 @@ void main() {
         ]
       }]""";
 
-      List<json_model.JsonFunction> functions = (json.decode(data) as List)
+      var functions = (json.decode(data) as List)
           .cast<Map<String, dynamic>>()
           .map(json_model.JsonFunction.fromJson)
           .toList();
       expect(functions, isNotNull);
       expect(functions, hasLength(1));
-      json_model.JsonFunction function = functions[0];
+      var function = functions[0];
       expect(function, isNotNull);
       expect(function.name, equals("setIcon"));
       expect(function.parameters, hasLength(2));

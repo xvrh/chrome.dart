@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -98,9 +103,49 @@ class Debuggee {
   });
 }
 
+extension DebuggeeExtension on Debuggee {
+  /// The id of the tab which you intend to debug.
+  external int? tabId;
+
+  /// The id of the extension which you intend to debug. Attaching to an
+  /// extension background page is only possible when the
+  /// `--silent-debugger-extension-api` command-line switch is used.
+  external String? extensionId;
+
+  /// The opaque id of the debug target.
+  external String? targetId;
+}
+
 @JS()
 @staticInterop
-class TargetInfo {}
+@anonymous
+class TargetInfo {
+  external factory TargetInfo({
+    /// Target type.
+    TargetInfoType type,
+
+    /// Target id.
+    String id,
+
+    /// The tab id, defined if type == 'page'.
+    int? tabId,
+
+    /// The extension id, defined if type = 'background_page'.
+    String? extensionId,
+
+    /// True if debugger is already attached.
+    bool attached,
+
+    /// Target page title.
+    String title,
+
+    /// Target URL.
+    String url,
+
+    /// Target favicon URL.
+    String? faviconUrl,
+  });
+}
 
 extension TargetInfoExtension on TargetInfo {
   /// Target type.

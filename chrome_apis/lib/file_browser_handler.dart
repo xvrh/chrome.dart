@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'src/internal_helpers.dart';
 import 'src/js/file_browser_handler.dart' as $js;
 
@@ -19,12 +23,12 @@ class ChromeFileBrowserHandler {
       $js.chrome.fileBrowserHandlerNullable != null && alwaysTrue;
 
   /// Fired when file system action is executed from ChromeOS file browser.
-  Stream<OnExecuteEvent> get onExecute =>
+  EventStream<OnExecuteEvent> get onExecute =>
       $js.chrome.fileBrowserHandler.onExecute.asStream(($c) => (
             String id,
             $js.FileHandlerExecuteEventDetails details,
           ) {
-            $c(OnExecuteEvent(
+            return $c(OnExecuteEvent(
               id: id,
               details: FileHandlerExecuteEventDetails.fromJS(details),
             ));
@@ -41,10 +45,11 @@ class FileHandlerExecuteEventDetails {
 
     /// The ID of the tab that raised this event. Tab IDs are unique within a
     /// browser session.
-    int? tab_id,
-  }) : _wrapped = $js.FileHandlerExecuteEventDetails()
-          ..entries = entries.toJSArray((e) => e.jsify()!)
-          ..tab_id = tab_id;
+    int? tabId,
+  }) : _wrapped = $js.FileHandlerExecuteEventDetails(
+          entries: entries.toJSArray((e) => e.jsify()!),
+          tab_id: tabId,
+        );
 
   final $js.FileHandlerExecuteEventDetails _wrapped;
 
@@ -60,8 +65,8 @@ class FileHandlerExecuteEventDetails {
 
   /// The ID of the tab that raised this event. Tab IDs are unique within a
   /// browser session.
-  int? get tab_id => _wrapped.tab_id;
-  set tab_id(int? v) {
+  int? get tabId => _wrapped.tab_id;
+  set tabId(int? v) {
     _wrapped.tab_id = v;
   }
 }

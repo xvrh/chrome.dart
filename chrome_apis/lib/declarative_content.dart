@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'events.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/declarative_content.dart' as $js;
@@ -19,9 +23,9 @@ class ChromeDeclarativeContent {
   bool get isAvailable =>
       $js.chrome.declarativeContentNullable != null && alwaysTrue;
 
-  Stream<void> get onPageChanged =>
+  EventStream<void> get onPageChanged =>
       $js.chrome.declarativeContent.onPageChanged.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -110,11 +114,12 @@ class PageStateMatcher {
     /// value. Requres the [bookmarks permission](declare_permissions).
     bool? isBookmarked,
     required PageStateMatcherInstanceType instanceType,
-  }) : _wrapped = $js.PageStateMatcher()
-          ..pageUrl = pageUrl?.toJS
-          ..css = css?.toJSArray((e) => e)
-          ..isBookmarked = isBookmarked
-          ..instanceType = instanceType.toJS;
+  }) : _wrapped = $js.PageStateMatcher(
+          pageUrl: pageUrl?.toJS,
+          css: css?.toJSArray((e) => e),
+          isBookmarked: isBookmarked,
+          instanceType: instanceType.toJS,
+        );
 
   final $js.PageStateMatcher _wrapped;
 
@@ -157,7 +162,7 @@ class ShowPageAction {
   ShowPageAction.fromJS(this._wrapped);
 
   ShowPageAction({required ShowPageActionInstanceType instanceType})
-      : _wrapped = $js.ShowPageAction()..instanceType = instanceType.toJS;
+      : _wrapped = $js.ShowPageAction(instanceType: instanceType.toJS);
 
   final $js.ShowPageAction _wrapped;
 
@@ -174,7 +179,7 @@ class ShowAction {
   ShowAction.fromJS(this._wrapped);
 
   ShowAction({required ShowActionInstanceType instanceType})
-      : _wrapped = $js.ShowAction()..instanceType = instanceType.toJS;
+      : _wrapped = $js.ShowAction(instanceType: instanceType.toJS);
 
   final $js.ShowAction _wrapped;
 
@@ -202,15 +207,16 @@ class SetIcon {
     /// must be specified. Note that `details.imageData = foo` is equivalent to
     /// `details.imageData = {'16': foo}`.
     Object? imageData,
-  }) : _wrapped = $js.SetIcon()
-          ..instanceType = instanceType.toJS
-          ..imageData = switch (imageData) {
-            ImageDataType() => imageData,
+  }) : _wrapped = $js.SetIcon(
+          instanceType: instanceType.toJS,
+          imageData: switch (imageData) {
+            JSObject() => imageData,
             Map() => imageData.jsify()!,
-            Null() => null,
+            null => null,
             _ => throw UnsupportedError(
-                'Received type: ${imageData.runtimeType}. Supported types are: ImageDataType, Map')
-          };
+                'Received type: ${imageData.runtimeType}. Supported types are: JSObject, Map')
+          },
+        );
 
   final $js.SetIcon _wrapped;
 
@@ -236,11 +242,11 @@ class SetIcon {
       );
   set imageData(Object? v) {
     _wrapped.imageData = switch (v) {
-      ImageDataType() => v,
+      JSObject() => v,
       Map() => v.jsify()!,
-      Null() => null,
+      null => null,
       _ => throw UnsupportedError(
-          'Received type: ${v.runtimeType}. Supported types are: ImageDataType, Map')
+          'Received type: ${v.runtimeType}. Supported types are: JSObject, Map')
     };
   }
 }
@@ -264,12 +270,13 @@ class RequestContentScript {
     /// `about:srcdoc`. Default is `false`.
     bool? matchAboutBlank,
     required RequestContentScriptInstanceType instanceType,
-  }) : _wrapped = $js.RequestContentScript()
-          ..css = css?.toJSArray((e) => e)
-          ..js = js?.toJSArray((e) => e)
-          ..allFrames = allFrames
-          ..matchAboutBlank = matchAboutBlank
-          ..instanceType = instanceType.toJS;
+  }) : _wrapped = $js.RequestContentScript(
+          css: css?.toJSArray((e) => e),
+          js: js?.toJSArray((e) => e),
+          allFrames: allFrames,
+          matchAboutBlank: matchAboutBlank,
+          instanceType: instanceType.toJS,
+        );
 
   final $js.RequestContentScript _wrapped;
 

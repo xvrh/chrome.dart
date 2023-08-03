@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -212,9 +217,74 @@ class KeyboardEvent {
   });
 }
 
+extension KeyboardEventExtension on KeyboardEvent {
+  /// One of keyup or keydown.
+  external KeyboardEventType type;
+
+  /// (Deprecated) The ID of the request. Use the `requestId` param from the
+  /// `onKeyEvent` event instead.
+  external String? requestId;
+
+  /// The extension ID of the sender of this keyevent.
+  external String? extensionId;
+
+  /// Value of the key being pressed
+  external String key;
+
+  /// Value of the physical key being pressed. The value is not affected by
+  /// current keyboard layout or modifier state.
+  external String code;
+
+  /// The deprecated HTML keyCode, which is system- and implementation-dependent
+  /// numerical code signifying the unmodified identifier associated with the
+  /// key pressed.
+  external int? keyCode;
+
+  /// Whether or not the ALT key is pressed.
+  external bool? altKey;
+
+  /// Whether or not the ALTGR key is pressed.
+  external bool? altgrKey;
+
+  /// Whether or not the CTRL key is pressed.
+  external bool? ctrlKey;
+
+  /// Whether or not the SHIFT key is pressed.
+  external bool? shiftKey;
+
+  /// Whether or not the CAPS_LOCK is enabled.
+  external bool? capsLock;
+}
+
 @JS()
 @staticInterop
-class InputContext {}
+@anonymous
+class InputContext {
+  external factory InputContext({
+    /// This is used to specify targets of text field operations.  This ID becomes
+    /// invalid as soon as onBlur is called.
+    int contextID,
+
+    /// Type of value this text field edits, (Text, Number, URL, etc)
+    InputContextType type,
+
+    /// Whether the text field wants auto-correct.
+    bool autoCorrect,
+
+    /// Whether the text field wants auto-complete.
+    bool autoComplete,
+
+    /// The auto-capitalize type of the text field.
+    AutoCapitalizeType autoCapitalize,
+
+    /// Whether the text field wants spell-check.
+    bool spellCheck,
+
+    /// Whether text entered into the text field should be used to improve typing
+    /// suggestions for the user.
+    bool shouldDoLearning,
+  });
+}
 
 extension InputContextExtension on InputContext {
   /// This is used to specify targets of text field operations.  This ID becomes
@@ -266,6 +336,26 @@ class MenuItem {
   });
 }
 
+extension MenuItemExtension on MenuItem {
+  /// String that will be passed to callbacks referencing this MenuItem.
+  external String id;
+
+  /// Text displayed in the menu for this item.
+  external String? label;
+
+  /// The type of menu item.
+  external MenuItemStyle? style;
+
+  /// Indicates this item is visible.
+  external bool? visible;
+
+  /// Indicates this item should be drawn with a check.
+  external bool? checked;
+
+  /// Indicates this item is enabled.
+  external bool? enabled;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -279,6 +369,16 @@ class AssistiveWindowProperties {
     /// Strings for ChromeVox to announce.
     String? announceString,
   });
+}
+
+extension AssistiveWindowPropertiesExtension on AssistiveWindowProperties {
+  external AssistiveWindowType type;
+
+  /// Sets true to show AssistiveWindow, sets false to hide.
+  external bool visible;
+
+  /// Strings for ChromeVox to announce.
+  external String? announceString;
 }
 
 @JS()
@@ -295,9 +395,38 @@ class MenuParameters {
   });
 }
 
+extension MenuParametersExtension on MenuParameters {
+  /// ID of the engine to use.
+  external String engineID;
+
+  /// MenuItems to add or update. They will be added in the order they exist in
+  /// the array.
+  external JSArray items;
+}
+
 @JS()
 @staticInterop
-class OnSurroundingTextChangedSurroundingInfo {}
+@anonymous
+class OnSurroundingTextChangedSurroundingInfo {
+  external factory OnSurroundingTextChangedSurroundingInfo({
+    /// The text around the cursor. This is only a subset of all text in the input
+    /// field.
+    String text,
+
+    /// The ending position of the selection. This value indicates caret position
+    /// if there is no selection.
+    int focus,
+
+    /// The beginning position of the selection. This value indicates caret
+    /// position if there is no selection.
+    int anchor,
+
+    /// The offset position of `text`. Since `text` only includes a subset of text
+    /// around the cursor, offset indicates the absolute position of the first
+    /// character of `text`.
+    int offset,
+  });
+}
 
 extension OnSurroundingTextChangedSurroundingInfoExtension
     on OnSurroundingTextChangedSurroundingInfo {
@@ -321,7 +450,16 @@ extension OnSurroundingTextChangedSurroundingInfoExtension
 
 @JS()
 @staticInterop
-class OnAssistiveWindowButtonClickedDetails {}
+@anonymous
+class OnAssistiveWindowButtonClickedDetails {
+  external factory OnAssistiveWindowButtonClickedDetails({
+    /// The ID of the button clicked.
+    AssistiveWindowButton buttonID,
+
+    /// The type of the assistive window.
+    AssistiveWindowType windowType,
+  });
+}
 
 extension OnAssistiveWindowButtonClickedDetailsExtension
     on OnAssistiveWindowButtonClickedDetails {
@@ -357,6 +495,26 @@ class SetCompositionParameters {
   });
 }
 
+extension SetCompositionParametersExtension on SetCompositionParameters {
+  /// ID of the context where the composition text will be set
+  external int contextID;
+
+  /// Text to set
+  external String text;
+
+  /// Position in the text that the selection starts at.
+  external int? selectionStart;
+
+  /// Position in the text that the selection ends at.
+  external int? selectionEnd;
+
+  /// Position in the text of the cursor.
+  external int cursor;
+
+  /// List of segments and their associated types.
+  external JSArray? segments;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -365,6 +523,11 @@ class ClearCompositionParameters {
       {
       /// ID of the context where the composition will be cleared
       int contextID});
+}
+
+extension ClearCompositionParametersExtension on ClearCompositionParameters {
+  /// ID of the context where the composition will be cleared
+  external int contextID;
 }
 
 @JS()
@@ -378,6 +541,14 @@ class CommitTextParameters {
     /// The text to commit
     String text,
   });
+}
+
+extension CommitTextParametersExtension on CommitTextParameters {
+  /// ID of the context where the text will be committed
+  external int contextID;
+
+  /// The text to commit
+  external String text;
 }
 
 @JS()
@@ -394,6 +565,15 @@ class SendKeyEventsParameters {
   });
 }
 
+extension SendKeyEventsParametersExtension on SendKeyEventsParameters {
+  /// ID of the context where the key events will be sent, or zero to send key
+  /// events to non-input field.
+  external int contextID;
+
+  /// Data on the key event.
+  external JSArray keyData;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -403,6 +583,14 @@ class SetCandidateWindowPropertiesParameters {
     String engineID,
     SetCandidateWindowPropertiesParametersProperties properties,
   });
+}
+
+extension SetCandidateWindowPropertiesParametersExtension
+    on SetCandidateWindowPropertiesParameters {
+  /// ID of the engine to set properties on.
+  external String engineID;
+
+  external SetCandidateWindowPropertiesParametersProperties properties;
 }
 
 @JS()
@@ -418,6 +606,14 @@ class SetCandidatesParameters {
   });
 }
 
+extension SetCandidatesParametersExtension on SetCandidatesParameters {
+  /// ID of the context that owns the candidate window.
+  external int contextID;
+
+  /// List of candidates to show in the candidate window
+  external JSArray candidates;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -431,6 +627,14 @@ class SetCursorPositionParameters {
   });
 }
 
+extension SetCursorPositionParametersExtension on SetCursorPositionParameters {
+  /// ID of the context that owns the candidate window.
+  external int contextID;
+
+  /// ID of the candidate to select.
+  external int candidateID;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -442,6 +646,15 @@ class SetAssistiveWindowPropertiesParameters {
     /// Properties of the assistive window.
     AssistiveWindowProperties properties,
   });
+}
+
+extension SetAssistiveWindowPropertiesParametersExtension
+    on SetAssistiveWindowPropertiesParameters {
+  /// ID of the context owning the assistive window.
+  external int contextID;
+
+  /// Properties of the assistive window.
+  external AssistiveWindowProperties properties;
 }
 
 @JS()
@@ -466,6 +679,24 @@ class SetAssistiveWindowButtonHighlightedParameters {
   });
 }
 
+extension SetAssistiveWindowButtonHighlightedParametersExtension
+    on SetAssistiveWindowButtonHighlightedParameters {
+  /// ID of the context owning the assistive window.
+  external int contextID;
+
+  /// The ID of the button
+  external AssistiveWindowButton buttonID;
+
+  /// The window type the button belongs to.
+  external AssistiveWindowType windowType;
+
+  /// The text for the screenreader to announce.
+  external String? announceString;
+
+  /// Whether the button should be highlighted.
+  external bool highlighted;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -486,6 +717,22 @@ class DeleteSurroundingTextParameters {
   });
 }
 
+extension DeleteSurroundingTextParametersExtension
+    on DeleteSurroundingTextParameters {
+  /// ID of the engine receiving the event.
+  external String engineID;
+
+  /// ID of the context where the surrounding text will be deleted.
+  external int contextID;
+
+  /// The offset from the caret position where deletion will start. This value
+  /// can be negative.
+  external int offset;
+
+  /// The number of characters to be deleted
+  external int length;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -500,6 +747,18 @@ class SetCompositionParametersSegments {
     /// The type of the underline to modify this segment.
     UnderlineStyle style,
   });
+}
+
+extension SetCompositionParametersSegmentsExtension
+    on SetCompositionParametersSegments {
+  /// Index of the character to start this segment at
+  external int start;
+
+  /// Index of the character to end this segment after.
+  external int end;
+
+  /// The type of the underline to modify this segment.
+  external UnderlineStyle style;
 }
 
 @JS()
@@ -537,6 +796,37 @@ class SetCandidateWindowPropertiesParametersProperties {
   });
 }
 
+extension SetCandidateWindowPropertiesParametersPropertiesExtension
+    on SetCandidateWindowPropertiesParametersProperties {
+  /// True to show the Candidate window, false to hide it.
+  external bool? visible;
+
+  /// True to show the cursor, false to hide it.
+  external bool? cursorVisible;
+
+  /// True if the candidate window should be rendered vertical, false to make it
+  /// horizontal.
+  external bool? vertical;
+
+  /// The number of candidates to display per page.
+  external int? pageSize;
+
+  /// Text that is shown at the bottom of the candidate window.
+  external String? auxiliaryText;
+
+  /// True to display the auxiliary text, false to hide it.
+  external bool? auxiliaryTextVisible;
+
+  /// The total number of candidates for the candidate window.
+  external int? totalCandidates;
+
+  /// The index of the current chosen candidate out of total candidates.
+  external int? currentCandidateIndex;
+
+  /// Where to display the candidate window.
+  external WindowPosition? windowPosition;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -563,6 +853,28 @@ class SetCandidatesParametersCandidates {
   });
 }
 
+extension SetCandidatesParametersCandidatesExtension
+    on SetCandidatesParametersCandidates {
+  /// The candidate
+  external String candidate;
+
+  /// The candidate's id
+  external int id;
+
+  /// The id to add these candidates under
+  external int? parentId;
+
+  /// Short string displayed to next to the candidate, often the shortcut key or
+  /// index
+  external String? label;
+
+  /// Additional text describing the candidate
+  external String? annotation;
+
+  /// The usage or detail description of word.
+  external SetCandidatesParametersCandidatesUsage? usage;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -574,4 +886,13 @@ class SetCandidatesParametersCandidatesUsage {
     /// The body string of detail description.
     String body,
   });
+}
+
+extension SetCandidatesParametersCandidatesUsageExtension
+    on SetCandidatesParametersCandidatesUsage {
+  /// The title string of details description.
+  external String title;
+
+  /// The body string of detail description.
+  external String body;
 }

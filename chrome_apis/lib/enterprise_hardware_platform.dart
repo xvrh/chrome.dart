@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'enterprise.dart';
@@ -41,9 +45,10 @@ class HardwarePlatformInfo {
   HardwarePlatformInfo({
     required String model,
     required String manufacturer,
-  }) : _wrapped = $js.HardwarePlatformInfo()
-          ..model = model
-          ..manufacturer = manufacturer;
+  }) : _wrapped = $js.HardwarePlatformInfo(
+          model: model,
+          manufacturer: manufacturer,
+        );
 
   final $js.HardwarePlatformInfo _wrapped;
 

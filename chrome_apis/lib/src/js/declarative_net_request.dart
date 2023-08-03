@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -228,7 +233,20 @@ typedef UnsupportedRegexReason = String;
 
 @JS()
 @staticInterop
-class Ruleset {}
+@anonymous
+class Ruleset {
+  external factory Ruleset({
+    /// A non-empty string uniquely identifying the ruleset. IDs beginning with
+    /// '_' are reserved for internal use.
+    String id,
+
+    /// The path of the JSON ruleset relative to the extension directory.
+    String path,
+
+    /// Whether the ruleset is enabled by default.
+    bool enabled,
+  });
+}
 
 extension RulesetExtension on Ruleset {
   /// A non-empty string uniquely identifying the ruleset. IDs beginning with
@@ -256,6 +274,16 @@ class QueryKeyValue {
   });
 }
 
+extension QueryKeyValueExtension on QueryKeyValue {
+  external String key;
+
+  external String value;
+
+  /// If true, the query key is replaced only if it's already present.
+  /// Otherwise, the key is also added if it's missing. Defaults to false.
+  external bool? replaceOnly;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -267,6 +295,14 @@ class QueryTransform {
     /// The list of query key-value pairs to be added or replaced.
     JSArray? addOrReplaceParams,
   });
+}
+
+extension QueryTransformExtension on QueryTransform {
+  /// The list of query keys to be removed.
+  external JSArray? removeParams;
+
+  /// The list of query key-value pairs to be added or replaced.
+  external JSArray? addOrReplaceParams;
 }
 
 @JS()
@@ -306,6 +342,38 @@ class URLTransform {
   });
 }
 
+extension URLTransformExtension on URLTransform {
+  /// The new scheme for the request. Allowed values are "http", "https",
+  /// "ftp" and "chrome-extension".
+  external String? scheme;
+
+  /// The new host for the request.
+  external String? host;
+
+  /// The new port for the request. If empty, the existing port is cleared.
+  external String? port;
+
+  /// The new path for the request. If empty, the existing path is cleared.
+  external String? path;
+
+  /// The new query for the request. Should be either empty, in which case the
+  /// existing query is cleared; or should begin with '?'.
+  external String? query;
+
+  /// Add, remove or replace query key-value pairs.
+  external QueryTransform? queryTransform;
+
+  /// The new fragment for the request. Should be either empty, in which case
+  /// the existing fragment is cleared; or should begin with '#'.
+  external String? fragment;
+
+  /// The new username for the request.
+  external String? username;
+
+  /// The new password for the request.
+  external String? password;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -327,6 +395,24 @@ class Redirect {
     /// corresponding capture groups. \0 refers to the entire matching text.
     String? regexSubstitution,
   });
+}
+
+extension RedirectExtension on Redirect {
+  /// Path relative to the extension directory. Should start with '/'.
+  external String? extensionPath;
+
+  /// Url transformations to perform.
+  external URLTransform? transform;
+
+  /// The redirect url. Redirects to JavaScript urls are not allowed.
+  external String? url;
+
+  /// Substitution pattern for rules which specify a `regexFilter`.
+  /// The first match of `regexFilter` within the url will be
+  /// replaced with this pattern. Within `regexSubstitution`,
+  /// backslash-escaped digits (\1 to \9) can be used to insert the
+  /// corresponding capture groups. \0 refers to the entire matching text.
+  external String? regexSubstitution;
 }
 
 @JS()
@@ -501,6 +587,173 @@ class RuleCondition {
   });
 }
 
+extension RuleConditionExtension on RuleCondition {
+  /// The pattern which is matched against the network request url.
+  /// Supported constructs:
+  ///
+  /// **'*'**  : Wildcard: Matches any number of characters.
+  ///
+  /// **'|'**  : Left/right anchor: If used at either end of the pattern,
+  ///               specifies the beginning/end of the url respectively.
+  ///
+  /// **'||'** : Domain name anchor: If used at the beginning of the pattern,
+  ///               specifies the start of a (sub-)domain of the URL.
+  ///
+  /// **'^'**  : Separator character: This matches anything except a letter, a
+  ///               digit or one of the following: _ - . %. This can also match
+  ///               the end of the URL.
+  ///
+  /// Therefore `urlFilter` is composed of the following parts:
+  /// (optional Left/Domain name anchor) + pattern + (optional Right anchor).
+  ///
+  /// If omitted, all urls are matched. An empty string is not allowed.
+  ///
+  /// A pattern beginning with `||*` is not allowed. Use
+  /// `*` instead.
+  ///
+  /// Note: Only one of `urlFilter` or `regexFilter` can
+  /// be specified.
+  ///
+  /// Note: The `urlFilter` must be composed of only ASCII
+  /// characters. This is matched against a url where the host is encoded in
+  /// the punycode format (in case of internationalized domains) and any other
+  /// non-ascii characters are url encoded in utf-8.
+  /// For example, when the request url is
+  /// http://abc.&#x0440;&#x0444;?q=&#x0444;, the
+  /// `urlFilter` will be matched against the url
+  /// http://abc.xn--p1ai/?q=%D1%84.
+  external String? urlFilter;
+
+  /// Regular expression to match against the network request url. This follows
+  /// the <a href = "https://github.com/google/re2/wiki/Syntax">RE2 syntax</a>.
+  ///
+  /// Note: Only one of `urlFilter` or `regexFilter` can
+  /// be specified.
+  ///
+  /// Note: The `regexFilter` must be composed of only ASCII
+  /// characters. This is matched against a url where the host is encoded in
+  /// the punycode format (in case of internationalized domains) and any other
+  /// non-ascii characters are url encoded in utf-8.
+  external String? regexFilter;
+
+  /// Whether the `urlFilter` or `regexFilter`
+  /// (whichever is specified) is case sensitive. Default is true.
+  external bool? isUrlFilterCaseSensitive;
+
+  /// The rule will only match network requests originating from the list of
+  /// `initiatorDomains`. If the list is omitted, the rule is
+  /// applied to requests from all domains. An empty list is not allowed.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>
+  ///    This matches against the request initiator and not the request url.
+  ///  </li>
+  ///  <li>Sub-domains of the listed domains are also matched.</li>
+  /// </ul>
+  external JSArray? initiatorDomains;
+
+  /// The rule will not match network requests originating from the list of
+  /// `excludedInitiatorDomains`. If the list is empty or omitted,
+  /// no domains are excluded. This takes precedence over
+  /// `initiatorDomains`.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>
+  ///    This matches against the request initiator and not the request url.
+  ///  </li>
+  ///  <li>Sub-domains of the listed domains are also excluded.</li>
+  /// </ul>
+  external JSArray? excludedInitiatorDomains;
+
+  /// The rule will only match network requests when the domain matches one
+  /// from the list of `requestDomains`. If the list is omitted,
+  /// the rule is applied to requests from all domains. An empty list is not
+  /// allowed.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>Sub-domains of the listed domains are also matched.</li>
+  /// </ul>
+  external JSArray? requestDomains;
+
+  /// The rule will not match network requests when the domains matches one
+  /// from the list of `excludedRequestDomains`. If the list is
+  /// empty or omitted, no domains are excluded. This takes precedence over
+  /// `requestDomains`.
+  ///
+  /// Notes:
+  /// <ul>
+  ///  <li>Sub-domains like "a.example.com" are also allowed.</li>
+  ///  <li>The entries must consist of only ascii characters.</li>
+  ///  <li>Use punycode encoding for internationalized domains.</li>
+  ///  <li>Sub-domains of the listed domains are also excluded.</li>
+  /// </ul>
+  external JSArray? excludedRequestDomains;
+
+  /// The rule will only match network requests originating from the list of
+  /// `domains`.
+  external JSArray? domains;
+
+  /// The rule will not match network requests originating from the list of
+  /// `excludedDomains`.
+  external JSArray? excludedDomains;
+
+  /// List of resource types which the rule can match. An empty list is not
+  /// allowed.
+  ///
+  /// Note: this must be specified for `allowAllRequests` rules and
+  /// may only include the `sub_frame` and `main_frame`
+  /// resource types.
+  external JSArray? resourceTypes;
+
+  /// List of resource types which the rule won't match. Only one of
+  /// `resourceTypes` and `excludedResourceTypes` should
+  /// be specified. If neither of them is specified, all resource types except
+  /// "main_frame" are blocked.
+  external JSArray? excludedResourceTypes;
+
+  /// List of HTTP request methods which the rule can match. An empty list is
+  /// not allowed.
+  ///
+  /// Note: Specifying a `requestMethods` rule condition will also
+  /// exclude non-HTTP(s) requests, whereas specifying
+  /// `excludedRequestMethods` will not.
+  external JSArray? requestMethods;
+
+  /// List of request methods which the rule won't match. Only one of
+  /// `requestMethods` and `excludedRequestMethods`
+  /// should be specified. If neither of them is specified, all request methods
+  /// are matched.
+  external JSArray? excludedRequestMethods;
+
+  /// Specifies whether the network request is first-party or third-party to
+  /// the domain from which it originated. If omitted, all requests are
+  /// accepted.
+  external DomainType? domainType;
+
+  /// List of [tabs.Tab.id] which the rule should match. An ID of
+  /// [tabs.TAB_ID_NONE] matches requests which don't originate from a
+  /// tab. An empty list is not allowed. Only supported for session-scoped
+  /// rules.
+  external JSArray? tabIds;
+
+  /// List of [tabs.Tab.id] which the rule should not match. An ID of
+  /// [tabs.TAB_ID_NONE] excludes requests which don't originate from a
+  /// tab. Only supported for session-scoped rules.
+  external JSArray? excludedTabIds;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -516,6 +769,18 @@ class ModifyHeaderInfo {
     /// and `set` operations.
     String? value,
   });
+}
+
+extension ModifyHeaderInfoExtension on ModifyHeaderInfo {
+  /// The name of the header to be modified.
+  external String header;
+
+  /// The operation to be performed on a header.
+  external HeaderOperation operation;
+
+  /// The new value for the header. Must be specified for `append`
+  /// and `set` operations.
+  external String? value;
 }
 
 @JS()
@@ -540,6 +805,23 @@ class RuleAction {
   });
 }
 
+extension RuleActionExtension on RuleAction {
+  /// The type of action to perform.
+  external RuleActionType type;
+
+  /// Describes how the redirect should be performed. Only valid for redirect
+  /// rules.
+  external Redirect? redirect;
+
+  /// The request headers to modify for the request. Only valid if
+  /// RuleActionType is "modifyHeaders".
+  external JSArray? requestHeaders;
+
+  /// The response headers to modify for the request. Only valid if
+  /// RuleActionType is "modifyHeaders".
+  external JSArray? responseHeaders;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -559,9 +841,34 @@ class Rule {
   });
 }
 
+extension RuleExtension on Rule {
+  /// An id which uniquely identifies a rule. Mandatory and should be >= 1.
+  external int id;
+
+  /// Rule priority. Defaults to 1. When specified, should be >= 1.
+  external int? priority;
+
+  /// The condition under which this rule is triggered.
+  external RuleCondition condition;
+
+  /// The action to take if this rule is matched.
+  external RuleAction action;
+}
+
 @JS()
 @staticInterop
-class MatchedRule {}
+@anonymous
+class MatchedRule {
+  external factory MatchedRule({
+    /// A matching rule's ID.
+    int ruleId,
+
+    /// ID of the [Ruleset] this rule belongs to. For a rule originating
+    /// from the set of dynamic rules, this will be equal to
+    /// [DYNAMIC_RULESET_ID].
+    String rulesetId,
+  });
+}
 
 extension MatchedRuleExtension on MatchedRule {
   /// A matching rule's ID.
@@ -583,9 +890,28 @@ class GetRulesFilter {
       JSArray? ruleIds});
 }
 
+extension GetRulesFilterExtension on GetRulesFilter {
+  /// If specified, only rules with matching IDs are included.
+  external JSArray? ruleIds;
+}
+
 @JS()
 @staticInterop
-class MatchedRuleInfo {}
+@anonymous
+class MatchedRuleInfo {
+  external factory MatchedRuleInfo({
+    MatchedRule rule,
+
+    /// The time the rule was matched. Timestamps will correspond to the
+    /// Javascript convention for times, i.e. number of milliseconds since the
+    /// epoch.
+    double timeStamp,
+
+    /// The tabId of the tab from which the request originated if the tab is
+    /// still active. Else -1.
+    int tabId,
+  });
+}
 
 extension MatchedRuleInfoExtension on MatchedRuleInfo {
   external MatchedRule rule;
@@ -614,9 +940,24 @@ class MatchedRulesFilter {
   });
 }
 
+extension MatchedRulesFilterExtension on MatchedRulesFilter {
+  /// If specified, only matches rules for the given tab. Matches rules not
+  /// associated with any active tab if set to -1.
+  external int? tabId;
+
+  /// If specified, only matches rules after the given timestamp.
+  external double? minTimeStamp;
+}
+
 @JS()
 @staticInterop
-class RulesMatchedDetails {}
+@anonymous
+class RulesMatchedDetails {
+  external factory RulesMatchedDetails(
+      {
+      /// Rules matching the given filter.
+      JSArray rulesMatchedInfo});
+}
 
 extension RulesMatchedDetailsExtension on RulesMatchedDetails {
   /// Rules matching the given filter.
@@ -625,7 +966,57 @@ extension RulesMatchedDetailsExtension on RulesMatchedDetails {
 
 @JS()
 @staticInterop
-class RequestDetails {}
+@anonymous
+class RequestDetails {
+  external factory RequestDetails({
+    /// The ID of the request. Request IDs are unique within a browser session.
+    String requestId,
+
+    /// The URL of the request.
+    String url,
+
+    /// The origin where the request was initiated. This does not change through
+    /// redirects. If this is an opaque origin, the string 'null' will be used.
+    String? initiator,
+
+    /// Standard HTTP method.
+    String method,
+
+    /// The value 0 indicates that the request happens in the main frame; a
+    /// positive value indicates the ID of a subframe in which the request
+    /// happens. If the document of a (sub-)frame is loaded (`type` is
+    /// `main_frame` or `sub_frame`), `frameId`
+    /// indicates the ID of this frame, not the ID of the outer frame. Frame IDs
+    /// are unique within a tab.
+    int frameId,
+
+    /// The unique identifier for the frame's document, if this request is for a
+    /// frame.
+    String? documentId,
+
+    /// The type of the frame, if this request is for a frame.
+    FrameType? frameType,
+
+    /// The lifecycle of the frame's document, if this request is for a
+    /// frame.
+    DocumentLifecycle? documentLifecycle,
+
+    /// ID of frame that wraps the frame which sent the request. Set to -1 if no
+    /// parent frame exists.
+    int parentFrameId,
+
+    /// The unique identifier for the frame's parent document, if this request
+    /// is for a frame and has a parent.
+    String? parentDocumentId,
+
+    /// The ID of the tab in which the request takes place. Set to -1 if the
+    /// request isn't related to a tab.
+    int tabId,
+
+    /// The resource type of the request.
+    ResourceType type,
+  });
+}
 
 extension RequestDetailsExtension on RequestDetails {
   /// The ID of the request. Request IDs are unique within a browser session.
@@ -701,9 +1092,37 @@ class TestMatchRequestDetails {
   });
 }
 
+extension TestMatchRequestDetailsExtension on TestMatchRequestDetails {
+  /// The URL of the hypothetical request.
+  external String url;
+
+  /// The initiator URL (if any) for the hypothetical request.
+  external String? initiator;
+
+  /// Standard HTTP method of the hypothetical request. Defaults to "get" for
+  /// HTTP requests and is ignored for non-HTTP requests.
+  external RequestMethod? method;
+
+  /// The resource type of the hypothetical request.
+  external ResourceType type;
+
+  /// The ID of the tab in which the hypothetical request takes place. Does
+  /// not need to correspond to a real tab ID. Default is -1, meaning that
+  /// the request isn't related to a tab.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
-class MatchedRuleInfoDebug {}
+@anonymous
+class MatchedRuleInfoDebug {
+  external factory MatchedRuleInfoDebug({
+    MatchedRule rule,
+
+    /// Details about the request for which the rule was matched.
+    RequestDetails request,
+  });
+}
 
 extension MatchedRuleInfoDebugExtension on MatchedRuleInfoDebug {
   external MatchedRule rule;
@@ -714,7 +1133,10 @@ extension MatchedRuleInfoDebugExtension on MatchedRuleInfoDebug {
 
 @JS()
 @staticInterop
-class DNRInfo {}
+@anonymous
+class DNRInfo {
+  external factory DNRInfo({JSArray rule_resources});
+}
 
 extension DNRInfoExtension on DNRInfo {
   external JSArray rule_resources;
@@ -722,7 +1144,10 @@ extension DNRInfoExtension on DNRInfo {
 
 @JS()
 @staticInterop
-class ManifestKeys {}
+@anonymous
+class ManifestKeys {
+  external factory ManifestKeys({DNRInfo declarative_net_request});
+}
 
 extension ManifestKeysExtension on ManifestKeys {
   external DNRInfo declarative_net_request;
@@ -747,9 +1172,32 @@ class RegexOptions {
   });
 }
 
+extension RegexOptionsExtension on RegexOptions {
+  /// The regular expresson to check.
+  external String regex;
+
+  /// Whether the `regex` specified is case sensitive. Default is
+  /// true.
+  external bool? isCaseSensitive;
+
+  /// Whether the `regex` specified requires capturing. Capturing is
+  /// only required for redirect rules which specify a
+  /// `regexSubstition` action. The default is false.
+  external bool? requireCapturing;
+}
+
 @JS()
 @staticInterop
-class IsRegexSupportedResult {}
+@anonymous
+class IsRegexSupportedResult {
+  external factory IsRegexSupportedResult({
+    bool isSupported,
+
+    /// Specifies the reason why the regular expression is not supported. Only
+    /// provided if `isSupported` is false.
+    UnsupportedRegexReason? reason,
+  });
+}
 
 extension IsRegexSupportedResultExtension on IsRegexSupportedResult {
   external bool isSupported;
@@ -761,7 +1209,13 @@ extension IsRegexSupportedResultExtension on IsRegexSupportedResult {
 
 @JS()
 @staticInterop
-class TestMatchOutcomeResult {}
+@anonymous
+class TestMatchOutcomeResult {
+  external factory TestMatchOutcomeResult(
+      {
+      /// The rules (if any) that match the hypothetical request.
+      JSArray matchedRules});
+}
 
 extension TestMatchOutcomeResultExtension on TestMatchOutcomeResult {
   /// The rules (if any) that match the hypothetical request.
@@ -781,6 +1235,14 @@ class UpdateRuleOptions {
   });
 }
 
+extension UpdateRuleOptionsExtension on UpdateRuleOptions {
+  /// IDs of the rules to remove. Any invalid IDs will be ignored.
+  external JSArray? removeRuleIds;
+
+  /// Rules to add.
+  external JSArray? addRules;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -794,6 +1256,16 @@ class UpdateRulesetOptions {
     /// enabled.
     JSArray? enableRulesetIds,
   });
+}
+
+extension UpdateRulesetOptionsExtension on UpdateRulesetOptions {
+  /// The set of ids corresponding to a static [Ruleset] that should be
+  /// disabled.
+  external JSArray? disableRulesetIds;
+
+  /// The set of ids corresponding to a static [Ruleset] that should be
+  /// enabled.
+  external JSArray? enableRulesetIds;
 }
 
 @JS()
@@ -812,6 +1284,17 @@ class UpdateStaticRulesOptions {
   });
 }
 
+extension UpdateStaticRulesOptionsExtension on UpdateStaticRulesOptions {
+  /// The id corresponding to a static [Ruleset].
+  external String rulesetId;
+
+  /// Set of ids corresponding to rules in the [Ruleset] to disable.
+  external JSArray? disableRuleIds;
+
+  /// Set of ids corresponding to rules in the [Ruleset] to enable.
+  external JSArray? enableRuleIds;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -820,6 +1303,11 @@ class GetDisabledRuleIdsOptions {
       {
       /// The id corresponding to a static [Ruleset].
       String rulesetId});
+}
+
+extension GetDisabledRuleIdsOptionsExtension on GetDisabledRuleIdsOptions {
+  /// The id corresponding to a static [Ruleset].
+  external String rulesetId;
 }
 
 @JS()
@@ -836,6 +1324,15 @@ class TabActionCountUpdate {
   });
 }
 
+extension TabActionCountUpdateExtension on TabActionCountUpdate {
+  /// The tab for which to update the action count.
+  external int tabId;
+
+  /// The amount to increment the tab's action count by. Negative values will
+  /// decrement the count.
+  external int increment;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -848,4 +1345,13 @@ class ExtensionActionOptions {
     /// Details of how the tab's action count should be adjusted.
     TabActionCountUpdate? tabUpdate,
   });
+}
+
+extension ExtensionActionOptionsExtension on ExtensionActionOptions {
+  /// Whether to automatically display the action count for a page as the
+  /// extension's badge text. This preference is persisted across sessions.
+  external bool? displayActionCountAsBadgeText;
+
+  /// Details of how the tab's action count should be adjusted.
+  external TabActionCountUpdate? tabUpdate;
 }

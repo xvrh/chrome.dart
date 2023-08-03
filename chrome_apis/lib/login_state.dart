@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -34,10 +38,10 @@ class ChromeLoginState {
 
   /// Dispatched when the session state changes. `sessionState`
   /// is the new session state.
-  Stream<SessionState> get onSessionStateChanged =>
+  EventStream<SessionState> get onSessionStateChanged =>
       $js.chrome.loginState.onSessionStateChanged
           .asStream(($c) => ($js.SessionState sessionState) {
-                $c(SessionState.fromJS(sessionState));
+                return $c(SessionState.fromJS(sessionState));
               });
 }
 

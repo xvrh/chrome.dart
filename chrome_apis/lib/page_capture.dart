@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:typed_data';
 
 import 'src/internal_helpers.dart';
@@ -45,4 +49,10 @@ class SaveAsMhtmlDetails {
   final $js.SaveAsMhtmlDetails _wrapped;
 
   $js.SaveAsMhtmlDetails get toJS => _wrapped;
+
+  /// The id of the tab to save as MHTML.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
 }

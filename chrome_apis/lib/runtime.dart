@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -239,17 +243,18 @@ class ChromeRuntime {
   /// Fired when a profile that has this extension installed first starts up.
   /// This event is not fired when an incognito profile is started, even if this
   /// extension is operating in 'split' incognito mode.
-  Stream<void> get onStartup =>
+  EventStream<void> get onStartup =>
       $js.chrome.runtime.onStartup.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// Fired when the extension is first installed, when the extension is updated
   /// to a new version, and when Chrome is updated to a new version.
-  Stream<OnInstalledDetails> get onInstalled => $js.chrome.runtime.onInstalled
-      .asStream(($c) => ($js.OnInstalledDetails details) {
-            $c(OnInstalledDetails.fromJS(details));
-          });
+  EventStream<OnInstalledDetails> get onInstalled =>
+      $js.chrome.runtime.onInstalled
+          .asStream(($c) => ($js.OnInstalledDetails details) {
+                return $c(OnInstalledDetails.fromJS(details));
+              });
 
   /// Sent to the event page just before it is unloaded. This gives the
   /// extension opportunity to do some clean up. Note that since the page is
@@ -257,15 +262,15 @@ class ChromeRuntime {
   /// are not guaranteed to complete. If more activity for the event page occurs
   /// before it gets unloaded the onSuspendCanceled event will be sent and the
   /// page won't be unloaded.
-  Stream<void> get onSuspend =>
+  EventStream<void> get onSuspend =>
       $js.chrome.runtime.onSuspend.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// Sent after onSuspend to indicate that the app won't be unloaded after all.
-  Stream<void> get onSuspendCanceled =>
+  EventStream<void> get onSuspendCanceled =>
       $js.chrome.runtime.onSuspendCanceled.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// Fired when an update is available, but isn't installed immediately because
@@ -278,49 +283,49 @@ class ChromeRuntime {
   /// the next time Chrome itself restarts. If no handlers are listening for
   /// this event, and your extension has a persistent background page, it
   /// behaves as if chrome.runtime.reload() is called in response to this event.
-  Stream<OnUpdateAvailableDetails> get onUpdateAvailable =>
+  EventStream<OnUpdateAvailableDetails> get onUpdateAvailable =>
       $js.chrome.runtime.onUpdateAvailable
           .asStream(($c) => ($js.OnUpdateAvailableDetails details) {
-                $c(OnUpdateAvailableDetails.fromJS(details));
+                return $c(OnUpdateAvailableDetails.fromJS(details));
               });
 
   /// Fired when a Chrome update is available, but isn't installed immediately
   /// because a browser restart is required.
-  Stream<void> get onBrowserUpdateAvailable =>
+  EventStream<void> get onBrowserUpdateAvailable =>
       $js.chrome.runtime.onBrowserUpdateAvailable.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// Fired when a connection is made from either an extension process or a
   /// content script (by [runtime.connect]).
-  Stream<Port> get onConnect =>
+  EventStream<Port> get onConnect =>
       $js.chrome.runtime.onConnect.asStream(($c) => ($js.Port port) {
-            $c(Port.fromJS(port));
+            return $c(Port.fromJS(port));
           });
 
   /// Fired when a connection is made from another extension (by
   /// [runtime.connect]).
-  Stream<Port> get onConnectExternal =>
+  EventStream<Port> get onConnectExternal =>
       $js.chrome.runtime.onConnectExternal.asStream(($c) => ($js.Port port) {
-            $c(Port.fromJS(port));
+            return $c(Port.fromJS(port));
           });
 
   /// Fired when a connection is made from a native application. Currently only
   /// supported on Chrome OS.
-  Stream<Port> get onConnectNative =>
+  EventStream<Port> get onConnectNative =>
       $js.chrome.runtime.onConnectNative.asStream(($c) => ($js.Port port) {
-            $c(Port.fromJS(port));
+            return $c(Port.fromJS(port));
           });
 
   /// Fired when a message is sent from either an extension process (by
   /// [runtime.sendMessage]) or a content script (by [tabs.sendMessage]).
-  Stream<OnMessageEvent> get onMessage =>
+  EventStream<OnMessageEvent> get onMessage =>
       $js.chrome.runtime.onMessage.asStream(($c) => (
             JSAny? message,
             $js.MessageSender sender,
             Function sendResponse,
           ) {
-            $c(OnMessageEvent(
+            return $c(OnMessageEvent(
               message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
               sendResponse: ([Object? p1, Object? p2]) {
@@ -333,13 +338,13 @@ class ChromeRuntime {
 
   /// Fired when a message is sent from another extension/app (by
   /// [runtime.sendMessage]). Cannot be used in a content script.
-  Stream<OnMessageExternalEvent> get onMessageExternal =>
+  EventStream<OnMessageExternalEvent> get onMessageExternal =>
       $js.chrome.runtime.onMessageExternal.asStream(($c) => (
             JSAny? message,
             $js.MessageSender sender,
             Function sendResponse,
           ) {
-            $c(OnMessageExternalEvent(
+            return $c(OnMessageExternalEvent(
               message: message?.dartify(),
               sender: MessageSender.fromJS(sender),
               sendResponse: ([Object? p1, Object? p2]) {
@@ -355,10 +360,10 @@ class ChromeRuntime {
   /// the restart to happen. If the app does nothing, a restart will be enforced
   /// after a 24-hour grace period has passed. Currently, this event is only
   /// fired for Chrome OS kiosk apps.
-  Stream<OnRestartRequiredReason> get onRestartRequired =>
+  EventStream<OnRestartRequiredReason> get onRestartRequired =>
       $js.chrome.runtime.onRestartRequired
           .asStream(($c) => ($js.OnRestartRequiredReason reason) {
-                $c(OnRestartRequiredReason.fromJS(reason));
+                return $c(OnRestartRequiredReason.fromJS(reason));
               });
 }
 
@@ -503,11 +508,12 @@ class Port {
     /// onConnectExternal) / $(ref:runtime.onConnectExternal onConnectNative)
     /// listeners.
     MessageSender? sender,
-  }) : _wrapped = $js.Port()
-          ..name = name
-          ..disconnect = allowInterop(disconnect)
-          ..postMessage = allowInterop(postMessage)
-          ..sender = sender?.toJS;
+  }) : _wrapped = $js.Port(
+          name: name,
+          disconnect: allowInterop(disconnect),
+          postMessage: allowInterop(postMessage),
+          sender: sender?.toJS,
+        );
 
   final $js.Port _wrapped;
 
@@ -556,19 +562,19 @@ class Port {
   /// If the port is closed via $(ref:Port.disconnect disconnect), then this
   /// event is _only_ fired on the other end. This event is fired at most once
   /// (see also [Port lifetime](messaging#port-lifetime)).
-  Stream<Port> get onDisconnect =>
+  EventStream<Port> get onDisconnect =>
       _wrapped.onDisconnect.asStream(($c) => ($js.Port port) {
-            $c(Port.fromJS(port));
+            return $c(Port.fromJS(port));
           });
 
   /// This event is fired when $(ref:Port.postMessage postMessage) is called by
   /// the other end of the port.
-  Stream<PortOnMessageEvent> get onMessage =>
+  EventStream<PortOnMessageEvent> get onMessage =>
       _wrapped.onMessage.asStream(($c) => (
             JSAny message,
             $js.Port port,
           ) {
-            $c(PortOnMessageEvent(
+            return $c(PortOnMessageEvent(
               message: message.dartify()!,
               port: Port.fromJS(port),
             ));
@@ -626,18 +632,19 @@ class MessageSender {
     /// the port was created. Note that the lifecycle state of the document may
     /// have changed since port creation.
     String? documentLifecycle,
-  }) : _wrapped = $js.MessageSender()
-          ..tab = tab?.toJS
-          ..frameId = frameId
-          ..guestProcessId = guestProcessId
-          ..guestRenderFrameRoutingId = guestRenderFrameRoutingId
-          ..id = id
-          ..url = url
-          ..nativeApplication = nativeApplication
-          ..tlsChannelId = tlsChannelId
-          ..origin = origin
-          ..documentId = documentId
-          ..documentLifecycle = documentLifecycle;
+  }) : _wrapped = $js.MessageSender(
+          tab: tab?.toJS,
+          frameId: frameId,
+          guestProcessId: guestProcessId,
+          guestRenderFrameRoutingId: guestRenderFrameRoutingId,
+          id: id,
+          url: url,
+          nativeApplication: nativeApplication,
+          tlsChannelId: tlsChannelId,
+          origin: origin,
+          documentId: documentId,
+          documentLifecycle: documentLifecycle,
+        );
 
   final $js.MessageSender _wrapped;
 
@@ -736,11 +743,12 @@ class PlatformInfo {
 
     /// The native client architecture. This may be different from arch on some
     /// platforms.
-    required PlatformNaclArch nacl_arch,
-  }) : _wrapped = $js.PlatformInfo()
-          ..os = os.toJS
-          ..arch = arch.toJS
-          ..nacl_arch = nacl_arch.toJS;
+    required PlatformNaclArch naclArch,
+  }) : _wrapped = $js.PlatformInfo(
+          os: os.toJS,
+          arch: arch.toJS,
+          nacl_arch: naclArch.toJS,
+        );
 
   final $js.PlatformInfo _wrapped;
 
@@ -760,8 +768,8 @@ class PlatformInfo {
 
   /// The native client architecture. This may be different from arch on some
   /// platforms.
-  PlatformNaclArch get nacl_arch => PlatformNaclArch.fromJS(_wrapped.nacl_arch);
-  set nacl_arch(PlatformNaclArch v) {
+  PlatformNaclArch get naclArch => PlatformNaclArch.fromJS(_wrapped.nacl_arch);
+  set naclArch(PlatformNaclArch v) {
     _wrapped.nacl_arch = v.toJS;
   }
 }
@@ -802,16 +810,17 @@ class ExtensionContext {
 
     /// Whether the context is associated with an incognito profile.
     required bool incognito,
-  }) : _wrapped = $js.ExtensionContext()
-          ..contextType = contextType.toJS
-          ..contextId = contextId
-          ..tabId = tabId
-          ..windowId = windowId
-          ..documentId = documentId
-          ..frameId = frameId
-          ..documentUrl = documentUrl
-          ..documentOrigin = documentOrigin
-          ..incognito = incognito;
+  }) : _wrapped = $js.ExtensionContext(
+          contextType: contextType.toJS,
+          contextId: contextId,
+          tabId: tabId,
+          windowId: windowId,
+          documentId: documentId,
+          frameId: frameId,
+          documentUrl: documentUrl,
+          documentOrigin: documentOrigin,
+          incognito: incognito,
+        );
 
   final $js.ExtensionContext _wrapped;
 
@@ -906,6 +915,61 @@ class ContextFilter {
   final $js.ContextFilter _wrapped;
 
   $js.ContextFilter get toJS => _wrapped;
+
+  List<ContextType>? get contextTypes => _wrapped.contextTypes?.toDart
+      .cast<$js.ContextType>()
+      .map((e) => ContextType.fromJS(e))
+      .toList();
+  set contextTypes(List<ContextType>? v) {
+    _wrapped.contextTypes = v?.toJSArray((e) => e.toJS);
+  }
+
+  List<String>? get contextIds =>
+      _wrapped.contextIds?.toDart.cast<String>().map((e) => e).toList();
+  set contextIds(List<String>? v) {
+    _wrapped.contextIds = v?.toJSArray((e) => e);
+  }
+
+  List<int>? get tabIds =>
+      _wrapped.tabIds?.toDart.cast<int>().map((e) => e).toList();
+  set tabIds(List<int>? v) {
+    _wrapped.tabIds = v?.toJSArray((e) => e);
+  }
+
+  List<int>? get windowIds =>
+      _wrapped.windowIds?.toDart.cast<int>().map((e) => e).toList();
+  set windowIds(List<int>? v) {
+    _wrapped.windowIds = v?.toJSArray((e) => e);
+  }
+
+  List<String>? get documentIds =>
+      _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
+  set documentIds(List<String>? v) {
+    _wrapped.documentIds = v?.toJSArray((e) => e);
+  }
+
+  List<int>? get frameIds =>
+      _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
+  set frameIds(List<int>? v) {
+    _wrapped.frameIds = v?.toJSArray((e) => e);
+  }
+
+  List<String>? get documentUrls =>
+      _wrapped.documentUrls?.toDart.cast<String>().map((e) => e).toList();
+  set documentUrls(List<String>? v) {
+    _wrapped.documentUrls = v?.toJSArray((e) => e);
+  }
+
+  List<String>? get documentOrigins =>
+      _wrapped.documentOrigins?.toDart.cast<String>().map((e) => e).toList();
+  set documentOrigins(List<String>? v) {
+    _wrapped.documentOrigins = v?.toJSArray((e) => e);
+  }
+
+  bool? get incognito => _wrapped.incognito;
+  set incognito(bool? v) {
+    _wrapped.incognito = v;
+  }
 }
 
 class OnInstalledDetails {
@@ -922,10 +986,11 @@ class OnInstalledDetails {
     /// Indicates the ID of the imported shared module extension which updated.
     /// This is present only if 'reason' is 'shared_module_update'.
     String? id,
-  }) : _wrapped = $js.OnInstalledDetails()
-          ..reason = reason.toJS
-          ..previousVersion = previousVersion
-          ..id = id;
+  }) : _wrapped = $js.OnInstalledDetails(
+          reason: reason.toJS,
+          previousVersion: previousVersion,
+          id: id,
+        );
 
   final $js.OnInstalledDetails _wrapped;
 
@@ -959,7 +1024,7 @@ class OnUpdateAvailableDetails {
       {
       /// The version number of the available update.
       required String version})
-      : _wrapped = $js.OnUpdateAvailableDetails()..version = version;
+      : _wrapped = $js.OnUpdateAvailableDetails(version: version);
 
   final $js.OnUpdateAvailableDetails _wrapped;
 
@@ -982,9 +1047,10 @@ class RequestUpdateCheckCallbackResult {
     /// If an update is available, this contains the version of the available
     /// update.
     String? version,
-  }) : _wrapped = $js.RequestUpdateCheckCallbackResult()
-          ..status = status.toJS
-          ..version = version;
+  }) : _wrapped = $js.RequestUpdateCheckCallbackResult(
+          status: status.toJS,
+          version: version,
+        );
 
   final $js.RequestUpdateCheckCallbackResult _wrapped;
 
@@ -1024,6 +1090,20 @@ class ConnectInfo {
   final $js.ConnectInfo _wrapped;
 
   $js.ConnectInfo get toJS => _wrapped;
+
+  /// Will be passed into onConnect for processes that are listening for the
+  /// connection event.
+  String? get name => _wrapped.name;
+  set name(String? v) {
+    _wrapped.name = v;
+  }
+
+  /// Whether the TLS channel ID will be passed into onConnectExternal for
+  /// processes that are listening for the connection event.
+  bool? get includeTlsChannelId => _wrapped.includeTlsChannelId;
+  set includeTlsChannelId(bool? v) {
+    _wrapped.includeTlsChannelId = v;
+  }
 }
 
 class SendMessageOptions {
@@ -1040,6 +1120,13 @@ class SendMessageOptions {
   final $js.SendMessageOptions _wrapped;
 
   $js.SendMessageOptions get toJS => _wrapped;
+
+  /// Whether the TLS channel ID will be passed into onMessageExternal for
+  /// processes that are listening for the connection event.
+  bool? get includeTlsChannelId => _wrapped.includeTlsChannelId;
+  set includeTlsChannelId(bool? v) {
+    _wrapped.includeTlsChannelId = v;
+  }
 }
 
 class RuntimeLastError {
@@ -1049,7 +1136,7 @@ class RuntimeLastError {
       {
       /// Details about the error which occurred.
       String? message})
-      : _wrapped = $js.RuntimeLastError()..message = message;
+      : _wrapped = $js.RuntimeLastError(message: message);
 
   final $js.RuntimeLastError _wrapped;
 

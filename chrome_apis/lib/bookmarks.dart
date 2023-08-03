@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -150,12 +154,12 @@ class ChromeBookmarks {
       $js.chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE;
 
   /// Fired when a bookmark or folder is created.
-  Stream<OnCreatedEvent> get onCreated =>
+  EventStream<OnCreatedEvent> get onCreated =>
       $js.chrome.bookmarks.onCreated.asStream(($c) => (
             String id,
             $js.BookmarkTreeNode bookmark,
           ) {
-            $c(OnCreatedEvent(
+            return $c(OnCreatedEvent(
               id: id,
               bookmark: BookmarkTreeNode.fromJS(bookmark),
             ));
@@ -164,12 +168,12 @@ class ChromeBookmarks {
   /// Fired when a bookmark or folder is removed.  When a folder is removed
   /// recursively, a single notification is fired for the folder, and none for
   /// its contents.
-  Stream<OnRemovedEvent> get onRemoved =>
+  EventStream<OnRemovedEvent> get onRemoved =>
       $js.chrome.bookmarks.onRemoved.asStream(($c) => (
             String id,
             $js.OnRemovedRemoveInfo removeInfo,
           ) {
-            $c(OnRemovedEvent(
+            return $c(OnRemovedEvent(
               id: id,
               removeInfo: OnRemovedRemoveInfo.fromJS(removeInfo),
             ));
@@ -177,24 +181,24 @@ class ChromeBookmarks {
 
   /// Fired when a bookmark or folder changes.  **Note:** Currently, only title
   /// and url changes trigger this.
-  Stream<OnChangedEvent> get onChanged =>
+  EventStream<OnChangedEvent> get onChanged =>
       $js.chrome.bookmarks.onChanged.asStream(($c) => (
             String id,
             $js.OnChangedChangeInfo changeInfo,
           ) {
-            $c(OnChangedEvent(
+            return $c(OnChangedEvent(
               id: id,
               changeInfo: OnChangedChangeInfo.fromJS(changeInfo),
             ));
           });
 
   /// Fired when a bookmark or folder is moved to a different parent folder.
-  Stream<OnMovedEvent> get onMoved =>
+  EventStream<OnMovedEvent> get onMoved =>
       $js.chrome.bookmarks.onMoved.asStream(($c) => (
             String id,
             $js.OnMovedMoveInfo moveInfo,
           ) {
-            $c(OnMovedEvent(
+            return $c(OnMovedEvent(
               id: id,
               moveInfo: OnMovedMoveInfo.fromJS(moveInfo),
             ));
@@ -202,12 +206,12 @@ class ChromeBookmarks {
 
   /// Fired when the children of a folder have changed their order due to the
   /// order being sorted in the UI.  This is not called as a result of a move().
-  Stream<OnChildrenReorderedEvent> get onChildrenReordered =>
+  EventStream<OnChildrenReorderedEvent> get onChildrenReordered =>
       $js.chrome.bookmarks.onChildrenReordered.asStream(($c) => (
             String id,
             $js.OnChildrenReorderedReorderInfo reorderInfo,
           ) {
-            $c(OnChildrenReorderedEvent(
+            return $c(OnChildrenReorderedEvent(
               id: id,
               reorderInfo: OnChildrenReorderedReorderInfo.fromJS(reorderInfo),
             ));
@@ -216,15 +220,15 @@ class ChromeBookmarks {
   /// Fired when a bookmark import session is begun.  Expensive observers should
   /// ignore onCreated updates until onImportEnded is fired.  Observers should
   /// still handle other notifications immediately.
-  Stream<void> get onImportBegan =>
+  EventStream<void> get onImportBegan =>
       $js.chrome.bookmarks.onImportBegan.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 
   /// Fired when a bookmark import session is ended.
-  Stream<void> get onImportEnded =>
+  EventStream<void> get onImportEnded =>
       $js.chrome.bookmarks.onImportEnded.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -284,17 +288,18 @@ class BookmarkTreeNode {
 
     /// An ordered list of children of this node.
     List<BookmarkTreeNode>? children,
-  }) : _wrapped = $js.BookmarkTreeNode()
-          ..id = id
-          ..parentId = parentId
-          ..index = index
-          ..url = url
-          ..title = title
-          ..dateAdded = dateAdded
-          ..dateLastUsed = dateLastUsed
-          ..dateGroupModified = dateGroupModified
-          ..unmodifiable = unmodifiable?.toJS
-          ..children = children?.toJSArray((e) => e.toJS);
+  }) : _wrapped = $js.BookmarkTreeNode(
+          id: id,
+          parentId: parentId,
+          index: index,
+          url: url,
+          title: title,
+          dateAdded: dateAdded,
+          dateLastUsed: dateLastUsed,
+          dateGroupModified: dateGroupModified,
+          unmodifiable: unmodifiable?.toJS,
+          children: children?.toJSArray((e) => e.toJS),
+        );
 
   final $js.BookmarkTreeNode _wrapped;
 
@@ -391,6 +396,27 @@ class CreateDetails {
   final $js.CreateDetails _wrapped;
 
   $js.CreateDetails get toJS => _wrapped;
+
+  /// Defaults to the Other Bookmarks folder.
+  String? get parentId => _wrapped.parentId;
+  set parentId(String? v) {
+    _wrapped.parentId = v;
+  }
+
+  int? get index => _wrapped.index;
+  set index(int? v) {
+    _wrapped.index = v;
+  }
+
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    _wrapped.title = v;
+  }
+
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    _wrapped.url = v;
+  }
 }
 
 class OnRemovedRemoveInfo {
@@ -400,10 +426,11 @@ class OnRemovedRemoveInfo {
     required String parentId,
     required int index,
     required BookmarkTreeNode node,
-  }) : _wrapped = $js.OnRemovedRemoveInfo()
-          ..parentId = parentId
-          ..index = index
-          ..node = node.toJS;
+  }) : _wrapped = $js.OnRemovedRemoveInfo(
+          parentId: parentId,
+          index: index,
+          node: node.toJS,
+        );
 
   final $js.OnRemovedRemoveInfo _wrapped;
 
@@ -431,9 +458,10 @@ class OnChangedChangeInfo {
   OnChangedChangeInfo({
     required String title,
     String? url,
-  }) : _wrapped = $js.OnChangedChangeInfo()
-          ..title = title
-          ..url = url;
+  }) : _wrapped = $js.OnChangedChangeInfo(
+          title: title,
+          url: url,
+        );
 
   final $js.OnChangedChangeInfo _wrapped;
 
@@ -458,11 +486,12 @@ class OnMovedMoveInfo {
     required int index,
     required String oldParentId,
     required int oldIndex,
-  }) : _wrapped = $js.OnMovedMoveInfo()
-          ..parentId = parentId
-          ..index = index
-          ..oldParentId = oldParentId
-          ..oldIndex = oldIndex;
+  }) : _wrapped = $js.OnMovedMoveInfo(
+          parentId: parentId,
+          index: index,
+          oldParentId: oldParentId,
+          oldIndex: oldIndex,
+        );
 
   final $js.OnMovedMoveInfo _wrapped;
 
@@ -493,8 +522,8 @@ class OnChildrenReorderedReorderInfo {
   OnChildrenReorderedReorderInfo.fromJS(this._wrapped);
 
   OnChildrenReorderedReorderInfo({required List<String> childIds})
-      : _wrapped = $js.OnChildrenReorderedReorderInfo()
-          ..childIds = childIds.toJSArray((e) => e);
+      : _wrapped = $js.OnChildrenReorderedReorderInfo(
+            childIds: childIds.toJSArray((e) => e));
 
   final $js.OnChildrenReorderedReorderInfo _wrapped;
 
@@ -530,6 +559,25 @@ class SearchQuery {
   final $js.SearchQuery _wrapped;
 
   $js.SearchQuery get toJS => _wrapped;
+
+  /// A string of words and quoted phrases that are matched against bookmark
+  /// URLs and titles.
+  String? get query => _wrapped.query;
+  set query(String? v) {
+    _wrapped.query = v;
+  }
+
+  /// The URL of the bookmark; matches verbatim. Note that folders have no URL.
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    _wrapped.url = v;
+  }
+
+  /// The title of the bookmark; matches verbatim.
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    _wrapped.title = v;
+  }
 }
 
 class MoveDestination {
@@ -546,6 +594,16 @@ class MoveDestination {
   final $js.MoveDestination _wrapped;
 
   $js.MoveDestination get toJS => _wrapped;
+
+  String? get parentId => _wrapped.parentId;
+  set parentId(String? v) {
+    _wrapped.parentId = v;
+  }
+
+  int? get index => _wrapped.index;
+  set index(int? v) {
+    _wrapped.index = v;
+  }
 }
 
 class UpdateChanges {
@@ -562,6 +620,16 @@ class UpdateChanges {
   final $js.UpdateChanges _wrapped;
 
   $js.UpdateChanges get toJS => _wrapped;
+
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    _wrapped.title = v;
+  }
+
+  String? get url => _wrapped.url;
+  set url(String? v) {
+    _wrapped.url = v;
+  }
 }
 
 class OnCreatedEvent {

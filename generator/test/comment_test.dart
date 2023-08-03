@@ -1,7 +1,7 @@
 import 'package:chrome_extension_generator/src/comment.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   test('convertHtmlToDartdoc', () {
     expect(
         convertHtmlToDartdoc(

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -46,7 +51,13 @@ extension JSSidePanelExtension on JSSidePanel {
 
 @JS()
 @staticInterop
-class SidePanel {}
+@anonymous
+class SidePanel {
+  external factory SidePanel(
+      {
+      /// Developer specified path for side panel display.
+      String default_path});
+}
 
 extension SidePanelExtension on SidePanel {
   /// Developer specified path for side panel display.
@@ -55,7 +66,10 @@ extension SidePanelExtension on SidePanel {
 
 @JS()
 @staticInterop
-class ManifestKeys {}
+@anonymous
+class ManifestKeys {
+  external factory ManifestKeys({SidePanel side_panel});
+}
 
 extension ManifestKeysExtension on ManifestKeys {
   external SidePanel side_panel;
@@ -83,6 +97,23 @@ class PanelOptions {
   });
 }
 
+extension PanelOptionsExtension on PanelOptions {
+  /// If specified, the side panel options will only apply to the tab with
+  /// this id. If omitted, these options set the default behavior (used for any
+  /// tab that doesn't have specific settings). Note: if the same path is set
+  /// for this tabId and the default tabId, then the panel for this tabId will
+  /// be a different instance than the panel for the default tabId.
+  external int? tabId;
+
+  /// The path to the side panel HTML file to use. This must be a local
+  /// resource within the extension package.
+  external String? path;
+
+  /// Whether the side panel should be enabled. This is optional. The default
+  /// value is true.
+  external bool? enabled;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -92,6 +123,12 @@ class PanelBehavior {
       /// Whether clicking the extension's icon will toggle showing the extension's
       /// entry in the side panel. Defaults to false.
       bool? openPanelOnActionClick});
+}
+
+extension PanelBehaviorExtension on PanelBehavior {
+  /// Whether clicking the extension's icon will toggle showing the extension's
+  /// entry in the side panel. Defaults to false.
+  external bool? openPanelOnActionClick;
 }
 
 @JS()
@@ -104,4 +141,11 @@ class GetPanelOptions {
       /// Otherwise, returns the default side panel options (used for any tab that
       /// doesn't have specific settings).
       int? tabId});
+}
+
+extension GetPanelOptionsExtension on GetPanelOptions {
+  /// If specified, the side panel options for the given tab will be returned.
+  /// Otherwise, returns the default side panel options (used for any tab that
+  /// doesn't have specific settings).
+  external int? tabId;
 }

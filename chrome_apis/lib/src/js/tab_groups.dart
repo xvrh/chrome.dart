@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -73,7 +78,26 @@ typedef Color = String;
 
 @JS()
 @staticInterop
-class TabGroup {}
+@anonymous
+class TabGroup {
+  external factory TabGroup({
+    /// The ID of the group. Group IDs are unique within a browser session.
+    int id,
+
+    /// Whether the group is collapsed. A collapsed group is one whose tabs are
+    /// hidden.
+    bool collapsed,
+
+    /// The group's color.
+    Color color,
+
+    /// The title of the group.
+    String? title,
+
+    /// The ID of the window that contains the group.
+    int windowId,
+  });
+}
 
 extension TabGroupExtension on TabGroup {
   /// The ID of the group. Group IDs are unique within a browser session.
@@ -113,6 +137,21 @@ class QueryInfo {
   });
 }
 
+extension QueryInfoExtension on QueryInfo {
+  /// Whether the groups are collapsed.
+  external bool? collapsed;
+
+  /// The color of the groups.
+  external Color? color;
+
+  /// Match group titles against a pattern.
+  external String? title;
+
+  /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+  /// [current window](windows#current-window).
+  external int? windowId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -129,6 +168,17 @@ class UpdateProperties {
   });
 }
 
+extension UpdatePropertiesExtension on UpdateProperties {
+  /// Whether the group should be collapsed.
+  external bool? collapsed;
+
+  /// The color of the group.
+  external Color? color;
+
+  /// The title of the group.
+  external String? title;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -143,4 +193,15 @@ class MoveProperties {
     /// of the window.
     int index,
   });
+}
+
+extension MovePropertiesExtension on MoveProperties {
+  /// The window to move the group to. Defaults to the window the group is
+  /// currently in. Note that groups can only be moved to and from windows with
+  /// [windows.WindowType] type `"normal"`.
+  external int? windowId;
+
+  /// The position to move the group to. Use `-1` to place the group at the end
+  /// of the window.
+  external int index;
 }

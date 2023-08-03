@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -74,9 +79,26 @@ class GetMessageOptions {
       bool? escapeLt});
 }
 
+extension GetMessageOptionsExtension on GetMessageOptions {
+  /// Escape `<` in translation to `&amp;lt;`. This applies only to the message
+  /// itself, not to the placeholders. Developers might want to use this if the
+  /// translation is used in an HTML context. Closure Templates used with
+  /// Closure Compiler generate this automatically.
+  external bool? escapeLt;
+}
+
 @JS()
 @staticInterop
-class DetectLanguageCallbackResult {}
+@anonymous
+class DetectLanguageCallbackResult {
+  external factory DetectLanguageCallbackResult({
+    /// CLD detected language reliability
+    bool isReliable,
+
+    /// array of detectedLanguage
+    JSArray languages,
+  });
+}
 
 extension DetectLanguageCallbackResultExtension
     on DetectLanguageCallbackResult {
@@ -89,7 +111,15 @@ extension DetectLanguageCallbackResultExtension
 
 @JS()
 @staticInterop
-class DetectLanguageCallbackResultLanguages {}
+@anonymous
+class DetectLanguageCallbackResultLanguages {
+  external factory DetectLanguageCallbackResultLanguages({
+    LanguageCode language,
+
+    /// The percentage of the detected language
+    int percentage,
+  });
+}
 
 extension DetectLanguageCallbackResultLanguagesExtension
     on DetectLanguageCallbackResultLanguages {

@@ -13,6 +13,7 @@ class ApiNotAvailableException implements Exception {
 
   ApiNotAvailableException(this.name);
 
+  @override
   String toString() => 'ApiNotAvailableException: $name is not available. '
       'Check that the manifest contains the correct permissions.';
 }

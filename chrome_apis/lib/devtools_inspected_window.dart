@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_inspected_window.dart' as $js;
@@ -83,21 +87,21 @@ class ChromeDevtoolsInspectedWindow {
   int get tabId => $js.chrome.devtools.inspectedWindow.tabId;
 
   /// Fired when a new resource is added to the inspected page.
-  Stream<Resource> get onResourceAdded =>
+  EventStream<Resource> get onResourceAdded =>
       $js.chrome.devtools.inspectedWindow.onResourceAdded
           .asStream(($c) => ($js.Resource resource) {
-                $c(Resource.fromJS(resource));
+                return $c(Resource.fromJS(resource));
               });
 
   /// Fired when a new revision of the resource is committed (e.g. user saves an
   /// edited version of the resource in the Developer Tools).
-  Stream<OnResourceContentCommittedEvent> get onResourceContentCommitted =>
+  EventStream<OnResourceContentCommittedEvent> get onResourceContentCommitted =>
       $js.chrome.devtools.inspectedWindow.onResourceContentCommitted
           .asStream(($c) => (
                 $js.Resource resource,
                 String content,
               ) {
-                $c(OnResourceContentCommittedEvent(
+                return $c(OnResourceContentCommittedEvent(
                   resource: Resource.fromJS(resource),
                   content: content,
                 ));
@@ -111,7 +115,7 @@ class Resource {
       {
       /// The URL of the resource.
       required String url})
-      : _wrapped = $js.Resource()..url = url;
+      : _wrapped = $js.Resource(url: url);
 
   final $js.Resource _wrapped;
 
@@ -194,13 +198,14 @@ class EvalExceptionInfo {
 
     /// Set if the evaluated code produces an unhandled exception.
     required String value,
-  }) : _wrapped = $js.EvalExceptionInfo()
-          ..isError = isError
-          ..code = code
-          ..description = description
-          ..details = details.toJSArray((e) => e.jsify()!)
-          ..isException = isException
-          ..value = value;
+  }) : _wrapped = $js.EvalExceptionInfo(
+          isError: isError,
+          code: code,
+          description: description,
+          details: details.toJSArray((e) => e.jsify()!),
+          isException: isException,
+          value: value,
+        );
 
   final $js.EvalExceptionInfo _wrapped;
 
@@ -257,7 +262,7 @@ class EvalOptions {
     /// If specified, the expression is evaluated on the iframe whose URL
     /// matches the one specified. By default, the expression is evaluated in
     /// the top frame of the inspected page.
-    String? frameURL,
+    String? frameUrl,
 
     /// Evaluate the expression in the context of the content script of the
     /// calling extension, provided that the content script is already injected
@@ -273,7 +278,7 @@ class EvalOptions {
     /// useContentScriptContext.
     String? scriptExecutionContext,
   }) : _wrapped = $js.EvalOptions(
-          frameURL: frameURL,
+          frameURL: frameUrl,
           useContentScriptContext: useContentScriptContext,
           scriptExecutionContext: scriptExecutionContext,
         );
@@ -281,6 +286,32 @@ class EvalOptions {
   final $js.EvalOptions _wrapped;
 
   $js.EvalOptions get toJS => _wrapped;
+
+  /// If specified, the expression is evaluated on the iframe whose URL matches
+  /// the one specified. By default, the expression is evaluated in the top
+  /// frame of the inspected page.
+  String? get frameUrl => _wrapped.frameURL;
+  set frameUrl(String? v) {
+    _wrapped.frameURL = v;
+  }
+
+  /// Evaluate the expression in the context of the content script of the
+  /// calling extension, provided that the content script is already injected
+  /// into the inspected page. If not, the expression is not evaluated and the
+  /// callback is invoked with the exception parameter set to an object that has
+  /// the `isError` field set to true and the `code` field set to `E_NOTFOUND`.
+  bool? get useContentScriptContext => _wrapped.useContentScriptContext;
+  set useContentScriptContext(bool? v) {
+    _wrapped.useContentScriptContext = v;
+  }
+
+  /// Evaluate the expression in the context of a content script of an extension
+  /// that matches the specified origin. If given, scriptExecutionContext
+  /// overrides the 'true' setting on useContentScriptContext.
+  String? get scriptExecutionContext => _wrapped.scriptExecutionContext;
+  set scriptExecutionContext(String? v) {
+    _wrapped.scriptExecutionContext = v;
+  }
 }
 
 class ReloadOptions {
@@ -314,6 +345,33 @@ class ReloadOptions {
   final $js.ReloadOptions _wrapped;
 
   $js.ReloadOptions get toJS => _wrapped;
+
+  /// When true, the loader will bypass the cache for all inspected page
+  /// resources loaded before the `load` event is fired. The effect is similar
+  /// to pressing Ctrl+Shift+R in the inspected window or within the Developer
+  /// Tools window.
+  bool? get ignoreCache => _wrapped.ignoreCache;
+  set ignoreCache(bool? v) {
+    _wrapped.ignoreCache = v;
+  }
+
+  /// If specified, the string will override the value of the `User-Agent` HTTP
+  /// header that's sent while loading the resources of the inspected page. The
+  /// string will also override the value of the `navigator.userAgent` property
+  /// that's returned to any scripts that are running within the inspected page.
+  String? get userAgent => _wrapped.userAgent;
+  set userAgent(String? v) {
+    _wrapped.userAgent = v;
+  }
+
+  /// If specified, the script will be injected into every frame of the
+  /// inspected page immediately upon load, before any of the frame's scripts.
+  /// The script will not be injected after subsequent reloads-for example, if
+  /// the user presses Ctrl+R.
+  String? get injectedScript => _wrapped.injectedScript;
+  set injectedScript(String? v) {
+    _wrapped.injectedScript = v;
+  }
 }
 
 class OnResourceContentCommittedEvent {

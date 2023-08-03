@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -69,31 +73,31 @@ class ChromeTabGroups {
   int get tabGroupIdNone => $js.chrome.tabGroups.TAB_GROUP_ID_NONE;
 
   /// Fired when a group is created.
-  Stream<TabGroup> get onCreated =>
+  EventStream<TabGroup> get onCreated =>
       $js.chrome.tabGroups.onCreated.asStream(($c) => ($js.TabGroup group) {
-            $c(TabGroup.fromJS(group));
+            return $c(TabGroup.fromJS(group));
           });
 
   /// Fired when a group is updated.
-  Stream<TabGroup> get onUpdated =>
+  EventStream<TabGroup> get onUpdated =>
       $js.chrome.tabGroups.onUpdated.asStream(($c) => ($js.TabGroup group) {
-            $c(TabGroup.fromJS(group));
+            return $c(TabGroup.fromJS(group));
           });
 
   /// Fired when a group is moved within a window. Move events are still fired
   /// for the individual tabs within the group, as well as for the group itself.
   /// This event is not fired when a group is moved between windows; instead, it
   /// will be removed from one window and created in another.
-  Stream<TabGroup> get onMoved =>
+  EventStream<TabGroup> get onMoved =>
       $js.chrome.tabGroups.onMoved.asStream(($c) => ($js.TabGroup group) {
-            $c(TabGroup.fromJS(group));
+            return $c(TabGroup.fromJS(group));
           });
 
   /// Fired when a group is closed, either directly by the user or automatically
   /// because it contained zero tabs.
-  Stream<TabGroup> get onRemoved =>
+  EventStream<TabGroup> get onRemoved =>
       $js.chrome.tabGroups.onRemoved.asStream(($c) => ($js.TabGroup group) {
-            $c(TabGroup.fromJS(group));
+            return $c(TabGroup.fromJS(group));
           });
 }
 
@@ -137,12 +141,13 @@ class TabGroup {
 
     /// The ID of the window that contains the group.
     required int windowId,
-  }) : _wrapped = $js.TabGroup()
-          ..id = id
-          ..collapsed = collapsed
-          ..color = color.toJS
-          ..title = title
-          ..windowId = windowId;
+  }) : _wrapped = $js.TabGroup(
+          id: id,
+          collapsed: collapsed,
+          color: color.toJS,
+          title: title,
+          windowId: windowId,
+        );
 
   final $js.TabGroup _wrapped;
 
@@ -206,6 +211,31 @@ class QueryInfo {
   final $js.QueryInfo _wrapped;
 
   $js.QueryInfo get toJS => _wrapped;
+
+  /// Whether the groups are collapsed.
+  bool? get collapsed => _wrapped.collapsed;
+  set collapsed(bool? v) {
+    _wrapped.collapsed = v;
+  }
+
+  /// The color of the groups.
+  Color? get color => _wrapped.color?.let(Color.fromJS);
+  set color(Color? v) {
+    _wrapped.color = v?.toJS;
+  }
+
+  /// Match group titles against a pattern.
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    _wrapped.title = v;
+  }
+
+  /// The ID of the parent window, or [windows.WINDOW_ID_CURRENT] for the
+  /// [current window](windows#current-window).
+  int? get windowId => _wrapped.windowId;
+  set windowId(int? v) {
+    _wrapped.windowId = v;
+  }
 }
 
 class UpdateProperties {
@@ -229,6 +259,24 @@ class UpdateProperties {
   final $js.UpdateProperties _wrapped;
 
   $js.UpdateProperties get toJS => _wrapped;
+
+  /// Whether the group should be collapsed.
+  bool? get collapsed => _wrapped.collapsed;
+  set collapsed(bool? v) {
+    _wrapped.collapsed = v;
+  }
+
+  /// The color of the group.
+  Color? get color => _wrapped.color?.let(Color.fromJS);
+  set color(Color? v) {
+    _wrapped.color = v?.toJS;
+  }
+
+  /// The title of the group.
+  String? get title => _wrapped.title;
+  set title(String? v) {
+    _wrapped.title = v;
+  }
 }
 
 class MoveProperties {
@@ -251,4 +299,19 @@ class MoveProperties {
   final $js.MoveProperties _wrapped;
 
   $js.MoveProperties get toJS => _wrapped;
+
+  /// The window to move the group to. Defaults to the window the group is
+  /// currently in. Note that groups can only be moved to and from windows with
+  /// [windows.WindowType] type `"normal"`.
+  int? get windowId => _wrapped.windowId;
+  set windowId(int? v) {
+    _wrapped.windowId = v;
+  }
+
+  /// The position to move the group to. Use `-1` to place the group at the end
+  /// of the window.
+  int get index => _wrapped.index;
+  set index(int v) {
+    _wrapped.index = v;
+  }
 }

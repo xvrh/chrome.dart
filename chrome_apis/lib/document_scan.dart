@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'src/internal_helpers.dart';
@@ -46,6 +50,19 @@ class ScanOptions {
   final $js.ScanOptions _wrapped;
 
   $js.ScanOptions get toJS => _wrapped;
+
+  /// The MIME types that are accepted by the caller.
+  List<String>? get mimeTypes =>
+      _wrapped.mimeTypes?.toDart.cast<String>().map((e) => e).toList();
+  set mimeTypes(List<String>? v) {
+    _wrapped.mimeTypes = v?.toJSArray((e) => e);
+  }
+
+  /// The number of scanned images allowed (defaults to 1).
+  int? get maxImages => _wrapped.maxImages;
+  set maxImages(int? v) {
+    _wrapped.maxImages = v;
+  }
 }
 
 class ScanResults {
@@ -58,9 +75,10 @@ class ScanResults {
 
     /// The MIME type of `dataUrls`.
     required String mimeType,
-  }) : _wrapped = $js.ScanResults()
-          ..dataUrls = dataUrls.toJSArray((e) => e)
-          ..mimeType = mimeType;
+  }) : _wrapped = $js.ScanResults(
+          dataUrls: dataUrls.toJSArray((e) => e),
+          mimeType: mimeType,
+        );
 
   final $js.ScanResults _wrapped;
 

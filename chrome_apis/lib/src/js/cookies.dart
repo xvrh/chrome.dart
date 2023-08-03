@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -81,7 +86,50 @@ typedef OnChangedCause = String;
 
 @JS()
 @staticInterop
-class Cookie {}
+@anonymous
+class Cookie {
+  external factory Cookie({
+    /// The name of the cookie.
+    String name,
+
+    /// The value of the cookie.
+    String value,
+
+    /// The domain of the cookie (e.g. "www.google.com", "example.com").
+    String domain,
+
+    /// True if the cookie is a host-only cookie (i.e. a request's host must
+    /// exactly match the domain of the cookie).
+    bool hostOnly,
+
+    /// The path of the cookie.
+    String path,
+
+    /// True if the cookie is marked as Secure (i.e. its scope is limited to
+    /// secure channels, typically HTTPS).
+    bool secure,
+
+    /// True if the cookie is marked as HttpOnly (i.e. the cookie is inaccessible
+    /// to client-side scripts).
+    bool httpOnly,
+
+    /// The cookie's same-site status (i.e. whether the cookie is sent with
+    /// cross-site requests).
+    SameSiteStatus sameSite,
+
+    /// True if the cookie is a session cookie, as opposed to a persistent cookie
+    /// with an expiration date.
+    bool session,
+
+    /// The expiration date of the cookie as the number of seconds since the UNIX
+    /// epoch. Not provided for session cookies.
+    double? expirationDate,
+
+    /// The ID of the cookie store containing this cookie, as provided in
+    /// getAllCookieStores().
+    String storeId,
+  });
+}
 
 extension CookieExtension on Cookie {
   /// The name of the cookie.
@@ -127,7 +175,16 @@ extension CookieExtension on Cookie {
 
 @JS()
 @staticInterop
-class CookieStore {}
+@anonymous
+class CookieStore {
+  external factory CookieStore({
+    /// The unique identifier for the cookie store.
+    String id,
+
+    /// Identifiers of all the browser tabs that share this cookie store.
+    JSArray tabIds,
+  });
+}
 
 extension CookieStoreExtension on CookieStore {
   /// The unique identifier for the cookie store.
@@ -157,9 +214,36 @@ class CookieDetails {
   });
 }
 
+extension CookieDetailsExtension on CookieDetails {
+  /// The URL with which the cookie to access is associated. This argument may
+  /// be a full URL, in which case any data following the URL path (e.g. the
+  /// query string) is simply ignored. If host permissions for this URL are not
+  /// specified in the manifest file, the API call will fail.
+  external String url;
+
+  /// The name of the cookie to access.
+  external String name;
+
+  /// The ID of the cookie store in which to look for the cookie. By default,
+  /// the current execution context's cookie store will be used.
+  external String? storeId;
+}
+
 @JS()
 @staticInterop
-class OnChangedChangeInfo {}
+@anonymous
+class OnChangedChangeInfo {
+  external factory OnChangedChangeInfo({
+    /// True if a cookie was removed.
+    bool removed,
+
+    /// Information about the cookie that was set or removed.
+    Cookie cookie,
+
+    /// The underlying reason behind the cookie's change.
+    OnChangedCause cause,
+  });
+}
 
 extension OnChangedChangeInfoExtension on OnChangedChangeInfo {
   /// True if a cookie was removed.
@@ -201,6 +285,32 @@ class GetAllDetails {
     /// execution context's cookie store will be used.
     String? storeId,
   });
+}
+
+extension GetAllDetailsExtension on GetAllDetails {
+  /// Restricts the retrieved cookies to those that would match the given URL.
+  external String? url;
+
+  /// Filters the cookies by name.
+  external String? name;
+
+  /// Restricts the retrieved cookies to those whose domains match or are
+  /// subdomains of this one.
+  external String? domain;
+
+  /// Restricts the retrieved cookies to those whose path exactly matches this
+  /// string.
+  external String? path;
+
+  /// Filters the cookies by their Secure property.
+  external bool? secure;
+
+  /// Filters out session vs. persistent cookies.
+  external bool? session;
+
+  /// The cookie store to retrieve cookies from. If omitted, the current
+  /// execution context's cookie store will be used.
+  external String? storeId;
 }
 
 @JS()
@@ -247,9 +357,60 @@ class SetDetails {
   });
 }
 
+extension SetDetailsExtension on SetDetails {
+  /// The request-URI to associate with the setting of the cookie. This value
+  /// can affect the default domain and path values of the created cookie. If
+  /// host permissions for this URL are not specified in the manifest file, the
+  /// API call will fail.
+  external String url;
+
+  /// The name of the cookie. Empty by default if omitted.
+  external String? name;
+
+  /// The value of the cookie. Empty by default if omitted.
+  external String? value;
+
+  /// The domain of the cookie. If omitted, the cookie becomes a host-only
+  /// cookie.
+  external String? domain;
+
+  /// The path of the cookie. Defaults to the path portion of the url parameter.
+  external String? path;
+
+  /// Whether the cookie should be marked as Secure. Defaults to false.
+  external bool? secure;
+
+  /// Whether the cookie should be marked as HttpOnly. Defaults to false.
+  external bool? httpOnly;
+
+  /// The cookie's same-site status. Defaults to "unspecified", i.e., if
+  /// omitted, the cookie is set without specifying a SameSite attribute.
+  external SameSiteStatus? sameSite;
+
+  /// The expiration date of the cookie as the number of seconds since the UNIX
+  /// epoch. If omitted, the cookie becomes a session cookie.
+  external double? expirationDate;
+
+  /// The ID of the cookie store in which to set the cookie. By default, the
+  /// cookie is set in the current execution context's cookie store.
+  external String? storeId;
+}
+
 @JS()
 @staticInterop
-class RemoveCallbackDetails {}
+@anonymous
+class RemoveCallbackDetails {
+  external factory RemoveCallbackDetails({
+    /// The URL associated with the cookie that's been removed.
+    String url,
+
+    /// The name of the cookie that's been removed.
+    String name,
+
+    /// The ID of the cookie store from which the cookie was removed.
+    String storeId,
+  });
+}
 
 extension RemoveCallbackDetailsExtension on RemoveCallbackDetails {
   /// The URL associated with the cookie that's been removed.

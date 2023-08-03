@@ -20,7 +20,10 @@ void _tests(TestContext context) {
     var rules = await chrome.declarativeNetRequest
         .getDynamicRules(GetRulesFilter(ruleIds: [1]));
     check(rules).length.equals(1);
-    "rules.first.id => not exposed because of @anonymous";
+    var rule = rules.first;
+    check(rule.id).equals(1);
+    check(rule.condition.domains!).deepEquals(['google.com']);
+    check(rule.action.type).equals(RuleActionType.allow);
 
     await chrome.declarativeNetRequest
         .updateDynamicRules(UpdateRuleOptions(removeRuleIds: [1]));
@@ -28,7 +31,7 @@ void _tests(TestContext context) {
 
   test('getAvailableStaticRuleCount', () async {
     var count =
-    await chrome.declarativeNetRequest.getAvailableStaticRuleCount();
+        await chrome.declarativeNetRequest.getAvailableStaticRuleCount();
     check(count).isGreaterThan(0);
   });
 

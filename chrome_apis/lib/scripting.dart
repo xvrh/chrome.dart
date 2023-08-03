@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'extension_types.dart';
@@ -181,6 +185,38 @@ class InjectionTarget {
   final $js.InjectionTarget _wrapped;
 
   $js.InjectionTarget get toJS => _wrapped;
+
+  /// The ID of the tab into which to inject.
+  int get tabId => _wrapped.tabId;
+  set tabId(int v) {
+    _wrapped.tabId = v;
+  }
+
+  /// The [IDs](https://developer.chrome.com/extensions/webNavigation#frame_ids)
+  /// of specific frames to inject into.
+  List<int>? get frameIds =>
+      _wrapped.frameIds?.toDart.cast<int>().map((e) => e).toList();
+  set frameIds(List<int>? v) {
+    _wrapped.frameIds = v?.toJSArray((e) => e);
+  }
+
+  /// The
+  /// [IDs](https://developer.chrome.com/extensions/webNavigation#document_ids)
+  /// of specific documentIds to inject into. This must not be set if
+  /// `frameIds` is set.
+  List<String>? get documentIds =>
+      _wrapped.documentIds?.toDart.cast<String>().map((e) => e).toList();
+  set documentIds(List<String>? v) {
+    _wrapped.documentIds = v?.toJSArray((e) => e);
+  }
+
+  /// Whether the script should inject into all frames within the tab. Defaults
+  /// to false.
+  /// This must not be true if `frameIds` is specified.
+  bool? get allFrames => _wrapped.allFrames;
+  set allFrames(bool? v) {
+    _wrapped.allFrames = v;
+  }
 }
 
 class ScriptInjection {
@@ -237,6 +273,67 @@ class ScriptInjection {
   final $js.ScriptInjection _wrapped;
 
   $js.ScriptInjection get toJS => _wrapped;
+
+  /// A JavaScript function to inject. This function will be serialized, and
+  /// then deserialized for injection. This means that any bound parameters
+  /// and execution context will be lost.
+  /// Exactly one of `files` and `func` must be
+  /// specified.
+  JSAny? get func => _wrapped.func;
+  set func(JSAny? v) {
+    _wrapped.func = v;
+  }
+
+  /// The arguments to curry into a provided function. This is only valid if
+  /// the `func` parameter is specified. These arguments must be
+  /// JSON-serializable.
+  List<Object>? get args =>
+      _wrapped.args?.toDart.cast<JSAny>().map((e) => e.dartify()!).toList();
+  set args(List<Object>? v) {
+    _wrapped.args = v?.toJSArray((e) => e.jsify()!);
+  }
+
+  /// We used to call the injected function `function`, but this is
+  /// incompatible with JavaScript's object declaration shorthand (see
+  /// https://crbug.com/1166438). We leave this silently in for backwards
+  /// compatibility.
+  /// TODO(devlin): Remove this in M95.
+  JSAny? get function => _wrapped.function;
+  set function(JSAny? v) {
+    _wrapped.function = v;
+  }
+
+  /// The path of the JS or CSS files to inject, relative to the extension's
+  /// root directory.
+  /// Exactly one of `files` and `func` must be
+  /// specified.
+  List<String>? get files =>
+      _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
+  set files(List<String>? v) {
+    _wrapped.files = v?.toJSArray((e) => e);
+  }
+
+  /// Details specifying the target into which to inject the script.
+  InjectionTarget get target => InjectionTarget.fromJS(_wrapped.target);
+  set target(InjectionTarget v) {
+    _wrapped.target = v.toJS;
+  }
+
+  /// The JavaScript "world" to run the script in. Defaults to
+  /// `ISOLATED`.
+  ExecutionWorld? get world => _wrapped.world?.let(ExecutionWorld.fromJS);
+  set world(ExecutionWorld? v) {
+    _wrapped.world = v?.toJS;
+  }
+
+  /// Whether the injection should be triggered in the target as soon as
+  /// possible. Note that this is not a guarantee that injection will occur
+  /// prior to page load, as the page may have already loaded by the time the
+  /// script reaches the target.
+  bool? get injectImmediately => _wrapped.injectImmediately;
+  set injectImmediately(bool? v) {
+    _wrapped.injectImmediately = v;
+  }
 }
 
 class CSSInjection {
@@ -269,6 +366,36 @@ class CSSInjection {
   final $js.CSSInjection _wrapped;
 
   $js.CSSInjection get toJS => _wrapped;
+
+  /// Details specifying the target into which to insert the CSS.
+  InjectionTarget get target => InjectionTarget.fromJS(_wrapped.target);
+  set target(InjectionTarget v) {
+    _wrapped.target = v.toJS;
+  }
+
+  /// A string containing the CSS to inject.
+  /// Exactly one of `files` and `css` must be
+  /// specified.
+  String? get css => _wrapped.css;
+  set css(String? v) {
+    _wrapped.css = v;
+  }
+
+  /// The path of the CSS files to inject, relative to the extension's root
+  /// directory.
+  /// Exactly one of `files` and `css` must be
+  /// specified.
+  List<String>? get files =>
+      _wrapped.files?.toDart.cast<String>().map((e) => e).toList();
+  set files(List<String>? v) {
+    _wrapped.files = v?.toJSArray((e) => e);
+  }
+
+  /// The style origin for the injection. Defaults to `'AUTHOR'`.
+  StyleOrigin? get origin => _wrapped.origin?.let(StyleOrigin.fromJS);
+  set origin(StyleOrigin? v) {
+    _wrapped.origin = v?.toJS;
+  }
 }
 
 class InjectionResult {
@@ -283,10 +410,11 @@ class InjectionResult {
 
     /// The document associated with the injection.
     required String documentId,
-  }) : _wrapped = $js.InjectionResult()
-          ..result = result?.jsify()
-          ..frameId = frameId
-          ..documentId = documentId;
+  }) : _wrapped = $js.InjectionResult(
+          result: result?.jsify(),
+          frameId: frameId,
+          documentId: documentId,
+        );
 
   final $js.InjectionResult _wrapped;
 
@@ -378,6 +506,87 @@ class RegisteredContentScript {
   final $js.RegisteredContentScript _wrapped;
 
   $js.RegisteredContentScript get toJS => _wrapped;
+
+  /// The id of the content script, specified in the API call. Must not start
+  /// with a '_' as it's reserved as a prefix for generated script IDs.
+  String get id => _wrapped.id;
+  set id(String v) {
+    _wrapped.id = v;
+  }
+
+  /// Specifies which pages this content script will be injected into. See
+  /// [Match Patterns](match_patterns) for more details on the
+  /// syntax of these strings. Must be specified for
+  /// [registerContentScripts].
+  List<String>? get matches =>
+      _wrapped.matches?.toDart.cast<String>().map((e) => e).toList();
+  set matches(List<String>? v) {
+    _wrapped.matches = v?.toJSArray((e) => e);
+  }
+
+  /// Excludes pages that this content script would otherwise be injected into.
+  /// See [Match Patterns](match_patterns) for more details on the
+  /// syntax of these strings.
+  List<String>? get excludeMatches =>
+      _wrapped.excludeMatches?.toDart.cast<String>().map((e) => e).toList();
+  set excludeMatches(List<String>? v) {
+    _wrapped.excludeMatches = v?.toJSArray((e) => e);
+  }
+
+  /// The list of CSS files to be injected into matching pages. These are
+  /// injected in the order they appear in this array, before any DOM is
+  /// constructed or displayed for the page.
+  List<String>? get css =>
+      _wrapped.css?.toDart.cast<String>().map((e) => e).toList();
+  set css(List<String>? v) {
+    _wrapped.css = v?.toJSArray((e) => e);
+  }
+
+  /// The list of JavaScript files to be injected into matching pages. These
+  /// are injected in the order they appear in this array.
+  List<String>? get js =>
+      _wrapped.js?.toDart.cast<String>().map((e) => e).toList();
+  set js(List<String>? v) {
+    _wrapped.js = v?.toJSArray((e) => e);
+  }
+
+  /// If specified true, it will inject into all frames, even if the frame is
+  /// not the top-most frame in the tab. Each frame is checked independently
+  /// for URL requirements; it will not inject into child frames if the URL
+  /// requirements are not met. Defaults to false, meaning that only the top
+  /// frame is matched.
+  bool? get allFrames => _wrapped.allFrames;
+  set allFrames(bool? v) {
+    _wrapped.allFrames = v;
+  }
+
+  /// TODO(devlin): Add documentation once the implementation is complete. See
+  /// crbug.com/55084.
+  bool? get matchOriginAsFallback => _wrapped.matchOriginAsFallback;
+  set matchOriginAsFallback(bool? v) {
+    _wrapped.matchOriginAsFallback = v;
+  }
+
+  /// Specifies when JavaScript files are injected into the web page. The
+  /// preferred and default value is `document_idle`.
+  RunAt? get runAt => _wrapped.runAt?.let(RunAt.fromJS);
+  set runAt(RunAt? v) {
+    _wrapped.runAt = v?.toJS;
+  }
+
+  /// Specifies if this content script will persist into future sessions. The
+  /// default is true.
+  bool? get persistAcrossSessions => _wrapped.persistAcrossSessions;
+  set persistAcrossSessions(bool? v) {
+    _wrapped.persistAcrossSessions = v;
+  }
+
+  /// The JavaScript "world" to run the script in. Defaults to
+  /// `ISOLATED`.
+  ExecutionWorld? get world => _wrapped.world?.let(ExecutionWorld.fromJS);
+  set world(ExecutionWorld? v) {
+    _wrapped.world = v?.toJS;
+  }
 }
 
 class ContentScriptFilter {
@@ -393,4 +602,12 @@ class ContentScriptFilter {
   final $js.ContentScriptFilter _wrapped;
 
   $js.ContentScriptFilter get toJS => _wrapped;
+
+  /// If specified, [getRegisteredContentScripts] will only return scripts
+  /// with an id specified in this list.
+  List<String>? get ids =>
+      _wrapped.ids?.toDart.cast<String>().map((e) => e).toList();
+  set ids(List<String>? v) {
+    _wrapped.ids = v?.toJSArray((e) => e);
+  }
 }

@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_import
+
+library;
+
 import 'dart:js_interop';
 
 import 'chrome.dart';
@@ -113,9 +118,23 @@ class TabDetails {
       int? tabId});
 }
 
+extension TabDetailsExtension on TabDetails {
+  /// The ID of the tab to query state for. If no tab is specified, the
+  /// non-tab-specific state is returned.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
-class UserSettings {}
+@anonymous
+class UserSettings {
+  external factory UserSettings(
+      {
+      /// Whether the extension's action icon is visible on browser windows'
+      /// top-level toolbar (i.e., whether the extension has been 'pinned' by the
+      /// user).
+      bool isOnToolbar});
+}
 
 extension UserSettingsExtension on UserSettings {
   /// Whether the extension's action icon is visible on browser windows'
@@ -135,6 +154,12 @@ class OpenPopupOptions {
       int? windowId});
 }
 
+extension OpenPopupOptionsExtension on OpenPopupOptions {
+  /// The id of the window to open the action popup in. Defaults to the
+  /// currently-active window if unspecified.
+  external int? windowId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -147,6 +172,15 @@ class SetTitleDetails {
     /// resets when the tab is closed.
     int? tabId,
   });
+}
+
+extension SetTitleDetailsExtension on SetTitleDetails {
+  /// The string the action should display when moused over.
+  external String title;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
 }
 
 @JS()
@@ -179,6 +213,31 @@ class SetIconDetails {
   });
 }
 
+extension SetIconDetailsExtension on SetIconDetails {
+  /// Either an ImageData object or a dictionary {size -> ImageData}
+  /// representing icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.imageData = foo' is equivalent to 'details.imageData =
+  /// {'16': foo}'
+  external Object? imageData;
+
+  /// Either a relative image path or a dictionary {size -> relative image path}
+  /// pointing to icon to be set. If the icon is specified as a dictionary, the
+  /// actual image to be used is chosen depending on screen's pixel density. If
+  /// the number of image pixels that fit into one screen space unit equals
+  /// `scale`, then image with size `scale` * n will be selected, where n is the
+  /// size of the icon in the UI. At least one image must be specified. Note
+  /// that 'details.path = foo' is equivalent to 'details.path = {'16': foo}'
+  external Object? path;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -192,6 +251,16 @@ class SetPopupDetails {
     /// string (`''`), no popup is shown.
     String popup,
   });
+}
+
+extension SetPopupDetailsExtension on SetPopupDetails {
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
+
+  /// The relative path to the HTML file to show in a popup. If set to the empty
+  /// string (`''`), no popup is shown.
+  external String popup;
 }
 
 @JS()
@@ -209,6 +278,16 @@ class SetBadgeTextDetails {
   });
 }
 
+extension SetBadgeTextDetailsExtension on SetBadgeTextDetails {
+  /// Any number of characters can be passed, but only about four can fit in the
+  /// space.
+  external String text;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
+}
+
 @JS()
 @staticInterop
 @anonymous
@@ -223,6 +302,18 @@ class SetBadgeBackgroundColorDetails {
     /// resets when the tab is closed.
     int? tabId,
   });
+}
+
+extension SetBadgeBackgroundColorDetailsExtension
+    on SetBadgeBackgroundColorDetails {
+  /// An array of four integers in the range [0,255] that make up the RGBA color
+  /// of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can also be a
+  /// string with a CSS value, with opaque red being `#FF0000` or `#F00`.
+  external Object color;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
 }
 
 @JS()
@@ -243,4 +334,19 @@ class SetBadgeTextColorDetails {
     /// resets when the tab is closed.
     int? tabId,
   });
+}
+
+extension SetBadgeTextColorDetailsExtension on SetBadgeTextColorDetails {
+  /// An array of four integers in the range [0,255] that make up the RGBA color
+  /// of the badge. For example, opaque red is `[255, 0, 0, 255]`. Can also be a
+  /// string with a CSS value, with opaque red being `#FF0000` or `#F00`. Not
+  /// setting this value will cause a color to be automatically chosen that will
+  /// contrast with the badge's background color so the text will be visible.
+  /// Colors with alpha values equivalent to 0 will not be set and will return
+  /// an error.
+  external Object color;
+
+  /// Limits the change to when a particular tab is selected. Automatically
+  /// resets when the tab is closed.
+  external int? tabId;
 }

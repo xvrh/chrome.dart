@@ -28,6 +28,7 @@ class IDLNamespaceDeclaration {
       required this.documentation,
       this.copyrightSignature});
 
+  @override
   String toString() =>
       "IDLNamespaceDeclaration($name, $attribute, $documentation)";
 }
@@ -42,6 +43,7 @@ class IDLFunctionDeclaration {
   IDLFunctionDeclaration(this.methods,
       {this.attribute, required this.documentation});
 
+  @override
   String toString() =>
       "IDLFunctionDeclaration($name, $attribute, $methods, $documentation)";
 }
@@ -55,6 +57,7 @@ class IDLPropertiesDeclaration {
   IDLPropertiesDeclaration(this.methods,
       {this.attribute, required this.documentation});
 
+  @override
   String toString() =>
       "IDLPropertiesDeclaration($name, $attribute, $methods, $documentation)";
 }
@@ -70,6 +73,7 @@ class IDLTypeDeclaration {
   IDLTypeDeclaration(this.name, this.members,
       {required this.methods, this.attribute, required this.documentation});
 
+  @override
   String toString() =>
       "IDLTypeDeclaration($name, $members, $methods, $attribute, $documentation)";
 }
@@ -82,6 +86,7 @@ class IDLEventDeclaration {
   final List<String> documentation;
   IDLEventDeclaration(this.methods,
       {this.attribute, required this.documentation});
+  @override
   String toString() =>
       "IDLEventDeclaration($name, $attribute, $methods, $documentation)";
 }
@@ -95,6 +100,7 @@ class IDLCallbackDeclaration {
   IDLCallbackDeclaration(this.name, this.parameters,
       {required this.documentation});
 
+  @override
   String toString() =>
       "IDLCallbackDeclaration($name, $parameters, $documentation)";
 }
@@ -109,6 +115,7 @@ class IDLEnumDeclaration {
   IDLEnumDeclaration(this.name, this.enums,
       {this.attribute, required this.documentation});
 
+  @override
   String toString() =>
       "IDLEnumDeclaration($name, $enums, $attribute, $documentation)";
 }
@@ -117,6 +124,7 @@ class IDLEnumDeclaration {
 class IDLAttributeDeclaration {
   final List<IDLAttribute> attributes;
   IDLAttributeDeclaration(this.attributes);
+  @override
   String toString() => "IDLAttributeDeclaration($attributes)";
 }
 
@@ -131,6 +139,7 @@ class IDLMethod {
   IDLMethod(this.name, this.returnType, this.parameters,
       {this.attribute, required this.documentation});
 
+  @override
   String toString() =>
       "IDLMethod($name, $returnType, $parameters, $attribute, $documentation})";
 }
@@ -146,6 +155,7 @@ class IDLField {
   IDLField(this.name, this.types,
       {this.attribute, this.isOptional = false, required this.documentation});
 
+  @override
   String toString() =>
       "IDLField($name, $types, $attribute, $isOptional, $documentation)";
 }
@@ -169,9 +179,10 @@ class IDLParameter {
 
   bool get supportsPromises =>
       attribute?.attributes.any(
-          (e) => e.attributeType == IDLAttributeTypeEnum.SUPPORTS_PROMISES) ??
+          (e) => e.attributeType == IDLAttributeTypeEnum.supportsPromises) ??
       false;
 
+  @override
   String toString() =>
       "IDLParameter($name, $types, $attribute, $isOptional, $isCallback)";
 }
@@ -182,98 +193,98 @@ enum IDLAttributeTypeEnum {
   /// Example:
   ///
   ///    [deprecated="Use innerBounds or outerBounds."]
-  DEPRECATED("deprecated"),
+  deprecated("deprecated"),
 
   /// Example:
   ///
   ///  [instanceOf=Window]
-  INSTANCE_OF("instanceOf"),
+  instanceOf("instanceOf"),
 
   /// Example:
   ///
   ///  [nodefine]
-  NODEFINE("nodefine"),
+  nodefine("nodefine"),
 
   /// Example:
   ///
   ///  [implemented_in="path/to/implementation.h"]
-  IMPLEMENTED_IN("implemented_in"),
+  implementedIn("implemented_in"),
 
   /// Example:
   ///
   /// [supportsFilters=true]
-  SUPPORTS_FILTER("supportsFilters"),
+  supportsFilter("supportsFilters"),
 
   /// Example:
   ///
   /// [inline_doc]
-  INLINE_DOC("inline_doc"),
+  inlineDoc("inline_doc"),
 
   /// Example:
   ///
   /// [noinline_doc]
-  NOINLINE_DOC("noinline_doc"),
+  noinlineDoc("noinline_doc"),
 
   /// Example:
   ///
   /// [nodoc]
-  NODOC("nodoc"),
+  nodoc("nodoc"),
 
   /// Example:
   ///
   /// [nocompile]
   ///
   /// also sometimes paired with [nocompile, nodoc]
-  NOCOMPILE("nocompile"),
+  nocompile("nocompile"),
 
   /// Example:
   ///
   /// [legalValues=(16,32)]
-  LEGAL_VALUES("legalValues"),
+  legalValues("legalValues"),
 
   /// Example:
   ///
   /// [permissions=downloads]
-  PERMISSIONS("permissions"),
+  permissions("permissions"),
 
   /// Example:
   ///
   /// [maxListeners=1]
-  MAX_LISTENERS("maxListeners"),
+  maxListeners("maxListeners"),
 
   /// Example:
   ///
   /// [platforms = ("chromeos")]
-  PLATFORMS("platforms"),
+  platforms("platforms"),
 
   /// Example:
   ///
   /// [supportsPromises]
-  SUPPORTS_PROMISES("supportsPromises"),
+  supportsPromises("supportsPromises"),
 
   /// Example:
   ///
   /// [modernised_enums]
-  MODERNISED_ENUMS("modernised_enums"),
+  modernisedEnums("modernised_enums"),
 
   /// Example:
   ///
   /// [generate_error_messages]
-  GENERATE_ERROR_MESSAGES("generate_error_messages"),
+  generateErrorMessages("generate_error_messages"),
 
   /// Example:
   ///
   /// [value]
-  VALUE("value"),
+  val("value"),
 
   /// Example:
   ///
   /// [serializableFunction]
-  SERIALIZABLE_FUNCTION("serializableFunction"),
+  serializableFunction("serializableFunction"),
 
-  DOCUMENTATION_TITLE("documentation_title"),
-  DOCUMENTATION_NAMESPACE("documentation_namespace"),
-  DOCUMENTED_IN("documented_in"),
+  documentationTitle("documentation_title"),
+  documentationNamespace("documentation_namespace"),
+  documentedIn("documented_in"),
   ;
 
   final String type;
@@ -282,9 +293,10 @@ enum IDLAttributeTypeEnum {
 }
 
 extension IDLAttributeDeclarationExtension on IDLAttributeDeclaration? {
-  bool get supportsPromises => this
-      ?.attributes
-      .any((e) => e.attributeType == IDLAttributeTypeEnum.SUPPORTS_PROMISES) ?? false;
+  bool get supportsPromises =>
+      this?.attributes.any(
+          (e) => e.attributeType == IDLAttributeTypeEnum.supportsPromises) ??
+      false;
 }
 
 class IDLAttribute {
@@ -310,6 +322,7 @@ class IDLEnumValue {
 
   IDLEnumValue(this.name, {required this.documentation});
 
+  @override
   String toString() => "IDLEnumValue($name, $documentation)";
 }
 
@@ -327,9 +340,9 @@ class IDLType {
 class IDLTypeOrUnion {
   final List<IDLType> types;
 
-  IDLTypeOrUnion(this.types): assert(types.isNotEmpty);
+  IDLTypeOrUnion(this.types) : assert(types.isNotEmpty);
 
-  IDLType operator[](int index) => types[index];
+  IDLType operator [](int index) => types[index];
 
   int get length => types.length;
 

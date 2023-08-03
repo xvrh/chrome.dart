@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'input.dart';
@@ -150,45 +154,45 @@ class ChromeInputIme {
 
   /// This event is sent when an IME is activated. It signals that the IME will
   /// be receiving onKeyPress events.
-  Stream<OnActivateEvent> get onActivate =>
+  EventStream<OnActivateEvent> get onActivate =>
       $js.chrome.input.ime.onActivate.asStream(($c) => (
             String engineID,
             $js.ScreenType screen,
           ) {
-            $c(OnActivateEvent(
-              engineID: engineID,
+            return $c(OnActivateEvent(
+              engineId: engineID,
               screen: ScreenType.fromJS(screen),
             ));
           });
 
   /// This event is sent when an IME is deactivated. It signals that the IME
   /// will no longer be receiving onKeyPress events.
-  Stream<String> get onDeactivated =>
-      $js.chrome.input.ime.onDeactivated.asStream(($c) => (String engineID) {
-            $c(engineID);
+  EventStream<String> get onDeactivated =>
+      $js.chrome.input.ime.onDeactivated.asStream(($c) => (String engineId) {
+            return $c(engineId);
           });
 
   /// This event is sent when focus enters a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  Stream<InputContext> get onFocus =>
+  EventStream<InputContext> get onFocus =>
       $js.chrome.input.ime.onFocus.asStream(($c) => ($js.InputContext context) {
-            $c(InputContext.fromJS(context));
+            return $c(InputContext.fromJS(context));
           });
 
   /// This event is sent when focus leaves a text box. It is sent to all
   /// extensions that are listening to this event, and enabled by the user.
-  Stream<int> get onBlur =>
-      $js.chrome.input.ime.onBlur.asStream(($c) => (int contextID) {
-            $c(contextID);
+  EventStream<int> get onBlur =>
+      $js.chrome.input.ime.onBlur.asStream(($c) => (int contextId) {
+            return $c(contextId);
           });
 
   /// This event is sent when the properties of the current InputContext change,
   /// such as the the type. It is sent to all extensions that are listening to
   /// this event, and enabled by the user.
-  Stream<InputContext> get onInputContextUpdate =>
+  EventStream<InputContext> get onInputContextUpdate =>
       $js.chrome.input.ime.onInputContextUpdate
           .asStream(($c) => ($js.InputContext context) {
-                $c(InputContext.fromJS(context));
+                return $c(InputContext.fromJS(context));
               });
 
   /// Fired when a key event is sent from the operating system. The event will
@@ -197,41 +201,41 @@ class ChromeInputIme {
   /// was not.  If the event will be evaluated asynchronously, this function
   /// must return undefined and the IME must later call keyEventHandled() with
   /// the result.
-  Stream<OnKeyEventEvent> get onKeyEvent =>
+  EventStream<OnKeyEventEvent> get onKeyEvent =>
       $js.chrome.input.ime.onKeyEvent.asStream(($c) => (
             String engineID,
             $js.KeyboardEvent keyData,
             String requestId,
           ) {
-            $c(OnKeyEventEvent(
-              engineID: engineID,
+            return $c(OnKeyEventEvent(
+              engineId: engineID,
               keyData: KeyboardEvent.fromJS(keyData),
               requestId: requestId,
             ));
           });
 
   /// This event is sent if this extension owns the active IME.
-  Stream<OnCandidateClickedEvent> get onCandidateClicked =>
+  EventStream<OnCandidateClickedEvent> get onCandidateClicked =>
       $js.chrome.input.ime.onCandidateClicked.asStream(($c) => (
             String engineID,
             int candidateID,
             $js.MouseButton button,
           ) {
-            $c(OnCandidateClickedEvent(
-              engineID: engineID,
-              candidateID: candidateID,
+            return $c(OnCandidateClickedEvent(
+              engineId: engineID,
+              candidateId: candidateID,
               button: MouseButton.fromJS(button),
             ));
           });
 
   /// Called when the user selects a menu item
-  Stream<OnMenuItemActivatedEvent> get onMenuItemActivated =>
+  EventStream<OnMenuItemActivatedEvent> get onMenuItemActivated =>
       $js.chrome.input.ime.onMenuItemActivated.asStream(($c) => (
             String engineID,
             String name,
           ) {
-            $c(OnMenuItemActivatedEvent(
-              engineID: engineID,
+            return $c(OnMenuItemActivatedEvent(
+              engineId: engineID,
               name: name,
             ));
           });
@@ -239,30 +243,31 @@ class ChromeInputIme {
   /// Called when the editable string around caret is changed or when the caret
   /// position is moved. The text length is limited to 100 characters for each
   /// back and forth direction.
-  Stream<OnSurroundingTextChangedEvent> get onSurroundingTextChanged =>
+  EventStream<OnSurroundingTextChangedEvent> get onSurroundingTextChanged =>
       $js.chrome.input.ime.onSurroundingTextChanged.asStream(($c) => (
             String engineID,
             $js.OnSurroundingTextChangedSurroundingInfo surroundingInfo,
           ) {
-            $c(OnSurroundingTextChangedEvent(
-              engineID: engineID,
+            return $c(OnSurroundingTextChangedEvent(
+              engineId: engineID,
               surroundingInfo: OnSurroundingTextChangedSurroundingInfo.fromJS(
                   surroundingInfo),
             ));
           });
 
   /// This event is sent when chrome terminates ongoing text input session.
-  Stream<String> get onReset =>
-      $js.chrome.input.ime.onReset.asStream(($c) => (String engineID) {
-            $c(engineID);
+  EventStream<String> get onReset =>
+      $js.chrome.input.ime.onReset.asStream(($c) => (String engineId) {
+            return $c(engineId);
           });
 
   /// This event is sent when a button in an assistive window is clicked.
-  Stream<OnAssistiveWindowButtonClickedDetails>
+  EventStream<OnAssistiveWindowButtonClickedDetails>
       get onAssistiveWindowButtonClicked =>
           $js.chrome.input.ime.onAssistiveWindowButtonClicked.asStream(
               ($c) => ($js.OnAssistiveWindowButtonClickedDetails details) {
-                    $c(OnAssistiveWindowButtonClickedDetails.fromJS(details));
+                    return $c(
+                        OnAssistiveWindowButtonClickedDetails.fromJS(details));
                   });
 }
 
@@ -476,6 +481,76 @@ class KeyboardEvent {
   final $js.KeyboardEvent _wrapped;
 
   $js.KeyboardEvent get toJS => _wrapped;
+
+  /// One of keyup or keydown.
+  KeyboardEventType get type => KeyboardEventType.fromJS(_wrapped.type);
+  set type(KeyboardEventType v) {
+    _wrapped.type = v.toJS;
+  }
+
+  /// (Deprecated) The ID of the request. Use the `requestId` param from the
+  /// `onKeyEvent` event instead.
+  String? get requestId => _wrapped.requestId;
+  set requestId(String? v) {
+    _wrapped.requestId = v;
+  }
+
+  /// The extension ID of the sender of this keyevent.
+  String? get extensionId => _wrapped.extensionId;
+  set extensionId(String? v) {
+    _wrapped.extensionId = v;
+  }
+
+  /// Value of the key being pressed
+  String get key => _wrapped.key;
+  set key(String v) {
+    _wrapped.key = v;
+  }
+
+  /// Value of the physical key being pressed. The value is not affected by
+  /// current keyboard layout or modifier state.
+  String get code => _wrapped.code;
+  set code(String v) {
+    _wrapped.code = v;
+  }
+
+  /// The deprecated HTML keyCode, which is system- and implementation-dependent
+  /// numerical code signifying the unmodified identifier associated with the
+  /// key pressed.
+  int? get keyCode => _wrapped.keyCode;
+  set keyCode(int? v) {
+    _wrapped.keyCode = v;
+  }
+
+  /// Whether or not the ALT key is pressed.
+  bool? get altKey => _wrapped.altKey;
+  set altKey(bool? v) {
+    _wrapped.altKey = v;
+  }
+
+  /// Whether or not the ALTGR key is pressed.
+  bool? get altgrKey => _wrapped.altgrKey;
+  set altgrKey(bool? v) {
+    _wrapped.altgrKey = v;
+  }
+
+  /// Whether or not the CTRL key is pressed.
+  bool? get ctrlKey => _wrapped.ctrlKey;
+  set ctrlKey(bool? v) {
+    _wrapped.ctrlKey = v;
+  }
+
+  /// Whether or not the SHIFT key is pressed.
+  bool? get shiftKey => _wrapped.shiftKey;
+  set shiftKey(bool? v) {
+    _wrapped.shiftKey = v;
+  }
+
+  /// Whether or not the CAPS_LOCK is enabled.
+  bool? get capsLock => _wrapped.capsLock;
+  set capsLock(bool? v) {
+    _wrapped.capsLock = v;
+  }
 }
 
 class InputContext {
@@ -484,7 +559,7 @@ class InputContext {
   InputContext({
     /// This is used to specify targets of text field operations.  This ID
     /// becomes invalid as soon as onBlur is called.
-    required int contextID,
+    required int contextId,
 
     /// Type of value this text field edits, (Text, Number, URL, etc)
     required InputContextType type,
@@ -504,14 +579,15 @@ class InputContext {
     /// Whether text entered into the text field should be used to improve
     /// typing suggestions for the user.
     required bool shouldDoLearning,
-  }) : _wrapped = $js.InputContext()
-          ..contextID = contextID
-          ..type = type.toJS
-          ..autoCorrect = autoCorrect
-          ..autoComplete = autoComplete
-          ..autoCapitalize = autoCapitalize.toJS
-          ..spellCheck = spellCheck
-          ..shouldDoLearning = shouldDoLearning;
+  }) : _wrapped = $js.InputContext(
+          contextID: contextId,
+          type: type.toJS,
+          autoCorrect: autoCorrect,
+          autoComplete: autoComplete,
+          autoCapitalize: autoCapitalize.toJS,
+          spellCheck: spellCheck,
+          shouldDoLearning: shouldDoLearning,
+        );
 
   final $js.InputContext _wrapped;
 
@@ -519,8 +595,8 @@ class InputContext {
 
   /// This is used to specify targets of text field operations.  This ID becomes
   /// invalid as soon as onBlur is called.
-  int get contextID => _wrapped.contextID;
-  set contextID(int v) {
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
     _wrapped.contextID = v;
   }
 
@@ -596,6 +672,42 @@ class MenuItem {
   final $js.MenuItem _wrapped;
 
   $js.MenuItem get toJS => _wrapped;
+
+  /// String that will be passed to callbacks referencing this MenuItem.
+  String get id => _wrapped.id;
+  set id(String v) {
+    _wrapped.id = v;
+  }
+
+  /// Text displayed in the menu for this item.
+  String? get label => _wrapped.label;
+  set label(String? v) {
+    _wrapped.label = v;
+  }
+
+  /// The type of menu item.
+  MenuItemStyle? get style => _wrapped.style?.let(MenuItemStyle.fromJS);
+  set style(MenuItemStyle? v) {
+    _wrapped.style = v?.toJS;
+  }
+
+  /// Indicates this item is visible.
+  bool? get visible => _wrapped.visible;
+  set visible(bool? v) {
+    _wrapped.visible = v;
+  }
+
+  /// Indicates this item should be drawn with a check.
+  bool? get checked => _wrapped.checked;
+  set checked(bool? v) {
+    _wrapped.checked = v;
+  }
+
+  /// Indicates this item is enabled.
+  bool? get enabled => _wrapped.enabled;
+  set enabled(bool? v) {
+    _wrapped.enabled = v;
+  }
 }
 
 class AssistiveWindowProperties {
@@ -618,6 +730,23 @@ class AssistiveWindowProperties {
   final $js.AssistiveWindowProperties _wrapped;
 
   $js.AssistiveWindowProperties get toJS => _wrapped;
+
+  AssistiveWindowType get type => AssistiveWindowType.fromJS(_wrapped.type);
+  set type(AssistiveWindowType v) {
+    _wrapped.type = v.toJS;
+  }
+
+  /// Sets true to show AssistiveWindow, sets false to hide.
+  bool get visible => _wrapped.visible;
+  set visible(bool v) {
+    _wrapped.visible = v;
+  }
+
+  /// Strings for ChromeVox to announce.
+  String? get announceString => _wrapped.announceString;
+  set announceString(String? v) {
+    _wrapped.announceString = v;
+  }
 }
 
 class MenuParameters {
@@ -625,19 +754,35 @@ class MenuParameters {
 
   MenuParameters({
     /// ID of the engine to use.
-    required String engineID,
+    required String engineId,
 
     /// MenuItems to add or update. They will be added in the order they exist
     /// in the array.
     required List<MenuItem> items,
   }) : _wrapped = $js.MenuParameters(
-          engineID: engineID,
+          engineID: engineId,
           items: items.toJSArray((e) => e.toJS),
         );
 
   final $js.MenuParameters _wrapped;
 
   $js.MenuParameters get toJS => _wrapped;
+
+  /// ID of the engine to use.
+  String get engineId => _wrapped.engineID;
+  set engineId(String v) {
+    _wrapped.engineID = v;
+  }
+
+  /// MenuItems to add or update. They will be added in the order they exist in
+  /// the array.
+  List<MenuItem> get items => _wrapped.items.toDart
+      .cast<$js.MenuItem>()
+      .map((e) => MenuItem.fromJS(e))
+      .toList();
+  set items(List<MenuItem> v) {
+    _wrapped.items = v.toJSArray((e) => e.toJS);
+  }
 }
 
 class OnSurroundingTextChangedSurroundingInfo {
@@ -660,11 +805,12 @@ class OnSurroundingTextChangedSurroundingInfo {
     /// text around the cursor, offset indicates the absolute position of the
     /// first character of `text`.
     required int offset,
-  }) : _wrapped = $js.OnSurroundingTextChangedSurroundingInfo()
-          ..text = text
-          ..focus = focus
-          ..anchor = anchor
-          ..offset = offset;
+  }) : _wrapped = $js.OnSurroundingTextChangedSurroundingInfo(
+          text: text,
+          focus: focus,
+          anchor: anchor,
+          offset: offset,
+        );
 
   final $js.OnSurroundingTextChangedSurroundingInfo _wrapped;
 
@@ -705,22 +851,23 @@ class OnAssistiveWindowButtonClickedDetails {
 
   OnAssistiveWindowButtonClickedDetails({
     /// The ID of the button clicked.
-    required AssistiveWindowButton buttonID,
+    required AssistiveWindowButton buttonId,
 
     /// The type of the assistive window.
     required AssistiveWindowType windowType,
-  }) : _wrapped = $js.OnAssistiveWindowButtonClickedDetails()
-          ..buttonID = buttonID.toJS
-          ..windowType = windowType.toJS;
+  }) : _wrapped = $js.OnAssistiveWindowButtonClickedDetails(
+          buttonID: buttonId.toJS,
+          windowType: windowType.toJS,
+        );
 
   final $js.OnAssistiveWindowButtonClickedDetails _wrapped;
 
   $js.OnAssistiveWindowButtonClickedDetails get toJS => _wrapped;
 
   /// The ID of the button clicked.
-  AssistiveWindowButton get buttonID =>
+  AssistiveWindowButton get buttonId =>
       AssistiveWindowButton.fromJS(_wrapped.buttonID);
-  set buttonID(AssistiveWindowButton v) {
+  set buttonId(AssistiveWindowButton v) {
     _wrapped.buttonID = v.toJS;
   }
 
@@ -737,7 +884,7 @@ class SetCompositionParameters {
 
   SetCompositionParameters({
     /// ID of the context where the composition text will be set
-    required int contextID,
+    required int contextId,
 
     /// Text to set
     required String text,
@@ -754,7 +901,7 @@ class SetCompositionParameters {
     /// List of segments and their associated types.
     List<SetCompositionParametersSegments>? segments,
   }) : _wrapped = $js.SetCompositionParameters(
-          contextID: contextID,
+          contextID: contextId,
           text: text,
           selectionStart: selectionStart,
           selectionEnd: selectionEnd,
@@ -765,6 +912,46 @@ class SetCompositionParameters {
   final $js.SetCompositionParameters _wrapped;
 
   $js.SetCompositionParameters get toJS => _wrapped;
+
+  /// ID of the context where the composition text will be set
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// Text to set
+  String get text => _wrapped.text;
+  set text(String v) {
+    _wrapped.text = v;
+  }
+
+  /// Position in the text that the selection starts at.
+  int? get selectionStart => _wrapped.selectionStart;
+  set selectionStart(int? v) {
+    _wrapped.selectionStart = v;
+  }
+
+  /// Position in the text that the selection ends at.
+  int? get selectionEnd => _wrapped.selectionEnd;
+  set selectionEnd(int? v) {
+    _wrapped.selectionEnd = v;
+  }
+
+  /// Position in the text of the cursor.
+  int get cursor => _wrapped.cursor;
+  set cursor(int v) {
+    _wrapped.cursor = v;
+  }
+
+  /// List of segments and their associated types.
+  List<SetCompositionParametersSegments>? get segments =>
+      _wrapped.segments?.toDart
+          .cast<$js.SetCompositionParametersSegments>()
+          .map((e) => SetCompositionParametersSegments.fromJS(e))
+          .toList();
+  set segments(List<SetCompositionParametersSegments>? v) {
+    _wrapped.segments = v?.toJSArray((e) => e.toJS);
+  }
 }
 
 class ClearCompositionParameters {
@@ -773,12 +960,18 @@ class ClearCompositionParameters {
   ClearCompositionParameters(
       {
       /// ID of the context where the composition will be cleared
-      required int contextID})
-      : _wrapped = $js.ClearCompositionParameters(contextID: contextID);
+      required int contextId})
+      : _wrapped = $js.ClearCompositionParameters(contextID: contextId);
 
   final $js.ClearCompositionParameters _wrapped;
 
   $js.ClearCompositionParameters get toJS => _wrapped;
+
+  /// ID of the context where the composition will be cleared
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
 }
 
 class CommitTextParameters {
@@ -786,18 +979,30 @@ class CommitTextParameters {
 
   CommitTextParameters({
     /// ID of the context where the text will be committed
-    required int contextID,
+    required int contextId,
 
     /// The text to commit
     required String text,
   }) : _wrapped = $js.CommitTextParameters(
-          contextID: contextID,
+          contextID: contextId,
           text: text,
         );
 
   final $js.CommitTextParameters _wrapped;
 
   $js.CommitTextParameters get toJS => _wrapped;
+
+  /// ID of the context where the text will be committed
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// The text to commit
+  String get text => _wrapped.text;
+  set text(String v) {
+    _wrapped.text = v;
+  }
 }
 
 class SendKeyEventsParameters {
@@ -806,18 +1011,34 @@ class SendKeyEventsParameters {
   SendKeyEventsParameters({
     /// ID of the context where the key events will be sent, or zero to send key
     /// events to non-input field.
-    required int contextID,
+    required int contextId,
 
     /// Data on the key event.
     required List<KeyboardEvent> keyData,
   }) : _wrapped = $js.SendKeyEventsParameters(
-          contextID: contextID,
+          contextID: contextId,
           keyData: keyData.toJSArray((e) => e.toJS),
         );
 
   final $js.SendKeyEventsParameters _wrapped;
 
   $js.SendKeyEventsParameters get toJS => _wrapped;
+
+  /// ID of the context where the key events will be sent, or zero to send key
+  /// events to non-input field.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// Data on the key event.
+  List<KeyboardEvent> get keyData => _wrapped.keyData.toDart
+      .cast<$js.KeyboardEvent>()
+      .map((e) => KeyboardEvent.fromJS(e))
+      .toList();
+  set keyData(List<KeyboardEvent> v) {
+    _wrapped.keyData = v.toJSArray((e) => e.toJS);
+  }
 }
 
 class SetCandidateWindowPropertiesParameters {
@@ -825,16 +1046,29 @@ class SetCandidateWindowPropertiesParameters {
 
   SetCandidateWindowPropertiesParameters({
     /// ID of the engine to set properties on.
-    required String engineID,
+    required String engineId,
     required SetCandidateWindowPropertiesParametersProperties properties,
   }) : _wrapped = $js.SetCandidateWindowPropertiesParameters(
-          engineID: engineID,
+          engineID: engineId,
           properties: properties.toJS,
         );
 
   final $js.SetCandidateWindowPropertiesParameters _wrapped;
 
   $js.SetCandidateWindowPropertiesParameters get toJS => _wrapped;
+
+  /// ID of the engine to set properties on.
+  String get engineId => _wrapped.engineID;
+  set engineId(String v) {
+    _wrapped.engineID = v;
+  }
+
+  SetCandidateWindowPropertiesParametersProperties get properties =>
+      SetCandidateWindowPropertiesParametersProperties.fromJS(
+          _wrapped.properties);
+  set properties(SetCandidateWindowPropertiesParametersProperties v) {
+    _wrapped.properties = v.toJS;
+  }
 }
 
 class SetCandidatesParameters {
@@ -842,18 +1076,34 @@ class SetCandidatesParameters {
 
   SetCandidatesParameters({
     /// ID of the context that owns the candidate window.
-    required int contextID,
+    required int contextId,
 
     /// List of candidates to show in the candidate window
     required List<SetCandidatesParametersCandidates> candidates,
   }) : _wrapped = $js.SetCandidatesParameters(
-          contextID: contextID,
+          contextID: contextId,
           candidates: candidates.toJSArray((e) => e.toJS),
         );
 
   final $js.SetCandidatesParameters _wrapped;
 
   $js.SetCandidatesParameters get toJS => _wrapped;
+
+  /// ID of the context that owns the candidate window.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// List of candidates to show in the candidate window
+  List<SetCandidatesParametersCandidates> get candidates =>
+      _wrapped.candidates.toDart
+          .cast<$js.SetCandidatesParametersCandidates>()
+          .map((e) => SetCandidatesParametersCandidates.fromJS(e))
+          .toList();
+  set candidates(List<SetCandidatesParametersCandidates> v) {
+    _wrapped.candidates = v.toJSArray((e) => e.toJS);
+  }
 }
 
 class SetCursorPositionParameters {
@@ -861,18 +1111,30 @@ class SetCursorPositionParameters {
 
   SetCursorPositionParameters({
     /// ID of the context that owns the candidate window.
-    required int contextID,
+    required int contextId,
 
     /// ID of the candidate to select.
-    required int candidateID,
+    required int candidateId,
   }) : _wrapped = $js.SetCursorPositionParameters(
-          contextID: contextID,
-          candidateID: candidateID,
+          contextID: contextId,
+          candidateID: candidateId,
         );
 
   final $js.SetCursorPositionParameters _wrapped;
 
   $js.SetCursorPositionParameters get toJS => _wrapped;
+
+  /// ID of the context that owns the candidate window.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// ID of the candidate to select.
+  int get candidateId => _wrapped.candidateID;
+  set candidateId(int v) {
+    _wrapped.candidateID = v;
+  }
 }
 
 class SetAssistiveWindowPropertiesParameters {
@@ -880,18 +1142,31 @@ class SetAssistiveWindowPropertiesParameters {
 
   SetAssistiveWindowPropertiesParameters({
     /// ID of the context owning the assistive window.
-    required int contextID,
+    required int contextId,
 
     /// Properties of the assistive window.
     required AssistiveWindowProperties properties,
   }) : _wrapped = $js.SetAssistiveWindowPropertiesParameters(
-          contextID: contextID,
+          contextID: contextId,
           properties: properties.toJS,
         );
 
   final $js.SetAssistiveWindowPropertiesParameters _wrapped;
 
   $js.SetAssistiveWindowPropertiesParameters get toJS => _wrapped;
+
+  /// ID of the context owning the assistive window.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// Properties of the assistive window.
+  AssistiveWindowProperties get properties =>
+      AssistiveWindowProperties.fromJS(_wrapped.properties);
+  set properties(AssistiveWindowProperties v) {
+    _wrapped.properties = v.toJS;
+  }
 }
 
 class SetAssistiveWindowButtonHighlightedParameters {
@@ -899,10 +1174,10 @@ class SetAssistiveWindowButtonHighlightedParameters {
 
   SetAssistiveWindowButtonHighlightedParameters({
     /// ID of the context owning the assistive window.
-    required int contextID,
+    required int contextId,
 
     /// The ID of the button
-    required AssistiveWindowButton buttonID,
+    required AssistiveWindowButton buttonId,
 
     /// The window type the button belongs to.
     required AssistiveWindowType windowType,
@@ -913,8 +1188,8 @@ class SetAssistiveWindowButtonHighlightedParameters {
     /// Whether the button should be highlighted.
     required bool highlighted,
   }) : _wrapped = $js.SetAssistiveWindowButtonHighlightedParameters(
-          contextID: contextID,
-          buttonID: buttonID.toJS,
+          contextID: contextId,
+          buttonID: buttonId.toJS,
           windowType: windowType.toJS,
           announceString: announceString,
           highlighted: highlighted,
@@ -923,6 +1198,38 @@ class SetAssistiveWindowButtonHighlightedParameters {
   final $js.SetAssistiveWindowButtonHighlightedParameters _wrapped;
 
   $js.SetAssistiveWindowButtonHighlightedParameters get toJS => _wrapped;
+
+  /// ID of the context owning the assistive window.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// The ID of the button
+  AssistiveWindowButton get buttonId =>
+      AssistiveWindowButton.fromJS(_wrapped.buttonID);
+  set buttonId(AssistiveWindowButton v) {
+    _wrapped.buttonID = v.toJS;
+  }
+
+  /// The window type the button belongs to.
+  AssistiveWindowType get windowType =>
+      AssistiveWindowType.fromJS(_wrapped.windowType);
+  set windowType(AssistiveWindowType v) {
+    _wrapped.windowType = v.toJS;
+  }
+
+  /// The text for the screenreader to announce.
+  String? get announceString => _wrapped.announceString;
+  set announceString(String? v) {
+    _wrapped.announceString = v;
+  }
+
+  /// Whether the button should be highlighted.
+  bool get highlighted => _wrapped.highlighted;
+  set highlighted(bool v) {
+    _wrapped.highlighted = v;
+  }
 }
 
 class DeleteSurroundingTextParameters {
@@ -930,10 +1237,10 @@ class DeleteSurroundingTextParameters {
 
   DeleteSurroundingTextParameters({
     /// ID of the engine receiving the event.
-    required String engineID,
+    required String engineId,
 
     /// ID of the context where the surrounding text will be deleted.
-    required int contextID,
+    required int contextId,
 
     /// The offset from the caret position where deletion will start. This value
     /// can be negative.
@@ -942,8 +1249,8 @@ class DeleteSurroundingTextParameters {
     /// The number of characters to be deleted
     required int length,
   }) : _wrapped = $js.DeleteSurroundingTextParameters(
-          engineID: engineID,
-          contextID: contextID,
+          engineID: engineId,
+          contextID: contextId,
           offset: offset,
           length: length,
         );
@@ -951,6 +1258,31 @@ class DeleteSurroundingTextParameters {
   final $js.DeleteSurroundingTextParameters _wrapped;
 
   $js.DeleteSurroundingTextParameters get toJS => _wrapped;
+
+  /// ID of the engine receiving the event.
+  String get engineId => _wrapped.engineID;
+  set engineId(String v) {
+    _wrapped.engineID = v;
+  }
+
+  /// ID of the context where the surrounding text will be deleted.
+  int get contextId => _wrapped.contextID;
+  set contextId(int v) {
+    _wrapped.contextID = v;
+  }
+
+  /// The offset from the caret position where deletion will start. This value
+  /// can be negative.
+  int get offset => _wrapped.offset;
+  set offset(int v) {
+    _wrapped.offset = v;
+  }
+
+  /// The number of characters to be deleted
+  int get length => _wrapped.length;
+  set length(int v) {
+    _wrapped.length = v;
+  }
 }
 
 class SetCompositionParametersSegments {
@@ -974,6 +1306,24 @@ class SetCompositionParametersSegments {
   final $js.SetCompositionParametersSegments _wrapped;
 
   $js.SetCompositionParametersSegments get toJS => _wrapped;
+
+  /// Index of the character to start this segment at
+  int get start => _wrapped.start;
+  set start(int v) {
+    _wrapped.start = v;
+  }
+
+  /// Index of the character to end this segment after.
+  int get end => _wrapped.end;
+  set end(int v) {
+    _wrapped.end = v;
+  }
+
+  /// The type of the underline to modify this segment.
+  UnderlineStyle get style => UnderlineStyle.fromJS(_wrapped.style);
+  set style(UnderlineStyle v) {
+    _wrapped.style = v.toJS;
+  }
 }
 
 class SetCandidateWindowPropertiesParametersProperties {
@@ -1022,6 +1372,62 @@ class SetCandidateWindowPropertiesParametersProperties {
   final $js.SetCandidateWindowPropertiesParametersProperties _wrapped;
 
   $js.SetCandidateWindowPropertiesParametersProperties get toJS => _wrapped;
+
+  /// True to show the Candidate window, false to hide it.
+  bool? get visible => _wrapped.visible;
+  set visible(bool? v) {
+    _wrapped.visible = v;
+  }
+
+  /// True to show the cursor, false to hide it.
+  bool? get cursorVisible => _wrapped.cursorVisible;
+  set cursorVisible(bool? v) {
+    _wrapped.cursorVisible = v;
+  }
+
+  /// True if the candidate window should be rendered vertical, false to make it
+  /// horizontal.
+  bool? get vertical => _wrapped.vertical;
+  set vertical(bool? v) {
+    _wrapped.vertical = v;
+  }
+
+  /// The number of candidates to display per page.
+  int? get pageSize => _wrapped.pageSize;
+  set pageSize(int? v) {
+    _wrapped.pageSize = v;
+  }
+
+  /// Text that is shown at the bottom of the candidate window.
+  String? get auxiliaryText => _wrapped.auxiliaryText;
+  set auxiliaryText(String? v) {
+    _wrapped.auxiliaryText = v;
+  }
+
+  /// True to display the auxiliary text, false to hide it.
+  bool? get auxiliaryTextVisible => _wrapped.auxiliaryTextVisible;
+  set auxiliaryTextVisible(bool? v) {
+    _wrapped.auxiliaryTextVisible = v;
+  }
+
+  /// The total number of candidates for the candidate window.
+  int? get totalCandidates => _wrapped.totalCandidates;
+  set totalCandidates(int? v) {
+    _wrapped.totalCandidates = v;
+  }
+
+  /// The index of the current chosen candidate out of total candidates.
+  int? get currentCandidateIndex => _wrapped.currentCandidateIndex;
+  set currentCandidateIndex(int? v) {
+    _wrapped.currentCandidateIndex = v;
+  }
+
+  /// Where to display the candidate window.
+  WindowPosition? get windowPosition =>
+      _wrapped.windowPosition?.let(WindowPosition.fromJS);
+  set windowPosition(WindowPosition? v) {
+    _wrapped.windowPosition = v?.toJS;
+  }
 }
 
 class SetCandidatesParametersCandidates {
@@ -1058,6 +1464,44 @@ class SetCandidatesParametersCandidates {
   final $js.SetCandidatesParametersCandidates _wrapped;
 
   $js.SetCandidatesParametersCandidates get toJS => _wrapped;
+
+  /// The candidate
+  String get candidate => _wrapped.candidate;
+  set candidate(String v) {
+    _wrapped.candidate = v;
+  }
+
+  /// The candidate's id
+  int get id => _wrapped.id;
+  set id(int v) {
+    _wrapped.id = v;
+  }
+
+  /// The id to add these candidates under
+  int? get parentId => _wrapped.parentId;
+  set parentId(int? v) {
+    _wrapped.parentId = v;
+  }
+
+  /// Short string displayed to next to the candidate, often the shortcut key or
+  /// index
+  String? get label => _wrapped.label;
+  set label(String? v) {
+    _wrapped.label = v;
+  }
+
+  /// Additional text describing the candidate
+  String? get annotation => _wrapped.annotation;
+  set annotation(String? v) {
+    _wrapped.annotation = v;
+  }
+
+  /// The usage or detail description of word.
+  SetCandidatesParametersCandidatesUsage? get usage =>
+      _wrapped.usage?.let(SetCandidatesParametersCandidatesUsage.fromJS);
+  set usage(SetCandidatesParametersCandidatesUsage? v) {
+    _wrapped.usage = v?.toJS;
+  }
 }
 
 class SetCandidatesParametersCandidatesUsage {
@@ -1077,16 +1521,28 @@ class SetCandidatesParametersCandidatesUsage {
   final $js.SetCandidatesParametersCandidatesUsage _wrapped;
 
   $js.SetCandidatesParametersCandidatesUsage get toJS => _wrapped;
+
+  /// The title string of details description.
+  String get title => _wrapped.title;
+  set title(String v) {
+    _wrapped.title = v;
+  }
+
+  /// The body string of detail description.
+  String get body => _wrapped.body;
+  set body(String v) {
+    _wrapped.body = v;
+  }
 }
 
 class OnActivateEvent {
   OnActivateEvent({
-    required this.engineID,
+    required this.engineId,
     required this.screen,
   });
 
   /// ID of the engine receiving the event
-  final String engineID;
+  final String engineId;
 
   /// The screen type under which the IME is activated.
   final ScreenType screen;
@@ -1094,13 +1550,13 @@ class OnActivateEvent {
 
 class OnKeyEventEvent {
   OnKeyEventEvent({
-    required this.engineID,
+    required this.engineId,
     required this.keyData,
     required this.requestId,
   });
 
   /// ID of the engine receiving the event
-  final String engineID;
+  final String engineId;
 
   /// Data on the key event
   final KeyboardEvent keyData;
@@ -1112,16 +1568,16 @@ class OnKeyEventEvent {
 
 class OnCandidateClickedEvent {
   OnCandidateClickedEvent({
-    required this.engineID,
-    required this.candidateID,
+    required this.engineId,
+    required this.candidateId,
     required this.button,
   });
 
   /// ID of the engine receiving the event
-  final String engineID;
+  final String engineId;
 
   /// ID of the candidate that was clicked.
-  final int candidateID;
+  final int candidateId;
 
   /// Which mouse buttons was clicked.
   final MouseButton button;
@@ -1129,12 +1585,12 @@ class OnCandidateClickedEvent {
 
 class OnMenuItemActivatedEvent {
   OnMenuItemActivatedEvent({
-    required this.engineID,
+    required this.engineId,
     required this.name,
   });
 
   /// ID of the engine receiving the event
-  final String engineID;
+  final String engineId;
 
   /// Name of the MenuItem which was activated
   final String name;
@@ -1142,12 +1598,12 @@ class OnMenuItemActivatedEvent {
 
 class OnSurroundingTextChangedEvent {
   OnSurroundingTextChangedEvent({
-    required this.engineID,
+    required this.engineId,
     required this.surroundingInfo,
   });
 
   /// ID of the engine receiving the event
-  final String engineID;
+  final String engineId;
 
   /// The surrounding information.
   final OnSurroundingTextChangedSurroundingInfo surroundingInfo;

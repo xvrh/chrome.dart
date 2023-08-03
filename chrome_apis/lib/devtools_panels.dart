@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_parenthesis
+
+library;
+
 import 'dart:js_util';
 
 import 'devtools.dart';
@@ -120,9 +124,9 @@ class ElementsPanel {
   }
 
   /// Fired when an object is selected in the panel.
-  Stream<void> get onSelectionChanged =>
+  EventStream<void> get onSelectionChanged =>
       _wrapped.onSelectionChanged.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -152,9 +156,9 @@ class SourcesPanel {
   }
 
   /// Fired when an object is selected in the panel.
-  Stream<void> get onSelectionChanged =>
+  EventStream<void> get onSelectionChanged =>
       _wrapped.onSelectionChanged.asStream(($c) => () {
-            $c(null);
+            return $c(null);
           });
 }
 
@@ -189,26 +193,26 @@ class ExtensionPanel {
 
   /// Fired upon a search action (start of a new search, search result
   /// navigation, or search being canceled).
-  Stream<ExtensionPanelOnSearchEvent> get onSearch =>
+  EventStream<ExtensionPanelOnSearchEvent> get onSearch =>
       _wrapped.onSearch.asStream(($c) => (
             String action,
             String? queryString,
           ) {
-            $c(ExtensionPanelOnSearchEvent(
+            return $c(ExtensionPanelOnSearchEvent(
               action: action,
               queryString: queryString,
             ));
           });
 
   /// Fired when the user switches to the panel.
-  Stream<JSObject> get onShown =>
+  EventStream<JSObject> get onShown =>
       _wrapped.onShown.asStream(($c) => (JSObject window) {
-            $c(window);
+            return $c(window);
           });
 
   /// Fired when the user switches away from the panel.
-  Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
-        $c(null);
+  EventStream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
+        return $c(null);
       });
 }
 
@@ -273,15 +277,15 @@ class ExtensionSidebarPane {
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
-  Stream<JSObject> get onShown =>
+  EventStream<JSObject> get onShown =>
       _wrapped.onShown.asStream(($c) => (JSObject window) {
-            $c(window);
+            return $c(window);
           });
 
   /// Fired when the sidebar pane becomes hidden as a result of the user
   /// switching away from the panel that hosts the sidebar pane.
-  Stream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
-        $c(null);
+  EventStream<void> get onHidden => _wrapped.onHidden.asStream(($c) => () {
+        return $c(null);
       });
 }
 
@@ -313,8 +317,8 @@ class Button {
   }
 
   /// Fired when the button is clicked.
-  Stream<void> get onClicked => _wrapped.onClicked.asStream(($c) => () {
-        $c(null);
+  EventStream<void> get onClicked => _wrapped.onClicked.asStream(($c) => () {
+        return $c(null);
       });
 }
 

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
@@ -37,25 +35,9 @@ void main() {
 
           await (await browser.pages)
               .first
-              .goto('chrome-extension://${extensionId}/popup.html');
+              .goto('chrome-extension://$extensionId/popup.html');
         },
       );
     },
   );
-}
-
-Future<void> _waitFor(FutureOr<bool> Function() predicate,
-    {Duration? pollInterval, Duration? timeout}) async {
-  pollInterval ??= Duration(milliseconds: 100);
-  timeout ??= Duration(seconds: 10);
-  var stopwatch = Stopwatch()..start();
-  while (true) {
-    var result = await predicate();
-    if (result) return;
-    if (stopwatch.elapsed > timeout) {
-      throw TimeoutException('waitFor has timed out');
-    }
-
-    await Future.delayed(pollInterval);
-  }
 }

@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:fetch_client/fetch_client.dart' as http;
-import 'communication.dart';
 import 'package:path/path.dart' as p;
-
+import 'communication.dart';
 
 class Client {
   final String baseUrl;

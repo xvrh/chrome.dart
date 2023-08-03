@@ -2,7 +2,6 @@ library googlesource_test;
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:chrome_extension_generator/src/download/googlesource.dart';
 import 'package:chrome_extension_generator/src/download/simple_http_client.dart';
 import 'package:test/test.dart';

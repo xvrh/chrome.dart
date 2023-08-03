@@ -2,7 +2,6 @@ library download_idls;
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:chrome_extension_generator/src/download/googlesource.dart';
 import 'package:chrome_extension_generator/src/download/omaha.dart';
 

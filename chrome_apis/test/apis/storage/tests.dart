@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/storage.dart';
 import 'package:test/test.dart';

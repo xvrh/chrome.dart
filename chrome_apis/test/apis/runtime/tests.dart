@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:checks/checks.dart';
-import 'package:test/test.dart';
-import '../../runner/runner_client.dart';
 import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/tabs.dart' as tabs;
+import 'package:test/test.dart';
+import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);
 

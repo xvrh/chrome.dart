@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'src/internal_helpers.dart';
 import 'src/js/content_settings.dart' as $js;
 

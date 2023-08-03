@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'input.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/input_ime.dart' as $js;

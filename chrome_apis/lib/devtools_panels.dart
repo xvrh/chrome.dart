@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'devtools.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/devtools_panels.dart' as $js;

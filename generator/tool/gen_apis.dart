@@ -1,13 +1,12 @@
 import 'dart:io';
-import 'package:path/path.dart' as p;
-
 import 'package:chrome_extension_generator/apis.dart';
 import 'package:chrome_extension_generator/src/chrome_model.dart';
 import 'package:chrome_extension_generator/src/code_generator.dart';
+import 'package:chrome_extension_generator/src/idl_convert.dart' as idl;
 import 'package:chrome_extension_generator/src/json_convert.dart';
 import 'package:chrome_extension_generator/src/json_model.dart' as json;
-import 'package:chrome_extension_generator/src/idl_convert.dart' as idl;
 import 'package:chrome_extension_generator/src/utils/string.dart';
+import 'package:path/path.dart' as p;
 
 final idlPath = 'idl';
 final targetPath = '../chrome_apis/lib';
@@ -32,8 +31,8 @@ void main() {
     File(p.join(targetPath, '${group.key.snakeCase}.dart'))
         .writeAsStringSync(generateDartGroupCode(group.key, group.value));
   }
-  File(p.join(targetPath, 'chrome.dart'))
-      .writeAsStringSync(generateChromeCode(context.apis, groups.keys.toList()));
+  File(p.join(targetPath, 'chrome.dart')).writeAsStringSync(
+      generateChromeCode(context.apis, groups.keys.toList()));
 }
 
 ChromeApi _createApi(Context context, String apiName) {
@@ -42,7 +41,8 @@ ChromeApi _createApi(Context context, String apiName) {
 
   ChromeApi model;
   if (idlFile.path.endsWith('.json')) {
-    model = JsonModelConverter(context, json.JsonNamespace.parse(content)).convert();
+    model = JsonModelConverter(context, json.JsonNamespace.parse(content))
+        .convert();
   } else {
     model = idl.IdlModelConverter.fromString(context, content).convert();
   }

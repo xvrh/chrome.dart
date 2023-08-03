@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_hardware_platform.dart' as $js;

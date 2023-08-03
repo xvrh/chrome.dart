@@ -2,10 +2,8 @@ library model_json_test;
 
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:test/test.dart';
-
 import 'package:chrome_extension_generator/src/json_model.dart' as json_model;
+import 'package:test/test.dart';
 
 void main() {
   group('json_model', () {

@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:chrome_extension_generator/src/utils/string/split_words.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('split word', () {

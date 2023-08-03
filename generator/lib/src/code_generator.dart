@@ -1,11 +1,11 @@
-import 'package:chrome_extension_generator/src/chrome_type.dart';
+import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:path/path.dart' as p;
 import 'chrome_model.dart' as model;
+import 'chrome_type.dart';
 import 'comment.dart';
 import 'utils/string.dart';
-import 'package:path/path.dart' as p;
 
 const _dartInteropUrl = 'dart:js_interop';
 const _sharedBinding = 'chrome.dart';

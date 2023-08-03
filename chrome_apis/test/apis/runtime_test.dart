@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
-
 import '../runner/runner.dart';
 
 void main() {

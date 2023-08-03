@@ -4,7 +4,6 @@ library;
 
 import 'dart:js_util';
 import 'dart:typed_data';
-
 import 'src/internal_helpers.dart';
 import 'src/js/file_system_provider.dart' as $js;
 

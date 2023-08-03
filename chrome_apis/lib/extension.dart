@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'runtime.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/extension.dart' as $js;

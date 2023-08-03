@@ -4,7 +4,6 @@ library;
 
 import 'dart:js_util';
 import 'dart:typed_data';
-
 import 'src/internal_helpers.dart';
 import 'src/js/wallpaper.dart' as $js;
 

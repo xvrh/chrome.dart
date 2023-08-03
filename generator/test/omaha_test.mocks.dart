@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
 
+import 'dart:async' as _i3;
 import 'package:chrome_extension_generator/src/download/simple_http_client.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;

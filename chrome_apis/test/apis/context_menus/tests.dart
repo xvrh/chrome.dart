@@ -1,7 +1,6 @@
+import 'package:chrome_apis/context_menus.dart';
 import 'package:chrome_apis/runtime.dart' as runtime;
 import 'package:test/test.dart';
-import 'package:chrome_apis/context_menus.dart';
-
 import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);

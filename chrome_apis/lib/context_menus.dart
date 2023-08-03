@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'src/internal_helpers.dart';
 import 'src/js/context_menus.dart' as $js;
 import 'src/js/tabs.dart' as $js_tabs;

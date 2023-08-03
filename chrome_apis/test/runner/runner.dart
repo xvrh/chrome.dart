@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as p;
+import 'package:puppeteer/puppeteer.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf;
-import 'package:puppeteer/puppeteer.dart';
-import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 import 'communication.dart';
 

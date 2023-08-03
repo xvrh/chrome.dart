@@ -1,5 +1,4 @@
 import 'dart:js_interop';
-
 import 'chrome.dart';
 
 extension JSChromeSystemExtension on JSChrome {

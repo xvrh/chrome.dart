@@ -1,9 +1,7 @@
 import 'dart:typed_data';
-
-import 'package:test/test.dart';
-
-import '../../runner/runner_client.dart';
 import 'package:chrome_apis/wallpaper.dart';
+import 'package:test/test.dart';
+import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);
 

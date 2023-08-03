@@ -4,6 +4,7 @@ environment:
   sdk: '^3.0.0'
 
 dependencies:
+  analyzer:
   args:
   build_runner:
   code_builder:
@@ -20,6 +21,7 @@ dependencies:
       url: https://github.com/petitparser/dart-petitparser.git
   test:
   web:
+  yaml:
 
 dependency_overrides:
   code_builder:

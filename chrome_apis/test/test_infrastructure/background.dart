@@ -1,8 +1,7 @@
 import 'dart:async';
-
+import 'package:chrome_apis/tabs.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:test/test.dart';
-import 'package:chrome_apis/tabs.dart';
 import '../runner/runner_client.dart';
 
 void main() => setup(_tests);

@@ -1,9 +1,8 @@
 import 'package:checks/checks.dart';
+import 'package:chrome_apis/accessibility_features.dart';
 import 'package:chrome_apis/types.dart';
 import 'package:test/test.dart';
-
 import '../../runner/runner_client.dart';
-import 'package:chrome_apis/accessibility_features.dart';
 
 void main() => setup(_tests);
 

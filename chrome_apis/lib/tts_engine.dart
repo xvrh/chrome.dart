@@ -3,7 +3,6 @@
 library;
 
 import 'dart:typed_data';
-
 import 'src/internal_helpers.dart';
 import 'src/js/tts_engine.dart' as $js;
 import 'tts.dart';

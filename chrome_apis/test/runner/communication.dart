@@ -36,14 +36,15 @@ class Server {
   }
 
   Future<shelf.Response> _log(shelf.Request request) async {
-    var log = LogRequest.fromJson(jsonDecode(await request.readAsString()));
+    var log = LogRequest.fromJson(
+        jsonDecode(await request.readAsString()) as Map<String, dynamic>);
     onLog(log);
     return shelf.Response.ok('');
   }
 
   Future<shelf.Response> _terminate(shelf.Request request) async {
-    var terminate =
-        TerminateRequest.fromJson(jsonDecode(await request.readAsString()));
+    var terminate = TerminateRequest.fromJson(
+        jsonDecode(await request.readAsString()) as Map<String, dynamic>);
     onTerminate(terminate);
     return shelf.Response.ok('');
   }

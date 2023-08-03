@@ -3,7 +3,6 @@
 library;
 
 import 'dart:typed_data';
-
 import 'enterprise.dart';
 import 'src/internal_helpers.dart';
 import 'src/js/enterprise_platform_keys.dart' as $js;

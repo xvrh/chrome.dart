@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:checks/checks.dart';
+import 'package:chrome_apis/devtools_network.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:test/test.dart';
-import 'package:chrome_apis/devtools_network.dart';
-
 import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);

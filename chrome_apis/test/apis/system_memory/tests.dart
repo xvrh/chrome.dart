@@ -1,7 +1,6 @@
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/system_memory.dart';
 import 'package:test/test.dart';
-
 import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);

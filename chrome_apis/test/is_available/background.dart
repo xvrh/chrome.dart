@@ -1,8 +1,7 @@
 import 'package:checks/checks.dart';
-import 'package:test/test.dart';
-
-import '../runner/runner_client.dart';
 import 'package:chrome_apis/chrome.dart';
+import 'package:test/test.dart';
+import '../runner/runner_client.dart';
 
 void main() => setup(_tests);
 

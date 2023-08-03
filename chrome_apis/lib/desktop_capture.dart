@@ -3,7 +3,6 @@
 library;
 
 import 'dart:js_util';
-
 import 'src/internal_helpers.dart';
 import 'src/js/desktop_capture.dart' as $js;
 import 'tabs.dart';

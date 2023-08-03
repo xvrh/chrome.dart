@@ -2,7 +2,6 @@ library chrome_idl_parser;
 
 import 'package:collection/collection.dart';
 import 'package:petitparser/petitparser.dart';
-
 import 'idl_model.dart';
 
 final reservedNames = [

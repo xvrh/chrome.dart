@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-
 import 'chrome_model.dart';
 import 'idl_model.dart';
 import 'idl_parser.dart';

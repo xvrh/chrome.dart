@@ -1,8 +1,7 @@
 import 'dart:async';
-
+import 'package:path/path.dart' as p;
 import 'communication.dart';
 import 'communication_client.dart';
-import 'package:path/path.dart' as p;
 
 final _endDetector = RegExp(r'[0-9]{2}:[0-9]{2}.*:(.*)');
 

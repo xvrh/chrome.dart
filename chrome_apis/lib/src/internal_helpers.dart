@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:js_interop';
 import 'dart:js_util';
-
-export 'chrome.dart';
-export 'dart:js_interop';
-export 'dart:async' show Completer;
 import '../runtime.dart';
 import 'js/events.dart' as js;
+
+export 'dart:async' show Completer;
+export 'dart:js_interop';
+export 'chrome.dart';
 
 // A dummy property to use in all generated file to prevent unused imports of this file
 final alwaysTrue = true;

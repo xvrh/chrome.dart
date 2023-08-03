@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chrome_extension_generator/src/chrome_type.dart';
 import 'package:chrome_extension_generator/src/idl_convert.dart';
 import 'package:chrome_extension_generator/src/idl_parser.dart';

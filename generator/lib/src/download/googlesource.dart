@@ -2,7 +2,6 @@ library googlesource;
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'simple_http_client.dart';
 import 'tag_matcher.dart';
 

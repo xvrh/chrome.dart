@@ -1,4 +1,5 @@
 import 'dart:js_interop';
+
 export 'js/events.dart' show Event;
 
 @JS()

@@ -4,7 +4,6 @@
 library;
 
 import 'dart:js_interop';
-
 import 'chrome.dart';
 import 'devtools.dart';
 

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' hide Tab;
-import 'package:chrome_apis/tabs.dart';
 import 'package:chrome_apis/system_memory.dart';
+import 'package:chrome_apis/tabs.dart';
+import 'package:flutter/material.dart' hide Tab;
 
 void main() async {
   runApp(const MyApp());

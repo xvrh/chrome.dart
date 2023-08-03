@@ -1,7 +1,6 @@
 library omaha;
 
 import 'dart:async';
-
 import 'simple_http_client.dart';
 
 /// This extractor parses the latest data at omahaproxy to determine the latest

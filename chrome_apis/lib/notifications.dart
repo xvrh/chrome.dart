@@ -3,7 +3,6 @@
 library;
 
 import 'dart:typed_data';
-
 import 'src/internal_helpers.dart';
 import 'src/js/notifications.dart' as $js;
 

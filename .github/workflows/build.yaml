@@ -25,7 +25,7 @@ jobs:
           (cd examples/extension_flutter && flutter pub get)
       - run: dart pub get
         working-directory: generator
-      - run: dart analyze --fatal-infos .
+      - run: flutter analyze --fatal-infos .
       - name: dart test chrome_apis
         run: dart test
         working-directory: chrome_apis

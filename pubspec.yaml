@@ -1,0 +1,10 @@
+# This pubspec.yaml is only here to get the "package:lints"
+# available for the shared analysis_options.yaml
+# The real pubspec.yaml is in chrome_apis/ folder
+name: chrome_apis
+publish_to: none
+environment:
+  sdk: '^3.1.0'
+
+dev_dependencies:
+  lints:

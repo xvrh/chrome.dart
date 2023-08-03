@@ -192,7 +192,7 @@ class ScriptInjection {
     /// and execution context will be lost.
     /// Exactly one of `files` and `func` must be
     /// specified.
-    Object? func,
+    JSAny? func,
 
     /// The arguments to curry into a provided function. This is only valid if
     /// the `func` parameter is specified. These arguments must be
@@ -204,7 +204,7 @@ class ScriptInjection {
     /// https://crbug.com/1166438). We leave this silently in for backwards
     /// compatibility.
     /// TODO(devlin): Remove this in M95.
-    Object? function,
+    JSAny? function,
 
     /// The path of the JS or CSS files to inject, relative to the extension's
     /// root directory.
@@ -225,9 +225,9 @@ class ScriptInjection {
     /// script reaches the target.
     bool? injectImmediately,
   }) : _wrapped = $js.ScriptInjection(
-          func: func?.toJSBox,
+          func: func,
           args: args?.toJSArray((e) => e.jsify()!),
-          function: function?.toJSBox,
+          function: function,
           files: files?.toJSArray((e) => e),
           target: target.toJS,
           world: world?.toJS,

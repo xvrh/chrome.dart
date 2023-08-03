@@ -201,8 +201,8 @@ class ExtensionPanel {
           });
 
   /// Fired when the user switches to the panel.
-  Stream<Object> get onShown =>
-      _wrapped.onShown.asStream(($c) => (JSAny window) {
+  Stream<JSObject> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSObject window) {
             $c(window);
           });
 
@@ -273,8 +273,8 @@ class ExtensionSidebarPane {
 
   /// Fired when the sidebar pane becomes visible as a result of user switching
   /// to the panel that hosts it.
-  Stream<Object> get onShown =>
-      _wrapped.onShown.asStream(($c) => (JSAny window) {
+  Stream<JSObject> get onShown =>
+      _wrapped.onShown.asStream(($c) => (JSObject window) {
             $c(window);
           });
 

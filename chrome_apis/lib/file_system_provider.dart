@@ -558,7 +558,7 @@ class EntryMetadata {
 
     /// The last modified time of this entry. Must be provided if requested in
     /// `options`.
-    Object? modificationTime,
+    JSAny? modificationTime,
 
     /// Mime type for the entry. Always optional, but should be provided if
     /// requested in `options`.
@@ -573,7 +573,7 @@ class EntryMetadata {
           ..isDirectory = isDirectory
           ..name = name
           ..size = size
-          ..modificationTime = modificationTime?.toJSBox
+          ..modificationTime = modificationTime
           ..mimeType = mimeType
           ..thumbnail = thumbnail;
 
@@ -604,9 +604,9 @@ class EntryMetadata {
 
   /// The last modified time of this entry. Must be provided if requested in
   /// `options`.
-  Object? get modificationTime => _wrapped.modificationTime;
-  set modificationTime(Object? v) {
-    _wrapped.modificationTime = v?.toJSBox;
+  JSAny? get modificationTime => _wrapped.modificationTime;
+  set modificationTime(JSAny? v) {
+    _wrapped.modificationTime = v;
   }
 
   /// Mime type for the entry. Always optional, but should be provided if

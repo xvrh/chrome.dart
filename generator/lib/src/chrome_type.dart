@@ -309,6 +309,7 @@ class _WebType extends ChromeType {
       'ImageData',
       'LocalMediaStream',
       'DirectoryEntry',
+      'global',
     }.contains(input)) {
       return _WebType(isNullable: isNullable);
     }
@@ -338,15 +339,16 @@ class _WebType extends ChromeType {
   Iterable<ChromeType> get children sync* {}
 }
 
-var _ = "delete this weird type";
 class _VariousType extends ChromeType {
   _VariousType({required super.isNullable});
 
   static ChromeType? tryParse(String input, {required bool isNullable}) {
     if (const {
+      //TODO: convert the date
       'Date',
+
+      // TODO: check if we can have something better than JSAny
       "InjectedFunction",
-      'global',
     }.contains(input)) {
       return _VariousType(isNullable: isNullable);
     }
@@ -354,9 +356,7 @@ class _VariousType extends ChromeType {
   }
 
   @override
-  code.Reference get dartType => code.TypeReference((b) => b
-    ..symbol = 'Object'
-    ..isNullable = isNullable);
+  code.Reference get dartType => jsType;
 
   @override
   code.Reference get jsType => code.TypeReference((b) => b
@@ -368,7 +368,7 @@ class _VariousType extends ChromeType {
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    return accessor.nullSafePropertyIf('toJSBox', isNullable);
+    return accessor;
   }
 
   @override
@@ -846,14 +846,13 @@ class ChoiceType extends ChromeType {
           'ImageData': 'isImageData',
           'JSAny': 'isMap',
         }[jsTypeName];
-        code.Expression itemAccessor= code.refer('v');
+        code.Expression itemAccessor = code.refer('v');
         if (whenMethod == null) {
           whenMethod ??= 'isOther';
-    itemAccessor = itemAccessor.asA(choice.jsTypeReferencedFromDart);
+          itemAccessor = itemAccessor.asA(choice.jsTypeReferencedFromDart);
         }
         var conversionCode = emit(choice.toDart(itemAccessor));
-        arguments.writeln(
-            '$whenMethod: (v) => $conversionCode,');
+        arguments.writeln('$whenMethod: (v) => $conversionCode,');
       }
 
       return '${emit(accessor)}$questionMark.when($arguments)';

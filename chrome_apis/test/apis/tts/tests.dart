@@ -8,10 +8,14 @@ void main() => setup(_tests);
 void _tests(TestContext context) {
   test('getVoices', () async {
     var voices = await chrome.tts.getVoices();
-    check(voices).isNotEmpty();
-    var voice = voices.first;
-    check(voice.lang).isNotNull();
-    check(voice.voiceName).isNotNull();
+
+    // The voices list is empty in the linux CI
+    if (context.info.operatingSystem != 'linux') {
+      check(voices).isNotEmpty();
+      var voice = voices.first;
+      check(voice.lang).isNotNull();
+      check(voice.voiceName).isNotNull();
+    }
   });
 
   test('speak', () async {

@@ -228,8 +228,8 @@ class ChromeDownloads {
           ) {
             $c(OnDeterminingFilenameEvent(
               downloadItem: DownloadItem.fromJS(downloadItem),
-              suggest: (FilenameSuggestion suggestion) {
-                return suggest(suggestion?.toJS);
+              suggest: (FilenameSuggestion? suggestion) {
+                suggest(suggestion?.toJS);
               },
             ));
           });

@@ -27,7 +27,7 @@ class ChromePrinterProvider {
       $js.chrome.printerProvider.onGetPrintersRequested
           .asStream(($c) => ($js.PrintersCallback resultCallback) {
                 $c((List<PrinterInfo> printerInfo) {
-                  return resultCallback(printerInfo.toJSArray((e) => e.toJS));
+                  resultCallback(printerInfo.toJSArray((e) => e.toJS));
                 });
               });
 
@@ -48,8 +48,8 @@ class ChromePrinterProvider {
           ) {
             $c(OnGetUsbPrinterInfoRequestedEvent(
               device: Device.fromJS(device),
-              resultCallback: (PrinterInfo printerInfo) {
-                return resultCallback(printerInfo?.toJS);
+              resultCallback: (PrinterInfo? printerInfo) {
+                resultCallback(printerInfo?.toJS);
               },
             ));
           });
@@ -68,7 +68,7 @@ class ChromePrinterProvider {
             $c(OnGetCapabilityRequestedEvent(
               printerId: printerId,
               resultCallback: (Map capabilities) {
-                return resultCallback(capabilities.jsify()!);
+                resultCallback(capabilities.jsify()!);
               },
             ));
           });
@@ -85,7 +85,7 @@ class ChromePrinterProvider {
             $c(OnPrintRequestedEvent(
               printJob: PrintJob.fromJS(printJob),
               resultCallback: (PrintError result) {
-                return resultCallback(result.toJS);
+                resultCallback(result.toJS);
               },
             ));
           });

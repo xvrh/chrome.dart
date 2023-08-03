@@ -96,8 +96,13 @@ class ChromeCertificateProvider {
       .chrome.certificateProvider.onCertificatesRequested
       .asStream(($c) => ($js.CertificatesCallback reportCallback) {
             $c((List<CertificateInfo> certificates, ResultCallback callback) {
-              return reportCallback(certificates.toJSArray((e) => e.toJS),
-                  throw UnimplementedError());
+              reportCallback(certificates.toJSArray((e) => e.toJS),
+                  (JSArray rejectedCertificates) {
+                callback(rejectedCertificates.toDart
+                    .cast<JSArrayBuffer>()
+                    .map((e) => e.toDart)
+                    .toList());
+              });
             });
           });
 
@@ -116,8 +121,8 @@ class ChromeCertificateProvider {
           ) {
             $c(OnSignDigestRequestedEvent(
               request: SignRequest.fromJS(request),
-              reportCallback: (ByteBuffer signature) {
-                return reportCallback(signature?.toJS);
+              reportCallback: (ByteBuffer? signature) {
+                reportCallback(signature?.toJS);
               },
             ));
           });

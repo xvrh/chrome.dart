@@ -493,9 +493,7 @@ class JSFunctionType extends ChromeType {
   @override
   code.Expression toDart(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
-      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) =>
-          expression.accept(emitter).toString();
+      var emit = _createEmit(allocate);
 
       var jsParameters =
           List.generate(_parameterCount, (_) => 'JSAny?').join(',');
@@ -732,6 +730,15 @@ class FunctionType extends ChromeType {
     ..symbol = 'JSFunction'
     ..isNullable = isNullable);
 
+  /*@override
+  code.Reference get jsType {
+    return code.FunctionType((b) => b
+      ..returnType = returns?.jsType ?? code.refer('void')
+      ..requiredParameters
+          .addAll(positionalParameters.map((p) => p.type.jsType))
+      ..isNullable = isNullable);
+  }*/
+
   @override
   code.Reference get dartType {
     return code.FunctionType((b) => b
@@ -744,11 +751,9 @@ class FunctionType extends ChromeType {
   @override
   code.Expression toDart(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
-      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) =>
-          expression.accept(emitter).toString();
+      var emit = _createEmit(allocate);
 
-      var buffer= StringBuffer();
+      var buffer = StringBuffer();
       var dartParameters = <String>[
         for (var param in positionalParameters)
           '${emit(param.type.dartType)} ${param.name}',
@@ -758,8 +763,10 @@ class FunctionType extends ChromeType {
           emit(param.type.toJS(code.refer(param.name))),
       ];
 
+      var returnKeyword = returns != null ? 'return' : '';
       buffer.writeln('(${dartParameters.join(',')}) {');
-      buffer.writeln('return ${emit(accessor)}(${forwardParameter.join(',')});');
+      buffer.writeln(
+          '$returnKeyword ${emit(accessor)}(${forwardParameter.join(',')});');
       buffer.writeln('}');
 
       return '$buffer';
@@ -769,22 +776,22 @@ class FunctionType extends ChromeType {
   @override
   code.Expression toJS(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
-      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) =>
-          expression.accept(emitter).toString();
+      var emit = _createEmit(allocate);
 
-      var buffer= StringBuffer();
-      var dartParameters = <String>[
+      var buffer = StringBuffer();
+      var parameters = <String>[
         for (var param in positionalParameters)
-          '${emit(param.type.dartType)} ${param.name}',
+          '${emit(param.type.jsTypeReferencedFromDart)} ${param.name}',
       ];
       var forwardParameter = <String>[
         for (var param in positionalParameters)
-          emit(param.type.toJS(code.refer(param.name))),
+          emit(param.type.toDart(code.refer(param.name))),
       ];
 
-      buffer.writeln('(${dartParameters.join(',')}) {');
-      buffer.writeln('return ${emit(accessor)}(${forwardParameter.join(',')});');
+      var returnKeyword = returns != null ? 'return' : '';
+      buffer.writeln('(${parameters.join(',')}) {');
+      buffer.writeln(
+          '$returnKeyword ${emit(accessor)}(${forwardParameter.join(',')});');
       buffer.writeln('}');
 
       return '$buffer';
@@ -868,9 +875,7 @@ class ChoiceType extends ChromeType {
   @override
   code.Expression toDart(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
-      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) =>
-          expression.accept(emitter).toString();
+      var emit = _createEmit(allocate);
 
       var arguments = StringBuffer();
       for (var choice in choices) {
@@ -901,9 +906,7 @@ class ChoiceType extends ChromeType {
   @override
   code.Expression toJS(code.Expression accessor) {
     return code.CodeExpression(code.Code.scope((allocate) {
-      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
-      String emit(code.Spec expression) =>
-          expression.accept(emitter).toString();
+      var emit = _createEmit(allocate);
 
       var buffer = StringBuffer();
       buffer.writeln('''switch (${emit(accessor)}) {''');
@@ -955,4 +958,11 @@ class _DelegatedAllocator implements code.Allocator {
 
   @override
   Iterable<code.Directive> get imports => [];
+}
+
+String Function(code.Spec) _createEmit(
+    String Function(code.Reference) allocate) {
+  var emitter = code.DartEmitter(
+      allocator: _DelegatedAllocator(allocate), useNullSafetySyntax: true);
+  return (code.Spec expression) => expression.accept(emitter).toString();
 }

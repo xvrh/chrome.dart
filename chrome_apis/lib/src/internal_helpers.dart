@@ -88,7 +88,7 @@ extension EventStreamExtension on js.Event {
     return controller.stream;
   }
 
-  Stream<T> asStream<T>(Function Function(void Function(T)) callbackFactory) {
+  Stream<T> asStream<T>(Function Function(void Function(dynamic)) callbackFactory) {
     return _EventStream<T>(this, callbackFactory);
   }
 }

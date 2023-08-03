@@ -115,10 +115,10 @@ class ChromeFileSystemProvider {
             $c(OnUnmountRequestedEvent(
               options: UnmountRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -136,10 +136,10 @@ class ChromeFileSystemProvider {
             $c(OnGetMetadataRequestedEvent(
               options: GetMetadataRequestedOptions.fromJS(options),
               successCallback: (EntryMetadata metadata) {
-                return successCallback(metadata.toJS);
+                successCallback(metadata.toJS);
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -159,10 +159,10 @@ class ChromeFileSystemProvider {
             $c(OnGetActionsRequestedEvent(
               options: GetActionsRequestedOptions.fromJS(options),
               successCallback: (List<Action> actions) {
-                return successCallback(actions.toJSArray((e) => e.toJS));
+                successCallback(actions.toJSArray((e) => e.toJS));
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -180,11 +180,10 @@ class ChromeFileSystemProvider {
             $c(OnReadDirectoryRequestedEvent(
               options: ReadDirectoryRequestedOptions.fromJS(options),
               successCallback: (List<EntryMetadata> entries, bool hasMore) {
-                return successCallback(
-                    entries.toJSArray((e) => e.toJS), hasMore);
+                successCallback(entries.toJSArray((e) => e.toJS), hasMore);
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -201,10 +200,10 @@ class ChromeFileSystemProvider {
             $c(OnOpenFileRequestedEvent(
               options: OpenFileRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -220,10 +219,10 @@ class ChromeFileSystemProvider {
             $c(OnCloseFileRequestedEvent(
               options: CloseFileRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -241,10 +240,10 @@ class ChromeFileSystemProvider {
             $c(OnReadFileRequestedEvent(
               options: ReadFileRequestedOptions.fromJS(options),
               successCallback: (ByteBuffer data, bool hasMore) {
-                return successCallback(data.toJS, hasMore);
+                successCallback(data.toJS, hasMore);
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -263,10 +262,10 @@ class ChromeFileSystemProvider {
                 $c(OnCreateDirectoryRequestedEvent(
                   options: CreateDirectoryRequestedOptions.fromJS(options),
                   successCallback: () {
-                    return successCallback();
+                    successCallback();
                   },
                   errorCallback: (ProviderError error) {
-                    return errorCallback(error.toJS);
+                    errorCallback(error.toJS);
                   },
                 ));
               });
@@ -283,10 +282,10 @@ class ChromeFileSystemProvider {
             $c(OnDeleteEntryRequestedEvent(
               options: DeleteEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -303,10 +302,10 @@ class ChromeFileSystemProvider {
             $c(OnCreateFileRequestedEvent(
               options: CreateFileRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -322,10 +321,10 @@ class ChromeFileSystemProvider {
             $c(OnCopyEntryRequestedEvent(
               options: CopyEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -341,10 +340,10 @@ class ChromeFileSystemProvider {
             $c(OnMoveEntryRequestedEvent(
               options: MoveEntryRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -360,10 +359,10 @@ class ChromeFileSystemProvider {
             $c(OnTruncateRequestedEvent(
               options: TruncateRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -379,10 +378,10 @@ class ChromeFileSystemProvider {
             $c(OnWriteFileRequestedEvent(
               options: WriteFileRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -403,10 +402,10 @@ class ChromeFileSystemProvider {
             $c(OnAbortRequestedEvent(
               options: AbortRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -424,10 +423,10 @@ class ChromeFileSystemProvider {
             $c(OnConfigureRequestedEvent(
               options: ConfigureRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -445,10 +444,10 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnMountRequestedEvent(
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -464,10 +463,10 @@ class ChromeFileSystemProvider {
             $c(OnAddWatcherRequestedEvent(
               options: AddWatcherRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -483,10 +482,10 @@ class ChromeFileSystemProvider {
             $c(OnRemoveWatcherRequestedEvent(
               options: RemoveWatcherRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });
@@ -503,10 +502,10 @@ class ChromeFileSystemProvider {
             $c(OnExecuteActionRequestedEvent(
               options: ExecuteActionRequestedOptions.fromJS(options),
               successCallback: () {
-                return successCallback();
+                successCallback();
               },
               errorCallback: (ProviderError error) {
-                return errorCallback(error.toJS);
+                errorCallback(error.toJS);
               },
             ));
           });

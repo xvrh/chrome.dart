@@ -743,13 +743,52 @@ class FunctionType extends ChromeType {
 
   @override
   code.Expression toDart(code.Expression accessor) {
-    return code.refer("UnimplementedError").call([]).thrown;
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
+      String emit(code.Spec expression) =>
+          expression.accept(emitter).toString();
+
+      var buffer= StringBuffer();
+      var dartParameters = <String>[
+        for (var param in positionalParameters)
+          '${emit(param.type.dartType)} ${param.name}',
+      ];
+      var forwardParameter = <String>[
+        for (var param in positionalParameters)
+          emit(param.type.toJS(code.refer(param.name))),
+      ];
+
+      buffer.writeln('(${dartParameters.join(',')}) {');
+      buffer.writeln('return ${emit(accessor)}(${forwardParameter.join(',')});');
+      buffer.writeln('}');
+
+      return '$buffer';
+    }));
   }
 
   @override
   code.Expression toJS(code.Expression accessor) {
-    // Need to wrap with a function taking JS parameters and convert them to Dart
-    return code.refer("UnimplementedError").call([]).thrown;
+    return code.CodeExpression(code.Code.scope((allocate) {
+      var emitter = code.DartEmitter(allocator: _DelegatedAllocator(allocate));
+      String emit(code.Spec expression) =>
+          expression.accept(emitter).toString();
+
+      var buffer= StringBuffer();
+      var dartParameters = <String>[
+        for (var param in positionalParameters)
+          '${emit(param.type.dartType)} ${param.name}',
+      ];
+      var forwardParameter = <String>[
+        for (var param in positionalParameters)
+          emit(param.type.toJS(code.refer(param.name))),
+      ];
+
+      buffer.writeln('(${dartParameters.join(',')}) {');
+      buffer.writeln('return ${emit(accessor)}(${forwardParameter.join(',')});');
+      buffer.writeln('}');
+
+      return '$buffer';
+    }));
   }
 
   @override

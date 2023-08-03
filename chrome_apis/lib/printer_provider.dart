@@ -26,7 +26,9 @@ class ChromePrinterProvider {
   Stream<PrintersCallback> get onGetPrintersRequested =>
       $js.chrome.printerProvider.onGetPrintersRequested
           .asStream(($c) => ($js.PrintersCallback resultCallback) {
-                $c(throw UnimplementedError());
+                $c((List<PrinterInfo> printerInfo) {
+                  return resultCallback(printerInfo.toJSArray((e) => e.toJS));
+                });
               });
 
   /// Event fired when print manager requests information about a USB device
@@ -46,7 +48,9 @@ class ChromePrinterProvider {
           ) {
             $c(OnGetUsbPrinterInfoRequestedEvent(
               device: Device.fromJS(device),
-              resultCallback: throw UnimplementedError(),
+              resultCallback: (PrinterInfo printerInfo) {
+                return resultCallback(printerInfo?.toJS);
+              },
             ));
           });
 
@@ -63,7 +67,9 @@ class ChromePrinterProvider {
           ) {
             $c(OnGetCapabilityRequestedEvent(
               printerId: printerId,
-              resultCallback: throw UnimplementedError(),
+              resultCallback: (Map capabilities) {
+                return resultCallback(capabilities.jsify()!);
+              },
             ));
           });
 
@@ -78,7 +84,9 @@ class ChromePrinterProvider {
           ) {
             $c(OnPrintRequestedEvent(
               printJob: PrintJob.fromJS(printJob),
-              resultCallback: throw UnimplementedError(),
+              resultCallback: (PrintError result) {
+                return resultCallback(result.toJS);
+              },
             ));
           });
 }

@@ -228,7 +228,9 @@ class ChromeDownloads {
           ) {
             $c(OnDeterminingFilenameEvent(
               downloadItem: DownloadItem.fromJS(downloadItem),
-              suggest: throw UnimplementedError(),
+              suggest: (FilenameSuggestion suggestion) {
+                return suggest(suggestion?.toJS);
+              },
             ));
           });
 }

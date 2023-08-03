@@ -114,8 +114,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnUnmountRequestedEvent(
               options: UnmountRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -131,8 +135,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnGetMetadataRequestedEvent(
               options: GetMetadataRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: (EntryMetadata metadata) {
+                return successCallback(metadata.toJS);
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -150,8 +158,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnGetActionsRequestedEvent(
               options: GetActionsRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: (List<Action> actions) {
+                return successCallback(actions.toJSArray((e) => e.toJS));
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -167,8 +179,13 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnReadDirectoryRequestedEvent(
               options: ReadDirectoryRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: (List<EntryMetadata> entries, bool hasMore) {
+                return successCallback(
+                    entries.toJSArray((e) => e.toJS), hasMore);
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -183,8 +200,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnOpenFileRequestedEvent(
               options: OpenFileRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -198,8 +219,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnCloseFileRequestedEvent(
               options: CloseFileRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -215,8 +240,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnReadFileRequestedEvent(
               options: ReadFileRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: (ByteBuffer data, bool hasMore) {
+                return successCallback(data.toJS, hasMore);
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -233,8 +262,12 @@ class ChromeFileSystemProvider {
               ) {
                 $c(OnCreateDirectoryRequestedEvent(
                   options: CreateDirectoryRequestedOptions.fromJS(options),
-                  successCallback: throw UnimplementedError(),
-                  errorCallback: throw UnimplementedError(),
+                  successCallback: () {
+                    return successCallback();
+                  },
+                  errorCallback: (ProviderError error) {
+                    return errorCallback(error.toJS);
+                  },
                 ));
               });
 
@@ -249,8 +282,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnDeleteEntryRequestedEvent(
               options: DeleteEntryRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -265,8 +302,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnCreateFileRequestedEvent(
               options: CreateFileRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -280,8 +321,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnCopyEntryRequestedEvent(
               options: CopyEntryRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -295,8 +340,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnMoveEntryRequestedEvent(
               options: MoveEntryRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -310,8 +359,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnTruncateRequestedEvent(
               options: TruncateRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -325,8 +378,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnWriteFileRequestedEvent(
               options: WriteFileRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -345,8 +402,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnAbortRequestedEvent(
               options: AbortRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -362,8 +423,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnConfigureRequestedEvent(
               options: ConfigureRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -379,8 +444,12 @@ class ChromeFileSystemProvider {
             $js.ProviderErrorCallback errorCallback,
           ) {
             $c(OnMountRequestedEvent(
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -394,8 +463,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnAddWatcherRequestedEvent(
               options: AddWatcherRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -409,8 +482,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnRemoveWatcherRequestedEvent(
               options: RemoveWatcherRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 
@@ -425,8 +502,12 @@ class ChromeFileSystemProvider {
           ) {
             $c(OnExecuteActionRequestedEvent(
               options: ExecuteActionRequestedOptions.fromJS(options),
-              successCallback: throw UnimplementedError(),
-              errorCallback: throw UnimplementedError(),
+              successCallback: () {
+                return successCallback();
+              },
+              errorCallback: (ProviderError error) {
+                return errorCallback(error.toJS);
+              },
             ));
           });
 }

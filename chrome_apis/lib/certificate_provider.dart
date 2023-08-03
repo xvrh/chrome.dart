@@ -92,11 +92,14 @@ class ChromeCertificateProvider {
   /// certificates provided by this extension. The extension must call
   /// `reportCallback` exactly once with the current list of
   /// certificates.
-  Stream<CertificatesCallback> get onCertificatesRequested =>
-      $js.chrome.certificateProvider.onCertificatesRequested
-          .asStream(($c) => ($js.CertificatesCallback reportCallback) {
-                $c(throw UnimplementedError());
-              });
+  Stream<CertificatesCallback> get onCertificatesRequested => $js
+      .chrome.certificateProvider.onCertificatesRequested
+      .asStream(($c) => ($js.CertificatesCallback reportCallback) {
+            $c((List<CertificateInfo> certificates, ResultCallback callback) {
+              return reportCallback(certificates.toJSArray((e) => e.toJS),
+                  throw UnimplementedError());
+            });
+          });
 
   /// This event fires every time the browser needs to sign a message using
   /// a certificate provided by this extension in reply to an
@@ -113,7 +116,9 @@ class ChromeCertificateProvider {
           ) {
             $c(OnSignDigestRequestedEvent(
               request: SignRequest.fromJS(request),
-              reportCallback: throw UnimplementedError(),
+              reportCallback: (ByteBuffer signature) {
+                return reportCallback(signature?.toJS);
+              },
             ));
           });
 }

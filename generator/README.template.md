@@ -16,7 +16,7 @@ import 'chrome_apis/example/example.dart';
 
 ### Available APIs
 
-- `package:chrome_apis/accessibility_features.dart` ([Doc](), [API reference]())
+<!-- LIST APIS -->
 
 ## Documentation
 

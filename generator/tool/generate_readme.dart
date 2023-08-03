@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:chrome_extension_generator/apis.dart';
+import 'package:chrome_extension_generator/src/utils/string.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as p;
 import 'code_style/dart_project.dart';
@@ -11,8 +13,9 @@ final DartFormatter _dartFormatter =
     DartFormatter(lineEnding: Platform.isWindows ? '\r\n' : '\n');
 
 void main() {
-  File('../README.md').writeAsStringSync(generateReadme());
-  File('../chrome_apis/README.md').writeAsStringSync(generateReadme());
+  var readme = generateReadme();
+  File('../README.md').writeAsStringSync(readme);
+  File('../chrome_apis/README.md').writeAsStringSync(readme);
 }
 
 String generateReadme() {
@@ -28,6 +31,14 @@ String generateReadme() {
 
     return fileContent;
   });
+
+  var apiList = StringBuffer();
+  for (var api in extensionApis) {
+    apiList.writeln(
+        '- `package:chrome_apis/${api.snakeCase}.dart` ([API reference](https://developer.chrome.com/docs/extensions/reference/${api.replaceAll('.', '_')}/))');
+  }
+
+  readme = readme.replaceAll('<!-- LIST APIS -->', '$apiList');
 
   return readme;
 }

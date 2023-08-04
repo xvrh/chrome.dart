@@ -1,0 +1,26 @@
+name: chrome_apis
+version: 0.1.0
+description: A library for accessing the `chrome.*` APIs available in Chrome extensions.
+homepage: https://github.com/xvrh/chrome.dart
+environment:
+  sdk: '^3.1.0'
+
+dev_dependencies:
+  build_runner:
+  checks:
+    git:
+      url: https://github.com/dart-lang/test.git
+      path: pkgs/checks
+  collection:
+  fetch_client:
+  http:
+  json_annotation:
+  json_serializable:
+  lints:
+  path:
+  puppeteer:
+  shelf:
+  shelf_router:
+  shelf_static:
+  test:
+  web: 0.1.4-beta

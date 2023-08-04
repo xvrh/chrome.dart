@@ -1,0 +1,32 @@
+name: chrome_extension_generator
+publish_to: none
+environment:
+  sdk: '^3.0.0'
+
+dependencies:
+  analyzer:
+  args:
+  build_runner:
+  code_builder:
+  collection:
+  dart_style:
+  json_annotation:
+  json_serializable:
+  lints:
+  logging:
+  mockito:
+  path:
+  petitparser:
+    git:
+      url: https://github.com/petitparser/dart-petitparser.git
+  test:
+  web:
+  yaml:
+
+dependency_overrides:
+  code_builder:
+    git:
+      url: 'https://github.com/dart-lang/code_builder.git'
+  mockito:
+    git:
+      url: 'https://github.com/dart-lang/mockito.git'

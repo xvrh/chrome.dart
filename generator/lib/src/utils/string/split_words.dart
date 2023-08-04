@@ -61,10 +61,20 @@ List<String> splitWords(String input) {
 
       if (word.length == 1) {
         if (i > 0) {
+          var shouldMerge = true;
+
           var previousWord = words[i - 1];
-          words[i - 1] = previousWord + word;
-          words.removeAt(i);
-          --i;
+
+          if (!_isNum(previousWord) &&
+              previousWord.toLowerCase() == previousWord) {
+            shouldMerge = false;
+          }
+
+          if (shouldMerge) {
+            words[i - 1] = previousWord + word;
+            words.removeAt(i);
+            --i;
+          }
         }
       }
     }

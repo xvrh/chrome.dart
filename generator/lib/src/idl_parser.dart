@@ -243,7 +243,8 @@ class ChromeIDLGrammar extends GrammarDefinition {
         if (parsedValue is List) {
           attributeValues = parsedValue;
         } else if (parsedValue is String) {
-          attributeValue = parsedValue;
+          attributeValue =
+              parsedValue.split('\n').map((line) => line.trim()).join(' ');
         }
 
         return IDLAttribute(resolveEnum(e.$1),

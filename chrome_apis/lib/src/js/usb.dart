@@ -67,7 +67,7 @@ extension JSUsbExtension on JSUsb {
   /// |device|: The [Device] to request access to.
   /// |interfaceId|: The particular interface requested.
   @Deprecated(
-      r'This function was Chrome OS specific and calling it on other\n    platforms would fail. This operation is now implicitly performed as part of\n    $(ref:openDevice) and this function will return <code>true</code> on all\n    platforms.')
+      r'This function was Chrome OS specific and calling it on other platforms would fail. This operation is now implicitly performed as part of $(ref:openDevice) and this function will return <code>true</code> on all platforms.')
   external void requestAccess(
     Device device,
     int interfaceId,

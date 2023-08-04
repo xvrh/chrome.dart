@@ -7,6 +7,7 @@ import 'package:chrome_extension_generator/src/json_convert.dart';
 import 'package:chrome_extension_generator/src/json_model.dart' as json;
 import 'package:chrome_extension_generator/src/utils/string.dart';
 import 'package:path/path.dart' as p;
+import 'code_style/fix_import_order.dart';
 
 final idlPath = 'idl';
 final targetPath = '../chrome_apis/lib';
@@ -28,10 +29,10 @@ void main() {
   }
 
   for (var group in groups.entries) {
-    File(p.join(targetPath, '${group.key.snakeCase}.dart'))
-        .writeAsStringSync(generateDartGroupCode(group.key, group.value));
+    _writeFile(p.join(targetPath, '${group.key.snakeCase}.dart'),
+        generateDartGroupCode(group.key, group.value));
   }
-  File(p.join(targetPath, 'chrome.dart')).writeAsStringSync(
+  _writeFile(p.join(targetPath, 'chrome.dart'),
       generateChromeCode(context.apis, groups.keys.toList()));
 }
 
@@ -51,15 +52,20 @@ ChromeApi _createApi(Context context, String apiName) {
 }
 
 void _generateCode(ChromeApi model) {
-  File(p.join(targetPath, 'src', 'js', model.fileName))
-      .writeAsStringSync(JsBindingGenerator(model).toCode());
-  File(p.join(targetPath, model.fileName))
-      .writeAsStringSync(DartApiGenerator(model).toCode());
+  _writeFile(p.join(targetPath, 'src', 'js', model.fileName),
+      JsBindingGenerator(model).toCode());
+  _writeFile(
+      p.join(targetPath, model.fileName), DartApiGenerator(model).toCode());
 
   if (model.group case var group?) {
-    File(p.join(targetPath, 'src', 'js', '${group.snakeCase}.dart'))
-        .writeAsStringSync(generateJSGroupCode(group));
+    _writeFile(p.join(targetPath, 'src', 'js', '${group.snakeCase}.dart'),
+        generateJSGroupCode(group));
   }
+}
+
+void _writeFile(String path, String code) {
+  code = reorderImports(code);
+  File(path).writeAsStringSync(code);
 }
 
 File _locateDefinitionFile(String apiName) {

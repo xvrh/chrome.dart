@@ -13,7 +13,8 @@ class TagMatcher implements Pattern {
   static final spanMatcher = TagMatcher('span');
 
   TagMatcher(String tagName)
-      : _regExp = RegExp(_tagTemplate.replaceAll(_tagString, tagName), dotAll: true);
+      : _regExp =
+            RegExp(_tagTemplate.replaceAll(_tagString, tagName), dotAll: true);
 
   @override
   Match matchAsPrefix(String string, [int start = 0]) =>

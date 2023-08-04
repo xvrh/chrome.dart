@@ -19,8 +19,8 @@ void _tests(TestContext context) {
     check(unit.bounds.top).isGreaterOrEqual(0);
     check(unit.bounds.left).isGreaterOrEqual(0);
     check(unit.workArea).isNotNull();
-    check(unit.dpix).isNotNull();
-    check(unit.dpiy).isNotNull();
+    check(unit.dpiX).isNotNull();
+    check(unit.dpiY).isNotNull();
     check(unit.hasAccelerometerSupport).isNotNull();
     check(unit.hasTouchSupport).isNotNull();
     check(unit.availableDisplayZoomFactors).isNotNull();

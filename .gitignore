@@ -10,7 +10,6 @@ _*
 .DS_Store
 out
 packages
-pubspec.lock
 docs/
 build/
 dart.js

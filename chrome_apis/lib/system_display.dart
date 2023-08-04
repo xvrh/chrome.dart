@@ -704,10 +704,10 @@ class DisplayUnitInfo {
     bool? isAutoRotationAllowed,
 
     /// The number of pixels per inch along the x-axis.
-    required double dpix,
+    required double dpiX,
 
     /// The number of pixels per inch along the y-axis.
-    required double dpiy,
+    required double dpiY,
 
     /// The display's clockwise rotation in degrees relative to the vertical
     /// position.
@@ -760,8 +760,8 @@ class DisplayUnitInfo {
           isEnabled: isEnabled,
           isUnified: isUnified,
           isAutoRotationAllowed: isAutoRotationAllowed,
-          dpiX: dpix,
-          dpiY: dpiy,
+          dpiX: dpiX,
+          dpiY: dpiY,
           rotation: rotation,
           bounds: bounds.toJS,
           overscan: overscan.toJS,
@@ -852,14 +852,14 @@ class DisplayUnitInfo {
   }
 
   /// The number of pixels per inch along the x-axis.
-  double get dpix => _wrapped.dpiX;
-  set dpix(double v) {
+  double get dpiX => _wrapped.dpiX;
+  set dpiX(double v) {
     _wrapped.dpiX = v;
   }
 
   /// The number of pixels per inch along the y-axis.
-  double get dpiy => _wrapped.dpiY;
-  set dpiy(double v) {
+  double get dpiY => _wrapped.dpiY;
+  set dpiY(double v) {
     _wrapped.dpiY = v;
   }
 

@@ -10,8 +10,8 @@ dependencies:
   chrome_apis:
     path: ../../chrome_apis
   cupertino_icons:
+  web: 0.1.4-beta
 
 dev_dependencies:
   lints:
   test:
-  web: 0.1.4-beta

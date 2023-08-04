@@ -369,7 +369,7 @@ packages:
     source: hosted
     version: "1.1.0"
   web:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: web
       sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10

@@ -22,4 +22,7 @@ void main() {
       echo();
     }
   });
+
+  // Used by the test to detect when the content_script is ready
+  print('Content script ready ${Uri.base.path}');
 }

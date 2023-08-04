@@ -5,13 +5,7 @@ import '../runner/runner.dart';
 void main() {
   test(
     'chrome.runtime background',
-    () => runTests(
-      'test/apis/runtime',
-      afterBrowserOpen: (context) async {
-        var page = (await context.browser.pages).first;
-        await page.goto(context.staticPath('assets/simple_page.html'));
-      },
-    ),
+    () => runTests('test/apis/runtime'),
   );
   test(
     'chrome.runtime foreground',

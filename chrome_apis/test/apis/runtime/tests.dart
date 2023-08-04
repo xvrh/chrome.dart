@@ -2,12 +2,25 @@ import 'dart:async';
 import 'package:checks/checks.dart';
 import 'package:chrome_apis/runtime.dart';
 import 'package:chrome_apis/tabs.dart' as tabs;
+import 'package:puppeteer/puppeteer.dart';
 import 'package:test/test.dart';
 import '../../runner/runner_client.dart';
 
 void main() => setup(_tests);
 
-void _tests(TestContext context) {
+void _tests(TestContext context) async {
+  var browser =
+      await puppeteer.connect(browserWsEndpoint: context.puppeteerUrl);
+  var page = (await browser.pages).first;
+
+  var staticPath = 'assets/simple_page.html';
+  var onReady = page.onConsole
+      .where((e) =>
+          e.text?.contains('Content script ready /static/$staticPath') ?? false)
+      .first;
+  await page.goto(context.staticPath(staticPath));
+  await onReady;
+
   test('getURL', () async {
     var url = chrome.runtime.getURL('page.html');
     check(url)

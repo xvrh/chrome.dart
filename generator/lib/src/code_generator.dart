@@ -327,6 +327,17 @@ class DartApiGenerator extends _GeneratorBase {
       returns = method.returns.type?.dartType ?? refer('void');
     }
 
+    // Rules
+    // - If >= 2 parameters, optional parameters are named
+    // - If parameter with 1 complex dictionary (and potentially other primitives)
+    //     inline the parameters
+
+    var requiredParameters = method.parameters.map((p) => Parameter((b) => b
+      ..name = p.dartName
+      ..type = p.type.dartType));
+
+    var optionalParameters = <Parameter>[];
+
     return Method((b) => b
       ..docs.add(documentationComment(method.documentation, indent: 2))
       ..docs.addAll([
@@ -342,10 +353,8 @@ class DartApiGenerator extends _GeneratorBase {
       ..returns = returns
       ..modifier = methodModifier
       ..body = body
-      ..requiredParameters
-          .addAll(method.parameters.map((p) => Parameter((b) => b
-            ..name = p.dartName
-            ..type = p.type.dartType))));
+      ..requiredParameters.addAll(requiredParameters)
+      ..optionalParameters.addAll(optionalParameters));
   }
 
   Expression _asyncCompletionParameter(AsyncReturnType asyncReturn) {
